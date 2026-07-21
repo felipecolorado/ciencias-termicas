@@ -61,6 +61,7 @@
     </button>
     <button id="contact-toggle" class="theme-toggle-btn" title="Mostrar Información de Contacto"
         style="right: 75px; background: var(--panel-bg); color: var(--text-primary); border: 1px solid var(--panel-border);">
+        <i class="fas fa-envelope"></i>
     </button>
     <div id="contact-box" class="contact-box glass"
         style="display: none; position: fixed; top: 75px; right: 20px; z-index: 1000; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--panel-border); font-size: 0.75rem; color: var(--text-secondary); max-width: 300px; text-align: left; background: var(--panel-bg); flex-direction: column; gap: 4px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25); backdrop-filter: blur(10px);">
@@ -226,6 +227,8 @@
                             Microcanales (1981)</button>
                         <button class="tab-btn heat-transfer-highlight" data-target="internal-bl-sim">Capa Límite en
                             Flujo Interno</button>
+                        <div class="tab-category-title"><span class="lang-es">Comunidad</span><span class="lang-en" style="display:none;">Community</span></div>
+                        <button class="tab-btn" onclick="document.getElementById('community-board-section').scrollIntoView({ behavior: 'smooth' })" style="border-left: 3px solid var(--accent-blue); color: var(--accent-blue) !important; background: rgba(59,130,246,0.06);"><i class="fas fa-users" style="margin-right: 4px;"></i> <span class="lang-es">Muro de Comentarios</span><span class="lang-en" style="display:none;">Comment Wall</span></button>
                     </div>
 
                     <div class="tabs-content">
@@ -7735,10 +7738,102 @@
                     </div>
                     <!-- END Otto vs Diesel Lab -->
 
+                    </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             </div>
         </section>
+        <!-- Sección de Comunidad y Muro de Comentarios -->
+        <section class="community-section" id="community-board-section" style="padding: 40px 30px; margin: 40px 20px 20px 20px; background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <div class="sim-intro" style="margin-bottom: 25px; text-align: left;">
+                    <h3 style="font-size: 1.6rem; color: white; display: flex; align-items: center; gap: 10px; margin: 0 0 10px 0;"><i class="fas fa-users" style="color: var(--accent-blue);"></i> <span class="lang-es">Muro de la Comunidad e Historial</span><span class="lang-en" style="display:none;">Community Wall & Guestbook</span></h3>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); max-width: 800px; margin: 0;"><span class="lang-es">¡Bienvenido a la comunidad del laboratorio! Regístrate eligiendo un avatar de científico histórico, inicia sesión y comparte tus comentarios, sugerencias o interactúa con otros usuarios en tiempo real.</span><span class="lang-en" style="display:none;">Welcome to the lab community! Register by choosing a historical scientist avatar, log in, and share your comments, suggestions, or interact with other users in real time.</span></p>
+                </div>
+
+                <div class="comment-wall-layout" style="display: flex; gap: 30px; flex-wrap: wrap;">
+                    <!-- Panel izquierdo: Autenticación / Perfil -->
+                    <div style="flex: 0 0 320px; min-width: 280px;">
+                        <div class="auth-card" style="background: rgba(15,23,42,0.3); border: 1px solid rgba(255,255,255,0.04); border-radius: 12px; padding: 20px; backdrop-filter: blur(10px);">
+                            <!-- Estado Cerrado (Login/Registro) -->
+                            <div id="auth-logged-out-state">
+                                <div style="display: flex; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 15px;">
+                                    <button id="auth-tab-login" onclick="window.switchAuthTab('login')" class="btn-clear" style="flex:1; padding: 8px; border:none; background:none; font-family:inherit; font-size:0.85rem; color:white; font-weight:700; border-bottom: 2px solid var(--accent-blue); cursor:pointer;"><span class="lang-es">Acceder</span><span class="lang-en" style="display:none;">Login</span></button>
+                                    <button id="auth-tab-register" onclick="window.switchAuthTab('register')" class="btn-clear" style="flex:1; padding: 8px; border:none; background:none; font-family:inherit; font-size:0.85rem; color:var(--text-secondary); cursor:pointer;"><span class="lang-es">Registrarse</span><span class="lang-en" style="display:none;">Register</span></button>
+                                </div>
+
+                                <!-- Formulario Login -->
+                                <form id="auth-login-form" onsubmit="window.handleAuthSubmit(event, 'login')">
+                                    <div class="auth-form-group" style="margin-bottom: 12px;">
+                                        <label for="login-email" style="display: block; font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 4px;"><span class="lang-es">Correo Electrónico</span><span class="lang-en" style="display:none;">Email Address</span></label>
+                                        <input type="email" id="login-email" class="auth-input" required placeholder="correo@ejemplo.com" style="width:100%; box-sizing:border-box; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:8px; color:white; font-family:inherit; font-size:0.85rem;">
+                                    </div>
+                                    <div class="auth-form-group" style="margin-bottom: 12px;">
+                                        <label for="login-password" style="display: block; font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 4px;"><span class="lang-es">Contraseña</span><span class="lang-en" style="display:none;">Password</span></label>
+                                        <input type="password" id="login-password" class="auth-input" required placeholder="••••••••" style="width:100%; box-sizing:border-box; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:8px; color:white; font-family:inherit; font-size:0.85rem;">
+                                    </div>
+                                    <div id="login-error-msg" style="color: #ef4444; font-size: 0.78rem; margin-bottom: 10px; display: none;"></div>
+                                    <button type="submit" class="btn-clear" style="width:100%; font-weight:700; background: var(--accent-blue); color:white; border:none; padding: 10px; border-radius: 8px; font-size: 0.85rem; cursor:pointer; box-shadow: 0 4px 12px rgba(59,130,246,0.25);"><span class="lang-es">Acceder</span><span class="lang-en" style="display:none;">Login</span></button>
+                                </form>
+
+                                <!-- Formulario Registro -->
+                                <form id="auth-register-form" onsubmit="window.handleAuthSubmit(event, 'register')" style="display: none;">
+                                    <div class="auth-form-group" style="margin-bottom: 12px;">
+                                        <label for="register-name" style="display: block; font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 4px;"><span class="lang-es">Nombre / Nickname</span><span class="lang-en" style="display:none;">Name / Nickname</span></label>
+                                        <input type="text" id="register-name" class="auth-input" required placeholder="Isaac Newton" maxlength="25" style="width:100%; box-sizing:border-box; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:8px; color:white; font-family:inherit; font-size:0.85rem;">
+                                    </div>
+                                    <div class="auth-form-group" style="margin-bottom: 12px;">
+                                        <label for="register-email" style="display: block; font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 4px;"><span class="lang-es">Correo Electrónico</span><span class="lang-en" style="display:none;">Email Address</span></label>
+                                        <input type="email" id="register-email" class="auth-input" required placeholder="correo@ejemplo.com" style="width:100%; box-sizing:border-box; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:8px; color:white; font-family:inherit; font-size:0.85rem;">
+                                    </div>
+                                    <div class="auth-form-group" style="margin-bottom: 12px;">
+                                        <label for="register-password" style="display: block; font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 4px;"><span class="lang-es">Contraseña</span><span class="lang-en" style="display:none;">Password</span></label>
+                                        <input type="password" id="register-password" class="auth-input" required placeholder="••••••••" minlength="6" style="width:100%; box-sizing:border-box; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:8px; color:white; font-family:inherit; font-size:0.85rem;">
+                                    </div>
+                                    <div class="auth-form-group" style="margin-bottom: 12px;">
+                                        <label style="display: block; font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 4px;"><span class="lang-es">Elige tu Avatar de Científico</span><span class="lang-en" style="display:none;">Choose your Scientist Avatar</span></label>
+                                        <div id="register-avatar-selector" class="avatar-selector" style="max-height: 160px; overflow-y: auto; padding: 6px; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; background: rgba(15,23,42,0.4); display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                                            <!-- Dynamic avatars -->
+                                        </div>
+                                    </div>
+                                    <div id="register-error-msg" style="color: #ef4444; font-size: 0.78rem; margin-bottom: 10px; display: none;"></div>
+                                    <button type="submit" class="btn-clear" style="width:100%; font-weight:700; background: var(--accent-orange); color:white; border:none; padding: 10px; border-radius: 8px; font-size: 0.85rem; cursor:pointer; box-shadow: 0 4px 12px rgba(234,88,12,0.25);"><span class="lang-es">Crear Cuenta</span><span class="lang-en" style="display:none;">Create Account</span></button>
+                                </form>
+                            </div>
+
+                            <!-- Estado Iniciado (Perfil) -->
+                            <div id="auth-logged-in-state" style="display: none; text-align: center;">
+                                <img id="user-profile-avatar" src="" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2.5px solid var(--accent-blue); margin-bottom: 10px; background: rgba(255,255,255,0.05);" />
+                                <h4 id="user-profile-name" style="margin: 0; color: white; font-size: 1.15rem;"></h4>
+                                <p id="user-profile-role" style="font-size: 0.78rem; color: var(--accent-blue); margin: 4px 0 15px 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;"></p>
+                                <button onclick="window.handleLogOut()" class="btn-clear" style="width:100%; font-weight:700; background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.25); padding: 8px; border-radius: 8px; font-size: 0.8rem; cursor:pointer; transition: all 0.2s;"><span class="lang-es">Cerrar Sesión</span><span class="lang-en" style="display:none;">Sign Out</span></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel derecho: Publicación y muro compacto -->
+                    <div style="flex: 1; display: flex; flex-direction: column; gap: 20px;">
+                        <div class="comment-input-area" style="background: rgba(15,23,42,0.2); border: 1px solid rgba(255,255,255,0.03); border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 10px;">
+                            <h4 style="margin: 0; color: white; text-align: left; font-size: 0.95rem; font-weight:600;"><span class="lang-es">Escribe un comentario en el muro</span><span class="lang-en" style="display:none;">Write a comment on the wall</span></h4>
+                            <textarea id="comment-input-text" class="comment-textarea" placeholder="¿Qué opinas del laboratorio de ciencias térmicas?" maxlength="300" style="width: 100%; height: 60px; box-sizing: border-box; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px; color: white; font-family: inherit; font-size: 0.85rem; resize: none;"></textarea>
+                            <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+                                <span id="comment-char-counter" style="font-size: 0.75rem; color: var(--text-secondary);">300</span>
+                                <button onclick="window.handlePostComment()" class="btn-clear" style="font-weight:700; background: var(--accent-blue); color:white; border:none; padding: 8px 20px; border-radius: 8px; font-size: 0.85rem; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow: 0 4px 12px rgba(59,130,246,0.25);"><i class="fas fa-paper-plane"></i> <span class="lang-es">Publicar</span><span class="lang-en" style="display:none;">Post</span></button>
+                            </div>
+                        </div>
+
+                        <!-- Muro de Comentarios Compacto -->
+                        <div class="comment-feed" id="comment-feed-container" style="max-height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 5px;">
+                            <!-- Dynamic rows of comments -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <footer class="app-footer">
             <p>&copy; 2026 Historia de las Ciencias Térmicas</p>
             <p><span class="lang-es">Diseñado para propósitos educativos por</span><span class="lang-en"

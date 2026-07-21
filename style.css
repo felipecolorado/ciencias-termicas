@@ -1458,3 +1458,179 @@ body.light-theme .newton-tab-btn.active {
     position: relative;
     z-index: 10;
 }
+
+/* =========================================================================
+   COMMUNITY COMMENT WALL STYLES
+   ========================================================================= */
+.comment-wall-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    align-items: start;
+}
+
+@media (max-width: 768px) {
+    .comment-wall-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.auth-card {
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.25rem;
+    backdrop-filter: blur(10px);
+}
+
+.auth-form-group {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: left;
+}
+
+.auth-form-group label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.auth-input {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: white;
+    font-size: 0.85rem;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.auth-input:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.avatar-selector {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.avatar-option {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    object-fit: cover;
+    transition: all 0.2s;
+    background: rgba(255,255,255,0.05);
+}
+
+.avatar-option:hover {
+    transform: scale(1.08);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.avatar-option.selected {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    transform: scale(1.08);
+}
+
+.comment-input-area {
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    backdrop-filter: blur(10px);
+}
+
+.comment-textarea {
+    width: 100%;
+    height: 90px;
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 12px;
+    color: white;
+    font-size: 0.9rem;
+    resize: none;
+    outline: none;
+    transition: all 0.2s;
+    box-sizing: border-box;
+}
+
+.comment-textarea:focus {
+    border-color: var(--accent-blue);
+}
+
+.comment-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+.comment-card {
+    background: rgba(30, 41, 59, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    text-align: left;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.4s ease-out;
+}
+
+.comment-card-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid var(--accent-blue);
+    background: rgba(255,255,255,0.05);
+}
+
+.comment-card-content {
+    flex: 1;
+}
+
+.comment-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.comment-author-name {
+    font-weight: 600;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.comment-timestamp {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+}
+
+.comment-card-body {
+    font-size: 0.88rem;
+    color: #cbd5e1;
+    line-height: 1.4;
+    word-break: break-word;
+}

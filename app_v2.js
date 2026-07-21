@@ -17616,7 +17616,7 @@ window.translateDOM = function(lang) {
             }
         } else if (node.nodeType === Node.ELEMENT_NODE) {
             // FIX v2: Skip traversing dynamic elements, static language spans, and MathJax containers to prevent freezes/infinite loops
-            if (node.id === 'timeline' || node.id === 'top-timeline' || 
+            if (node.id === 'timeline' || node.id === 'top-timeline' || node.id === 'comment-feed-container' ||
                 (node.classList && (node.classList.contains('lang-es') || node.classList.contains('lang-en') || node.classList.contains('mjx-container'))) || 
                 (node.tagName && node.tagName.startsWith('MJX'))) {
                 return;
@@ -18190,4 +18190,317 @@ function initInternalBLSimulation() {
         draw();
     }
 }
+
+
+// =========================================================================
+// COMMUNITY COMMENT WALL SYSTEM (LOCALSTORAGE ENGINE + FIREBASE READY)
+// =========================================================================
+(function() {
+    let currentUser = null;
+    let selectedAvatar = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/GodfreyKneller-IsaacNewton-1689.jpg/330px-GodfreyKneller-IsaacNewton-1689.jpg";
+
+    const defaultComments = [
+        {
+            id: 1,
+            author: "Sir Isaac Newton",
+            avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/GodfreyKneller-IsaacNewton-1689.jpg/330px-GodfreyKneller-IsaacNewton-1689.jpg",
+            role: "Hero",
+            text: "¡Este laboratorio de termociencias es fascinante! Me alegra ver que mi Ley de Enfriamiento sigue vigente.",
+            timestamp: Date.now() - 3600000 * 24 // 1 day ago
+        },
+        {
+            id: 2,
+            author: "Joseph Fourier",
+            avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Fourier2_-_restoration1.jpg/330px-Fourier2_-_restoration1.jpg",
+            role: "Conduction Legend",
+            text: "Excellent numerical calculus work. The linear heat conduction resolution is impeccable.",
+            timestamp: Date.now() - 3600000 * 12 // 12 hours ago
+        },
+        {
+            id: 3,
+            author: "Sadi Carnot",
+            avatar: "Sadi_Carnot.jpeg",
+            role: "Thermodynamics Pioneer",
+            text: "Una herramienta muy útil para entender el límite de eficiencia termodinámica de mis motores.",
+            timestamp: Date.now() - 3600000 * 2 // 2 hours ago
+        }
+    ];
+
+    function initCommentSystem() {
+        // Load logged in user from localStorage
+        const storedUser = localStorage.getItem("ht_logged_user");
+        if (storedUser) {
+            currentUser = JSON.parse(storedUser);
+            showLoggedInState();
+        } else {
+            showLoggedOutState();
+        }
+
+        // Populate avatars dynamically from timelineEvents
+        const avatarContainer = document.getElementById("register-avatar-selector");
+        if (avatarContainer) {
+            avatarContainer.innerHTML = "";
+            let first = true;
+            const seenImages = new Set();
+            timelineEvents.forEach((ev) => {
+                if (ev.image && ev.surname && !seenImages.has(ev.image)) {
+                    seenImages.add(ev.image);
+                    const img = document.createElement("img");
+                    img.className = "avatar-option" + (first ? " selected" : "");
+                    img.src = ev.image;
+                    img.title = ev.surname;
+                    
+                    if (first) {
+                        selectedAvatar = ev.image;
+                        first = false;
+                    }
+                    
+                    img.addEventListener("click", () => {
+                        document.querySelectorAll("#register-avatar-selector .avatar-option").forEach(opt => opt.classList.remove("selected"));
+                        img.classList.add("selected");
+                        selectedAvatar = ev.image;
+                    });
+                    
+                    avatarContainer.appendChild(img);
+                }
+            });
+        }
+
+        // Initialize characters counter
+        const textInput = document.getElementById("comment-input-text");
+        const counter = document.getElementById("comment-char-counter");
+        if (textInput && counter) {
+            textInput.addEventListener("input", () => {
+                const remaining = 300 - textInput.value.length;
+                counter.textContent = remaining;
+                counter.style.color = remaining < 20 ? "#ef4444" : "var(--text-secondary)";
+            });
+        }
+
+        drawComments();
+    }
+
+    window.switchAuthTab = function(tab) {
+        const loginForm = document.getElementById("auth-login-form");
+        const registerForm = document.getElementById("auth-register-form");
+        const loginBtn = document.getElementById("auth-tab-login");
+        const registerBtn = document.getElementById("auth-tab-register");
+
+        if (tab === 'login') {
+            if (loginForm) loginForm.style.display = "block";
+            if (registerForm) registerForm.style.display = "none";
+            if (loginBtn) {
+                loginBtn.style.fontWeight = "700";
+                loginBtn.style.color = "white";
+                loginBtn.style.borderBottom = "2px solid var(--accent-blue)";
+            }
+            if (registerBtn) {
+                registerBtn.style.fontWeight = "500";
+                registerBtn.style.color = "var(--text-secondary)";
+                registerBtn.style.borderBottom = "none";
+            }
+        } else {
+            if (loginForm) loginForm.style.display = "none";
+            if (registerForm) registerForm.style.display = "block";
+            if (loginBtn) {
+                loginBtn.style.fontWeight = "500";
+                loginBtn.style.color = "var(--text-secondary)";
+                loginBtn.style.borderBottom = "none";
+            }
+            if (registerBtn) {
+                registerBtn.style.fontWeight = "700";
+                registerBtn.style.color = "white";
+                registerBtn.style.borderBottom = "2px solid var(--accent-blue)";
+            }
+        }
+    };
+
+    window.selectAvatar = function(element, avatarUrl) {
+        document.querySelectorAll(".avatar-option").forEach(opt => opt.classList.remove("selected"));
+        element.classList.add("selected");
+        selectedAvatar = avatarUrl;
+    };
+
+    window.handleAuthSubmit = function(event, type) {
+        if (event) event.preventDefault();
+        
+        if (type === 'register') {
+            const name = document.getElementById("register-name").value.trim();
+            const email = document.getElementById("register-email").value.trim().toLowerCase();
+            const password = document.getElementById("register-password").value;
+            const errorMsg = document.getElementById("register-error-msg");
+
+            if (!name || !email || !password) return;
+
+            // Simple validation: check if email already exists
+            const users = JSON.parse(localStorage.getItem("ht_registered_users") || "[]");
+            if (users.find(u => u.email === email)) {
+                if (errorMsg) {
+                    errorMsg.textContent = window.currentLanguage === 'en' ? "Email already registered." : "El correo electrónico ya está registrado.";
+                    errorMsg.style.display = "block";
+                }
+                return;
+            }
+
+            // Create user
+            const newUser = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                password: password,
+                avatar: selectedAvatar,
+                role: "Estudiante"
+            };
+
+            users.push(newUser);
+            localStorage.setItem("ht_registered_users", JSON.stringify(users));
+
+            // Automatically login
+            currentUser = { id: newUser.id, name: newUser.name, email: newUser.email, avatar: newUser.avatar, role: newUser.role };
+            localStorage.setItem("ht_logged_user", JSON.stringify(currentUser));
+            
+            if (errorMsg) errorMsg.style.display = "none";
+            showLoggedInState();
+        } else {
+            const email = document.getElementById("login-email").value.trim().toLowerCase();
+            const password = document.getElementById("login-password").value;
+            const errorMsg = document.getElementById("login-error-msg");
+
+            const users = JSON.parse(localStorage.getItem("ht_registered_users") || "[]");
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (!user) {
+                if (errorMsg) {
+                    errorMsg.textContent = window.currentLanguage === 'en' ? "Invalid email or password." : "Correo o contraseña inválidos.";
+                    errorMsg.style.display = "block";
+                }
+                return;
+            }
+
+            currentUser = { id: user.id, name: user.name, email: user.email, avatar: user.avatar, role: user.role };
+            localStorage.setItem("ht_logged_user", JSON.stringify(currentUser));
+
+            if (errorMsg) errorMsg.style.display = "none";
+            showLoggedInState();
+        }
+    };
+
+    window.handleLogOut = function() {
+        currentUser = null;
+        localStorage.removeItem("ht_logged_user");
+        showLoggedOutState();
+    };
+
+    window.handlePostComment = function() {
+        if (!currentUser) {
+            alert(window.currentLanguage === 'en' ? "Please log in or register to comment." : "Por favor inicia sesión o regístrate para comentar.");
+            return;
+        }
+
+        const input = document.getElementById("comment-input-text");
+        if (!input || !input.value.trim()) return;
+
+        const comments = JSON.parse(localStorage.getItem("ht_comments") || "[]");
+        const newComment = {
+            id: Date.now(),
+            author: currentUser.name,
+            avatar: currentUser.avatar,
+            role: currentUser.role,
+            text: input.value.trim(),
+            timestamp: Date.now()
+        };
+
+        comments.unshift(newComment);
+        localStorage.setItem("ht_comments", JSON.stringify(comments));
+
+        input.value = "";
+        const counter = document.getElementById("comment-char-counter");
+        if (counter) counter.textContent = "300";
+
+        drawComments();
+    };
+
+    function showLoggedInState() {
+        document.getElementById("auth-logged-out-state").style.display = "none";
+        document.getElementById("auth-logged-in-state").style.display = "block";
+        document.getElementById("user-profile-avatar").src = currentUser.avatar;
+        document.getElementById("user-profile-name").textContent = currentUser.name;
+        document.getElementById("user-profile-role").textContent = currentUser.role;
+    }
+
+    function showLoggedOutState() {
+        document.getElementById("auth-logged-out-state").style.display = "block";
+        document.getElementById("auth-logged-in-state").style.display = "none";
+        // Reset forms
+        document.getElementById("auth-login-form").reset();
+        document.getElementById("auth-register-form").reset();
+        document.getElementById("login-error-msg").style.display = "none";
+        document.getElementById("register-error-msg").style.display = "none";
+        window.switchAuthTab('login');
+    }
+
+    function drawComments() {
+        const container = document.getElementById("comment-feed-container");
+        if (!container) return;
+
+        let comments = JSON.parse(localStorage.getItem("ht_comments") || "[]");
+        
+        // Auto-fix legacy broken avatar URLs cached in user's browser localStorage
+        let needsSave = false;
+        comments.forEach(comment => {
+            if (comment.avatar && comment.avatar.includes("Jean_Baptiste_Joseph_Fourier.jpg")) {
+                comment.avatar = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Fourier2_-_restoration1.jpg/330px-Fourier2_-_restoration1.jpg";
+                needsSave = true;
+            }
+            if (comment.avatar && comment.avatar.includes("Sadi_Carnot_in_military_uniform.jpg")) {
+                comment.avatar = "Sadi_Carnot.jpeg";
+                needsSave = true;
+            }
+            if (comment.avatar && comment.avatar.includes("Jpjoule.jpg")) {
+                comment.avatar = "joule.jpg";
+                needsSave = true;
+            }
+        });
+        
+        if (comments.length === 0) {
+            comments = [...defaultComments];
+            needsSave = true;
+        }
+        
+        if (needsSave) {
+            localStorage.setItem("ht_comments", JSON.stringify(comments));
+        }
+
+        container.innerHTML = "";
+        
+        comments.forEach(comment => {
+            const card = document.createElement("div");
+            card.className = "comment-card";
+            
+            const date = new Date(comment.timestamp);
+            const timeStr = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+            card.innerHTML = `
+                <img class="comment-card-avatar" src="${comment.avatar}" alt="Avatar" />
+                <div class="comment-card-content">
+                    <div class="comment-card-header">
+                        <div>
+                            <span class="comment-author-name">${comment.author}</span>
+                            <span style="font-size:0.7rem; color:var(--accent-blue); background:rgba(59,130,246,0.1); padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:600;">${comment.role}</span>
+                        </div>
+                        <span class="comment-timestamp">${timeStr}</span>
+                    </div>
+                    <div class="comment-card-body">${comment.text}</div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // Initialize on DOMContentLoaded
+    document.addEventListener("DOMContentLoaded", initCommentSystem);
+    if (document.readyState !== 'loading') {
+        initCommentSystem();
+    }
+})();
 
