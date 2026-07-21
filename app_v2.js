@@ -718,6 +718,77 @@ window.closeScientistModal = function() {
     if (modal) modal.classList.remove("show");
 };
 
+window.openScientistModalDirect = function(idx, event) {
+    if (event) event.stopPropagation();
+    const ev = timelineEvents[idx];
+    if (!ev) return;
+    
+    // Determine tabTarget
+    let tabTarget = "";
+    if (ev["tab-target"]) tabTarget = ev["tab-target"];
+    else if (ev.surname === "Bernoulli") tabTarget = "bernoulli-sim";
+    else if (ev.surname === "Reynolds") tabTarget = "reynolds-sim";
+    else if (ev.surname === "Celsius") tabTarget = "celsius-sim";
+    else if (ev.surname === "Watt") tabTarget = "watt-sim";
+    else if (ev.surname === "Navier & Stokes") tabTarget = "ns-sim";
+    else if (ev.surname === "Nukiyama") tabTarget = "boiling-sim";
+    else if (ev.surname === "von Kármán") tabTarget = "vortex-sim";
+    else if (ev.year === 1701) tabTarget = "newton-sim";
+    else if (ev.year === 1800) tabTarget = "herschel-sim";
+    else if (ev.year === 1822) tabTarget = "fourier-sim";
+    else if (ev.year === 1900 || ev.year === 1879) tabTarget = "planck-sim";
+    else if (ev.year === 1904) tabTarget = "prandtl-sim";
+    else if (ev.year === 1915 || ev.year === 1930) tabTarget = "nusselt-sim";
+    else if (ev.year === 1936) tabTarget = "bl-sim";
+    else if (ev.year === 1947) tabTarget = "res-sim";
+    else if (ev.surname === "Joule") tabTarget = "joule-sim";
+    else if (ev.surname === "Kelvin") tabTarget = "kelvin-sim";
+    else if (ev.surname === "Clausius") tabTarget = "clausius-sim";
+    else if (ev.surname === "Colburn & Hougen" || ev.surname === "Chilton & Colburn" || ev.surname === "Bell-Delaware") tabTarget = "doublepipe-sim";
+    else if (ev.surname === "Jakob") tabTarget = "fourier-sim";
+    else {
+        if (ev.category === "Radiación") tabTarget = "planck-sim";
+        else if (ev.category === "Convección") tabTarget = "prandtl-sim";
+        else if (ev.category === "Conducción") tabTarget = "fourier-sim";
+        else if (ev.category === "Termodinámica") tabTarget = "carnot-sim";
+    }
+
+    const modal = document.getElementById("scientist-details-modal");
+    const avatar = document.getElementById("mobile-modal-avatar");
+    const title = document.getElementById("mobile-modal-title");
+    const years = document.getElementById("mobile-modal-years");
+    const country = document.getElementById("mobile-modal-country");
+    const desc = document.getElementById("mobile-modal-desc");
+    const simBtn = document.getElementById("mobile-modal-sim-btn");
+    
+    if (modal) {
+        title.textContent = window.currentLanguage === 'en' ? (ev.title_en || ev.title) : ev.title;
+        avatar.src = ev.image || "https://via.placeholder.com/150";
+        avatar.style.display = ev.image ? "block" : "none";
+        
+        const yearLabel = ev.year < 0 ? (window.currentLanguage === 'en' ? `${Math.abs(ev.year)} BC` : `${Math.abs(ev.year)} a.C.`) : ev.year;
+        years.textContent = yearLabel;
+        
+        country.innerHTML = window.currentLanguage === 'en' ? (ev.country_en || ev.country) : ev.country;
+        desc.innerHTML = window.currentLanguage === 'en' ? (ev.desc_en || ev.desc) : ev.desc;
+        
+        if (tabTarget) {
+            simBtn.style.display = "inline-flex";
+            simBtn.onclick = () => {
+                modal.classList.remove("show");
+                switchTab(tabTarget, false);
+                const infoPanel = document.querySelector(".info-panel");
+                if (infoPanel) {
+                    infoPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            };
+        } else {
+            simBtn.style.display = "none";
+        }
+        modal.classList.add("show");
+    }
+};
+
 window.closeNewtonModal = function() {
     const modal = document.getElementById('newton-tribute-modal');
     if (modal) modal.classList.remove('show');
@@ -796,7 +867,10 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
                 <div style="flex: 1;">
                     <h3 class="card-title">${titleVal}</h3>
                     <p class="card-desc">${descVal}</p>
-                    ${newtonTributeButton}
+                    <div style="margin-top: 6px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+                        <button class="btn-clear" onclick="window.openScientistModalDirect(${idx}, event)" style="font-weight: 600; background: rgba(59, 130, 246, 0.12); color: var(--accent-blue); border: 1px solid rgba(59, 130, 246, 0.25); padding: 4px 8px; border-radius: 4px; font-size: 0.68rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s;"><i class="fas fa-info-circle"></i> <span class="lang-es">Ver Detalles</span><span class="lang-en" style="display:none;">View Details</span></button>
+                        ${newtonTributeButton}
+                    </div>
                 </div>
             </div>
         `;
@@ -860,40 +934,7 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
 
             // Mobile popup modal logic (width <= 1024px)
             if (window.innerWidth <= 1024) {
-                const modal = document.getElementById("scientist-details-modal");
-                const avatar = document.getElementById("mobile-modal-avatar");
-                const title = document.getElementById("mobile-modal-title");
-                const years = document.getElementById("mobile-modal-years");
-                const country = document.getElementById("mobile-modal-country");
-                const desc = document.getElementById("mobile-modal-desc");
-                const simBtn = document.getElementById("mobile-modal-sim-btn");
-                
-                if (modal) {
-                    title.textContent = window.currentLanguage === 'en' ? (ev.title_en || ev.title) : ev.title;
-                    avatar.src = ev.image || "https://via.placeholder.com/150";
-                    avatar.style.display = ev.image ? "block" : "none";
-                    
-                    const yearLabel = ev.year < 0 ? (window.currentLanguage === 'en' ? `${Math.abs(ev.year)} BC` : `${Math.abs(ev.year)} a.C.`) : ev.year;
-                    years.textContent = yearLabel;
-                    
-                    country.innerHTML = window.currentLanguage === 'en' ? (ev.country_en || ev.country) : ev.country;
-                    desc.innerHTML = window.currentLanguage === 'en' ? (ev.desc_en || ev.desc) : ev.desc;
-                    
-                    if (tabTarget) {
-                        simBtn.style.display = "inline-flex";
-                        simBtn.onclick = () => {
-                            modal.classList.remove("show");
-                            // Scroll to info-panel
-                            const infoPanel = document.querySelector(".info-panel");
-                            if (infoPanel) {
-                                infoPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            }
-                        };
-                    } else {
-                        simBtn.style.display = "none";
-                    }
-                    modal.classList.add("show");
-                }
+                window.openScientistModalDirect(idx);
             }
         });
         
