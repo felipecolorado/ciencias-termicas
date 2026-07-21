@@ -18242,13 +18242,17 @@ function initInternalBLSimulation() {
         const cloudComments = await cloudFetch("comments", []);
         let localComments = JSON.parse(localStorage.getItem("ht_comments") || "[]");
         
-        if (cloudComments.length === 0 && localComments.length === 0) {
-            localComments = [...defaultComments];
-        }
-
         const commentMap = new Map();
         localComments.forEach(c => commentMap.set(c.id, c));
         cloudComments.forEach(c => commentMap.set(c.id, c));
+        
+        // Ensure default comments of the three scientists are ALWAYS present
+        defaultComments.forEach(defComm => {
+            if (!commentMap.has(defComm.id)) {
+                commentMap.set(defComm.id, defComm);
+            }
+        });
+
         const mergedComments = Array.from(commentMap.values()).sort((a, b) => b.timestamp - a.timestamp);
         
         let needsSave = false;
