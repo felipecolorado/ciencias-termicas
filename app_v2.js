@@ -645,6 +645,15 @@ document.addEventListener("DOMContentLoaded", () => {
         categorySelect.addEventListener('change', handleFilter);
     }
 
+    const sciModal = document.getElementById("scientist-details-modal");
+    if (sciModal) {
+        sciModal.addEventListener("click", (e) => {
+            if (e.target === sciModal) {
+                sciModal.classList.remove("show");
+            }
+        });
+    }
+
     // Sync initial theme for charts after they load
     setTimeout(updateAllChartsTheme, 800);
 });
@@ -702,6 +711,11 @@ window.openNewtonLegacy = function(event) {
     if (event) event.stopPropagation();
     const modal = document.getElementById('newton-tribute-modal');
     if (modal) modal.classList.add('show');
+};
+
+window.closeScientistModal = function() {
+    const modal = document.getElementById("scientist-details-modal");
+    if (modal) modal.classList.remove("show");
 };
 
 window.closeNewtonModal = function() {
@@ -842,6 +856,44 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
             }
             if (tabTarget) {
                 switchTab(tabTarget, true);
+            }
+
+            // Mobile popup modal logic (width <= 1024px)
+            if (window.innerWidth <= 1024) {
+                const modal = document.getElementById("scientist-details-modal");
+                const avatar = document.getElementById("mobile-modal-avatar");
+                const title = document.getElementById("mobile-modal-title");
+                const years = document.getElementById("mobile-modal-years");
+                const country = document.getElementById("mobile-modal-country");
+                const desc = document.getElementById("mobile-modal-desc");
+                const simBtn = document.getElementById("mobile-modal-sim-btn");
+                
+                if (modal) {
+                    title.textContent = window.currentLanguage === 'en' ? (ev.title_en || ev.title) : ev.title;
+                    avatar.src = ev.image || "https://via.placeholder.com/150";
+                    avatar.style.display = ev.image ? "block" : "none";
+                    
+                    const yearLabel = ev.year < 0 ? (window.currentLanguage === 'en' ? `${Math.abs(ev.year)} BC` : `${Math.abs(ev.year)} a.C.`) : ev.year;
+                    years.textContent = yearLabel;
+                    
+                    country.innerHTML = window.currentLanguage === 'en' ? (ev.country_en || ev.country) : ev.country;
+                    desc.innerHTML = window.currentLanguage === 'en' ? (ev.desc_en || ev.desc) : ev.desc;
+                    
+                    if (tabTarget) {
+                        simBtn.style.display = "inline-flex";
+                        simBtn.onclick = () => {
+                            modal.classList.remove("show");
+                            // Scroll to info-panel
+                            const infoPanel = document.querySelector(".info-panel");
+                            if (infoPanel) {
+                                infoPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                        };
+                    } else {
+                        simBtn.style.display = "none";
+                    }
+                    modal.classList.add("show");
+                }
             }
         });
         

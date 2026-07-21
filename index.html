@@ -7774,6 +7774,32 @@
         </div>
     </div>
 
+    <!-- Mobile Scientist Details Modal -->
+    <div id="scientist-details-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 500px; width: 90%; background: #1e293b; border: 1px solid #475569; border-radius: 12px; padding: 24px; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);">
+            <span class="close-modal" onclick="closeScientistModal()">&times;</span>
+            <div style="display: flex; flex-direction: column; gap: 16px; text-align: left; margin-top: 10px;">
+                <div style="display: flex; gap: 16px; align-items: center;">
+                    <img id="mobile-modal-avatar" src="" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-blue);" />
+                    <div>
+                        <h2 id="mobile-modal-title" style="margin: 0; color: #fff; font-size: 1.3rem; font-family: 'Outfit', sans-serif;"></h2>
+                        <div style="font-size: 0.85rem; color: #94a3b8; margin-top: 4px;">
+                            <span id="mobile-modal-years"></span> | <span id="mobile-modal-country"></span>
+                        </div>
+                    </div>
+                </div>
+                <div style="max-height: 220px; overflow-y: auto; padding-right: 5px; font-size: 0.9rem; color: #cbd5e1; line-height: 1.5; border-top: 1px solid #334155; border-bottom: 1px solid #334155; padding-top: 12px; padding-bottom: 12px;">
+                    <p id="mobile-modal-desc" style="margin: 0;"></p>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 5px;">
+                    <button id="mobile-modal-sim-btn" class="btn-clear" style="flex: 1; font-weight: 700; background: #3b82f6; color: white; border: none; padding: 10px 16px; border-radius: 8px; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25); transition: all 0.2s;">
+                        <i class="fas fa-flask"></i> <span class="lang-es">Ir al Laboratorio</span><span class="lang-en" style="display:none;">Go to Simulation</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Special Newton Tribute Modal -->
     <div id="newton-tribute-modal" class="modal-overlay">
         <div class="modal-content newton-modal-content">
