@@ -18199,6 +18199,72 @@ function initInternalBLSimulation() {
     let currentUser = null;
     let selectedAvatar = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/GodfreyKneller-IsaacNewton-1689.jpg/330px-GodfreyKneller-IsaacNewton-1689.jpg";
     let commentCurrentPage = 1;
+    const BUCKET_URL = "https://kvdb.io/XSFFmaPeEnZSRDXeczAcT9";
+
+    // Helper to fetch from cloud with fallback
+    async function cloudFetch(key, defaultValue) {
+        try {
+            const res = await fetch(`${BUCKET_URL}/${key}`);
+            if (res.ok) {
+                const data = await res.json();
+                return data;
+            }
+        } catch (e) {
+            console.warn("Cloud read failed, using localStorage fallback:", e);
+        }
+        return JSON.parse(localStorage.getItem(`ht_${key}`) || JSON.stringify(defaultValue));
+    }
+
+    // Helper to save to cloud & local
+    async function cloudSave(key, data) {
+        localStorage.setItem(`ht_${key}`, JSON.stringify(data));
+        try {
+            await fetch(`${BUCKET_URL}/${key}`, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json' }
+            });
+        } catch (e) {
+            console.error("Cloud write failed:", e);
+        }
+    }
+
+    async function syncFromCloud() {
+        const cloudUsers = await cloudFetch("users", []);
+        const localUsers = JSON.parse(localStorage.getItem("ht_registered_users") || "[]");
+        const userMap = new Map();
+        localUsers.forEach(u => userMap.set(u.email, u));
+        cloudUsers.forEach(u => userMap.set(u.email, u));
+        const mergedUsers = Array.from(userMap.values());
+        localStorage.setItem("ht_registered_users", JSON.stringify(mergedUsers));
+        await cloudSave("users", mergedUsers);
+
+        const cloudComments = await cloudFetch("comments", []);
+        let localComments = JSON.parse(localStorage.getItem("ht_comments") || "[]");
+        const commentMap = new Map();
+        localComments.forEach(c => commentMap.set(c.id, c));
+        cloudComments.forEach(c => commentMap.set(c.id, c));
+        const mergedComments = Array.from(commentMap.values()).sort((a, b) => b.timestamp - a.timestamp);
+        
+        let needsSave = false;
+        mergedComments.forEach(comment => {
+            if (comment.avatar && comment.avatar.includes("Jean_Baptiste_Joseph_Fourier.jpg")) {
+                comment.avatar = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Fourier2_-_restoration1.jpg/330px-Fourier2_-_restoration1.jpg";
+                needsSave = true;
+            }
+            if (comment.avatar && comment.avatar.includes("Sadi_Carnot_in_military_uniform.jpg")) {
+                comment.avatar = "Sadi_Carnot.jpeg";
+                needsSave = true;
+            }
+            if (comment.avatar && comment.avatar.includes("Jpjoule.jpg")) {
+                comment.avatar = "joule.jpg";
+                needsSave = true;
+            }
+        });
+        localStorage.setItem("ht_comments", JSON.stringify(mergedComments));
+        await cloudSave("comments", mergedComments);
+        syncFromCloud();
+    }
 
     const defaultComments = [
         {
@@ -18278,7 +18344,7 @@ function initInternalBLSimulation() {
             });
         }
 
-        drawComments();
+        syncFromCloud();
     }
 
     window.switchAuthTab = function(tab) {
@@ -18355,7 +18421,7 @@ function initInternalBLSimulation() {
             };
 
             users.push(newUser);
-            localStorage.setItem("ht_registered_users", JSON.stringify(users));
+            cloudSave("users", users);
 
             // Automatically login
             currentUser = { id: newUser.id, name: newUser.name, email: newUser.email, avatar: newUser.avatar, role: newUser.role };
@@ -18363,27 +18429,32 @@ function initInternalBLSimulation() {
             
             if (errorMsg) errorMsg.style.display = "none";
             showLoggedInState();
+            syncFromCloud();
         } else {
             const email = document.getElementById("login-email").value.trim().toLowerCase();
             const password = document.getElementById("login-password").value;
             const errorMsg = document.getElementById("login-error-msg");
 
-            const users = JSON.parse(localStorage.getItem("ht_registered_users") || "[]");
-            const user = users.find(u => u.email === email && u.password === password);
+            // Fetch users from cloud first to ensure we have any newly registered users from other devices
+            cloudFetch("users", []).then(users => {
+                localStorage.setItem("ht_registered_users", JSON.stringify(users));
+                const user = users.find(u => u.email === email && u.password === password);
 
-            if (!user) {
-                if (errorMsg) {
-                    errorMsg.textContent = window.currentLanguage === 'en' ? "Invalid email or password." : "Correo o contraseña inválidos.";
-                    errorMsg.style.display = "block";
+                if (!user) {
+                    if (errorMsg) {
+                        errorMsg.textContent = window.currentLanguage === 'en' ? "Invalid email or password." : "Correo o contraseña inválidos.";
+                        errorMsg.style.display = "block";
+                    }
+                    return;
                 }
-                return;
-            }
 
-            currentUser = { id: user.id, name: user.name, email: user.email, avatar: user.avatar, role: user.role };
-            localStorage.setItem("ht_logged_user", JSON.stringify(currentUser));
+                currentUser = { id: user.id, name: user.name, email: user.email, avatar: user.avatar, role: user.role };
+                localStorage.setItem("ht_logged_user", JSON.stringify(currentUser));
 
-            if (errorMsg) errorMsg.style.display = "none";
-            showLoggedInState();
+                if (errorMsg) errorMsg.style.display = "none";
+                showLoggedInState();
+                syncFromCloud();
+            });
         }
     };
 
@@ -18420,7 +18491,7 @@ function initInternalBLSimulation() {
         if (counter) counter.textContent = "300";
 
         commentCurrentPage = 1;
-        drawComments();
+        syncFromCloud();
     };
 
     function showLoggedInState() {
@@ -18609,7 +18680,7 @@ function initInternalBLSimulation() {
         comments = comments.filter(c => c.id !== commentId);
         localStorage.setItem("ht_comments", JSON.stringify(comments));
 
-        drawComments();
+        syncFromCloud();
     };
 
     // Initialize on DOMContentLoaded
