@@ -31,9 +31,21 @@
         src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1/dist/chartjs-plugin-annotation.min.js"></script>
 
 
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- FIX v2: MathJax configured for manual typeset control to fix first-load rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            },
+            startup: {
+                typeset: false
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-    <link rel="stylesheet" href="style.css?v=finalfix11">
+    <link rel="stylesheet" href="style.css?v=v2fix1">
+
 </head>
 
 <body>
@@ -49,18 +61,22 @@
     </button>
     <button id="contact-toggle" class="theme-toggle-btn" title="Mostrar Información de Contacto"
         style="right: 75px; background: var(--panel-bg); color: var(--text-primary); border: 1px solid var(--panel-border);">
-        <i class="fas fa-envelope"></i>
     </button>
     <div id="contact-box" class="contact-box glass"
         style="display: none; position: fixed; top: 75px; right: 20px; z-index: 1000; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--panel-border); font-size: 0.75rem; color: var(--text-secondary); max-width: 300px; text-align: left; background: var(--panel-bg); flex-direction: column; gap: 4px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25); backdrop-filter: blur(10px);">
         <div
             style="font-weight: bold; color: var(--accent-orange); display: flex; align-items: center; gap: 5px; margin-bottom: 4px;">
-            <i class="fas fa-envelope-open-text"></i> Contacto / Soporte
+            <i class="fas fa-envelope-open-text"></i> <span class="lang-es">Contacto / Soporte</span><span class="lang-en" style="display:none;">Contact / Support</span>
         </div>
         <div><strong>Prof. Andrés Colorado</strong></div>
-        <div style="font-size: 0.7rem; opacity: 0.85; margin-bottom: 2px;">Ing. Mecánico, M. Sc. Ph. D. Profesor,
-            Facultad de Ingeniería, Universidad de Antioquia</div>
-        <div style="font-size: 0.7rem; opacity: 0.85;">Dudas, inquietudes o correcciones:</div>
+        <div style="font-size: 0.7rem; opacity: 0.85; margin-bottom: 2px;">
+            <span class="lang-es">Ing. Mecánico, M. Sc. Ph. D. Profesor, Facultad de Ingeniería, Universidad de Antioquia</span>
+            <span class="lang-en" style="display:none;">Mechanical Engineer, M. Sc. Ph. D. Professor, Faculty of Engineering, University of Antioquia</span>
+        </div>
+        <div style="font-size: 0.7rem; opacity: 0.85;">
+            <span class="lang-es">Dudas, inquietudes o correcciones:</span>
+            <span class="lang-en" style="display:none;">Questions, concerns or corrections:</span>
+        </div>
         <div><a href="mailto:felipe.colorado@udea.edu.co"
                 style="color: var(--accent-cyan); text-decoration: none; font-weight: bold;">felipe.colorado@udea.edu.co</a>
         </div>
@@ -70,18 +86,19 @@
         <div class="header-content">
             <span class="badge">Universidad de Antioquia</span>
             <h1>Historia de las<br><span class="highlight">Ciencias Térmicas</span></h1>
-            <p class="subtitle">Explora los descubrimientos y conceptos fundamentales que dieron forma a esta
-                disciplina, acompañados de simulaciones interactivas en tiempo real.</p>
+            <p class="subtitle">
+                <span class="lang-es">Explora los descubrimientos y conceptos fundamentales que dieron forma a esta disciplina, acompañados de simulaciones interactivas en tiempo real.</span>
+                <span class="lang-en" style="display:none;">Explore the fundamental discoveries and concepts that shaped this discipline, accompanied by real-time interactive simulations.</span>
+            </p>
             <p
                 style="font-size: 0.9rem; color: var(--text-secondary); margin: 12px auto 0; font-weight: 500; max-width: 800px; line-height: 1.4; text-align: center;">
                 <i class="fas fa-graduation-cap" style="color: var(--accent-orange); margin-right: 4px;"></i>
-                Desarrollado por <strong>Andrés Colorado</strong>, Ing. Mecánico, M. Sc. Ph. D. Profesor de
-                Transferencia de Calor y Masa, Dinámica de Fluidos Computacional y Diseños Térmicos. Departamento de
-                Ingeniería Mecánica, Facultad de Ingeniería, Universidad de Antioquia.
+                <span class="lang-es">Desarrollado por <strong>Andrés Colorado</strong>, Ing. Mecánico, M. Sc. Ph. D. Profesor de Transferencia de Calor y Masa, Dinámica de Fluidos Computacional y Diseños Térmicos. Departamento de Ingeniería Mecánica, Facultad de Ingeniería, Universidad de Antioquia.</span>
+                <span class="lang-en" style="display:none;">Developed by <strong>Andrés Colorado</strong>, Mechanical Engineer, M. Sc. Ph. D. Professor of Heat and Mass Transfer, Computational Fluid Dynamics and Thermal Designs. Department of Mechanical Engineering, Faculty of Engineering, University of Antioquia.</span>
             </p>
         </div>
     </header>
-
+ 
     <main class="app-main">
         <!-- Horizontal Timeline -->
         <div class="top-timeline-wrapper">
@@ -90,19 +107,19 @@
                 <!-- Dynamic timeline cards will be loaded here -->
             </div>
         </div>
-
+ 
         <section class="dashboard-grid">
-
+ 
             <!-- Left Panel: Interactive Timeline -->
             <div class="panel glass timeline-panel">
                 <div class="panel-header">
-                    <h2><i class="fas fa-history"></i> Hitos Históricos</h2>
+                    <h2><i class="fas fa-history"></i> <span class="lang-es">Hitos Históricos</span><span class="lang-en" style="display:none;">Historical Milestones</span></h2>
                 </div>
                 <p class="section-description"
                     style="font-size: 0.85rem; color: var(--text-secondary); margin: 0 16px 12px 16px; opacity: 0.9; line-height: 1.4;">
-                    <i class="fas fa-info-circle" style="color: var(--accent-orange); margin-right: 4px;"></i> Explora
-                    la evolución cronológica de la transferencia de calor y la termodinámica. Filtra y busca los aportes
-                    de los científicos que sentaron las bases de la física moderna.
+                    <i class="fas fa-info-circle" style="color: var(--accent-orange); margin-right: 4px;"></i>
+                    <span class="lang-es">Explora la evolución cronológica de la transferencia de calor y la termodinámica. Filtra y busca los aportes de los científicos que sentaron las bases de la física moderna.</span>
+                    <span class="lang-en" style="display:none;">Explore the chronological evolution of heat transfer and thermodynamics. Filter and search for the contributions of scientists who laid the foundations of modern physics.</span>
                 </p>
 
                 <div class="timeline-controls">
@@ -130,18 +147,18 @@
 
             <div class="panel glass info-panel">
                 <div class="panel-header">
-                    <h2><i class="fas fa-flask"></i> Laboratorio de Simulaciones</h2>
+                    <h2><i class="fas fa-flask"></i> <span class="lang-es">Laboratorio de Simulaciones</span><span class="lang-en" style="display:none;">Simulation Laboratory</span></h2>
                 </div>
                 <p class="section-description"
                     style="font-size: 0.85rem; color: var(--text-secondary); margin: 0 16px 12px 16px; opacity: 0.9; line-height: 1.4;">
-                    <i class="fas fa-info-circle" style="color: var(--accent-blue); margin-right: 4px;"></i> Interactúa
-                    con experimentos virtuales y herramientas numéricas en tiempo real. Ajusta variables físicas para
-                    observar de manera práctica las leyes de conducción, convección y radiación.
+                    <i class="fas fa-info-circle" style="color: var(--accent-blue); margin-right: 4px;"></i>
+                    <span class="lang-es">Interactúa con experimentos virtuales y herramientas numéricas en tiempo real. Ajusta variables físicas para observar de manera práctica las leyes de conducción, convección y radiación.</span>
+                    <span class="lang-en" style="display:none;">Interact with virtual experiments and numerical tools in real time. Adjust physical variables to practically observe the laws of conduction, convection, and radiation.</span>
                 </p>
 
                 <div class="tabs-container">
                     <div class="tabs-header">
-                        <div class="tab-category-title">Principios Físicos y Experimentos Base</div>
+                        <div class="tab-category-title"><span class="lang-es">Principios Físicos y Experimentos Base</span><span class="lang-en" style="display:none;">Physical Principles and Base Experiments</span></div>
                         <button class="tab-btn heat-transfer-highlight" data-target="newton-sim">Enfriamiento de Newton
                             (1701)</button>
                         <button class="tab-btn heat-transfer-highlight" data-target="invsq-sim">Ley de la Inversa del
@@ -178,12 +195,12 @@
                         <button class="tab-btn heat-transfer-highlight" data-target="transient-sim">Conducción
                             Transitoria (Heisler, 1947)</button>
 
-                        <div class="tab-category-title">Motores de Calor</div>
+                        <div class="tab-category-title"><span class="lang-es">Motores de Calor</span><span class="lang-en" style="display:none;">Heat Engines</span></div>
                         <button class="tab-btn" data-target="watt-sim">Newcomen vs. Watt (1712-1769)</button>
                         <button class="tab-btn" data-target="carnot-sim">Motor de Carnot (1824)</button>
                         <button class="tab-btn" data-target="ottodiesel-sim">Ciclos Otto vs. Diesel (1876-1892)</button>
 
-                        <div class="tab-category-title">Circuitos Térmicos</div>
+                        <div class="tab-category-title"><span class="lang-es">Circuitos Térmicos</span><span class="lang-en" style="display:none;">Thermal Circuits</span></div>
                         <button class="tab-btn heat-transfer-highlight" data-target="cond-conv-sim">Cond. +
                             Conv.</button>
                         <button class="tab-btn heat-transfer-highlight" data-target="multi-sim">Pared Multicapa</button>
@@ -196,7 +213,7 @@
                         <button class="tab-btn heat-transfer-highlight" data-target="multicapa-custom-sim">Pared
                             Multicapa Personalizada</button>
 
-                        <div class="tab-category-title">Aplicaciones</div>
+                        <div class="tab-category-title"><span class="lang-es">Aplicaciones</span><span class="lang-en" style="display:none;">Applications</span></div>
                         <button class="tab-btn" data-target="pelton-sim">Tanque + Venturi + Pelton</button>
                         <button class="tab-btn heat-transfer-highlight" data-target="fin-sim">Aletas (Superficies
                             Extendidas)</button>
@@ -273,17 +290,19 @@
                                     <div
                                         style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 15px;">
                                         <div class="control-group">
-                                            <label for="fourier-t1"><span>Temperatura T<sub>1</sub> <span
-                                                        class="lang-es">(Izquierda/Interna):</span><span class="lang-en"
-                                                        style="display:none;">(Left/Inner):</span></span> <span><span
-                                                        id="fourier-t1-val">100</span> &deg;C</span></label>
+                                            <label for="fourier-t1">
+                                                <span class="lang-es">Temperatura T<sub>1</sub> (Izquierda/Interna):</span>
+                                                <span class="lang-en" style="display:none;">Temperature T<sub>1</sub> (Left/Inner):</span>
+                                                <span><span id="fourier-t1-val">100</span> &deg;C</span>
+                                            </label>
                                             <input type="range" id="fourier-t1" min="0" max="500" step="5" value="100">
                                         </div>
                                         <div class="control-group" id="fourier-t2-container">
-                                            <label for="fourier-t2"><span>Temperatura T<sub>2</sub> <span
-                                                        class="lang-es">(Derecha/Externa):</span><span class="lang-en"
-                                                        style="display:none;">(Right/Outer):</span></span> <span><span
-                                                        id="fourier-t2-val">20</span> &deg;C</span></label>
+                                            <label for="fourier-t2">
+                                                <span class="lang-es">Temperatura T<sub>2</sub> (Derecha/Externa):</span>
+                                                <span class="lang-en" style="display:none;">Temperature T<sub>2</sub> (Right/Outer):</span>
+                                                <span><span id="fourier-t2-val">20</span> &deg;C</span>
+                                            </label>
                                             <input type="range" id="fourier-t2" min="0" max="500" step="5" value="20">
                                         </div>
                                         <div class="control-group" id="fourier-q-in-container" style="display: none;">
@@ -341,7 +360,7 @@
                                             style="display: none; font-size: 0.9em; color: #94a3b8; flex-direction: column;">
                                             <div
                                                 style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                                                <span>Espesor (L = r<sub>2</sub>-r<sub>1</sub>):</span> <span
+                                            <span class="lang-es">Espesor (L = r<sub>2</sub>-r<sub>1</sub>):</span><span class="lang-en" style="display:none;">Thickness (L = r<sub>2</sub>-r<sub>1</sub>):</span> <span
                                                     id="fourier-calc-l-val" style="color: #cbd5e1;">--</span>
                                             </div>
                                             <div
@@ -392,7 +411,7 @@
                         <!-- Planck Simulation Tab -->
                         <div class="tab-pane" id="planck-sim">
                             <div class="sim-intro">
-                                <h3>2. Ley de Radiación de Max Planck (1900)</h3>
+                                <h3><span class="lang-es">2. Ley de Radiación de Max Planck (1900)</span><span class="lang-en" style="display:none;">2. Max Planck's Radiation Law (1900)</span></h3>
                                 <p><span class="lang-es">Planck postuló que la energía electromagnética solo se emite o
                                         absorbe en paquetes discretos llamados</span><span class="lang-en"
                                         style="display:none;">Planck postulated that electromagnetic energy is only
@@ -493,11 +512,11 @@
                         <!-- Maxwell-Boltzmann Tab -->
                         <div class="tab-pane" id="maxwell-sim">
                             <div class="sim-intro">
-                                <h3>Teoría Cinética de los Gases: Distribución de Maxwell-Boltzmann (1860)</h3>
-                                <p>James Clerk Maxwell y Ludwig Boltzmann formularon la distribución estadística de las
-                                    velocidades de las partículas en un gas ideal. Esta fue la primera ley estadística
-                                    en la física, demostrando que la temperatura macroscópica no es más que la
-                                    manifestación del caos cinético microscópico de los átomos.</p>
+                                <h3><span class="lang-es">Teoría Cinética de los Gases: Distribución de Maxwell-Boltzmann (1860)</span><span class="lang-en" style="display:none;">Kinetic Theory of Gases: Maxwell-Boltzmann Distribution (1860)</span></h3>
+                                <p>
+                                    <span class="lang-es">James Clerk Maxwell y Ludwig Boltzmann formularon la distribución estadística de las velocidades de las partículas en un gas ideal. Esta fue la primera ley estadística en la física, demostrando que la temperatura macroscópica no es más que la manifestación del caos cinético microscópico de los átomos.</span>
+                                    <span class="lang-en" style="display:none;">James Clerk Maxwell and Ludwig Boltzmann formulated the statistical distribution of particle velocities in an ideal gas. This was the first statistical law in physics, demonstrating that macroscopic temperature is nothing more than the manifestation of the microscopic kinetic chaos of atoms.</span>
+                                </p>
                                 <p><span class="lang-es">La probabilidad de encontrar una partícula con velocidad $v$
                                         es: $$ f(v) = 4\pi \left(\frac{m}{2\pi k_B T}\right)^{3/2} v^2 e^{-\frac{m
                                         v^2}{2 k_B T}} $$</span><span class="lang-en" style="display:none;">The
@@ -934,10 +953,11 @@
                         <!-- Prandtl Simulation Tab -->
                         <div class="tab-pane" id="prandtl-sim">
                             <div class="sim-intro">
-                                <h3>10. Concepto de Capa Límite de Ludwig Prandtl (1904)</h3>
-                                <p>Prandtl demostró que para fluidos con baja viscosidad (altos números de Reynolds),
-                                    los efectos viscosos se limitan a una delgada capa cercana a la pared sólida (capa
-                                    límite), permitiendo simplificar las complejas ecuaciones de Navier-Stokes.</p>
+                                <h3><span class="lang-es">10. Concepto de Capa Límite de Ludwig Prandtl (1904)</span><span class="lang-en" style="display:none;">10. Ludwig Prandtl's Boundary Layer Concept (1904)</span></h3>
+                                <p>
+                                    <span class="lang-es">Prandtl demostró que para fluidos con baja viscosidad (altos números de Reynolds), los efectos viscosos se limitan a una delgada capa cercana a la pared sólida (capa límite), permitiendo simplificar las complejas ecuaciones de Navier-Stokes.</span>
+                                    <span class="lang-en" style="display:none;">Prandtl demonstrated that for fluids with low viscosity (high Reynolds numbers), viscous effects are limited to a thin layer close to the solid wall (boundary layer), allowing the complex Navier-Stokes equations to be simplified.</span>
+                                </p>
                             </div>
 
                             <div class="simulation-workspace">
@@ -1120,7 +1140,7 @@
                         <!-- Multilayer Wall Simulation Tab -->
                         <div class="tab-pane" id="multi-sim">
                             <div class="sim-intro">
-                                <h3>19. Conducción en Pared Multicapa (3 Capas en Serie)</h3>
+                                <h3><span class="lang-es">19. Conducción en Pared Multicapa (3 Capas en Serie)</span><span class="lang-en" style="display:none;">19. Conduction in Multilayer Wall (3 Layers in Series)</span></h3>
                                 <p><span class="lang-es">Análisis de la transferencia de calor por conducción
                                         estacionaria unidimensional a través de una pared compuesta de tres capas con
                                         distintas conductividades térmicas $k_1, k_2, k_3$ y espesores $L_1, L_2, L_3$.
@@ -1375,12 +1395,14 @@
 
                                     <div class="control-group result-card" style="margin-top: 15px;">
                                         <div class="result-row">
-                                            <span>Temperatura Superficie Derecha $(T_2)$:</span>
+                                            <span class="lang-es">Temperatura Superficie Derecha $(T_2)$:</span>
+                                            <span class="lang-en" style="display:none;">Right Surface Temperature $(T_2)$:</span>
                                             <span id="cc-t2-res" class="highlight-val" style="color: #f59e0b;">0.0
                                                 °C</span>
                                         </div>
                                         <div class="result-row">
-                                            <span>Flujo de Calor $(q'')$:</span>
+                                            <span class="lang-es">Flujo de Calor $(q'')$:</span>
+                                            <span class="lang-en" style="display:none;">Heat Flux $(q'')$:</span>
                                             <span id="cc-q-res" class="highlight-val" style="color: #ef4444;">0.0
                                                 W/m²</span>
                                         </div>
@@ -1558,21 +1580,21 @@
                                         <div class="control-group"
                                             style="grid-column: span 2; display: flex; gap: 10px; margin-top: 10px;">
                                             <button id="newton-start-btn"
-                                                style="flex: 1; padding: 10px; border-radius: 6px; background: #3b82f6; color: white; border: none; cursor: pointer; font-weight: bold;">Iniciar
-                                                Enfriamiento</button>
+                                                style="flex: 1; padding: 10px; border-radius: 6px; background: #3b82f6; color: white; border: none; cursor: pointer; font-weight: bold;"><span class="lang-es">Iniciar
+                                                Enfriamiento</span><span class="lang-en" style="display:none;">Start Cooling</span></button>
                                             <button id="newton-reset-btn"
-                                                style="flex: 1; padding: 10px; border-radius: 6px; background: #ef4444; color: white; border: none; cursor: pointer; font-weight: bold;">Reiniciar</button>
+                                                style="flex: 1; padding: 10px; border-radius: 6px; background: #ef4444; color: white; border: none; cursor: pointer; font-weight: bold;"><span class="lang-es">Reiniciar</span><span class="lang-en" style="display:none;">Reset</span></button>
                                         </div>
                                     </div>
 
                                     <div class="control-group result-card" style="margin-top: 15px;">
                                         <div class="result-row">
-                                            <span>Temperatura Actual:</span>
+                                            <span class="lang-es">Temperatura Actual:</span><span class="lang-en" style="display:none;">Current Temperature:</span>
                                             <span id="newton-current-t" class="highlight-val"
                                                 style="color: #f97316;">500.0 °C</span>
                                         </div>
                                         <div class="result-row">
-                                            <span>Tiempo Transcurrido (Simulado):</span>
+                                            <span class="lang-es">Tiempo Transcurrido (Simulado):</span><span class="lang-en" style="display:none;">Elapsed Time (Simulated):</span>
                                             <span id="newton-time" class="highlight-val" style="color: #cbd5e1;">0.0
                                                 s</span>
                                         </div>
@@ -1594,16 +1616,11 @@
                         <!-- Bernoulli Simulation Tab -->
                         <div class="tab-pane" id="bernoulli-sim">
                             <div class="sim-intro">
-                                <h3>Principio de Bernoulli (1738)</h3>
-                                <p><span class="lang-es">En su obra</span><span class="lang-en" style="display:none;">In
-                                        his work</span> <em>Hydrodynamica</em>, Daniel Bernoulli estableció que, en un
-                                    flujo de fluido ideal, incompresible e irrotacional, un aumento en la velocidad
-                                    ocurre simultáneamente con una disminución en la presión estática. Este experimento
-                                    (<span class="lang-es">Tubo de Venturi</span><span class="lang-en"
-                                        style="display:none;">Venturi tube</span>) ilustra cómo al estrechar un
-                                    conducto, la velocidad del fluido aumenta para conservar el caudal, provocando una
-                                    caída de presión, evidenciada por la altura de las columnas de líquido (tubos
-                                    piezométricos).</p>
+                                <h3><span class="lang-es">Principio de Bernoulli (1738)</span><span class="lang-en" style="display:none;">Bernoulli's Principle (1738)</span></h3>
+                                <p>
+                                    <span class="lang-es">En su obra <em>Hydrodynamica</em>, Daniel Bernoulli estableció que, en un flujo de fluido ideal, incompresible e irrotacional, un aumento en la velocidad ocurre simultáneamente con una disminución en la presión estática. Este experimento (Tubo de Venturi) ilustra cómo al estrechar un conducto, la velocidad del fluido aumenta para conservar el caudal, provocando una caída de presión, evidenciada por la altura de las columnas de líquido (tubos piezométricos).</span>
+                                    <span class="lang-en" style="display:none;">In his work <em>Hydrodynamica</em>, Daniel Bernoulli established that, in an ideal, incompressible, and irrotational fluid flow, an increase in velocity occurs simultaneously with a decrease in static pressure. This experiment (Venturi tube) illustrates how by narrowing a pipe, the fluid velocity increases to conserve flow rate, causing a pressure drop, evidenced by the height of the liquid columns (piezometric tubes).</span>
+                                </p>
                             </div>
                             <div class="sim-container" style="flex-direction: column;">
                                 <div class="canvas-card" style="margin-bottom: 20px;">
@@ -1760,10 +1777,14 @@
                         <!-- Pelton Simulation Tab -->
                         <div class="tab-pane" id="pelton-sim">
                             <div class="sim-intro">
-                                <h3>Tanque, <span class="lang-es">Tubo de Venturi</span><span class="lang-en"
-                                        style="display:none;">Venturi tube</span> y Turbina Pelton</h3>
-                                <p>Esta simulación acopla tres conceptos físicos fundamentales de la mecánica de
-                                    fluidos:</p>
+                                <h3>
+                                    <span class="lang-es">Tanque, Tubo de Venturi y Turbina Pelton</span>
+                                    <span class="lang-en" style="display:none;">Tank, Venturi Tube, and Pelton Turbine</span>
+                                </h3>
+                                <p>
+                                    <span class="lang-es">Esta simulación acopla tres conceptos físicos fundamentales de la mecánica de fluidos:</span>
+                                    <span class="lang-en" style="display:none;">This simulation couples three fundamental physical concepts of fluid mechanics:</span>
+                                </p>
                                 <ul style="margin-left: 20px; margin-bottom: 15px; line-height: 1.6;">
                                     <li><strong>1. Conservación de la Energía (Ecuación de Bernoulli):</strong> <span
                                             class="lang-es">El agua a una altura de carga $H$ descarga a la <span
@@ -2148,8 +2169,8 @@
                                             onclick="document.getElementById('celsius-graph-modal').style.display='flex'"
                                             style="width: 100%; background: #3b82f6; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: bold; transition: all 0.2s;"><i
                                                 class="fas fa-chart-line"></i> <span class="lang-es">Ver Curva de
-                                                Ebullición (0 a 120 km)</span><span class="lang-en"
-                                                style="display:none;">See Boiling Curve (0 to 120 km)</span></button>
+                                                Ebullición (0 a 38 km)</span><span class="lang-en"
+                                                style="display:none;">See Boiling Curve (0 to 38 km)</span></button>
                                     </div>
                                 </div>
                             </div>
@@ -2166,14 +2187,14 @@
                                     <h3
                                         style="margin-top: 0; color: #f8fafc; border-bottom: 1px solid #334155; padding-bottom: 10px;">
                                         <i class="fas fa-chart-line" style="color: #3b82f6;"></i> <span
-                                            class="lang-es">Ebullición del Agua hasta el Límite de la Atmósfera (120
-                                            km)</span><span class="lang-en" style="display:none;">Boiling of Water up to
-                                            the Limit of the Atmosphere (120 km)</span>
+                                            class="lang-es">Ebullición del Agua hasta el Punto Triple (38 km)</span><span class="lang-en" style="display:none;">Boiling of Water up to the Triple Point (38 km)</span>
                                     </h3>
                                     <div style="text-align: center; margin-top: 15px;">
-                                        <img src="boiling_curve_120km.png" alt="Curva de Ebullición vs Altitud"
-                                            style="max-width: 100%; height: auto; border-radius: 4px; border: 1px solid #334155;">
+                                        <!-- FIX v2: replaced broken image with interactive Chart.js chart -->
+                                        <canvas id="boilingCurveChart" style="max-width:100%; border-radius:6px; border:1px solid #334155;"></canvas>
                                     </div>
+                                    <div id="boiling-chart-legend" style="display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;font-size:0.75rem;"></div>
+
                                     <div
                                         style="margin-top: 15px; font-size: 0.85rem; color: #cbd5e1; line-height: 1.5;">
                                         <p><strong>Límite de Armstrong (~19 km):</strong> <span class="lang-es">A 0.061
@@ -2201,7 +2222,261 @@
                             </div>
                         </div>
 
+                        <!-- FIX v2: Interactive boiling curve chart init — runs when modal opens -->
+                        <script>
+                        (function() {
+                            var _boilChartInst = null;
+                            function buildBoilingChart() {
+                                var canvas = document.getElementById('boilingCurveChart');
+                                if (!canvas) return;
+                                if (_boilChartInst) { _boilChartInst.destroy(); _boilChartInst = null; }
+
+                                // International Standard Atmosphere pressure model
+                                function pressureAtAlt(hKm) {
+                                    var h = hKm * 1000;
+                                    if (h <= 11000)       return 101325 * Math.pow(1 - 0.0065*h/288.15, 5.2561);
+                                    else if (h <= 20000)  return 22632.1 * Math.exp(-0.0001577*(h-11000));
+                                    else if (h <= 32000)  return 5474.89 * Math.pow(1 + 0.001*(h-20000)/216.65, -34.163);
+                                    else if (h <= 47000)  return 868.02  * Math.pow(1 + 0.0028*(h-32000)/228.65, -17.082);
+                                    else if (h <= 86000)  return 110.91  * Math.exp(-0.0001581*(h-47000));
+                                    else                  return 3.734   * Math.exp(-0.0001654*(h-86000));
+                                }
+
+                                // Antoine equation → boiling point in °C
+                                function boilingPoint(pPa) {
+                                    if (pPa < 611.657) return null; // Below triple point — no liquid water
+                                    var pMmHg = pPa / 133.322;
+                                    return Math.round((1730.63 / (8.07131 - Math.log10(pMmHg)) - 233.426) * 10) / 10;
+                                }
+
+                                var chartData = [];
+                                var altitudes = [], pressures = [];
+                                for (var h = 0; h <= 38; h += 0.2) {
+                                    var pPa = pressureAtAlt(h);
+                                    var T = boilingPoint(pPa);
+                                    altitudes.push(h); // keep for tooltips
+                                    pressures.push((pPa/101325).toFixed(4));
+                                    chartData.push({ x: h, y: T });
+                                }
+
+                                var isDark = !document.body.classList.contains('light-theme');
+                                var gridColor  = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.07)';
+                                var labelColor = isDark ? '#94a3b8' : '#475569';
+
+                                _boilChartInst = new Chart(canvas, {
+                                    type: 'line',
+                                    data: {
+                                        datasets: [{
+                                            label: 'T ebullición (°C)',
+                                            data: chartData,
+                                            borderColor: '#3b82f6',
+                                            backgroundColor: 'rgba(59,130,246,0.08)',
+                                            borderWidth: 2.5,
+                                            pointRadius: 0,
+                                            fill: true,
+                                            tension: 0.35,
+                                            spanGaps: false
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        animation: { duration: 600, easing: 'easeOutQuart' },
+                                        plugins: {
+                                            legend: { display: false },
+                                            tooltip: {
+                                                backgroundColor: isDark ? '#1e293b' : '#f8fafc',
+                                                titleColor: isDark ? '#f1f5f9' : '#0f172a',
+                                                bodyColor: isDark ? '#94a3b8' : '#475569',
+                                                borderColor: isDark ? '#334155' : '#e2e8f0',
+                                                borderWidth: 1,
+                                                callbacks: {
+                                                    title: function(items) { 
+                                                        var xVal = items[0].parsed.x;
+                                                        return 'Altitud: ' + xVal.toFixed(1) + ' km'; 
+                                                    },
+                                                    label: function(item) {
+                                                        if (item.parsed.y === null) return 'Sin agua líquida (por debajo del punto triple)';
+                                                        // find nearest altitude index for pressure
+                                                        var xVal = item.parsed.x;
+                                                        var idx = Math.round(xVal / 0.2);
+                                                        var p = pressures[idx] ? parseFloat(pressures[idx]) : 0;
+                                                        return ['T ebullición: ' + item.parsed.y + ' °C',
+                                                                'Presión: ' + (p*100).toFixed(3) + '% atm'];
+                                                    }
+                                                }
+                                            },
+                                            annotation: {
+                                                annotations: {
+                                                    seaLevel: {
+                                                        type: 'line', scaleID: 'x', value: 0,
+                                                        borderColor: 'rgba(16,185,129,0.65)', borderWidth: 1.5, borderDash: [5,3],
+                                                        label: { display: true, content: 'Nivel del Mar 100°C', position: 'start',
+                                                                 backgroundColor: 'rgba(16,185,129,0.15)', color: '#10b981', font: {size:9}, yAdjust: -14 }
+                                                    },
+                                                    medellin: {
+                                                        type: 'line', scaleID: 'x', value: 1.495,
+                                                        borderColor: 'rgba(249,115,22,0.55)', borderWidth: 1.5, borderDash: [3,3],
+                                                        label: { display: true, content: 'Medellín ~94.5°C', position: 'start',
+                                                                 backgroundColor: 'rgba(249,115,22,0.12)', color: '#f97316', font: {size:9}, yAdjust: 14 }
+                                                    },
+                                                    armstrong: {
+                                                        type: 'line', scaleID: 'x', value: 19,
+                                                        borderColor: 'rgba(239,68,68,0.75)', borderWidth: 2, borderDash: [6,3],
+                                                        label: { display: true, content: 'Límite Armstrong ~19km (37°C)', position: 'end',
+                                                                 backgroundColor: 'rgba(239,68,68,0.15)', color: '#ef4444', font: {size:9} }
+                                                    },
+                                                    triplePoint: {
+                                                        type: 'line', scaleID: 'x', value: 35,
+                                                        borderColor: 'rgba(139,92,246,0.75)', borderWidth: 2, borderDash: [6,3],
+                                                        label: { display: true, content: 'Punto Triple ~35km', position: 'end',
+                                                                 backgroundColor: 'rgba(139,92,246,0.15)', color: '#8b5cf6', font: {size:9} }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        scales: {
+                                            x: {
+                                                type: 'linear',
+                                                title: { display: true, text: 'Altitud (km)', color: labelColor, font: {size:11} },
+                                                ticks: {
+                                                    color: labelColor,
+                                                    font: {size:10},
+                                                    stepSize: 2,
+                                                    maxRotation: 0,
+                                                    autoSkip: true,
+                                                    callback: function(val) {
+                                                        // Return integer numbers only
+                                                        var num = Number(val);
+                                                        return Number.isInteger(num) ? num : null;
+                                                    }
+                                                },
+                                                grid: { color: gridColor }, min: 0, max: 38
+                                            },
+                                            y: {
+                                                title: { display: true, text: 'Temperatura de Ebullición (°C)', color: labelColor, font: {size:11} },
+                                                ticks: { color: labelColor, font: {size:10} },
+                                                grid: { color: gridColor }, min: -10, max: 105
+                                            }
+                                        }
+                                    }
+                                });
+
+                                // Legend
+                                var legend = document.getElementById('boiling-chart-legend');
+                                if (legend) {
+                                    var lc = isDark ? '#94a3b8' : '#475569';
+                                    legend.innerHTML = [
+                                        {c:'#10b981', t:'Nivel del Mar (100°C)'},
+                                        {c:'#f97316', t:'Medellín 1495m (~94.5°C)'},
+                                        {c:'#ef4444', t:'Límite Armstrong ~19km (37°C)'},
+                                        {c:'#8b5cf6', t:'Punto Triple ~35km (0.006 atm)'}
+                                    ].map(function(it) {
+                                        return '<span style="display:flex;align-items:center;gap:4px"><span style="width:18px;height:3px;background:'+it.c+';display:inline-block;border-radius:2px"></span><span style="color:'+lc+'">'+it.t+'</span></span>';
+                                    }).join('');
+                                }
+                            }
+
+                            // Open button triggers chart build
+                            document.addEventListener('click', function(e) {
+                                var btn = e.target.closest ? e.target.closest('[onclick]') : null;
+                                if (btn && btn.getAttribute('onclick') && btn.getAttribute('onclick').indexOf('celsius-graph-modal') > -1
+                                    && btn.getAttribute('onclick').indexOf('flex') > -1) {
+                                    setTimeout(buildBoilingChart, 120);
+                                }
+                            });
+
+                            // ── Expand / collapse the modal on chart click / tap ──
+                            (function() {
+                                var modalInner = document.querySelector('#celsius-graph-modal > div');
+                                var isExpanded = false;
+
+                                // Hint element
+                                var hint = document.createElement('p');
+                                hint.id = 'boiling-expand-hint';
+                                hint.style.cssText = 'text-align:center;font-size:0.72rem;color:#64748b;margin:4px 0 0;';
+                                hint.innerHTML = '<i class="fas fa-expand-alt" style="margin-right:4px;"></i><span class="lang-es">Toca el gráfico para ampliar</span><span class="lang-en" style="display:none;">Tap chart to expand</span>';
+
+                                document.addEventListener('click', function(e) {
+                                    var canvas = document.getElementById('boilingCurveChart');
+                                    if (!canvas) return;
+                                    var modal = document.getElementById('celsius-graph-modal');
+                                    if (!modal || modal.style.display === 'none') return;
+
+                                    if (e.target === canvas) {
+                                        if (!isExpanded) {
+                                            // Expand: make inner box nearly fullscreen
+                                            modalInner = document.querySelector('#celsius-graph-modal > div');
+                                            if (modalInner) {
+                                                modalInner._prevStyle = modalInner.getAttribute('style');
+                                                modalInner.style.maxWidth = '100%';
+                                                modalInner.style.width   = '100%';
+                                                modalInner.style.height  = '95vh';
+                                                modalInner.style.display = 'flex';
+                                                modalInner.style.flexDirection = 'column';
+                                                canvas.style.height = 'calc(95vh - 120px)';
+                                                canvas.style.flexGrow = '1';
+                                                if (_boilChartInst) _boilChartInst.resize();
+                                            }
+                                            isExpanded = true;
+                                            if (hint) hint.innerHTML = '<i class="fas fa-compress-alt" style="margin-right:4px;"></i><span class="lang-es">Toca para reducir</span><span class="lang-en" style="display:none;">Tap to collapse</span>';
+                                        } else {
+                                            // Collapse back
+                                            modalInner = document.querySelector('#celsius-graph-modal > div');
+                                            if (modalInner && modalInner._prevStyle != null) {
+                                                modalInner.setAttribute('style', modalInner._prevStyle);
+                                                canvas.style.height = '';
+                                                canvas.style.flexGrow = '';
+                                                if (_boilChartInst) _boilChartInst.resize();
+                                            }
+                                            isExpanded = false;
+                                            if (hint) hint.innerHTML = '<i class="fas fa-expand-alt" style="margin-right:4px;"></i><span class="lang-es">Toca el gráfico para ampliar</span><span class="lang-en" style="display:none;">Tap chart to expand</span>';
+                                        }
+                                    }
+                                });
+
+                                // Inject hint after legend when chart builds
+                                var _origBuild = window._buildBoilingChart;
+                                window._buildBoilingChart = function() {
+                                    if (typeof buildBoilingChart === 'function') buildBoilingChart();
+                                    var legend = document.getElementById('boiling-chart-legend');
+                                    if (legend && !document.getElementById('boiling-expand-hint')) {
+                                        legend.parentNode.insertBefore(hint, legend.nextSibling);
+                                    }
+                                    // Also set cursor on canvas
+                                    var canvas = document.getElementById('boilingCurveChart');
+                                    if (canvas) canvas.style.cursor = 'zoom-in';
+                                };
+
+                                // Apply cursor when first opened
+                                document.addEventListener('click', function(e) {
+                                    var btn = e.target.closest ? e.target.closest('[onclick]') : null;
+                                    if (btn && btn.getAttribute('onclick') && btn.getAttribute('onclick').indexOf('celsius-graph-modal') > -1) {
+                                        setTimeout(function() {
+                                            var canvas = document.getElementById('boilingCurveChart');
+                                            var legend = document.getElementById('boiling-chart-legend');
+                                            if (canvas) canvas.style.cursor = 'zoom-in';
+                                            if (legend && !document.getElementById('boiling-expand-hint')) {
+                                                legend.parentNode.insertBefore(hint, legend.nextSibling);
+                                            }
+                                        }, 200);
+                                    }
+                                });
+
+                                // Reset expansion when modal closes
+                                document.getElementById('celsius-graph-modal').addEventListener('click', function(e) {
+                                    if (e.target === this) {
+                                        this.style.display = 'none';
+                                        isExpanded = false;
+                                    }
+                                });
+                            })();
+
+                            window._buildBoilingChart = buildBoilingChart;
+                        })();
+                        </script>
+
                         <!-- Navier-Stokes Airfoil Simulation Tab -->
+
                         <div class="tab-pane" id="ns-sim">
                             <div class="sim-intro">
                                 <h3><span class="lang-es">Navier y Stokes: Ecuaciones del Flujo Viscoso y Perfil Alar
@@ -3565,19 +3840,18 @@
                                 <h3><span class="lang-es">Resistencias Térmicas en Paralelo (Convección y
                                         Radiación)</span><span class="lang-en" style="display:none;">Parallel Thermal
                                         Resistances (Convection and Radiation)</span></h3>
-                                <p><span class="lang-es">En problemas reales de transferencia de calor, la frontera
+                                <p>
+                                    <span class="lang-es">En problemas reales de transferencia de calor, la frontera
                                         expuesta al exterior suele perder calor mediante dos mecanismos simultáneos e
-                                        independientes:</span><span class="lang-en" style="display:none;">In real heat
-                                        transfer problems, the boundary exposed to the outside usually loses heat
-                                        through two simultaneous and independent mechanisms:</span>
-                                    <strong>Convección</strong> <span class="lang-es">hacia el aire adyacente
-                                        y</span><span class="lang-en" style="display:none;">into the adjacent air
-                                        and</span> <strong>Radiación</strong> <span class="lang-es">hacia los
+                                        independientes: <strong>Convección</strong> hacia el aire adyacente
+                                        y <strong>Radiación</strong> hacia los
                                         alrededores. Al actuar al mismo tiempo sobre la misma superficie, estos
-                                        mecanismos se modelan como resistencias en</span><span class="lang-en"
-                                        style="display:none;">towards the surroundings. By acting at the same time on
-                                        the same surface, these mechanisms are modeled as resistances in</span>
-                                    <strong>paralelo</strong>.
+                                        mecanismos se modelan como resistencias en <strong>paralelo</strong>.</span>
+                                    <span class="lang-en" style="display:none;">In real heat
+                                        transfer problems, the boundary exposed to the outside usually loses heat
+                                        through two simultaneous and independent mechanisms: <strong>Convection</strong> into the adjacent air
+                                        and <strong>Radiation</strong> towards the surroundings. By acting at the same time on
+                                        the same surface, these mechanisms are modeled as resistances in <strong>parallel</strong>.</span>
                                 </p>
                                 <p style="overflow-x: auto; overflow-y: hidden; padding-bottom: 5px;">$$ q = \frac{T_1 -
                                     T_{surr}}{R_{tot}} \quad , \quad R_{tot} = R_1 + R_2 + R_3 + R_{eq,parallel} \quad ,
@@ -5741,16 +6015,18 @@
                             <h3><span class="lang-es">Placa Plana con Superficie Aislada (Circuito
                                     Adiabático)</span><span class="lang-en" style="display:none;">Flat Plate with
                                     Insulated Surface (Adiabatic Circuit)</span></h3>
-                            <p><span class="lang-es">Esta simulación modela la transferencia de calor unidimensional en
+                            <p>
+                                <span class="lang-es">Esta simulación modela la transferencia de calor unidimensional en
                                     una placa plana (pared) de espesor $L$ y conductividad $k$. Una de sus superficies
-                                    está</span><span class="lang-en" style="display:none;">This simulation models
-                                    one-dimensional heat transfer in a flat plate (wall) of thickness $L$ and
-                                    conductivity $k$. One of its surfaces is</span> <strong>completamente aislada
-                                    (condición adiabática, $dT/dx = 0$)</strong>, mientras que la superficie libre se
+                                    está <strong>completamente aislada (condición adiabática, $dT/dx = 0$)</strong>, mientras que la superficie libre se
                                 mantiene expuesta a una temperatura controlada $T_s$. Puedes también activar la
-                                **generación interna de calor ($q_g$)** para observar el perfil parabólico resultante.
+                                **generación interna de calor ($q_g$)** para observar el perfil parabólico resultante.</span>
+                                <span class="lang-en" style="display:none;">This simulation models
+                                    one-dimensional heat transfer in a flat plate (wall) of thickness $L$ and
+                                    conductivity $k$. One of its surfaces is <strong>completely insulated (adiabatic condition, $dT/dx = 0$)</strong>, while the free surface is kept exposed to a controlled temperature $T_s$. You can also activate **internal heat generation ($q_g$)** to observe the resulting parabolic profile.</span>
                             </p>
-                            <p><span class="lang-es">La ecuación diferencial gobernante para la conducción
+                            <p>
+                                <span class="lang-es">La ecuación diferencial gobernante para la conducción
                                     unidimensional con generación es:
                                     $$ \frac{\partial^2 T}{\partial x^2} + \frac{q_g}{k} = \frac{1}{\alpha}
                                     \frac{\partial T}{\partial t} $$
@@ -5758,9 +6034,17 @@
                                     $x = L$ a temperatura $T_s$, la solución analítica es:
                                     $$ T(x) = T_s + \frac{q_g L^2}{2k} \left[ 1 - \left(\frac{x}{L}\right)^2 \right] $$
                                     Si no hay generación ($q_g = 0$), en estado estable toda la placa alcanza
-                                    uniformemente la temperatura de la superficie libre: $T(x) = T_s$.</span><span
-                                    class="lang-en" style="display:none;">The governing differential equation for
-                                    one-dimensional conduction with generation is:</span></p>
+                                    uniformemente la temperatura de la superficie libre: $T(x) = T_s$.</span>
+                                <span class="lang-en" style="display:none;">The governing differential equation for
+                                    one-dimensional conduction with generation is:
+                                    $$ \frac{\partial^2 T}{\partial x^2} + \frac{q_g}{k} = \frac{1}{\alpha}
+                                    \frac{\partial T}{\partial t} $$
+                                    Under steady state with an insulated surface at $x = 0$ and free surface at
+                                    $x = L$ at temperature $T_s$, the analytical solution is:
+                                    $$ T(x) = T_s + \frac{q_g L^2}{2k} \left[ 1 - \left(\frac{x}{L}\right)^2 \right] $$
+                                    If there is no generation ($q_g = 0$), in steady state the entire plate uniformly
+                                    reaches the free surface temperature: $T(x) = T_s$.</span>
+                            </p>
                         </div>
 
                         <div class="simulation-workspace">
@@ -5905,18 +6189,14 @@
                     <!-- Customizable Multi-layer Flat Wall Simulation Tab (Lab 27) -->
                     <div class="tab-pane" id="multicapa-custom-sim">
                         <div class="sim-intro">
-                            <h3>27. Conducción Multicapa con Condiciones de Frontera Generales</h3>
-                            <p><span class="lang-es">Este laboratorio interactivo modela la transferencia de calor por
-                                    conducción en estado estable a través de una placa plana (pared) compuesta de
-                                    hasta</span><span class="lang-en" style="display:none;">This interactive lab models
-                                    steady-state conductive heat transfer through a flat plate (wall) composed of up
-                                    to</span> <strong>10 capas personalizables</strong><span class="lang-es">. El
-                                    usuario puede definir el espesor $(L_i)$ y la conductividad térmica $(k_i)$ de cada
-                                    capa, así como seleccionar libremente el tipo de condición de frontera en los
-                                    extremos izquierdo $(x = 0)$ y derecho $(x = L_{tot})$.</span><span class="lang-en"
-                                    style="display:none;">. The user can define the thickness $(L_i)$ and the thermal
-                                    conductivity $(k_i)$ of each layer, as well as freely select the type of boundary
-                                    condition at the left ends $(x = 0)$ and right $(x = L_{tot})$.</span></p>
+                            <h3>
+                                <span class="lang-es">27. Conducción Multicapa con Condiciones de Frontera Generales</span>
+                                <span class="lang-en" style="display:none;">27. Multilayer Conduction with General Boundary Conditions</span>
+                            </h3>
+                            <p>
+                                <span class="lang-es">Este laboratorio interactivo modela la transferencia de calor por conducción en estado estable a través de una placa plana (pared) compuesta de hasta <strong>10 capas personalizables</strong>. El usuario puede definir el espesor $(L_i)$ y la conductividad térmica $(k_i)$ de cada capa, así como seleccionar libremente el tipo de condición de frontera en los extremos izquierdo $(x = 0)$ y derecho $(x = L_{tot})$.</span>
+                                <span class="lang-en" style="display:none;">This interactive lab models steady-state conductive heat transfer through a flat plate (wall) composed of up to <strong>10 customizable layers</strong>. The user can define the thickness $(L_i)$ and thermal conductivity $(k_i)$ of each layer, as well as freely select the type of boundary condition at the left $(x = 0)$ and right $(x = L_{tot})$ boundaries.</span>
+                            </p>
                             <p><span class="lang-es">El flujo de calor en estado estable a través de las capas está dado
                                     por:
                                     $$ q'' = \frac{T_0 - T_N}{R_{wall}} \quad , \quad R_{wall} = \sum_{i=1}^N
@@ -7471,12 +7751,13 @@
                     style="color: var(--accent-orange); text-decoration: none;">felipe.colorado@udea.edu.co</a>
             </p>
             <p style="font-size: 0.75rem; margin-top: 8px; color: var(--text-secondary); opacity: 0.8;"><i
-                    class="far fa-clock"></i> <span class="lang-es">Última actualización: 18 de julio de 2026, 1:57 PM -
-                    Simulador de Capa Límite Interna mejorado (efecto de Prandtl y forma térmica corregidos)</span><span
-                    class="lang-en" style="display:none;">Last update: July 18, 2026, 1:57 PM - Internal Boundary Layer
-                    Simulator improved (Prandtl effect and thermal shape corrected)</span></p>
+                    class="far fa-clock"></i> <span class="lang-es">Última actualización: 21 de julio de 2026, 11:30 AM -
+                    Versión 2.0 (Mejora de responsividad móvil, optimización de ecuaciones MathJax, termómetro de Celsius interactivo y curva de ebullición interactiva hasta 38 km)</span><span
+                    class="lang-en" style="display:none;">Last update: July 21, 2026, 11:30 AM -
+                    Version 2.0 (Mobile responsiveness improved, MathJax equations optimized, interactive Celsius thermometer, and interactive boiling curve up to 38 km)</span></p>
             <div style="margin-top: 15px; text-align: center;">
-                <img src="https://api.visitorbadge.io/api/visitors?path=felipecolorado.github.io/ciencias-termicas/&label=visitas&countColor=%23f59e0b" alt="Visitas" />
+                <span class="lang-es"><img src="https://api.visitorbadge.io/api/visitors?path=felipecolorado.github.io/ciencias-termicas/&label=visitas&countColor=%23f59e0b" alt="Visitas" /></span>
+                <span class="lang-en" style="display:none;"><img src="https://api.visitorbadge.io/api/visitors?path=felipecolorado.github.io/ciencias-termicas/&label=visitors&countColor=%23f59e0b" alt="Visitors" /></span>
             </div>
         </footer>
     </main>
@@ -7659,16 +7940,22 @@
         </div>
 
 
-        <!-- LateX formatting (MathJax) -->
+
+        <!-- MathJax configured in <head> with startup.typeset=false -->
+
+        <!-- FIX v2: MathJax initial typeset trigger + tab sync -->
         <script>
-            MathJax = {
-                tex: {
-                    inlineMath: [['$', '$'], ['\\(', '\\)']]
-                }
-            };
+        // Trigger MathJax to typeset after full page load so first view is correct
+        window.addEventListener('load', function() {
+            if (window.MathJax && MathJax.typesetPromise) {
+                MathJax.typesetPromise().catch(function(err) {
+                    console.warn('MathJax initial typeset error:', err);
+                });
+            }
+        });
         </script>
         <script src="translations.js"></script>
-        <script src="app_v2.js?v=8"></script>
+        <script src="app_v2.js?v=v2fix1"></script>
 
         <script>
             // ── Celsius Simulation – standalone, bypasses safeInit ──────────────────
@@ -7713,12 +8000,11 @@
                 }
 
                 function getBoil() {
-                    // Antoine equation for water: log10(P_mmHg) = 8.07131 - 1730.63/(233.426+T)
-                    // Solve for T: T = 1730.63 / (8.07131 - log10(P_mmHg)) - 233.426
+                    // FIX v2: Antoine equation (same as app_v2.js corrected version)
                     var p_atm = selPressure ? parseFloat(selPressure.value) : 1.0;
                     var p_mmHg = p_atm * 760.0;
                     var T = 1730.63 / (8.07131 - Math.log10(p_mmHg)) - 233.426;
-                    return Math.round(T * 10) / 10; // rounded to 1 decimal
+                    return Math.round(T * 10) / 10;
                 }
                 function getScale() { return selScale ? selScale.value : 'modern'; }
 
@@ -7801,6 +8087,9 @@
                     ctxP.fillText('100 ml', 145, 160); ctxP.fillRect(160, 160, 15, 2);
                 }
 
+                // FIX v2: track boil changes for pulsing effect
+                var _lastBoilInline = null, _boilPulseInline = 0;
+
                 function drawThermo() {
                     var tm = parseFloat(slider.value), tb = getBoil(), sc = getScale();
                     ctxT.clearRect(0, 0, cvT.width, cvT.height);
@@ -7808,10 +8097,27 @@
                     ctxT.fillStyle = 'rgba(30,41,59,0.85)'; ctxT.strokeStyle = 'rgba(71,85,105,0.8)'; ctxT.lineWidth = 2;
                     ctxT.beginPath(); ctxT.rect(15, 10, cvT.width - 30, cvT.height - 20); ctxT.fill(); ctxT.stroke();
                     function ty(d) { return 160 - d * 0.9; }
+                    // Detect boiling point change
+                    if (_lastBoilInline !== null && Math.abs(tb - _lastBoilInline) > 0.05) _boilPulseInline = 60;
+                    _lastBoilInline = tb;
+                    if (_boilPulseInline > 0) _boilPulseInline--;
+                    var boilAlpha = _boilPulseInline > 0 ? (0.6 + 0.4 * Math.sin(tt * 20)) : 0.6;
+                    var boilLW = _boilPulseInline > 0 ? (2 + Math.sin(tt * 20)) : 1;
                     // Calibration lines
                     ctxT.setLineDash([2, 2]); ctxT.lineWidth = 1;
                     ctxT.strokeStyle = 'rgba(56,189,248,0.6)'; ctxT.beginPath(); ctxT.moveTo(20, ty(0)); ctxT.lineTo(cvT.width - 20, ty(0)); ctxT.stroke();
-                    ctxT.strokeStyle = 'rgba(239,68,68,0.6)'; ctxT.beginPath(); ctxT.moveTo(20, ty(tb)); ctxT.lineTo(cvT.width - 20, ty(tb)); ctxT.stroke();
+                    // Boiling line with pulse
+                    ctxT.setLineDash(_boilPulseInline > 0 ? [4, 2] : [2, 2]);
+                    ctxT.lineWidth = boilLW;
+                    ctxT.strokeStyle = 'rgba(239,68,68,' + boilAlpha + ')';
+                    ctxT.beginPath(); ctxT.moveTo(20, ty(tb)); ctxT.lineTo(cvT.width - 20, ty(tb)); ctxT.stroke();
+                    if (_boilPulseInline > 0) {
+                        var tbLabel = sc === 'original' ? (100 - tb).toFixed(1) : sc === 'fahrenheit' ? (tb * 1.8 + 32).toFixed(1) : sc === 'kelvin' ? (tb + 273.15).toFixed(1) : tb.toFixed(1);
+                        ctxT.setLineDash([]);
+                        ctxT.fillStyle = 'rgba(239,68,68,' + (0.7 + 0.3 * Math.sin(tt * 20)) + ')';
+                        ctxT.font = 'bold 7px monospace'; ctxT.textAlign = 'center';
+                        ctxT.fillText('↑' + tbLabel + (sc === 'fahrenheit' ? '°F' : sc === 'kelvin' ? 'K' : '°C'), tx, ty(tb) - 4);
+                    }
                     ctxT.setLineDash([]);
                     // Ticks
                     for (var d = -40; d <= 140; d += 20) {
@@ -7837,6 +8143,7 @@
                     ctxT.strokeStyle = '#475569'; ctxT.lineWidth = 1.5;
                     ctxT.beginPath(); ctxT.moveTo(tx - 5, 30); ctxT.lineTo(tx - 5, 198); ctxT.moveTo(tx + 5, 30); ctxT.lineTo(tx + 5, 198); ctxT.stroke();
                 }
+
 
                 function render() {
                     tt += 0.05;

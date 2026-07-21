@@ -1055,7 +1055,20 @@ function switchTab(tabId, disableTimelineSync = false) {
     setTimeout(() => {
         window.dispatchEvent(new Event('resize'));
     }, 50);
+
+    // FIX v2: Re-render MathJax equations for the newly visible tab pane
+    setTimeout(() => {
+        if (window.MathJax && MathJax.typesetPromise) {
+            const activePane = document.querySelector('.tab-pane.active');
+            if (activePane) {
+                MathJax.typesetPromise([activePane]).catch(function(err) {
+                    console.warn('MathJax tab typeset error:', err);
+                });
+            }
+        }
+    }, 100);
 }
+
 
 /* =========================================================================
    FOURIER CONDUCTION SIMULATOR
@@ -1269,22 +1282,23 @@ function initFourierSimulation() {
         if(valCalcL) valCalcL.textContent = fourierL.toFixed(3) + " m";
 
         let R_cond = 0;
+        const isEn = (window.currentLanguage === 'en');
         
         if (geom === "plane") {
             R_cond = fourierL / (fourierK * AH);
-            valRlabel.innerHTML = "Resistencia Térmica (R<sub>t</sub> = L/kA):";
+            valRlabel.innerHTML = isEn ? "Thermal Resistance (R<sub>t</sub> = L/kA):" : "Resistencia Térmica (R<sub>t</sub> = L/kA):";
         } else if (geom === "cylinder") {
             if (fourierL === 0) {
                 R_cond = 0;
             } else {
                 R_cond = Math.log(r2 / r1) / (2 * Math.PI * fourierK * AH);
             }
-            valRlabel.innerHTML = "Resistencia Térmica (R<sub>t</sub> = ln(r₂/r₁)/(2πkH)):";
+            valRlabel.innerHTML = isEn ? "Thermal Resistance (R<sub>t</sub> = ln(r₂/r₁)/(2πkH)):" : "Resistencia Térmica (R<sub>t</sub> = ln(r₂/r₁)/(2πkH)):";
             
             if (valA1 && valA2 && valVol) {
-                document.getElementById("fourier-a1-label").innerHTML = "Área Interna (A<sub>1</sub> = 2&pi;r<sub>1</sub>H):";
-                document.getElementById("fourier-a2-label").innerHTML = "Área Externa (A<sub>2</sub> = 2&pi;r<sub>2</sub>H):";
-                document.getElementById("fourier-vol-label").innerHTML = "Volumen (V = &pi;(r<sub>2</sub>&sup2;-r<sub>1</sub>&sup2;)H):";
+                document.getElementById("fourier-a1-label").innerHTML = isEn ? "Internal Area (A<sub>1</sub> = 2&pi;r<sub>1</sub>H):" : "Área Interna (A<sub>1</sub> = 2&pi;r<sub>1</sub>H):";
+                document.getElementById("fourier-a2-label").innerHTML = isEn ? "External Area (A<sub>2</sub> = 2&pi;r<sub>2</sub>H):" : "Área Externa (A<sub>2</sub> = 2&pi;r<sub>2</sub>H):";
+                document.getElementById("fourier-vol-label").innerHTML = isEn ? "Volume (V = &pi;(r<sub>2</sub>&sup2;-r<sub>1</sub>&sup2;)H):" : "Volumen (V = &pi;(r<sub>2</sub>&sup2;-r<sub>1</sub>&sup2;)H):";
                 const a1 = 2 * Math.PI * r1 * AH;
                 const a2 = 2 * Math.PI * r2 * AH;
                 const v = Math.PI * (r2*r2 - r1*r1) * AH;
@@ -1298,12 +1312,12 @@ function initFourierSimulation() {
             } else {
                 R_cond = (r2 - r1) / (4 * Math.PI * fourierK * r1 * r2);
             }
-            valRlabel.innerHTML = "Resistencia Térmica (R<sub>t</sub> = (r₂-r₁)/(4πkr₁r₂)):";
+            valRlabel.innerHTML = isEn ? "Thermal Resistance (R<sub>t</sub> = (r₂-r₁)/(4πkr₁r₂)):" : "Resistencia Térmica (R<sub>t</sub> = (r₂-r₁)/(4πkr₁r₂)):";
             
             if (valA1 && valA2 && valVol) {
-                document.getElementById("fourier-a1-label").innerHTML = "Área Interna (A<sub>1</sub> = 4&pi;r<sub>1</sub>&sup2;):";
-                document.getElementById("fourier-a2-label").innerHTML = "Área Externa (A<sub>2</sub> = 4&pi;r<sub>2</sub>&sup2;):";
-                document.getElementById("fourier-vol-label").innerHTML = "Volumen (V = &#8308;/&#8323;&pi;(r<sub>2</sub>&sup3;-r<sub>1</sub>&sup3;)):";
+                document.getElementById("fourier-a1-label").innerHTML = isEn ? "Internal Area (A<sub>1</sub> = 4&pi;r<sub>1</sub>&sup2;):" : "Área Interna (A<sub>1</sub> = 4&pi;r<sub>1</sub>&sup2;):";
+                document.getElementById("fourier-a2-label").innerHTML = isEn ? "External Area (A<sub>2</sub> = 4&pi;r<sub>2</sub>&sup2;):" : "Área Externa (A<sub>2</sub> = 4&pi;r<sub>2</sub>&sup2;):";
+                document.getElementById("fourier-vol-label").innerHTML = isEn ? "Volume (V = &#8308;/&#8323;&pi;(r<sub>2</sub>&sup3;-r<sub>1</sub>&sup3;)):" : "Volumen (V = &#8308;/&#8323;&pi;(r<sub>2</sub>&sup3;-r<sub>1</sub>&sup3;)):";
                 const a1 = 4 * Math.PI * r1 * r1;
                 const a2 = 4 * Math.PI * r2 * r2;
                 const v = (4/3) * Math.PI * (Math.pow(r2, 3) - Math.pow(r1, 3));
@@ -1312,13 +1326,13 @@ function initFourierSimulation() {
                 valVol.innerHTML = `${v.toFixed(4)} m&sup3;`;
             }
         }
-
+ 
         if (valR) {
             valR.textContent = R_cond.toFixed(5) + " K/W";
         }
-
+ 
         let absoluteZeroReached = false;
-
+ 
         if (currentMode === "calc-q") {
             fourierT2 = parseFloat(sliderT2.value);
             valT2.textContent = fourierT2;
@@ -1330,7 +1344,7 @@ function initFourierSimulation() {
                 fourierQ = (fourierT1 - fourierT2) / R_cond;
             }
             
-            resultLabel.innerHTML = "Tasa de transferencia (q):";
+            resultLabel.innerHTML = isEn ? "Heat transfer rate (q):" : "Tasa de transferencia (q):";
             resultVal.innerHTML = formatValue(fourierQ, "q");
         } else {
             const qIn_kW = parseFloat(sliderQin.value);
@@ -1352,7 +1366,7 @@ function initFourierSimulation() {
                 fourierQ = tempQ;
             }
             
-            resultLabel.innerHTML = "Temperatura T<sub>2</sub> (Externa):";
+            resultLabel.innerHTML = isEn ? "Temperature T<sub>2</sub> (Outer):" : "Temperatura T<sub>2</sub> (Externa):";
             resultVal.innerHTML = formatValue(fourierT2, "t");
         }
 
@@ -17284,11 +17298,13 @@ function initCelsiusSimulation() {
 
     function getTemp()   { return parseFloat(slider.value); }
     function getScale()  { return selScale ? selScale.value : 'modern'; }
+    // FIX v2: use Antoine equation for accurate boiling point at any pressure
+    // log10(P_mmHg) = 8.07131 - 1730.63/(233.426+T)  →  T = 1730.63/(8.07131-log10(P_mmHg))-233.426
     function getBoil()   {
-        var p = selPressure ? parseFloat(selPressure.value) : 1.0;
-        if (p===0.84) return 92;
-        if (p===0.74) return 86;
-        return 100;
+        var p_atm  = selPressure ? parseFloat(selPressure.value) : 1.0;
+        var p_mmHg = p_atm * 760.0;
+        var T = 1730.63 / (8.07131 - Math.log10(p_mmHg)) - 233.426;
+        return Math.round(T * 10) / 10;
     }
 
     function updateDOM() {
@@ -17366,6 +17382,9 @@ function initCelsiusSimulation() {
         ctxP.fillText('100 ml',145,160);ctxP.fillRect(160,160,15,2);
     }
 
+    // FIX v2: track last pressure to detect altitude change for pulsing effect
+    var _lastBoil = null, _boilPulseFrames = 0;
+
     function drawThermo() {
         var tm=getTemp(), tb=getBoil(), sc=getScale();
         ctxT.clearRect(0,0,cvT.width,cvT.height);
@@ -17375,10 +17394,28 @@ function initCelsiusSimulation() {
         ctxT.beginPath();ctxT.rect(15,10,cvT.width-30,cvT.height-20);ctxT.fill();ctxT.stroke();
         // Y mapping: 0C -> y=160, each degree -> 0.9px up
         function ty(d){return 160-d*0.9;}
+        // Detect boiling point change (altitude change) → trigger pulse
+        if(_lastBoil !== null && Math.abs(tb - _lastBoil) > 0.05) _boilPulseFrames = 60;
+        _lastBoil = tb;
+        if(_boilPulseFrames > 0) _boilPulseFrames--;
+        var boilAlpha = _boilPulseFrames > 0 ? (0.6 + 0.4*Math.sin(tt*20)) : 0.55;
+        var boilLineW  = _boilPulseFrames > 0 ? (2 + Math.sin(tt*20)) : 1;
         // Dashed calibration lines
         ctxT.setLineDash([2,2]);ctxT.lineWidth=1;
         ctxT.strokeStyle='rgba(56,189,248,0.5)';ctxT.beginPath();ctxT.moveTo(20,ty(0));ctxT.lineTo(cvT.width-20,ty(0));ctxT.stroke();
-        ctxT.strokeStyle='rgba(239,68,68,0.5)';ctxT.beginPath();ctxT.moveTo(20,ty(tb));ctxT.lineTo(cvT.width-20,ty(tb));ctxT.stroke();
+        // Boiling line — pulses when altitude changes
+        ctxT.setLineDash(_boilPulseFrames > 0 ? [4,2] : [2,2]);
+        ctxT.lineWidth=boilLineW;
+        ctxT.strokeStyle='rgba(239,68,68,'+boilAlpha+')';
+        ctxT.beginPath();ctxT.moveTo(20,ty(tb));ctxT.lineTo(cvT.width-20,ty(tb));ctxT.stroke();
+        // Boiling label on the line (show value when pulsing)
+        if(_boilPulseFrames > 0) {
+            var tbLabel = sc==='original'?(100-tb).toFixed(1):sc==='fahrenheit'?(tb*1.8+32).toFixed(1):sc==='kelvin'?(tb+273.15).toFixed(1):tb.toFixed(1);
+            ctxT.setLineDash([]);
+            ctxT.fillStyle='rgba(239,68,68,'+(0.7+0.3*Math.sin(tt*20))+')';
+            ctxT.font='bold 7px monospace';ctxT.textAlign='center';
+            ctxT.fillText('↑'+tbLabel+(sc==='fahrenheit'?'°F':sc==='kelvin'?'K':'°C'), tx, ty(tb)-4);
+        }
         ctxT.setLineDash([]);
         // Tick marks every 20 degrees
         ctxT.lineWidth=1;
@@ -17460,26 +17497,33 @@ window.translateDOM = function(lang) {
         if (node.nodeType === Node.TEXT_NODE) {
             const text = node.nodeValue;
             const trimmed = text.trim();
-            if (trimmed.length > 1) {
+            const cleaned = trimmed.replace(/\s+/g, ' ');
+            if (cleaned.length > 1) {
                 if (lang === 'en') {
                     if (window.uiTranslations && window.uiTranslations[text]) {
                         node.nodeValue = window.uiTranslations[text];
-                    } else if (window.uiTranslations && window.uiTranslations[trimmed]) {
+                    } else if (window.uiTranslations && window.uiTranslations[cleaned]) {
                         const lws = text.match(/^\s*/)[0];
                         const tws = text.match(/\s*$/)[0];
-                        node.nodeValue = lws + window.uiTranslations[trimmed] + tws;
+                        node.nodeValue = lws + window.uiTranslations[cleaned] + tws;
                     }
                 } else {
                     if (reverseTranslations[text]) {
                         node.nodeValue = reverseTranslations[text];
-                    } else if (reverseTranslations[trimmed]) {
+                    } else if (reverseTranslations[cleaned]) {
                         const lws = text.match(/^\s*/)[0];
                         const tws = text.match(/\s*$/)[0];
-                        node.nodeValue = lws + reverseTranslations[trimmed] + tws;
+                        node.nodeValue = lws + reverseTranslations[cleaned] + tws;
                     }
                 }
             }
         } else if (node.nodeType === Node.ELEMENT_NODE) {
+            // FIX v2: Skip traversing dynamic elements, static language spans, and MathJax containers to prevent freezes/infinite loops
+            if (node.id === 'timeline' || node.id === 'top-timeline' || 
+                (node.classList && (node.classList.contains('lang-es') || node.classList.contains('lang-en') || node.classList.contains('mjx-container'))) || 
+                (node.tagName && node.tagName.startsWith('MJX'))) {
+                return;
+            }
             if (node.tagName !== 'SCRIPT' && node.tagName !== 'STYLE' && node.tagName !== 'TEXTAREA' && node.tagName !== 'CANVAS') {
                 if (node.placeholder) {
                     const ph = node.placeholder;
@@ -17524,6 +17568,11 @@ window.translateDOM = function(lang) {
             btn.style.color = 'var(--text-muted)';
         }
     });
+
+    // FIX v2: Re-render all MathJax equations after language switch
+    if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise().catch(function(err) { console.warn('MathJax re-typeset error:', err); });
+    }
 };
 // ── Boundary Layer Development in Internal Flow ──────────────────────────────
 function initInternalBLSimulation() {
