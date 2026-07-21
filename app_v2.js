@@ -427,6 +427,8 @@ const timelineEvents = [
         desc: "Tras el nombramiento de Adolf Hitler como Canciller de Alemania en enero de 1933, la rápida implementación de políticas antisemitas provocó un éxodo masivo de mentes brillantes. Grandes investigadores de origen judío, como Theodore von Kármán y Max Jakob, se vieron obligados a huir de Europa. Este trágico evento histórico desplazó drásticamente el epicentro mundial de la investigación aeroespacial y la transferencia de calor desde la escuela alemana de Gotinga hacia los Estados Unidos.",
         desc_en: "Following the appointment of Adolf Hitler as Chancellor of Germany in January 1933, the rapid implementation of anti-Semitic policies caused a mass exodus of brilliant minds. Great researchers of Jewish origin, such as Theodore von Kármán and Max Jakob, were forced to flee Europe. This tragic historical event dramatically shifted the world's epicenter of aerospace research and heat transfer from the German Göttingen school to the United States.",
         category: "Historia",
+        surname: "",
+        law: "",
         highlight: true
     },
     {
@@ -730,17 +732,19 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
         // Apply category and search filters
         const matchesCategory = selectedCategory === 'all' || ev.category === selectedCategory;
         
-        const titleVal = (window.currentLanguage === 'en' ? (ev.title_en || ev.title) : ev.title);
-        const descVal = (window.currentLanguage === 'en' ? (ev.desc_en || ev.desc) : ev.desc);
-        const lawVal = (window.currentLanguage === 'en' ? (ev.law_en || ev.law) : ev.law);
-        const countryVal = (window.currentLanguage === 'en' ? (ev.country_en || ev.country) : ev.country);
+        const titleVal = (window.currentLanguage === 'en' ? (ev.title_en || ev.title) : ev.title) || "";
+        const descVal = (window.currentLanguage === 'en' ? (ev.desc_en || ev.desc) : ev.desc) || "";
+        const lawVal = (window.currentLanguage === 'en' ? (ev.law_en || ev.law) : ev.law) || "";
+        const countryVal = (window.currentLanguage === 'en' ? (ev.country_en || ev.country) : ev.country) || "";
+        const surnameVal = ev.surname || "";
+        const yearVal = ev.year !== undefined && ev.year !== null ? ev.year.toString() : "";
 
         const matchesSearch = !query || 
             titleVal.toLowerCase().includes(query) || 
-            ev.surname.toLowerCase().includes(query) || 
+            surnameVal.toLowerCase().includes(query) || 
             lawVal.toLowerCase().includes(query) || 
             descVal.toLowerCase().includes(query) ||
-            ev.year.toString().includes(query);
+            yearVal.includes(query);
 
         if (!matchesCategory || !matchesSearch) return;
         const card = document.createElement("div");
