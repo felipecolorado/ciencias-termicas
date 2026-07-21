@@ -18198,6 +18198,7 @@ function initInternalBLSimulation() {
 (function() {
     let currentUser = null;
     let selectedAvatar = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/GodfreyKneller-IsaacNewton-1689.jpg/330px-GodfreyKneller-IsaacNewton-1689.jpg";
+    let commentCurrentPage = 1;
 
     const defaultComments = [
         {
@@ -18343,13 +18344,14 @@ function initInternalBLSimulation() {
             }
 
             // Create user
+            const isEmailAdmin = email === "felipe.colorado@udea.edu.co";
             const newUser = {
                 id: Date.now(),
                 name: name,
                 email: email,
                 password: password,
                 avatar: selectedAvatar,
-                role: "Estudiante"
+                role: isEmailAdmin ? "Administrador" : "Estudiante"
             };
 
             users.push(newUser);
@@ -18417,6 +18419,7 @@ function initInternalBLSimulation() {
         const counter = document.getElementById("comment-char-counter");
         if (counter) counter.textContent = "300";
 
+        commentCurrentPage = 1;
         drawComments();
     };
 
@@ -18425,7 +18428,14 @@ function initInternalBLSimulation() {
         document.getElementById("auth-logged-in-state").style.display = "block";
         document.getElementById("user-profile-avatar").src = currentUser.avatar;
         document.getElementById("user-profile-name").textContent = currentUser.name;
-        document.getElementById("user-profile-role").textContent = currentUser.role;
+        
+        let displayRole = currentUser.role;
+        if (currentUser.role === "Administrador" && window.currentLanguage === 'en') {
+            displayRole = "Administrator";
+        } else if (currentUser.role === "Estudiante" && window.currentLanguage === 'en') {
+            displayRole = "Student";
+        }
+        document.getElementById("user-profile-role").textContent = displayRole;
     }
 
     function showLoggedOutState() {
@@ -18473,29 +18483,134 @@ function initInternalBLSimulation() {
 
         container.innerHTML = "";
         
-        comments.forEach(comment => {
+        // Pagination logic
+        const itemsPerPage = 20;
+        const totalPages = Math.ceil(comments.length / itemsPerPage);
+        
+        // Ensure current page is valid
+        if (commentCurrentPage > totalPages) {
+            commentCurrentPage = Math.max(1, totalPages);
+        }
+        
+        const startIndex = (commentCurrentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedComments = comments.slice(startIndex, endIndex);
+
+        paginatedComments.forEach(comment => {
             const card = document.createElement("div");
             card.className = "comment-card";
             
             const date = new Date(comment.timestamp);
             const timeStr = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 
+            const isAdmin = currentUser && currentUser.role === "Administrador";
+            const deleteBtnHtml = isAdmin ? `
+                <button onclick="window.deleteComment(${comment.id})" class="btn-clear" style="background: none; border: none; color: #f87171; cursor: pointer; padding: 4px; font-size: 0.82rem; margin-left: 10px; opacity: 0.7; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7" title="Borrar comentario">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            ` : "";
+
+            let displayRole = comment.role;
+            if (comment.role === "Administrador" && window.currentLanguage === 'en') {
+                displayRole = "Administrator";
+            } else if (comment.role === "Estudiante" && window.currentLanguage === 'en') {
+                displayRole = "Student";
+            }
+
             card.innerHTML = `
                 <img class="comment-card-avatar" src="${comment.avatar}" alt="Avatar" />
                 <div class="comment-card-content">
-                    <div class="comment-card-header">
-                        <div>
+                    <div class="comment-card-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                        <div style="display: flex; align-items: center; flex-wrap: wrap;">
                             <span class="comment-author-name">${comment.author}</span>
-                            <span style="font-size:0.7rem; color:var(--accent-blue); background:rgba(59,130,246,0.1); padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:600;">${comment.role}</span>
+                            <span style="font-size:0.7rem; color:var(--accent-blue); background:rgba(59,130,246,0.1); padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:600;">${displayRole}</span>
                         </div>
-                        <span class="comment-timestamp">${timeStr}</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-timestamp">${timeStr}</span>
+                            ${deleteBtnHtml}
+                        </div>
                     </div>
-                    <div class="comment-card-body">${comment.text}</div>
+                    <div class="comment-card-body" style="margin-top: 4px;">${comment.text}</div>
                 </div>
             `;
             container.appendChild(card);
         });
+
+        // Render pagination controls if total comments > 20
+        if (comments.length > itemsPerPage) {
+            const controls = document.createElement("div");
+            controls.className = "comment-pagination";
+            controls.style.display = "flex";
+            controls.style.justifyContent = "center";
+            controls.style.alignItems = "center";
+            controls.style.gap = "15px";
+            controls.style.marginTop = "15px";
+            controls.style.padding = "10px";
+            controls.style.background = "rgba(15,23,42,0.2)";
+            controls.style.borderRadius = "8px";
+            controls.style.border = "1px solid rgba(255,255,255,0.03)";
+
+            const prevBtn = document.createElement("button");
+            prevBtn.className = "btn-clear";
+            prevBtn.disabled = commentCurrentPage === 1;
+            prevBtn.style.padding = "6px 12px";
+            prevBtn.style.borderRadius = "6px";
+            prevBtn.style.fontSize = "0.8rem";
+            prevBtn.style.fontWeight = "600";
+            prevBtn.style.cursor = commentCurrentPage === 1 ? "not-allowed" : "pointer";
+            prevBtn.style.background = commentCurrentPage === 1 ? "rgba(255,255,255,0.03)" : "var(--accent-blue)";
+            prevBtn.style.color = commentCurrentPage === 1 ? "var(--text-muted)" : "white";
+            prevBtn.style.border = "none";
+            prevBtn.innerHTML = `<i class="fas fa-chevron-left"></i> ${window.currentLanguage === 'en' ? "Previous" : "Anterior"}`;
+            prevBtn.addEventListener("click", () => {
+                commentCurrentPage--;
+                drawComments();
+            });
+
+            const indicator = document.createElement("span");
+            indicator.style.fontSize = "0.8rem";
+            indicator.style.color = "var(--text-secondary)";
+            indicator.style.fontWeight = "600";
+            indicator.innerHTML = window.currentLanguage === 'en' 
+                ? `Page ${commentCurrentPage} of ${totalPages}` 
+                : `Página ${commentCurrentPage} de ${totalPages}`;
+
+            const nextBtn = document.createElement("button");
+            nextBtn.className = "btn-clear";
+            nextBtn.disabled = commentCurrentPage === totalPages;
+            nextBtn.style.padding = "6px 12px";
+            nextBtn.style.borderRadius = "6px";
+            nextBtn.style.fontSize = "0.8rem";
+            nextBtn.style.fontWeight = "600";
+            nextBtn.style.cursor = commentCurrentPage === totalPages ? "not-allowed" : "pointer";
+            nextBtn.style.background = commentCurrentPage === totalPages ? "rgba(255,255,255,0.03)" : "var(--accent-blue)";
+            nextBtn.style.color = commentCurrentPage === totalPages ? "var(--text-muted)" : "white";
+            nextBtn.style.border = "none";
+            nextBtn.innerHTML = `${window.currentLanguage === 'en' ? "Next" : "Siguiente"} <i class="fas fa-chevron-right"></i>`;
+            nextBtn.addEventListener("click", () => {
+                commentCurrentPage++;
+                drawComments();
+            });
+
+            controls.appendChild(prevBtn);
+            controls.appendChild(indicator);
+            controls.appendChild(nextBtn);
+            container.appendChild(controls);
+        }
     }
+
+    window.deleteComment = function(commentId) {
+        if (!currentUser || currentUser.role !== "Administrador") return;
+        
+        const confirmDelete = confirm(window.currentLanguage === 'en' ? "Are you sure you want to delete this comment?" : "¿Estás seguro de que deseas borrar este comentario?");
+        if (!confirmDelete) return;
+
+        let comments = JSON.parse(localStorage.getItem("ht_comments") || "[]");
+        comments = comments.filter(c => c.id !== commentId);
+        localStorage.setItem("ht_comments", JSON.stringify(comments));
+
+        drawComments();
+    };
 
     // Initialize on DOMContentLoaded
     document.addEventListener("DOMContentLoaded", initCommentSystem);
