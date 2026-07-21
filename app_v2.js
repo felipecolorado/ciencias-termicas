@@ -18241,6 +18241,11 @@ function initInternalBLSimulation() {
 
         const cloudComments = await cloudFetch("comments", []);
         let localComments = JSON.parse(localStorage.getItem("ht_comments") || "[]");
+        
+        if (cloudComments.length === 0 && localComments.length === 0) {
+            localComments = [...defaultComments];
+        }
+
         const commentMap = new Map();
         localComments.forEach(c => commentMap.set(c.id, c));
         cloudComments.forEach(c => commentMap.set(c.id, c));
@@ -18263,7 +18268,7 @@ function initInternalBLSimulation() {
         });
         localStorage.setItem("ht_comments", JSON.stringify(mergedComments));
         await cloudSave("comments", mergedComments);
-        syncFromCloud();
+        drawComments();
     }
 
     const defaultComments = [
