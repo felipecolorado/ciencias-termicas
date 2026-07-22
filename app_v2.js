@@ -18417,6 +18417,7 @@ function initInternalBLSimulation() {
             });
         }
 
+        drawComments();
         syncFromCloud();
     }
 
@@ -18616,14 +18617,20 @@ function initInternalBLSimulation() {
             }
         });
 
-        if (comments.length === 0) {
-            comments = [...defaultComments];
-            needsSave = true;
-        }
+        // Always ensure default comments (scientists) are present in the list
+        defaultComments.forEach(defComm => {
+            const exists = comments.some(c => String(c.id) === String(defComm.id) || c.author === defComm.author);
+            if (!exists) {
+                comments.push(defComm);
+                needsSave = true;
+            }
+        });
 
         if (needsSave) {
             localStorage.setItem("ht_comments", JSON.stringify(comments));
         }
+
+        comments.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
         container.innerHTML = "";
 
