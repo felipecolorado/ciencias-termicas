@@ -18553,7 +18553,7 @@ function initInternalBLSimulation() {
         showLoggedOutState();
     };
 
-    window.handlePostComment = function () {
+    window.handlePostComment = async function () {
         if (!currentUser) {
             alert(window.currentLanguage === 'en' ? "Please log in or register to comment." : "Por favor inicia sesión o regístrate para comentar.");
             return;
@@ -18574,6 +18574,8 @@ function initInternalBLSimulation() {
 
         comments.unshift(newComment);
         localStorage.setItem("ht_comments", JSON.stringify(comments));
+
+        await cloudSave("comments", comments);
 
         input.value = "";
         const counter = document.getElementById("comment-char-counter");
