@@ -18202,11 +18202,11 @@ function initInternalBLSimulation() {
     const firebaseConfig = {
       apiKey: "AIzaSyCVeHphav65sj851u72ikIcDXY1e2BN3Qk",
       authDomain: "thermal-science-history.firebaseapp.com",
-      databaseURL: "https://thermal-science-history-default-rtdb.firebaseio.com",
       projectId: "thermal-science-history",
       storageBucket: "thermal-science-history.firebasestorage.app",
       messagingSenderId: "820331402760",
-      appId: "1:820331402760:web:706f1ea98599a474ce23bd"
+      appId: "1:820331402760:web:706f1ea98599a474ce23bd",
+      measurementId: "G-X3KWMMZE1J"
     };
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
