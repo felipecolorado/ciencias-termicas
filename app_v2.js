@@ -18218,7 +18218,12 @@ function initInternalBLSimulation() {
         try {
             const snapshot = await database.ref(key).once('value');
             if (snapshot.exists()) {
-                return snapshot.val();
+                let val = snapshot.val();
+                // Firebase a veces convierte Arrays en Objetos si tienen índices faltantes.
+                if (Array.isArray(defaultValue) && !Array.isArray(val) && val !== null && typeof val === 'object') {
+                    val = Object.values(val);
+                }
+                return val || defaultValue;
             }
         } catch (e) {
             console.warn("Cloud read failed, using localStorage fallback:", e);
