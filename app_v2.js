@@ -73,8 +73,10 @@ const timelineEvents = [
         desc_en: "Robert Boyle experimentally confirmed Bacon's theory, demonstrating that heat is the product of the internal movement of matter particles. His famous <strong>Boyle's Law</strong> established the first quantitative relationship between pressure, volume and heat in gases (at constant temperature):<br><br>$$PV = \\text{constant}$$<br><br>Along with Robert Hooke, Boyle also studied the thermal expansion of fluids, paving the way for the development of quantitative thermometers and accurate temperature scales.<br><br><strong>Anecdotal:</strong> Boyle was a deeply religious man who saw science as a way of understanding God's work. He financed translations of the Bible into indigenous languages while conducting experiments in his private laboratory. Ironically, he rejected all the noble titles the Crown offered him, being one of the most influential and humble scientists of his era.",
         category: "Historia",
         image: "boyle.jpg",
-        bio: { name: "Robert Boyle", life: "1627 - 1691", country: "Irlanda / Reino Unido",
-        country_en: "Ireland / United Kingdom" }
+        bio: {
+            name: "Robert Boyle", life: "1627 - 1691", country: "Irlanda / Reino Unido",
+            country_en: "Ireland / United Kingdom"
+        }
     },
     {
         year: 1701,
@@ -104,8 +106,10 @@ const timelineEvents = [
         desc_en: "He published his revolutionary work <em>Hydrodynamica</em> in Strasbourg, establishing himself as the great hero and father of classical fluid mechanics. He formulated the fundamental relationship between pressure, density and velocity for fluids in motion:<br><br>$$ P + \\frac{1}{2}\\rho v^2 + \\rho g h = \\text{const} $$<br><br><strong>The multidisciplinary genius:</strong> His initial inspiration came from medicine. By studying the mechanics of respiration and blood flow (hemodynamics), he designed an experimental method to measure blood pressure by introducing glass tubes directly into the arteries. This biological analogy led him to understand the fundamental relationship between the velocity of a fluid and its static pressure.<br><br><strong>Collaboration in St. Petersburg:</strong> He worked closely with his great friend <strong>Leonhard Euler</strong>. While Daniel provided the physical and experimental ingenuity, Euler polished the mathematical formulation of the equation, giving it its elegant modern differential and integral form.<br><br><strong>Anecdotal and family rivalry:</strong> The Bernoullis produced brilliant minds but destructive jealousy. When Daniel won the grand prize of the Paris Academy tying with his father Johann Bernoulli, the latter was so infuriated that he kicked him out of the house. Later, Johann plagiarized parts of <em>Hydrodynamica</em> in his own book <em>Hydraulica</em>, falsely backdating it to 1732 to rob his son of the credit for the discovery.",
         category: "Historia",
         image: "Porträt_des_Daniel_Bernoulli_(cropped).jpg",
-        bio: { name: "Daniel Bernoulli", life: "1700 - 1782", country: "Suiza",
-        country_en: "Swiss", }
+        bio: {
+            name: "Daniel Bernoulli", life: "1700 - 1782", country: "Suiza",
+            country_en: "Swiss",
+        }
     },
     {
         year: 1742,
@@ -135,8 +139,10 @@ const timelineEvents = [
         desc_en: "Scottish engineer James Watt revolutionized the Newcomen steam engine by identifying its immense heat waste: the cylinder had to be heated and cooled in each cycle, consuming enormous amounts of coal. In 1769 he patented the <strong>separate condenser</strong>, allowing the cylinder to remain constantly hot while the steam condensed in an independent cold chamber. This reduced fuel consumption by ~75% and marked the beginning of modern thermal engineering.<br><br>Watt also introduced the concept of <strong>power</strong> as the rate of energy transfer over time, defining the <em>horsepower</em> (hp) to quantify the performance of his engines against draft horses:<br><br>$$ W = \\frac{Q}{\\Delta t} $$<br>The international unit of power, the <strong>Watt (W)</strong>, is named in his honor. His work on heat→work conversion efficiency was a direct precursor to the formal thermodynamics of Carnot and Clausius.<br><br><strong>Anecdotal:</strong> Legend has it that Watt had the idea for the separate condenser during a Sunday walk through Glasgow Park, while pondering why the Newcomen model was so inefficient. What is certain is that his collaboration with manufacturer Matthew Boulton was one of the first cases of successful <em>technology transfer</em> in history: Watt invented, Boulton financed and marketed. Without Boulton, the Industrial Revolution would have waited decades longer.",
         category: "Termodinámica",
         image: "James_Watt_by_Henry_Howard.jpg",
-        bio: { name: "James Watt", life: "1736 - 1819", country: "Escocia / Reino Unido",
-        country_en: "Scotland / United Kingdom", }
+        bio: {
+            name: "James Watt", life: "1736 - 1819", country: "Escocia / Reino Unido",
+            country_en: "Scotland / United Kingdom",
+        }
     },
     {
         year: 1783,
@@ -151,8 +157,10 @@ const timelineEvents = [
         desc_en: "The father of modern chemistry formalized and popularized the <strong>Caloric Theory</strong> — the idea that heat was a subtle, invisible and indestructible fluid that flowed from hot to cold bodies. He included it in his table of 33 elements as a real substance. This theory dominated physics for almost 50 years and was extraordinarily fruitful: it allowed Carnot to develop his thermodynamic cycle and Fourier to formulate his law of conduction, despite being based on a false premise.<br><br>$$ Q_{total} = Q_{yielded} + Q_{absorbed} = \\text{const} $$<br><br><strong>Anecdotal:</strong> Lavoisier was guillotined during the Terror of the French Revolution in 1794, at the age of 50. The mathematician Joseph-Louis Lagrange stated: <em>'It took only a moment to sever his head, and perhaps a hundred years will not be enough to produce another like it'</em>. Interestingly, he was officially exonerated by the French government... 18 months after his execution!",
         category: "Termodinámica",
         image: "lavoisier.jpg",
-        bio: { name: "Antoine-Laurent de Lavoisier", life: "1743 - 1794", country: "Francia",
-        country_en: "France", }
+        bio: {
+            name: "Antoine-Laurent de Lavoisier", life: "1743 - 1794", country: "Francia",
+            country_en: "France",
+        }
     },
     {
         year: 1798,
@@ -167,8 +175,10 @@ const timelineEvents = [
         desc_en: "Benjamin Thompson (Count Rumford) performed the experiment that <strong>destroyed the caloric theory</strong>. While supervising the boring of bronze cannons in Munich, he observed that the heat generated was practically <strong>limitless</strong> as long as there was motion — something impossible if caloric was a finite and conserved substance. He concluded that heat was simply a form of <strong>mechanical motion</strong>:<br><br>$$ Q \\propto W_{mechanical} $$<br><br>This experiment was the first nail in the caloric coffin and anticipated the concept of energy equivalence that Joule would formalize decades later.<br><br><strong>Anecdotal:</strong> Rumford was an extraordinarily controversial figure: he was a British spy during the American Revolution, forced to flee to Europe. In Munich he became powerful reorganizing the Bavarian army. He also invented the modern kitchen stove, the coffee percolator, and the Congreve wool weave. He was a practical and opportunistic genius like few in the history of science.",
         category: "Termodinámica",
         image: "rumford.jpg",
-        bio: { name: "Benjamin Thompson (Conde de Rumford)", life: "1753 - 1814", country: "EE.UU. / Reino Unido",
-        country_en: "USA/UK", }
+        bio: {
+            name: "Benjamin Thompson (Conde de Rumford)", life: "1753 - 1814", country: "EE.UU. / Reino Unido",
+            country_en: "USA/UK",
+        }
     },
     {
         year: 1800,
@@ -198,8 +208,10 @@ const timelineEvents = [
         desc_en: "He publishes the 'Théorie Analytique de la Chaleur' (Analytical Theory of Heat), establishing Fourier's Law of thermal conduction. He proposed that heat flux is proportional to the temperature gradient, laying the definitive mathematical foundations of the discipline:<br><br>$$ q'' = -k \\nabla T $$<br>Or in one dimension ($x$):<br>$$ q_x = -k A \\frac{dT}{dx} $$<br>Where $k$ is the thermal conductivity.<br><br><strong>Mathematical and Climate Contributions:</strong> To solve the heat differential equation, Fourier invented a revolutionary mathematical tool: <em>Fourier Series</em>. Today, this same tool is the heart of signal processing, telecommunications (Wi-Fi, 5G), acoustic analysis and image compression (JPEG). Furthermore, in 1824, Fourier was the first scientist to formally propose the existence of the <strong>greenhouse effect</strong>, suggesting that the Earth's atmosphere retains thermal radiation just as the glass of a greenhouse does.<br><br><strong>Anecdotal:</strong> Fourier developed an almost fanatical obsession with heat after accompanying Napoleon Bonaparte on his expedition to Egypt (1798), where he served as secretary of the Institute of Egypt. Upon returning to damp France, he began to suffer from rheumatism. He came to firmly believe that extreme heat was the absolute source of life and health, so he used to wrap himself like a mummy in multiple layers of thick coats and kept his room at suffocating temperatures with fireplaces fully blazing, even in the middle of the Parisian summer!",
         category: "Conducción",
         image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Fourier2_-_restoration1.jpg/330px-Fourier2_-_restoration1.jpg",
-        bio: { name: "Jean-Baptiste Joseph Fourier", life: "1768 - 1830", country: "Francia",
-        country_en: "France", }
+        bio: {
+            name: "Jean-Baptiste Joseph Fourier", life: "1768 - 1830", country: "Francia",
+            country_en: "France",
+        }
     },
     {
         year: 1822,
@@ -214,8 +226,10 @@ const timelineEvents = [
         desc_en: "Claude-Louis Navier (1822) and George Gabriel Stokes (1845) independently formulated the equations that describe the motion of any viscous fluid, from water in a pipe to the Earth's atmosphere and solar plasma. They are the backbone of all modern computational fluid dynamics (CFD):<br><br>$$ \\rho \\left(\\frac{\\partial \\mathbf{u}}{\\partial t} + \\mathbf{u} \\cdot \\nabla \\mathbf{u}\\right) = -\\nabla p + \\mu \\nabla^2 \\mathbf{u} + \\rho\\mathbf{g} $$<br>Where the left term is the <strong>inertia</strong>, $-\\nabla p$ is the <strong>pressure</strong>, $\\mu \\nabla^2 \\mathbf{u}$ is the <strong>viscosity</strong> and $\\rho\\mathbf{g}$ are the body forces.<br><br><strong>The fundamental link with CFD:</strong> Because these equations are highly non-linear partial differentials of extreme complexity, they have no known exact analytical mathematical solution for general cases (in fact, proving their existence and smoothness is one of the Clay Millennium Problems). To be able to use them in practice (like simulating flow over an airplane wing or the weather), one must resort to computers that divide the fluid into millions of small cells and solve the equations numerically and approximately (using finite volumes, finite differences or Lattice Boltzmann). The birth and evolution of <strong>Computational Fluid Dynamics (CFD)</strong> is entirely due to the need to solve the Navier-Stokes Equations in real-world problems.<br><br><strong>Anecdotal:</strong> Navier supervised the construction of the Châtelet suspension bridge in Paris... but it collapsed in 1826 before opening, a monumental scandal that damaged his reputation as a practical engineer. On the other hand, George G. Stokes was so extremely quiet that in Cambridge he was nicknamed 'the silent man'; he could spend hours in meetings without saying a single word, only to later resolve the matter in seconds with unsurpassed mathematical precision. Furthermore, the famous <em>Stokes' Theorem</em> (vector calculus) was not discovered by him! It was proposed by his friend Lord Kelvin in an 1850 letter. Stokes simply included it in the 1854 Cambridge Smith Prize exam and it has been immortalized with his name ever since.",
         category: "Convección",
         image: "Navier_stokes.PNG",
-        bio: { name: "Claude-Louis Navier / George G. Stokes", life: "1785 - 1836 / 1819 - 1903", country: "Francia / Reino Unido",
-        country_en: "France / United Kingdom", }
+        bio: {
+            name: "Claude-Louis Navier / George G. Stokes", life: "1785 - 1836 / 1819 - 1903", country: "Francia / Reino Unido",
+            country_en: "France / United Kingdom",
+        }
     },
     {
         year: 1824,
@@ -230,8 +244,10 @@ const timelineEvents = [
         desc_en: "He publishes his only work, <em>Reflections on the Motive Power of Fire</em>, where he introduces the concept of the <strong>Carnot Cycle</strong>: the most efficient thermal engine possible operating between two temperatures. He established that maximum efficiency depends only on the temperatures of the hot and cold sources:<br><br>$$ \\eta = 1 - \\frac{T_C}{T_H} $$<br>It laid the theoretical foundations for the <strong>Second Law of Thermodynamics</strong>.<br><br><strong>Anecdotal:</strong> Carnot developed his revolutionary ideas using the caloric theory (an invisible fluid), demonstrating that correct physical logic can arise from erroneous premises. He died tragically of cholera at age 36 in 1832. Due to the sanitary laws of the plague, almost all his belongings and scientific writings were burned and buried with him, losing a large part of his original manuscripts.",
         category: "Termodinámica",
         image: "Sadi_Carnot.jpeg",
-        bio: { name: "Nicolas Léonard Sadi Carnot", life: "1796 - 1832", country: "Francia",
-        country_en: "France", }
+        bio: {
+            name: "Nicolas Léonard Sadi Carnot", life: "1796 - 1832", country: "Francia",
+            country_en: "France",
+        }
     },
     {
         year: 1843,
@@ -246,8 +262,10 @@ const timelineEvents = [
         desc_en: "James Prescott Joule experimentally demonstrated the precise equivalence between mechanical work and heat. With his famous experiment of rotating mechanical paddles driven by weights stirring water in an insulated container, he measured the temperature increase and established that energy is conserved, laying the foundation of the First Law of Thermodynamics:<br><br>$$ 1 \\text{ calorie} \\approx 4.15 \\text{ Joules} $$<br>Or in mechanical terms:<br>$$ W = J \\cdot Q $$<br>Where $J$ is the mechanical equivalent of heat.<br><br><strong>Anecdotal:</strong> Joule owned a brewery, which gave him access to extremely precise 19th-century thermometers (crucial for measuring temperature increases as small as $0.02\\text{ °C}$ in his experiments). During his honeymoon in the Alps with his wife Amelia, he was seen trying to measure the temperature difference of the water at the top and bottom of a large waterfall!",
         category: "Termodinámica",
         image: "joule.jpg",
-        bio: { name: "James Prescott Joule", life: "1818 - 1889", country: "Reino Unido",
-        country_en: "United Kingdom", }
+        bio: {
+            name: "James Prescott Joule", life: "1818 - 1889", country: "Reino Unido",
+            country_en: "United Kingdom",
+        }
     },
     {
         year: 1848,
@@ -262,8 +280,10 @@ const timelineEvents = [
         desc_en: "William Thomson (Lord Kelvin) recognized the need for a temperature scale where zero represents the extreme limit of cold, that is, the total absence of thermal energy (absolute zero). This idea was strongly based on the Carnot cycle.<br><br>$$ T\\,(\\text{K}) = T\\,(^{\\circ}\\text{C}) + 273.15 $$<br><br><strong>Anecdotal:</strong> He was a child prodigy who entered university at age 10. In addition to his temperature scale, he became immensely rich and famous for directing the installation of the first transatlantic telegraph cable, which earned him his noble title of 'Lord'.",
         category: "Termodinámica",
         image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Lord_Kelvin_photograph.jpg/330px-Lord_Kelvin_photograph.jpg",
-        bio: { name: "William Thomson (Lord Kelvin)", life: "1824 - 1907", country: "Reino Unido",
-        country_en: "United Kingdom", }
+        bio: {
+            name: "William Thomson (Lord Kelvin)", life: "1824 - 1907", country: "Reino Unido",
+            country_en: "United Kingdom",
+        }
     },
     {
         year: 1850,
@@ -278,8 +298,10 @@ const timelineEvents = [
         desc_en: "He publishes his famous article on the motive force of heat, formulating the Second Law of Thermodynamics: <em>'Heat can never pass from a colder to a warmer body without some other change'</em>. Later, he introduced the fundamental concept of <strong>Entropy (S)</strong>, defining its change as the reversible heat transfer divided by the absolute temperature:<br><br>$$ dS = \\frac{dQ_{rev}}{T} $$<br>He concluded that the entropy of the universe always tends to a maximum.<br><br><strong>Anecdotal:</strong> Clausius was a highly patriotic man. During the Franco-Prussian war (1870), he organized and led a volunteer student ambulance corps to rescue the wounded on the battlefield. He was wounded in the leg, leaving him with a permanent limp, and received the Iron Cross for his bravery. Besides his theoretical genius, he was a true man of action!",
         category: "Termodinámica",
         image: "Clausius.jpg",
-        bio: { name: "Rudolf Clausius", life: "1822 - 1888", country: "Alemania",
-        country_en: "Germany", }
+        bio: {
+            name: "Rudolf Clausius", life: "1822 - 1888", country: "Alemania",
+            country_en: "Germany",
+        }
     },
     {
         year: 1860,
@@ -294,8 +316,10 @@ const timelineEvents = [
         desc_en: "James Clerk Maxwell and Ludwig Boltzmann independently formulated the statistical distribution of molecular speeds in an ideal gas. It was the first time probability was used in fundamental physics.<br><br>$$ f(v) = 4\\pi \\left(\\frac{m}{2\\pi k_B T}\\right)^{3/2} v^2 e^{-\\frac{m v^2}{2 k_B T}} $$<br>They demonstrated that the temperature of a body is nothing more than the macroscopic measure of the microscopic kinetic energy of its atoms.<br><br><strong>Anecdotal:</strong> Maxwell deduced this curve mathematically in 1860 based almost entirely on the intuition of symmetry. Nine years later, Boltzmann gave it absolute statistical rigor. Both are the undisputed founding fathers of statistical mechanics.",
         category: "Termodinámica",
         image: "maxwell.jpg",
-        bio: { name: "James Clerk Maxwell / Ludwig Boltzmann", life: "1831 - 1879 / 1844 - 1906", country: "Reino Unido / Austria",
-        country_en: "United Kingdom/Austria", },
+        bio: {
+            name: "James Clerk Maxwell / Ludwig Boltzmann", life: "1831 - 1879 / 1844 - 1906", country: "Reino Unido / Austria",
+            country_en: "United Kingdom/Austria",
+        },
         "tab-target": "maxwell-sim"
     },
     {
@@ -311,8 +335,10 @@ const timelineEvents = [
         desc_en: "Josef Stefan experimentally deduced, and Ludwig Boltzmann theoretically demonstrated, that the total energy radiated by a black body is proportional to the fourth power of its absolute temperature. This law is one of the pillars of thermal radiation:<br><br>$$ q'' = \\sigma T^4 $$<br>Where $\\sigma$ is the Stefan-Boltzmann constant ($5.67 \\times 10^{-8} \\, \\text{W/(m}^2\\text{K}^4\\text{)}$).<br><br><strong>Anecdotal:</strong> Boltzmann (Stefan's student) used theoretical thermodynamics to prove what his teacher found in the laboratory. Tragically, Boltzmann suffered profound depression due to the community's rejection of his atomic theories and took his own life before they were universally accepted.",
         category: "Radiación",
         image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Boltzmann2.jpg/330px-Boltzmann2.jpg",
-        bio: { name: "Josef Stefan (1835 - 1893) y Ludwig Boltzmann (1844 - 1906)", life: "S. XIX", country: "Austria",
-        country_en: "Austria", }
+        bio: {
+            name: "Josef Stefan (1835 - 1893) y Ludwig Boltzmann (1844 - 1906)", life: "S. XIX", country: "Austria",
+            country_en: "Austria",
+        }
     },
     {
         year: 1883,
@@ -327,8 +353,10 @@ const timelineEvents = [
         desc_en: "Osborne Reynolds demonstrated through his famous ink injection experiments that the flow of a fluid in a channel or pipe transitions from an ordered (laminar) regime to a chaotic (turbulent) one when a critical value of the dimensionless parameter that today bears his name is exceeded: $$ Re = \\frac{\\rho u D}{\\mu} $$ This discovery allowed classifying fluid motion and laying the foundations for modeling convective heat transfer.<br><br><strong>Anecdotal:</strong> For his original experiment, Reynolds built a wooden water tank with a long glass tube. To prevent any vibration from altering the laminar flow prematurely, he placed the equipment in a quiet basement and made the observations in the middle of the night when the city was asleep and the streets were completely calm!",
         category: "Convección",
         image: "reynolds.jpg",
-        bio: { name: "Osborne Reynolds", life: "1842 - 1912", country: "Irlanda / Reino Unido",
-        country_en: "Ireland / United Kingdom", }
+        bio: {
+            name: "Osborne Reynolds", life: "1842 - 1912", country: "Irlanda / Reino Unido",
+            country_en: "Ireland / United Kingdom",
+        }
     },
     {
         year: 1900,
@@ -343,8 +371,10 @@ const timelineEvents = [
         desc_en: "He solved the ultraviolet catastrophe problem by postulating that electromagnetic energy is emitted in quanta (discrete packets). His Planck's Law unified the Wien and Rayleigh-Jeans approximations, laying the foundations of quantum mechanics and radiation thermodynamics:<br><br>$$ E_\\lambda = \\frac{2\\pi h c^2}{\\lambda^5 \\left[ \\exp\\left(\\frac{hc}{\\lambda kT}\\right) - 1 \\right]} $$<br><br><strong>Anecdotal:</strong> Planck was an excellent pianist and almost dedicated himself to music. Ironically, he doubted his own discovery of 'quanta' for years; at first he thought it was just a mathematical trick without physical reality, until Einstein and Bohr confirmed that the universe worked that way.",
         category: "Radiación",
         image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Max_Planck_by_Hugo_Erfurth_1938cr_-_restoration1.jpg/330px-Max_Planck_by_Hugo_Erfurth_1938cr_-_restoration1.jpg",
-        bio: { name: "Max Karl Ernst Ludwig Planck", life: "1858 - 1947", country: "Alemania",
-        country_en: "Germany", }
+        bio: {
+            name: "Max Karl Ernst Ludwig Planck", life: "1858 - 1947", country: "Alemania",
+            country_en: "Germany",
+        }
     },
     {
         year: 1904,
@@ -359,8 +389,10 @@ const timelineEvents = [
         desc_en: "He presented an 8-page paper at the Congress of Mathematicians in Heidelberg where he introduced the concept of 'Boundary Layer'. He demonstrated that viscous effects are limited to a thin layer next to the wall, solving d'Alembert's paradox and dividing the flow into two analyzable zones. Simplified equations:<br><br>$$ u\\frac{\\partial u}{\\partial x} + v\\frac{\\partial u}{\\partial y} = -\\frac{1}{\\rho}\\frac{dp}{dx} + \\nu \\frac{\\partial^2 u}{\\partial y^2} $$<br><br><strong>Anecdotal:</strong> Prandtl had such a developed physical intuition that he used to find inspiration in the simplest things. It is said that he conceived key aspects of fluid theory simply by observing eddies and water currents while washing his hands or walking near rivers.",
         category: "Convección",
         image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Prandtl_portrait.jpg/330px-Prandtl_portrait.jpg",
-        bio: { name: "Ludwig Prandtl", life: "1875 - 1953", country: "Alemania",
-        country_en: "Germany", }
+        bio: {
+            name: "Ludwig Prandtl", life: "1875 - 1953", country: "Alemania",
+            country_en: "Germany",
+        }
     },
     {
         year: 1912,
@@ -390,8 +422,10 @@ const timelineEvents = [
         desc_en: "He applied dimensional analysis to convective heat transfer for the first time, defining the Nusselt Number (Nu). His work allowed scaling laboratory results to industrial equipment. He defined the number as the ratio of convective to conductive heat transfer:<br><br>$$ Nu = \\frac{hL}{k} $$<br><br><strong>Anecdotal:</strong> Nusselt was known for his deep analytical approach. He derived his famous and complex condensation equations using purely pencil and paper, without performing a single physical experiment. Years later, laboratories were amazed to find that his mathematics were astoundingly accurate!",
         category: "Convección",
         image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Professor_Nusselt_in_seinem_Amtszimmer_Karlsruhe_April_1925.jpg/330px-Professor_Nusselt_in_seinem_Amtszimmer_Karlsruhe_April_1925.jpg",
-        bio: { name: "Ernst Kraft Wilhelm Nusselt", life: "1882 - 1957", country: "Alemania",
-        country_en: "Germany", }
+        bio: {
+            name: "Ernst Kraft Wilhelm Nusselt", life: "1882 - 1957", country: "Alemania",
+            country_en: "Germany",
+        }
     },
     {
         year: 1928,
@@ -454,7 +488,7 @@ const timelineEvents = [
         country: "<img src='https://flagcdn.com/w20/us.png' alt='Estados Unidos' style='vertical-align: text-bottom; margin-right: 4px;'> Estados Unidos",
         country_en: "<img src='https://flagcdn.com/w20/us.png' alt='Estados Unidos' style='vertical-align: text-bottom; margin-right: 4px;'> United States",
         desc: "Allan Colburn y Olaf Hougen publicaron un procedimiento revolucionario para el diseño de condensadores en presencia de un gas incondensable (como aire en vapor de agua). Demostraron que incluso una pequeñísima fracción de gas no condensable se acumula en la interfaz líquido-vapor, ahogando severamente la transferencia de calor. Esto obligó a la ingeniería a abandonar los cálculos simples y considerar gradientes térmicos y de transferencia de masa (difusión) de forma simultánea mediante un balance iterativo de flujos de calor sensible y latente:<br><br>$$ h_g (T_g - T_i) + K_g \\lambda (p_v - p_i) = h_0 (T_i - T_c) $$<br><br><strong>Anecdotario:</strong> El impacto de este artículo de 1934 fue tan abrumador para la industria química que, durante décadas, el <em>'Método Colburn-Hougen'</em> fue temido por los ingenieros de todo el mundo debido a lo tedioso que resultaba realizar el cálculo de prueba y error a mano punto por punto a lo largo del condensador, ¡todo sin computadoras! Este rigor matemático elevó drásticamente la seguridad y eficiencia de las plantas petroquímicas.",
-        desc_en: "Allan Colburn and Olaf Hougen published a revolutionary procedure for the design of condensers in the presence of an incondensable gas (such as air in water vapor). They showed that even a tiny fraction of non-condensable gas accumulates at the liquid-vapor interface, severely stifling heat transfer. This forced engineering to abandon simple calculations and consider thermal and mass transfer (diffusion) gradients simultaneously by iteratively balancing sensible and latent heat fluxes: feared by engineers around the world because of how tedious it was to do the point-by-point trial and error calculation by hand along the capacitor, all without computers! This mathematical rigor drastically increased the safety and efficiency of petrochemical plants.", 
+        desc_en: "Allan Colburn and Olaf Hougen published a revolutionary procedure for the design of condensers in the presence of an incondensable gas (such as air in water vapor). They showed that even a tiny fraction of non-condensable gas accumulates at the liquid-vapor interface, severely stifling heat transfer. This forced engineering to abandon simple calculations and consider thermal and mass transfer (diffusion) gradients simultaneously by iteratively balancing sensible and latent heat fluxes: feared by engineers around the world because of how tedious it was to do the point-by-point trial and error calculation by hand along the capacitor, all without computers! This mathematical rigor drastically increased the safety and efficiency of petrochemical plants.",
         category: "Convección",
         law: "Método Colburn-Hougen",
         law_en: "Colburn-Hougen Method",
@@ -471,8 +505,10 @@ const timelineEvents = [
         category: "Convección",
         law: "Analogía de Chilton-Colburn",
         image: "colburn.png",
-        bio: { name: "Allan Philip Colburn", life: "1904 - 1955", country: "Estados Unidos",
-        country_en: "USA", }
+        bio: {
+            name: "Allan Philip Colburn", life: "1904 - 1955", country: "Estados Unidos",
+            country_en: "USA",
+        }
     },
     {
         year: 1939,
@@ -521,9 +557,9 @@ const timelineEvents = [
 
 // Initialize DOM elements when loaded
 document.addEventListener("DOMContentLoaded", () => {
-    const safeInit = (name, fn) => { 
-        try { fn(); } 
-        catch(e) { console.warn(`Skipping ${name} due to missing DOM elements:`, e); } 
+    const safeInit = (name, fn) => {
+        try { fn(); }
+        catch (e) { console.warn(`Skipping ${name} due to missing DOM elements:`, e); }
     };
 
     safeInit('Timeline', initTopTimeline);
@@ -570,7 +606,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const modal = document.getElementById('image-modal');
     const closeBtn = document.querySelector('.close-modal');
     const newtonModal = document.getElementById('newton-tribute-modal');
-    
+
     if (modal && closeBtn) {
         closeBtn.addEventListener('click', () => {
             modal.classList.remove('show');
@@ -623,7 +659,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 contactBtn.innerHTML = '<i class="fas fa-envelope"></i>';
             }
         });
-        
+
         // Close contact box when clicking anywhere else
         document.addEventListener('click', (e) => {
             if (!contactBox.contains(e.target) && e.target !== contactBtn && !contactBtn.contains(e.target)) {
@@ -636,7 +672,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Search and Filter Listeners
     const searchInput = document.getElementById('timeline-search');
     const categorySelect = document.getElementById('timeline-filter-category');
-    
+
     if (searchInput && categorySelect) {
         const handleFilter = () => {
             initTimeline(searchInput.value, categorySelect.value);
@@ -659,21 +695,21 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Global function to open modal
-window.openModal = function(idx, event) {
+window.openModal = function (idx, event) {
     event.stopPropagation(); // prevent card from activating
     const ev = timelineEvents[idx];
     if (!ev || !ev.image) return;
-    
+
     // Convert Wikipedia thumb URL to full res
     let fullUrl = ev.image;
     if (fullUrl.includes('/thumb/')) {
         fullUrl = fullUrl.replace('/thumb/', '/').split('/').slice(0, -1).join('/');
     }
-    
+
     const modal = document.getElementById('image-modal');
     const modalImg = document.getElementById('modal-image');
     modalImg.src = fullUrl;
-    
+
     const caption = document.getElementById('modal-caption');
     if (ev.bio) {
         document.getElementById('modal-bio-name').innerText = ev.bio.name;
@@ -685,15 +721,15 @@ window.openModal = function(idx, event) {
     } else {
         caption.style.display = 'none';
     }
-    
+
     modal.classList.add('show');
 };
 
-window.zoomImage = function(src, title) {
+window.zoomImage = function (src, title) {
     const modal = document.getElementById('image-modal');
     const modalImg = document.getElementById('modal-image');
     if (!modal || !modalImg) return;
-    
+
     modalImg.src = src;
     const caption = document.getElementById('modal-caption');
     if (title) {
@@ -706,23 +742,23 @@ window.zoomImage = function(src, title) {
     }
     modal.classList.add('show');
 };
-    
-window.openNewtonLegacy = function(event) {
+
+window.openNewtonLegacy = function (event) {
     if (event) event.stopPropagation();
     const modal = document.getElementById('newton-tribute-modal');
     if (modal) modal.classList.add('show');
 };
 
-window.closeScientistModal = function() {
+window.closeScientistModal = function () {
     const modal = document.getElementById("scientist-details-modal");
     if (modal) modal.classList.remove("show");
 };
 
-window.openScientistModalDirect = function(idx, event) {
+window.openScientistModalDirect = function (idx, event) {
     if (event) event.stopPropagation();
     const ev = timelineEvents[idx];
     if (!ev) return;
-    
+
     // Determine tabTarget
     let tabTarget = "";
     if (ev["tab-target"]) tabTarget = ev["tab-target"];
@@ -760,18 +796,18 @@ window.openScientistModalDirect = function(idx, event) {
     const country = document.getElementById("mobile-modal-country");
     const desc = document.getElementById("mobile-modal-desc");
     const simBtn = document.getElementById("mobile-modal-sim-btn");
-    
+
     if (modal) {
         title.textContent = window.currentLanguage === 'en' ? (ev.title_en || ev.title) : ev.title;
         avatar.src = ev.image || "https://via.placeholder.com/150";
         avatar.style.display = ev.image ? "block" : "none";
-        
+
         const yearLabel = ev.year < 0 ? (window.currentLanguage === 'en' ? `${Math.abs(ev.year)} BC` : `${Math.abs(ev.year)} a.C.`) : ev.year;
         years.textContent = yearLabel;
-        
+
         country.innerHTML = window.currentLanguage === 'en' ? (ev.country_en || ev.country) : ev.country;
         desc.innerHTML = window.currentLanguage === 'en' ? (ev.desc_en || ev.desc) : ev.desc;
-        
+
         if (tabTarget) {
             simBtn.style.display = "inline-flex";
             simBtn.onclick = () => {
@@ -789,12 +825,12 @@ window.openScientistModalDirect = function(idx, event) {
     }
 };
 
-window.closeNewtonModal = function() {
+window.closeNewtonModal = function () {
     const modal = document.getElementById('newton-tribute-modal');
     if (modal) modal.classList.remove('show');
 };
 
-window.switchNewtonTab = function(tabId, btn) {
+window.switchNewtonTab = function (tabId, btn) {
     document.querySelectorAll('.newton-tab-content').forEach(el => el.style.display = 'none');
     const activeContent = document.getElementById(`newton-${tabId}`);
     if (activeContent) activeContent.style.display = 'block';
@@ -816,7 +852,7 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
     timelineEvents.forEach((ev, idx) => {
         // Apply category and search filters
         const matchesCategory = selectedCategory === 'all' || ev.category === selectedCategory;
-        
+
         const titleVal = (window.currentLanguage === 'en' ? (ev.title_en || ev.title) : ev.title) || "";
         const descVal = (window.currentLanguage === 'en' ? (ev.desc_en || ev.desc) : ev.desc) || "";
         const lawVal = (window.currentLanguage === 'en' ? (ev.law_en || ev.law) : ev.law) || "";
@@ -824,10 +860,10 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
         const surnameVal = ev.surname || "";
         const yearVal = ev.year !== undefined && ev.year !== null ? ev.year.toString() : "";
 
-        const matchesSearch = !query || 
-            titleVal.toLowerCase().includes(query) || 
-            surnameVal.toLowerCase().includes(query) || 
-            lawVal.toLowerCase().includes(query) || 
+        const matchesSearch = !query ||
+            titleVal.toLowerCase().includes(query) ||
+            surnameVal.toLowerCase().includes(query) ||
+            lawVal.toLowerCase().includes(query) ||
             descVal.toLowerCase().includes(query) ||
             yearVal.includes(query);
 
@@ -840,9 +876,9 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
         const highlightJplClass = ev.highlight_jpl ? 'highlight-jpl ' : '';
         const isNewton = ev.surname === "Newton";
         const newtonClass = isNewton ? 'newton-special-card ' : '';
-        
+
         card.className = `timeline-card ${activeClass}${highlightClass}${highlightJplClass}${newtonClass}`.trim();
-        
+
         let imageHtml = ev.image ? `<img src="${ev.image}" alt="${titleVal}" class="card-avatar" onclick="window.openModal(${idx}, event)" style="cursor: zoom-in;" title="Ampliar imagen" />` : '';
 
         let newtonTributeButton = '';
@@ -874,7 +910,7 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
                 </div>
             </div>
         `;
-        
+
         // Determine tab target
         let tabTarget = "";
         if (ev["tab-target"]) tabTarget = ev["tab-target"];
@@ -904,7 +940,7 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
             else if (ev.category === "Conducción") tabTarget = "fourier-sim";
             else if (ev.category === "Termodinámica") tabTarget = "carnot-sim";
         }
-        
+
         if (tabTarget) card.setAttribute("data-tab-target", tabTarget);
 
         card.addEventListener("click", () => {
@@ -937,7 +973,7 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
                 window.openScientistModalDirect(idx);
             }
         });
-        
+
         container.appendChild(card);
     });
 
@@ -948,7 +984,7 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
         relationsCard.style.background = "linear-gradient(145deg, rgba(30,27,75,0.9), rgba(49,46,129,0.95))";
         relationsCard.style.border = "1px solid rgba(139, 92, 246, 0.4)";
         relationsCard.style.boxShadow = "0 8px 30px rgba(139, 92, 246, 0.2)";
-        
+
         if (window.currentLanguage === 'en') {
             relationsCard.innerHTML = `
                 <div class="card-header" style="justify-content: center; border-bottom: 1px solid rgba(139, 92, 246, 0.2); padding-bottom: 10px;">
@@ -1041,15 +1077,15 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
 function initTopTimeline() {
     const container = document.getElementById("top-timeline");
     if (!container) return;
-    
+
     container.innerHTML = "";
-    
+
     timelineEvents.forEach((ev, idx) => {
         if (!ev.surname) return; // Only show main events with surname
-        
+
         const chip = document.createElement("div");
         chip.className = "timeline-chip";
-        
+
         const lawVal = (window.currentLanguage === 'en' ? (ev.law_en || ev.law) : ev.law);
         const yearLabel = ev.year < 0 ? (window.currentLanguage === 'en' ? `${Math.abs(ev.year)} BC` : `${Math.abs(ev.year)} a.C.`) : ev.year;
         chip.innerHTML = `
@@ -1057,7 +1093,7 @@ function initTopTimeline() {
             <div class="chip-name">${ev.surname}</div>
             <div class="chip-law">${lawVal}</div>
         `;
-        
+
         chip.addEventListener("click", () => {
             // Find corresponding vertical card by data-index and click it
             const targetCard = document.querySelector(`.timeline-card[data-index="${idx}"]`);
@@ -1066,7 +1102,7 @@ function initTopTimeline() {
                 targetCard.click();
             }
         });
-        
+
         container.appendChild(chip);
     });
 }
@@ -1113,7 +1149,7 @@ function switchTab(tabId, disableTimelineSync = false) {
             "boiling-sim": "1934",
             "bl-sim": "1908",
             "res-sim": "1947",
-            "ns-sim": "1822", 
+            "ns-sim": "1822",
             "celsius-sim": "1742",
             "bernoulli-sim": "1738",
             "herschel-sim": "1800",
@@ -1122,10 +1158,10 @@ function switchTab(tabId, disableTimelineSync = false) {
             "clausius-sim": "1850",
             "doublepipe-sim": "1934"
         };
-        
+
         const targetYear = primaryYears[tabId];
         const timelineCards = document.querySelectorAll(".timeline-card");
-        
+
         timelineCards.forEach(card => {
             card.classList.remove("active");
             const d = card.querySelector(".card-desc");
@@ -1158,7 +1194,7 @@ function switchTab(tabId, disableTimelineSync = false) {
         if (window.MathJax && MathJax.typesetPromise) {
             const activePane = document.querySelector('.tab-pane.active');
             if (activePane) {
-                MathJax.typesetPromise([activePane]).catch(function(err) {
+                MathJax.typesetPromise([activePane]).catch(function (err) {
                     console.warn('MathJax tab typeset error:', err);
                 });
             }
@@ -1188,7 +1224,7 @@ function initFourierSimulation() {
     const sliderR1 = document.getElementById("fourier-r1");
     const sliderAH = document.getElementById("fourier-ah");
     const geomSelect = document.getElementById("fourier-geom");
-    
+
     const modeSelect = document.getElementById("fourier-mode-select");
     const t2Container = document.getElementById("fourier-t2-container");
     const qInContainer = document.getElementById("fourier-q-in-container");
@@ -1196,7 +1232,7 @@ function initFourierSimulation() {
     const lContainer = document.getElementById("fourier-l-container");
     const r2Container = document.getElementById("fourier-r2-container");
     const ahContainer = document.getElementById("fourier-ah-container");
-    
+
     const labelAH = document.getElementById("fourier-ah-label");
 
     const valT1 = document.getElementById("fourier-t1-val");
@@ -1208,32 +1244,32 @@ function initFourierSimulation() {
     const valR2 = document.getElementById("fourier-r2-val");
     const valRlabel = document.getElementById("fourier-r-label");
     const valCalcL = document.getElementById("fourier-calc-l-val");
-    
+
     const geomStats = document.getElementById("fourier-geom-stats");
     const valA1 = document.getElementById("fourier-a1-val");
     const valA2 = document.getElementById("fourier-a2-val");
     const valVol = document.getElementById("fourier-vol-val");
-    
+
     const resultLabel = document.getElementById("fourier-result-label");
     const resultVal = document.getElementById("fourier-result-val");
 
     let currentMode = "calc-q";
     const canvas = document.getElementById("fourierChart");
     const ctx = canvas.getContext("2d");
-    
+
     if (fourierAnimationId) {
         cancelAnimationFrame(fourierAnimationId);
     }
 
     let particles = [];
-    
+
     function initParticles() {
         particles = [];
         const numParticles = 80;
         for (let i = 0; i < numParticles; i++) {
             particles.push({
-                x: Math.random(), 
-                y: Math.random(), 
+                x: Math.random(),
+                y: Math.random(),
                 size: 2 + Math.random() * 2,
                 angle: Math.random() * Math.PI * 2,
                 r_norm: Math.random()
@@ -1244,7 +1280,7 @@ function initFourierSimulation() {
 
     const graphCanvas = document.getElementById("fourierGraph");
     const graphCtx = graphCanvas.getContext("2d");
-    
+
     fourierChart = new Chart(graphCtx, {
         type: 'line',
         data: {
@@ -1284,7 +1320,7 @@ function initFourierSimulation() {
             }
         }
     });
-    
+
     function formatValue(value, type) {
         if (type === "q") {
             if (!isFinite(value)) {
@@ -1339,7 +1375,7 @@ function initFourierSimulation() {
             if (geomStats) geomStats.style.display = "flex";
             if (formulaDiv) formulaDiv.innerHTML = "\\[ T(r) = T_1 - (T_1 - T_2) \\frac{1/r_1 - 1/r}{1/r_1 - 1/r_2} \\]";
         }
-        
+
         if (window.MathJax && typeof window.MathJax.typesetPromise === 'function' && formulaDiv) {
             MathJax.typesetPromise([formulaDiv]).catch(function (err) {
                 console.log(err.message);
@@ -1351,16 +1387,16 @@ function initFourierSimulation() {
         fourierT1 = parseFloat(sliderT1.value);
         fourierK = parseFloat(sliderK.value);
         const geom = geomSelect ? geomSelect.value : "plane";
-        
+
         const r1 = sliderR1 ? parseFloat(sliderR1.value) : 0.05;
         let r2 = sliderR2 ? parseFloat(sliderR2.value) : 0.15;
-        
+
         // Prevent r2 from being smaller than r1
         if (geom !== "plane" && r2 < r1) {
             r2 = r1;
             if (sliderR2) sliderR2.value = r2;
         }
-        
+
         if (geom === "plane") {
             fourierL = parseFloat(sliderL.value);
         } else {
@@ -1368,19 +1404,19 @@ function initFourierSimulation() {
         }
 
         const AH = sliderAH ? parseFloat(sliderAH.value) : 1.0;
-        
+
         valT1.textContent = fourierT1;
         valK.textContent = fourierK;
-        
-        if(document.getElementById("fourier-l-val")) document.getElementById("fourier-l-val").textContent = fourierL.toFixed(2);
-        if(valR1) valR1.textContent = r1.toFixed(2);
-        if(valR2) valR2.textContent = r2.toFixed(2);
-        if(document.getElementById("fourier-ah-val")) document.getElementById("fourier-ah-val").textContent = AH.toFixed(2);
-        if(valCalcL) valCalcL.textContent = fourierL.toFixed(3) + " m";
+
+        if (document.getElementById("fourier-l-val")) document.getElementById("fourier-l-val").textContent = fourierL.toFixed(2);
+        if (valR1) valR1.textContent = r1.toFixed(2);
+        if (valR2) valR2.textContent = r2.toFixed(2);
+        if (document.getElementById("fourier-ah-val")) document.getElementById("fourier-ah-val").textContent = AH.toFixed(2);
+        if (valCalcL) valCalcL.textContent = fourierL.toFixed(3) + " m";
 
         let R_cond = 0;
         const isEn = (window.currentLanguage === 'en');
-        
+
         if (geom === "plane") {
             R_cond = fourierL / (fourierK * AH);
             valRlabel.innerHTML = isEn ? "Thermal Resistance (R<sub>t</sub> = L/kA):" : "Resistencia Térmica (R<sub>t</sub> = L/kA):";
@@ -1391,14 +1427,14 @@ function initFourierSimulation() {
                 R_cond = Math.log(r2 / r1) / (2 * Math.PI * fourierK * AH);
             }
             valRlabel.innerHTML = isEn ? "Thermal Resistance (R<sub>t</sub> = ln(r₂/r₁)/(2πkH)):" : "Resistencia Térmica (R<sub>t</sub> = ln(r₂/r₁)/(2πkH)):";
-            
+
             if (valA1 && valA2 && valVol) {
                 document.getElementById("fourier-a1-label").innerHTML = isEn ? "Internal Area (A<sub>1</sub> = 2&pi;r<sub>1</sub>H):" : "Área Interna (A<sub>1</sub> = 2&pi;r<sub>1</sub>H):";
                 document.getElementById("fourier-a2-label").innerHTML = isEn ? "External Area (A<sub>2</sub> = 2&pi;r<sub>2</sub>H):" : "Área Externa (A<sub>2</sub> = 2&pi;r<sub>2</sub>H):";
                 document.getElementById("fourier-vol-label").innerHTML = isEn ? "Volume (V = &pi;(r<sub>2</sub>&sup2;-r<sub>1</sub>&sup2;)H):" : "Volumen (V = &pi;(r<sub>2</sub>&sup2;-r<sub>1</sub>&sup2;)H):";
                 const a1 = 2 * Math.PI * r1 * AH;
                 const a2 = 2 * Math.PI * r2 * AH;
-                const v = Math.PI * (r2*r2 - r1*r1) * AH;
+                const v = Math.PI * (r2 * r2 - r1 * r1) * AH;
                 valA1.innerHTML = `${a1.toFixed(3)} m&sup2;`;
                 valA2.innerHTML = `${a2.toFixed(3)} m&sup2;`;
                 valVol.innerHTML = `${v.toFixed(4)} m&sup3;`;
@@ -1410,46 +1446,46 @@ function initFourierSimulation() {
                 R_cond = (r2 - r1) / (4 * Math.PI * fourierK * r1 * r2);
             }
             valRlabel.innerHTML = isEn ? "Thermal Resistance (R<sub>t</sub> = (r₂-r₁)/(4πkr₁r₂)):" : "Resistencia Térmica (R<sub>t</sub> = (r₂-r₁)/(4πkr₁r₂)):";
-            
+
             if (valA1 && valA2 && valVol) {
                 document.getElementById("fourier-a1-label").innerHTML = isEn ? "Internal Area (A<sub>1</sub> = 4&pi;r<sub>1</sub>&sup2;):" : "Área Interna (A<sub>1</sub> = 4&pi;r<sub>1</sub>&sup2;):";
                 document.getElementById("fourier-a2-label").innerHTML = isEn ? "External Area (A<sub>2</sub> = 4&pi;r<sub>2</sub>&sup2;):" : "Área Externa (A<sub>2</sub> = 4&pi;r<sub>2</sub>&sup2;):";
                 document.getElementById("fourier-vol-label").innerHTML = isEn ? "Volume (V = &#8308;/&#8323;&pi;(r<sub>2</sub>&sup3;-r<sub>1</sub>&sup3;)):" : "Volumen (V = &#8308;/&#8323;&pi;(r<sub>2</sub>&sup3;-r<sub>1</sub>&sup3;)):";
                 const a1 = 4 * Math.PI * r1 * r1;
                 const a2 = 4 * Math.PI * r2 * r2;
-                const v = (4/3) * Math.PI * (Math.pow(r2, 3) - Math.pow(r1, 3));
+                const v = (4 / 3) * Math.PI * (Math.pow(r2, 3) - Math.pow(r1, 3));
                 valA1.innerHTML = `${a1.toFixed(3)} m&sup2;`;
                 valA2.innerHTML = `${a2.toFixed(3)} m&sup2;`;
                 valVol.innerHTML = `${v.toFixed(4)} m&sup3;`;
             }
         }
- 
+
         if (valR) {
             valR.textContent = R_cond.toFixed(5) + " K/W";
         }
- 
+
         let absoluteZeroReached = false;
- 
+
         if (currentMode === "calc-q") {
             fourierT2 = parseFloat(sliderT2.value);
             valT2.textContent = fourierT2;
-            
+
             if (R_cond === 0) {
                 if (fourierT1 === fourierT2) fourierQ = 0;
                 else fourierQ = (fourierT1 > fourierT2) ? Infinity : -Infinity;
             } else {
                 fourierQ = (fourierT1 - fourierT2) / R_cond;
             }
-            
+
             resultLabel.innerHTML = isEn ? "Heat transfer rate (q):" : "Tasa de transferencia (q):";
             resultVal.innerHTML = formatValue(fourierQ, "q");
         } else {
             const qIn_kW = parseFloat(sliderQin.value);
             valQin.textContent = qIn_kW;
             let tempQ = qIn_kW * 1000;
-            
+
             let computedT2 = fourierT1 - (tempQ * R_cond);
-            
+
             if (computedT2 <= -273.15) {
                 fourierT2 = -273.15;
                 absoluteZeroReached = true;
@@ -1462,7 +1498,7 @@ function initFourierSimulation() {
                 fourierT2 = computedT2;
                 fourierQ = tempQ;
             }
-            
+
             resultLabel.innerHTML = isEn ? "Temperature T<sub>2</sub> (Outer):" : "Temperatura T<sub>2</sub> (Externa):";
             resultVal.innerHTML = formatValue(fourierT2, "t");
         }
@@ -1480,10 +1516,10 @@ function initFourierSimulation() {
         let points_x = [];
         let points_y = [];
         const steps = 20;
-        
+
         if (geom === "plane") {
-            for(let i=0; i<=steps; i++){
-                let f = i/steps;
+            for (let i = 0; i <= steps; i++) {
+                let f = i / steps;
                 points_x.push(fourierL * f);
                 points_y.push(fourierT1 - f * (fourierT1 - fourierT2));
             }
@@ -1492,11 +1528,11 @@ function initFourierSimulation() {
                 points_x.push(r1); points_y.push(fourierT1);
                 points_x.push(r1); points_y.push(fourierT2);
             } else {
-                for(let i=0; i<=steps; i++){
-                    let f = i/steps;
+                for (let i = 0; i <= steps; i++) {
+                    let f = i / steps;
                     let r = r1 + f * fourierL;
                     points_x.push(r);
-                    let Tr = fourierT1 - fourierQ * Math.log(r/r1) / (2*Math.PI*fourierK*AH);
+                    let Tr = fourierT1 - fourierQ * Math.log(r / r1) / (2 * Math.PI * fourierK * AH);
                     if (!isFinite(Tr)) Tr = fourierT1; // fallback if infinite flow
                     points_y.push(Tr);
                 }
@@ -1506,11 +1542,11 @@ function initFourierSimulation() {
                 points_x.push(r1); points_y.push(fourierT1);
                 points_x.push(r1); points_y.push(fourierT2);
             } else {
-                for(let i=0; i<=steps; i++){
-                    let f = i/steps;
+                for (let i = 0; i <= steps; i++) {
+                    let f = i / steps;
                     let r = r1 + f * fourierL;
                     points_x.push(r);
-                    let Tr = fourierT1 - fourierQ * (r - r1) / (4*Math.PI*fourierK*r1*r);
+                    let Tr = fourierT1 - fourierQ * (r - r1) / (4 * Math.PI * fourierK * r1 * r);
                     if (!isFinite(Tr)) Tr = fourierT1;
                     points_y.push(Tr);
                 }
@@ -1519,7 +1555,7 @@ function initFourierSimulation() {
 
         fourierChart.data.labels = points_x.map(x => x.toFixed(3));
         fourierChart.data.datasets[0].data = points_y;
-        
+
         const color = (fourierT1 >= fourierT2) ? '#ef4444' : '#3b82f6';
         fourierChart.data.datasets[0].borderColor = color;
         fourierChart.data.datasets[0].pointBackgroundColor = color;
@@ -1539,17 +1575,17 @@ function initFourierSimulation() {
         const w = canvas.width;
         const h = canvas.height;
         const geom = geomSelect ? geomSelect.value : "plane";
-        
+
         const absQ = Math.abs(fourierQ);
         const direction = Math.sign(fourierQ);
-        
+
         let speedMultiplier = 0;
         if (isFinite(absQ)) {
             speedMultiplier = direction * Math.sqrt(absQ) * 0.00015;
         } else {
             speedMultiplier = direction * 0.02; // max speed for infinity
         }
-        
+
         const maxSpeed = 0.02;
         if (speedMultiplier > maxSpeed) speedMultiplier = maxSpeed;
         if (speedMultiplier < -maxSpeed) speedMultiplier = -maxSpeed;
@@ -1578,7 +1614,7 @@ function initFourierSimulation() {
             particles.forEach(p => {
                 if (hasActiveFlow) p.x += speedMultiplier;
                 else p.x += (Math.random() - 0.5) * 0.001;
-                
+
                 if (p.x > 1.0) p.x = 0;
                 if (p.x < 0) p.x = 1.0;
                 const px = wallLeft + p.x * wallWidth;
@@ -1589,26 +1625,26 @@ function initFourierSimulation() {
             ctx.fillStyle = "#ffffff"; ctx.font = "bold 14px Outfit";
             ctx.textAlign = "right"; ctx.fillText(`T₁ = ${fourierT1.toFixed(0)}°C`, wallLeft - 10, h * 0.5);
             ctx.textAlign = "left"; ctx.fillText(`T₂ = ${fourierT2.toFixed(0)}°C`, wallRight + 10, h * 0.5);
-            
+
         } else {
-            const cx = w/2;
-            const cy = h/2;
+            const cx = w / 2;
+            const cy = h / 2;
             const maxR = Math.min(w, h) * 0.45;
             const r1 = sliderR1 ? parseFloat(sliderR1.value) : 0.05;
             let r2 = sliderR2 ? parseFloat(sliderR2.value) : 0.15;
             if (r2 < r1) r2 = r1;
-            
+
             // Map physical radius to pixels
-            const r_inner_px = maxR * (r1 / r2) || 0.1; 
+            const r_inner_px = maxR * (r1 / r2) || 0.1;
             const r_outer_px = maxR;
-            
+
             ctx.fillStyle = "rgba(0,0,0,0.1)";
-            ctx.fillRect(0,0,w,h);
+            ctx.fillRect(0, 0, w, h);
 
             // Handle zero thickness gracefully visually
             if (r2 === r1) {
                 ctx.beginPath();
-                ctx.arc(cx, cy, r_outer_px, 0, Math.PI*2);
+                ctx.arc(cx, cy, r_outer_px, 0, Math.PI * 2);
                 ctx.strokeStyle = getColorForTemp(fourierT1);
                 ctx.lineWidth = 4;
                 ctx.stroke();
@@ -1618,17 +1654,17 @@ function initFourierSimulation() {
                 rGrad.addColorStop(1, getColorForTemp(fourierT2));
 
                 ctx.beginPath();
-                ctx.arc(cx, cy, r_outer_px, 0, Math.PI*2);
-                ctx.arc(cx, cy, r_inner_px, 0, Math.PI*2, true);
+                ctx.arc(cx, cy, r_outer_px, 0, Math.PI * 2);
+                ctx.arc(cx, cy, r_inner_px, 0, Math.PI * 2, true);
                 ctx.fillStyle = rGrad;
                 ctx.fill();
-                
+
                 ctx.strokeStyle = "rgba(255,255,255,0.4)";
                 ctx.lineWidth = 2;
                 ctx.stroke();
 
                 ctx.beginPath();
-                ctx.arc(cx, cy, r_inner_px, 0, Math.PI*2);
+                ctx.arc(cx, cy, r_inner_px, 0, Math.PI * 2);
                 ctx.fillStyle = "rgba(0,0,0,0.6)";
                 ctx.fill();
                 ctx.stroke();
@@ -1637,10 +1673,10 @@ function initFourierSimulation() {
                 particles.forEach(p => {
                     if (hasActiveFlow) p.r_norm += speedMultiplier;
                     else p.r_norm += (Math.random() - 0.5) * 0.001;
-                    
+
                     if (p.r_norm > 1.0) p.r_norm = 0;
                     if (p.r_norm < 0) p.r_norm = 1.0;
-                    
+
                     const pr = r_inner_px + p.r_norm * (r_outer_px - r_inner_px);
                     const px = cx + Math.cos(p.angle) * pr;
                     const py = cy + Math.sin(p.angle) * pr;
@@ -1666,31 +1702,31 @@ function initFourierSimulation() {
             ctx.stroke();
 
             ctx.setLineDash([]);
-            
+
             // Draw labels for dimensions
             ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
             ctx.font = "13px Outfit";
             ctx.textAlign = "right";
             ctx.fillText("r₁", cx - r_inner_px * 0.707 - 5, cy - r_inner_px * 0.707 - 5);
             ctx.textAlign = "center";
-            ctx.fillText("r₂", cx + r_outer_px/2, cy - 8);
+            ctx.fillText("r₂", cx + r_outer_px / 2, cy - 8);
 
             ctx.fillStyle = "#ffffff"; ctx.font = "bold 14px Outfit";
-            ctx.textAlign = "center"; 
+            ctx.textAlign = "center";
             ctx.fillText(`T₁=${fourierT1.toFixed(0)}°C`, cx, cy + 5);
-            ctx.textAlign = "left"; 
+            ctx.textAlign = "left";
             ctx.fillText(`T₂=${fourierT2.toFixed(0)}°C`, cx + r_outer_px + 10, cy);
         }
 
         fourierAnimationId = requestAnimationFrame(draw);
     }
 
-    if(geomSelect) geomSelect.addEventListener("change", () => {
+    if (geomSelect) geomSelect.addEventListener("change", () => {
         updateGeometryUI();
         updateSimulation();
     });
 
-    if(modeSelect) modeSelect.addEventListener("change", (e) => {
+    if (modeSelect) modeSelect.addEventListener("change", (e) => {
         currentMode = e.target.value;
         if (currentMode === "calc-q") {
             t2Container.style.display = "block";
@@ -1703,12 +1739,12 @@ function initFourierSimulation() {
     });
 
     [sliderT1, sliderT2, sliderQin, sliderK, sliderL, sliderR1, sliderR2, sliderAH].forEach(el => {
-        if(el) el.addEventListener('input', updateSimulation);
+        if (el) el.addEventListener('input', updateSimulation);
     });
 
     window.addEventListener('resize', () => {
-        if(document.getElementById('fourier-sim').classList.contains('active')){
-            if(fourierChart) fourierChart.resize();
+        if (document.getElementById('fourier-sim').classList.contains('active')) {
+            if (fourierChart) fourierChart.resize();
         }
     });
 
@@ -1734,28 +1770,28 @@ function initNewtonSimulation_OLD_UNUSED() {
     const canvas = document.getElementById('newtonCanvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    
+
     const sliderTi = document.getElementById('newton-ti');
     const sliderTinf = document.getElementById('newton-tinf');
     const selectMedium = document.getElementById('newton-medium');
     const sliderD = document.getElementById('newton-d');
-    
+
     const valTi = document.getElementById('newton-ti-val');
     const valTinf = document.getElementById('newton-tinf-val');
     const valD = document.getElementById('newton-d-val');
     const resBi = document.getElementById('newton-bi-res');
     const resTau = document.getElementById('newton-tau-res');
     const resTime = document.getElementById('newton-time');
-    
+
     const graphCanvas = document.getElementById('newtonGraph');
     const graphCtx = graphCanvas.getContext('2d');
-    
+
     // Propiedades del hierro puro
     const rho = 7870; // kg/m^3
     const cp = 450; // J/kg.K
     const k_hierro = 80.2; // W/m.K
     const L_cylinder = 0.1; // m (Longitud del cilindro)
-    
+
     let chartInstance = new Chart(graphCtx, {
         type: 'line',
         data: {
@@ -1800,11 +1836,11 @@ function initNewtonSimulation_OLD_UNUSED() {
     let particles = [];
     const timeScale = 50; // Acelerador de tiempo
     let lastTimestamp = 0;
-    
+
     // Parámetros actuales
     let currentTi, currentTinf, currentH, currentD;
     let currentTau, currentBi;
-    
+
     function initParticles() {
         particles = [];
         const numParticles = 100;
@@ -1823,42 +1859,42 @@ function initNewtonSimulation_OLD_UNUSED() {
         currentTinf = parseFloat(sliderTinf.value);
         currentH = parseFloat(selectMedium.value);
         currentD = parseFloat(sliderD.value);
-        
+
         valTi.textContent = currentTi;
         valTinf.textContent = currentTinf;
         valD.textContent = currentD.toFixed(2);
-        
+
         // Área superficial y Volumen
         const r = currentD / 2;
         const As = 2 * Math.PI * r * L_cylinder + 2 * Math.PI * r * r;
         const V = Math.PI * r * r * L_cylinder;
         const Lc = V / As;
-        
+
         currentBi = (currentH * Lc) / k_hierro;
         currentTau = (rho * V * cp) / (currentH * As);
-        
+
         resBi.innerHTML = currentBi.toFixed(4) + (currentBi < 0.1 ? " <span style='color:#10b981;'>(Válido)</span>" : " <span style='color:#ef4444;'>(Inválido)</span>");
         resTau.innerHTML = currentTau.toFixed(1) + " s";
-        
+
         simTime = 0; // Reiniciar simulación
         lastTimestamp = performance.now();
         initParticles();
-        
+
         // Pre-calcular la gráfica teórica (hasta 5 Tau)
         const tMax = currentTau * 5;
         const graphData = [];
-        for (let t = 0; t <= tMax; t += tMax/50) {
+        for (let t = 0; t <= tMax; t += tMax / 50) {
             const T = currentTinf + (currentTi - currentTinf) * Math.exp(-t / currentTau);
             graphData.push({ x: t, y: T });
         }
         chartInstance.data.datasets[0].data = graphData;
-        
+
         const maxTemp = Math.max(currentTi, currentTinf);
         const minTemp = Math.min(currentTi, currentTinf);
         chartInstance.options.scales.y.max = maxTemp > 500 ? Math.ceil(maxTemp / 100) * 100 : (Math.ceil(maxTemp / 10) * 10 + 10);
         chartInstance.options.scales.y.min = minTemp < 0 ? Math.floor(minTemp / 10) * 10 : (minTemp > 20 ? 0 : Math.floor(minTemp / 10) * 10 - 10);
         chartInstance.options.scales.x.max = tMax;
-        
+
         chartInstance.update();
     }
 
@@ -1875,13 +1911,13 @@ function initNewtonSimulation_OLD_UNUSED() {
         if (!lastTimestamp) lastTimestamp = timestamp;
         const dt = (timestamp - lastTimestamp) / 1000; // segundos reales
         lastTimestamp = timestamp;
-        
+
         simTime += dt * timeScale;
         resTime.innerHTML = simTime.toFixed(1) + " s";
-        
+
         // Temperatura actual del cilindro
         const currentT = currentTinf + (currentTi - currentTinf) * Math.exp(-simTime / currentTau);
-        
+
         // Make canvas responsive
         const parent = canvas.parentElement;
         if (canvas.width !== parent.clientWidth || canvas.height !== parent.clientHeight) {
@@ -1896,12 +1932,12 @@ function initNewtonSimulation_OLD_UNUSED() {
 
         const cx = canvas.width / 2;
         const cy = canvas.height / 2;
-        
+
         // Escala visual del cilindro basada en el diámetro (0.01 a 0.2 m -> 20 a 100 px radio)
         const minR = 20;
         const maxR = 100;
         const visualR = minR + ((currentD - 0.01) / (0.2 - 0.01)) * (maxR - minR);
-        
+
         // Actualizar y dibujar partículas de convección (fluido)
         ctx.fillStyle = getColorForTemp(currentTinf);
         particles.forEach(p => {
@@ -1909,15 +1945,15 @@ function initNewtonSimulation_OLD_UNUSED() {
             const deltaT = currentT - currentTinf;
             // Si el cilindro está más caliente, las partículas suben más rápido cerca del cilindro
             const dist = Math.hypot(p.x - cx, p.y - cy);
-            
+
             let speedFactor = 1;
             if (dist < visualR * 3) {
                 speedFactor = 1 + (deltaT / 100) * (1 - dist / (visualR * 3));
             }
-            
+
             p.x += p.vx * speedFactor;
             p.y += p.vy * speedFactor;
-            
+
             // Reaparecer partículas que salen de la pantalla
             if (p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height) {
                 if (Math.random() > 0.5) {
@@ -1933,12 +1969,12 @@ function initNewtonSimulation_OLD_UNUSED() {
                     p.y = cy + (Math.random() - 0.5) * visualR * 4;
                 }
             }
-            
+
             ctx.beginPath();
             ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
             ctx.fill();
         });
-        
+
         // Dibujar el cilindro
         ctx.beginPath();
         ctx.arc(cx, cy, visualR, 0, Math.PI * 2);
@@ -1947,21 +1983,21 @@ function initNewtonSimulation_OLD_UNUSED() {
         ctx.strokeStyle = '#ffffff';
         ctx.lineWidth = 2;
         ctx.stroke();
-        
+
         // Texto de temperatura
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold 16px Outfit';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(`${currentT.toFixed(1)} °C`, cx, cy);
-        
+
         animationId = requestAnimationFrame(draw);
     }
-    
+
     [sliderTi, sliderTinf, selectMedium, sliderD].forEach(el => {
         el.addEventListener('input', updateSimulationParams);
     });
-    
+
     // Intersection Observer para detener/iniciar animación
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
@@ -1972,7 +2008,7 @@ function initNewtonSimulation_OLD_UNUSED() {
             if (animationId) cancelAnimationFrame(animationId);
         }
     });
-    
+
     observer.observe(canvas);
 }
 
@@ -1982,25 +2018,25 @@ function initNewtonSimulation_OLD_UNUSED() {
 function initCondConvSimulation() {
     const canvas = document.getElementById("condConvChart");
     if (!canvas) return;
-    
+
     const sliderT1 = document.getElementById("cc-t1");
     const sliderK = document.getElementById("cc-k");
     const sliderL = document.getElementById("cc-l");
     const sliderTinf = document.getElementById("cc-tinf");
     const sliderH = document.getElementById("cc-h");
-    
+
     const valT1 = document.getElementById("cc-t1-val");
     const valK = document.getElementById("cc-k-val");
     const valL = document.getElementById("cc-l-val");
     const valTinf = document.getElementById("cc-tinf-val");
     const valH = document.getElementById("cc-h-val");
-    
+
     const resT2 = document.getElementById("cc-t2-res");
     const resQ = document.getElementById("cc-q-res");
     const resRCond = document.getElementById("cc-rcond-res");
     const resRConv = document.getElementById("cc-rconv-res");
     const resRTotal = document.getElementById("cc-rtot-res");
-    
+
     const ctx = canvas.getContext("2d");
     let chartInstance = new Chart(ctx, {
         type: "line",
@@ -2073,62 +2109,62 @@ function initCondConvSimulation() {
         const L = parseFloat(sliderL.value);
         const Tinf = parseFloat(sliderTinf.value);
         const h = parseFloat(sliderH.value);
-        
+
         valT1.textContent = T1;
         valK.textContent = k;
         valL.textContent = L.toFixed(2);
         valTinf.textContent = Tinf;
         valH.textContent = h;
-        
+
         // Calcular R total y Flujo de calor
         const R_cond = L / k;
         const R_conv = 1 / h;
         const R_total = R_cond + R_conv;
-        
+
         const q = (T1 - Tinf) / R_total;
         let T2 = Tinf + (q / h);
-        
+
         // Validar límite físico
         if (T2 < -273.15) { T2 = -273.15; }
-        
+
         resQ.innerHTML = formatValue(q, "q");
         resT2.innerHTML = formatValue(T2, "t");
         if (resRCond) resRCond.textContent = R_cond.toFixed(4) + " m²K/W";
         if (resRConv) resRConv.textContent = R_conv.toFixed(4) + " m²K/W";
         if (resRTotal) resRTotal.textContent = R_total.toFixed(4) + " m²K/W";
-        
+
         // Datos para gráfico
         // 1. Zona sólida (línea recta)
         const solidData = [
             { x: 0, y: T1 },
             { x: L, y: T2 }
         ];
-        
+
         // 2. Zona fluida (curva de capa límite)
         const fluidData = [];
         const L_fluid = 0.05; // Mostrar 5 cm de fluido
         const numPoints = 20;
-        
+
         for (let i = 0; i <= numPoints; i++) {
             const x_fluid = L + (i / numPoints) * L_fluid;
             // Distancia en el fluido
             const dx = x_fluid - L;
-            const decay = Math.exp(-dx * (h / 5)); 
+            const decay = Math.exp(-dx * (h / 5));
             const T_fluid = Tinf + (T2 - Tinf) * decay;
             fluidData.push({ x: x_fluid, y: T_fluid });
         }
-        
+
         chartInstance.data.datasets[0].data = solidData;
         chartInstance.data.datasets[1].data = fluidData;
-        
+
         // Ajustar escalas dinámicamente
         const maxTemp = Math.max(T1, T2, Tinf);
         const minTemp = Math.min(T1, T2, Tinf);
         chartInstance.options.scales.y.max = maxTemp > 500 ? Math.ceil(maxTemp / 100) * 100 : 500;
         chartInstance.options.scales.y.min = minTemp < 0 ? Math.floor(minTemp / 100) * 100 : 0;
-        
+
         chartInstance.options.scales.x.max = L + L_fluid;
-        
+
         // Annotations para diferenciar el muro del fluido
         chartInstance.options.plugins.annotation = {
             annotations: {
@@ -2158,14 +2194,14 @@ function initCondConvSimulation() {
                 }
             }
         };
-        
+
         chartInstance.update();
     }
-    
+
     [sliderT1, sliderK, sliderL, sliderTinf, sliderH].forEach(slider => {
         slider.addEventListener("input", updateSimulation);
     });
-    
+
     updateSimulation();
 }
 
@@ -2180,21 +2216,21 @@ function initNusseltSimulation_OLD_UNUSED() {
     const lcSlider = document.getElementById("nu-lc");
     const tsSlider = document.getElementById("nu-ts");
     const tinfSlider = document.getElementById("nu-tinf");
-    
+
     const uVal = document.getElementById("nu-u-val");
     const kVal = document.getElementById("nu-k-val");
     const lcVal = document.getElementById("nu-lc-val");
     const tsVal = document.getElementById("nu-ts-val");
     const tinfVal = document.getElementById("nu-tinf-val");
-    
+
     const resQCond = document.getElementById("nu-qcond-res");
     const resQConv = document.getElementById("nu-qconv-res");
     const resNu = document.getElementById("nu-res");
-    
+
     const canvas = document.getElementById("nusseltChart");
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    
+
     let chartInstance = new Chart(ctx, {
         type: "line",
         data: {
@@ -2253,15 +2289,15 @@ function initNusseltSimulation_OLD_UNUSED() {
         const u = parseFloat(uSlider.value);
         const k = parseFloat(kSlider.value);
         const Lc = parseFloat(lcSlider.value);
-        
+
         uVal.textContent = u.toFixed(1);
         kVal.textContent = k.toFixed(2);
         lcVal.textContent = Lc.toFixed(2);
-        
+
         // Temperatures
         const Ts = 100; // Wall temp
         const Tinf = 20; // Fluid free stream temp
-        
+
         // If u = 0, it's pure conduction. Nu = 1.
         // As u increases, h increases. Let's assume h = (k/Lc) * (1 + C * u^0.8)
         // So Nu = 1 + C * u^0.8
@@ -2270,38 +2306,38 @@ function initNusseltSimulation_OLD_UNUSED() {
         if (u > 0) {
             Nu = 1.0 + C * Math.pow(u, 0.8);
         }
-        
+
         const h = (k / Lc) * Nu;
-        
+
         const q_cond = k * (Ts - Tinf) / Lc;
         const q_conv = h * (Ts - Tinf);
-        
+
         resQCond.textContent = q_cond.toFixed(1) + " W/m²";
         resQConv.textContent = q_conv.toFixed(1) + " W/m²";
         resNu.textContent = Nu.toFixed(2);
-        
+
         // Update Chart
         chartInstance.options.scales.x.max = Math.max(0.2, Lc);
-        
+
         const condData = [];
         const convData = [];
-        
+
         const numPoints = 50;
         for (let i = 0; i <= numPoints; i++) {
             const y = (i / numPoints) * Lc;
-            
+
             // Conduction Profile (Linear from Ts at y=0 to Tinf at y=Lc)
             const T_cond = Ts - (Ts - Tinf) * (y / Lc);
             condData.push({ x: y, y: T_cond });
-            
+
             // Convection Profile
             // Must have gradient at wall equal to -h(Ts-Tinf)/k = -Nu*(Ts-Tinf)/Lc
             // A simple profile that matches Ts at y=0, Tinf at y=Lc, and has the correct initial slope:
             // T(y) = Tinf + (Ts - Tinf) * (1 - y/Lc)^Nu
-            const T_conv = Tinf + (Ts - Tinf) * Math.pow(1 - y/Lc, Nu);
+            const T_conv = Tinf + (Ts - Tinf) * Math.pow(1 - y / Lc, Nu);
             convData.push({ x: y, y: T_conv });
         }
-        
+
         chartInstance.data.datasets[0].data = condData;
         chartInstance.data.datasets[1].data = convData;
         chartInstance.update();
@@ -2310,9 +2346,9 @@ function initNusseltSimulation_OLD_UNUSED() {
     uSlider.addEventListener("input", updateSimulation);
     kSlider.addEventListener("input", updateSimulation);
     lcSlider.addEventListener("input", updateSimulation);
-    if(tsSlider) tsSlider.addEventListener("input", updateSimulation);
-    if(tinfSlider) tinfSlider.addEventListener("input", updateSimulation);
-    
+    if (tsSlider) tsSlider.addEventListener("input", updateSimulation);
+    if (tinfSlider) tinfSlider.addEventListener("input", updateSimulation);
+
     // Initial call
     updateSimulation();
 }
@@ -2325,17 +2361,17 @@ function initNusseltSimulation_OLD_UNUSED() {
 function initBoundaryLayerSimulation_OLD_UNUSED() {
     const prSlider = document.getElementById("bl-pr");
     const scSlider = document.getElementById("bl-sc");
-    
+
     const prVal = document.getElementById("bl-pr-val");
     const scVal = document.getElementById("bl-sc-val");
-    
+
     const resDeltaT = document.getElementById("bl-deltat-res");
     const resDeltaC = document.getElementById("bl-deltac-res");
-    
+
     const canvas = document.getElementById("blChart");
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    
+
     let chartInstance = new Chart(ctx, {
         type: "line",
         data: {
@@ -2386,9 +2422,9 @@ function initBoundaryLayerSimulation_OLD_UNUSED() {
                     min: 0,
                     max: 1.5,
                     grid: { color: "#334155" },
-                    ticks: { 
+                    ticks: {
                         color: "#94a3b8",
-                        callback: function(value) {
+                        callback: function (value) {
                             if (value === 0) return '0 (Pared)';
                             if (value === 1) return '1 (Borde de Capa)';
                             return value;
@@ -2404,9 +2440,9 @@ function initBoundaryLayerSimulation_OLD_UNUSED() {
                     min: 0,
                     max: 1.05,
                     grid: { color: "#334155" },
-                    ticks: { 
+                    ticks: {
                         color: "#94a3b8",
-                        callback: function(value) {
+                        callback: function (value) {
                             if (value === 0) return '0 (Superficie)';
                             if (value === 1) return '1 (Infinito)';
                             return value;
@@ -2423,26 +2459,26 @@ function initBoundaryLayerSimulation_OLD_UNUSED() {
     function updateSimulation() {
         const Pr = parseFloat(prSlider.value);
         const Sc = parseFloat(scSlider.value);
-        
+
         prVal.textContent = Pr.toFixed(1);
         scVal.textContent = Sc.toFixed(1);
-        
+
         // Relaciones empíricas de espesor de capa límite
-        const delta_t_ratio = Math.pow(Pr, -1/3);
-        const delta_c_ratio = Math.pow(Sc, -1/3);
-        
+        const delta_t_ratio = Math.pow(Pr, -1 / 3);
+        const delta_c_ratio = Math.pow(Sc, -1 / 3);
+
         resDeltaT.textContent = delta_t_ratio.toFixed(2) + " δ";
         resDeltaC.textContent = delta_c_ratio.toFixed(2) + " δ";
-        
+
         const velData = [];
         const tempData = [];
         const concData = [];
-        
+
         // Eje y va de 0 a 1.5 (donde 1.0 es el borde de la capa límite hidrodinámica)
         const numPoints = 50;
         for (let i = 0; i <= numPoints; i++) {
             const y = (i / numPoints) * 1.5;
-            
+
             // Perfil de velocidad (Polinomio de orden 2, aproximación de Von Kármán)
             // u/Uinfinity = 2(y/δ) - (y/δ)^2 for y/δ <= 1, else 1
             let u_ratio = 1.0;
@@ -2450,7 +2486,7 @@ function initBoundaryLayerSimulation_OLD_UNUSED() {
                 u_ratio = 2 * y - Math.pow(y, 2);
             }
             velData.push({ x: y, y: u_ratio });
-            
+
             // Perfil de Temperatura
             // y_t = y / (δ_t) = y / (δ * delta_t_ratio)
             let y_t = y / delta_t_ratio;
@@ -2459,7 +2495,7 @@ function initBoundaryLayerSimulation_OLD_UNUSED() {
                 t_ratio = 2 * y_t - Math.pow(y_t, 2);
             }
             tempData.push({ x: y, y: t_ratio });
-            
+
             // Perfil de Concentración
             let y_c = y / delta_c_ratio;
             let c_ratio = 1.0;
@@ -2468,17 +2504,17 @@ function initBoundaryLayerSimulation_OLD_UNUSED() {
             }
             concData.push({ x: y, y: c_ratio });
         }
-        
+
         chartInstance.data.datasets[0].data = velData;
         chartInstance.data.datasets[1].data = tempData;
         chartInstance.data.datasets[2].data = concData;
-        
+
         chartInstance.update();
     }
-    
+
     prSlider.addEventListener('input', updateSimulation);
     scSlider.addEventListener('input', updateSimulation);
-    
+
     updateSimulation();
 }
 
@@ -2491,160 +2527,160 @@ function initResistanceSimulation() {
     const canvas = document.getElementById("resCanvas");
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    
+
     // UI Elements
     const sl_tinf1 = document.getElementById("res-tinf1");
     const sl_h1 = document.getElementById("res-h1");
     const sl_tinf2 = document.getElementById("res-tinf2");
     const sl_h2 = document.getElementById("res-h2");
-    
+
     const sl_k1 = document.getElementById("res-k1");
     const sl_L1 = document.getElementById("res-L1");
     const sl_k2 = document.getElementById("res-k2");
     const sl_L2 = document.getElementById("res-L2");
     const sl_k3 = document.getElementById("res-k3");
     const sl_L3 = document.getElementById("res-L3");
-    
+
     const val_rtot = document.getElementById("res-rtot-val");
     const val_q = document.getElementById("res-q-val");
-    
+
     function drawResistor(x, y, width, height, color, label, valStr) {
         ctx.strokeStyle = color;
         ctx.lineWidth = 2;
         ctx.beginPath();
-        
+
         // Draw zigzag
         const numZigs = 5;
         const dx = width / (numZigs * 2 + 1);
         let cx = x;
-        
+
         ctx.moveTo(cx, y);
         cx += dx;
-        
+
         for (let i = 0; i < numZigs; i++) {
-            ctx.lineTo(cx, y - height/2);
+            ctx.lineTo(cx, y - height / 2);
             cx += dx;
-            ctx.lineTo(cx, y + height/2);
+            ctx.lineTo(cx, y + height / 2);
             cx += dx;
         }
-        
+
         ctx.lineTo(cx, y);
         ctx.stroke();
-        
+
         // Label
         ctx.fillStyle = "#94a3b8";
         ctx.font = "12px Outfit";
         ctx.textAlign = "center";
-        ctx.fillText(label, x + width/2, y + height/2 + 15);
+        ctx.fillText(label, x + width / 2, y + height / 2 + 15);
         ctx.fillStyle = color;
-        ctx.fillText(valStr, x + width/2, y + height/2 + 30);
+        ctx.fillText(valStr, x + width / 2, y + height / 2 + 30);
     }
-    
+
     function updateSimulation() {
         const tinf1 = parseFloat(sl_tinf1.value);
         const h1 = parseFloat(sl_h1.value);
         const tinf2 = parseFloat(sl_tinf2.value);
         const h2 = parseFloat(sl_h2.value);
-        
+
         const k1 = parseFloat(sl_k1.value);
         const L1 = parseFloat(sl_L1.value) / 100;
         const k2 = parseFloat(sl_k2.value);
         const L2 = parseFloat(sl_L2.value) / 100;
         const k3 = parseFloat(sl_k3.value);
         const L3 = parseFloat(sl_L3.value) / 100;
-        
+
         document.getElementById("res-tinf1-val").textContent = tinf1;
         document.getElementById("res-h1-val").textContent = h1;
         document.getElementById("res-tinf2-val").textContent = tinf2;
         document.getElementById("res-h2-val").textContent = h2;
-        
+
         document.getElementById("res-k1-val").textContent = k1.toFixed(2);
-        document.getElementById("res-L1-val").textContent = (L1*100).toFixed(0);
+        document.getElementById("res-L1-val").textContent = (L1 * 100).toFixed(0);
         document.getElementById("res-k2-val").textContent = k2.toFixed(2);
-        document.getElementById("res-L2-val").textContent = (L2*100).toFixed(0);
+        document.getElementById("res-L2-val").textContent = (L2 * 100).toFixed(0);
         document.getElementById("res-k3-val").textContent = k3.toFixed(2);
-        document.getElementById("res-L3-val").textContent = (L3*100).toFixed(0);
-        
+        document.getElementById("res-L3-val").textContent = (L3 * 100).toFixed(0);
+
         const R_conv1 = 1 / h1;
         const R_cond1 = L1 / k1;
         const R_cond2 = L2 / k2;
         const R_cond3 = L3 / k3;
         const R_conv2 = 1 / h2;
-        
+
         const R_tot = R_conv1 + R_cond1 + R_cond2 + R_cond3 + R_conv2;
         const q = (tinf1 - tinf2) / R_tot;
-        
+
         val_rtot.textContent = R_tot.toFixed(4) + " K/W";
         val_q.textContent = q.toFixed(1) + " W";
-        
+
         const Ts1 = tinf1 - q * R_conv1;
         const T2 = Ts1 - q * R_cond1;
         const T3 = T2 - q * R_cond2;
         const Ts2 = T3 - q * R_cond3;
-        
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
+
         // Centered and larger layout
         const startX = 150;
         const totalL = L1 + L2 + L3;
         const availWidth = 500;
-        
+
         const w1 = (L1 / totalL) * availWidth;
         const w2 = (L2 / totalL) * availWidth;
         const w3 = (L3 / totalL) * availWidth;
-        
+
         const wallY = 40;
         const wallH = 220;
-        
+
         // Walls
         ctx.fillStyle = "rgba(100, 116, 139, 0.4)";
         ctx.fillRect(startX, wallY, w1, wallH);
         ctx.strokeStyle = "#94a3b8";
         ctx.strokeRect(startX, wallY, w1, wallH);
-        
+
         ctx.fillStyle = "rgba(148, 163, 184, 0.4)";
         ctx.fillRect(startX + w1, wallY, w2, wallH);
         ctx.strokeRect(startX + w1, wallY, w2, wallH);
-        
+
         ctx.fillStyle = "rgba(203, 213, 225, 0.4)";
         ctx.fillRect(startX + w1 + w2, wallY, w3, wallH);
         ctx.strokeRect(startX + w1 + w2, wallY, w3, wallH);
-        
+
         // Temperature Profile
         const minT = Math.min(tinf1, tinf2) - 10;
         const maxT = Math.max(tinf1, tinf2) + 10;
         const T_range = maxT - minT || 1; // avoid div by 0
-        
+
         function getTy(T) {
             return wallY + wallH - ((T - minT) / T_range) * wallH;
         }
-        
+
         ctx.beginPath();
         ctx.strokeStyle = "#ef4444";
         ctx.lineWidth = 3;
-        
+
         const x_inf1 = startX - 80;
         ctx.moveTo(x_inf1, getTy(tinf1));
         ctx.lineTo(startX, getTy(Ts1));
         ctx.lineTo(startX + w1, getTy(T2));
         ctx.lineTo(startX + w1 + w2, getTy(T3));
         ctx.lineTo(startX + w1 + w2 + w3, getTy(Ts2));
-        
+
         const x_inf2 = startX + availWidth + 80;
         ctx.lineTo(x_inf2, getTy(tinf2));
         ctx.stroke();
-        
+
         // Nodes
         ctx.fillStyle = "#ef4444";
         const points = [
-            {x: x_inf1, y: getTy(tinf1), label: "T_inf1", val: tinf1},
-            {x: startX, y: getTy(Ts1), label: "Ts1", val: Ts1},
-            {x: startX + w1, y: getTy(T2), label: "T2", val: T2},
-            {x: startX + w1 + w2, y: getTy(T3), label: "T3", val: T3},
-            {x: startX + w1 + w2 + w3, y: getTy(Ts2), label: "Ts2", val: Ts2},
-            {x: x_inf2, y: getTy(tinf2), label: "T_inf2", val: tinf2}
+            { x: x_inf1, y: getTy(tinf1), label: "T_inf1", val: tinf1 },
+            { x: startX, y: getTy(Ts1), label: "Ts1", val: Ts1 },
+            { x: startX + w1, y: getTy(T2), label: "T2", val: T2 },
+            { x: startX + w1 + w2, y: getTy(T3), label: "T3", val: T3 },
+            { x: startX + w1 + w2 + w3, y: getTy(Ts2), label: "Ts2", val: Ts2 },
+            { x: x_inf2, y: getTy(tinf2), label: "T_inf2", val: tinf2 }
         ];
-        
+
         points.forEach(p => {
             ctx.beginPath();
             ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
@@ -2653,10 +2689,10 @@ function initResistanceSimulation() {
             ctx.fillStyle = "#ffffff";
             ctx.fillText(`${p.label}=${p.val.toFixed(1)}°C`, p.x, p.y - 12);
         });
-        
+
         // Electrical Circuit
         const circY = wallY + wallH + 70;
-        
+
         ctx.strokeStyle = "#475569";
         ctx.lineWidth = 1;
         ctx.beginPath();
@@ -2667,28 +2703,28 @@ function initResistanceSimulation() {
         ctx.moveTo(startX + w1 + w2 + w3, getTy(Ts2)); ctx.lineTo(startX + w1 + w2 + w3, circY);
         ctx.moveTo(x_inf2, getTy(tinf2)); ctx.lineTo(x_inf2, circY);
         ctx.stroke();
-        
+
         drawResistor(x_inf1, circY, startX - x_inf1, 20, "#60a5fa", "R_conv1", R_conv1.toFixed(3));
         drawResistor(startX, circY, w1, 20, "#facc15", "R_cond1", R_cond1.toFixed(3));
         drawResistor(startX + w1, circY, w2, 20, "#facc15", "R_cond2", R_cond2.toFixed(3));
         drawResistor(startX + w1 + w2, circY, w3, 20, "#facc15", "R_cond3", R_cond3.toFixed(3));
         drawResistor(startX + w1 + w2 + w3, circY, x_inf2 - (startX + w1 + w2 + w3), 20, "#60a5fa", "R_conv2", R_conv2.toFixed(3));
-        
+
         points.forEach(p => {
             ctx.fillStyle = "#0f172a";
             ctx.beginPath();
-            ctx.arc(p.x, circY, 4, 0, Math.PI*2);
+            ctx.arc(p.x, circY, 4, 0, Math.PI * 2);
             ctx.fill();
             ctx.strokeStyle = "#ef4444";
             ctx.stroke();
         });
     }
-    
+
     // Add Event Listeners
     [sl_tinf1, sl_h1, sl_tinf2, sl_h2, sl_k1, sl_L1, sl_k2, sl_L2, sl_k3, sl_L3].forEach(el => {
         el.addEventListener('input', updateSimulation);
     });
-    
+
     updateSimulation();
 }
 
@@ -2702,10 +2738,10 @@ function calculatePlanck(lambda, T) {
     // The result is spectral emissive power E_lambda in kW / (m^2 * nm) (which is equivalent to MW / (m^2 * um))
     const C1 = 3.74177e8;
     const C2 = 1.43878e4;
-    
+
     const exponent = C2 / (lambda * T);
     if (exponent > 100) return 0; // Prevent overflow in Math.exp
-    
+
     const spectralRadiance = C1 / (Math.pow(lambda, 5) * (Math.exp(exponent) - 1));
     // Scale value to match standard display ranges (e.g., peak of ~80 kW/(m²·nm) at 5800 K)
     // 1 W / (m^2 * m) = 1e-9 W / (m^2 * nm) = 1e-12 kW / (m^2 * nm)
@@ -2717,10 +2753,10 @@ function calculatePlanck(lambda, T) {
 function getWavelengthColor(lambda) {
     // lambda is in micrometers. Convert to nanometers.
     const wl = lambda * 1000;
-    
+
     // Simple RGB conversion from wavelength (wl in nm)
     let r = 0, g = 0, b = 0;
-    
+
     if (wl < 0.01) {
         return { name: "Rayos Gamma", color: "#4c1d95" }; // Deep purple
     } else if (wl >= 0.01 && wl < 10) {
@@ -2758,7 +2794,7 @@ function getWavelengthColor(lambda) {
         // Infrared representation (deep red/infra-red)
         return { name: "Infrarrojo (Invisible)", color: "#b91c1c" };
     }
-    
+
     // Intensity factor near the limits of human vision
     let factor = 0;
     if (wl >= 380 && wl < 420) {
@@ -2768,11 +2804,11 @@ function getWavelengthColor(lambda) {
     } else if (wl >= 701 && wl <= 780) {
         factor = 0.3 + 0.7 * (780 - wl) / (780 - 701);
     }
-    
+
     const R = Math.round(r * factor * 255);
     const G = Math.round(g * factor * 255);
     const B = Math.round(b * factor * 255);
-    
+
     // Descriptive names
     let name = "Visible";
     if (wl >= 380 && wl < 450) name = "Visible (Violeta)";
@@ -2782,7 +2818,7 @@ function getWavelengthColor(lambda) {
     else if (wl >= 565 && wl < 590) name = "Visible (Amarillo)";
     else if (wl >= 590 && wl < 625) name = "Visible (Naranja)";
     else if (wl >= 625 && wl <= 780) name = "Visible (Rojo)";
-    
+
     return {
         name: name,
         color: `rgb(${R}, ${G}, ${B})`
@@ -2799,7 +2835,7 @@ function initMaxwellSimulation() {
     const gasSelect = document.getElementById("maxwell-gas");
 
     const R = 8.314; // Ideal gas constant J/(mol*K)
-    
+
     // Function to calculate PDF of v
     function calculateMaxwell(v, M, T) {
         // v in m/s, M in kg/mol, T in K
@@ -2830,7 +2866,7 @@ function initMaxwellSimulation() {
                 legend: { labels: { color: '#f1f5f9', font: { family: 'Outfit', size: 12 } } },
                 tooltip: {
                     callbacks: {
-                        label: function(c) {
+                        label: function (c) {
                             return `Probabilidad: ${(c.parsed.y * 1000).toFixed(2)} (x10^-3)`;
                         }
                     }
@@ -2860,37 +2896,37 @@ function initMaxwellSimulation() {
         const vrms = Math.sqrt((3 * R * T) / M);
         const vp = Math.sqrt((2 * R * T) / M);
         const vmean = Math.sqrt((8 * R * T) / (Math.PI * M));
-        
+
         // Fix the X and Y axes based on the selected gas to visually show the curve flattening
         const maxT = 2500;
         const minT = 50;
         const vrms_maxT = Math.sqrt((3 * R * maxT) / M);
         let newMaxV = Math.ceil((vrms_maxT * 3.5) / 100) * 100;
-        
+
         // Max probability occurs at minimum temperature (50K) at vp_minT
         const vp_minT = Math.sqrt((2 * R * minT) / M);
         const maxProb = calculateMaxwell(vp_minT, M, minT);
-        
+
         const newVelocities = [];
         const step = newMaxV / 100;
-        for(let v=0; v<=newMaxV; v+=step) {
+        for (let v = 0; v <= newMaxV; v += step) {
             newVelocities.push(Math.round(v));
         }
 
         const newData = newVelocities.map(v => calculateMaxwell(v, M, T));
-        
+
         maxwellChart.data.labels = newVelocities;
         maxwellChart.data.datasets[0].data = newData;
         maxwellChart.data.datasets[0].label = `T = ${T} K`;
-        
+
         maxwellChart.options.scales.y.max = maxProb * 1.05;
         maxwellChart.options.scales.x.max = newMaxV;
-        
+
         // Dynamic color based on Temp (cool blue to hot red)
-        const hue = Math.max(0, 240 - (T/2500)*240);
+        const hue = Math.max(0, 240 - (T / 2500) * 240);
         maxwellChart.data.datasets[0].borderColor = `hsl(${hue}, 80%, 55%)`;
         maxwellChart.data.datasets[0].backgroundColor = `hsla(${hue}, 80%, 55%, 0.15)`;
-        
+
         maxwellChart.update('none');
 
         // Update stats
@@ -2901,7 +2937,7 @@ function initMaxwellSimulation() {
 
     slider.addEventListener("input", updateSimulation);
     gasSelect.addEventListener("change", updateSimulation);
-    
+
     // Initial call
     updateSimulation();
 }
@@ -2926,7 +2962,7 @@ function initPlanckSimulation() {
         document.getElementById("planck-wien-val").innerHTML = temp > 0 ? `${lambda_max.toFixed(3)} &micro;m` : "&infin; &micro;m";
         const colorInfo = temp > 0 ? getWavelengthColor(lambda_max) : { color: '#000000', name: 'Ninguno (0K)' };
         document.getElementById("planck-color-name").textContent = colorInfo.name;
-        
+
         const box = document.getElementById("planck-color-box");
         box.style.backgroundColor = colorInfo.color;
         box.style.boxShadow = `0 0 15px ${colorInfo.color}`;
@@ -2952,7 +2988,7 @@ function initPlanckSimulation() {
             if (zeta > 100) return 0; // effectively zero
             let sum = 0;
             for (let n = 1; n <= 40; n++) {
-                sum += (Math.exp(-n * zeta) / n) * (Math.pow(zeta, 3) + 3*Math.pow(zeta, 2)/n + 6*zeta/(n*n) + 6/Math.pow(n, 3));
+                sum += (Math.exp(-n * zeta) / n) * (Math.pow(zeta, 3) + 3 * Math.pow(zeta, 2) / n + 6 * zeta / (n * n) + 6 / Math.pow(n, 3));
             }
             return (15 / Math.pow(Math.PI, 4)) * sum;
         };
@@ -2969,7 +3005,7 @@ function initPlanckSimulation() {
             document.getElementById("frac-ir").textContent = (Math.max(0, fIR) * 100).toFixed(2) + "%";
         }
     };
-    
+
     updateWienDisplay(T);
 
     const activeDataset = {
@@ -3011,24 +3047,24 @@ function initPlanckSimulation() {
             const ctx = chart.ctx;
             const chartArea = chart.chartArea;
             const labels = chart.data.labels;
-            
+
             if (!labels || labels.length === 0) return;
-            
+
             const minVal = labels[0];
             const maxVal = labels[labels.length - 1];
-            
+
             const getPix = (val) => {
                 const ratio = (val - minVal) / (maxVal - minVal);
                 return chartArea.left + ratio * (chartArea.right - chartArea.left);
             };
-            
+
             const leftPx = getPix(0.38);
             const rightPx = getPix(0.75);
-            
+
             if (rightPx > chartArea.left && leftPx < chartArea.right) {
                 const drawLeft = Math.max(leftPx, chartArea.left);
                 const drawRight = Math.min(rightPx, chartArea.right);
-                
+
                 ctx.save();
                 const gradient = ctx.createLinearGradient(leftPx, 0, rightPx, 0);
                 gradient.addColorStop(0, 'rgba(138, 43, 226, 0.25)'); // Violeta
@@ -3036,19 +3072,19 @@ function initPlanckSimulation() {
                 gradient.addColorStop(0.5, 'rgba(0, 255, 0, 0.25)');   // Verde
                 gradient.addColorStop(0.8, 'rgba(255, 255, 0, 0.25)'); // Amarillo
                 gradient.addColorStop(1, 'rgba(255, 0, 0, 0.25)');     // Rojo
-                
+
                 ctx.fillStyle = gradient;
                 ctx.fillRect(drawLeft, chartArea.top, drawRight - drawLeft, chartArea.bottom - chartArea.top);
-                
+
                 ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
                 ctx.font = '10px Outfit, sans-serif';
                 ctx.textAlign = 'center';
-                
+
                 // Draw text only if it's wide enough
                 if (drawRight - drawLeft > 30) {
                     ctx.fillText('Visible', (drawLeft + drawRight) / 2, chartArea.top + 15);
                 }
-                
+
                 ctx.restore();
             }
         }
@@ -3070,7 +3106,7 @@ function initPlanckSimulation() {
                 },
                 tooltip: {
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             return `Radiancia: ${context.parsed.y.toFixed(2)} kW/(m²·nm)`;
                         }
                     }
@@ -3095,51 +3131,51 @@ function initPlanckSimulation() {
         const multiplier = parseInt(document.getElementById("planck-multiplier") ? document.getElementById("planck-multiplier").value : 1);
         const T_val = parseInt(e.target.value) * multiplier;
         valDisplay.textContent = T_val.toLocaleString();
-        
+
         // Mathematically elegant dynamic X-axis scaling: ALWAYS center the peak!
         // lambda_max = 2897.8 / T_val. We set maxW to ~8x the peak wavelength.
         let maxW = T_val > 0 ? (2897.8 / T_val) * 8 : 20.0;
-        
+
         const newWavelengths = [];
         const step = maxW / 80.0;
         // Start close to 0 to capture Gamma/X-ray peaks
-        const startW = maxW / 80.0; 
+        const startW = maxW / 80.0;
         for (let w = startW; w <= maxW; w += step) {
             // Keep precision dynamic based on scale
             const precision = maxW < 0.001 ? 8 : (maxW < 0.1 ? 5 : 3);
             newWavelengths.push(parseFloat(w.toFixed(precision)));
         }
-        
+
         planckChart.data.labels = newWavelengths;
-        
+
         // Recalculate values for the active dataset
         const newData = newWavelengths.map(w => calculatePlanck(w, T_val));
-        
+
         planckChart.data.datasets[0].label = `Dinámico: ${T_val} K`;
         planckChart.data.datasets[0].data = newData;
-        
+
         // Recalculate values for the reference datasets
         planckChart.data.datasets[1].data = newWavelengths.map(w => calculatePlanck(w, refs[0].temp));
         planckChart.data.datasets[2].data = newWavelengths.map(w => calculatePlanck(w, refs[1].temp));
         planckChart.data.datasets[3].data = newWavelengths.map(w => calculatePlanck(w, refs[2].temp));
-        
+
         // Update Wien indicator
         updateWienDisplay(T_val);
-        
+
         // Dynamically adjust color gradient based on temperature
-        const hue = Math.max(15, 240 - (T_val - 1000) * 0.025); 
+        const hue = Math.max(15, 240 - (T_val - 1000) * 0.025);
         planckChart.data.datasets[0].borderColor = `hsl(${hue}, 90%, 55%)`;
         planckChart.data.datasets[0].backgroundColor = `hsla(${hue}, 90%, 55%, 0.15)`;
-        
+
         // Handle logarithmic scale dynamically
         const isLog = document.getElementById("planck-log-scale").checked;
         const maxVal = Math.max(...newData);
-        
+
         if (isLog) {
             planckChart.options.scales.y.type = 'logarithmic';
             planckChart.options.scales.y.min = 1e-8; // Prevent log(0)
             // Allow Y max to float in log scale or force it to slightly above maxVal
-            delete planckChart.options.scales.y.max; 
+            delete planckChart.options.scales.y.max;
         } else {
             planckChart.options.scales.y.type = 'linear';
             delete planckChart.options.scales.y.min;
@@ -3152,7 +3188,7 @@ function initPlanckSimulation() {
 
         planckChart.update('none'); // silent update for performance
     });
-    
+
     // Attach listener for logarithmic scale checkbox
     const logCheckbox = document.getElementById("planck-log-scale");
     if (logCheckbox) {
@@ -3188,14 +3224,14 @@ function initPrandtlSimulation() {
         const Rex_crit = 500000;
         let delta = 0;
         let isTurbulent = false;
-        
+
         if (Rex < Rex_crit) {
             delta = (5.0 * x_m) / Math.sqrt(Math.max(Rex, 1));
         } else {
             isTurbulent = true;
             delta = (0.37 * x_m) / Math.pow(Math.max(Rex, 1), 0.2);
         }
-        
+
         return { delta, isTurbulent, Rex };
     }
 
@@ -3203,20 +3239,20 @@ function initPrandtlSimulation() {
     function updatePrandtlData(ReL, x) {
         const bl = getBoundaryLayer(ReL, x);
         const delta_mm = bl.delta * 1000;
-        
+
         // Dynamic y max based on delta to always show the profile properly, but at least 20mm
         const max_y_mm = Math.max(30, delta_mm * 1.5);
-        
+
         const yPoints = [];
         const uPoints = [];
-        
+
         // Generate points up to max_y_mm
         const steps = 100;
         const step_y = max_y_mm / steps;
-        
+
         for (let y_mm = 0; y_mm <= max_y_mm; y_mm += step_y) {
             yPoints.push(parseFloat(y_mm.toFixed(2)));
-            
+
             const ratio = y_mm / delta_mm;
             if (ratio >= 1.0) {
                 uPoints.push(1.0);
@@ -3227,12 +3263,12 @@ function initPrandtlSimulation() {
                     uPoints.push(parseFloat(u_ratio.toFixed(4)));
                 } else {
                     // 1/7 power law
-                    const u_ratio = Math.pow(ratio, 1.0/7.0);
+                    const u_ratio = Math.pow(ratio, 1.0 / 7.0);
                     uPoints.push(parseFloat(u_ratio.toFixed(4)));
                 }
             }
         }
-        
+
         return { yPoints, uPoints, delta_mm, isTurbulent: bl.isTurbulent, Rex: bl.Rex };
     }
 
@@ -3257,7 +3293,7 @@ function initPrandtlSimulation() {
                 },
                 {
                     label: 'Espesor de la Capa Límite (δ)',
-                    data: simData.yPoints.map(y => (Math.abs(y - simData.delta_mm) < (simData.delta_mm*1.5/100)*1.5) ? 1.0 : null),
+                    data: simData.yPoints.map(y => (Math.abs(y - simData.delta_mm) < (simData.delta_mm * 1.5 / 100) * 1.5) ? 1.0 : null),
                     borderColor: 'rgba(239, 68, 68, 0.8)',
                     borderDash: [5, 5],
                     borderWidth: 2,
@@ -3298,14 +3334,14 @@ function initPrandtlSimulation() {
         const x_val = parseFloat(sliderX.value);
         valReDisplay.textContent = re_val.toLocaleString();
         valXDisplay.textContent = x_val.toFixed(2);
-        
+
         const newData = updatePrandtlData(re_val, x_val);
         prandtlChart.data.labels = newData.yPoints;
         prandtlChart.data.datasets[0].data = newData.uPoints;
-        
+
         const tol = (Math.max(30, newData.delta_mm * 1.5) / 100) * 1.5;
         prandtlChart.data.datasets[1].data = newData.yPoints.map(y => (Math.abs(y - newData.delta_mm) < tol) ? 1.0 : null);
-        
+
         // Update annotation if plugin exists
         if (prandtlChart.options.plugins && prandtlChart.options.plugins.annotation && prandtlChart.options.plugins.annotation.annotations && prandtlChart.options.plugins.annotation.annotations.regimeLabel) {
             prandtlChart.options.plugins.annotation.annotations.regimeLabel.content = newData.isTurbulent ? `RÉGIMEN TURBULENTO (Rex = ${newData.Rex.toExponential(2)})` : `RÉGIMEN LAMINAR (Rex = ${newData.Rex.toExponential(2)})`;
@@ -3316,14 +3352,14 @@ function initPrandtlSimulation() {
 
         prandtlChart.update('none');
     };
-    
+
     sliderRe.addEventListener("input", updateDisplay);
     sliderX.addEventListener("input", updateDisplay);
 
     // Particle animation logic
     const canvas = document.getElementById("boundaryLayerCanvas");
     const animCtx = canvas.getContext("2d");
-    
+
     class Particle {
         constructor() {
             this.reset();
@@ -3338,20 +3374,20 @@ function initPrandtlSimulation() {
             const bl = getBoundaryLayer(ReL, physicalX);
             const scaleY = canvas.height / 0.040; // 40mm fills the canvas
             const delta_pixels = bl.delta * scaleY;
-            
+
             const distFromPlate = canvas.height - this.y;
-            
+
             let u_ratio = 1.0;
             if (distFromPlate < delta_pixels) {
                 const ratio = distFromPlate / delta_pixels;
                 if (!bl.isTurbulent) {
                     u_ratio = 1.5 * ratio - 0.5 * Math.pow(ratio, 3);
                 } else {
-                    u_ratio = Math.pow(ratio, 1.0/7.0);
+                    u_ratio = Math.pow(ratio, 1.0 / 7.0);
                 }
                 if (u_ratio < 0.05) u_ratio = 0.05;
             }
-            
+
             this.x += 2.5 * u_ratio;
             if (this.x > canvas.width) {
                 this.reset();
@@ -3364,10 +3400,10 @@ function initPrandtlSimulation() {
             animCtx.fill();
         }
     }
-    
+
     const particles = [];
     const numParticles = 60;
-    
+
     function resizeCanvas() {
         if (!canvas) return;
         canvas.width = canvas.clientWidth;
@@ -3377,22 +3413,22 @@ function initPrandtlSimulation() {
             particles.push(new Particle());
         }
     }
-    
+
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
-    
+
     function animateParticles() {
         if (!canvas || !animCtx) return;
         animCtx.clearRect(0, 0, canvas.width, canvas.height);
-        
+
         // Draw flat plate at the bottom (solid line)
         animCtx.fillStyle = "#475569";
         animCtx.fillRect(0, canvas.height - 4, canvas.width, 4);
-        
+
         const ReL = parseInt(sliderRe.value);
         const currentX = parseFloat(sliderX.value);
         const scaleY = canvas.height / 0.040; // 40mm fits canvas vertically
-        
+
         // Draw boundary layer boundary delta(x)
         animCtx.beginPath();
         animCtx.moveTo(0, canvas.height);
@@ -3405,13 +3441,13 @@ function initPrandtlSimulation() {
         animCtx.strokeStyle = "rgba(239, 68, 68, 0.4)";
         animCtx.lineWidth = 2;
         animCtx.stroke();
-        
+
         // Shade the boundary layer area
         animCtx.lineTo(canvas.width, canvas.height);
         animCtx.lineTo(0, canvas.height);
         animCtx.fillStyle = "rgba(239, 68, 68, 0.05)";
         animCtx.fill();
-        
+
         // Draw sliderX location line
         const indicatorPx = (currentX / 2.0) * canvas.width;
         animCtx.beginPath();
@@ -3421,7 +3457,7 @@ function initPrandtlSimulation() {
         animCtx.setLineDash([4, 4]);
         animCtx.stroke();
         animCtx.setLineDash([]);
-        
+
         // Draw velocity profile arrows at indicatorPx
         const numArrows = 8;
         const arrowMaxPx = 60; // max length of arrow for V_infinity
@@ -3441,7 +3477,7 @@ function initPrandtlSimulation() {
                 if (!bl_ind.isTurbulent) {
                     u_ratio = 1.5 * ratio - 0.5 * Math.pow(ratio, 3);
                 } else {
-                    u_ratio = Math.pow(ratio, 1.0/7.0);
+                    u_ratio = Math.pow(ratio, 1.0 / 7.0);
                 }
             }
             animCtx.lineTo(indicatorPx + u_ratio * arrowMaxPx, y);
@@ -3454,8 +3490,8 @@ function initPrandtlSimulation() {
         for (let i = 0; i <= numArrows; i++) {
             const distFromPlate = (i / numArrows) * Math.min(canvas.height, delta_pixels_ind * 1.5);
             const y = canvas.height - distFromPlate;
-            
-            if (y < 0) continue; 
+
+            if (y < 0) continue;
 
             let u_ratio = 1.0;
             if (distFromPlate < delta_pixels_ind) {
@@ -3463,12 +3499,12 @@ function initPrandtlSimulation() {
                 if (!bl_ind.isTurbulent) {
                     u_ratio = 1.5 * ratio - 0.5 * Math.pow(ratio, 3);
                 } else {
-                    u_ratio = Math.pow(ratio, 1.0/7.0);
+                    u_ratio = Math.pow(ratio, 1.0 / 7.0);
                 }
             }
-            
+
             const arrowLen = u_ratio * arrowMaxPx;
-            
+
             // Draw line
             animCtx.beginPath();
             animCtx.moveTo(indicatorPx, y);
@@ -3476,7 +3512,7 @@ function initPrandtlSimulation() {
             animCtx.strokeStyle = "rgba(16, 185, 129, 0.9)";
             animCtx.lineWidth = 1.5;
             animCtx.stroke();
-            
+
             // Draw arrowhead
             if (arrowLen > 2) {
                 animCtx.beginPath();
@@ -3487,23 +3523,23 @@ function initPrandtlSimulation() {
                 animCtx.fill();
             }
         }
-        
+
         // Draw text labels for boundary conditions
         animCtx.fillStyle = "rgba(248, 250, 252, 0.9)"; // slate-50 color
         animCtx.font = "12px 'Outfit', sans-serif";
-        
+
         // No-slip condition label
         animCtx.fillText("u=0 (No deslizamiento)", indicatorPx + 8, canvas.height - 8);
-        
+
         // Free stream velocity label
         animCtx.fillText("u ≈ U∞", indicatorPx + arrowMaxPx + 8, canvas.height - (delta_pixels_ind * 1.3));
-        
+
         // Update and draw particles
         particles.forEach(p => {
             p.update(ReL);
             p.draw();
         });
-        
+
         requestAnimationFrame(animateParticles);
     }
     animateParticles();
@@ -3553,7 +3589,7 @@ function initInvSqSimulation() {
                 pointRadius: 0
             }, {
                 label: 'Punto Actual',
-                data: [{x: r_active, y: calcIntensity(P, r_active)}],
+                data: [{ x: r_active, y: calcIntensity(P, r_active) }],
                 backgroundColor: '#ef4444',
                 borderColor: '#ef4444',
                 pointRadius: 6,
@@ -3582,7 +3618,7 @@ function initInvSqSimulation() {
                 legend: { labels: { color: '#f1f5f9', font: { family: 'Outfit', size: 12 } } },
                 tooltip: {
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             return `I = ${context.parsed.y.toFixed(2)} W/m²`;
                         }
                     }
@@ -3596,23 +3632,23 @@ function initInvSqSimulation() {
         const r_val = parseFloat(sliderDist.value);
         document.getElementById("invsq-power-val").textContent = p_val;
         document.getElementById("invsq-dist-val").textContent = r_val.toFixed(1);
-        
+
         const I = calcIntensity(p_val, r_val);
         document.getElementById("invsq-intensity-val").innerHTML = `${I.toFixed(2)} W/m&sup2;`;
-        
+
         const newData = updateInvSqData(p_val);
         invsqChart.data.datasets[0].label = `Intensidad para P=${p_val}W`;
         invsqChart.data.datasets[0].data = newData.intensities;
-        
+
         // Update scatter point
-        invsqChart.data.datasets[1].data = [{x: r_val, y: I}];
-        
+        invsqChart.data.datasets[1].data = [{ x: r_val, y: I }];
+
         invsqChart.update('none');
     };
 
     sliderPower.addEventListener("input", updateDisplay);
     sliderDist.addEventListener("input", updateDisplay);
-    
+
     updateDisplay();
 }
 
@@ -3644,23 +3680,23 @@ function initFinSimulation() {
 
         // Infinitamente Larga
         const q_inf = M;
-        
+
         // Punta Aislada
         const q_iso = M * Math.tanh(mL);
-        
+
         // Punta con Convección
         const numConv = Math.sinh(mL) + h_mk * Math.cosh(mL);
         const denConv = Math.cosh(mL) + h_mk * Math.sinh(mL);
         const q_conv = M * (numConv / denConv);
-        
+
         // Punta Temperatura Especificada
         const theta_L = TL - Tinf;
         const q_spec = M * (Math.cosh(mL) - (theta_L / theta_b)) / Math.sinh(mL);
-        
+
         // Longitud Corregida
         const L_c = L_m + A / P;
         const q_corr = M * Math.tanh(m * L_c);
-        
+
         return { q_iso, q_conv, q_spec, q_inf, q_corr };
     }
 
@@ -3669,12 +3705,12 @@ function initFinSimulation() {
         const m = Math.sqrt((h * P) / (k * A));
         const theta_b = Tb - Tinf;
         const h_mk = h / (m * k);
-        
+
         // Punta aislada (Adiabática)
         const numIso = Math.cosh(m * (L - x));
         const denIso = Math.cosh(m * L);
         const T_iso = Tinf + theta_b * (numIso / denIso);
-        
+
         // Punta con convección
         const numConv = Math.cosh(m * (L - x)) + h_mk * Math.sinh(m * (L - x));
         const denConv = Math.cosh(m * L) + h_mk * Math.sinh(m * L);
@@ -3685,7 +3721,7 @@ function initFinSimulation() {
         const numSpec = (theta_L / theta_b) * Math.sinh(m * x) + Math.sinh(m * (L - x));
         const denSpec = Math.sinh(m * L);
         const T_spec = Tinf + theta_b * (numSpec / denSpec);
-        
+
         // Infinitamente Larga
         const T_infLong = Tinf + theta_b * Math.exp(-m * x);
         const L_c = L + A / P;
@@ -3703,13 +3739,13 @@ function initFinSimulation() {
         const T_spec_arr = [];
         const T_infLong_arr = [];
         const T_corr_arr = [];
-        
+
         // 50 points along the fin
         for (let i = 0; i <= 50; i++) {
             const x_cm = (i / 50) * L_cm;
             const x = x_cm / 100.0;
             x_cm_arr.push(parseFloat(x_cm.toFixed(2)));
-            
+
             const temps = calcTemps(x, L, k, h, TL, Tinf, P, A);
             T_iso_arr.push(temps.T_iso);
             T_conv_arr.push(temps.T_conv);
@@ -3726,8 +3762,8 @@ function initFinSimulation() {
     let TL = parseInt(sliderTL.value);
     let Tinf = parseInt(sliderTinf.value);
     let D_mm = parseInt(sliderD.value);
-    let P_init = Math.PI * (D_mm/1000.0);
-    let Ac_init = (Math.PI / 4) * Math.pow(D_mm/1000.0, 2);
+    let P_init = Math.PI * (D_mm / 1000.0);
+    let Ac_init = (Math.PI / 4) * Math.pow(D_mm / 1000.0, 2);
     let simData = updateFinData(L_cm, k, h, TL, Tinf, P_init, Ac_init);
 
     finChart = new Chart(ctx.getContext("2d"), {
@@ -3804,7 +3840,7 @@ function initFinSimulation() {
                 legend: { labels: { color: '#f1f5f9', font: { family: 'Outfit', size: 12 } } },
                 tooltip: {
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             return `${context.dataset.label}: ${context.parsed.y.toFixed(1)} °C`;
                         }
                     }
@@ -3829,7 +3865,7 @@ function initFinSimulation() {
         const w_val = parseInt(document.getElementById("fin-w").value);
         const t_val = parseInt(document.getElementById("fin-t").value);
         const shape = document.getElementById("fin-shape").value;
-        
+
         document.getElementById("fin-d-val").textContent = d_val;
         document.getElementById("fin-w-val").textContent = w_val;
         document.getElementById("fin-t-val").textContent = t_val;
@@ -3838,7 +3874,7 @@ function initFinSimulation() {
         document.getElementById("fin-h-val").textContent = h_val;
         document.getElementById("fin-tinf-val").textContent = tinf_val;
         document.getElementById("fin-tl-val").textContent = tl_val;
-        
+
         let Ac, P;
         if (shape === 'circular') {
             const D_m = d_val / 1000.0;
@@ -3850,15 +3886,15 @@ function initFinSimulation() {
             Ac = W_m * T_m;
             P = 2 * (W_m + T_m);
         }
-        
+
         const newData = updateFinData(l_val, k_val, h_val, tl_val, tinf_val, P, Ac);
         finChart.data.labels = newData.x_cm_arr;
         finChart.data.datasets[0].data = newData.T_iso_arr;
         finChart.data.datasets[1].data = newData.T_conv_arr;
         finChart.data.datasets[2].data = newData.T_spec_arr;
         finChart.data.datasets[3].data = newData.T_infLong_arr;
-        if(finChart.data.datasets[4]) finChart.data.datasets[4].data = newData.T_corr_arr;
-        
+        if (finChart.data.datasets[4]) finChart.data.datasets[4].data = newData.T_corr_arr;
+
         // Update tip temperatures
         const tipTempIso = newData.T_iso_arr[newData.T_iso_arr.length - 1];
         const tipTempConv = newData.T_conv_arr[newData.T_conv_arr.length - 1];
@@ -3870,8 +3906,8 @@ function initFinSimulation() {
         document.getElementById("fin-tip-temp-spec-val").innerHTML = `${tipTempSpec.toFixed(1)} &deg;C`;
         document.getElementById("fin-tip-temp-inf-val").innerHTML = `${tipTempInf.toFixed(1)} &deg;C`;
         const elTipCorr = document.getElementById("fin-tip-temp-corr-val");
-        if(elTipCorr) elTipCorr.innerHTML = `${tipTempCorr.toFixed(1)} &deg;C`;
-        
+        if (elTipCorr) elTipCorr.innerHTML = `${tipTempCorr.toFixed(1)} &deg;C`;
+
         finChart.update('none');
 
         const sliderX = document.getElementById("fin-x");
@@ -3880,17 +3916,17 @@ function initFinSimulation() {
             let x_val = parseFloat(sliderX.value);
             if (x_val > l_val) { x_val = l_val; sliderX.value = l_val; }
             document.getElementById("fin-x-val").textContent = x_val.toFixed(1);
-            
+
             const x_m = x_val / 100.0;
             const L_m = l_val / 100.0;
             const tempsAtX = calcTemps(x_m, L_m, k_val, h_val, tl_val, tinf_val, P, Ac);
-            
+
             const elIso = document.getElementById("fin-x-iso-val");
             const elConv = document.getElementById("fin-x-conv-val");
             const elSpec = document.getElementById("fin-x-spec-val");
             const elInf = document.getElementById("fin-x-inf-val");
             const elCorr = document.getElementById("fin-x-corr-val");
-            
+
             if (elIso) elIso.innerHTML = tempsAtX.T_iso.toFixed(1);
             if (elConv) elConv.innerHTML = tempsAtX.T_conv.toFixed(1);
             if (elSpec) elSpec.innerHTML = tempsAtX.T_spec.toFixed(1);
@@ -3903,29 +3939,29 @@ function initFinSimulation() {
         const A_c = Ac; // already calculated above
         const heats = calcHeatRates(L_m, k_val, h_val, tl_val, tinf_val, P, A_c);
         const theta_b = Tb - tinf_val;
-        
+
         const q_no_fin = h_val * A_c * theta_b;
         const q_max = h_val * P * L_m * theta_b;
-        
+
         const m_val = Math.sqrt((h_val * P) / (k_val * A_c));
         const acElem = document.getElementById("fin-ac-display-val");
         const mElem = document.getElementById("fin-m-display-val");
         if (acElem) acElem.innerHTML = A_c.toExponential(4);
         if (mElem) mElem.innerHTML = m_val.toFixed(2);
-        
+
         document.getElementById("fin-q-iso-val").innerHTML = `${heats.q_iso.toFixed(2)}`;
         document.getElementById("fin-q-conv-val").innerHTML = `${heats.q_conv.toFixed(2)}`;
         document.getElementById("fin-q-spec-val").innerHTML = `${heats.q_spec.toFixed(2)}`;
         document.getElementById("fin-q-inf-val").innerHTML = `${heats.q_inf.toFixed(2)}`;
         const elQCorr = document.getElementById("fin-q-corr-val");
-        if(elQCorr) elQCorr.innerHTML = `${heats.q_corr.toFixed(2)}`;
+        if (elQCorr) elQCorr.innerHTML = `${heats.q_corr.toFixed(2)}`;
 
         // Efficiency (eta)
         document.getElementById("fin-eff-iso-val").innerHTML = Math.abs(q_max) > 1e-6 ? `${(heats.q_iso / q_max * 100).toFixed(1)}` : `0.0`;
         document.getElementById("fin-eff-conv-val").innerHTML = Math.abs(q_max) > 1e-6 ? `${(heats.q_conv / q_max * 100).toFixed(1)}` : `0.0`;
         document.getElementById("fin-eff-spec-val").innerHTML = Math.abs(q_max) > 1e-6 ? `${(heats.q_spec / q_max * 100).toFixed(1)}` : `0.0`;
         const elEffCorr = document.getElementById("fin-eff-corr-val");
-        if(elEffCorr) elEffCorr.innerHTML = Math.abs(q_max) > 1e-6 ? `${(heats.q_corr / q_max * 100).toFixed(1)}` : `0.0`;
+        if (elEffCorr) elEffCorr.innerHTML = Math.abs(q_max) > 1e-6 ? `${(heats.q_corr / q_max * 100).toFixed(1)}` : `0.0`;
 
         // Effectiveness (epsilon)
         document.getElementById("fin-eps-iso-val").innerHTML = Math.abs(q_no_fin) > 1e-6 ? `${(heats.q_iso / q_no_fin).toFixed(1)}` : `0.0`;
@@ -3933,14 +3969,14 @@ function initFinSimulation() {
         document.getElementById("fin-eps-spec-val").innerHTML = Math.abs(q_no_fin) > 1e-6 ? `${(heats.q_spec / q_no_fin).toFixed(1)}` : `0.0`;
         document.getElementById("fin-eps-inf-val").innerHTML = Math.abs(q_no_fin) > 1e-6 ? `${(heats.q_inf / q_no_fin).toFixed(1)}` : `0.0`;
         const elEpsCorr = document.getElementById("fin-eps-corr-val");
-        if(elEpsCorr) elEpsCorr.innerHTML = Math.abs(q_no_fin) > 1e-6 ? `${(heats.q_corr / q_no_fin).toFixed(1)}` : `0.0`;
+        if (elEpsCorr) elEpsCorr.innerHTML = Math.abs(q_no_fin) > 1e-6 ? `${(heats.q_corr / q_no_fin).toFixed(1)}` : `0.0`;
     };
 
     sliderD.addEventListener("input", updateDisplay);
     document.getElementById("fin-w").addEventListener("input", updateDisplay);
     document.getElementById("fin-t").addEventListener("input", updateDisplay);
-    document.getElementById("fin-shape").addEventListener("change", function() {
-        if(this.value === 'circular') {
+    document.getElementById("fin-shape").addEventListener("change", function () {
+        if (this.value === 'circular') {
             document.getElementById('fin-d-group').style.display = 'block';
             document.getElementById('fin-w-group').style.display = 'none';
             document.getElementById('fin-t-group').style.display = 'none';
@@ -3960,7 +3996,7 @@ function initFinSimulation() {
     sliderTinf.addEventListener("input", updateDisplay);
     const sliderX = document.getElementById("fin-x");
     if (sliderX) sliderX.addEventListener("input", updateDisplay);
-    
+
     updateDisplay();
 }
 
@@ -3975,22 +4011,22 @@ function initGenerationSimulation() {
     const sliderH = document.getElementById('gen-h');
     const sliderTinf = document.getElementById('gen-tinf');
     const sliderW = document.getElementById('gen-w');
-    
+
     const valQdot = document.getElementById('gen-qdot-val');
     const valK = document.getElementById('gen-k-val');
     const valH = document.getElementById('gen-h-val');
     const valTinf = document.getElementById('gen-tinf-val');
     const valW = document.getElementById('gen-w-val');
-    
+
     const valTs = document.getElementById('gen-ts-val');
     const valTmax = document.getElementById('gen-tmax-val');
     const valTsCyl = document.getElementById('gen-ts-cyl');
     const valTmaxCyl = document.getElementById('gen-tmax-cyl');
     const valTsSph = document.getElementById('gen-ts-sph');
     const valTmaxSph = document.getElementById('gen-tmax-sph');
-    
+
     const ctx = document.getElementById('genChart').getContext('2d');
-    
+
     genChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
@@ -4089,13 +4125,13 @@ function initGenerationSimulation() {
         const Tinf = parseFloat(sliderTinf.value);
         const w = parseFloat(sliderW.value);
         const L = w / 2;
-        
+
         valQdot.textContent = sliderQdot.value;
         valK.textContent = sliderK.value;
         valH.textContent = sliderH.value;
         valTinf.textContent = sliderTinf.value;
         valW.textContent = sliderW.value;
-        
+
         // Calculations for Flat Plate
         const Ts = Tinf + (qdot * L) / h;
         const Tmax = Ts + (qdot * L * L) / (2 * k);
@@ -4113,17 +4149,17 @@ function initGenerationSimulation() {
         const TmaxSph = TsSph + (qdot * L * L) / (6 * k);
         if (valTsSph) valTsSph.textContent = TsSph.toFixed(1) + " °C";
         if (valTmaxSph) valTmaxSph.textContent = TmaxSph.toFixed(1) + " °C";
-        
+
         const points = 50;
         const dataPlate = [];
         const dataCyl = [];
         const dataSph = [];
         const dx = w / points;
-        
+
         for (let i = 0; i <= points; i++) {
             const x = -L + i * dx;
             const r = Math.abs(x);
-            
+
             // Plate
             const T_plate = Ts + (qdot / (2 * k)) * (L * L - x * x);
             dataPlate.push({ x: x, y: T_plate });
@@ -4136,31 +4172,31 @@ function initGenerationSimulation() {
             const T_sph = TsSph + (qdot / (6 * k)) * (L * L - r * r);
             dataSph.push({ x: x, y: T_sph });
         }
-        
+
         genChartInstance.data.datasets[0].data = dataPlate;
         genChartInstance.data.datasets[1].data = dataCyl;
         genChartInstance.data.datasets[2].data = dataSph;
-        
+
         genChartInstance.options.plugins.annotation.annotations.leftWall.xMin = -L;
         genChartInstance.options.plugins.annotation.annotations.leftWall.xMax = -L;
         genChartInstance.options.plugins.annotation.annotations.rightWall.xMin = L;
         genChartInstance.options.plugins.annotation.annotations.rightWall.xMax = L;
-        
+
         const margin = Math.max(10, (Tmax - Tinf) * 0.2);
         genChartInstance.options.scales.y.min = Math.floor(Tinf - margin);
         genChartInstance.options.scales.y.max = Math.ceil(Tmax + margin);
         genChartInstance.options.scales.x.min = -L * 1.2;
         genChartInstance.options.scales.x.max = L * 1.2;
-        
+
         genChartInstance.update();
     }
 
     [sliderQdot, sliderK, sliderH, sliderTinf, sliderW].forEach(slider => {
         slider.addEventListener('input', updateSimulation);
     });
-    
+
     window.addEventListener('resize', () => {
-        if(document.getElementById('gen-sim').classList.contains('active')){
+        if (document.getElementById('gen-sim').classList.contains('active')) {
             genChartInstance.resize();
             updateSimulation();
         }
@@ -4179,7 +4215,7 @@ function initMultiLayerSimulation() {
     const sliderH1 = document.getElementById('multi-h1');
     const sliderL1 = document.getElementById('multi-l1');
     const sliderK1 = document.getElementById('multi-k1');
-    
+
     const sliderL2 = document.getElementById('multi-l2');
     const sliderK2 = document.getElementById('multi-k2');
 
@@ -4188,12 +4224,12 @@ function initMultiLayerSimulation() {
 
     const sliderTinf2 = document.getElementById('multi-tinf2');
     const sliderH2 = document.getElementById('multi-h2');
-    
+
     const valTinf1 = document.getElementById('multi-tinf1-val');
     const valH1 = document.getElementById('multi-h1-val');
     const valL1 = document.getElementById('multi-l1-val');
     const valK1 = document.getElementById('multi-k1-val');
-    
+
     const valL2 = document.getElementById('multi-l2-val');
     const valK2 = document.getElementById('multi-k2-val');
 
@@ -4202,7 +4238,7 @@ function initMultiLayerSimulation() {
 
     const valTinf2 = document.getElementById('multi-tinf2-val');
     const valH2 = document.getElementById('multi-h2-val');
-    
+
     const valQ = document.getElementById('multi-q-val');
     const valR = document.getElementById('multi-r-val');
     const valRConv1 = document.getElementById('multi-r-conv1-val');
@@ -4214,9 +4250,9 @@ function initMultiLayerSimulation() {
     const valTint1 = document.getElementById('multi-tint1-val');
     const valTint2 = document.getElementById('multi-tint2-val');
     const valTs2 = document.getElementById('multi-ts2-val');
-    
+
     const ctx = document.getElementById('multiChart').getContext('2d');
-    
+
     multiChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
@@ -4305,7 +4341,7 @@ function initMultiLayerSimulation() {
         const h1 = parseFloat(sliderH1.value);
         const L1 = parseFloat(sliderL1.value);
         const k1 = parseFloat(sliderK1.value);
-        
+
         const L2 = parseFloat(sliderL2.value);
         const k2 = parseFloat(sliderK2.value);
 
@@ -4314,12 +4350,12 @@ function initMultiLayerSimulation() {
 
         const Tinf2 = parseFloat(sliderTinf2.value);
         const h2 = parseFloat(sliderH2.value);
-        
+
         valTinf1.textContent = sliderTinf1.value;
         valH1.textContent = sliderH1.value;
         valL1.textContent = sliderL1.value;
         valK1.textContent = sliderK1.value;
-        
+
         valL2.textContent = sliderL2.value;
         valK2.textContent = sliderK2.value;
 
@@ -4328,21 +4364,21 @@ function initMultiLayerSimulation() {
 
         valTinf2.textContent = sliderTinf2.value;
         valH2.textContent = sliderH2.value;
-        
+
         const rConv1 = 1 / h1;
         const rCond1 = L1 / k1;
         const rCond2 = L2 / k2;
         const rCond3 = L3 / k3;
         const rConv2 = 1 / h2;
         const rTot = rConv1 + rCond1 + rCond2 + rCond3 + rConv2;
-        
+
         const q = (Tinf1 - Tinf2) / rTot;
-        
+
         const Ts1 = Tinf1 - q * rConv1;
         const Tint1 = Ts1 - q * rCond1;
         const Tint2 = Tint1 - q * rCond2;
         const Ts2 = Tint2 - q * rCond3;
-        
+
         valQ.textContent = (q / 1000).toFixed(2) + " kW/m²";
         valR.textContent = rTot.toFixed(4) + " m²K/W";
         if (valRConv1) valRConv1.textContent = rConv1.toFixed(4) + " m²K/W";
@@ -4354,75 +4390,75 @@ function initMultiLayerSimulation() {
         valTint1.textContent = Tint1.toFixed(1) + " °C";
         valTint2.textContent = Tint2.toFixed(1) + " °C";
         valTs2.textContent = Ts2.toFixed(1) + " °C";
-        
-        const delta = 0.05; 
-        const freeStream = 0.03; 
-        
+
+        const delta = 0.05;
+        const freeStream = 0.03;
+
         const xS1 = 0;
         const xInt1 = L1;
         const xInt2 = L1 + L2;
         const xS2 = L1 + L2 + L3;
-        
+
         const data = [];
-        const numFluidPoints = 20; 
-        
+        const numFluidPoints = 20;
+
         // Left boundary layer fluid curve
         data.push({ x: xS1 - delta - freeStream, y: Tinf1 });
         data.push({ x: xS1 - delta, y: Tinf1 });
-        
+
         for (let i = 1; i <= numFluidPoints; i++) {
-            const fraction = i / numFluidPoints; 
+            const fraction = i / numFluidPoints;
             const x = xS1 - delta + (delta * fraction);
             const T = Tinf1 + (Ts1 - Tinf1) * Math.pow(fraction, 2);
             data.push({ x: x, y: T });
         }
-        
+
         // Wall boundaries & interfaces
         data.push({ x: xS1, y: Ts1 });
         data.push({ x: xInt1, y: Tint1 });
         data.push({ x: xInt2, y: Tint2 });
         data.push({ x: xS2, y: Ts2 });
-        
+
         // Right boundary layer fluid curve
         for (let i = 1; i <= numFluidPoints; i++) {
-            const fraction = i / numFluidPoints; 
+            const fraction = i / numFluidPoints;
             const x = xS2 + (delta * fraction);
             const T = Ts2 - (Ts2 - Tinf2) * (2 * fraction - Math.pow(fraction, 2));
             data.push({ x: x, y: T });
         }
-        
+
         data.push({ x: xS2 + delta + freeStream, y: Tinf2 });
-        
+
         multiChartInstance.data.datasets[0].data = data;
-        
+
         multiChartInstance.options.plugins.annotation.annotations.boxLayer1.xMin = xS1;
         multiChartInstance.options.plugins.annotation.annotations.boxLayer1.xMax = xInt1;
-        
+
         multiChartInstance.options.plugins.annotation.annotations.boxLayer2.xMin = xInt1;
         multiChartInstance.options.plugins.annotation.annotations.boxLayer2.xMax = xInt2;
 
         multiChartInstance.options.plugins.annotation.annotations.boxLayer3.xMin = xInt2;
         multiChartInstance.options.plugins.annotation.annotations.boxLayer3.xMax = xS2;
-        
+
         const maxT = Math.max(Tinf1, Tinf2, Ts1, Ts2, Tint1, Tint2);
         const minT = Math.min(Tinf1, Tinf2, Ts1, Ts2, Tint1, Tint2);
         const marginY = Math.max(10, (maxT - minT) * 0.1);
-        
+
         multiChartInstance.options.scales.y.min = Math.floor(minT - marginY);
         multiChartInstance.options.scales.y.max = Math.ceil(maxT + marginY);
-        
+
         multiChartInstance.options.scales.x.min = xS1 - delta - freeStream;
         multiChartInstance.options.scales.x.max = xS2 + delta + freeStream;
-        
+
         multiChartInstance.update();
     }
 
     [sliderTinf1, sliderH1, sliderL1, sliderK1, sliderL2, sliderK2, sliderL3, sliderK3, sliderTinf2, sliderH2].forEach(slider => {
         slider.addEventListener('input', updateSimulation);
     });
-    
+
     window.addEventListener('resize', () => {
-        if(document.getElementById('multi-sim').classList.contains('active')){
+        if (document.getElementById('multi-sim').classList.contains('active')) {
             multiChartInstance.resize();
             updateSimulation();
         }
@@ -4438,7 +4474,7 @@ function initNewtonSimulation() {
     const canvas = document.getElementById('newtonCanvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    
+
     const sliderTi = document.getElementById('newton-ti');
     const sliderTinf = document.getElementById('newton-tinf');
     const selectMedium = document.getElementById('newton-medium');
@@ -4446,27 +4482,27 @@ function initNewtonSimulation() {
     const sliderK = document.getElementById('newton-k');
     const sliderRho = document.getElementById('newton-rho');
     const sliderCp = document.getElementById('newton-cp');
-    
+
     const valTi = document.getElementById('newton-ti-val');
     const valTinf = document.getElementById('newton-tinf-val');
     const valD = document.getElementById('newton-d-val');
     const valK = document.getElementById('newton-k-val');
     const valRho = document.getElementById('newton-rho-val');
     const valCp = document.getElementById('newton-cp-val');
-    
+
     const resBi = document.getElementById('newton-bi-res');
     const resTau = document.getElementById('newton-tau-res');
     const resTime = document.getElementById('newton-time');
     const resCurrentT = document.getElementById('newton-current-t');
-    
+
     const startBtn = document.getElementById('newton-start-btn');
     const resetBtn = document.getElementById('newton-reset-btn');
-    
+
     const graphCanvas = document.getElementById('newtonGraph');
     const graphCtx = graphCanvas.getContext('2d');
-    
-    const L_cylinder = 0.1; 
-    
+
+    const L_cylinder = 0.1;
+
     let chartInstance = new Chart(graphCtx, {
         type: 'line',
         data: {
@@ -4505,7 +4541,7 @@ function initNewtonSimulation() {
                     ticks: {
                         color: '#cbd5e1',
                         precision: 0,
-                        callback: function(value) {
+                        callback: function (value) {
                             if (value % 1 === 0) {
                                 return value;
                             }
@@ -4528,13 +4564,13 @@ function initNewtonSimulation() {
     let animationId;
     let simTime = 0;
     let particles = [];
-    const timeScale = 50; 
+    const timeScale = 50;
     let lastTimestamp = 0;
     let isPlaying = false;
-    
+
     let currentTi, currentTinf, currentH, currentD, currentK, currentRho, currentCp;
     let currentTau, currentBi;
-    
+
     function initParticles() {
         particles = [];
         const numParticles = 100;
@@ -4543,7 +4579,7 @@ function initNewtonSimulation() {
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
                 vx: (Math.random() - 0.5) * 2,
-                vy: (Math.random() - 0.5) * 2 - 1 
+                vy: (Math.random() - 0.5) * 2 - 1
             });
         }
     }
@@ -4556,25 +4592,25 @@ function initNewtonSimulation() {
         currentK = parseFloat(sliderK.value);
         currentRho = parseFloat(sliderRho.value);
         currentCp = parseFloat(sliderCp.value);
-        
+
         valTi.textContent = currentTi;
         valTinf.textContent = currentTinf;
         valD.textContent = currentD.toFixed(2);
         if (valK) valK.textContent = currentK.toFixed(1);
         if (valRho) valRho.textContent = currentRho;
         if (valCp) valCp.textContent = currentCp;
-        
+
         const r = currentD / 2;
         const As = 2 * Math.PI * r * L_cylinder + 2 * Math.PI * r * r;
         const V = Math.PI * r * r * L_cylinder;
         const Lc = V / As;
-        
+
         currentBi = (currentH * Lc) / currentK;
         currentTau = (currentRho * V * currentCp) / (currentH * As);
-        
+
         resBi.innerHTML = currentBi.toFixed(4) + (currentBi < 0.1 ? " <span style='color:#10b981;'>(Válido)</span>" : " <span style='color:#ef4444;'>(Inválido)</span>");
         resTau.innerHTML = currentTau.toFixed(1) + " s";
-        
+
         if (!isPlaying) {
             simTime = 0;
             resTime.innerHTML = simTime.toFixed(1) + " s";
@@ -4582,27 +4618,27 @@ function initNewtonSimulation() {
                 resCurrentT.textContent = currentTi.toFixed(1) + " °C";
             }
         }
-        
+
         lastTimestamp = performance.now();
         initParticles();
-        
+
         const tMax = currentTau * 5;
         const graphData = [];
-        for (let t = 0; t <= tMax; t += tMax/50) {
+        for (let t = 0; t <= tMax; t += tMax / 50) {
             const T = currentTinf + (currentTi - currentTinf) * Math.exp(-t / currentTau);
             graphData.push({ x: t, y: T });
         }
         chartInstance.data.datasets[0].data = graphData;
-        
+
         const currentT = currentTinf + (currentTi - currentTinf) * Math.exp(-simTime / currentTau);
         chartInstance.data.datasets[1].data = [{ x: simTime, y: currentT }];
-        
+
         const maxTemp = Math.max(currentTi, currentTinf);
         const minTemp = Math.min(currentTi, currentTinf);
         chartInstance.options.scales.y.max = maxTemp > 500 ? Math.ceil(maxTemp / 100) * 100 : (Math.ceil(maxTemp / 10) * 10 + 10);
         chartInstance.options.scales.y.min = minTemp < 0 ? Math.floor(minTemp / 10) * 10 : (minTemp > 20 ? 0 : Math.floor(minTemp / 10) * 10 - 10);
         chartInstance.options.scales.x.max = tMax;
-        
+
         chartInstance.update();
     }
 
@@ -4617,16 +4653,16 @@ function initNewtonSimulation() {
 
     function draw(timestamp) {
         if (!lastTimestamp) lastTimestamp = timestamp;
-        const dt = (timestamp - lastTimestamp) / 1000; 
+        const dt = (timestamp - lastTimestamp) / 1000;
         lastTimestamp = timestamp;
-        
+
         if (isPlaying) {
             simTime += dt * timeScale;
         }
         resTime.innerHTML = simTime.toFixed(1) + " s";
-        
+
         const currentT = currentTinf + (currentTi - currentTinf) * Math.exp(-simTime / currentTau);
-        
+
         // Auto-pause when equilibrium is reached (difference < 0.05 °C)
         if (isPlaying && Math.abs(currentT - currentTinf) < 0.05) {
             isPlaying = false;
@@ -4635,28 +4671,28 @@ function initNewtonSimulation() {
                 startBtn.style.background = '#3b82f6';
             }
         }
-        
+
         if (resCurrentT) {
             resCurrentT.textContent = currentT.toFixed(1) + " °C";
         }
-        
+
         chartInstance.data.datasets[1].data = [{ x: simTime, y: currentT }];
-        
+
         // Dynamically adjust x-axis if simTime exceeds the current max
         if (simTime > chartInstance.options.scales.x.max) {
             const newMax = simTime + currentTau;
             chartInstance.options.scales.x.max = newMax;
-            
+
             const graphData = [];
-            for (let t = 0; t <= newMax; t += newMax/50) {
+            for (let t = 0; t <= newMax; t += newMax / 50) {
                 const T = currentTinf + (currentTi - currentTinf) * Math.exp(-t / currentTau);
                 graphData.push({ x: t, y: T });
             }
             chartInstance.data.datasets[0].data = graphData;
         }
-        
+
         chartInstance.update('none');
-        
+
         const parent = canvas.parentElement;
         if (canvas.width !== parent.clientWidth || canvas.height !== parent.clientHeight) {
             canvas.width = parent.clientWidth;
@@ -4669,24 +4705,24 @@ function initNewtonSimulation() {
 
         const cx = canvas.width / 2;
         const cy = canvas.height / 2;
-        
+
         const minR = 20;
         const maxR = 100;
         const visualR = minR + ((currentD - 0.01) / (0.3 - 0.01)) * (maxR - minR);
-        
+
         ctx.fillStyle = getColorForTemp(currentTinf);
         particles.forEach(p => {
             const deltaT = currentT - currentTinf;
             const dist = Math.hypot(p.x - cx, p.y - cy);
-            
+
             let speedFactor = 1;
             if (dist < visualR * 3) {
                 speedFactor = 1 + (deltaT / 100) * (1 - dist / (visualR * 3));
             }
-            
+
             p.x += p.vx * speedFactor;
             p.y += p.vy * speedFactor;
-            
+
             if (p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height) {
                 if (Math.random() > 0.5) {
                     p.x = Math.random() * canvas.width;
@@ -4700,12 +4736,12 @@ function initNewtonSimulation() {
                     p.y = cy + (Math.random() - 0.5) * visualR * 4;
                 }
             }
-            
+
             ctx.beginPath();
             ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
             ctx.fill();
         });
-        
+
         ctx.beginPath();
         ctx.arc(cx, cy, visualR, 0, Math.PI * 2);
         ctx.fillStyle = getColorForTemp(currentT);
@@ -4713,13 +4749,13 @@ function initNewtonSimulation() {
         ctx.strokeStyle = '#ffffff';
         ctx.lineWidth = 2;
         ctx.stroke();
-        
+
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold 16px Outfit';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(`${currentT.toFixed(1)} °C`, cx, cy);
-        
+
         // Dibujar etiqueta T_infinito en el ambiente (esquina superior izquierda)
         ctx.save();
         ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
@@ -4727,17 +4763,17 @@ function initNewtonSimulation() {
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
         ctx.lineWidth = 1;
         ctx.strokeRect(15, 15, 130, 32);
-        
+
         ctx.fillStyle = '#94a3b8'; // color texto secundario
         ctx.font = 'bold 13px Outfit';
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
         ctx.fillText(`T_∞ = ${currentTinf.toFixed(1)} °C`, 25, 31);
         ctx.restore();
-        
+
         animationId = requestAnimationFrame(draw);
     }
-    
+
     [sliderTi, sliderTinf, selectMedium, sliderD, sliderK, sliderRho, sliderCp].forEach(el => {
         if (el) el.addEventListener('input', updateSimulationParams);
     });
@@ -4767,7 +4803,7 @@ function initNewtonSimulation() {
             updateSimulationParams();
         });
     }
-    
+
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
             updateSimulationParams();
@@ -4777,7 +4813,7 @@ function initNewtonSimulation() {
             if (animationId) cancelAnimationFrame(animationId);
         }
     });
-    
+
     observer.observe(canvas);
 }
 
@@ -4787,25 +4823,25 @@ function initNewtonSimulation() {
 function initCondConvSimulation() {
     const canvas = document.getElementById("condConvChart");
     if (!canvas) return;
-    
+
     const sliderT1 = document.getElementById("cc-t1");
     const sliderK = document.getElementById("cc-k");
     const sliderL = document.getElementById("cc-l");
     const sliderTinf = document.getElementById("cc-tinf");
     const sliderH = document.getElementById("cc-h");
-    
+
     const valT1 = document.getElementById("cc-t1-val");
     const valK = document.getElementById("cc-k-val");
     const valL = document.getElementById("cc-l-val");
     const valTinf = document.getElementById("cc-tinf-val");
     const valH = document.getElementById("cc-h-val");
-    
+
     const resT2 = document.getElementById("cc-t2-res");
     const resQ = document.getElementById("cc-q-res");
     const resRCond = document.getElementById("cc-rcond-res");
     const resRConv = document.getElementById("cc-rconv-res");
     const resRTotal = document.getElementById("cc-rtot-res");
-    
+
     const ctx = canvas.getContext("2d");
     let chartInstance = new Chart(ctx, {
         type: "line",
@@ -4878,55 +4914,55 @@ function initCondConvSimulation() {
         const L = parseFloat(sliderL.value);
         const Tinf = parseFloat(sliderTinf.value);
         const h = parseFloat(sliderH.value);
-        
+
         valT1.textContent = T1;
         valK.textContent = k;
         valL.textContent = L.toFixed(2);
         valTinf.textContent = Tinf;
         valH.textContent = h;
-        
+
         const R_cond = L / k;
         const R_conv = 1 / h;
         const R_total = R_cond + R_conv;
-        
+
         const q = (T1 - Tinf) / R_total;
         let T2 = Tinf + (q / h);
-        
+
         if (T2 < -273.15) { T2 = -273.15; }
-        
+
         resQ.innerHTML = formatValue(q, "q");
         resT2.innerHTML = formatValue(T2, "t");
         if (resRCond) resRCond.textContent = R_cond.toFixed(4) + " m²K/W";
         if (resRConv) resRConv.textContent = R_conv.toFixed(4) + " m²K/W";
         if (resRTotal) resRTotal.textContent = R_total.toFixed(4) + " m²K/W";
-        
+
         const solidData = [
             { x: 0, y: T1 },
             { x: L, y: T2 }
         ];
-        
+
         const fluidData = [];
-        const L_fluid = 0.05; 
+        const L_fluid = 0.05;
         const numPoints = 20;
-        
+
         for (let i = 0; i <= numPoints; i++) {
             const x_fluid = L + (i / numPoints) * L_fluid;
             const dx = x_fluid - L;
-            const decay = Math.exp(-dx * (h / 5)); 
+            const decay = Math.exp(-dx * (h / 5));
             const T_fluid = Tinf + (T2 - Tinf) * decay;
             fluidData.push({ x: x_fluid, y: T_fluid });
         }
-        
+
         chartInstance.data.datasets[0].data = solidData;
         chartInstance.data.datasets[1].data = fluidData;
-        
+
         const maxTemp = Math.max(T1, T2, Tinf);
         const minTemp = Math.min(T1, T2, Tinf);
         chartInstance.options.scales.y.max = maxTemp > 500 ? Math.ceil(maxTemp / 100) * 100 : 500;
         chartInstance.options.scales.y.min = minTemp < 0 ? Math.floor(minTemp / 100) * 100 : 0;
-        
+
         chartInstance.options.scales.x.max = L + L_fluid;
-        
+
         chartInstance.options.plugins.annotation = {
             annotations: {
                 wallRegion: {
@@ -4955,14 +4991,14 @@ function initCondConvSimulation() {
                 }
             }
         };
-        
+
         chartInstance.update();
     }
-    
+
     [sliderT1, sliderK, sliderL, sliderTinf, sliderH].forEach(slider => {
         slider.addEventListener("input", updateSimulation);
     });
-    
+
     updateSimulation();
 }
 
@@ -4975,24 +5011,24 @@ function initNusseltSimulation() {
     const lcSlider = document.getElementById("nu-lc");
     const tsSlider = document.getElementById("nu-ts");
     const tinfSlider = document.getElementById("nu-tinf");
-    
+
     const uVal = document.getElementById("nu-u-val");
     const kVal = document.getElementById("nu-k-val");
     const lcVal = document.getElementById("nu-lc-val");
     const tsVal = document.getElementById("nu-ts-val");
     const tinfVal = document.getElementById("nu-tinf-val");
-    
+
     const resQCond = document.getElementById("nu-qcond-res");
     const resQConv = document.getElementById("nu-qconv-res");
     const resNu = document.getElementById("nu-res");
-    
+
     const canvas = document.getElementById("nusseltChart");
     const animCanvas = document.getElementById("nusseltCanvas");
     if (!canvas || !animCanvas) return;
-    
+
     const ctx = canvas.getContext("2d");
     const actx = animCanvas.getContext("2d");
-    
+
     let chartInstance = new Chart(ctx, {
         type: "line",
         data: {
@@ -5028,7 +5064,7 @@ function initNusseltSimulation() {
                 x: {
                     type: "linear",
                     min: 0,
-                    max: 0.2, 
+                    max: 0.2,
                     title: { display: true, text: "Distancia desde la pared y (m)", color: "#94a3b8" },
                     ticks: { color: "#cbd5e1" },
                     grid: { color: "rgba(255,255,255,0.1)" }
@@ -5047,29 +5083,29 @@ function initNusseltSimulation() {
 
     let particles = [];
     const numParticles = 80;
-    
+
     function initParticles() {
         particles = [];
         for (let i = 0; i < numParticles; i++) {
             particles.push({
                 y: Math.random() * animCanvas.height,
-                xRel: Math.random(), 
+                xRel: Math.random(),
                 size: 1.5 + Math.random() * 2
             });
         }
     }
 
-    function getColorForTemp(T, minT=20, maxT=100) {
+    function getColorForTemp(T, minT = 20, maxT = 100) {
         const normalized = (maxT === minT) ? 0.5 : Math.max(0, Math.min(1, (T - minT) / (maxT - minT)));
-        const r = Math.round(normalized * 220 + 35); 
+        const r = Math.round(normalized * 220 + 35);
         const g = Math.round(normalized * 50 + 30);
-        const b = Math.round((1 - normalized) * 200 + 55); 
+        const b = Math.round((1 - normalized) * 200 + 55);
         return `rgb(${r}, ${g}, ${b})`;
     }
 
     let animationId;
     let lastTimestamp = 0;
-    
+
     let currentU = 0;
     let currentK = 0.6;
     let currentLc = 0.05;
@@ -5081,45 +5117,45 @@ function initNusseltSimulation() {
         currentU = parseFloat(uSlider.value);
         currentK = parseFloat(kSlider.value);
         currentLc = parseFloat(lcSlider.value);
-        
+
         uVal.textContent = currentU.toFixed(1);
         kVal.textContent = currentK.toFixed(2);
         lcVal.textContent = currentLc.toFixed(2);
-        
-        currentTs = tsSlider ? parseFloat(tsSlider.value) : 100; 
+
+        currentTs = tsSlider ? parseFloat(tsSlider.value) : 100;
         currentTinf = tinfSlider ? parseFloat(tinfSlider.value) : 20;
-        
-        if(tsVal) tsVal.textContent = currentTs.toFixed(0);
-        if(tinfVal) tinfVal.textContent = currentTinf.toFixed(0); 
-        
+
+        if (tsVal) tsVal.textContent = currentTs.toFixed(0);
+        if (tinfVal) tinfVal.textContent = currentTinf.toFixed(0);
+
         // Propiedades de referencia del fluido (tipo agua)
         const rho = 1000; // kg/m³
         const cp = 4180;  // J/kg·K
         const mu = 0.001; // Pa·s
-        
+
         // Prandtl y Reynolds
         const Pr = (mu * cp) / currentK;
         const Re = (rho * currentU * currentLc) / mu;
-        
+
         currentNu = 1.0;
         if (currentU > 0) {
             // Relación clásica de correlación
-            currentNu = 1.0 + 0.03 * Math.sqrt(Re) * Math.pow(Pr, 1/3);
+            currentNu = 1.0 + 0.03 * Math.sqrt(Re) * Math.pow(Pr, 1 / 3);
         }
-        
+
         const h = (currentK / currentLc) * currentNu;
-        
+
         const q_cond = currentK * (currentTs - currentTinf) / currentLc;
         const q_conv = h * (currentTs - currentTinf);
-        
+
         resQCond.textContent = q_cond.toFixed(1) + " W/m²";
         resQConv.textContent = q_conv.toFixed(1) + " W/m²";
         resNu.textContent = currentNu.toFixed(2);
-        
+
         chartInstance.options.scales.x.max = Math.max(0.2, currentLc);
         chartInstance.options.scales.y.max = currentTs;
         chartInstance.options.scales.y.min = currentTinf;
-        
+
         const condData = [];
         const convData = [];
         const numPoints = 50;
@@ -5127,11 +5163,11 @@ function initNusseltSimulation() {
             const y = (i / numPoints) * currentLc;
             const T_cond = currentTs - (currentTs - currentTinf) * (y / currentLc);
             condData.push({ x: y, y: T_cond });
-            
-            const T_conv = currentTinf + (currentTs - currentTinf) * Math.pow(1 - y/currentLc, currentNu);
+
+            const T_conv = currentTinf + (currentTs - currentTinf) * Math.pow(1 - y / currentLc, currentNu);
             convData.push({ x: y, y: T_conv });
         }
-        
+
         chartInstance.data.datasets[0].data = condData;
         chartInstance.data.datasets[1].data = convData;
         chartInstance.update();
@@ -5153,9 +5189,9 @@ function initNusseltSimulation() {
 
         // 1. Dibujar Pared Sólida (izquierda, caliente)
         const wallWidth = 60;
-        actx.fillStyle = "#ef4444"; 
+        actx.fillStyle = "#ef4444";
         actx.fillRect(0, 0, wallWidth, animCanvas.height);
-        
+
         actx.fillStyle = "#ffffff";
         actx.font = "bold 12px Outfit";
         actx.textAlign = "center";
@@ -5175,9 +5211,9 @@ function initNusseltSimulation() {
         }
 
         // 3. Dibujar Medio Exterior
-        actx.fillStyle = "#1e293b"; 
+        actx.fillStyle = "#1e293b";
         actx.fillRect(fluidEnd, 0, animCanvas.width - fluidEnd, animCanvas.height);
-        
+
         actx.fillStyle = "#38bdf8";
         actx.font = "bold 11px Outfit";
         actx.textAlign = "left";
@@ -5186,7 +5222,7 @@ function initNusseltSimulation() {
         // 4. Partículas
         actx.fillStyle = "rgba(255, 255, 255, 0.4)";
         particles.forEach(p => {
-            const speed = currentU * 50 * p.xRel; 
+            const speed = currentU * 50 * p.xRel;
             p.y -= speed * dt;
             if (p.y < 0) {
                 p.y = animCanvas.height;
@@ -5218,9 +5254,9 @@ function initNusseltSimulation() {
     uSlider.addEventListener("input", updateSimulation);
     kSlider.addEventListener("input", updateSimulation);
     lcSlider.addEventListener("input", updateSimulation);
-    if(tsSlider) tsSlider.addEventListener("input", updateSimulation);
-    if(tinfSlider) tinfSlider.addEventListener("input", updateSimulation);
-    
+    if (tsSlider) tsSlider.addEventListener("input", updateSimulation);
+    if (tinfSlider) tinfSlider.addEventListener("input", updateSimulation);
+
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
             updateSimulation();
@@ -5230,7 +5266,7 @@ function initNusseltSimulation() {
             if (animationId) cancelAnimationFrame(animationId);
         }
     });
-    
+
     observer.observe(animCanvas);
 }
 
@@ -5241,19 +5277,19 @@ function initBoundaryLayerSimulation() {
     const prSlider = document.getElementById("bl-pr");
     const scSlider = document.getElementById("bl-sc");
     const tcondSelect = document.getElementById("bl-tcond");
-    
+
     const prVal = document.getElementById("bl-pr-val");
     const scVal = document.getElementById("bl-sc-val");
-    
+
     const resDeltaT = document.getElementById("bl-deltat-res");
     const resDeltaC = document.getElementById("bl-deltac-res");
     const resLe = document.getElementById("bl-le-res");
     const resRatio = document.getElementById("bl-ratio-res");
-    
+
     const canvas = document.getElementById("blChart");
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    
+
     let chartInstance = new Chart(ctx, {
         type: "line",
         data: {
@@ -5327,36 +5363,36 @@ function initBoundaryLayerSimulation() {
     function updateSimulation() {
         const Pr = parseFloat(prSlider.value);
         const Sc = parseFloat(scSlider.value);
-        
+
         prVal.textContent = Pr.toFixed(1);
         scVal.textContent = Sc.toFixed(1);
-        
-        const delta_t_ratio = Math.pow(Pr, -1/3);
-        const delta_c_ratio = Math.pow(Sc, -1/3);
+
+        const delta_t_ratio = Math.pow(Pr, -1 / 3);
+        const delta_c_ratio = Math.pow(Sc, -1 / 3);
         const Le = Sc / Pr;
         const thickness_ratio = delta_t_ratio / delta_c_ratio;
-        
+
         resDeltaT.textContent = delta_t_ratio.toFixed(2) + " δ";
         resDeltaC.textContent = delta_c_ratio.toFixed(2) + " δ";
         if (resLe) resLe.textContent = Le.toFixed(2);
         if (resRatio) resRatio.textContent = thickness_ratio.toFixed(2);
-        
+
         const velData = [];
         const tempData = [];
         const concData = [];
-        
+
         const tCond = tcondSelect ? tcondSelect.value : "cold";
-        
+
         const numPoints = 50;
         for (let i = 0; i <= numPoints; i++) {
             const y = (i / numPoints) * 1.5;
-            
+
             let u_ratio = 1.0;
             if (y <= 1.0) {
                 u_ratio = 2 * y - Math.pow(y, 2);
             }
             velData.push({ x: y, y: u_ratio });
-            
+
             let y_t = y / delta_t_ratio;
             let t_ratio = 1.0;
             if (y_t <= 1.0) {
@@ -5371,7 +5407,7 @@ function initBoundaryLayerSimulation() {
                 }
             }
             tempData.push({ x: y, y: t_ratio });
-            
+
             let y_c = y / delta_c_ratio;
             let c_ratio = 1.0;
             if (y_c <= 1.0) {
@@ -5379,18 +5415,18 @@ function initBoundaryLayerSimulation() {
             }
             concData.push({ x: y, y: c_ratio });
         }
-        
+
         chartInstance.data.datasets[0].data = velData;
         chartInstance.data.datasets[1].data = tempData;
         chartInstance.data.datasets[2].data = concData;
-        
+
         chartInstance.update();
     }
-    
+
     prSlider.addEventListener('input', updateSimulation);
     scSlider.addEventListener('input', updateSimulation);
     if (tcondSelect) tcondSelect.addEventListener('change', updateSimulation);
-    
+
     updateSimulation();
 }
 
@@ -5401,160 +5437,160 @@ function initResistanceSimulation() {
     const canvas = document.getElementById("resCanvas");
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    
+
     const sl_tinf1 = document.getElementById("res-tinf1");
     const sl_h1 = document.getElementById("res-h1");
     const sl_tinf2 = document.getElementById("res-tinf2");
     const sl_h2 = document.getElementById("res-h2");
-    
+
     const sl_k1 = document.getElementById("res-k1");
     const sl_L1 = document.getElementById("res-L1");
     const sl_k2 = document.getElementById("res-k2");
     const sl_L2 = document.getElementById("res-L2");
     const sl_k3 = document.getElementById("res-k3");
     const sl_L3 = document.getElementById("res-L3");
-    
+
     const val_rtot = document.getElementById("res-rtot-val");
     const val_q = document.getElementById("res-q-val");
-    
+
     function drawResistor(x, y, width, height, color, baseLabel, subLabel, valStr) {
         ctx.strokeStyle = color;
         ctx.lineWidth = 2;
         ctx.beginPath();
-        
+
         const numZigs = 5;
         const dx = width / (numZigs * 2 + 1);
         let cx = x;
-        
+
         ctx.moveTo(cx, y);
         cx += dx;
-        
+
         for (let i = 0; i < numZigs; i++) {
-            ctx.lineTo(cx, y - height/2);
+            ctx.lineTo(cx, y - height / 2);
             cx += dx;
-            ctx.lineTo(cx, y + height/2);
+            ctx.lineTo(cx, y + height / 2);
             cx += dx;
         }
-        
+
         ctx.lineTo(cx, y);
         ctx.stroke();
-        
+
         // Draw label with subscripts
         ctx.fillStyle = "#94a3b8";
         ctx.textAlign = "left";
-        
+
         ctx.font = "11px Outfit";
         const baseWidth = ctx.measureText(baseLabel).width;
         ctx.font = "8px Outfit";
         const subWidth = ctx.measureText(subLabel).width;
-        
+
         const totalLabelWidth = baseWidth + subWidth;
-        const startLabelX = x + width/2 - totalLabelWidth / 2;
-        
+        const startLabelX = x + width / 2 - totalLabelWidth / 2;
+
         ctx.font = "11px Outfit";
-        ctx.fillText(baseLabel, startLabelX, y + height/2 + 15);
+        ctx.fillText(baseLabel, startLabelX, y + height / 2 + 15);
         ctx.font = "8px Outfit";
-        ctx.fillText(subLabel, startLabelX + baseWidth, y + height/2 + 18);
-        
+        ctx.fillText(subLabel, startLabelX + baseWidth, y + height / 2 + 18);
+
         // Draw value
         ctx.fillStyle = color;
         ctx.font = "11px Outfit";
         ctx.textAlign = "center";
-        ctx.fillText(valStr, x + width/2, y + height/2 + 30);
+        ctx.fillText(valStr, x + width / 2, y + height / 2 + 30);
     }
-    
+
     function updateSimulation() {
         const tinf1 = parseFloat(sl_tinf1.value);
         const h1 = parseFloat(sl_h1.value);
         const tinf2 = parseFloat(sl_tinf2.value);
         const h2 = parseFloat(sl_h2.value);
-        
+
         const k1 = parseFloat(sl_k1.value);
         const L1 = parseFloat(sl_L1.value) / 100;
         const k2 = parseFloat(sl_k2.value);
         const L2 = parseFloat(sl_L2.value) / 100;
         const k3 = parseFloat(sl_k3.value);
         const L3 = parseFloat(sl_L3.value) / 100;
-        
+
         document.getElementById("res-tinf1-val").textContent = tinf1;
         document.getElementById("res-h1-val").textContent = h1;
         document.getElementById("res-tinf2-val").textContent = tinf2;
         document.getElementById("res-h2-val").textContent = h2;
-        
+
         document.getElementById("res-k1-val").textContent = k1.toFixed(2);
-        document.getElementById("res-L1-val").textContent = (L1*100).toFixed(0);
+        document.getElementById("res-L1-val").textContent = (L1 * 100).toFixed(0);
         document.getElementById("res-k2-val").textContent = k2.toFixed(2);
-        document.getElementById("res-L2-val").textContent = (L2*100).toFixed(0);
+        document.getElementById("res-L2-val").textContent = (L2 * 100).toFixed(0);
         document.getElementById("res-k3-val").textContent = k3.toFixed(2);
-        document.getElementById("res-L3-val").textContent = (L3*100).toFixed(0);
-        
+        document.getElementById("res-L3-val").textContent = (L3 * 100).toFixed(0);
+
         const R_conv1 = 1 / h1;
         const R_cond1 = L1 / k1;
         const R_cond2 = L2 / k2;
         const R_cond3 = L3 / k3;
         const R_conv2 = 1 / h2;
-        
+
         const R_tot = R_conv1 + R_cond1 + R_cond2 + R_cond3 + R_conv2;
         const q = (tinf1 - tinf2) / R_tot;
-        
+
         val_rtot.textContent = R_tot.toFixed(4) + " K/W";
         val_q.textContent = q.toFixed(1) + " W";
-        
+
         const Ts1 = tinf1 - q * R_conv1;
         const T2 = Ts1 - q * R_cond1;
         const T3 = T2 - q * R_cond2;
         const Ts2 = T3 - q * R_cond3;
-        
+
         const parent = canvas.parentElement;
         if (canvas.width !== parent.clientWidth) {
             canvas.width = parent.clientWidth;
         }
-        
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
+
         const leftMargin = 50;
         const gap = 80;
-        
+
         const x_inf1 = leftMargin;
         const startX = leftMargin + gap;
         const x_inf2 = canvas.width - leftMargin;
         const endX = canvas.width - leftMargin - gap;
         const availWidth = endX - startX;
-        
+
         const totalL = L1 + L2 + L3;
-        
+
         const w1 = (L1 / totalL) * availWidth;
         const w2 = (L2 / totalL) * availWidth;
         const w3 = (L3 / totalL) * availWidth;
-        
+
         const wallY = 40;
         const wallH = 220;
-        
+
         ctx.fillStyle = "rgba(100, 116, 139, 0.4)";
         ctx.fillRect(startX, wallY, w1, wallH);
         ctx.strokeStyle = "#94a3b8";
         ctx.strokeRect(startX, wallY, w1, wallH);
-        
+
         ctx.fillStyle = "rgba(148, 163, 184, 0.4)";
         ctx.fillRect(startX + w1, wallY, w2, wallH);
         ctx.strokeRect(startX + w1, wallY, w2, wallH);
-        
+
         ctx.fillStyle = "rgba(203, 213, 225, 0.4)";
         ctx.fillRect(startX + w1 + w2, wallY, w3, wallH);
         ctx.strokeRect(startX + w1 + w2, wallY, w3, wallH);
-        
+
         const minT = Math.min(tinf1, tinf2) - 10;
         const maxT = Math.max(tinf1, tinf2) + 10;
-        const T_range = maxT - minT || 1; 
-        
+        const T_range = maxT - minT || 1;
+
         function getTy(T) {
             return wallY + wallH - ((T - minT) / T_range) * wallH;
         }
-        
+
         ctx.beginPath();
         ctx.strokeStyle = "#ef4444";
         ctx.lineWidth = 3;
-        
+
         // Zona de Convección Izquierda (curva parabólica con asíntota en tinf1)
         const numLeftPoints = 30;
         ctx.moveTo(x_inf1, getTy(tinf1));
@@ -5564,11 +5600,11 @@ function initResistanceSimulation() {
             const T = tinf1 + (Ts1 - tinf1) * Math.pow(t, 2);
             ctx.lineTo(x, getTy(T));
         }
-        
+
         // Zonas de Conducción en las 3 paredes sólidas (líneas rectas)
         ctx.lineTo(startX + w1, getTy(T2));
         ctx.lineTo(startX + w1 + w2, getTy(T3));
-        
+
         // Zona de Convección Derecha (curva parabólica con asíntota en tinf2)
         ctx.lineTo(endX, getTy(Ts2));
         const numRightPoints = 30;
@@ -5579,22 +5615,22 @@ function initResistanceSimulation() {
             ctx.lineTo(x, getTy(T));
         }
         ctx.stroke();
-        
+
         const points = [
-            {x: x_inf1, y: getTy(tinf1), base: "T", sub: "∞,1", val: tinf1},
-            {x: startX, y: getTy(Ts1), base: "T", sub: "s,1", val: Ts1},
-            {x: startX + w1, y: getTy(T2), base: "T", sub: "2", val: T2},
-            {x: startX + w1 + w2, y: getTy(T3), base: "T", sub: "3", val: T3},
-            {x: startX + w1 + w2 + w3, y: getTy(Ts2), base: "T", sub: "s,2", val: Ts2},
-            {x: x_inf2, y: getTy(tinf2), base: "T", sub: "∞,2", val: tinf2}
+            { x: x_inf1, y: getTy(tinf1), base: "T", sub: "∞,1", val: tinf1 },
+            { x: startX, y: getTy(Ts1), base: "T", sub: "s,1", val: Ts1 },
+            { x: startX + w1, y: getTy(T2), base: "T", sub: "2", val: T2 },
+            { x: startX + w1 + w2, y: getTy(T3), base: "T", sub: "3", val: T3 },
+            { x: startX + w1 + w2 + w3, y: getTy(Ts2), base: "T", sub: "s,2", val: Ts2 },
+            { x: x_inf2, y: getTy(tinf2), base: "T", sub: "∞,2", val: tinf2 }
         ];
-        
+
         points.forEach(p => {
             ctx.beginPath();
             ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
             ctx.fillStyle = "#ef4444";
             ctx.fill();
-            
+
             // Medir anchos para caja de fondo
             ctx.font = "bold 11px Outfit";
             const baseWidth = ctx.measureText(p.base).width;
@@ -5603,31 +5639,31 @@ function initResistanceSimulation() {
             ctx.font = "bold 11px Outfit";
             const valText = ` = ${p.val.toFixed(1)}°C`;
             const valWidth = ctx.measureText(valText).width;
-            
+
             const totalWidth = baseWidth + subWidth + valWidth;
             const startX_text = p.x - totalWidth / 2;
-            
+
             // Caja de fondo
             ctx.fillStyle = "rgba(15, 23, 42, 0.85)";
-            ctx.fillRect(p.x - totalWidth/2 - 4, p.y - 24, totalWidth + 8, 16);
-            
+            ctx.fillRect(p.x - totalWidth / 2 - 4, p.y - 24, totalWidth + 8, 16);
+
             // Dibujar T
             ctx.fillStyle = "#ffffff";
             ctx.font = "bold 11px Outfit";
             ctx.textAlign = "left";
             ctx.fillText(p.base, startX_text, p.y - 12);
-            
+
             // Dibujar Subíndice
             ctx.font = "bold 8px Outfit";
             ctx.fillText(p.sub, startX_text + baseWidth, p.y - 9);
-            
+
             // Dibujar valor
             ctx.font = "bold 11px Outfit";
             ctx.fillText(valText, startX_text + baseWidth + subWidth, p.y - 12);
         });
-        
+
         const circY = wallY + wallH + 70;
-        
+
         ctx.strokeStyle = "#475569";
         ctx.lineWidth = 1;
         ctx.beginPath();
@@ -5638,7 +5674,7 @@ function initResistanceSimulation() {
         ctx.moveTo(startX + w1 + w2 + w3, getTy(Ts2)); ctx.lineTo(startX + w1 + w2 + w3, circY);
         ctx.moveTo(x_inf2, getTy(tinf2)); ctx.lineTo(x_inf2, circY);
         ctx.stroke();
-        
+
         const h_conv1 = 10 + Math.min(45, R_conv1 * 60);
         const h_cond1 = 10 + Math.min(45, R_cond1 * 60);
         const h_cond2 = 10 + Math.min(45, R_cond2 * 60);
@@ -5650,30 +5686,30 @@ function initResistanceSimulation() {
         drawResistor(startX + w1, circY, w2, h_cond2, "#facc15", "R''", "cond,2", R_cond2.toFixed(3));
         drawResistor(startX + w1 + w2, circY, w3, h_cond3, "#facc15", "R''", "cond,3", R_cond3.toFixed(3));
         drawResistor(startX + w1 + w2 + w3, circY, x_inf2 - (startX + w1 + w2 + w3), h_conv2, "#60a5fa", "R''", "conv,2", R_conv2.toFixed(3));
-        
+
         points.forEach(p => {
             ctx.fillStyle = "#0f172a";
             ctx.beginPath();
-            ctx.arc(p.x, circY, 4, 0, Math.PI*2);
+            ctx.arc(p.x, circY, 4, 0, Math.PI * 2);
             ctx.fill();
             ctx.strokeStyle = "#ef4444";
             ctx.stroke();
         });
     }
-    
+
     [sl_tinf1, sl_h1, sl_tinf2, sl_h2, sl_k1, sl_L1, sl_k2, sl_L2, sl_k3, sl_L3].forEach(el => {
         el.addEventListener('input', updateSimulation);
     });
-    
+
     window.addEventListener('resize', updateSimulation);
-    
+
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
             updateSimulation();
         }
     });
     observer.observe(canvas);
-    
+
     updateSimulation();
 }
 
@@ -5691,13 +5727,13 @@ function initViewFactorSimulation() {
     function calcF12(W, L, D) {
         const X = W / D;
         const Y = L / D;
-        
-        const term1 = Math.log(Math.sqrt(((1 + X*X) * (1 + Y*Y)) / (1 + X*X + Y*Y)));
-        const term2 = X * Math.sqrt(1 + Y*Y) * Math.atan(X / Math.sqrt(1 + Y*Y));
-        const term3 = Y * Math.sqrt(1 + X*X) * Math.atan(Y / Math.sqrt(1 + X*X));
+
+        const term1 = Math.log(Math.sqrt(((1 + X * X) * (1 + Y * Y)) / (1 + X * X + Y * Y)));
+        const term2 = X * Math.sqrt(1 + Y * Y) * Math.atan(X / Math.sqrt(1 + Y * Y));
+        const term3 = Y * Math.sqrt(1 + X * X) * Math.atan(Y / Math.sqrt(1 + X * X));
         const term4 = -X * Math.atan(X);
         const term5 = -Y * Math.atan(Y);
-        
+
         const F12 = (2 / (Math.PI * X * Y)) * (term1 + term2 + term3 + term4 + term5);
         return F12;
     }
@@ -5705,47 +5741,47 @@ function initViewFactorSimulation() {
     function drawViewFactorGeometry(W, L, D) {
         const width = canvas.width;
         const height = canvas.height;
-        
+
         ctx.clearRect(0, 0, width, height);
 
         const cx = width / 2 - 45;
         const cy = height / 2;
-        
+
         const angleX = Math.PI / 6; // 30 deg
         const angleZ = 5 * Math.PI / 6; // 150 deg
 
         const spanVert = D + (W + L) * Math.sin(angleX);
         const spanHoriz = (W + L) * Math.cos(angleX);
-        
+
         const scaleX = (width * 0.8) / Math.max(spanHoriz, 0.1);
         const scaleY = (height * 0.7) / Math.max(spanVert, 0.1);
         const scale = Math.min(scaleX, scaleY);
-        
+
         function project(x, y, z) {
             const px = cx + (x * Math.cos(angleX) + z * Math.cos(angleZ)) * scale;
             const py = cy - (y * scale) + (x * Math.sin(angleX) + z * Math.sin(angleZ)) * scale;
             return { x: px, y: py };
         }
-        
+
         function drawPlate(y_offset, color, fillStyle, label) {
             const hw = W / 2;
             const hl = L / 2;
-            
+
             const p1 = project(hw, y_offset, hl);
             const p2 = project(hw, y_offset, -hl);
             const p3 = project(-hw, y_offset, -hl);
             const p4 = project(-hw, y_offset, hl);
-            
+
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
             ctx.lineTo(p3.x, p3.y);
             ctx.lineTo(p4.x, p4.y);
             ctx.closePath();
-            
+
             ctx.fillStyle = fillStyle;
             ctx.fill();
-            
+
             ctx.strokeStyle = color;
             ctx.lineWidth = 2;
             ctx.stroke();
@@ -5754,11 +5790,11 @@ function initViewFactorSimulation() {
             ctx.fillStyle = color;
             ctx.font = "bold 11px Outfit";
             ctx.textAlign = "center";
-            ctx.fillText(label, (p1.x + p3.x)/2, (p1.y + p3.y)/2 + 4);
-            
+            ctx.fillText(label, (p1.x + p3.x) / 2, (p1.y + p3.y) / 2 + 4);
+
             return { p1, p2, p3, p4 };
         }
-        
+
         function drawConnector(pBottom, pTop) {
             ctx.beginPath();
             ctx.moveTo(pBottom.x, pBottom.y);
@@ -5772,10 +5808,10 @@ function initViewFactorSimulation() {
 
         const yTop = D / 2;
         const yBottom = -D / 2;
-        
+
         const bottomCorners = drawPlate(yBottom, '#60a5fa', 'rgba(96, 165, 250, 0.15)', "Placa 1 (Emisora)");
         const topCorners = drawPlate(yTop, '#facc15', 'rgba(250, 204, 21, 0.15)', "Placa 2 (Receptora)");
-        
+
         drawConnector(bottomCorners.p1, topCorners.p1);
         drawConnector(bottomCorners.p2, topCorners.p2);
         drawConnector(bottomCorners.p3, topCorners.p3);
@@ -5833,7 +5869,7 @@ function initViewFactorSimulation() {
                 legend: { display: false },
                 tooltip: {
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             return `F12: ${context.parsed.y.toFixed(4)}`;
                         }
                     }
@@ -5846,20 +5882,20 @@ function initViewFactorSimulation() {
         const w = parseFloat(sliderW.value);
         const l = parseFloat(sliderL.value);
         const d = parseFloat(sliderD.value);
-        
+
         document.getElementById("vf-w-val").textContent = w.toFixed(1);
         document.getElementById("vf-l-val").textContent = l.toFixed(1);
         document.getElementById("vf-d-val").textContent = d.toFixed(1);
-        
+
         const newData = updateViewFactorData(w, l);
         viewFactorChart.data.labels = newData.d_arr;
         viewFactorChart.data.datasets[0].data = newData.f12_arr;
         viewFactorChart.update('none');
-        
+
         const currentF12 = calcF12(w, l, d);
         document.getElementById("vf-f12-val").textContent = currentF12.toFixed(4);
         document.getElementById("vf-escape-val").textContent = `${((1 - currentF12) * 100).toFixed(1)}%`;
-        
+
         drawViewFactorGeometry(w, l, d);
     };
 
@@ -5892,31 +5928,31 @@ function initParallelSimulation() {
     const sl_L3 = document.getElementById("par-L3");
     const sl_g = document.getElementById("par-g");
     const sl_alpha = document.getElementById("par-alpha");
-    
+
     const canvas = document.getElementById("parCanvas");
     if (!canvas) return;
-    
+
     const ctx = canvas.getContext("2d");
-    
+
     function drawResistorLine(ctx, startX, startY, endX, endY, heightVal) {
         ctx.beginPath();
         ctx.moveTo(startX, startY);
         const len = endX - startX;
-        
+
         ctx.lineTo(startX + len * 0.15, startY);
-        
+
         const zWidth = len * 0.7;
         const step = zWidth / 6;
         let direction = -1;
         const hVal = Math.min(Math.max(heightVal, 8), 40);
-        
+
         for (let i = 0; i < 6; i++) {
             const px = startX + len * 0.15 + step * (i + 0.5);
             const py = startY + direction * hVal;
             ctx.lineTo(px, py);
             direction *= -1;
         }
-        
+
         ctx.lineTo(startX + len * 0.85, startY);
         ctx.lineTo(endX, endY);
         ctx.stroke();
@@ -5945,7 +5981,7 @@ function initParallelSimulation() {
         const L3 = parseFloat(sl_L3.value) / 100;
         const G = parseFloat(sl_g.value);
         const alpha = parseFloat(sl_alpha.value);
-        
+
         document.getElementById("par-t1-val").textContent = t1;
         document.getElementById("par-tsurr-val").textContent = tsurr;
         document.getElementById("par-h-val").textContent = h;
@@ -5958,112 +5994,112 @@ function initParallelSimulation() {
         document.getElementById("par-L3-val").textContent = parseFloat(sl_L3.value).toFixed(1);
         document.getElementById("par-g-val").textContent = G;
         document.getElementById("par-alpha-val").textContent = alpha.toFixed(2);
-        
+
         const A = 1.0;
         const R1 = L1 / (k1 * A);
         const R2 = L2 / (k2_real * A);
         const R3 = L3 / (k3_real * A);
         const R123 = R1 + R2 + R3;
-        
+
         const t1_K = t1 + 273.15;
         const tsurr_K = tsurr + 273.15;
         const sigma = 5.67e-8;
         const q_solar = alpha * G * A;
-        
+
         let Ts_K = (t1_K + tsurr_K) / 2;
         let q = 0;
         let hr = 0;
         let Rconv = 0;
         let Rrad = 0;
         let Rparallel = 0;
-        
+
         for (let iter = 0; iter < 100; iter++) {
             const Ts_clamped = Math.max(Ts_K, 1.0);
             hr = eps * sigma * (Ts_clamped + tsurr_K) * (Ts_clamped * Ts_clamped + tsurr_K * tsurr_K);
-            
+
             Rconv = h > 0 ? 1 / (h * A) : 1e12;
             Rrad = hr > 0 ? 1 / (hr * A) : 1e12;
-            
-            Rparallel = 1 / ((1/Rconv) + (1/Rrad));
+
+            Rparallel = 1 / ((1 / Rconv) + (1 / Rrad));
             const Ts_new_K = (Rparallel * t1_K + R123 * tsurr_K + R123 * Rparallel * q_solar) / (R123 + Rparallel);
-            
+
             if (Math.abs(Ts_new_K - Ts_K) < 1e-5) {
                 Ts_K = Ts_new_K;
                 break;
             }
             Ts_K = Ts_new_K;
         }
-        
+
         const Ts = Ts_K - 273.15;
         q = (t1_K - Ts_K) / R123;
         const Ti1 = t1 - q * R1;
         const Ti2 = t1 - q * (R1 + R2);
-        
+
         document.getElementById("par-rcond-val").textContent = `${R123.toFixed(4)} K/W`;
         document.getElementById("par-rconv-val").textContent = h > 0 ? `${Rconv.toFixed(4)} K/W` : '∞ K/W';
         document.getElementById("par-rrad-val").textContent = eps > 0 ? `${Rrad.toFixed(4)} K/W` : '∞ K/W';
         document.getElementById("par-req-val").textContent = `${Rparallel.toFixed(4)} K/W`;
         document.getElementById("par-ts-val").textContent = `${Ts.toFixed(1)} °C`;
         document.getElementById("par-q-val").textContent = `${q.toFixed(1)} W`;
-        
+
         // Heat Flow Surface Energy Balance calculations
         const q_conv = h > 0 ? (Ts - tsurr) / Rconv : 0.0;
         const q_rad = (eps > 0 && hr > 0) ? (Ts - tsurr) / Rrad : 0.0;
-        
+
         document.getElementById("par-qcond-val").textContent = `${q.toFixed(1)} W`;
         document.getElementById("par-qsol-val").textContent = `${q_solar.toFixed(1)} W`;
         document.getElementById("par-qconv-val").textContent = `${q_conv.toFixed(1)} W`;
         document.getElementById("par-qrad-val").textContent = `${q_rad.toFixed(1)} W`;
-        
+
         const width = canvas.width;
         const height = canvas.height;
         ctx.clearRect(0, 0, width, height);
-        
+
         const leftMargin = 120;
         const rightMargin = 120;
         const totalL = L1 + L2 + L3;
-        
+
         const maxTotalL = 0.9;
         const maxAvailWidth = width - leftMargin - rightMargin - 80;
         const currentAvailWidth = Math.max(0.25, totalL / maxTotalL) * maxAvailWidth;
-        
+
         const w1 = (L1 / totalL) * currentAvailWidth;
         const w2 = (L2 / totalL) * currentAvailWidth;
         const w3 = (L3 / totalL) * currentAvailWidth;
-        
+
         const startX = leftMargin;
         const wallY = 30;
         const wallH = 180;
-        
+
         ctx.strokeStyle = "#94a3b8";
         ctx.lineWidth = 1.5;
 
         ctx.fillStyle = "rgba(100, 110, 120, 0.4)";
         ctx.fillRect(startX, wallY, w1, wallH);
         ctx.strokeRect(startX, wallY, w1, wallH);
-        
+
         ctx.fillStyle = "rgba(140, 150, 160, 0.4)";
         ctx.fillRect(startX + w1, wallY, w2, wallH);
         ctx.strokeRect(startX + w1, wallY, w2, wallH);
-        
+
         ctx.fillStyle = "rgba(180, 190, 200, 0.4)";
         ctx.fillRect(startX + w1 + w2, wallY, w3, wallH);
         ctx.strokeRect(startX + w1 + w2, wallY, w3, wallH);
-        
+
         const minT = Math.min(t1, tsurr) - 20;
         const maxT = Math.max(t1, tsurr) + 20;
         const T_range = maxT - minT || 1;
-        
+
         function getTempY(t) {
             return wallY + wallH - ((t - minT) / T_range) * wallH;
         }
-        
+
         const y1 = getTempY(t1);
         const yi1 = getTempY(Ti1);
         const yi2 = getTempY(Ti2);
         const ys = getTempY(Ts);
         const ysurr = getTempY(tsurr);
-        
+
         const x_s = startX + w1 + w2 + w3;
         const x_surr = x_s + 140;
 
@@ -6073,18 +6109,18 @@ function initParallelSimulation() {
         ctx.lineTo(startX + w1 + w2, yi2);
         ctx.lineTo(x_s, ys);
         ctx.lineTo(x_surr, ysurr);
-        
+
         ctx.strokeStyle = "#ef4444";
         ctx.lineWidth = 3;
         ctx.stroke();
-        
+
         ctx.fillStyle = "#ef4444";
         [[startX, y1], [startX + w1, yi1], [startX + w1 + w2, yi2], [x_s, ys], [x_surr, ysurr]].forEach(p => {
             ctx.beginPath();
             ctx.arc(p[0], p[1], 5, 0, Math.PI * 2);
             ctx.fill();
         });
-        
+
         if (G > 0) {
             const sunX = x_s + 90;
             const sunY = wallY + 25;
@@ -6114,44 +6150,44 @@ function initParallelSimulation() {
             ctx.fillText(`${G} W/m²`, sunX, sunY + 25);
             ctx.restore();
         }
-        
+
         ctx.fillStyle = "#f1f5f9";
         ctx.font = "bold 11px Outfit";
         ctx.textAlign = "center";
-        
+
         ctx.fillText(`T₁ = ${t1.toFixed(0)}°C`, startX - 35, y1 + 4);
         ctx.fillText(`Ti₁ = ${Ti1.toFixed(0)}°C`, startX + w1, yi1 - 10);
         ctx.fillText(`Ti₂ = ${Ti2.toFixed(0)}°C`, startX + w1 + w2, yi2 - 10);
         ctx.fillText(`Ts = ${Ts.toFixed(0)}°C`, x_s + 35, ys + 4);
         ctx.fillText(`T∞ = ${tsurr.toFixed(0)}°C`, x_surr + 35, ysurr + 4);
-        
+
         ctx.fillStyle = "#cbd5e1";
         ctx.font = "bold 10px Outfit";
         const textY = wallY + wallH / 2;
-        drawVerticalText(`Capa 1 (k₁ = ${k1})`, startX + w1/2, textY);
-        drawVerticalText(`Capa 2 (k₂ = ${k2_real})`, startX + w1 + w2/2, textY);
-        drawVerticalText(`Capa 3 (k₃ = ${k3_real})`, startX + w1 + w2 + w3/2, textY);
-        
+        drawVerticalText(`Capa 1 (k₁ = ${k1})`, startX + w1 / 2, textY);
+        drawVerticalText(`Capa 2 (k₂ = ${k2_real})`, startX + w1 + w2 / 2, textY);
+        drawVerticalText(`Capa 3 (k₃ = ${k3_real})`, startX + w1 + w2 + w3 / 2, textY);
+
         const circY = 320;
-        
+
         const nodeX1 = startX;
         const nodeX2 = startX + w1;
         const nodeX3 = startX + w1 + w2;
         const nodeX4 = startX + w1 + w2 + w3;
         const nodeX5 = x_surr;
-        
+
         ctx.strokeStyle = "rgba(255,255,255,0.15)";
         ctx.lineWidth = 2;
-        
+
         ctx.strokeStyle = "#3b82f6";
         drawResistorLine(ctx, nodeX1, circY, nodeX2, circY, R1 * 100);
-        
+
         ctx.strokeStyle = "#f97316";
         drawResistorLine(ctx, nodeX2, circY, nodeX3, circY, R2 * 100);
 
         ctx.strokeStyle = "#10b981";
         drawResistorLine(ctx, nodeX3, circY, nodeX4, circY, R3 * 100);
-        
+
         ctx.strokeStyle = "#94a3b8";
         ctx.beginPath();
         ctx.moveTo(nodeX4, circY);
@@ -6159,13 +6195,13 @@ function initParallelSimulation() {
         ctx.moveTo(nodeX4, circY);
         ctx.lineTo(nodeX4 + 15, circY + 30);
         ctx.stroke();
-        
+
         ctx.strokeStyle = "#06b6d4";
         drawResistorLine(ctx, nodeX4 + 15, circY - 30, nodeX5 - 15, circY - 30, Rconv * 1.5);
-        
+
         ctx.strokeStyle = "#a855f7";
         drawResistorLine(ctx, nodeX4 + 15, circY + 30, nodeX5 - 15, circY + 30, Rrad * 1.5);
-        
+
         ctx.strokeStyle = "#94a3b8";
         ctx.beginPath();
         ctx.moveTo(nodeX5 - 15, circY - 30);
@@ -6173,21 +6209,21 @@ function initParallelSimulation() {
         ctx.moveTo(nodeX5 - 15, circY + 30);
         ctx.lineTo(nodeX5, circY);
         ctx.stroke();
-        
+
         ctx.fillStyle = "#ffffff";
         [[nodeX1, circY], [nodeX2, circY], [nodeX3, circY], [nodeX4, circY], [nodeX5, circY]].forEach(p => {
             ctx.beginPath();
             ctx.arc(p[0], p[1], 4, 0, Math.PI * 2);
             ctx.fill();
         });
-        
+
         ctx.fillStyle = "#cbd5e1";
         ctx.font = "10px Outfit";
-        ctx.fillText("R₁ (Cond)", (nodeX1 + nodeX2)/2, circY + 20);
-        ctx.fillText("R₂ (Cond)", (nodeX2 + nodeX3)/2, circY + 20);
-        ctx.fillText("R₃ (Cond)", (nodeX3 + nodeX4)/2, circY + 20);
-        ctx.fillText("Rconv", (nodeX4 + nodeX5)/2, circY - 45);
-        ctx.fillText("Rrad", (nodeX4 + nodeX5)/2, circY + 45);
+        ctx.fillText("R₁ (Cond)", (nodeX1 + nodeX2) / 2, circY + 20);
+        ctx.fillText("R₂ (Cond)", (nodeX2 + nodeX3) / 2, circY + 20);
+        ctx.fillText("R₃ (Cond)", (nodeX3 + nodeX4) / 2, circY + 20);
+        ctx.fillText("Rconv", (nodeX4 + nodeX5) / 2, circY - 45);
+        ctx.fillText("Rrad", (nodeX4 + nodeX5) / 2, circY + 45);
         ctx.font = "bold 11px Outfit";
         ctx.fillStyle = "#ef4444";
         ctx.fillText("T₁", nodeX1, circY - 10);
@@ -6196,21 +6232,21 @@ function initParallelSimulation() {
         ctx.fillText("Ts", nodeX4, circY - 10);
         ctx.fillText("T∞", nodeX5, circY - 10);
     }
-    
+
     const elements = [sl_t1, sl_tsurr, sl_h, sl_eps, sl_k1, sl_L1, sl_k2, sl_L2, sl_k3, sl_L3, sl_g, sl_alpha];
     elements.forEach(el => {
         if (el) el.addEventListener("input", updateSimulation);
     });
-    
+
     window.addEventListener("resize", updateSimulation);
-    
+
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
             updateSimulation();
         }
     });
     observer.observe(canvas);
-    
+
     updateSimulation();
 }
 
@@ -6228,20 +6264,20 @@ function initReynoldsSimulation() {
     const canvas = document.getElementById("reynoldsCanvas");
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    
+
     const sliderV = document.getElementById("reynolds-v");
     const sliderDh = document.getElementById("reynolds-dh");
     const sliderNu = document.getElementById("reynolds-nu");
-    
+
     const valV = document.getElementById("reynolds-v-val");
     const valDh = document.getElementById("reynolds-dh-val");
     const valNu = document.getElementById("reynolds-nu-val");
     const valReCalc = document.getElementById("reynolds-calc-val");
     const valNuDisplay = document.getElementById("reynolds-nu-display");
-    
+
     const displayRegime = document.getElementById("reynolds-regime");
     const displayBehavior = document.getElementById("reynolds-behavior");
-    
+
     let time = 0;
     const particles = [];
     const numParticles = 35;
@@ -6251,59 +6287,59 @@ function initReynoldsSimulation() {
             yRatio: Math.random()
         });
     }
-    
+
     function draw() {
         if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
             canvas.width = canvas.clientWidth;
             canvas.height = canvas.clientHeight;
         }
-        
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
+
         const w = canvas.width;
         const h = canvas.height;
         const pipeY = h / 2;
-        
+
         // Read values from sliders
         const V = sliderV ? parseFloat(sliderV.value) : 2.0;
         const Dh_mm = sliderDh ? parseFloat(sliderDh.value) : 50;
-        
+
         // Read continuous logarithmic kinematic viscosity (log10 of nu)
         const logNu = sliderNu ? parseFloat(sliderNu.value) : -6.0;
         const Nu_real = Math.pow(10, logNu); // value in m²/s
-        
+
         // Format to scientific notation (e.g. 1.00 x 10^-6)
         const exponent = Math.floor(logNu);
         const base = Nu_real / Math.pow(10, exponent);
         const displayStr = `${base.toFixed(2)} &times; 10<sup>${exponent}</sup>`;
-        
+
         // Update label texts
         if (valV) valV.textContent = V.toFixed(2);
         if (valDh) valDh.textContent = Dh_mm;
         if (valNuDisplay) valNuDisplay.innerHTML = displayStr;
         if (valNu) valNu.innerHTML = displayStr;
-        
+
         // Calculate Reynolds: Re = V * D_h / nu_real
         const Re = Math.round((V * (Dh_mm / 1000.0)) / Nu_real);
         if (valReCalc) valReCalc.textContent = Re.toLocaleString();
-        
+
         // Dynamic pipe height scales with Hydraulic Diameter
         const pipeH = Math.round(30 + (Dh_mm / 100.0) * 80);
-        
+
         // 1. Draw Glass Pipe
         ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
         ctx.lineWidth = 3;
-        ctx.strokeRect(0, pipeY - pipeH/2, w, pipeH);
-        
+        ctx.strokeRect(0, pipeY - pipeH / 2, w, pipeH);
+
         // Fill pipe background slightly
         ctx.fillStyle = "rgba(59, 130, 246, 0.03)";
-        ctx.fillRect(0, pipeY - pipeH/2, w, pipeH);
-        
+        ctx.fillRect(0, pipeY - pipeH / 2, w, pipeH);
+
         // Determine Regime and Update Text
         let regime = "LAMINAR";
         let color = "//10b981"; // Emerald
         let behavior = "Línea de tinta suave y recta";
-        
+
         if (Re >= 2300 && Re <= 4000) {
             regime = "TRANSICIÓN";
             color = "//f59e0b"; // Orange/Yellow
@@ -6313,7 +6349,7 @@ function initReynoldsSimulation() {
             color = "//ef4444"; // Red
             behavior = "Dispersión caótica y mezcla completa";
         }
-        
+
         if (displayRegime) {
             displayRegime.textContent = regime;
             displayRegime.style.color = color;
@@ -6321,14 +6357,14 @@ function initReynoldsSimulation() {
         if (displayBehavior) {
             displayBehavior.textContent = behavior;
         }
-        
+
         // 2. Draw background flow particles (Water)
         const speed = V * 1.5;
         ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
         particles.forEach(p => {
             // Radial distance from center (0 at center, 1 at wall)
             const r = Math.abs(p.yRatio - 0.5) * 2;
-            
+
             // Calculate velocity profile factor based on regime
             let profileFactor = 1.0;
             if (Re < 2300) {
@@ -6344,38 +6380,38 @@ function initReynoldsSimulation() {
                 // Turbulent profile (1/7 power law)
                 profileFactor = Math.pow(1.0 - r, 1.0 / 7.0);
             }
-            
+
             // Ensure particles near the wall still creep forward slowly
             profileFactor = Math.max(0.08, profileFactor);
-            
+
             p.x += speed * 2.5 * profileFactor;
             if (p.x > w) {
                 p.x = 0;
                 p.yRatio = Math.random();
             }
-            const py = pipeY - pipeH/2 + 10 + p.yRatio * (pipeH - 20);
+            const py = pipeY - pipeH / 2 + 10 + p.yRatio * (pipeH - 20);
             ctx.fillRect(p.x, py, 4, 1.5);
         });
-        
+
         // 3. Draw Needle (Ink injector) on the left
         const needleX = 80;
         ctx.strokeStyle = "//cbd5e1";
         ctx.lineWidth = 4;
         ctx.beginPath();
-        ctx.moveTo(needleX, pipeY - pipeH/2 - 20);
+        ctx.moveTo(needleX, pipeY - pipeH / 2 - 20);
         ctx.lineTo(needleX, pipeY - 5);
         ctx.stroke();
-        
+
         // Needle tip dot
         ctx.fillStyle = "//ef4444";
         ctx.beginPath();
         ctx.arc(needleX, pipeY - 5, 3, 0, Math.PI * 2);
         ctx.fill();
-        
+
         // 4. Draw Ink flow line with Reynolds-dependent waves / chaos
         ctx.beginPath();
         ctx.moveTo(needleX, pipeY - 5);
-        
+
         if (Re < 2300) {
             // Laminar: Straight line
             ctx.lineTo(w, pipeY - 5);
@@ -6393,7 +6429,7 @@ function initReynoldsSimulation() {
                 const distRatio = (x - needleX) / (w - needleX);
                 const wave = Math.sin(x * 0.05 - time * 0.1) * ampBase * distRatio;
                 // Clamp y coordinate to stay inside pipe walls
-                const targetY = Math.max(pipeY - pipeH/2 + 5, Math.min(pipeY + pipeH/2 - 5, pipeY - 5 + wave));
+                const targetY = Math.max(pipeY - pipeH / 2 + 5, Math.min(pipeY + pipeH / 2 - 5, pipeY - 5 + wave));
                 ctx.lineTo(x, targetY);
             }
             ctx.strokeStyle = "rgba(239, 68, 68, 0.85)";
@@ -6404,7 +6440,7 @@ function initReynoldsSimulation() {
             // Draw several lines fading into a colored cloud
             const segments = 100;
             const stepX = (w - needleX) / segments;
-            
+
             // Draw the main filament break-up
             ctx.beginPath();
             ctx.moveTo(needleX, pipeY - 5);
@@ -6414,36 +6450,36 @@ function initReynoldsSimulation() {
             for (let step = 0; step <= segments; step++) {
                 const x = needleX + step * stepX;
                 const distRatio = (x - needleX) / (w - needleX);
-                
+
                 // Noise and wave grow with distance but are bounded
                 const noise = (Math.random() - 0.5) * 8 * Math.pow(distRatio, 1.5) * Math.min(3, Re / 4000);
                 const wave = Math.sin(x * 0.08 - time * 0.15) * 6 * distRatio;
-                
+
                 let targetDev = wave + noise;
                 // Bound the deviation
                 targetDev = Math.max(-maxDev, Math.min(maxDev, targetDev));
-                
+
                 currentY = pipeY - 5 + targetDev;
                 ctx.lineTo(x, currentY);
             }
             ctx.strokeStyle = "rgba(239, 68, 68, 0.75)";
             ctx.lineWidth = 3;
             ctx.stroke();
-            
+
             // Draw colored cloud representation using multiple transparent curves or rects
             const maxCloudSpread = Math.max(5, pipeH / 2 - 6);
             for (let step = 10; step <= segments; step += 2) {
                 const x = needleX + step * stepX;
                 const distRatio = (x - needleX) / (w - needleX);
                 const spread = Math.min(maxCloudSpread, 20 * Math.pow(distRatio, 1.2) * Math.min(2.5, Re / 4000));
-                
+
                 // Draw vertical ink cloud slice
                 const grad = ctx.createLinearGradient(x, pipeY - spread, x, pipeY + spread);
                 const alpha = Math.max(0.01, 0.4 * (1 - distRatio));
                 grad.addColorStop(0, "rgba(239, 68, 68, 0)");
                 grad.addColorStop(0.5, "rgba(239, 68, 68, " + alpha + ")");
                 grad.addColorStop(1, "rgba(239, 68, 68, 0)");
-                
+
                 ctx.fillStyle = grad;
                 ctx.fillRect(x - 2, pipeY - spread, stepX + 3, spread * 2);
             }
@@ -6453,7 +6489,7 @@ function initReynoldsSimulation() {
         ctx.fillStyle = "rgba(15, 23, 42, 0.75)";
         ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
         ctx.lineWidth = 1;
-        
+
         const boxX = 15;
         const boxY = 15;
         const boxW = 390;
@@ -6473,7 +6509,7 @@ function initReynoldsSimulation() {
         ctx.fillText("Fuerzas de Inercia (V·Dh)", boxX + 50, boxY + 20);
         ctx.font = "10px Inter, sans-serif";
         ctx.fillStyle = "#94a3b8";
-        ctx.fillText(`= ${V.toFixed(1)} × ${(Dh_mm/1000).toFixed(3)} = ${(V * Dh_mm / 1000).toFixed(3)}`, boxX + 185, boxY + 20);
+        ctx.fillText(`= ${V.toFixed(1)} × ${(Dh_mm / 1000).toFixed(3)} = ${(V * Dh_mm / 1000).toFixed(3)}`, boxX + 185, boxY + 20);
 
         // Fraction Line
         ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
@@ -6490,7 +6526,7 @@ function initReynoldsSimulation() {
         ctx.font = "10px Inter, sans-serif";
         ctx.fillStyle = "#94a3b8";
         ctx.fillText(`= ${base.toFixed(2)} × 10    m²/s`, boxX + 185, boxY + 41);
-        
+
         // Exponent superscript
         ctx.font = "7.5px Inter, sans-serif";
         ctx.fillText(`${exponent}`, boxX + 271, boxY + 36);
@@ -6499,13 +6535,13 @@ function initReynoldsSimulation() {
         ctx.fillStyle = color.replace("//", "#");
         ctx.font = "bold 14px Inter, sans-serif";
         ctx.fillText(`= ${Re.toLocaleString()}`, boxX + 320, boxY + 33);
-        
+
         time += 1;
         reynoldsAnimationId = requestAnimationFrame(draw);
     }
-    
+
     // Animation loop runs continuously, reading sliders on each frame
-    
+
     // Start loop
     draw();
 }
@@ -6514,20 +6550,20 @@ function initNatConvSimulation() {
     const canvas = document.getElementById('natConvCanvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    
+
     const sliderTs = document.getElementById('natconv-ts');
     const sliderTinf = document.getElementById('natconv-tinf');
     const sliderD = document.getElementById('natconv-d');
-    
+
     const valTs = document.getElementById('natconv-ts-val');
     const valTinf = document.getElementById('natconv-tinf-val');
     const valD = document.getElementById('natconv-d-val');
-    
+
     const valRa = document.getElementById('natconv-ra');
     const valNu = document.getElementById('natconv-nu');
     const valH = document.getElementById('natconv-h');
     const valQ = document.getElementById('natconv-q');
-    
+
     // Resize handler
     function resizeCanvas() {
         const rect = canvas.getBoundingClientRect();
@@ -6536,7 +6572,7 @@ function initNatConvSimulation() {
     }
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
-    
+
     // Particle class for buoyancy currents
     class PlumeParticle {
         constructor(cx, cy, baseR, isHot) {
@@ -6547,10 +6583,10 @@ function initNatConvSimulation() {
             this.side = Math.sign(this.x - cx) || 1;
             this.life = Math.random();
         }
-        
+
         reset(cx, cy, baseR, isHot) {
             // Hot particles spawn below the cylinder, cold particles spawn above the cylinder
-            const angle = isHot 
+            const angle = isHot
                 ? (Math.PI / 2) + (Math.random() - 0.5) * Math.PI
                 : (-Math.PI / 2) + (Math.random() - 0.5) * Math.PI;
             this.x = cx + Math.cos(angle) * (baseR + 2);
@@ -6562,14 +6598,14 @@ function initNatConvSimulation() {
             this.life = 1.0;
             this.decay = 0.0012 + Math.random() * 0.002; // Slower decay, lives longer
         }
-        
+
         update(cx, cy, baseR, isHot, dT, w, h) {
             this.life -= this.decay;
             if (this.life <= 0) {
                 this.reset(cx, cy, baseR, isHot);
                 return;
             }
-            
+
             // Buoyancy acceleration (extremely slow and gentle)
             const buoyancyForce = Math.min(0.5, Math.abs(dT) * 0.003);
             if (isHot) {
@@ -6577,36 +6613,36 @@ function initNatConvSimulation() {
             } else {
                 this.vy += buoyancyForce * 0.008;
             }
-            
+
             // Limit velocities to a very gentle "floating" speed
             const maxVy = 0.25 + Math.min(0.45, Math.abs(dT) * 0.002);
             const maxVx = 0.18;
             this.vx = Math.max(-maxVx, Math.min(maxVx, this.vx));
             this.vy = Math.max(-maxVy, Math.min(maxVy, this.vy));
-            
+
             this.x += this.vx;
             this.y += this.vy;
-            
+
             // Cylinder Boundary Collision & Hugging Flow
             const dx = this.x - cx;
             const dy = this.y - cy;
             const dist = Math.sqrt(dx * dx + dy * dy);
             const minAllowedDist = baseR + 2;
             const huggingDist = baseR + 10;
-            
+
             if (dist < huggingDist) {
                 const nx = dx / dist;
                 const ny = dy / dist;
-                
+
                 // Solid core boundary repulsion (always active to prevent entering circle)
                 if (dist < minAllowedDist) {
                     this.x = cx + nx * minAllowedDist;
                     this.y = cy + ny * minAllowedDist;
                 }
-                
+
                 // Separation zone check: hot separates at the top (ny < -0.15), cold at the bottom (ny > 0.15)
                 const inSeparationZone = isHot ? (ny < -0.15) : (ny > 0.15);
-                
+
                 if (!inSeparationZone) {
                     // Project velocity to slide along surface (tangential)
                     const dotProduct = this.vx * nx + this.vy * ny;
@@ -6614,19 +6650,19 @@ function initNatConvSimulation() {
                         this.vx -= dotProduct * nx;
                         this.vy -= dotProduct * ny;
                     }
-                    
+
                     // Apply centripetal pull to make particles hug the cylinder surface
                     const pullForce = 0.03 * (huggingDist - dist);
                     this.vx -= nx * pullForce;
                     this.vy -= ny * pullForce;
-                    
+
                     // Tangential sweep vector
                     const tx = -ny;
                     const ty = nx;
                     // Guide hot flow up (-y), cold flow down (+y)
                     const sweepDirection = isHot ? -Math.sign(ty) : Math.sign(ty);
                     const sweepForce = (0.1 + Math.random() * 0.15) * (0.3 + buoyancyForce);
-                    
+
                     this.vx += tx * sweepDirection * sweepForce * 0.2;
                     this.vy += ty * sweepDirection * sweepForce * 0.2;
                 } else {
@@ -6638,15 +6674,15 @@ function initNatConvSimulation() {
                     }
                 }
             }
-            
+
             // Drag and plume convergence (hot air converges towards the center line above the cylinder)
             const distFromCenterLine = this.x - cx;
             const yDist = Math.abs(this.y - cy);
-            
+
             if (yDist > baseR) {
                 // Gently converge plume towards the centerline without crossing it
                 this.vx -= Math.sign(distFromCenterLine) * 0.005 * (yDist / h);
-                
+
                 // Prevent particles from crossing the center line to keep flow laminarly parallel
                 if (this.side === -1) {
                     this.x = Math.min(cx - 1.5, this.x);
@@ -6654,17 +6690,17 @@ function initNatConvSimulation() {
                     this.x = Math.max(cx + 1.5, this.x);
                 }
             }
-            
+
             // Check boundary resets
             if (this.y < 0 || this.y > h || this.x < 0 || this.x > w) {
                 this.reset(cx, cy, baseR, isHot);
             }
         }
-        
+
         draw(ctx, isHot, cx, cy, baseR, dT, time) {
             const yDist = Math.abs(this.y - cy);
             let drawX = this.x;
-            
+
             // Apply gentle wave oscillation once escaped into the plume
             if (yDist > baseR) {
                 // Amplitude grows with distance from the cylinder to simulate plume flapping
@@ -6672,62 +6708,62 @@ function initNatConvSimulation() {
                 const waveOffset = Math.sin(this.y * 0.04 - time * 0.03) * waveAmp;
                 drawX += waveOffset;
             }
-            
+
             ctx.beginPath();
             ctx.arc(drawX, this.y, this.size, 0, Math.PI * 2);
             const alpha = this.life * 0.45;
-            ctx.fillStyle = isHot 
+            ctx.fillStyle = isHot
                 ? `rgba(249, 115, 22, ${alpha})` // Orange for hot rising
                 : `rgba(56, 189, 248, ${alpha})`; // Sky-blue for cold falling
             ctx.fill();
         }
     }
-    
+
     // Initialize particle array
     const particles = [];
     const maxParticles = 60;
-    
+
     let time = 0;
     let natConvAnimationId = null;
-    
+
     function draw() {
         if (!canvas.offsetParent) {
             // Tab not visible, pause loop
             natConvAnimationId = requestAnimationFrame(draw);
             return;
         }
-        
+
         const w = canvas.width;
         const h = canvas.height;
         const cx = w / 2;
         const cy = h / 2;
-        
+
         // Read Sliders
         const Ts = sliderTs ? parseFloat(sliderTs.value) : 80;
         const Tinf = sliderTinf ? parseFloat(sliderTinf.value) : 20;
         const D_mm = sliderD ? parseFloat(sliderD.value) : 40;
-        
+
         const dT = Ts - Tinf;
         const isHot = dT >= 0;
-        
+
         // Update slider values texts
         if (valTs) valTs.textContent = Ts;
         if (valTinf) valTinf.textContent = Tinf;
         if (valD) valD.textContent = D_mm;
-        
+
         // 1. Physical properties of Air at Film Temperature Tf = (Ts + Tinf)/2
         const Tf = (Ts + Tinf) / 2;
         const Tf_K = Tf + 273.15;
         const beta = 1.0 / Tf_K; // Ideal gas expansion coefficient
         const g = 9.81;
         const D_m = D_mm / 1000.0;
-        
+
         // Standard dry air properties approximated
         const nu = 15.89e-6; // m²/s
         const alpha = 22.5e-6; // m²/s
         const Pr = 0.707;
         const k = 0.0263; // W/mK
-        
+
         // Rayleigh Number
         const Ra = (g * beta * Math.abs(dT) * Math.pow(D_m, 3)) / (nu * alpha);
         if (valRa) {
@@ -6737,36 +6773,36 @@ function initNatConvSimulation() {
                 valRa.textContent = Ra.toExponential(2);
             }
         }
-        
+
         // Nusselt Number (Churchill & Chu Correlation)
         let Nu_val = 0.36; // Pure conduction base
         if (Ra > 0) {
-            const num = 0.387 * Math.pow(Ra, 1/6);
-            const den = Math.pow(1 + Math.pow(0.559 / Pr, 9/16), 8/27);
+            const num = 0.387 * Math.pow(Ra, 1 / 6);
+            const den = Math.pow(1 + Math.pow(0.559 / Pr, 9 / 16), 8 / 27);
             Nu_val = Math.pow(0.60 + num / den, 2);
         }
         if (valNu) valNu.textContent = Nu_val.toFixed(2);
-        
+
         // Convection Coefficient: h = Nu * k / D
         const h_coef = (Nu_val * k) / D_m;
         if (valH) valH.textContent = `${h_coef.toFixed(2)} W/m²K`;
-        
+
         // Heat Loss per unit length: q' = h * pi * D * dT
         const q_loss = h_coef * Math.PI * D_m * dT;
         if (valQ) valQ.textContent = `${q_loss.toFixed(1)} W/m`;
-        
+
         // Dynamic visual cylinder radius (scaled for canvas representation)
         const baseR = (D_mm / 100) * 45 + 15;
-        
+
         // Clear Canvas
         ctx.clearRect(0, 0, w, h);
-        
+
         // Draw background convective temperature field / plume glow
         if (Math.abs(dT) > 0.5) {
             ctx.save();
             const plumeGradient = ctx.createLinearGradient(cx, cy, cx, isHot ? 0 : h);
             const coreAlpha = Math.min(0.35, Math.abs(dT) * 0.003);
-            
+
             if (isHot) {
                 plumeGradient.addColorStop(0, "rgba(239, 68, 68, 0.45)");
                 plumeGradient.addColorStop(0.3, "rgba(249, 115, 22, 0.25)");
@@ -6778,11 +6814,11 @@ function initNatConvSimulation() {
                 plumeGradient.addColorStop(0.8, "rgba(186, 230, 253, 0.05)");
                 plumeGradient.addColorStop(1, "rgba(186, 230, 253, 0)");
             }
-            
+
             // Draw plume shape path
             ctx.beginPath();
             ctx.moveTo(cx - baseR, cy);
-            
+
             // Outer plume envelope boundaries
             const spreadWidth = baseR * (1.5 + Math.abs(dT) * 0.005);
             if (isHot) {
@@ -6796,13 +6832,13 @@ function initNatConvSimulation() {
                 ctx.lineTo(cx + 10, h);
                 ctx.bezierCurveTo(cx + spreadWidth, h - 50, cx + baseR * 1.2, cy + baseR * 1.5, cx + baseR, cy);
             }
-            
+
             ctx.closePath();
             ctx.fillStyle = plumeGradient;
             ctx.fill();
             ctx.restore();
         }
-        
+
         // 2. Draw Cylinder
         // Outer temperature glow outer ring
         const glowRad = baseR + Math.min(20, Math.abs(dT) * 0.15);
@@ -6818,34 +6854,34 @@ function initNatConvSimulation() {
         ctx.beginPath();
         ctx.arc(cx, cy, glowRad, 0, Math.PI * 2);
         ctx.fill();
-        
+
         // Cylinder Solid Core
         ctx.beginPath();
         ctx.arc(cx, cy, baseR, 0, Math.PI * 2);
-        const cylinderGrad = ctx.createRadialGradient(cx - baseR/4, cy - baseR/4, baseR/10, cx, cy, baseR);
+        const cylinderGrad = ctx.createRadialGradient(cx - baseR / 4, cy - baseR / 4, baseR / 10, cx, cy, baseR);
         cylinderGrad.addColorStop(0, "#475569");
         cylinderGrad.addColorStop(0.8, "#1e293b");
         cylinderGrad.addColorStop(1, "#0f172a");
         ctx.fillStyle = cylinderGrad;
         ctx.fill();
-        
+
         // Cylinder Stroke outline
         ctx.strokeStyle = "rgba(255, 255, 255, 0.25)";
         ctx.lineWidth = 2;
         ctx.stroke();
-        
+
         // Write T_s inside cylinder
         ctx.fillStyle = "#ffffff";
         ctx.font = `bold ${Math.max(10, baseR * 0.35)}px Inter, system-ui, sans-serif`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText(`Ts = ${Ts}°C`, cx, cy);
-        
+
         // 3. Update and draw particles representing convection currents
         if (Math.abs(dT) > 0.1) {
             // Dynamic spawn of particles based on temperature difference
             const activeParticlesCount = Math.min(maxParticles, Math.floor(Math.abs(dT) * 0.4) + 5);
-            
+
             // Populate active set
             while (particles.length < activeParticlesCount) {
                 particles.push(new PlumeParticle(cx, cy, baseR, isHot));
@@ -6854,7 +6890,7 @@ function initNatConvSimulation() {
             if (particles.length > activeParticlesCount) {
                 particles.splice(activeParticlesCount);
             }
-            
+
             particles.forEach(p => {
                 p.update(cx, cy, baseR, isHot, dT, w, h);
                 p.draw(ctx, isHot, cx, cy, baseR, dT, time);
@@ -6863,11 +6899,11 @@ function initNatConvSimulation() {
             // No convective force, empty particles gradually
             particles.length = 0;
         }
-        
+
         time += 1;
         natConvAnimationId = requestAnimationFrame(draw);
     }
-    
+
     draw();
 }
 
@@ -6877,18 +6913,18 @@ function initKelvinSimulation() {
     if (!canvas || !chartCtx) return;
 
     const ctx = canvas.getContext('2d');
-    
+
     // Sliders
     const sliderTemp = document.getElementById('kelvin-temp');
     const sliderPressure = document.getElementById('kelvin-pressure');
     const sliderMoles = document.getElementById('kelvin-moles');
-    
+
     // Labels
     const valTemp = document.getElementById('kelvin-temp-val');
     const valTempK = document.getElementById('kelvin-temp-k-val');
     const valPressure = document.getElementById('kelvin-pressure-val');
     const valMoles = document.getElementById('kelvin-moles-val');
-    
+
     // Texts
     const textTc = document.getElementById('kelvin-tc-text');
     const textTk = document.getElementById('kelvin-tk-text');
@@ -6901,7 +6937,7 @@ function initKelvinSimulation() {
 
     let animationId = null;
     let particles = [];
-    
+
     // Resize canvas
     function resizeCanvas() {
         const rect = canvas.getBoundingClientRect();
@@ -6922,14 +6958,14 @@ function initKelvinSimulation() {
             this.radius = 4;
             this.color = `hsl(${Math.random() * 30 + 200}, 80%, 60%)`;
         }
-        
+
         update(w, h, pistonY, speedFactor) {
             if (speedFactor <= 0) {
                 this.vx = 0;
                 this.vy = 0;
                 return;
             }
-            
+
             // Normalize velocity vector
             const currentMag = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
             if (currentMag > 0) {
@@ -7109,17 +7145,17 @@ function initKelvinSimulation() {
         const targetParticlesCount = Math.floor(n * 50) + 10;
         const w = canvas.width;
         const h = canvas.height;
-        
+
         // Piston Y coordinate (Y = 0 is top, Y = bottom is V=0)
         // Let's reserve 30px margin at top and 30px at bottom.
         const cylinderTop = 40;
         const cylinderBottom = h - 40;
         const cylinderHeight = cylinderBottom - cylinderTop;
-        
+
         // Max volume is for n=1, T=300C (573K), P=0.5 => V ~ 94L. Let's scale V max to 100L.
         const V_max_scale = 100;
         const volumeHeight = Math.min(1.0, V / V_max_scale) * cylinderHeight;
-        
+
         // Piston Y is cylinderBottom - volumeHeight
         const pistonTargetY = cylinderBottom - volumeHeight;
 
@@ -7200,7 +7236,7 @@ function initKelvinSimulation() {
         // Draw a pressure gauge indicator/sensor on the side
         ctx.fillStyle = "rgba(255,255,255,0.05)";
         ctx.beginPath();
-        ctx.arc(w - margin - 20, cylinderBottom - 30, 15, 0, Math.PI*2);
+        ctx.arc(w - margin - 20, cylinderBottom - 30, 15, 0, Math.PI * 2);
         ctx.fill();
 
         animationId = requestAnimationFrame(renderLoop);
@@ -7222,22 +7258,22 @@ function initJouleSimulation() {
     if (!canvas || !chartCtx) return;
 
     const ctx = canvas.getContext('2d');
-    
+
     // Sliders
     const sliderMass = document.getElementById('joule-mass');
     const sliderHeight = document.getElementById('joule-height');
     const sliderWater = document.getElementById('joule-water');
-    
+
     // Labels
     const valMass = document.getElementById('joule-mass-val');
     const valHeight = document.getElementById('joule-height-val');
     const valWater = document.getElementById('joule-water-val');
-    
+
     // Buttons
     const btnDrop = document.getElementById('joule-drop-btn');
     const btnReset = document.getElementById('joule-reset-btn');
     const btnClear = document.getElementById('joule-clear-btn');
-    
+
     // Output Texts
     const textDrops = document.getElementById('joule-n-drops');
     const textW = document.getElementById('joule-w-val');
@@ -7252,18 +7288,18 @@ function initJouleSimulation() {
     const g = 9.80665; // m/s^2
     const cp_water = 1.0; // cal/(g*K) -> cp = 1000 cal/(kg*K)
     const C_cal = 0.0; // cal/K (assuming ideal adiabatic calorimeter where water absorbs 100% heat)
-    
+
     // Simulation state
     let nDrops = 0;
     let totalWork = 0; // J
     let currentTemp = 20.0; // °C
     const initialTemp = 20.0; // °C
-    
+
     let baseTemp = 20.0;
     let dT_current_drop = 0.0;
     let baseWork = 0;
     let W_current_drop = 0;
-    
+
     let massPosition = 0; // 0 to 1
     let isFalling = false;
     let isResetting = false;
@@ -7335,7 +7371,7 @@ function initJouleSimulation() {
         valMass.textContent = m.toFixed(1);
         valHeight.textContent = h_val.toFixed(1);
         valWater.textContent = M_water_kg.toFixed(2);
-        
+
         const Ep = 2 * m * g * h_val;
         const textEp = document.getElementById('joule-ep-val');
         if (textEp) textEp.textContent = `${Ep.toFixed(1)} J`;
@@ -7347,25 +7383,25 @@ function initJouleSimulation() {
         if (textUf) textUf.textContent = `${Uf.toFixed(1)} J`;
         if (textDu) textDu.textContent = `${dU.toFixed(1)} J`;
     }
-    
+
     sliderMass.addEventListener('input', updateInputs);
     sliderHeight.addEventListener('input', updateInputs);
     sliderWater.addEventListener('input', updateInputs);
 
     function dropWeights() {
         if (isFalling || isResetting || massPosition >= 1.0) return;
-        
+
         // Save current base values
         baseTemp = currentTemp;
         baseWork = totalWork;
-        
+
         // Pre-compute parameters
         const m = parseFloat(sliderMass.value);
         const h_val = parseFloat(sliderHeight.value);
         const M_water_kg = parseFloat(sliderWater.value);
-        
+
         W_current_drop = 2 * m * g * h_val;
-        
+
         const noise = 0.985 + Math.random() * 0.03;
         const J_target = 4.184 * noise;
         const Q_drop_cal = W_current_drop / J_target;
@@ -7373,7 +7409,7 @@ function initJouleSimulation() {
         dT_current_drop = Q_drop_cal / heatCapacity;
 
         isFalling = true;
-        
+
         // Disable sliders during fall
         sliderMass.disabled = true;
         sliderHeight.disabled = true;
@@ -7396,7 +7432,7 @@ function initJouleSimulation() {
         nDrops = 0;
         totalWork = 0;
         currentTemp = initialTemp;
-        
+
         // Re-enable inputs
         sliderMass.disabled = false;
         sliderHeight.disabled = false;
@@ -7542,17 +7578,17 @@ function initJouleSimulation() {
             ctx.strokeStyle = "#94a3b8";
             ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.arc(x, y, pulleyR, 0, Math.PI*2);
+            ctx.arc(x, y, pulleyR, 0, Math.PI * 2);
             ctx.fill();
             ctx.stroke();
-            
+
             // Draw cross spokes representing rotation
             ctx.strokeStyle = "rgba(255,255,255,0.4)";
             ctx.beginPath();
-            ctx.moveTo(x - Math.cos(angle)*pulleyR, y - Math.sin(angle)*pulleyR);
-            ctx.lineTo(x + Math.cos(angle)*pulleyR, y + Math.sin(angle)*pulleyR);
-            ctx.moveTo(x - Math.sin(angle)*pulleyR, y + Math.cos(angle)*pulleyR);
-            ctx.lineTo(x + Math.sin(angle)*pulleyR, y - Math.cos(angle)*pulleyR);
+            ctx.moveTo(x - Math.cos(angle) * pulleyR, y - Math.sin(angle) * pulleyR);
+            ctx.lineTo(x + Math.cos(angle) * pulleyR, y + Math.sin(angle) * pulleyR);
+            ctx.moveTo(x - Math.sin(angle) * pulleyR, y + Math.cos(angle) * pulleyR);
+            ctx.lineTo(x + Math.sin(angle) * pulleyR, y - Math.cos(angle) * pulleyR);
             ctx.stroke();
         };
 
@@ -7570,16 +7606,16 @@ function initJouleSimulation() {
         ctx.strokeStyle = "rgba(255, 255, 255, 0.25)";
         ctx.lineWidth = 3;
         ctx.beginPath();
-        ctx.rect(calX - calW/2, calY - calH/2, calW, calH);
+        ctx.rect(calX - calW / 2, calY - calH / 2, calW, calH);
         ctx.fill();
         ctx.stroke();
 
         // Water level inside calorimeter
         const waterH = calH - 20;
-        const waterY = calY + calH/2 - waterH;
+        const waterY = calY + calH / 2 - waterH;
         ctx.fillStyle = "rgba(56, 189, 248, 0.25)"; // Translucent sky blue
         ctx.beginPath();
-        ctx.rect(calX - calW/2 + 2, waterY, calW - 4, waterH - 2);
+        ctx.rect(calX - calW / 2 + 2, waterY, calW - 4, waterH - 2);
         ctx.fill();
 
         // 4. Central Rotating Axle and Paddle Wheel inside calorimeter
@@ -7618,7 +7654,7 @@ function initJouleSimulation() {
             ctx.strokeStyle = "rgba(249, 115, 22, 0.4)";
             ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.arc(calX, calY, bladeLength + 6, 0, Math.PI*2);
+            ctx.arc(calX, calY, bladeLength + 6, 0, Math.PI * 2);
             ctx.stroke();
         }
 
@@ -7658,11 +7694,11 @@ function initJouleSimulation() {
         drawRopeAndWeight(rightPulleyX, rightPulleyX + pulleyR, false);
 
         // 6. Thermometer extending inside calorimeter water
-        const thermX = calX - calW/2 + 20;
+        const thermX = calX - calW / 2 + 20;
         ctx.strokeStyle = "#e2e8f0";
         ctx.lineWidth = 4;
         ctx.beginPath();
-        ctx.moveTo(thermX, calY - calH/2 - 20);
+        ctx.moveTo(thermX, calY - calH / 2 - 20);
         ctx.lineTo(thermX, calY + 20);
         ctx.stroke();
 
@@ -7681,7 +7717,7 @@ function initJouleSimulation() {
         ctx.strokeStyle = "rgba(245, 158, 11, 0.5)"; // Amber border
         ctx.lineWidth = 1;
         const badgeX = thermX + 15;
-        const badgeY = calY - calH/2 - 25;
+        const badgeY = calY - calH / 2 - 25;
         const badgeW = 72;
         const badgeH = 18;
         ctx.beginPath();
@@ -7712,17 +7748,17 @@ function initHerschelSimulation() {
     if (!canvas || !chartCtx) return;
 
     const ctx = canvas.getContext('2d');
-    
+
     // Sliders
     const sliderPos = document.getElementById('herschel-pos');
     const sliderInt = document.getElementById('herschel-int');
     const sliderTemp = document.getElementById('herschel-temp');
-    
+
     // Labels
     const valPos = document.getElementById('herschel-pos-val');
     const valInt = document.getElementById('herschel-int-val');
     const valTemp = document.getElementById('herschel-temp-val');
-    
+
     // Results
     const lblRegion = document.getElementById('herschel-region-lbl');
     const valTact = document.getElementById('herschel-tact-val');
@@ -7811,19 +7847,19 @@ function initHerschelSimulation() {
         const pct = parseFloat(sliderPos.value);
         const I = parseFloat(sliderInt.value);
         const Tamb = parseFloat(sliderTemp.value);
-        
+
         const reg = getRegionInfo(pct);
-        
+
         valPos.textContent = `${reg.name} (${Math.round(reg.wavelength)} nm)`;
         valInt.textContent = I;
         valTemp.textContent = Tamb;
-        
+
         lblRegion.textContent = reg.name;
 
         // Targets based on physics
         // Maximum rise at peak is ~4.5 degrees at I=1000 W/m2
         const targetTact = Tamb + (I / 1000) * 3.5 * reg.heatFactor;
-        
+
         // Control thermometers have tiny ambient noise
         const targetTc1 = Tamb + Math.sin(Date.now() / 1500) * 0.02;
         const targetTc2 = Tamb + Math.cos(Date.now() / 1200) * 0.02 - 0.01;
@@ -7836,10 +7872,10 @@ function initHerschelSimulation() {
         valTact.innerHTML = `${currentTact.toFixed(2)} &deg;C`;
         valTc1.innerHTML = `${currentTc1.toFixed(2)} &deg;C`;
         valTc2.innerHTML = `${currentTc2.toFixed(2)} &deg;C`;
-        
+
         const dT = currentTact - Tamb;
         valDt.innerHTML = `${dT >= 0 ? '+' : ''}${dT.toFixed(2)} &deg;C`;
-        
+
         // Update Chart
         const tempCurve = [];
         for (let i = 0; i <= numPoints; i++) {
@@ -7848,7 +7884,7 @@ function initHerschelSimulation() {
             const tempT = Tamb + (I / 1000) * 3.5 * tempReg.heatFactor;
             tempCurve.push(tempT);
         }
-        
+
         // Active thermometer marker on chart
         const markerIdx = Math.round((pct / 100) * numPoints);
         const markerData = Array(numPoints + 1).fill(null);
@@ -7856,7 +7892,7 @@ function initHerschelSimulation() {
 
         herschelChart.data.datasets[0].data = tempCurve;
         herschelChart.data.datasets[1].data = markerData;
-        
+
         // Keep scale appropriate
         herschelChart.options.scales.y.min = Math.floor(Tamb - 1);
         herschelChart.options.scales.y.max = Math.ceil(Tamb + (I / 1000) * 5);
@@ -7970,7 +8006,7 @@ function initHerschelSimulation() {
 
         ctx.fillStyle = grad;
         ctx.fillRect(spectrumStartX, tableY - 6, spectrumW, 12);
-        
+
         // Draw labels below spectrum (rotated vertically and larger)
         const colorLabels = [
             { text: "Violeta", x: spectrumStartX + 0.05 * spectrumW },
@@ -8013,7 +8049,7 @@ function initHerschelSimulation() {
             const tMin = Tamb - 2;
             const tMax = Tamb + 5;
             const tRatio = Math.max(0, Math.min(1, (tVal - tMin) / (tMax - tMin)));
-            
+
             const liquidH = isActive ? 95 : 62;
             const liquidTop = bulbY - (tRatio * liquidH);
             const liquidW = isActive ? 4.5 : 3.0;
@@ -8031,7 +8067,7 @@ function initHerschelSimulation() {
             // Draw wooden support
             ctx.fillStyle = "#475569";
             ctx.fillRect(tx - wSupport / 2, ty - ySupportOffset, wSupport, hSupport);
-            
+
             // Draw glass tube
             ctx.strokeStyle = "#e2e8f0";
             ctx.lineWidth = glassW;
@@ -8141,7 +8177,7 @@ function initHerschelSimulation() {
    ========================================================================= */
 function updateAllChartsTheme() {
     if (!window.Chart || !Chart.instances) return;
-    
+
     const bodyStyles = getComputedStyle(document.body);
     const gridColor = bodyStyles.getPropertyValue('--chart-grid').trim() || 'rgba(255,255,255,0.05)';
     const textColor = bodyStyles.getPropertyValue('--chart-text').trim() || '#cbd5e1';
@@ -8163,7 +8199,7 @@ function updateAllChartsTheme() {
                 }
             });
         }
-        
+
         if (chart.options.plugins && chart.options.plugins.legend && chart.options.plugins.legend.labels) {
             chart.options.plugins.legend.labels.color = textColor;
         }
@@ -8299,7 +8335,7 @@ function initMicrochannelSimulation() {
         valFlow.textContent = sFlow.value;
 
         // Pitch between channels: assume ribs are as wide as the channels
-        const pitch = 2 * w_c; 
+        const pitch = 2 * w_c;
         const N_channels = Math.floor(W_chip / pitch);
 
         // Hydraulic Diameter
@@ -8314,8 +8350,8 @@ function initMicrochannelSimulation() {
 
         if (material === 'Si' && isBallistic) {
             // Ballistic phonon effect (scaled to 40 um for pedagogical visibility in microscale channels)
-            const lambda = 40e-6; 
-            const wall_thickness = w_c; 
+            const lambda = 40e-6;
+            const wall_thickness = w_c;
             k_s = k_s / (1 + lambda / wall_thickness);
         }
 
@@ -8343,7 +8379,7 @@ function initMicrochannelSimulation() {
             const xRatio = i / numPoints;
             const T_f_x = T_in + dT_fluid_total * xRatio;
             const T_c_x = T_f_x + R_conv * Q + R_cond_base * Q;
-            
+
             fluidProfile.push(T_f_x);
             chipProfile.push(T_c_x);
         }
@@ -8442,7 +8478,7 @@ function initMicrochannelSimulation() {
             const py = channelY + (r + 0.5) * (channelH / numRows);
             const yNormalized = (r + 0.5) / numRows * 2 - 1;
             const velocityFactor = 1 - yNormalized * yNormalized;
-            
+
             for (let i = -1; i < numParticles + 1; i++) {
                 const px = marginX + ((i * 50 + particleOffset * velocityFactor) % blockW);
                 if (px >= marginX && px <= marginX + blockW) {
@@ -8503,7 +8539,7 @@ function initMicrochannelSimulation() {
                 ctx.lineTo(x + 10, startY);
             }
             ctx.stroke();
-            
+
             ctx.fillStyle = '#f87171';
             ctx.font = 'bold 8px Inter, sans-serif';
             ctx.textAlign = 'center';
@@ -8530,7 +8566,7 @@ function initCpCvSimulation() {
     const canvas = document.getElementById('cpcvCanvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    
+
     const selectGas = document.getElementById('cpcv-gas');
     const inputDt = document.getElementById('cpcv-dt');
     const spanDtVal = document.getElementById('cpcv-dt-val');
@@ -8545,7 +8581,7 @@ function initCpCvSimulation() {
     const chartCanvas = document.getElementById('cpcvChart');
     if (!chartCanvas) return;
     const chartCtx = chartCanvas.getContext('2d');
-    
+
     // Physical Constants
     const GAS_PROPERTIES = {
         air: { name: 'Aire', Cv: 718, Cp: 1005, R: 287 },
@@ -8556,12 +8592,12 @@ function initCpCvSimulation() {
         n2: { name: 'Nitrógeno (N₂)', Cv: 743, Cp: 1040, R: 297 },
         ar: { name: 'Argón (Ar)', Cv: 312, Cp: 520, R: 208 }
     };
-    
+
     let isHeating = false;
     let heatingProgress = 0.0;
     let currentDT = 0.0;
     let animationId = null;
-    
+
     // Create Chart
     let cpcvChart = new Chart(chartCtx, {
         type: 'bar',
@@ -8608,7 +8644,7 @@ function initCpCvSimulation() {
                 },
                 tooltip: {
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             return ` ${context.dataset.label}: ${context.raw.toFixed(1)} J`;
                         }
                     }
@@ -8626,25 +8662,25 @@ function initCpCvSimulation() {
             this.vx = Math.cos(angle);
             this.vy = Math.sin(angle);
         }
-        
+
         update(tempRatio, minX, maxX, minY, maxY) {
             this.minX = minX;
             this.maxX = maxX;
             this.minY = minY;
             this.maxY = maxY;
-            
+
             // If first frame or particle somehow ends up out of bounds, place it inside randomly
             if (this.x === null || this.y === null || this.x < minX || this.x > maxX || this.y < minY || this.y > maxY) {
                 this.x = minX + Math.random() * (maxX - minX);
                 this.y = minY + Math.random() * (maxY - minY);
             }
-            
+
             // Velocity scales with square root of absolute temperature (T_base = 300 K)
             const speed = 1.3 * Math.sqrt(1 + tempRatio);
-            
+
             this.x += this.vx * speed;
             this.y += this.vy * speed;
-            
+
             // Collision with left/right walls
             if (this.x < this.minX) { this.x = this.minX; this.vx *= -1; }
             if (this.x > this.maxX) { this.x = this.maxX; this.vx *= -1; }
@@ -8652,7 +8688,7 @@ function initCpCvSimulation() {
             if (this.y < this.minY) { this.y = this.minY; this.vy *= -1; }
             if (this.y > this.maxY) { this.y = this.maxY; this.vy *= -1; }
         }
-        
+
         draw(ctxColor) {
             ctx.fillStyle = ctxColor;
             ctx.beginPath();
@@ -8660,47 +8696,47 @@ function initCpCvSimulation() {
             ctx.fill();
         }
     }
-    
+
     // Initialize Particles
     const particlesV = [];
     const particlesP = [];
     const numParticles = 25;
-    
+
     for (let i = 0; i < numParticles; i++) {
         particlesV.push(new GasParticle());
         particlesP.push(new GasParticle());
     }
-    
+
     function calculatePhysics() {
         const gas = selectGas.value;
         const props = GAS_PROPERTIES[gas];
         const dtTarget = parseFloat(inputDt.value);
-        
+
         // Show current input value
         spanDtVal.innerText = dtTarget.toFixed(1);
-        
+
         const dU = props.Cv * currentDT;
         const Wp = props.R * currentDT;
         const Qv = props.Cv * currentDT;
         const Qp = props.Cp * currentDT;
-        
+
         lblQv.innerText = Qv.toFixed(1) + ' J';
         lblQp.innerText = Qp.toFixed(1) + ' J';
         lblWp.innerText = Wp.toFixed(1) + ' J';
-        
+
         if (lblCp && lblCv && lblRExpr && lblRVal) {
             lblCp.innerText = props.Cp;
             lblCv.innerText = props.Cv;
             lblRExpr.innerText = `${props.Cp} - ${props.Cv}`;
             lblRVal.innerText = props.R;
         }
-        
+
         // Update Chart
         cpcvChart.data.datasets[0].data = [dU, dU];
         cpcvChart.data.datasets[1].data = [0, Wp];
         cpcvChart.update('none');
     }
-    
+
     // Event listeners
     selectGas.addEventListener('change', () => {
         currentDT = 0;
@@ -8709,7 +8745,7 @@ function initCpCvSimulation() {
         btnCalentar.innerHTML = '<i class="fas fa-play"></i> Iniciar Calentamiento';
         calculatePhysics();
     });
-    
+
     inputDt.addEventListener('input', () => {
         currentDT = 0;
         heatingProgress = 0;
@@ -8717,7 +8753,7 @@ function initCpCvSimulation() {
         btnCalentar.innerHTML = '<i class="fas fa-play"></i> Iniciar Calentamiento';
         calculatePhysics();
     });
-    
+
     btnCalentar.addEventListener('click', () => {
         if (isHeating) {
             isHeating = false;
@@ -8731,27 +8767,27 @@ function initCpCvSimulation() {
             btnCalentar.innerHTML = '<i class="fas fa-pause"></i> Pausar';
         }
     });
-    
+
     function renderLoop() {
         if (!canvas.offsetParent) {
             animationId = requestAnimationFrame(renderLoop);
             return;
         }
-        
+
         const rect = canvas.getBoundingClientRect();
         if (canvas.width !== rect.width || canvas.height !== rect.height) {
             canvas.width = rect.width;
             canvas.height = rect.height;
         }
-        
+
         const w = canvas.width;
         const h = canvas.height;
         ctx.clearRect(0, 0, w, h);
-        
+
         const gas = selectGas.value;
         const props = GAS_PROPERTIES[gas];
         const dtTarget = parseFloat(inputDt.value);
-        
+
         // Physics update if heating
         if (isHeating) {
             heatingProgress += 0.003; // heating rate
@@ -8763,79 +8799,79 @@ function initCpCvSimulation() {
             currentDT = heatingProgress * dtTarget;
             calculatePhysics();
         }
-        
+
         // Temperature ratio for animation speed (base T = 300K)
         const tempRatio = currentDT / 300;
-        
+
         // Draw Left Cylinder (V = Constant)
         const cylW = 120;
         const cylH = 170;
         const baseY = h - 60;
-        
+
         const cyl1X = w / 4 - cylW / 2;
         const cyl2X = 3 * w / 4 - cylW / 2;
-        
+
         // Left Cylinder - Piston is locked
         const pistonHeightVal = 100; // fixed position
         const piston1Y = baseY - pistonHeightVal;
-        
+
         // Right Cylinder - Piston moves up (Work of expansion: W = P * dV)
         // Max height displacement proportional to gas expansion ratio:
         // Piston displacement scaled by 120 for clear visual expansion
-        const expansionDisplacement = pistonHeightVal * tempRatio * 120; 
+        const expansionDisplacement = pistonHeightVal * tempRatio * 120;
         const piston2Y = baseY - pistonHeightVal - expansionDisplacement;
-        
+
         // Draw Flames under cylinders if heating
         if (isHeating || (heatingProgress > 0 && heatingProgress < 1.0)) {
             // Draw fires at bottom
             drawFlame(cyl1X + cylW / 2, baseY + 10, 25);
             drawFlame(cyl2X + cylW / 2, baseY + 10, 25);
         }
-        
+
         // Draw Left Cylinder Walls
         drawCylinder(cyl1X, baseY, cylW, cylH, piston1Y, true);
         // Draw Right Cylinder Walls
         drawCylinder(cyl2X, baseY, cylW, cylH, piston2Y, false);
-        
+
         // Update and Draw particles in Left Cylinder
         particlesV.forEach(p => {
             p.update(tempRatio, cyl1X + 5, cyl1X + cylW - 5, piston1Y + 5, baseY - 5);
             p.draw('#38bdf8');
         });
-        
+
         // Update and Draw particles in Right Cylinder
         particlesP.forEach(p => {
             p.update(tempRatio, cyl2X + 5, cyl2X + cylW - 5, piston2Y + 5, baseY - 5);
             p.draw('#34d399');
         });
-        
+
         // Draw Text Labels on Canvas
         ctx.fillStyle = '#f8fafc';
         ctx.font = 'bold 12px Inter, sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText("VOLUMEN CONSTANTE (V = cte)", cyl1X + cylW / 2, baseY - cylH - 20);
         ctx.fillText("PRESIÓN CONSTANTE (P = cte)", cyl2X + cylW / 2, baseY - cylH - 20);
-        
+
         // Display Pressure and Work Info
         ctx.font = '11px monospace';
         const pressV = (1.0 * (1 + tempRatio)).toFixed(3);
         ctx.fillStyle = '#38bdf8';
         ctx.fillText(`Presión: ${pressV} atm`, cyl1X + cylW / 2, baseY + 28);
         ctx.fillText(`Trabajo: 0.0 J`, cyl1X + cylW / 2, baseY + 42);
-        
+
         ctx.fillStyle = '#34d399';
         ctx.fillText(`Presión: 1.000 atm (cte)`, cyl2X + cylW / 2, baseY + 28);
         const currentWork = (props.R * currentDT).toFixed(1);
         ctx.fillText(`Trabajo: ${currentWork} J`, cyl2X + cylW / 2, baseY + 42);
-        
+
         // Draw Temperature increase HUD
         ctx.fillStyle = '#e2e8f0';
         ctx.font = 'bold 13px Inter, sans-serif';
         ctx.fillText(`Incremento Térmico (ΔT): +${currentDT.toFixed(2)} K`, w / 2, 25);
-        
+
         animationId = requestAnimationFrame(renderLoop);
     }
-    
+
     function drawCylinder(x, baseY, w, h, pistonY, isLocked) {
         // Draw Cylinder outline
         ctx.strokeStyle = '#64748b';
@@ -8846,15 +8882,15 @@ function initCpCvSimulation() {
         ctx.lineTo(x + w, baseY);
         ctx.lineTo(x + w, pistonY - 20);
         ctx.stroke();
-        
+
         // Draw Piston
         ctx.fillStyle = '#475569';
         ctx.fillRect(x + 2, pistonY - 10, w - 4, 12);
-        
+
         // Draw Piston Rod
         ctx.fillStyle = '#94a3b8';
         ctx.fillRect(x + w / 2 - 4, pistonY - 45, 8, 35);
-        
+
         // Draw Locking pins if Locked (V = Constant)
         if (isLocked) {
             ctx.fillStyle = '#ef4444';
@@ -8868,7 +8904,7 @@ function initCpCvSimulation() {
             ctx.arc(x + w + 5, pistonY - 4, 6, 0, Math.PI * 2);
             ctx.fill();
             ctx.fillRect(x + w - 7, pistonY - 6, 12, 4);
-            
+
             ctx.fillStyle = '#ef4444';
             ctx.font = 'bold 8px Inter, sans-serif';
             ctx.fillText("TRABADO", x + w / 2, pistonY - 14);
@@ -8882,19 +8918,19 @@ function initCpCvSimulation() {
             ctx.fillText("PESO", x + w / 2, pistonY - 46);
         }
     }
-    
+
     function drawFlame(centerX, centerY, size) {
         const grad = ctx.createRadialGradient(centerX, centerY, 2, centerX, centerY, size);
         grad.addColorStop(0, '#f59e0b'); // amber
         grad.addColorStop(0.4, '#ef4444'); // red
         grad.addColorStop(1, 'rgba(0,0,0,0)');
-        
+
         ctx.fillStyle = grad;
         ctx.beginPath();
         ctx.arc(centerX, centerY, size, 0, Math.PI * 2);
         ctx.fill();
     }
-    
+
     // Start simulation loops
     calculatePhysics();
     renderLoop();
@@ -9125,7 +9161,7 @@ function initDoublePipeSimulation() {
         const Di_mm = parseFloat(inputDi.value);
         const thick_mm = parseFloat(inputThick.value);
         const minDs_mm = Di_mm + 2 * thick_mm;
-        
+
         let Ds_mm = parseFloat(inputDs.value);
         if (Ds_mm < minDs_mm + 2) {
             Ds_mm = Math.ceil(minDs_mm + 2);
@@ -9186,7 +9222,7 @@ function initDoublePipeSimulation() {
                 const f = Math.pow(0.79 * Math.log(Re) - 1.64, -2);
                 const f8 = f / 8;
                 const num = f8 * (Re - 1000) * Pr;
-                const den = 1 + 12.7 * Math.sqrt(f8) * (Math.pow(Pr, 2/3) - 1);
+                const den = 1 + 12.7 * Math.sqrt(f8) * (Math.pow(Pr, 2 / 3) - 1);
                 return Math.max(3.66, num / den);
             } else {
                 // Turbulent flow (Dittus-Boelter)
@@ -9375,7 +9411,7 @@ function initDoublePipeSimulation() {
         if (lblDhi && lblRei && lblRegi && lblDho && lblReo && lblRego) {
             lblDhi.innerText = (Di * 1000).toFixed(0) + ' mm';
             lblDho.innerText = ((Dext - Do) * 1000).toFixed(0) + ' mm';
-            
+
             lblRei.innerText = Math.round(Re_i).toLocaleString();
             lblReo.innerText = Math.round(Re_o).toLocaleString();
 
@@ -9413,7 +9449,7 @@ function initDoublePipeSimulation() {
             const Tmc = (Tci + Tco) / 2;
             lblTmh.innerText = Tmh.toFixed(1);
             lblTmc.innerText = Tmc.toFixed(1);
-            
+
             lblCph.innerText = propH.cp.toFixed(0);
             lblCpc.innerText = propC.cp.toFixed(0);
 
@@ -9543,7 +9579,7 @@ function initDoublePipeSimulation() {
         // Update and Draw Particles
         particles.forEach(p => {
             p.update(results.isCounter);
-            
+
             const px = startX + p.x * lengthX;
             let py;
 
@@ -9856,7 +9892,7 @@ function initVortexSimulation() {
                 // Shed coordinates: slightly behind the cylinder
                 const x_shed = x0 + R_px * 1.2;
                 const y_shed = y0 + sign * (R_px * 0.5);
-                
+
                 // Strength scales with velocity and diameter in pixel space
                 const strength = sign * U_px * R_px * 2.2;
 
@@ -10141,12 +10177,12 @@ function initBoilingSimulation() {
         const t = (x - x1) / h;
         const t2 = t * t;
         const t3 = t2 * t;
-        
+
         const h00 = 2 * t3 - 3 * t2 + 1;
         const h10 = t3 - 2 * t2 + t;
         const h01 = -2 * t3 + 3 * t2;
         const h11 = t3 - t2;
-        
+
         return y1 * h00 + h * m1 * h10 + y2 * h01 + h * m2 * h11;
     }
 
@@ -10177,7 +10213,7 @@ function initBoilingSimulation() {
         let lim_nc = 5.0;
         let lim_nuc = 30.0;
         let lim_trans = 120.0;
-        
+
         let q_nc_val = 8500;
         let q_chf_val = 1200000;
         let q_lfp_val = 30000;
@@ -10581,7 +10617,7 @@ function initBoilingSimulation() {
                     },
                     tooltip: {
                         callbacks: {
-                            label: function(context) {
+                            label: function (context) {
                                 return `ΔTe: ${context.raw.x.toFixed(1)}°C, q": ${(context.raw.y / 1000).toFixed(1)} kW/m²`;
                             }
                         }
@@ -10595,7 +10631,7 @@ function initBoilingSimulation() {
                         max: 400,
                         ticks: {
                             color: textColor,
-                            callback: function(value) {
+                            callback: function (value) {
                                 if (value === 0.5 || value === 1 || value === 5 || value === 10 || value === 30 || value === 100 || value === 400) {
                                     return value + '°C';
                                 }
@@ -10611,7 +10647,7 @@ function initBoilingSimulation() {
                         max: yMax,
                         ticks: {
                             color: textColor,
-                            callback: function(value) {
+                            callback: function (value) {
                                 if (value === 1000) return '1k';
                                 if (value === 10000) return '10k';
                                 if (value === 100000) return '100k';
@@ -10818,7 +10854,7 @@ function initBoilingSimulation() {
 
             for (let i = 0; i < numSites; i++) {
                 if (Math.random() < spawnChance) {
-                    const angle = -Math.PI/2 + (Math.random() - 0.5) * Math.PI;
+                    const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI;
                     const bx = heater.x + Math.cos(angle) * heater.r;
                     const by = heater.y + Math.sin(angle) * heater.r;
                     const rad = 2 + Math.random() * 3;
@@ -11142,7 +11178,7 @@ function initTransientSimulation() {
         // Stability limit considering both center and convection surface node stability:
         const Bi_delta = (h * dr) / k;
         const limitCenter = 1.0 / (2 * (1 + g));
-        const limitSurface = 1.0 / (2 * (Math.pow(1 - 0.5/N, g) + Bi_delta));
+        const limitSurface = 1.0 / (2 * (Math.pow(1 - 0.5 / N, g) + Bi_delta));
         const Fo_delta = 0.9 * Math.min(limitCenter, limitSurface);
         const dt = (Fo_delta * dr * dr) / alpha;
 
@@ -11153,11 +11189,11 @@ function initTransientSimulation() {
 
         // 2. Internal nodes (0 < i < N)
         for (let i = 1; i < N; i++) {
-            T_next[i] = T[i] + Fo_delta * ((T[i+1] - 2 * T[i] + T[i-1]) + (g / (2 * i)) * (T[i+1] - T[i-1]));
+            T_next[i] = T[i] + Fo_delta * ((T[i + 1] - 2 * T[i] + T[i - 1]) + (g / (2 * i)) * (T[i + 1] - T[i - 1]));
         }
 
         // 3. Surface node (i = N)
-        T_next[N] = T[N] + 2 * Fo_delta * (Math.pow(1 - 0.5/N, g) * (T[N-1] - T[N]) + Bi_delta * (Tinf - T[N]));
+        T_next[N] = T[N] + 2 * Fo_delta * (Math.pow(1 - 0.5 / N, g) * (T[N - 1] - T[N]) + Bi_delta * (Tinf - T[N]));
 
         T = T_next;
         simTime += dt;
@@ -11175,7 +11211,7 @@ function initTransientSimulation() {
         const w = canvas.width;
         const h_canvas = canvas.height;
         const isLight = document.body.classList.contains('light-theme');
-        
+
         ctx.fillStyle = isLight ? '#f1f5f9' : '#0f111a';
         ctx.fillRect(0, 0, w, h_canvas);
 
@@ -11198,9 +11234,9 @@ function initTransientSimulation() {
             for (let i = N - 1; i >= 0; i--) {
                 const color = getColorForTemp(T[i]);
                 ctx.fillStyle = color;
-                
+
                 const wDraw = (i + 1) * layerWidth;
-                ctx.fillRect(cx - wDraw/2, cy - 70, wDraw, 140);
+                ctx.fillRect(cx - wDraw / 2, cy - 70, wDraw, 140);
             }
         } else {
             // Concentric rings (cylinder or sphere)
@@ -11235,7 +11271,7 @@ function initTransientSimulation() {
         ctx.setLineDash([4, 4]);
         ctx.strokeStyle = isLight ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.3)';
         ctx.lineWidth = 1;
-        
+
         const textColor = isLight ? '#1e293b' : '#f8fafc';
         ctx.fillStyle = textColor;
         ctx.font = 'bold 9px sans-serif';
@@ -11418,7 +11454,7 @@ function initTransientSimulation() {
         else if (geometry === 'sphere') g = 2;
         const Bi_delta = (h * dr) / mat.k;
         const limitCenter = 1.0 / (2 * (1 + g));
-        const limitSurface = 1.0 / (2 * (Math.pow(1 - 0.5/N, g) + Bi_delta));
+        const limitSurface = 1.0 / (2 * (Math.pow(1 - 0.5 / N, g) + Bi_delta));
         const Fo_delta = 0.9 * Math.min(limitCenter, limitSurface);
         const actualDt = (Fo_delta * dr * dr) / alpha;
 
@@ -11447,7 +11483,7 @@ function initTransientSimulation() {
             chartDataCenter.push({ x: simTime, y: T[0] });
             chartDataSurface.push({ x: simTime, y: T[N] });
             chartDataFluid.push({ x: simTime, y: Tinf });
-            
+
             if (transientChart) {
                 transientChart.update('none');
             }
@@ -11464,7 +11500,7 @@ function initTransientSimulation() {
 
     // Attach listeners
     resetBtn.addEventListener("click", resetSimulation);
-    
+
     // Sliders dynamic value updates
     inputH.addEventListener("input", () => {
         h = parseFloat(inputH.value);
@@ -11992,7 +12028,7 @@ function initMulticapaCustomSimulation() {
     // Render configuration fields for layers dynamically
     function renderLayersConfig() {
         const count = parseInt(selectLayersCount.value);
-        
+
         // Adjust layers array size
         while (layers.length < count) {
             layers.push({ L: 0.05, k: 15.0 }); // append defaults
@@ -12016,15 +12052,15 @@ function initMulticapaCustomSimulation() {
                     <span id="cm-l${idx}-k-badge" style="font-size: 0.7rem; opacity: 0.8;"></span>
                 </div>
                 <div class="control-group">
-                    <label style="font-size: 0.7rem;">Espesor (L${idx+1}): <span id="cm-l${idx}-L-val">${layer.L.toFixed(2)}</span> m</label>
+                    <label style="font-size: 0.7rem;">Espesor (L${idx + 1}): <span id="cm-l${idx}-L-val">${layer.L.toFixed(2)}</span> m</label>
                     <input type="range" class="cm-layer-L" data-idx="${idx}" min="0.01" max="0.30" step="0.01" value="${layer.L}">
                 </div>
                 <div class="control-group">
-                    <label style="font-size: 0.7rem;">Conductividad (k${idx+1}): <span id="cm-l${idx}-k-val">${layer.k.toFixed(1)}</span> W/mK</label>
+                    <label style="font-size: 0.7rem;">Conductividad (k${idx + 1}): <span id="cm-l${idx}-k-val">${layer.k.toFixed(1)}</span> W/mK</label>
                     <input type="range" class="cm-layer-k" data-idx="${idx}" min="0.1" max="400" step="0.5" value="${layer.k}">
                 </div>
                 <div style="font-size: 0.7rem; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 6px; color: var(--text-secondary); display: flex; justify-content: space-between; align-items: center;">
-                    <span>Resistencia (R${idx+1}):</span>
+                    <span>Resistencia (R${idx + 1}):</span>
                     <strong><span id="cm-l${idx}-R-val" style="color: var(--accent-orange);">${(layer.L / layer.k).toFixed(4)}</span> K/W</strong>
                 </div>
             `;
@@ -12048,7 +12084,7 @@ function initMulticapaCustomSimulation() {
                 layers[idx].k = parseFloat(e.target.value);
                 document.getElementById(`cm-l${idx}-k-val`).innerText = layers[idx].k.toFixed(1);
                 document.getElementById(`cm-l${idx}-R-val`).innerText = (layers[idx].L / layers[idx].k).toFixed(4);
-                
+
                 // Update material badge text for common values
                 const kBadge = document.getElementById(`cm-l${idx}-k-badge`);
                 if (kBadge) {
@@ -12236,10 +12272,10 @@ function initMulticapaCustomSimulation() {
             // Jacobian matrix elements
             // J = [ df1/dT0, df1/dTN ]
             //     [ df2/dT0, df2/dTN ]
-            const df1_dT0 = getDFluxLeftDT(T0_guess) - 1.0/Rcond;
-            const df1_dTN = 1.0/Rcond;
-            const df2_dT0 = 1.0/Rcond;
-            const df2_dTN = -1.0/Rcond - getDFluxRightDT(TN_guess);
+            const df1_dT0 = getDFluxLeftDT(T0_guess) - 1.0 / Rcond;
+            const df1_dTN = 1.0 / Rcond;
+            const df2_dT0 = 1.0 / Rcond;
+            const df2_dTN = -1.0 / Rcond - getDFluxRightDT(TN_guess);
 
             const det = df1_dT0 * df2_dTN - df1_dTN * df2_dT0;
             if (Math.abs(det) < 1e-12) break;
@@ -12356,23 +12392,23 @@ function initMulticapaCustomSimulation() {
             // Gradient representing local temperature
             const hue = Math.max(0, Math.min(220, 220 - (T[idx] - 20) * 1.5));
             ctx.fillStyle = `hsl(${hue}, 70%, 40%)`;
-            ctx.fillRect(currentX, centerY - heightPlate/2, lWidth, heightPlate);
+            ctx.fillRect(currentX, centerY - heightPlate / 2, lWidth, heightPlate);
 
             // Layer outline
             ctx.strokeStyle = 'rgba(255,255,255,0.15)';
             ctx.lineWidth = 1.5;
-            ctx.strokeRect(currentX, centerY - heightPlate/2, lWidth, heightPlate);
+            ctx.strokeRect(currentX, centerY - heightPlate / 2, lWidth, heightPlate);
 
             // Print layer ID inside
             ctx.fillStyle = 'rgba(255,255,255,0.6)';
             ctx.font = 'bold 9px Inter, sans-serif';
             ctx.textAlign = 'center';
-            ctx.fillText(`Capa ${idx+1}`, currentX + lWidth/2, centerY + heightPlate/2 - 10);
+            ctx.fillText(`Capa ${idx + 1}`, currentX + lWidth / 2, centerY + heightPlate / 2 - 10);
 
             // Draw interface temperature on interface lines
             ctx.fillStyle = 'white';
             ctx.font = 'bold 10px Inter, sans-serif';
-            ctx.fillText(`${T[idx].toFixed(1)} °C`, currentX, centerY - heightPlate/2 - 12);
+            ctx.fillText(`${T[idx].toFixed(1)} °C`, currentX, centerY - heightPlate / 2 - 12);
 
             currentX += lWidth;
         });
@@ -12380,7 +12416,7 @@ function initMulticapaCustomSimulation() {
         // Draw last interface temperature
         ctx.fillStyle = 'white';
         ctx.font = 'bold 10px Inter, sans-serif';
-        ctx.fillText(`${T[N].toFixed(1)} °C`, currentX, centerY - heightPlate/2 - 12);
+        ctx.fillText(`${T[N].toFixed(1)} °C`, currentX, centerY - heightPlate / 2 - 12);
 
         // 2. Boundary Condition Animations (Left & Right)
         const typeL = selectBcLType.value;
@@ -12401,9 +12437,9 @@ function initMulticapaCustomSimulation() {
             ctx.globalAlpha = 0.5;
             for (let offset = -20; offset <= -8; offset += 6) {
                 ctx.beginPath();
-                for (let y = centerY - heightPlate/2; y <= centerY + heightPlate/2; y += 5) {
+                for (let y = centerY - heightPlate / 2; y <= centerY + heightPlate / 2; y += 5) {
                     const x = startX + offset + Math.sin(y * 0.05 + animTime * 3) * 4;
-                    if (y === centerY - heightPlate/2) ctx.moveTo(x, y);
+                    if (y === centerY - heightPlate / 2) ctx.moveTo(x, y);
                     else ctx.lineTo(x, y);
                 }
                 ctx.stroke();
@@ -12415,7 +12451,7 @@ function initMulticapaCustomSimulation() {
             ctx.strokeStyle = isLIncoming ? '#fb923c' : '#c084fc';
             ctx.lineWidth = 1.8;
             ctx.globalAlpha = 0.6;
-            for (let y = centerY - heightPlate/2 + 15; y <= centerY + heightPlate/2 - 15; y += 28) {
+            for (let y = centerY - heightPlate / 2 + 15; y <= centerY + heightPlate / 2 - 15; y += 28) {
                 ctx.beginPath();
                 for (let xOff = -45; xOff <= -5; xOff += 5) {
                     const x = startX + xOff;
@@ -12446,7 +12482,7 @@ function initMulticapaCustomSimulation() {
                 ctx.strokeStyle = qVal > 0 ? '#f87171' : '#60a5fa';
                 ctx.lineWidth = 2.5;
                 const isLIncomingFlux = qVal > 0;
-                for (let y = centerY - heightPlate/2 + 20; y <= centerY + heightPlate/2 - 20; y += 35) {
+                for (let y = centerY - heightPlate / 2 + 20; y <= centerY + heightPlate / 2 - 20; y += 35) {
                     ctx.beginPath();
                     ctx.moveTo(startX - 45, y);
                     ctx.lineTo(startX - 5, y);
@@ -12483,9 +12519,9 @@ function initMulticapaCustomSimulation() {
             ctx.globalAlpha = 0.5;
             for (let offset = 8; offset <= 20; offset += 6) {
                 ctx.beginPath();
-                for (let y = centerY - heightPlate/2; y <= centerY + heightPlate/2; y += 5) {
+                for (let y = centerY - heightPlate / 2; y <= centerY + heightPlate / 2; y += 5) {
                     const x = endX + offset + Math.sin(y * 0.05 - animTime * 3) * 4;
-                    if (y === centerY - heightPlate/2) ctx.moveTo(x, y);
+                    if (y === centerY - heightPlate / 2) ctx.moveTo(x, y);
                     else ctx.lineTo(x, y);
                 }
                 ctx.stroke();
@@ -12497,7 +12533,7 @@ function initMulticapaCustomSimulation() {
             ctx.strokeStyle = isRIncoming ? '#fb923c' : '#c084fc';
             ctx.lineWidth = 1.8;
             ctx.globalAlpha = 0.6;
-            for (let y = centerY - heightPlate/2 + 15; y <= centerY + heightPlate/2 - 15; y += 28) {
+            for (let y = centerY - heightPlate / 2 + 15; y <= centerY + heightPlate / 2 - 15; y += 28) {
                 ctx.beginPath();
                 for (let xOff = 5; xOff <= 45; xOff += 5) {
                     const x = endX + xOff;
@@ -12528,7 +12564,7 @@ function initMulticapaCustomSimulation() {
                 ctx.strokeStyle = qValR > 0 ? '#60a5fa' : '#f87171'; // positive leaving = cold-like vs entering = hot-like
                 ctx.lineWidth = 2.5;
                 const isRIncomingFlux = qValR < 0; // negative flux means entering
-                for (let y = centerY - heightPlate/2 + 20; y <= centerY + heightPlate/2 - 20; y += 35) {
+                for (let y = centerY - heightPlate / 2 + 20; y <= centerY + heightPlate / 2 - 20; y += 35) {
                     ctx.beginPath();
                     ctx.moveTo(endX + 5, y);
                     ctx.lineTo(endX + 45, y);
@@ -12555,7 +12591,7 @@ function initMulticapaCustomSimulation() {
         particles.forEach(p => {
             p.update();
             const px = startX + p.x * widthMax;
-            const py = centerY - heightPlate/2 + p.y * heightPlate;
+            const py = centerY - heightPlate / 2 + p.y * heightPlate;
 
             ctx.fillStyle = qFlux >= 0 ? '#ef4444' : '#3b82f6';
             ctx.beginPath();
@@ -12614,39 +12650,39 @@ function initCarnotSimulation() {
     };
 
     // ── DOM refs ──────────────────────────────────────────────
-    const slTH  = document.getElementById('carnot-th');
-    const slTC  = document.getElementById('carnot-tc');
-    const slQH  = document.getElementById('carnot-qh');
-    const spTH  = document.getElementById('carnot-th-val');
-    const spTC  = document.getElementById('carnot-tc-val');
-    const spQH  = document.getElementById('carnot-qh-val');
+    const slTH = document.getElementById('carnot-th');
+    const slTC = document.getElementById('carnot-tc');
+    const slQH = document.getElementById('carnot-qh');
+    const spTH = document.getElementById('carnot-th-val');
+    const spTC = document.getElementById('carnot-tc-val');
+    const spQH = document.getElementById('carnot-qh-val');
     const spEta = document.getElementById('carnot-eta-val');
-    const spW   = document.getElementById('carnot-w-val');
-    const spQC  = document.getElementById('carnot-qc-val');
+    const spW = document.getElementById('carnot-w-val');
+    const spQC = document.getElementById('carnot-qc-val');
     const spCOP = document.getElementById('carnot-cop-val');
     const spCOPHP = document.getElementById('carnot-cophp-val');
-    const etaBar  = document.getElementById('carnot-eta-bar');
+    const etaBar = document.getElementById('carnot-eta-bar');
     const etaBarLabel = document.getElementById('carnot-eta-bar-label');
 
-    const pvCanvas  = document.getElementById('carnot-pv-canvas');
+    const pvCanvas = document.getElementById('carnot-pv-canvas');
     const engCanvas = document.getElementById('carnot-engine-canvas');
-    const tsCanvas  = document.getElementById('carnot-ts-canvas');
+    const tsCanvas = document.getElementById('carnot-ts-canvas');
 
     if (!pvCanvas || !engCanvas || !tsCanvas) return;
 
-    const pvCtx  = pvCanvas.getContext('2d');
+    const pvCtx = pvCanvas.getContext('2d');
     const engCtx = engCanvas.getContext('2d');
-    const tsCtx  = tsCanvas.getContext('2d');
+    const tsCtx = tsCanvas.getContext('2d');
 
     // ── Carnot cycle physics ──────────────────────────────────
     function solve() {
         let TH = Math.max(state.TH, state.TC + 10);
         let TC = state.TC;
         let QH = state.QH;
-        const eta  = 1 - TC / TH;
-        const QC   = QH * (TC / TH);
-        const W    = QH - QC;
-        const COP_R  = TC / (TH - TC);
+        const eta = 1 - TC / TH;
+        const QC = QH * (TC / TH);
+        const W = QH - QC;
+        const COP_R = TC / (TH - TC);
         const COP_HP = TH / (TH - TC);
         return { TH, TC, QH, eta, QC, W, COP_R, COP_HP };
     }
@@ -12655,8 +12691,8 @@ function initCarnotSimulation() {
     function updateResults() {
         const r = solve();
         spEta.textContent = (r.eta * 100).toFixed(1) + '%';
-        spW.textContent   = r.W.toFixed(1);
-        spQC.textContent  = r.QC.toFixed(1);
+        spW.textContent = r.W.toFixed(1);
+        spQC.textContent = r.QC.toFixed(1);
         spCOP.textContent = r.COP_R.toFixed(2);
         spCOPHP.textContent = r.COP_HP.toFixed(2);
 
@@ -12801,8 +12837,8 @@ function initCarnotSimulation() {
         // State point labels
         const stateLabels = [
             { V: Va, P: Pa, lbl: 'a', dx: -12, dy: -8 },
-            { V: Vb, P: Pb, lbl: 'b', dx: 8,  dy: -8 },
-            { V: Vc, P: Pc, lbl: 'c', dx: 8,  dy: 12 },
+            { V: Vb, P: Pb, lbl: 'b', dx: 8, dy: -8 },
+            { V: Vc, P: Pc, lbl: 'c', dx: 8, dy: 12 },
             { V: Vd, P: Pd, lbl: 'd', dx: -14, dy: 12 }
         ];
         stateLabels.forEach(s => {
@@ -12897,7 +12933,7 @@ function initCarnotSimulation() {
 
         // Draw reservoirs or insulation block at the base
         const cyBase = H - 150;
-        
+
         // ── Draw base contact ──────────────────────────────────
         if (baseType === 'hot') {
             // Hot reservoir base
@@ -12908,7 +12944,7 @@ function initCarnotSimulation() {
             engCtx.beginPath();
             engCtx.roundRect(30, cyBase + 20, W - 60, H - cyBase - 40, 10);
             engCtx.fill();
-            
+
             engCtx.fillStyle = '#ffffff';
             engCtx.font = 'bold 12px Inter';
             engCtx.fillText('🔥 Foco Caliente (' + r.TH + ' K)', cx, cyBase + 50);
@@ -12921,7 +12957,7 @@ function initCarnotSimulation() {
             engCtx.beginPath();
             engCtx.roundRect(30, cyBase + 20, W - 60, H - cyBase - 40, 10);
             engCtx.fill();
-            
+
             engCtx.fillStyle = '#ffffff';
             engCtx.font = 'bold 12px Inter';
             engCtx.fillText('❄️ Foco Frío (' + r.TC + ' K)', cx, cyBase + 50);
@@ -12933,7 +12969,7 @@ function initCarnotSimulation() {
             engCtx.fill();
             engCtx.strokeStyle = '#4b5563';
             engCtx.stroke();
-            
+
             engCtx.fillStyle = '#9ca3af';
             engCtx.font = 'bold 11px Inter';
             engCtx.fillText('🛑 Soporte Adiabático (Aislado)', cx, cyBase + 50);
@@ -12973,12 +13009,12 @@ function initCarnotSimulation() {
         // ── Draw Piston ────────────────────────────────────────
         const pistonHeight = 15;
         const pistonY = cylY + 15 - pistonYOffset;
-        
+
         // Piston block
         engCtx.fillStyle = '#9ca3af';
         engCtx.beginPath();
         engCtx.fillRect(cylX + 2, pistonY, cylW - 4, pistonHeight);
-        
+
         // Piston rod (vástago)
         engCtx.fillStyle = '#6b7280';
         engCtx.fillRect(cx - 6, 25, 12, pistonY - 25);
@@ -12994,7 +13030,7 @@ function initCarnotSimulation() {
             engCtx.moveTo(cx, arrY + 15);
             engCtx.lineTo(cx, arrY - 5 + pulse);
             engCtx.stroke();
-            
+
             engCtx.fillStyle = '#f87171';
             engCtx.beginPath();
             engCtx.moveTo(cx, arrY - 7 + pulse);
@@ -13015,7 +13051,7 @@ function initCarnotSimulation() {
             engCtx.moveTo(cx, arrY - 5);
             engCtx.lineTo(cx, arrY + 15 + pulse);
             engCtx.stroke();
-            
+
             engCtx.fillStyle = '#60a5fa';
             engCtx.beginPath();
             engCtx.moveTo(cx, arrY + 17 + pulse);
@@ -13061,8 +13097,8 @@ function initCarnotSimulation() {
         const S_ref = 1.0;            // fixed reference (state a/d)
         const S_low = S_ref;
         const S_high = S_ref + deltaS;
-        const S_pad  = deltaS * 0.35;
-        const Smin = S_low  - S_pad;
+        const S_pad = deltaS * 0.35;
+        const Smin = S_low - S_pad;
         const Smax = S_high + S_pad;
 
         // T axis: dynamic, spans from 0 (or TC-pad) to TH+pad
@@ -13174,25 +13210,25 @@ function initCarnotSimulation() {
             tsCtx.beginPath(); tsCtx.moveTo(e.x1, e.y1); tsCtx.lineTo(e.x2, e.y2); tsCtx.stroke();
             const mx = (e.x1 + e.x2) / 2, my = (e.y1 + e.y2) / 2;
             const dx = e.x2 - e.x1, dy = e.y2 - e.y1;
-            const len = Math.sqrt(dx*dx + dy*dy) || 1;
-            const ux = dx/len, uy = dy/len;
+            const len = Math.sqrt(dx * dx + dy * dy) || 1;
+            const ux = dx / len, uy = dy / len;
             tsCtx.fillStyle = e.color;
             tsCtx.beginPath();
-            tsCtx.moveTo(mx + ux*8, my + uy*8);
-            tsCtx.lineTo(mx - uy*5, my + ux*5);
-            tsCtx.lineTo(mx + uy*5, my - ux*5);
+            tsCtx.moveTo(mx + ux * 8, my + uy * 8);
+            tsCtx.lineTo(mx - uy * 5, my + ux * 5);
+            tsCtx.lineTo(mx + uy * 5, my - ux * 5);
             tsCtx.closePath(); tsCtx.fill();
         });
 
         // ── State point labels (a, b, c, d) ──────────────────────
         const corners = [
             { x: x1, y: yH, lbl: 'a', dx: -10, dy: -8 },
-            { x: x2, y: yH, lbl: 'b', dx:  10, dy: -8 },
-            { x: x2, y: yC, lbl: 'c', dx:  10, dy: 12 },
+            { x: x2, y: yH, lbl: 'b', dx: 10, dy: -8 },
+            { x: x2, y: yC, lbl: 'c', dx: 10, dy: 12 },
             { x: x1, y: yC, lbl: 'd', dx: -10, dy: 12 }
         ];
         corners.forEach(c => {
-            tsCtx.beginPath(); tsCtx.arc(c.x, c.y, 4, 0, Math.PI*2);
+            tsCtx.beginPath(); tsCtx.arc(c.x, c.y, 4, 0, Math.PI * 2);
             tsCtx.fillStyle = '#ffffff'; tsCtx.fill();
             tsCtx.fillStyle = 'rgba(255,255,255,0.88)';
             tsCtx.font = 'bold 11px Inter';
@@ -13245,15 +13281,15 @@ function initCarnotSimulation() {
 
         // TH / TC horizontal dashed guide lines
         [{ T: r.TH, color: 'rgba(239,68,68,0.4)', lbl: 'T_H=' + r.TH + ' K' },
-         { T: r.TC, color: 'rgba(59,130,246,0.4)', lbl: 'T_C=' + r.TC + ' K' }]
-        .forEach(item => {
-            const y = toY(item.T);
-            tsCtx.strokeStyle = item.color;
-            tsCtx.setLineDash([4, 5]);
-            tsCtx.lineWidth = 1;
-            tsCtx.beginPath(); tsCtx.moveTo(ml, y); tsCtx.lineTo(x1, y); tsCtx.stroke();
-            tsCtx.setLineDash([]);
-        });
+        { T: r.TC, color: 'rgba(59,130,246,0.4)', lbl: 'T_C=' + r.TC + ' K' }]
+            .forEach(item => {
+                const y = toY(item.T);
+                tsCtx.strokeStyle = item.color;
+                tsCtx.setLineDash([4, 5]);
+                tsCtx.lineWidth = 1;
+                tsCtx.beginPath(); tsCtx.moveTo(ml, y); tsCtx.lineTo(x1, y); tsCtx.stroke();
+                tsCtx.setLineDash([]);
+            });
 
         // ── Animated glowing point ────────────────────────────────
         // phase [0,1] maps to the 4 edges of the rectangle
@@ -13261,16 +13297,16 @@ function initCarnotSimulation() {
         let ptX, ptY, ptColor;
         if (ph < 0.25) {
             const t = ph / 0.25;
-            ptX = x1 + (x2 - x1) * t;  ptY = yH;  ptColor = '#ef4444';
+            ptX = x1 + (x2 - x1) * t; ptY = yH; ptColor = '#ef4444';
         } else if (ph < 0.5) {
             const t = (ph - 0.25) / 0.25;
-            ptX = x2;  ptY = yH + (yC - yH) * t;  ptColor = '#f97316';
+            ptX = x2; ptY = yH + (yC - yH) * t; ptColor = '#f97316';
         } else if (ph < 0.75) {
             const t = (ph - 0.5) / 0.25;
-            ptX = x2 + (x1 - x2) * t;  ptY = yC;  ptColor = '#3b82f6';
+            ptX = x2 + (x1 - x2) * t; ptY = yC; ptColor = '#3b82f6';
         } else {
             const t = (ph - 0.75) / 0.25;
-            ptX = x1;  ptY = yC + (yH - yC) * t;  ptColor = '#22d3ee';
+            ptX = x1; ptY = yC + (yH - yC) * t; ptColor = '#22d3ee';
         }
         tsCtx.shadowColor = ptColor;
         tsCtx.shadowBlur = 18;
@@ -13340,27 +13376,27 @@ function initCarnotSimulation() {
 // LAB 29: COMPARACIÓN DE CICLOS OTTO Y DIESEL
 // ============================================================================
 function initOttoDieselSimulation() {
-    const slMode   = document.getElementById('ottodiesel-mode');
-    const slROtto  = document.getElementById('ottodiesel-r-otto');
+    const slMode = document.getElementById('ottodiesel-mode');
+    const slROtto = document.getElementById('ottodiesel-r-otto');
     const slRDiesel = document.getElementById('ottodiesel-r-diesel');
-    const slTMax   = document.getElementById('ottodiesel-tmax');
-    const slSpeed  = document.getElementById('ottodiesel-speed');
+    const slTMax = document.getElementById('ottodiesel-tmax');
+    const slSpeed = document.getElementById('ottodiesel-speed');
 
-    const spROtto  = document.getElementById('ottodiesel-r-otto-val');
+    const spROtto = document.getElementById('ottodiesel-r-otto-val');
     const spRDiesel = document.getElementById('ottodiesel-r-diesel-val');
-    const spTMax   = document.getElementById('ottodiesel-tmax-val');
-    const spSpeed  = document.getElementById('ottodiesel-speed-val');
+    const spTMax = document.getElementById('ottodiesel-tmax-val');
+    const spSpeed = document.getElementById('ottodiesel-speed-val');
 
-    const cardEtaOtto   = document.getElementById('ottodiesel-eta-otto');
-    const cardWOtto     = document.getElementById('ottodiesel-w-otto');
+    const cardEtaOtto = document.getElementById('ottodiesel-eta-otto');
+    const cardWOtto = document.getElementById('ottodiesel-w-otto');
     const cardEtaDiesel = document.getElementById('ottodiesel-eta-diesel');
-    const cardWDiesel   = document.getElementById('ottodiesel-w-diesel');
-    const txtVerdict    = document.getElementById('ottodiesel-verdict');
+    const cardWDiesel = document.getElementById('ottodiesel-w-diesel');
+    const txtVerdict = document.getElementById('ottodiesel-verdict');
 
-    const pvCanvas       = document.getElementById('ottodiesel-pv-canvas');
-    const tsCanvas       = document.getElementById('ottodiesel-ts-canvas');
-    const ottoEngCanvas  = document.getElementById('otto-engine-canvas');
-    const dieselEngCanvas= document.getElementById('diesel-engine-canvas');
+    const pvCanvas = document.getElementById('ottodiesel-pv-canvas');
+    const tsCanvas = document.getElementById('ottodiesel-ts-canvas');
+    const ottoEngCanvas = document.getElementById('otto-engine-canvas');
+    const dieselEngCanvas = document.getElementById('diesel-engine-canvas');
     // Legacy fallback id (unused but keep reference so old code doesn't crash)
     const engCanvas = ottoEngCanvas;
 
@@ -13374,10 +13410,10 @@ function initOttoDieselSimulation() {
 
     if (!pvCanvas || !tsCanvas || !ottoEngCanvas || !dieselEngCanvas) return;
 
-    const pvCtx      = pvCanvas.getContext('2d');
-    const tsCtx      = tsCanvas.getContext('2d');
-    const ottoEngCtx  = ottoEngCanvas.getContext('2d');
-    const dieselEngCtx= dieselEngCanvas.getContext('2d');
+    const pvCtx = pvCanvas.getContext('2d');
+    const tsCtx = tsCanvas.getContext('2d');
+    const ottoEngCtx = ottoEngCanvas.getContext('2d');
+    const dieselEngCtx = dieselEngCanvas.getContext('2d');
     // keep engCtx alias so existing code still works
     const engCtx = ottoEngCtx;
 
@@ -13386,10 +13422,10 @@ function initOttoDieselSimulation() {
         const dpr = window.devicePixelRatio || 1;
         [ottoEngCanvas, dieselEngCanvas].forEach(cv => {
             const rect = cv.getBoundingClientRect();
-            const w = Math.round(rect.width  || 500);
+            const w = Math.round(rect.width || 500);
             const h = Math.round(rect.height || 420);
             if (cv.width !== w * dpr || cv.height !== h * dpr) {
-                cv.width  = w * dpr;
+                cv.width = w * dpr;
                 cv.height = h * dpr;
                 cv.getContext('2d').scale(dpr, dpr);
             }
@@ -13430,7 +13466,7 @@ function initOttoDieselSimulation() {
         // --- Cycle Otto ---
         const T2_O = T1 * Math.pow(rO, gamma - 1);
         const P2_O = P1 * Math.pow(rO, gamma);
-        
+
         // Clamp Tmax to be greater than T2 to ensure physical feasibility
         const tMaxO = Math.max(state.Tmax, T2_O + 150);
         const T3_O = tMaxO;
@@ -13450,7 +13486,7 @@ function initOttoDieselSimulation() {
         const tMaxD = Math.max(state.Tmax, T2_D + 150);
         const T3_D = tMaxD;
         const P3_D = P2_D; // constant pressure combustion
-        
+
         // Cutoff ratio rc = V3/V2 = T3/T2
         const rc = Math.max(1.01, Math.min(T3_D / T2_D, rD - 0.5));
         const T4_D = T3_D * Math.pow(rc / rD, gamma - 1);
@@ -13471,10 +13507,10 @@ function initOttoDieselSimulation() {
     function updateResults() {
         const res = solveCycles();
 
-        if (cardEtaOtto)   cardEtaOtto.textContent   = (res.otto.eta * 100).toFixed(1) + '%';
-        if (cardWOtto)     cardWOtto.textContent     = res.otto.W.toFixed(0) + ' kJ';
+        if (cardEtaOtto) cardEtaOtto.textContent = (res.otto.eta * 100).toFixed(1) + '%';
+        if (cardWOtto) cardWOtto.textContent = res.otto.W.toFixed(0) + ' kJ';
         if (cardEtaDiesel) cardEtaDiesel.textContent = (res.diesel.eta * 100).toFixed(1) + '%';
-        if (cardWDiesel)   cardWDiesel.textContent   = res.diesel.W.toFixed(0) + ' kJ';
+        if (cardWDiesel) cardWDiesel.textContent = res.diesel.W.toFixed(0) + ' kJ';
 
         // Update the expanded states table values
         const v2_O = 1.0 / res.otto.r;
@@ -13485,30 +13521,30 @@ function initOttoDieselSimulation() {
         const setCell = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
 
         // State 1 (Inicial) - same for both
-        setCell('ot-tbl-1-T', '300');   setCell('ot-tbl-1-P', '100');    setCell('ot-tbl-1-V', '1.000');
-        setCell('di-tbl-1-T', '300');   setCell('di-tbl-1-P', '100');    setCell('di-tbl-1-V', '1.000');
+        setCell('ot-tbl-1-T', '300'); setCell('ot-tbl-1-P', '100'); setCell('ot-tbl-1-V', '1.000');
+        setCell('di-tbl-1-T', '300'); setCell('di-tbl-1-P', '100'); setCell('di-tbl-1-V', '1.000');
 
         // State 2 (Post-compresión)
-        setCell('ot-tbl-2-T', res.otto.T2.toFixed(0));   setCell('ot-tbl-2-P', res.otto.P2.toFixed(0));    setCell('ot-tbl-2-V', v2_O.toFixed(4));
-        setCell('di-tbl-2-T', res.diesel.T2.toFixed(0)); setCell('di-tbl-2-P', res.diesel.P2.toFixed(0));  setCell('di-tbl-2-V', v2_D.toFixed(4));
+        setCell('ot-tbl-2-T', res.otto.T2.toFixed(0)); setCell('ot-tbl-2-P', res.otto.P2.toFixed(0)); setCell('ot-tbl-2-V', v2_O.toFixed(4));
+        setCell('di-tbl-2-T', res.diesel.T2.toFixed(0)); setCell('di-tbl-2-P', res.diesel.P2.toFixed(0)); setCell('di-tbl-2-V', v2_D.toFixed(4));
 
         // State 3 (Pico combustión)
-        setCell('ot-tbl-3-T', res.otto.T3.toFixed(0));   setCell('ot-tbl-3-P', res.otto.P3.toFixed(0));    setCell('ot-tbl-3-V', v2_O.toFixed(4));
-        setCell('di-tbl-3-T', res.diesel.T3.toFixed(0)); setCell('di-tbl-3-P', res.diesel.P3.toFixed(0));  setCell('di-tbl-3-V', v3_D.toFixed(4));
+        setCell('ot-tbl-3-T', res.otto.T3.toFixed(0)); setCell('ot-tbl-3-P', res.otto.P3.toFixed(0)); setCell('ot-tbl-3-V', v2_O.toFixed(4));
+        setCell('di-tbl-3-T', res.diesel.T3.toFixed(0)); setCell('di-tbl-3-P', res.diesel.P3.toFixed(0)); setCell('di-tbl-3-V', v3_D.toFixed(4));
 
         // State 4 (Post-expansión)
-        setCell('ot-tbl-4-T', res.otto.T4.toFixed(0));   setCell('ot-tbl-4-P', res.otto.P4.toFixed(0));    setCell('ot-tbl-4-V', '1.000');
-        setCell('di-tbl-4-T', res.diesel.T4.toFixed(0)); setCell('di-tbl-4-P', res.diesel.P4.toFixed(0));  setCell('di-tbl-4-V', '1.000');
+        setCell('ot-tbl-4-T', res.otto.T4.toFixed(0)); setCell('ot-tbl-4-P', res.otto.P4.toFixed(0)); setCell('ot-tbl-4-V', '1.000');
+        setCell('di-tbl-4-T', res.diesel.T4.toFixed(0)); setCell('di-tbl-4-P', res.diesel.P4.toFixed(0)); setCell('di-tbl-4-V', '1.000');
 
         // W/eta summary row
-        setCell('ot-tbl-we', `${res.otto.W.toFixed(1)} kJ/kg  |  η = ${(res.otto.eta*100).toFixed(1)}%`);
-        setCell('di-tbl-we', `${res.diesel.W.toFixed(1)} kJ/kg  |  η = ${(res.diesel.eta*100).toFixed(1)}%`);
+        setCell('ot-tbl-we', `${res.otto.W.toFixed(1)} kJ/kg  |  η = ${(res.otto.eta * 100).toFixed(1)}%`);
+        setCell('di-tbl-we', `${res.diesel.W.toFixed(1)} kJ/kg  |  η = ${(res.diesel.eta * 100).toFixed(1)}%`);
 
         // Verdict updates
         if (state.mode === 'equal') {
-            txtVerdict.innerHTML = `<strong>Comparación a r = ${state.rOtto.toFixed(1)}:</strong> El ciclo Otto (${(res.otto.eta*100).toFixed(1)}%) es <strong>más eficiente</strong> que el Diesel (${(res.diesel.eta*100).toFixed(1)}%). La adición de calor a volumen constante en el Otto alcanza temperaturas/presiones pico más altas con la misma energía, reduciendo el calor de desecho.`;
+            txtVerdict.innerHTML = `<strong>Comparación a r = ${state.rOtto.toFixed(1)}:</strong> El ciclo Otto (${(res.otto.eta * 100).toFixed(1)}%) es <strong>más eficiente</strong> que el Diesel (${(res.diesel.eta * 100).toFixed(1)}%). La adición de calor a volumen constante en el Otto alcanza temperaturas/presiones pico más altas con la misma energía, reduciendo el calor de desecho.`;
         } else {
-            txtVerdict.innerHTML = `<strong>Relaciones de Diseño Reales (Otto r=${state.rOtto.toFixed(1)} vs Diesel r=${state.rDiesel.toFixed(1)}):</strong> El Diesel (${(res.diesel.eta*100).toFixed(1)}%) es <strong>más eficiente</strong> que el Otto (${(res.otto.eta*100).toFixed(1)}%). La ignición por compresión del Diesel tolera relaciones mucho mayores sin autoencendido catastrófico (*knocking*).`;
+            txtVerdict.innerHTML = `<strong>Relaciones de Diseño Reales (Otto r=${state.rOtto.toFixed(1)} vs Diesel r=${state.rDiesel.toFixed(1)}):</strong> El Diesel (${(res.diesel.eta * 100).toFixed(1)}%) es <strong>más eficiente</strong> que el Otto (${(res.otto.eta * 100).toFixed(1)}%). La ignición por compresión del Diesel tolera relaciones mucho mayores sin autoencendido catastrófico (*knocking*).`;
         }
     }
 
@@ -13562,7 +13598,7 @@ function initOttoDieselSimulation() {
             pvCtx.beginPath(); pvCtx.moveTo(ml, yTick); pvCtx.lineTo(ml + cw, yTick); pvCtx.stroke();
             // label
             pvCtx.textAlign = 'right';
-            const label = Pval >= 1000 ? (Pval/1000).toFixed(1)+'k' : Pval.toFixed(0);
+            const label = Pval >= 1000 ? (Pval / 1000).toFixed(1) + 'k' : Pval.toFixed(0);
             pvCtx.fillText(label, ml - 4, yTick + 3);
         }
 
@@ -13580,7 +13616,7 @@ function initOttoDieselSimulation() {
         // ── Draw Otto Curve ──────────────────────────────────────
         const v2_O = 1.0 / res.otto.r;
         const v1_O = 1.0;
-        
+
         // 1 -> 2: Compression isentropic (P = P1 * (V1/V)^gamma)
         const ptsComp_O = [];
         const steps = 25;
@@ -13671,7 +13707,7 @@ function initOttoDieselSimulation() {
         // Trace Otto dot
         const ph = phase;
         let oX, oY, dX, dY;
-        
+
         // Otto tracing
         if (ph < 0.25) {
             const t = ph / 0.25;
@@ -13708,10 +13744,10 @@ function initOttoDieselSimulation() {
 
         // Draw tracer dots
         pvCtx.fillStyle = '#ef4444';
-        pvCtx.beginPath(); pvCtx.arc(oX, oY, 6, 0, Math.PI*2); pvCtx.fill();
+        pvCtx.beginPath(); pvCtx.arc(oX, oY, 6, 0, Math.PI * 2); pvCtx.fill();
 
         pvCtx.fillStyle = '#f59e0b';
-        pvCtx.beginPath(); pvCtx.arc(dX, dY, 6, 0, Math.PI*2); pvCtx.fill();
+        pvCtx.beginPath(); pvCtx.arc(dX, dY, 6, 0, Math.PI * 2); pvCtx.fill();
 
         // Helper function for markers
         function drawStateMarker(ctx, x, y, num, color) {
@@ -13750,8 +13786,8 @@ function initOttoDieselSimulation() {
     // ── Update live metric cards ──────────────────────────────────────────
     function updateLiveMetrics() {
         const res = solveCycles();
-        const ph  = state.animPhase;
-        const T1  = 300, P1 = 100; // ambient
+        const ph = state.animPhase;
+        const T1 = 300, P1 = 100; // ambient
 
         // ── Interpolate instantaneous T and P through cycle phases ──
         function cycleInstant(st) {
@@ -13776,29 +13812,33 @@ function initOttoDieselSimulation() {
             return { T: Math.max(0, T), P: Math.max(0, P) };
         }
 
-        const instO = cycleInstant({ T1, T2: res.otto.T2,   T3: res.otto.T3,   T4: res.otto.T4,
-                                          P1, P2: res.otto.P2,   P3: res.otto.P3,   P4: res.otto.P4 });
-        const instD = cycleInstant({ T1, T2: res.diesel.T2, T3: res.diesel.T3, T4: res.diesel.T4,
-                                          P1, P2: res.diesel.P2, P3: res.diesel.P3, P4: res.diesel.P4 });
+        const instO = cycleInstant({
+            T1, T2: res.otto.T2, T3: res.otto.T3, T4: res.otto.T4,
+            P1, P2: res.otto.P2, P3: res.otto.P3, P4: res.otto.P4
+        });
+        const instD = cycleInstant({
+            T1, T2: res.diesel.T2, T3: res.diesel.T3, T4: res.diesel.T4,
+            P1, P2: res.diesel.P2, P3: res.diesel.P3, P4: res.diesel.P4
+        });
 
         const safe = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
 
         // Peak values
-        safe('otto-live-T',   res.otto.T3.toFixed(0)   + ' K');
-        safe('otto-live-P',   res.otto.P3.toFixed(0)   + ' kPa');
-        safe('otto-live-W',   res.otto.W.toFixed(1)    + ' kJ');
+        safe('otto-live-T', res.otto.T3.toFixed(0) + ' K');
+        safe('otto-live-P', res.otto.P3.toFixed(0) + ' kPa');
+        safe('otto-live-W', res.otto.W.toFixed(1) + ' kJ');
         safe('otto-live-eta', (res.otto.eta * 100).toFixed(1) + ' %');
 
-        safe('diesel-live-T',   res.diesel.T3.toFixed(0)   + ' K');
-        safe('diesel-live-P',   res.diesel.P3.toFixed(0)   + ' kPa');
-        safe('diesel-live-W',   res.diesel.W.toFixed(1)    + ' kJ');
+        safe('diesel-live-T', res.diesel.T3.toFixed(0) + ' K');
+        safe('diesel-live-P', res.diesel.P3.toFixed(0) + ' kPa');
+        safe('diesel-live-W', res.diesel.W.toFixed(1) + ' kJ');
         safe('diesel-live-eta', (res.diesel.eta * 100).toFixed(1) + ' %');
 
         // Instantaneous values
-        safe('otto-live-T-inst',   instO.T.toFixed(0)  + ' K');
-        safe('otto-live-P-inst',   instO.P.toFixed(0)  + ' kPa');
-        safe('diesel-live-T-inst', instD.T.toFixed(0)  + ' K');
-        safe('diesel-live-P-inst', instD.P.toFixed(0)  + ' kPa');
+        safe('otto-live-T-inst', instO.T.toFixed(0) + ' K');
+        safe('otto-live-P-inst', instO.P.toFixed(0) + ' kPa');
+        safe('diesel-live-T-inst', instD.T.toFixed(0) + ' K');
+        safe('diesel-live-P-inst', instD.P.toFixed(0) + ' kPa');
     }
 
 
@@ -13853,31 +13893,31 @@ function initOttoDieselSimulation() {
 
         // ── Chamber glow ─────────────────────────────────────────
         if (isCombustion) {
-            const glowColor = isOtto ? `rgba(255,180,0,${0.7*(1-combustionProgress)})` : `rgba(245,158,11,${0.65*(1-combustionProgress)})`;
+            const glowColor = isOtto ? `rgba(255,180,0,${0.7 * (1 - combustionProgress)})` : `rgba(245,158,11,${0.65 * (1 - combustionProgress)})`;
             const glow = ctx.createRadialGradient(cx, yBase + 10, 5, cx, yBase + 10, cylH);
             glow.addColorStop(0, glowColor);
             glow.addColorStop(1, 'rgba(0,0,0,0)');
             ctx.fillStyle = glow;
-            ctx.fillRect(cx - cylW/2 + 2, yBase + 10, cylW - 4, cylH - 10);
+            ctx.fillRect(cx - cylW / 2 + 2, yBase + 10, cylW - 4, cylH - 10);
         }
 
         // ── Manifolds & valves ───────────────────────────────────
         ctx.fillStyle = '#374151';
-        ctx.fillRect(cx - cylW/2 - 2, yBase + 6, cylW + 4, 6);
+        ctx.fillRect(cx - cylW / 2 - 2, yBase + 6, cylW + 4, 6);
         ctx.fillStyle = '#1e293b';
         // Intake port
         ctx.beginPath();
-        ctx.moveTo(cx - cylW/2, yBase + 10);
-        ctx.lineTo(cx - cylW/2 - Math.round(cylW*0.3), yBase - Math.round(cylH*0.12));
-        ctx.lineTo(cx - Math.round(cylW*0.15), yBase - Math.round(cylH*0.12));
-        ctx.lineTo(cx - Math.round(cylW*0.15), yBase + 10);
+        ctx.moveTo(cx - cylW / 2, yBase + 10);
+        ctx.lineTo(cx - cylW / 2 - Math.round(cylW * 0.3), yBase - Math.round(cylH * 0.12));
+        ctx.lineTo(cx - Math.round(cylW * 0.15), yBase - Math.round(cylH * 0.12));
+        ctx.lineTo(cx - Math.round(cylW * 0.15), yBase + 10);
         ctx.fill();
         // Exhaust port
         ctx.beginPath();
-        ctx.moveTo(cx + Math.round(cylW*0.15), yBase + 10);
-        ctx.lineTo(cx + Math.round(cylW*0.15), yBase - Math.round(cylH*0.12));
-        ctx.lineTo(cx + cylW/2 + Math.round(cylW*0.3), yBase - Math.round(cylH*0.12));
-        ctx.lineTo(cx + cylW/2, yBase + 10);
+        ctx.moveTo(cx + Math.round(cylW * 0.15), yBase + 10);
+        ctx.lineTo(cx + Math.round(cylW * 0.15), yBase - Math.round(cylH * 0.12));
+        ctx.lineTo(cx + cylW / 2 + Math.round(cylW * 0.3), yBase - Math.round(cylH * 0.12));
+        ctx.lineTo(cx + cylW / 2, yBase + 10);
         ctx.fill();
 
         // Valves
@@ -13886,73 +13926,73 @@ function initOttoDieselSimulation() {
         const ve = yBase + 10 + (isExhaust ? vOpen : 0);
         ctx.strokeStyle = '#9ca3af'; ctx.lineWidth = 3;
         ctx.beginPath();
-        ctx.moveTo(cx - Math.round(cylW*0.3), yBase - Math.round(cylH*0.09));
-        ctx.lineTo(cx - Math.round(cylW*0.3), vi);
-        ctx.moveTo(cx - Math.round(cylW*0.3) - Math.round(cylW*0.12), vi);
-        ctx.lineTo(cx - Math.round(cylW*0.3) + Math.round(cylW*0.12), vi);
+        ctx.moveTo(cx - Math.round(cylW * 0.3), yBase - Math.round(cylH * 0.09));
+        ctx.lineTo(cx - Math.round(cylW * 0.3), vi);
+        ctx.moveTo(cx - Math.round(cylW * 0.3) - Math.round(cylW * 0.12), vi);
+        ctx.lineTo(cx - Math.round(cylW * 0.3) + Math.round(cylW * 0.12), vi);
         ctx.stroke();
         ctx.beginPath();
-        ctx.moveTo(cx + Math.round(cylW*0.3), yBase - Math.round(cylH*0.09));
-        ctx.lineTo(cx + Math.round(cylW*0.3), ve);
-        ctx.moveTo(cx + Math.round(cylW*0.3) - Math.round(cylW*0.12), ve);
-        ctx.lineTo(cx + Math.round(cylW*0.3) + Math.round(cylW*0.12), ve);
+        ctx.moveTo(cx + Math.round(cylW * 0.3), yBase - Math.round(cylH * 0.09));
+        ctx.lineTo(cx + Math.round(cylW * 0.3), ve);
+        ctx.moveTo(cx + Math.round(cylW * 0.3) - Math.round(cylW * 0.12), ve);
+        ctx.lineTo(cx + Math.round(cylW * 0.3) + Math.round(cylW * 0.12), ve);
         ctx.stroke();
 
         // Flow arrows
         if (isIntake) {
-            ctx.save(); ctx.strokeStyle='#22c55e'; ctx.lineWidth=3; ctx.lineCap='round';
-            const off=(phase*15)%8;
+            ctx.save(); ctx.strokeStyle = '#22c55e'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+            const off = (phase * 15) % 8;
             ctx.beginPath();
-            ctx.moveTo(cx-cylW/2-10+off, yBase-8+off);
-            ctx.lineTo(cx-cylW/2*0.35+off, yBase+6+off);
+            ctx.moveTo(cx - cylW / 2 - 10 + off, yBase - 8 + off);
+            ctx.lineTo(cx - cylW / 2 * 0.35 + off, yBase + 6 + off);
             ctx.stroke(); ctx.restore();
         }
         if (isExhaust) {
-            ctx.save(); ctx.strokeStyle='#f97316'; ctx.lineWidth=3; ctx.lineCap='round';
-            const off=(phase*15)%8;
+            ctx.save(); ctx.strokeStyle = '#f97316'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+            const off = (phase * 15) % 8;
             ctx.beginPath();
-            ctx.moveTo(cx+cylW/2*0.35+off, yBase+6-off);
-            ctx.lineTo(cx+cylW/2+10+off, yBase-8-off);
+            ctx.moveTo(cx + cylW / 2 * 0.35 + off, yBase + 6 - off);
+            ctx.lineTo(cx + cylW / 2 + 10 + off, yBase - 8 - off);
             ctx.stroke(); ctx.restore();
         }
 
         // ── Particles ────────────────────────────────────────────
         const chamberTop = yBase + 10;
-        const pistonTop  = yBase + (maxStroke - disp) + 12;
-        const chamberH   = pistonTop - chamberTop;
+        const pistonTop = yBase + (maxStroke - disp) + 12;
+        const chamberH = pistonTop - chamberTop;
         ctx.save();
         ctx.beginPath();
-        ctx.rect(cx - cylW/2 + 2, chamberTop, cylW - 4, Math.max(1, chamberH));
+        ctx.rect(cx - cylW / 2 + 2, chamberTop, cylW - 4, Math.max(1, chamberH));
         ctx.clip();
         const numP = 55;
         for (let i = 0; i < numP; i++) {
             const sx = Math.sin(i * 432.12 + phase * 0.1) * 0.5 + 0.5;
             const sy = Math.cos(i * 123.45 + phase * 0.05) * 0.5 + 0.5;
-            let px = cx - cylW/2 + 6 + sx * (cylW - 12);
+            let px = cx - cylW / 2 + 6 + sx * (cylW - 12);
             let py = chamberTop + 4 + sy * Math.max(1, chamberH - 8);
             let color = 'rgba(255,255,255,0.7)';
             let sz = 2.8;
             if (isExhaust) {
-                color = `rgba(156,163,175,${0.6*(1-(i%10)/10)})`; sz=3;
+                color = `rgba(156,163,175,${0.6 * (1 - (i % 10) / 10)})`; sz = 3;
             } else if (isIntake) {
-                color = isOtto ? (i%2===0?'#22d3ee':'rgba(255,255,255,0.7)') : 'rgba(191,219,254,0.75)';
+                color = isOtto ? (i % 2 === 0 ? '#22d3ee' : 'rgba(255,255,255,0.7)') : 'rgba(191,219,254,0.75)';
             } else if (isExpansion) {
-                color = 'rgba(156,163,175,0.65)'; sz=2.8;
+                color = 'rgba(156,163,175,0.65)'; sz = 2.8;
             } else if (isCombustion) {
                 if (isOtto) {
                     const fl = chamberTop + combustionProgress * chamberH;
-                    if (py < fl) { color = py < fl-20 ? 'rgba(156,163,175,0.65)' : `rgba(239,68,68,${1.2-combustionProgress})`; sz=3.2; }
-                    else { color = i%2===0?'#22d3ee':'rgba(255,255,255,0.7)'; }
+                    if (py < fl) { color = py < fl - 20 ? 'rgba(156,163,175,0.65)' : `rgba(239,68,68,${1.2 - combustionProgress})`; sz = 3.2; }
+                    else { color = i % 2 === 0 ? '#22d3ee' : 'rgba(255,255,255,0.7)'; }
                 } else {
-                    if (sy < combustionProgress*1.3) { color = sy<combustionProgress*0.7?'rgba(156,163,175,0.65)':`rgba(245,158,11,${1-combustionProgress})`; sz=3.2; }
-                    else if (hasInjection&&sx>0.4&&sx<0.6&&sy<0.5) { color='#22d3ee'; sz=2; }
-                    else { color='rgba(255,255,255,0.7)'; }
+                    if (sy < combustionProgress * 1.3) { color = sy < combustionProgress * 0.7 ? 'rgba(156,163,175,0.65)' : `rgba(245,158,11,${1 - combustionProgress})`; sz = 3.2; }
+                    else if (hasInjection && sx > 0.4 && sx < 0.6 && sy < 0.5) { color = '#22d3ee'; sz = 2; }
+                    else { color = 'rgba(255,255,255,0.7)'; }
                 }
             } else {
-                color = (!isOtto) ? 'rgba(255,255,255,0.7)' : (i%2===0?'#22d3ee':'rgba(255,255,255,0.7)');
+                color = (!isOtto) ? 'rgba(255,255,255,0.7)' : (i % 2 === 0 ? '#22d3ee' : 'rgba(255,255,255,0.7)');
             }
             ctx.fillStyle = color;
-            ctx.beginPath(); ctx.arc(px, py, sz, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(px, py, sz, 0, Math.PI * 2); ctx.fill();
         }
         ctx.restore();
 
@@ -13960,51 +14000,51 @@ function initOttoDieselSimulation() {
         ctx.strokeStyle = isOtto ? 'rgba(239,68,68,0.7)' : 'rgba(245,158,11,0.7)';
         ctx.lineWidth = 4;
         ctx.beginPath();
-        ctx.moveTo(cx - cylW/2, yBase + 10);
-        ctx.lineTo(cx - cylW/2, yBase + cylH);
-        ctx.lineTo(cx + cylW/2, yBase + cylH);
-        ctx.lineTo(cx + cylW/2, yBase + 10);
+        ctx.moveTo(cx - cylW / 2, yBase + 10);
+        ctx.lineTo(cx - cylW / 2, yBase + cylH);
+        ctx.lineTo(cx + cylW / 2, yBase + cylH);
+        ctx.lineTo(cx + cylW / 2, yBase + 10);
         ctx.stroke();
 
         // ── Piston ───────────────────────────────────────────────
         const pistonY = yBase + (maxStroke - disp) + 10;
         ctx.fillStyle = isOtto ? '#9ca3af' : '#4b5563';
-        ctx.fillRect(cx - cylW/2 + 2, pistonY, cylW - 4, Math.round(cylH*0.1));
+        ctx.fillRect(cx - cylW / 2 + 2, pistonY, cylW - 4, Math.round(cylH * 0.1));
 
         // Piston rings
         ctx.strokeStyle = 'rgba(255,255,255,0.2)';
         ctx.lineWidth = 1;
-        const ph2 = Math.round(cylH*0.1);
-        ctx.beginPath(); ctx.moveTo(cx-cylW/2+4, pistonY+ph2*0.35); ctx.lineTo(cx+cylW/2-4, pistonY+ph2*0.35); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(cx-cylW/2+4, pistonY+ph2*0.65); ctx.lineTo(cx+cylW/2-4, pistonY+ph2*0.65); ctx.stroke();
+        const ph2 = Math.round(cylH * 0.1);
+        ctx.beginPath(); ctx.moveTo(cx - cylW / 2 + 4, pistonY + ph2 * 0.35); ctx.lineTo(cx + cylW / 2 - 4, pistonY + ph2 * 0.35); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx - cylW / 2 + 4, pistonY + ph2 * 0.65); ctx.lineTo(cx + cylW / 2 - 4, pistonY + ph2 * 0.65); ctx.stroke();
 
         // ── Connecting rod & crankshaft ──────────────────────────
-        const rodW = Math.round(cylW*0.1);
+        const rodW = Math.round(cylW * 0.1);
         ctx.fillStyle = isOtto ? '#6b7280' : '#374151';
-        const rodTop = pistonY + Math.round(cylH*0.1);
-        const rodH   = Math.round(cylH*0.35);
-        ctx.fillRect(cx - rodW/2, rodTop, rodW, rodH);
+        const rodTop = pistonY + Math.round(cylH * 0.1);
+        const rodH = Math.round(cylH * 0.35);
+        ctx.fillRect(cx - rodW / 2, rodTop, rodW, rodH);
 
-        const discY = yBase + cylH + Math.round(cylH*0.22);
+        const discY = yBase + cylH + Math.round(cylH * 0.22);
         const angle = phase * Math.PI * 2;
-        const crankR = Math.round(cylW*0.22);
+        const crankR = Math.round(cylW * 0.22);
         const pinX = cx + Math.cos(angle) * crankR;
         const pinY = discY + Math.sin(angle) * crankR;
         const wristY = rodTop + rodH;
 
         ctx.strokeStyle = isOtto ? '#4b5563' : '#374151';
-        ctx.lineWidth = 6; ctx.lineCap='round';
+        ctx.lineWidth = 6; ctx.lineCap = 'round';
         ctx.beginPath(); ctx.moveTo(cx, discY); ctx.lineTo(pinX, pinY); ctx.stroke();
 
         ctx.fillStyle = isOtto ? '#374151' : '#1f2937';
-        ctx.beginPath(); ctx.arc(cx, discY, 8, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx, discY, 8, 0, Math.PI * 2); ctx.fill();
 
         ctx.strokeStyle = isOtto ? '#9ca3af' : '#6b7280';
         ctx.lineWidth = 5;
         ctx.beginPath(); ctx.moveTo(cx, wristY); ctx.lineTo(pinX, pinY); ctx.stroke();
 
         ctx.fillStyle = isOtto ? '#374151' : '#1f2937';
-        ctx.beginPath(); ctx.arc(cx, wristY, 4, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx, wristY, 4, 0, Math.PI * 2); ctx.fill();
 
         // ── Spark plug (Otto) / Injector (Diesel) ────────────────
         if (isOtto) {
@@ -14013,32 +14053,32 @@ function initOttoDieselSimulation() {
             if (hasSpark) {
                 ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 3;
                 ctx.beginPath();
-                ctx.moveTo(cx-5, yBase+4); ctx.lineTo(cx+5, yBase+2); ctx.lineTo(cx, yBase+9);
+                ctx.moveTo(cx - 5, yBase + 4); ctx.lineTo(cx + 5, yBase + 2); ctx.lineTo(cx, yBase + 9);
                 ctx.stroke();
             }
         } else {
             ctx.fillStyle = '#1f2937';
             ctx.fillRect(cx - 3, yBase - 8, 6, 8);
             if (hasInjection) {
-                ctx.fillStyle='rgba(34,211,238,0.8)';
+                ctx.fillStyle = 'rgba(34,211,238,0.8)';
                 ctx.beginPath();
-                ctx.moveTo(cx, yBase); ctx.lineTo(cx-10, yBase+22); ctx.lineTo(cx+10, yBase+22);
+                ctx.moveTo(cx, yBase); ctx.lineTo(cx - 10, yBase + 22); ctx.lineTo(cx + 10, yBase + 22);
                 ctx.closePath(); ctx.fill();
             }
         }
 
         // ── Phase label ──────────────────────────────────────────
-        const labels = ['Compresión','Combustión','Expansión','Escape / Admisión'];
+        const labels = ['Compresión', 'Combustión', 'Expansión', 'Escape / Admisión'];
         const phIdx = ph < 0.25 ? 0 : ph < 0.5 ? 1 : ph < 0.75 ? 2 : 3;
-        ctx.font = `bold ${Math.round(W*0.033)}px Inter`;
+        ctx.font = `bold ${Math.round(W * 0.033)}px Inter`;
         ctx.textAlign = 'center';
-        ctx.fillStyle = ['#60a5fa','#f97316','#22d3ee','#94a3b8'][phIdx];
-        ctx.fillText(labels[phIdx], cx, H - Math.round(H*0.04));
+        ctx.fillStyle = ['#60a5fa', '#f97316', '#22d3ee', '#94a3b8'][phIdx];
+        ctx.fillText(labels[phIdx], cx, H - Math.round(H * 0.04));
     }
 
     // ── Draw Parallel Piston engines with molecular simulation ──────
     function drawEngine(phase) {
-        renderSingleEngine(ottoEngCanvas,   ottoEngCtx,   phase, true);
+        renderSingleEngine(ottoEngCanvas, ottoEngCtx, phase, true);
         renderSingleEngine(dieselEngCanvas, dieselEngCtx, phase, false);
         updateLiveMetrics();
 
@@ -14261,10 +14301,10 @@ function initOttoDieselSimulation() {
 
         // Draw tracer dots
         tsCtx.fillStyle = '#ef4444';
-        tsCtx.beginPath(); tsCtx.arc(oX, oY, 6, 0, Math.PI*2); tsCtx.fill();
+        tsCtx.beginPath(); tsCtx.arc(oX, oY, 6, 0, Math.PI * 2); tsCtx.fill();
 
         tsCtx.fillStyle = '#f59e0b';
-        tsCtx.beginPath(); tsCtx.arc(dX, dY, 6, 0, Math.PI*2); tsCtx.fill();
+        tsCtx.beginPath(); tsCtx.arc(dX, dY, 6, 0, Math.PI * 2); tsCtx.fill();
 
         // Helper function for markers
         function drawStateMarker(ctx, x, y, num, color) {
@@ -14392,7 +14432,7 @@ function initOttoDieselSimulation() {
         const stageLabel = stageNames[stageIdx];
         const stageNameEl = document.getElementById('live-stage-name');
         if (stageNameEl) stageNameEl.textContent = stageLabel;
-        
+
         const pct = (ph * 100).toFixed(0) + '%';
         const progressEl = document.getElementById('live-progress');
         if (progressEl) progressEl.textContent = pct;
@@ -14513,7 +14553,7 @@ function initOttoDieselSimulation() {
     const playPauseText = document.getElementById('ottodiesel-play-pause-text');
 
     if (slPhase) {
-        slPhase.addEventListener('input', function() {
+        slPhase.addEventListener('input', function () {
             // Pause animation when slider is dragged manually
             state.isPlaying = false;
             if (playPauseIcon) playPauseIcon.className = 'fas fa-play';
@@ -14523,7 +14563,7 @@ function initOttoDieselSimulation() {
     }
 
     if (btnPlayPause) {
-        btnPlayPause.addEventListener('click', function() {
+        btnPlayPause.addEventListener('click', function () {
             state.isPlaying = !state.isPlaying;
             if (state.isPlaying) {
                 if (playPauseIcon) playPauseIcon.className = 'fas fa-pause';
@@ -14556,26 +14596,27 @@ function initOttoDieselSimulation() {
 // ═══════════════════════════════════════════════════════════════════════════
 function initWattLab() {
     const newcomenCanvas = document.getElementById('newcomen-canvas');
-    const wattCanvas     = document.getElementById('watt-canvas');
-    const tempChartEl    = document.getElementById('watt-temp-chart');
+    const wattCanvas = document.getElementById('watt-canvas');
+    const tempChartEl = document.getElementById('watt-temp-chart');
     if (!newcomenCanvas || !wattCanvas || !tempChartEl) return;
 
     const nCtx = newcomenCanvas.getContext('2d');
     const wCtx = wattCanvas.getContext('2d');
 
     const slSteam = document.getElementById('watt-steam-temp');
-    const slCold  = document.getElementById('watt-cold-temp');
+    const slCold = document.getElementById('watt-cold-temp');
     const slSpeed = document.getElementById('watt-speed');
     const spSteam = document.getElementById('watt-steam-temp-val');
-    const spCold  = document.getElementById('watt-cold-temp-val');
+    const spCold = document.getElementById('watt-cold-temp-val');
     const spSpeed = document.getElementById('watt-speed-val');
 
-    const state = { steamT: 180, coldT: 20, speed: 1.0, phase: 0, animId: null,
-                    newcomenCylT: 180, wattCylT: 180,
-                    tHistory: [],       // rolling buffer of {t, n, w}
-                    elapsedTime: 0,     // total simulated seconds
-                    lastChartSample: 0  // last time we pushed to chart (ms)
-                  };
+    const state = {
+        steamT: 180, coldT: 20, speed: 1.0, phase: 0, animId: null,
+        newcomenCylT: 180, wattCylT: 180,
+        tHistory: [],       // rolling buffer of {t, n, w}
+        elapsedTime: 0,     // total simulated seconds
+        lastChartSample: 0  // last time we pushed to chart (ms)
+    };
 
     // Chart.js temperature history
     const tempChart = new Chart(tempChartEl, {
@@ -14584,7 +14625,7 @@ function initWattLab() {
             labels: [],
             datasets: [
                 { label: 'Newcomen — Cilindro', data: [], borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.08)', borderWidth: 2, pointRadius: 0, tension: 0.35, fill: true },
-                { label: 'Watt — Cilindro',     data: [], borderColor: '#22d3ee', backgroundColor: 'rgba(34,211,238,0.08)', borderWidth: 2, pointRadius: 0, tension: 0.2,  fill: true }
+                { label: 'Watt — Cilindro', data: [], borderColor: '#22d3ee', backgroundColor: 'rgba(34,211,238,0.08)', borderWidth: 2, pointRadius: 0, tension: 0.2, fill: true }
             ]
         },
         options: {
@@ -14601,12 +14642,12 @@ function initWattLab() {
     function carnotEff(TH, TC) { return Math.max(0, ((TH + 273.15) - (TC + 273.15)) / (TH + 273.15)); }
     function newcomenCylT(ph, sT, cT) {
         return ph < 0.45 ? cT + (sT - cT) * (1 - Math.exp(-3.5 * ph / 0.45))
-                         : cT + (sT - cT) * Math.exp(-4 * (ph - 0.45) / 0.55);
+            : cT + (sT - cT) * Math.exp(-4 * (ph - 0.45) / 0.55);
     }
     function wattCylT(ph, sT) { return sT - 5 + 5 * Math.sin(ph * Math.PI * 2); }
     function newcomenEff(sT, cT) { return carnotEff(sT, cT) * 100 * 0.028; }
-    function wattEffFn(sT, cT)   { return carnotEff(sT, cT) * 100 * 0.12;  }
-    function coalKgH(eff)        { return eff > 0 ? (5 / (eff / 100 * 30000)) * 3600 : 999; }
+    function wattEffFn(sT, cT) { return carnotEff(sT, cT) * 100 * 0.12; }
+    function coalKgH(eff) { return eff > 0 ? (5 / (eff / 100 * 30000)) * 3600 : 999; }
 
     // Draw Newcomen engine
     function drawNewcomen(ctx, canvas, ph, cylT, sT, cT) {
@@ -14701,18 +14742,18 @@ function initWattLab() {
         ctx.fillRect(0, 0, W, H);
 
         // ── Layout constants ────────────────────────────────────
-        const cx     = W * 0.38;   // cylinder center-x
-        const cylW   = 72;
+        const cx = W * 0.38;   // cylinder center-x
+        const cylW = 72;
         const cylTop = 52;
-        const cylH   = H * 0.50;
+        const cylH = H * 0.50;
         const cylBot = cylTop + cylH;
         const stroke = cylH * 0.74;
 
         // Double-action piston: DOWN during 0→0.5, UP during 0.5→1
         const downStroke = ph < 0.5;
-        const phHalf     = downStroke ? ph / 0.5 : (ph - 0.5) / 0.5;   // 0→1 within each half
-        const pistY      = downStroke ? stroke * phHalf : stroke * (1 - phHalf);
-        const pYabs      = cylTop + pistY;   // absolute Y of piston top
+        const phHalf = downStroke ? ph / 0.5 : (ph - 0.5) / 0.5;   // 0→1 within each half
+        const pistY = downStroke ? stroke * phHalf : stroke * (1 - phHalf);
+        const pYabs = cylTop + pistY;   // absolute Y of piston top
 
         // ── Helper: draw a flow-particle stream ─────────────────
         function flowParticles(x1, y1, x2, y2, speed, color, size, count) {
@@ -14786,9 +14827,9 @@ function initWattLab() {
         // 2. STEAM DISTRIBUTION PIPE (boiler → cylinder top/bottom)
         //    Steam main header runs from boiler up to two branches
         // ═══════════════════════════════════════════════════════
-        const mainPipeY  = by - 8;               // horizontal main header Y
-        const topPortX   = cx - cylW / 2;        // where pipe enters top of cylinder
-        const botPortX   = cx - cylW / 2;        // where pipe enters bottom
+        const mainPipeY = by - 8;               // horizontal main header Y
+        const topPortX = cx - cylW / 2;        // where pipe enters top of cylinder
+        const botPortX = cx - cylW / 2;        // where pipe enters bottom
 
         // Main header pipe (boiler → distribution point)
         ctx.strokeStyle = '#1d4ed8'; ctx.lineWidth = 7; ctx.lineCap = 'round';
@@ -15129,8 +15170,8 @@ function initWattLab() {
         // ═══════════════════════════════════════════════════════
         // 11. PHASE LABEL (which half of the double-action cycle)
         // ═══════════════════════════════════════════════════════
-        const phaseLabel  = downStroke ? '① VAPOR ↓  |  vacío ↑ → condensador' : '② VAPOR ↑  |  vacío ↓ → condensador';
-        const phaseColor  = downStroke ? '#fbbf24' : '#a78bfa';
+        const phaseLabel = downStroke ? '① VAPOR ↓  |  vacío ↑ → condensador' : '② VAPOR ↑  |  vacío ↓ → condensador';
+        const phaseColor = downStroke ? '#fbbf24' : '#a78bfa';
 
         // Bottom status bar
         ctx.fillStyle = 'rgba(0,0,0,0.55)';
@@ -15150,7 +15191,7 @@ function initWattLab() {
     function resizeCanvases() {
         [newcomenCanvas, wattCanvas].forEach(c => {
             const rect = c.parentElement.getBoundingClientRect();
-            c.width  = Math.max(rect.width || 300, 200);
+            c.width = Math.max(rect.width || 300, 200);
             c.height = Math.max(rect.height || 380, 200);
         });
     }
@@ -15163,34 +15204,34 @@ function initWattLab() {
         const cN = coalKgH(effN), cW = coalKgH(effW);
         const saving = cN > 0 ? (cN - cW) / cN * 100 : 0;
 
-        document.getElementById('watt-newcomen-tcyl').textContent  = `${state.newcomenCylT.toFixed(0)} °C`;
-        document.getElementById('watt-newcomen-coal').textContent  = `${cN.toFixed(1)} kg/h`;
+        document.getElementById('watt-newcomen-tcyl').textContent = `${state.newcomenCylT.toFixed(0)} °C`;
+        document.getElementById('watt-newcomen-coal').textContent = `${cN.toFixed(1)} kg/h`;
         document.getElementById('watt-newcomen-waste').textContent = `${(100 - effN).toFixed(1)} %`;
-        document.getElementById('watt-newcomen-eff').textContent   = `${effN.toFixed(2)} %`;
-        document.getElementById('watt-watt-tcyl').textContent  = `${state.wattCylT.toFixed(0)} °C`;
-        document.getElementById('watt-watt-coal').textContent  = `${cW.toFixed(1)} kg/h`;
+        document.getElementById('watt-newcomen-eff').textContent = `${effN.toFixed(2)} %`;
+        document.getElementById('watt-watt-tcyl').textContent = `${state.wattCylT.toFixed(0)} °C`;
+        document.getElementById('watt-watt-coal').textContent = `${cW.toFixed(1)} kg/h`;
         document.getElementById('watt-watt-waste').textContent = `${(100 - effW).toFixed(1)} %`;
-        document.getElementById('watt-watt-eff').textContent   = `${effW.toFixed(2)} %`;
-        document.getElementById('watt-coal-saving').textContent  = `${saving.toFixed(1)} %`;
-        document.getElementById('watt-eff-ratio').textContent    = `${(effW / Math.max(effN, 0.001)).toFixed(1)} ×`;
+        document.getElementById('watt-watt-eff').textContent = `${effW.toFixed(2)} %`;
+        document.getElementById('watt-coal-saving').textContent = `${saving.toFixed(1)} %`;
+        document.getElementById('watt-eff-ratio').textContent = `${(effW / Math.max(effN, 0.001)).toFixed(1)} ×`;
         document.getElementById('watt-carnot-limit').textContent = `${carnot.toFixed(1)} %`;
     }
 
     let lastTimestamp = null;
-    const CHART_SAMPLE_MS  = 80;   // sample temperature every 80 ms of real time
+    const CHART_SAMPLE_MS = 80;   // sample temperature every 80 ms of real time
     const CHART_MAX_POINTS = 250;  // rolling window size
 
     function animate(ts) {
         if (!lastTimestamp) lastTimestamp = ts;
         const dtReal = ts - lastTimestamp;          // ms of real wall-clock time
-        const dtSim  = dtReal / 1000;               // seconds of real time
+        const dtSim = dtReal / 1000;               // seconds of real time
         lastTimestamp = ts;
 
         state.phase = (state.phase + dtSim * state.speed * 0.25) % 1;
 
         // Compute current cylinder temperatures
         state.newcomenCylT = newcomenCylT(state.phase, state.steamT, state.coldT);
-        state.wattCylT     = wattCylT(state.phase, state.steamT);
+        state.wattCylT = wattCylT(state.phase, state.steamT);
 
         // ── Real-time chart sampling (every CHART_SAMPLE_MS of wall time) ──
         if (ts - state.lastChartSample >= CHART_SAMPLE_MS) {
@@ -15207,7 +15248,7 @@ function initWattLab() {
                 w: parseFloat(state.wattCylT.toFixed(1))
             });
 
-            tempChart.data.labels           = state.tHistory.map(d => d.t);
+            tempChart.data.labels = state.tHistory.map(d => d.t);
             tempChart.data.datasets[0].data = state.tHistory.map(d => d.n);
             tempChart.data.datasets[1].data = state.tHistory.map(d => d.w);
             tempChart.update('none');
@@ -15229,10 +15270,10 @@ function initWattLab() {
 
     function refresh() {
         state.steamT = parseInt(slSteam.value);
-        state.coldT  = parseInt(slCold.value);
-        state.speed  = parseFloat(slSpeed.value);
+        state.coldT = parseInt(slCold.value);
+        state.speed = parseFloat(slSpeed.value);
         spSteam.textContent = state.steamT;
-        spCold.textContent  = state.coldT;
+        spCold.textContent = state.coldT;
         spSpeed.textContent = state.speed.toFixed(1);
     }
     slSteam.addEventListener('input', refresh);
@@ -15326,9 +15367,9 @@ function initBernoulliSimulation() {
         const A2 = Math.PI * Math.pow(d2 / 100 / 2, 2); // m^2
         const v2 = v1 * (A1 / A2);
         const Q = A1 * v1 * 1000; // L/s
-        
+
         // Define total Bernoulli constant (P_total = 150 kPa)
-        const P_total = 150; 
+        const P_total = 150;
         const rho = 1000; // kg/m3
         const g = 9.81;
 
@@ -15375,7 +15416,7 @@ function initBernoulliSimulation() {
         ui.tblPd2.textContent = P_dyn2.toFixed(1);
         ui.tblPe1.textContent = P_pot1.toFixed(1);
         ui.tblPe2.textContent = P_pot2.toFixed(1);
-        
+
         ui.tblPtot1.textContent = (P_static1 + P_dyn1 + P_pot1).toFixed(1);
         ui.tblPtot2.textContent = (P_static2 + P_dyn2 + P_pot2).toFixed(1);
 
@@ -15439,7 +15480,7 @@ function initBernoulliSimulation() {
         const piezoWidth = 20;
         const piezo1X = width * 0.2;
         const piezo2X = width * 0.5;
-        
+
         const cyLocal1 = getCyLocal(0.2);
         const r1 = getTubeY(0.2, d1, d2) * scaleFactor;
         const h1Bottom = cyLocal1 - r1;
@@ -15455,12 +15496,12 @@ function initBernoulliSimulation() {
         ctx.lineWidth = 2;
 
         // Tube 1
-        ctx.fillRect(piezo1X - piezoWidth/2, 20, piezoWidth, piezo1H);
-        ctx.strokeRect(piezo1X - piezoWidth/2, 20, piezoWidth, piezo1H);
-        
+        ctx.fillRect(piezo1X - piezoWidth / 2, 20, piezoWidth, piezo1H);
+        ctx.strokeRect(piezo1X - piezoWidth / 2, 20, piezoWidth, piezo1H);
+
         // Tube 2
-        ctx.fillRect(piezo2X - piezoWidth/2, 20, piezoWidth, piezo2H);
-        ctx.strokeRect(piezo2X - piezoWidth/2, 20, piezoWidth, piezo2H);
+        ctx.fillRect(piezo2X - piezoWidth / 2, 20, piezoWidth, piezo2H);
+        ctx.strokeRect(piezo2X - piezoWidth / 2, 20, piezoWidth, piezo2H);
 
         // Water level in piezometers (clip at 0 for visual rendering only)
         const P0 = 150; // kPa
@@ -15472,8 +15513,8 @@ function initBernoulliSimulation() {
         let h2Y = 30 + (h2Bottom - 30) * (1 - P2_vis / P0);
 
         ctx.fillStyle = "rgba(59, 130, 246, 0.5)"; // water color
-        ctx.fillRect(piezo1X - piezoWidth/2, h1Y, piezoWidth, h1Bottom - h1Y);
-        ctx.fillRect(piezo2X - piezoWidth/2, h2Y, piezoWidth, h2Bottom - h2Y);
+        ctx.fillRect(piezo1X - piezoWidth / 2, h1Y, piezoWidth, h1Bottom - h1Y);
+        ctx.fillRect(piezo2X - piezoWidth / 2, h2Y, piezoWidth, h2Bottom - h2Y);
 
         // 2. Draw Venturi Tube Background (Fluid)
         ctx.beginPath();
@@ -15503,23 +15544,23 @@ function initBernoulliSimulation() {
             // Parabolic profile: u = p.y / 0.5 (range [-1, 1])
             const u = p.y / 0.5;
             const parabolicFactor = 2.0 * (1.0 - u * u); // 0 at walls, 2 at center (avg = 1)
-            
+
             // Local velocity
             const locV = getVelocity(p.x, v1, d1, d2) * parabolicFactor;
-            
+
             // Advance particle
             p.x += (locV * 0.002);
             if (p.x > 1.0) {
                 p.x = 0;
-                p.y = (Math.random() - 0.5) * 0.95; 
+                p.y = (Math.random() - 0.5) * 0.95;
             }
 
             // Map to screen
             const xr = p.x;
             const r = getTubeY(xr, d1, d2) * scaleFactor;
             const cyLocal = getCyLocal(xr);
-            
-            const wave = Math.sin(p.phase + xr * 20) * 0.05; 
+
+            const wave = Math.sin(p.phase + xr * 20) * 0.05;
             const y_pos = cyLocal + (p.y + wave) * 2 * r;
 
             // Only draw if inside actual tube bounds
@@ -15536,7 +15577,7 @@ function initBernoulliSimulation() {
         ctx.fillStyle = "#60a5fa";
         ctx.font = "bold 12px Inter";
         ctx.fillText(`P₁ = ${P1.toFixed(1)} kPa`, piezo1X + 15, h1Y + 4);
-        
+
         ctx.fillStyle = "#34d399";
         ctx.fillText(`P₂ = ${P2.toFixed(1)} kPa`, piezo2X + 15, h2Y + 4);
 
@@ -15587,7 +15628,7 @@ function initClausiusSimulation() {
     if (!canvas || !chartCtx) return;
 
     const ctx = canvas.getContext('2d');
-    
+
     // Sliders & Buttons
     const sliderN = document.getElementById('clausius-n');
     const spanN = document.getElementById('clausius-n-val');
@@ -15595,7 +15636,7 @@ function initClausiusSimulation() {
     const spanTemp = document.getElementById('clausius-temp-val');
     const btnPartition = document.getElementById('clausius-partition-btn');
     const btnReset = document.getElementById('clausius-reset-btn');
-    
+
     // Results
     const resLeft = document.getElementById('clausius-res-left');
     const resRight = document.getElementById('clausius-res-right');
@@ -15755,7 +15796,7 @@ function initClausiusSimulation() {
                 const pj = particles[j];
                 const dx = pj.x - pi.x;
                 const dy = pj.y - pi.y;
-                const dist = Math.sqrt(dx*dx + dy*dy);
+                const dist = Math.sqrt(dx * dx + dy * dy);
                 const minDist = pi.r + pj.r;
 
                 if (dist < minDist && dist > 0.1) {
@@ -15831,7 +15872,7 @@ function initClausiusSimulation() {
             const speedSq = p.vx * p.vx + p.vy * p.vy;
             const speed = Math.sqrt(speedSq);
             const ratio = Math.min(1, speed / maxExpectedSpeed);
-            
+
             // HSL: 240 is blue, 0 is red
             ctx.fillStyle = `hsl(${240 - 240 * ratio}, 85%, 55%)`;
             ctx.beginPath();
@@ -15974,7 +16015,7 @@ function initNavierStokesSimulation() {
     let currentResidual = 0.0;
     function formatRe(Re) {
         let reStr = Re.toExponential(1).replace('e+', '×10^').replace('^0', '^').replace('^', '');
-        const exponentMap = {'0':'⁰', '1':'¹', '2':'²', '3':'³', '4':'⁴', '5':'⁵', '6':'⁶', '7':'⁷', '8':'⁸', '9':'⁹'};
+        const exponentMap = { '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' };
         const expParts = reStr.split('×10');
         if (expParts.length === 2) {
             const exp = expParts[1].split('').map(char => exponentMap[char] || char).join('');
@@ -16051,7 +16092,7 @@ function initNavierStokesSimulation() {
     const opp = [0, 3, 4, 1, 2, 7, 8, 5, 6];
 
     // Chart.js Setup
-    const clData = Array.from({length: 26}, (_, i) => ({x: i, y: 0}));
+    const clData = Array.from({ length: 26 }, (_, i) => ({ x: i, y: 0 }));
     const nsChart = new Chart(chartCtx, {
         type: 'line',
         data: {
@@ -16066,11 +16107,11 @@ function initNavierStokesSimulation() {
                     fill: true,
                     tension: 0.3,
                     yAxisID: 'y',
-                    parsing: {xAxisKey: 'x', yAxisKey: 'y'}
+                    parsing: { xAxisKey: 'x', yAxisKey: 'y' }
                 },
                 {
                     label: 'C_D (Arrastre)',
-                    data: clData.map(d => ({x: d.x, y: 0})),
+                    data: clData.map(d => ({ x: d.x, y: 0 })),
                     borderColor: '#f97316',
                     backgroundColor: 'rgba(249,115,22,0.1)',
                     borderWidth: 2,
@@ -16078,29 +16119,29 @@ function initNavierStokesSimulation() {
                     fill: false,
                     tension: 0.3,
                     yAxisID: 'y1',
-                    parsing: {xAxisKey: 'x', yAxisKey: 'y'}
+                    parsing: { xAxisKey: 'x', yAxisKey: 'y' }
                 },
                 {
                     label: 'C_L Actual',
-                    data: [{x: 8, y: 0}],
+                    data: [{ x: 8, y: 0 }],
                     borderColor: '#34d399',
                     backgroundColor: '#ffffff',
                     borderWidth: 2,
                     pointRadius: 6,
                     showLine: false,
                     yAxisID: 'y',
-                    parsing: {xAxisKey: 'x', yAxisKey: 'y'}
+                    parsing: { xAxisKey: 'x', yAxisKey: 'y' }
                 },
                 {
                     label: 'C_D Actual',
-                    data: [{x: 8, y: 0}],
+                    data: [{ x: 8, y: 0 }],
                     borderColor: '#f97316',
                     backgroundColor: '#ffffff',
                     borderWidth: 2,
                     pointRadius: 6,
                     showLine: false,
                     yAxisID: 'y1',
-                    parsing: {xAxisKey: 'x', yAxisKey: 'y'}
+                    parsing: { xAxisKey: 'x', yAxisKey: 'y' }
                 }
             ]
         },
@@ -16112,9 +16153,9 @@ function initNavierStokesSimulation() {
                     type: 'linear',
                     min: 0,
                     max: 25,
-                    title: {display: true, text: 'α (°)', color: '#94a3b8', font:{size:9}},
-                    grid: {color: 'rgba(255,255,255,0.05)'},
-                    ticks: {color: '#cbd5e1', font:{size:8}}
+                    title: { display: true, text: 'α (°)', color: '#94a3b8', font: { size: 9 } },
+                    grid: { color: 'rgba(255,255,255,0.05)' },
+                    ticks: { color: '#cbd5e1', font: { size: 8 } }
                 },
                 y: {
                     type: 'linear',
@@ -16122,9 +16163,9 @@ function initNavierStokesSimulation() {
                     position: 'left',
                     min: -0.2,
                     max: 2.0,
-                    title: {display: true, text: '← Coeficiente de Sustentación (C_L)', color: '#34d399', font:{size:9}},
-                    grid: {color: 'rgba(255,255,255,0.05)'},
-                    ticks: {color: '#cbd5e1', font:{size:8}}
+                    title: { display: true, text: '← Coeficiente de Sustentación (C_L)', color: '#34d399', font: { size: 9 } },
+                    grid: { color: 'rgba(255,255,255,0.05)' },
+                    ticks: { color: '#cbd5e1', font: { size: 8 } }
                 },
                 y1: {
                     type: 'linear',
@@ -16132,19 +16173,19 @@ function initNavierStokesSimulation() {
                     position: 'right',
                     min: 0.0,
                     max: 0.4,
-                    title: {display: true, text: 'Coeficiente de Arrastre (C_D) →', color: '#f97316', font:{size:9}},
+                    title: { display: true, text: 'Coeficiente de Arrastre (C_D) →', color: '#f97316', font: { size: 9 } },
                     grid: {
                         drawOnChartArea: false,
                     },
-                    ticks: {color: '#cbd5e1', font:{size:8}}
+                    ticks: { color: '#cbd5e1', font: { size: 8 } }
                 }
             },
-            plugins: {legend: {display: true, labels: {color:'#94a3b8', font:{size:8}}}}
+            plugins: { legend: { display: true, labels: { color: '#94a3b8', font: { size: 8 } } } }
         }
     });
 
     function nacaY(x, t = 0.12) {
-        return 5 * t * (0.2969 * Math.sqrt(x) - 0.1260 * x - 0.3516 * x*x + 0.2843 * x*x*x - 0.1015 * x*x*x*x);
+        return 5 * t * (0.2969 * Math.sqrt(x) - 0.1260 * x - 0.3516 * x * x + 0.2843 * x * x * x - 0.1015 * x * x * x * x);
     }
 
     function getAirfoilPoints(cx, cy, chord, alpha) {
@@ -16154,8 +16195,8 @@ function initNavierStokesSimulation() {
             const t = i / N;
             const x = t;
             const y = nacaY(x);
-            upper.push({x, y});
-            lower.push({x, y: -y});
+            upper.push({ x, y });
+            lower.push({ x, y: -y });
         }
         const all = [...upper, ...lower.slice().reverse()];
         const rad = alpha * Math.PI / 180;
@@ -16171,17 +16212,17 @@ function initNavierStokesSimulation() {
     }
 
     function getEquilibrium(r, vx, vy) {
-        const u2 = vx*vx + vy*vy;
+        const u2 = vx * vx + vy * vy;
         return [
-            (4/9) * r * (1 - 1.5*u2),
-            (1/9) * r * (1 + 3*vx + 4.5*vx*vx - 1.5*u2),
-            (1/9) * r * (1 + 3*vy + 4.5*vy*vy - 1.5*u2),
-            (1/9) * r * (1 - 3*vx + 4.5*vx*vx - 1.5*u2),
-            (1/9) * r * (1 - 3*vy + 4.5*vy*vy - 1.5*u2),
-            (1/36) * r * (1 + 3*(vx+vy) + 4.5*(vx+vy)*(vx+vy) - 1.5*u2),
-            (1/36) * r * (1 + 3*(-vx+vy) + 4.5*(-vx+vy)*(-vx+vy) - 1.5*u2),
-            (1/36) * r * (1 + 3*(-vx-vy) + 4.5*(vx+vy)*(vx+vy) - 1.5*u2),
-            (1/36) * r * (1 + 3*(vx-vy) + 4.5*(vx-vy)*(vx-vy) - 1.5*u2)
+            (4 / 9) * r * (1 - 1.5 * u2),
+            (1 / 9) * r * (1 + 3 * vx + 4.5 * vx * vx - 1.5 * u2),
+            (1 / 9) * r * (1 + 3 * vy + 4.5 * vy * vy - 1.5 * u2),
+            (1 / 9) * r * (1 - 3 * vx + 4.5 * vx * vx - 1.5 * u2),
+            (1 / 9) * r * (1 - 3 * vy + 4.5 * vy * vy - 1.5 * u2),
+            (1 / 36) * r * (1 + 3 * (vx + vy) + 4.5 * (vx + vy) * (vx + vy) - 1.5 * u2),
+            (1 / 36) * r * (1 + 3 * (-vx + vy) + 4.5 * (-vx + vy) * (-vx + vy) - 1.5 * u2),
+            (1 / 36) * r * (1 + 3 * (-vx - vy) + 4.5 * (vx + vy) * (vx + vy) - 1.5 * u2),
+            (1 / 36) * r * (1 + 3 * (vx - vy) + 4.5 * (vx - vy) * (vx - vy) - 1.5 * u2)
         ];
     }
 
@@ -16308,16 +16349,16 @@ function initNavierStokesSimulation() {
                 sumSqDiff += (vx - old_vx) * (vx - old_vx) + (vy - old_vy) * (vy - old_vy);
                 count++;
 
-                const u2 = vx*vx + vy*vy;
-                const eq0 = (4/9) * r * (1 - 1.5*u2);
-                const eq1 = (1/9) * r * (1 + 3*vx + 4.5*vx*vx - 1.5*u2);
-                const eq2 = (1/9) * r * (1 + 3*vy + 4.5*vy*vy - 1.5*u2);
-                const eq3 = (1/9) * r * (1 - 3*vx + 4.5*vx*vx - 1.5*u2);
-                const eq4 = (1/9) * r * (1 - 3*vy + 4.5*vy*vy - 1.5*u2);
-                const eq5 = (1/36) * r * (1 + 3*(vx+vy) + 4.5*(vx+vy)*(vx+vy) - 1.5*u2);
-                const eq6 = (1/36) * r * (1 + 3*(-vx+vy) + 4.5*(-vx+vy)*(-vx+vy) - 1.5*u2);
-                const eq7 = (1/36) * r * (1 + 3*(-vx-vy) + 4.5*(vx+vy)*(vx+vy) - 1.5*u2);
-                const eq8 = (1/36) * r * (1 + 3*(vx-vy) + 4.5*(vx-vy)*(vx-vy) - 1.5*u2);
+                const u2 = vx * vx + vy * vy;
+                const eq0 = (4 / 9) * r * (1 - 1.5 * u2);
+                const eq1 = (1 / 9) * r * (1 + 3 * vx + 4.5 * vx * vx - 1.5 * u2);
+                const eq2 = (1 / 9) * r * (1 + 3 * vy + 4.5 * vy * vy - 1.5 * u2);
+                const eq3 = (1 / 9) * r * (1 - 3 * vx + 4.5 * vx * vx - 1.5 * u2);
+                const eq4 = (1 / 9) * r * (1 - 3 * vy + 4.5 * vy * vy - 1.5 * u2);
+                const eq5 = (1 / 36) * r * (1 + 3 * (vx + vy) + 4.5 * (vx + vy) * (vx + vy) - 1.5 * u2);
+                const eq6 = (1 / 36) * r * (1 + 3 * (-vx + vy) + 4.5 * (-vx + vy) * (-vx + vy) - 1.5 * u2);
+                const eq7 = (1 / 36) * r * (1 + 3 * (-vx - vy) + 4.5 * (vx + vy) * (vx + vy) - 1.5 * u2);
+                const eq8 = (1 / 36) * r * (1 + 3 * (vx - vy) + 4.5 * (vx - vy) * (vx - vy) - 1.5 * u2);
 
                 const c0 = f_arr[0][idx] - omega * (f_arr[0][idx] - eq0);
                 const c1 = f_arr[1][idx] - omega * (f_arr[1][idx] - eq1);
@@ -16520,7 +16561,7 @@ function initNavierStokesSimulation() {
                     }
                     const vx = ux[idx];
                     const vy = uy[idx];
-                    const speed = Math.sqrt(vx*vx + vy*vy);
+                    const speed = Math.sqrt(vx * vx + vy * vy);
 
                     // Map relative local LBM speed to physical speed (km/h) relative to absolute max of 900 km/h
                     const cellSpeedKmh = (speed / u0) * speedKmh;
@@ -16612,7 +16653,7 @@ function initNavierStokesSimulation() {
             grad.addColorStop(0, 'rgba(59, 130, 246, 1)'); // Blue (negative rotation)
             grad.addColorStop(0.5, '#060d1a'); // Dark background (zero vorticity)
             grad.addColorStop(1, 'rgba(239, 68, 68, 1)'); // Red (positive rotation)
-            
+
             ctx.fillStyle = grad;
             ctx.fillRect(legendX, legendY, legendW, legendH);
 
@@ -16676,7 +16717,7 @@ function initNavierStokesSimulation() {
             grad.addColorStop(0, 'rgba(6, 182, 212, 1)'); // Cyan (low pressure)
             grad.addColorStop(0.5, '#060d1a'); // Dark background (ambient pressure)
             grad.addColorStop(1, 'rgba(239, 68, 68, 1)'); // Red (high pressure)
-            
+
             ctx.fillStyle = grad;
             ctx.fillRect(legendX, legendY, legendW, legendH);
 
@@ -16734,7 +16775,7 @@ function initNavierStokesSimulation() {
                     p.y += vy * particleSpeedMult;
                 }
 
-                const speed = Math.sqrt(vx*vx + vy*vy);
+                const speed = Math.sqrt(vx * vx + vy * vy);
                 const ratio = Math.min(1, speed / (u0 * 2.0));
                 ctx.fillStyle = `hsl(${220 - 220 * ratio}, 90%, 55%)`;
 
@@ -16857,14 +16898,14 @@ function initNavierStokesSimulation() {
                 if (animId) { cancelAnimationFrame(animId); animId = null; }
             }
         });
-    }, {threshold: 0.1});
+    }, { threshold: 0.1 });
     if (pane) observer.observe(pane);
 
     setTimeout(() => {
         resize();
         initSim();
         spanAlpha.textContent = sliderAlpha.value;
-        
+
         const speedKmh = parseInt(sliderRe.value);
         const speedMs = speedKmh / 3.6;
         const M = speedMs / 340;
@@ -16912,12 +16953,12 @@ function initPeltonSimulation() {
     let isVisible = false;
     let wheelAngle = 0;
     let particles = [];
-    
+
     // Create particles with staggered initial distances so the pipe is immediately populated
     const NUM_PARTICLES = 150;
-    for(let i = 0; i < NUM_PARTICLES; i++) {
+    for (let i = 0; i < NUM_PARTICLES; i++) {
         particles.push({
-            dist: Math.random() * 360, 
+            dist: Math.random() * 360,
             offsetY: Math.random() - 0.5,
             isSplash: false,
             x: 0,
@@ -16944,7 +16985,7 @@ function initPeltonSimulation() {
 
         const W = canvas.width / (window.devicePixelRatio || 1);
         const H_canvas = canvas.height / (window.devicePixelRatio || 1);
-        
+
         ctx.clearRect(0, 0, W, H_canvas);
 
         const h = parseFloat(ui.h.value);
@@ -16961,7 +17002,7 @@ function initPeltonSimulation() {
         const tankWidth = 90;
         const maxH = 50;
         const tankYBase = H_canvas - 120;
-        
+
         // Pipe and Venturi dimensions
         const p1W = d1 * 25; // Visual thickness for D1
         const p2W = d2 * 25; // Visual thickness for D2
@@ -16994,7 +17035,7 @@ function initPeltonSimulation() {
         const v_out = hasFlow ? Math.sqrt(2 * g * h) : 0;
         const A1 = Math.PI * Math.pow(d1, 2) / 4;
         const A2 = Math.PI * Math.pow(d2, 2) / 4;
-        
+
         const Q = A2 * v_out; // m3/s
         const mDot = rho * Q; // kg/s
         const force = mDot * v_out;
@@ -17005,7 +17046,7 @@ function initPeltonSimulation() {
 
         // Pressures (absolute, kPa)
         const pTankVal = p_atm;
-        const pD1Val = hasFlow 
+        const pD1Val = hasFlow
             ? (p_atm + (rho * g * h - 0.5 * rho * Math.pow(v1, 2)) / 1000)
             : (p_atm + (rho * g * h) / 1000); // Stagnant hydrostatic pressure
         const pD2Val = hasFlow
@@ -17062,23 +17103,23 @@ function initPeltonSimulation() {
 
         // Draw Tank right wall: top section (above pipe) and bottom section (below pipe)
         ctx.fillStyle = "#334155";
-        ctx.fillRect(tankX + tankWidth, tankYBase - 250, 10, (pipeY - p1W/2) - (tankYBase - 250));
-        ctx.fillRect(tankX + tankWidth, pipeY + p1W/2, 10, tankYBase - (pipeY + p1W/2) + 10);
+        ctx.fillRect(tankX + tankWidth, tankYBase - 250, 10, (pipeY - p1W / 2) - (tankYBase - 250));
+        ctx.fillRect(tankX + tankWidth, pipeY + p1W / 2, 10, tankYBase - (pipeY + p1W / 2) + 10);
 
         // Draw water inside the pipes (only if there is flow, otherwise it is empty/dry)
         if (hasFlow) {
             ctx.fillStyle = "rgba(59, 130, 246, 0.8)";
             // Pipe 1
-            ctx.fillRect(tankX + tankWidth, pipeY - p1W/2, pipeL1, p1W);
+            ctx.fillRect(tankX + tankWidth, pipeY - p1W / 2, pipeL1, p1W);
             // Venturi contraction
             ctx.beginPath();
-            ctx.moveTo(tankX + tankWidth + pipeL1, pipeY - p1W/2);
-            ctx.lineTo(nozzleX, pipeY - p2W/2);
-            ctx.lineTo(nozzleX, pipeY + p2W/2);
-            ctx.lineTo(tankX + tankWidth + pipeL1, pipeY + p1W/2);
+            ctx.moveTo(tankX + tankWidth + pipeL1, pipeY - p1W / 2);
+            ctx.lineTo(nozzleX, pipeY - p2W / 2);
+            ctx.lineTo(nozzleX, pipeY + p2W / 2);
+            ctx.lineTo(tankX + tankWidth + pipeL1, pipeY + p1W / 2);
             ctx.fill();
             // Pipe 2 (Nozzle)
-            ctx.fillRect(nozzleX, pipeY - p2W/2, pipeL2, p2W);
+            ctx.fillRect(nozzleX, pipeY - p2W / 2, pipeL2, p2W);
         }
 
         // Draw Pipe boundaries (Borders)
@@ -17086,22 +17127,22 @@ function initPeltonSimulation() {
         ctx.lineWidth = 3;
         ctx.beginPath();
         // Top boundary
-        ctx.moveTo(tankX + tankWidth, pipeY - p1W/2);
-        ctx.lineTo(tankX + tankWidth + pipeL1, pipeY - p1W/2);
-        ctx.lineTo(nozzleX, pipeY - p2W/2);
-        ctx.lineTo(nozzleX + pipeL2, pipeY - p2W/2);
+        ctx.moveTo(tankX + tankWidth, pipeY - p1W / 2);
+        ctx.lineTo(tankX + tankWidth + pipeL1, pipeY - p1W / 2);
+        ctx.lineTo(nozzleX, pipeY - p2W / 2);
+        ctx.lineTo(nozzleX + pipeL2, pipeY - p2W / 2);
         ctx.stroke();
 
         ctx.beginPath();
         // Bottom boundary
-        ctx.moveTo(tankX + tankWidth, pipeY + p1W/2);
-        ctx.lineTo(tankX + tankWidth + pipeL1, pipeY + p1W/2);
-        ctx.lineTo(nozzleX, pipeY + p2W/2);
-        ctx.lineTo(nozzleX + pipeL2, pipeY + p2W/2);
+        ctx.moveTo(tankX + tankWidth, pipeY + p1W / 2);
+        ctx.lineTo(tankX + tankWidth + pipeL1, pipeY + p1W / 2);
+        ctx.lineTo(nozzleX, pipeY + p2W / 2);
+        ctx.lineTo(nozzleX + pipeL2, pipeY + p2W / 2);
         ctx.stroke();
 
         // Particle speed multipliers for visualization
-        const visSpeedScale = 0.5; 
+        const visSpeedScale = 0.5;
 
         // Update and draw flowing water particles
         ctx.fillStyle = "rgba(147, 197, 253, 0.9)";
@@ -17217,16 +17258,16 @@ function initPeltonSimulation() {
         ctx.fillStyle = "#cbd5e1";
         ctx.strokeStyle = "#475569";
         ctx.lineWidth = 1.5;
-        for(let i = 0; i < numBuckets; i++) {
+        for (let i = 0; i < numBuckets; i++) {
             const angle = (i * Math.PI * 2) / numBuckets;
             // Place buckets along the outer radius
             const bx = Math.cos(angle) * wheelR;
             const by = Math.sin(angle) * wheelR;
-            
+
             ctx.save();
             ctx.translate(bx, by);
             ctx.rotate(angle + Math.PI / 2); // Orient outward
-            
+
             // Draw double-hemispherical bucket (typical Pelton shape)
             ctx.beginPath();
             ctx.arc(-5, 0, 8, 0, Math.PI * 1.1);
@@ -17255,7 +17296,7 @@ function initPeltonSimulation() {
             ctx.font = subFont;
             const subW = ctx.measureText(sub).width;
             const totalW = mainW + subW;
-            
+
             const startX = x - totalW / 2;
             ctx.font = mainFont;
             ctx.fillText(main, startX, y);
@@ -17268,12 +17309,12 @@ function initPeltonSimulation() {
         ctx.fillStyle = "#f1f5f9";
         ctx.font = "bold 13px Inter";
         ctx.textAlign = "center";
-        ctx.fillText("Tanque de Nivel Constante", tankX + tankWidth/2, 30);
+        ctx.fillText("Tanque de Nivel Constante", tankX + tankWidth / 2, 30);
         ctx.font = "12px Inter";
         ctx.fillStyle = "#94a3b8";
-        ctx.fillText("H = " + h.toFixed(1) + " m", tankX + tankWidth/2, tankYBase + 25);
-        drawSubscriptText(tankX + tankWidth + pipeL1/2, pipeY - p1W/2 - 12, "D", "1", "bold 11px Inter", "bold 8px Inter", "#cbd5e1");
-        drawSubscriptText(nozzleX + pipeL2/2, pipeY - p2W/2 - 12, "D", "2 (Venturi)", "bold 11px Inter", "bold 8px Inter", "#cbd5e1");
+        ctx.fillText("H = " + h.toFixed(1) + " m", tankX + tankWidth / 2, tankYBase + 25);
+        drawSubscriptText(tankX + tankWidth + pipeL1 / 2, pipeY - p1W / 2 - 12, "D", "1", "bold 11px Inter", "bold 8px Inter", "#cbd5e1");
+        drawSubscriptText(nozzleX + pipeL2 / 2, pipeY - p2W / 2 - 12, "D", "2 (Venturi)", "bold 11px Inter", "bold 8px Inter", "#cbd5e1");
         ctx.font = "bold 11px Inter";
         ctx.fillStyle = "#cbd5e1";
         ctx.textAlign = "center";
@@ -17318,7 +17359,7 @@ function initPeltonSimulation() {
             ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y + 20); ctx.stroke();
             ctx.fillStyle = "rgba(15,23,42,0.9)"; ctx.strokeStyle = "#059669"; ctx.lineWidth = 1.2;
             const boxW = 85, boxH = 16;
-            ctx.beginPath(); ctx.rect(x - boxW/2, y + 20, boxW, boxH); ctx.fill(); ctx.stroke();
+            ctx.beginPath(); ctx.rect(x - boxW / 2, y + 20, boxW, boxH); ctx.fill(); ctx.stroke();
             let mainLabel = label, subLabel = "";
             if (label.includes("_")) { const p = label.split("_"); mainLabel = p[0]; subLabel = p[1]; }
             ctx.fillStyle = "#a7f3d0";
@@ -17340,11 +17381,11 @@ function initPeltonSimulation() {
             }
         }
 
-        drawPressureGauge(tankX + tankWidth/2, tankYTop, "P_tanque", pTankVal, 0, 200);
-        drawPressureGauge(tankX + tankWidth + pipeL1/2, pipeY - p1W/2, "P_D1", pD1Val, 0, 600);
-        drawPressureGauge(nozzleX + pipeL2/2, pipeY - p2W/2, "P_D2", pD2Val, 0, 200);
-        drawVelocityIndicator(tankX + tankWidth + pipeL1/2, pipeY + p1W/2, "v_D1", v1);
-        drawVelocityIndicator(nozzleX + pipeL2/2, pipeY + p2W/2, "v_D2", v2);
+        drawPressureGauge(tankX + tankWidth / 2, tankYTop, "P_tanque", pTankVal, 0, 200);
+        drawPressureGauge(tankX + tankWidth + pipeL1 / 2, pipeY - p1W / 2, "P_D1", pD1Val, 0, 600);
+        drawPressureGauge(nozzleX + pipeL2 / 2, pipeY - p2W / 2, "P_D2", pD2Val, 0, 200);
+        drawVelocityIndicator(tankX + tankWidth + pipeL1 / 2, pipeY + p1W / 2, "v_D1", v1);
+        drawVelocityIndicator(nozzleX + pipeL2 / 2, pipeY + p2W / 2, "v_D2", v2);
 
         animId = requestAnimationFrame(render);
     }
@@ -17356,7 +17397,7 @@ function initPeltonSimulation() {
             if (isVisible) { resize(); if (!animId) render(); }
             else { if (animId) { cancelAnimationFrame(animId); animId = null; } }
         });
-    }, {threshold: 0.1});
+    }, { threshold: 0.1 });
     if (pane) observer.observe(pane);
 
     setTimeout(resize, 150);
@@ -17364,8 +17405,8 @@ function initPeltonSimulation() {
 
 function initCelsiusSimulation() {
 
-    var slider      = document.getElementById('celsius-temp');
-    var selScale    = document.getElementById('celsius-scale');
+    var slider = document.getElementById('celsius-temp');
+    var selScale = document.getElementById('celsius-scale');
     var selPressure = document.getElementById('celsius-pressure');
     var cvP = document.getElementById('celsiusPhaseCanvas');
     var cvT = document.getElementById('celsiusThermometerCanvas');
@@ -17377,172 +17418,172 @@ function initCelsiusSimulation() {
     if (!ctxP || !ctxT) return;
 
     var spanState = document.getElementById('celsius-water-state');
-    var spanTVal  = document.getElementById('celsius-thermometer-value');
+    var spanTVal = document.getElementById('celsius-thermometer-value');
     var spanTDisp = document.getElementById('celsius-temp-display');
-    var cellMod   = document.getElementById('celsius-val-modern');
-    var cellOrig  = document.getElementById('celsius-val-original');
-    var cellFahr  = document.getElementById('celsius-val-fahrenheit');
-    var cellKelv  = document.getElementById('celsius-val-kelvin');
-    var divEq     = document.getElementById('celsius-equation-box');
+    var cellMod = document.getElementById('celsius-val-modern');
+    var cellOrig = document.getElementById('celsius-val-original');
+    var cellFahr = document.getElementById('celsius-val-fahrenheit');
+    var cellKelv = document.getElementById('celsius-val-kelvin');
+    var divEq = document.getElementById('celsius-equation-box');
 
     var animId = null;
     var tt = 0;
 
-    var bubbles  = [], steam = [], currents = [];
-    for (var i=0;i<20;i++) bubbles.push({x:Math.random()*130+45,y:Math.random()*100+110,r:Math.random()*3+1,spd:Math.random()*2+1,wb:Math.random()*6.28});
-    for (var i=0;i<15;i++) steam.push({x:Math.random()*130+45,y:Math.random()*40+60,r:Math.random()*4+2,a:Math.random(),sy:Math.random()+0.5,sx:(Math.random()-0.5)*0.5});
-    for (var i=0;i<5;i++)  currents.push({x:Math.random()*120+50,y:Math.random()*80+120,d:Math.random()>0.5?1:-1});
+    var bubbles = [], steam = [], currents = [];
+    for (var i = 0; i < 20; i++) bubbles.push({ x: Math.random() * 130 + 45, y: Math.random() * 100 + 110, r: Math.random() * 3 + 1, spd: Math.random() * 2 + 1, wb: Math.random() * 6.28 });
+    for (var i = 0; i < 15; i++) steam.push({ x: Math.random() * 130 + 45, y: Math.random() * 40 + 60, r: Math.random() * 4 + 2, a: Math.random(), sy: Math.random() + 0.5, sx: (Math.random() - 0.5) * 0.5 });
+    for (var i = 0; i < 5; i++)  currents.push({ x: Math.random() * 120 + 50, y: Math.random() * 80 + 120, d: Math.random() > 0.5 ? 1 : -1 });
 
-    function getTemp()   { return parseFloat(slider.value); }
-    function getScale()  { return selScale ? selScale.value : 'modern'; }
+    function getTemp() { return parseFloat(slider.value); }
+    function getScale() { return selScale ? selScale.value : 'modern'; }
     // FIX v2: use Antoine equation for accurate boiling point at any pressure
     // log10(P_mmHg) = 8.07131 - 1730.63/(233.426+T)  →  T = 1730.63/(8.07131-log10(P_mmHg))-233.426
-    function getBoil()   {
-        var p_atm  = selPressure ? parseFloat(selPressure.value) : 1.0;
+    function getBoil() {
+        var p_atm = selPressure ? parseFloat(selPressure.value) : 1.0;
         var p_mmHg = p_atm * 760.0;
         var T = 1730.63 / (8.07131 - Math.log10(p_mmHg)) - 233.426;
         return Math.round(T * 10) / 10;
     }
 
     function updateDOM() {
-        var tm=getTemp(), tb=getBoil(), sc=getScale();
-        var to=100-tm, tf=tm*1.8+32, tk=tm+273.15;
-        if(cellMod)  cellMod.textContent  = tm.toFixed(1)+' \u00b0C';
-        if(cellOrig) cellOrig.textContent = to.toFixed(1)+' \u00b0C_orig';
-        if(cellFahr) cellFahr.textContent = tf.toFixed(1)+' \u00b0F';
-        if(cellKelv) cellKelv.textContent = tk.toFixed(1)+' K';
-        var txt=tm.toFixed(1)+' \u00b0C', eq='$$ T_{\\text{mod}}=100-T_{\\text{orig}} $$';
-        if(sc==='original')   { txt=to.toFixed(1)+' \u00b0C_orig'; eq='$$ T_{\\text{orig}}=100-T_{\\text{mod}} $$'; if(spanTDisp) spanTDisp.textContent=to.toFixed(1)+' \u00b0C (Original 1742)'; }
-        else if(sc==='fahrenheit') { txt=tf.toFixed(1)+' \u00b0F'; eq='$$ T_{\\text{fah}}=T_{\\text{mod}}\\times1.8+32 $$'; if(spanTDisp) spanTDisp.textContent=tf.toFixed(1)+' \u00b0F'; }
-        else if(sc==='kelvin')    { txt=tk.toFixed(1)+' K'; eq='$$ T_{\\text{kel}}=T_{\\text{mod}}+273.15 $$'; if(spanTDisp) spanTDisp.textContent=tk.toFixed(1)+' K'; }
-        else { if(spanTDisp) spanTDisp.textContent=tm.toFixed(1)+' \u00b0C (Moderna)'; }
-        if(spanTVal) spanTVal.textContent=txt;
-        if(divEq){ divEq.innerHTML=eq; if(window.MathJax) MathJax.typesetPromise([divEq]).catch(function(){}); }
-        if(spanState){
-            if(tm<=0)      { spanState.textContent='Hielo S\u00f3lido'; spanState.style.color='#38bdf8'; }
-            else if(tm<tb) { spanState.textContent='Agua L\u00edquida'; spanState.style.color='#60a5fa'; }
-            else           { spanState.textContent='Ebullici\u00f3n ('+tb+'\u00b0C)'; spanState.style.color='#ef4444'; }
+        var tm = getTemp(), tb = getBoil(), sc = getScale();
+        var to = 100 - tm, tf = tm * 1.8 + 32, tk = tm + 273.15;
+        if (cellMod) cellMod.textContent = tm.toFixed(1) + ' \u00b0C';
+        if (cellOrig) cellOrig.textContent = to.toFixed(1) + ' \u00b0C_orig';
+        if (cellFahr) cellFahr.textContent = tf.toFixed(1) + ' \u00b0F';
+        if (cellKelv) cellKelv.textContent = tk.toFixed(1) + ' K';
+        var txt = tm.toFixed(1) + ' \u00b0C', eq = '$$ T_{\\text{mod}}=100-T_{\\text{orig}} $$';
+        if (sc === 'original') { txt = to.toFixed(1) + ' \u00b0C_orig'; eq = '$$ T_{\\text{orig}}=100-T_{\\text{mod}} $$'; if (spanTDisp) spanTDisp.textContent = to.toFixed(1) + ' \u00b0C (Original 1742)'; }
+        else if (sc === 'fahrenheit') { txt = tf.toFixed(1) + ' \u00b0F'; eq = '$$ T_{\\text{fah}}=T_{\\text{mod}}\\times1.8+32 $$'; if (spanTDisp) spanTDisp.textContent = tf.toFixed(1) + ' \u00b0F'; }
+        else if (sc === 'kelvin') { txt = tk.toFixed(1) + ' K'; eq = '$$ T_{\\text{kel}}=T_{\\text{mod}}+273.15 $$'; if (spanTDisp) spanTDisp.textContent = tk.toFixed(1) + ' K'; }
+        else { if (spanTDisp) spanTDisp.textContent = tm.toFixed(1) + ' \u00b0C (Moderna)'; }
+        if (spanTVal) spanTVal.textContent = txt;
+        if (divEq) { divEq.innerHTML = eq; if (window.MathJax) MathJax.typesetPromise([divEq]).catch(function () { }); }
+        if (spanState) {
+            if (tm <= 0) { spanState.textContent = 'Hielo S\u00f3lido'; spanState.style.color = '#38bdf8'; }
+            else if (tm < tb) { spanState.textContent = 'Agua L\u00edquida'; spanState.style.color = '#60a5fa'; }
+            else { spanState.textContent = 'Ebullici\u00f3n (' + tb + '\u00b0C)'; spanState.style.color = '#ef4444'; }
         }
     }
 
     function drawBeaker() {
-        var tm=getTemp(), tb=getBoil();
-        ctxP.clearRect(0,0,cvP.width,cvP.height);
+        var tm = getTemp(), tb = getBoil();
+        ctxP.clearRect(0, 0, cvP.width, cvP.height);
         // Burner glow
-        if(tm>=tb){
-            var pulse=0.8+0.2*Math.sin(tt*5);
-            var gr=ctxP.createLinearGradient(40,0,180,0);
-            gr.addColorStop(0,'rgba(239,68,68,0.2)');gr.addColorStop(0.5,'rgba(249,115,22,'+pulse+')');gr.addColorStop(1,'rgba(239,68,68,0.2)');
-            ctxP.fillStyle=gr;ctxP.fillRect(36,210,148,12);
-            ctxP.strokeStyle='rgba(249,115,22,0.5)';ctxP.lineWidth=2;
-            for(var x=45;x<180;x+=25){var wh=15+Math.sin(tt*10+x)*5;ctxP.beginPath();ctxP.moveTo(x,222);ctxP.quadraticCurveTo(x+5,210-wh/2,x,210-wh);ctxP.stroke();}
-        }else if(tm>0){
-            ctxP.fillStyle='rgba(250,204,21,'+(0.1+0.4*(tm/tb))+')';ctxP.fillRect(36,210,148,8);
-        }else{
-            ctxP.fillStyle='rgba(56,189,248,0.15)';ctxP.fillRect(36,210,148,6);
+        if (tm >= tb) {
+            var pulse = 0.8 + 0.2 * Math.sin(tt * 5);
+            var gr = ctxP.createLinearGradient(40, 0, 180, 0);
+            gr.addColorStop(0, 'rgba(239,68,68,0.2)'); gr.addColorStop(0.5, 'rgba(249,115,22,' + pulse + ')'); gr.addColorStop(1, 'rgba(239,68,68,0.2)');
+            ctxP.fillStyle = gr; ctxP.fillRect(36, 210, 148, 12);
+            ctxP.strokeStyle = 'rgba(249,115,22,0.5)'; ctxP.lineWidth = 2;
+            for (var x = 45; x < 180; x += 25) { var wh = 15 + Math.sin(tt * 10 + x) * 5; ctxP.beginPath(); ctxP.moveTo(x, 222); ctxP.quadraticCurveTo(x + 5, 210 - wh / 2, x, 210 - wh); ctxP.stroke(); }
+        } else if (tm > 0) {
+            ctxP.fillStyle = 'rgba(250,204,21,' + (0.1 + 0.4 * (tm / tb)) + ')'; ctxP.fillRect(36, 210, 148, 8);
+        } else {
+            ctxP.fillStyle = 'rgba(56,189,248,0.15)'; ctxP.fillRect(36, 210, 148, 6);
         }
         // Beaker walls
-        ctxP.strokeStyle='#94a3b8';ctxP.lineWidth=5;ctxP.lineCap='round';
-        ctxP.beginPath();ctxP.moveTo(40,50);ctxP.lineTo(40,210);ctxP.lineTo(180,210);ctxP.lineTo(180,50);ctxP.stroke();
+        ctxP.strokeStyle = '#94a3b8'; ctxP.lineWidth = 5; ctxP.lineCap = 'round';
+        ctxP.beginPath(); ctxP.moveTo(40, 50); ctxP.lineTo(40, 210); ctxP.lineTo(180, 210); ctxP.lineTo(180, 50); ctxP.stroke();
         // Fluid
-        if(tm<=0){
-            var ig=ctxP.createLinearGradient(43,105,177,207);
-            ig.addColorStop(0,'rgba(56,189,248,0.5)');ig.addColorStop(1,'rgba(186,230,253,0.3)');
-            ctxP.fillStyle=ig;ctxP.fillRect(43,105,134,102);
-            var vib=Math.sin(tt*15)*0.3;
-            ctxP.strokeStyle='rgba(255,255,255,0.4)';ctxP.lineWidth=2;
-            ctxP.beginPath();ctxP.moveTo(70+vib,120);ctxP.lineTo(95+vib,155);ctxP.lineTo(85+vib,185);
-            ctxP.moveTo(150+vib,115);ctxP.lineTo(130+vib,150);ctxP.lineTo(160+vib,190);ctxP.stroke();
-            ctxP.fillStyle='rgba(255,255,255,0.6)';
-            for(var i=0;i<6;i++){var sx=45+((i*23)%120),sy=110+((i*17)%90),sz=1.5+Math.sin(tt+i)*0.8;ctxP.fillRect(sx,sy,sz,sz);}
-        }else if(tm<tb){
-            var wg=ctxP.createLinearGradient(43,105,43,207);
-            wg.addColorStop(0,'rgba(59,130,246,0.4)');wg.addColorStop(1,'rgba(30,58,138,0.6)');
-            ctxP.fillStyle=wg;ctxP.beginPath();ctxP.moveTo(43,207);ctxP.lineTo(43,105);
-            var amp=1.0+(tm/tb)*2.5;
-            for(var x=43;x<=177;x++) ctxP.lineTo(x,105+Math.sin(x*0.15+tt*3.5)*amp);
-            ctxP.lineTo(177,207);ctxP.closePath();ctxP.fill();
-            ctxP.strokeStyle='rgba(255,255,255,0.15)';ctxP.lineWidth=1.5;
-            currents.forEach(function(c,idx){c.y-=0.6*(1+(tm/tb));if(c.y<112){c.y=202;c.x=Math.random()*110+55;}ctxP.beginPath();ctxP.arc(c.x+Math.sin(tt*2+idx)*6,c.y,8,0,Math.PI,c.d>0);ctxP.stroke();});
-        }else{
-            var bg=ctxP.createLinearGradient(43,105,43,207);
-            bg.addColorStop(0,'rgba(239,68,68,0.4)');bg.addColorStop(0.5,'rgba(249,115,22,0.3)');bg.addColorStop(1,'rgba(59,130,246,0.5)');
-            ctxP.fillStyle=bg;ctxP.beginPath();ctxP.moveTo(43,207);ctxP.lineTo(43,105);
-            for(var x=43;x<=177;x++) ctxP.lineTo(x,105+Math.sin(x*0.3+tt*12)*5+Math.cos(x*0.15+tt*6)*3);
-            ctxP.lineTo(177,207);ctxP.closePath();ctxP.fill();
-            ctxP.lineWidth=0.5;
-            bubbles.forEach(function(b){b.y-=b.spd*1.5;b.x+=Math.sin(tt*5+b.wb)*0.8;if(b.y<105){b.y=200;b.x=Math.random()*120+50;}ctxP.fillStyle='rgba(255,255,255,0.65)';ctxP.strokeStyle='rgba(255,255,255,0.8)';ctxP.beginPath();ctxP.arc(b.x,b.y,b.r+0.5,0,6.28);ctxP.fill();ctxP.stroke();});
-            steam.forEach(function(s){s.y-=s.sy*1.2;s.x+=s.sx*1.5;s.a-=0.012;if(s.y<20||s.a<=0){s.y=95;s.x=Math.random()*120+50;s.a=Math.random()*0.6+0.3;}ctxP.save();ctxP.globalAlpha=s.a;ctxP.fillStyle='rgba(255,255,255,0.25)';ctxP.beginPath();ctxP.arc(s.x,s.y,s.r+1,0,6.28);ctxP.fill();ctxP.restore();});
+        if (tm <= 0) {
+            var ig = ctxP.createLinearGradient(43, 105, 177, 207);
+            ig.addColorStop(0, 'rgba(56,189,248,0.5)'); ig.addColorStop(1, 'rgba(186,230,253,0.3)');
+            ctxP.fillStyle = ig; ctxP.fillRect(43, 105, 134, 102);
+            var vib = Math.sin(tt * 15) * 0.3;
+            ctxP.strokeStyle = 'rgba(255,255,255,0.4)'; ctxP.lineWidth = 2;
+            ctxP.beginPath(); ctxP.moveTo(70 + vib, 120); ctxP.lineTo(95 + vib, 155); ctxP.lineTo(85 + vib, 185);
+            ctxP.moveTo(150 + vib, 115); ctxP.lineTo(130 + vib, 150); ctxP.lineTo(160 + vib, 190); ctxP.stroke();
+            ctxP.fillStyle = 'rgba(255,255,255,0.6)';
+            for (var i = 0; i < 6; i++) { var sx = 45 + ((i * 23) % 120), sy = 110 + ((i * 17) % 90), sz = 1.5 + Math.sin(tt + i) * 0.8; ctxP.fillRect(sx, sy, sz, sz); }
+        } else if (tm < tb) {
+            var wg = ctxP.createLinearGradient(43, 105, 43, 207);
+            wg.addColorStop(0, 'rgba(59,130,246,0.4)'); wg.addColorStop(1, 'rgba(30,58,138,0.6)');
+            ctxP.fillStyle = wg; ctxP.beginPath(); ctxP.moveTo(43, 207); ctxP.lineTo(43, 105);
+            var amp = 1.0 + (tm / tb) * 2.5;
+            for (var x = 43; x <= 177; x++) ctxP.lineTo(x, 105 + Math.sin(x * 0.15 + tt * 3.5) * amp);
+            ctxP.lineTo(177, 207); ctxP.closePath(); ctxP.fill();
+            ctxP.strokeStyle = 'rgba(255,255,255,0.15)'; ctxP.lineWidth = 1.5;
+            currents.forEach(function (c, idx) { c.y -= 0.6 * (1 + (tm / tb)); if (c.y < 112) { c.y = 202; c.x = Math.random() * 110 + 55; } ctxP.beginPath(); ctxP.arc(c.x + Math.sin(tt * 2 + idx) * 6, c.y, 8, 0, Math.PI, c.d > 0); ctxP.stroke(); });
+        } else {
+            var bg = ctxP.createLinearGradient(43, 105, 43, 207);
+            bg.addColorStop(0, 'rgba(239,68,68,0.4)'); bg.addColorStop(0.5, 'rgba(249,115,22,0.3)'); bg.addColorStop(1, 'rgba(59,130,246,0.5)');
+            ctxP.fillStyle = bg; ctxP.beginPath(); ctxP.moveTo(43, 207); ctxP.lineTo(43, 105);
+            for (var x = 43; x <= 177; x++) ctxP.lineTo(x, 105 + Math.sin(x * 0.3 + tt * 12) * 5 + Math.cos(x * 0.15 + tt * 6) * 3);
+            ctxP.lineTo(177, 207); ctxP.closePath(); ctxP.fill();
+            ctxP.lineWidth = 0.5;
+            bubbles.forEach(function (b) { b.y -= b.spd * 1.5; b.x += Math.sin(tt * 5 + b.wb) * 0.8; if (b.y < 105) { b.y = 200; b.x = Math.random() * 120 + 50; } ctxP.fillStyle = 'rgba(255,255,255,0.65)'; ctxP.strokeStyle = 'rgba(255,255,255,0.8)'; ctxP.beginPath(); ctxP.arc(b.x, b.y, b.r + 0.5, 0, 6.28); ctxP.fill(); ctxP.stroke(); });
+            steam.forEach(function (s) { s.y -= s.sy * 1.2; s.x += s.sx * 1.5; s.a -= 0.012; if (s.y < 20 || s.a <= 0) { s.y = 95; s.x = Math.random() * 120 + 50; s.a = Math.random() * 0.6 + 0.3; } ctxP.save(); ctxP.globalAlpha = s.a; ctxP.fillStyle = 'rgba(255,255,255,0.25)'; ctxP.beginPath(); ctxP.arc(s.x, s.y, s.r + 1, 0, 6.28); ctxP.fill(); ctxP.restore(); });
         }
-        ctxP.fillStyle='#94a3b8';ctxP.font='bold 8px monospace';ctxP.textAlign='left';
-        ctxP.fillText('200 ml',145,115);ctxP.fillRect(160,115,15,2);
-        ctxP.fillText('100 ml',145,160);ctxP.fillRect(160,160,15,2);
+        ctxP.fillStyle = '#94a3b8'; ctxP.font = 'bold 8px monospace'; ctxP.textAlign = 'left';
+        ctxP.fillText('200 ml', 145, 115); ctxP.fillRect(160, 115, 15, 2);
+        ctxP.fillText('100 ml', 145, 160); ctxP.fillRect(160, 160, 15, 2);
     }
 
     // FIX v2: track last pressure to detect altitude change for pulsing effect
     var _lastBoil = null, _boilPulseFrames = 0;
 
     function drawThermo() {
-        var tm=getTemp(), tb=getBoil(), sc=getScale();
-        ctxT.clearRect(0,0,cvT.width,cvT.height);
-        var tx=cvT.width/2;
+        var tm = getTemp(), tb = getBoil(), sc = getScale();
+        ctxT.clearRect(0, 0, cvT.width, cvT.height);
+        var tx = cvT.width / 2;
         // Backplate
-        ctxT.fillStyle='rgba(30,41,59,0.75)';ctxT.strokeStyle='rgba(71,85,105,0.8)';ctxT.lineWidth=2;
-        ctxT.beginPath();ctxT.rect(15,10,cvT.width-30,cvT.height-20);ctxT.fill();ctxT.stroke();
+        ctxT.fillStyle = 'rgba(30,41,59,0.75)'; ctxT.strokeStyle = 'rgba(71,85,105,0.8)'; ctxT.lineWidth = 2;
+        ctxT.beginPath(); ctxT.rect(15, 10, cvT.width - 30, cvT.height - 20); ctxT.fill(); ctxT.stroke();
         // Y mapping: 0C -> y=160, each degree -> 0.9px up
-        function ty(d){return 160-d*0.9;}
+        function ty(d) { return 160 - d * 0.9; }
         // Detect boiling point change (altitude change) → trigger pulse
-        if(_lastBoil !== null && Math.abs(tb - _lastBoil) > 0.05) _boilPulseFrames = 60;
+        if (_lastBoil !== null && Math.abs(tb - _lastBoil) > 0.05) _boilPulseFrames = 60;
         _lastBoil = tb;
-        if(_boilPulseFrames > 0) _boilPulseFrames--;
-        var boilAlpha = _boilPulseFrames > 0 ? (0.6 + 0.4*Math.sin(tt*20)) : 0.55;
-        var boilLineW  = _boilPulseFrames > 0 ? (2 + Math.sin(tt*20)) : 1;
+        if (_boilPulseFrames > 0) _boilPulseFrames--;
+        var boilAlpha = _boilPulseFrames > 0 ? (0.6 + 0.4 * Math.sin(tt * 20)) : 0.55;
+        var boilLineW = _boilPulseFrames > 0 ? (2 + Math.sin(tt * 20)) : 1;
         // Dashed calibration lines
-        ctxT.setLineDash([2,2]);ctxT.lineWidth=1;
-        ctxT.strokeStyle='rgba(56,189,248,0.5)';ctxT.beginPath();ctxT.moveTo(20,ty(0));ctxT.lineTo(cvT.width-20,ty(0));ctxT.stroke();
+        ctxT.setLineDash([2, 2]); ctxT.lineWidth = 1;
+        ctxT.strokeStyle = 'rgba(56,189,248,0.5)'; ctxT.beginPath(); ctxT.moveTo(20, ty(0)); ctxT.lineTo(cvT.width - 20, ty(0)); ctxT.stroke();
         // Boiling line — pulses when altitude changes
-        ctxT.setLineDash(_boilPulseFrames > 0 ? [4,2] : [2,2]);
-        ctxT.lineWidth=boilLineW;
-        ctxT.strokeStyle='rgba(239,68,68,'+boilAlpha+')';
-        ctxT.beginPath();ctxT.moveTo(20,ty(tb));ctxT.lineTo(cvT.width-20,ty(tb));ctxT.stroke();
+        ctxT.setLineDash(_boilPulseFrames > 0 ? [4, 2] : [2, 2]);
+        ctxT.lineWidth = boilLineW;
+        ctxT.strokeStyle = 'rgba(239,68,68,' + boilAlpha + ')';
+        ctxT.beginPath(); ctxT.moveTo(20, ty(tb)); ctxT.lineTo(cvT.width - 20, ty(tb)); ctxT.stroke();
         // Boiling label on the line (show value when pulsing)
-        if(_boilPulseFrames > 0) {
-            var tbLabel = sc==='original'?(100-tb).toFixed(1):sc==='fahrenheit'?(tb*1.8+32).toFixed(1):sc==='kelvin'?(tb+273.15).toFixed(1):tb.toFixed(1);
+        if (_boilPulseFrames > 0) {
+            var tbLabel = sc === 'original' ? (100 - tb).toFixed(1) : sc === 'fahrenheit' ? (tb * 1.8 + 32).toFixed(1) : sc === 'kelvin' ? (tb + 273.15).toFixed(1) : tb.toFixed(1);
             ctxT.setLineDash([]);
-            ctxT.fillStyle='rgba(239,68,68,'+(0.7+0.3*Math.sin(tt*20))+')';
-            ctxT.font='bold 7px monospace';ctxT.textAlign='center';
-            ctxT.fillText('↑'+tbLabel+(sc==='fahrenheit'?'°F':sc==='kelvin'?'K':'°C'), tx, ty(tb)-4);
+            ctxT.fillStyle = 'rgba(239,68,68,' + (0.7 + 0.3 * Math.sin(tt * 20)) + ')';
+            ctxT.font = 'bold 7px monospace'; ctxT.textAlign = 'center';
+            ctxT.fillText('↑' + tbLabel + (sc === 'fahrenheit' ? '°F' : sc === 'kelvin' ? 'K' : '°C'), tx, ty(tb) - 4);
         }
         ctxT.setLineDash([]);
         // Tick marks every 20 degrees
-        ctxT.lineWidth=1;
-        for(var d=-40;d<=140;d+=20){
-            var y=ty(d);
-            if(y<25||y>195) continue;
-            ctxT.strokeStyle='rgba(148,163,184,0.4)';ctxT.beginPath();ctxT.moveTo(tx-10,y);ctxT.lineTo(tx-4,y);ctxT.stroke();
-            var lv=d;
-            if(sc==='original') lv=100-d;else if(sc==='fahrenheit') lv=d*1.8+32;else if(sc==='kelvin') lv=d+273.15;
-            ctxT.fillStyle=(d===0)?'#38bdf8':(Math.abs(d-tb)<5?'#ef4444':'#94a3b8');
-            ctxT.font='bold 8px monospace';ctxT.textAlign='right';
-            ctxT.fillText(Math.round(lv)+'',tx-14,y+3);
+        ctxT.lineWidth = 1;
+        for (var d = -40; d <= 140; d += 20) {
+            var y = ty(d);
+            if (y < 25 || y > 195) continue;
+            ctxT.strokeStyle = 'rgba(148,163,184,0.4)'; ctxT.beginPath(); ctxT.moveTo(tx - 10, y); ctxT.lineTo(tx - 4, y); ctxT.stroke();
+            var lv = d;
+            if (sc === 'original') lv = 100 - d; else if (sc === 'fahrenheit') lv = d * 1.8 + 32; else if (sc === 'kelvin') lv = d + 273.15;
+            ctxT.fillStyle = (d === 0) ? '#38bdf8' : (Math.abs(d - tb) < 5 ? '#ef4444' : '#94a3b8');
+            ctxT.font = 'bold 8px monospace'; ctxT.textAlign = 'right';
+            ctxT.fillText(Math.round(lv) + '', tx - 14, y + 3);
         }
         // Units label
-        ctxT.fillStyle='#64748b';ctxT.font='7px monospace';ctxT.textAlign='center';
-        ctxT.fillText(sc==='fahrenheit'?'\u00b0F':sc==='kelvin'?'K':sc==='original'?'\u00b0C Orig':'\u00b0C',tx,22);
+        ctxT.fillStyle = '#64748b'; ctxT.font = '7px monospace'; ctxT.textAlign = 'center';
+        ctxT.fillText(sc === 'fahrenheit' ? '\u00b0F' : sc === 'kelvin' ? 'K' : sc === 'original' ? '\u00b0C Orig' : '\u00b0C', tx, 22);
         // Glass tube background
-        ctxT.fillStyle='#1e293b';ctxT.fillRect(tx-4,30,8,170);
+        ctxT.fillStyle = '#1e293b'; ctxT.fillRect(tx - 4, 30, 8, 170);
         // Mercury column
-        var my=Math.max(32,Math.min(198,ty(tm)));
-        var mh=Math.max(0,210-my);
-        ctxT.fillStyle='#ef4444';ctxT.fillRect(tx-2,my,4,mh);
+        var my = Math.max(32, Math.min(198, ty(tm)));
+        var mh = Math.max(0, 210 - my);
+        ctxT.fillStyle = '#ef4444'; ctxT.fillRect(tx - 2, my, 4, mh);
         // Bulb
-        ctxT.beginPath();ctxT.arc(tx,210,13,0,6.28);ctxT.fill();
+        ctxT.beginPath(); ctxT.arc(tx, 210, 13, 0, 6.28); ctxT.fill();
         // Glass reflections
-        ctxT.fillStyle='rgba(255,255,255,0.2)';ctxT.fillRect(tx+1,my,1,mh);
-        ctxT.beginPath();ctxT.arc(tx-4,206,4,0,6.28);ctxT.fill();
+        ctxT.fillStyle = 'rgba(255,255,255,0.2)'; ctxT.fillRect(tx + 1, my, 1, mh);
+        ctxT.beginPath(); ctxT.arc(tx - 4, 206, 4, 0, 6.28); ctxT.fill();
         // Glass outlines
-        ctxT.strokeStyle='#475569';ctxT.lineWidth=1.5;
-        ctxT.beginPath();ctxT.moveTo(tx-5,30);ctxT.lineTo(tx-5,198);ctxT.moveTo(tx+5,30);ctxT.lineTo(tx+5,198);ctxT.stroke();
+        ctxT.strokeStyle = '#475569'; ctxT.lineWidth = 1.5;
+        ctxT.beginPath(); ctxT.moveTo(tx - 5, 30); ctxT.lineTo(tx - 5, 198); ctxT.moveTo(tx + 5, 30); ctxT.lineTo(tx + 5, 198); ctxT.stroke();
     }
 
     function render() {
@@ -17553,19 +17594,19 @@ function initCelsiusSimulation() {
     }
 
     slider.addEventListener('input', updateDOM);
-    if(selScale)    selScale.addEventListener('change', updateDOM);
-    if(selPressure) selPressure.addEventListener('change', updateDOM);
+    if (selScale) selScale.addEventListener('change', updateDOM);
+    if (selPressure) selPressure.addEventListener('change', updateDOM);
 
-    window.setCelsiusTemp = function(v){ slider.value=v; updateDOM(); };
+    window.setCelsiusTemp = function (v) { slider.value = v; updateDOM(); };
 
     updateDOM();
     render();
 
     var pane = document.getElementById('celsius-sim');
-    if(pane){
-        new IntersectionObserver(function(entries){
-            if(!entries[0].isIntersecting){ if(animId){cancelAnimationFrame(animId);animId=null;} }
-            else{ if(!animId) render(); }
+    if (pane) {
+        new IntersectionObserver(function (entries) {
+            if (!entries[0].isIntersecting) { if (animId) { cancelAnimationFrame(animId); animId = null; } }
+            else { if (!animId) render(); }
         }).observe(pane);
     }
 }
@@ -17574,9 +17615,9 @@ function initCelsiusSimulation() {
 const reverseTranslations = {};
 let reverseMapBuilt = false;
 
-window.translateDOM = function(lang) {
+window.translateDOM = function (lang) {
     window.currentLanguage = lang;
-    
+
     // Toggle pre-translated lab spans
     document.querySelectorAll('.lang-es').forEach(el => el.style.display = (lang === 'en') ? 'none' : '');
     document.querySelectorAll('.lang-en').forEach(el => el.style.display = (lang === 'en') ? '' : 'none');
@@ -17589,7 +17630,7 @@ window.translateDOM = function(lang) {
         }
         reverseMapBuilt = true;
     }
-    
+
     function walk(node) {
         if (node.nodeType === Node.TEXT_NODE) {
             const text = node.nodeValue;
@@ -17617,7 +17658,7 @@ window.translateDOM = function(lang) {
         } else if (node.nodeType === Node.ELEMENT_NODE) {
             // FIX v2: Skip traversing dynamic elements, static language spans, and MathJax containers to prevent freezes/infinite loops
             if (node.id === 'timeline' || node.id === 'top-timeline' || node.id === 'comment-feed-container' ||
-                (node.classList && (node.classList.contains('lang-es') || node.classList.contains('lang-en') || node.classList.contains('mjx-container'))) || 
+                (node.classList && (node.classList.contains('lang-es') || node.classList.contains('lang-en') || node.classList.contains('mjx-container'))) ||
                 (node.tagName && node.tagName.startsWith('MJX'))) {
                 return;
             }
@@ -17630,7 +17671,7 @@ window.translateDOM = function(lang) {
                         node.placeholder = reverseTranslations[ph];
                     }
                 }
-                
+
                 if (node.title) {
                     const t = node.title;
                     if (lang === 'en' && window.uiTranslations && window.uiTranslations[t]) {
@@ -17639,22 +17680,22 @@ window.translateDOM = function(lang) {
                         node.title = reverseTranslations[t];
                     }
                 }
-                
+
                 for (let child of node.childNodes) {
                     walk(child);
                 }
             }
         }
     }
-    
+
     walk(document.body);
-    
+
     // Re-render timeline
     const searchInput = document.getElementById('timeline-search');
     const categorySelect = document.getElementById('timeline-filter-category');
     initTimeline(searchInput ? searchInput.value : '', categorySelect ? categorySelect.value : 'all');
     initTopTimeline();
-    
+
     // Update active button state
     document.querySelectorAll('.lang-btn').forEach(btn => {
         if (btn.getAttribute('data-lang') === lang) {
@@ -17668,7 +17709,7 @@ window.translateDOM = function(lang) {
 
     // FIX v2: Re-render all MathJax equations after language switch
     if (window.MathJax && MathJax.typesetPromise) {
-        MathJax.typesetPromise().catch(function(err) { console.warn('MathJax re-typeset error:', err); });
+        MathJax.typesetPromise().catch(function (err) { console.warn('MathJax re-typeset error:', err); });
     }
 };
 // ── Boundary Layer Development in Internal Flow ──────────────────────────────
@@ -17677,27 +17718,27 @@ function initInternalBLSimulation() {
     if (!canvas) return;
     var ctx = canvas.getContext('2d');
 
-    var sliderUavg  = document.getElementById('ibl-uavg');
-    var sliderDiam  = document.getElementById('ibl-diam');
+    var sliderUavg = document.getElementById('ibl-uavg');
+    var sliderDiam = document.getElementById('ibl-diam');
     var sliderLength = document.getElementById('ibl-length');
-    var sliderPr    = document.getElementById('ibl-prandtl');
-    var sliderTfIn  = document.getElementById('ibl-tfin');
-    var sliderTs    = document.getElementById('ibl-ts');
+    var sliderPr = document.getElementById('ibl-prandtl');
+    var sliderTfIn = document.getElementById('ibl-tfin');
+    var sliderTs = document.getElementById('ibl-ts');
     var chkProfiles = document.getElementById('ibl-show-profiles');
-    var chkBL       = document.getElementById('ibl-show-bl');
-    var chkThermal  = document.getElementById('ibl-show-thermal');
-    var lblUavg     = document.getElementById('ibl-uavg-val');
-    var lblDiam     = document.getElementById('ibl-diam-val');
-    var lblPrandtl  = document.getElementById('ibl-prandtl-val');
-    var lblCalcRe   = document.getElementById('ibl-calc-re-lbl');
-    var lblLength   = document.getElementById('ibl-length-val');
-    var lblLTotal   = document.getElementById('ibl-ltotal-lbl');
-    var msgFD       = document.getElementById('ibl-fd-msg');
-    var lblLh       = document.getElementById('ibl-lh-lbl');
-    var lblLt       = document.getElementById('ibl-lt-lbl');
-    var lblFrac     = document.getElementById('ibl-frac-lbl');
-    var lblRegime   = document.getElementById('ibl-regime-lbl');
-    var lblUmax     = document.getElementById('ibl-umax-lbl');
+    var chkBL = document.getElementById('ibl-show-bl');
+    var chkThermal = document.getElementById('ibl-show-thermal');
+    var lblUavg = document.getElementById('ibl-uavg-val');
+    var lblDiam = document.getElementById('ibl-diam-val');
+    var lblPrandtl = document.getElementById('ibl-prandtl-val');
+    var lblCalcRe = document.getElementById('ibl-calc-re-lbl');
+    var lblLength = document.getElementById('ibl-length-val');
+    var lblLTotal = document.getElementById('ibl-ltotal-lbl');
+    var msgFD = document.getElementById('ibl-fd-msg');
+    var lblLh = document.getElementById('ibl-lh-lbl');
+    var lblLt = document.getElementById('ibl-lt-lbl');
+    var lblFrac = document.getElementById('ibl-frac-lbl');
+    var lblRegime = document.getElementById('ibl-regime-lbl');
+    var lblUmax = document.getElementById('ibl-umax-lbl');
 
     var animId = null;
     var particles = [];
@@ -17711,16 +17752,18 @@ function initInternalBLSimulation() {
         var max_pipeH = H * 0.88; // maximum visual thickness without clipping
         var pipeH = min_pipeH + ((d - 1.0) / 999.0) * (max_pipeH - min_pipeH);
         pipeH = Math.min(Math.max(pipeH, min_pipeH), max_pipeH);
-        var pipeTop    = (H - pipeH) / 2;
+        var pipeTop = (H - pipeH) / 2;
         var pipeBottom = (H + pipeH) / 2;
         var pipeR = pipeH / 2;
         var pipeYc = H / 2;
-        var pipeLeft  = 44;
+        var pipeLeft = 44;
         var pipeRight = W - 18;
         var pipeW = pipeRight - pipeLeft;
-        return { W:W, H:H, pipeTop:pipeTop, pipeBottom:pipeBottom,
-                 pipeH:pipeH, pipeR:pipeR, pipeYc:pipeYc,
-                 pipeLeft:pipeLeft, pipeRight:pipeRight, pipeW:pipeW };
+        return {
+            W: W, H: H, pipeTop: pipeTop, pipeBottom: pipeBottom,
+            pipeH: pipeH, pipeR: pipeR, pipeYc: pipeYc,
+            pipeLeft: pipeLeft, pipeRight: pipeRight, pipeW: pipeW
+        };
     }
 
     function tProfile(xnT, yn) {
@@ -17729,7 +17772,7 @@ function initInternalBLSimulation() {
         if (deltaT >= 1.0) {
             var excess = deltaT - 1.0;
             var baseT = 1.0 - (1.0 - absY) * (1.0 - absY);
-            var blend = 1.0 - Math.exp(-excess * 2.0); 
+            var blend = 1.0 - Math.exp(-excess * 2.0);
             return baseT + (1.0 - baseT) * blend;
         } else {
             if (absY < (1.0 - deltaT)) return 0.0;
@@ -17743,10 +17786,10 @@ function initInternalBLSimulation() {
     function uProfile(xn, yn, ReVal) {
         var isTurbulent = ReVal > 4000;
         var isTrans = ReVal >= 2300 && ReVal <= 4000;
-        
+
         var delta = Math.min(1.0, Math.sqrt(xn) * (isTurbulent ? 3.0 : 1.1));
-        var absY  = Math.abs(yn);
-        
+        var absY = Math.abs(yn);
+
         // Base Laminar Profile
         var uLam;
         if (delta >= 1.0) uLam = 2.0 * (1.0 - yn * yn);
@@ -17760,7 +17803,7 @@ function initInternalBLSimulation() {
                 uLam = Uc * (1.5 * s - 0.5 * s * s * s);
             }
         }
-        
+
         // Turbulent Profile (1/7th power law)
         var uTurb;
         if (delta >= 1.0) uTurb = 1.22 * Math.pow(1.0 - absY, 1.0 / 7.0);
@@ -17771,7 +17814,7 @@ function initInternalBLSimulation() {
                 uTurb = 1.22 * Math.pow(sT, 1.0 / 7.0);
             }
         }
-        
+
         if (isTurbulent) return uTurb;
         if (isTrans) {
             var f = (ReVal - 2300) / 1700;
@@ -17783,55 +17826,55 @@ function initInternalBLSimulation() {
     function buildParticles() {
         particles = [];
         for (var xi = 0; xi < 8; xi++) {
-            for(var pi = 0; pi <= 12; pi++) {
-                particles.push({ xn: xi * 0.15, yn: (pi/12) * 1.94 - 0.97 });
+            for (var pi = 0; pi <= 12; pi++) {
+                particles.push({ xn: xi * 0.15, yn: (pi / 12) * 1.94 - 0.97 });
             }
         }
     }
 
     function draw() {
-        var Uavg  = sliderUavg  ? parseFloat(sliderUavg.value)  : 0.05;
-        var Diam  = sliderDiam  ? parseFloat(sliderDiam.value)  : 20.0;
-        
+        var Uavg = sliderUavg ? parseFloat(sliderUavg.value) : 0.05;
+        var Diam = sliderDiam ? parseFloat(sliderDiam.value) : 20.0;
+
         // Fluid Properties: Water at 20°C
         var rho = 998; // kg/m^3
-        var mu  = 1.0e-3; // Pa*s
-        
+        var mu = 1.0e-3; // Pa*s
+
         // Calculate Reynolds Number: Re = rho * Uavg * (D/1000) / mu
         var Re = (rho * Uavg * (Diam / 1000.0)) / mu;
         var speed = 1.0;
         var showP = chkProfiles ? chkProfiles.checked : true;
-        var showB = chkBL       ? chkBL.checked       : true;
-        var showT = chkThermal  ? chkThermal.checked  : true;
-        var TfIn  = sliderTfIn  ? parseFloat(sliderTfIn.value) : 20.0;
-        var Ts    = sliderTs    ? parseFloat(sliderTs.value)   : 80.0;
+        var showB = chkBL ? chkBL.checked : true;
+        var showT = chkThermal ? chkThermal.checked : true;
+        var TfIn = sliderTfIn ? parseFloat(sliderTfIn.value) : 20.0;
+        var Ts = sliderTs ? parseFloat(sliderTs.value) : 80.0;
         var dynPr = document.getElementById('ibl-prandtl');
-        var Pr    = dynPr ? parseFloat(dynPr.value) : 7.0;
+        var Pr = dynPr ? parseFloat(dynPr.value) : 7.0;
 
         if (document.getElementById('ibl-tfin-val')) document.getElementById('ibl-tfin-val').textContent = TfIn.toFixed(0);
         if (document.getElementById('ibl-ts-val')) document.getElementById('ibl-ts-val').textContent = Ts.toFixed(0);
         var lblPr = document.getElementById('ibl-prandtl-val');
         if (lblPr) lblPr.textContent = Pr.toFixed(1);
 
-        canvas.width  = canvas.clientWidth  || 760;
+        canvas.width = canvas.clientWidth || 760;
         canvas.height = canvas.clientHeight || 380;
         var L = getLayout(Diam);
 
         // Physics entry-length fraction (0..1) — used for profile shapes & BL physics
         var LhVal;
         if (Re < 2300) LhVal = 0.05 * Re;
-        else if (Re <= 4000) LhVal = 0.05 * 2300 * (1 - (Re - 2300)/1700) + 1.359 * Math.pow(Re, 0.25) * ((Re - 2300)/1700);
+        else if (Re <= 4000) LhVal = 0.05 * 2300 * (1 - (Re - 2300) / 1700) + 1.359 * Math.pow(Re, 0.25) * ((Re - 2300) / 1700);
         else LhVal = 1.359 * Math.pow(Re, 0.25);
         var LhMeters = LhVal * (Diam / 1000.0);         // L_h in meters
-        
+
         // Dynamic visual split based on a configurable pipe length
         var L_total = sliderLength ? parseFloat(sliderLength.value) : 130.0;
         if (lblLength) lblLength.textContent = L_total.toFixed(0);
         var physScale = LhVal / L_total;
         var fdVisual = Math.min(physScale, 0.88); // Cap at 88% to always show some FD zone
-        var fdX      = L.pipeLeft + fdVisual * L.pipeW; 
-        var Lh       = LhMeters.toFixed(2);
-        
+        var fdX = L.pipeLeft + fdVisual * L.pipeW;
+        var Lh = LhMeters.toFixed(2);
+
         // Thermal boundary layer
         var LtVal;
         if (Re < 2300) {
@@ -17850,16 +17893,16 @@ function initInternalBLSimulation() {
         }
         var physScaleT = LtVal / L_total;
         var fdVisualT = Math.min(physScaleT, 0.88);
-        
+
         // Pipe represents this many diameters total in the view
         var pipeDiam = L_total.toFixed(1);
         var LTotalMeters = L_total * (Diam / 1000.0);
 
-        if (lblUavg)   lblUavg.textContent   = Uavg.toFixed(3);
-        if (lblDiam)   lblDiam.textContent   = Diam.toFixed(0);
+        if (lblUavg) lblUavg.textContent = Uavg.toFixed(3);
+        if (lblDiam) lblDiam.textContent = Diam.toFixed(0);
         if (lblCalcRe) lblCalcRe.textContent = Re.toFixed(0);
-        if (lblLh)     lblLh.textContent     = Lh + ' m';
-        if (lblLt)     lblLt.textContent     = LtMeters.toFixed(2) + ' m';
+        if (lblLh) lblLh.textContent = Lh + ' m';
+        if (lblLt) lblLt.textContent = LtMeters.toFixed(2) + ' m';
         if (lblLTotal) lblLTotal.textContent = LTotalMeters.toFixed(2) + ' m';
         if (lblFrac) {
             var percDev = (fdVisual * 100).toFixed(0);
@@ -17868,20 +17911,20 @@ function initInternalBLSimulation() {
         if (msgFD) {
             msgFD.style.display = (fdVisual <= 0.10) ? 'block' : 'none';
         }
-        
+
         var regimeText = Re < 2300 ? 'Laminar' : (Re <= 4000 ? 'Transición' : 'Turbulento');
         var regimeColor = Re < 2300 ? '#10b981' : (Re <= 4000 ? '#f59e0b' : '#ef4444');
         if (lblRegime) {
             lblRegime.textContent = regimeText;
             lblRegime.style.color = regimeColor;
         }
-        
+
         // velScale is used for drawing arrow lengths scaling with Uavg
         var UavgRef = 0.05;
         var velScale = Math.max(0.20, Math.min(Uavg / UavgRef, 2.0));
         var uMaxRatio = Re < 2300 ? 2.0 : (Re > 4000 ? 1.22 : 2.0 - 0.78 * ((Re - 2300) / 1700));
         var uMax = uMaxRatio * Uavg;
-        if (lblUmax)   lblUmax.textContent   = uMax.toFixed(3) + ' m/s';
+        if (lblUmax) lblUmax.textContent = uMax.toFixed(3) + ' m/s';
 
         ctx.clearRect(0, 0, L.W, L.H);
 
@@ -17929,25 +17972,25 @@ function initInternalBLSimulation() {
             ctx.fillStyle = 'rgba(251,146,60,0.18)'; ctx.fill();
 
             // BL edge curves
-            ['top','bot'].forEach(function(side) {
+            ['top', 'bot'].forEach(function (side) {
                 ctx.beginPath(); ctx.strokeStyle = 'rgba(251,146,60,0.90)'; ctx.lineWidth = 2.0;
                 for (var k = 0; k <= 300; k++) {
                     var xkS = k / 300;                                 // 0..1 within developing zone
-                    var dk  = Math.min(1.0, Math.sqrt(xkS) * 1.1);
+                    var dk = Math.min(1.0, Math.sqrt(xkS) * 1.1);
                     var xk2 = L.pipeLeft + xkS * fdVisual * L.pipeW;
-                    var yk  = (side === 'top') ? (L.pipeTop + dk * L.pipeR) : (L.pipeBottom - dk * L.pipeR);
+                    var yk = (side === 'top') ? (L.pipeTop + dk * L.pipeR) : (L.pipeBottom - dk * L.pipeR);
                     if (k === 0) ctx.moveTo(xk2, yk); else ctx.lineTo(xk2, yk);
                 }
                 ctx.stroke();
             });
         }
-        
+
         // Thermal Boundary Layer shading
         if (showT && !noThermal) {
             var isHeating = Ts > TfIn;
             var tColorFill = isHeating ? 'rgba(244,63,94,0.15)' : 'rgba(56,189,248,0.15)';
             var tColorEdge = isHeating ? 'rgba(244,63,94,0.90)' : 'rgba(56,189,248,0.90)';
-            
+
             // Top Thermal BL fill
             ctx.beginPath();
             for (var i = 0; i <= 200; i++) {
@@ -17975,14 +18018,14 @@ function initInternalBLSimulation() {
             ctx.fillStyle = tColorFill; ctx.fill();
 
             // Thermal BL edge curves
-            ['top','bot'].forEach(function(side) {
+            ['top', 'bot'].forEach(function (side) {
                 ctx.beginPath(); ctx.strokeStyle = tColorEdge; ctx.lineWidth = 2.0; ctx.setLineDash([4, 4]);
                 for (var k = 0; k <= 300; k++) {
                     var xnVis = k / 300;
                     var xk2 = L.pipeLeft + xnVis * L.pipeW;
                     var xnScaled = xnVis / physScaleT;
-                    var dkT  = Math.min(1.0, Math.sqrt(xnScaled) * 1.1);
-                    var yk  = (side === 'top') ? (L.pipeTop + dkT * L.pipeR) : (L.pipeBottom - dkT * L.pipeR);
+                    var dkT = Math.min(1.0, Math.sqrt(xnScaled) * 1.1);
+                    var yk = (side === 'top') ? (L.pipeTop + dkT * L.pipeR) : (L.pipeBottom - dkT * L.pipeR);
                     if (k === 0) ctx.moveTo(xk2, yk); else ctx.lineTo(xk2, yk);
                 }
                 ctx.stroke(); ctx.setLineDash([]);
@@ -17995,18 +18038,18 @@ function initInternalBLSimulation() {
             // Positions in "visual" space (0=inlet, 1=pipe end)
             // Use fixed absolute positions so profiles don't bunch up when fdVisual shrinks
             var posVis = [0.06, 0.18, 0.35, 0.55, 0.75, 0.92];
-            posVis = posVis.filter(function(p){ return p > 0.01 && p < 0.99; });
+            posVis = posVis.filter(function (p) { return p > 0.01 && p < 0.99; });
             // maxArr scales with Re: higher Re = higher U_avg = higher u_max
             // Clamped so arrows fit inside pipe at extreme Re values
             var maxArr = L.pipeR * 0.80 * Math.max(0.28, Math.min(velScale, 1.0));
             pos2 = posVis;
-            pos2.forEach(function(pxnVis) {
-                var px   = L.pipeLeft + pxnVis * L.pipeW;
+            pos2.forEach(function (pxnVis) {
+                var px = L.pipeLeft + pxnVis * L.pipeW;
                 var isFD = pxnVis >= fdVisual;
                 // Map visual position to physics fraction within dev zone (0..1) or FD (1)
                 var pxnPhys = isFD ? 1.0 : (pxnVis / fdVisual);
                 var pxn = pxnPhys;
-                var col  = isFD ? '#34d399' : '#38bdf8';
+                var col = isFD ? '#34d399' : '#38bdf8';
                 ctx.beginPath(); ctx.strokeStyle = col; ctx.lineWidth = 1.6; ctx.globalAlpha = 0.5;
                 for (var j = 0; j <= 60; j++) {
                     var yn2 = -1 + 2 * j / 60;
@@ -18018,7 +18061,7 @@ function initInternalBLSimulation() {
                 ctx.lineWidth = 1.1;
                 for (var j2 = 0; j2 <= 18; j2++) {
                     var yn3 = -1 + 2 * j2 / 18;
-                    var al  = uProfile(pxnPhys, yn3, Re) * maxArr * 0.55;
+                    var al = uProfile(pxnPhys, yn3, Re) * maxArr * 0.55;
                     var yt3 = L.pipeYc + yn3 * L.pipeR;
                     ctx.globalAlpha = 0.75;
                     ctx.beginPath(); ctx.strokeStyle = col; ctx.moveTo(px, yt3); ctx.lineTo(px + al, yt3); ctx.stroke();
@@ -18029,14 +18072,14 @@ function initInternalBLSimulation() {
                     }
                 }
                 ctx.globalAlpha = 1.0;
-                
+
                 if (showT && !noThermal) {
                     var pxnPhysT = pxnVis / physScaleT;
                     var tCol = Ts > TfIn ? '#f43f5e' : '#38bdf8'; // red if heating, blue if cooling
                     ctx.beginPath(); ctx.strokeStyle = tCol; ctx.lineWidth = 1.6; ctx.setLineDash([2, 2]);
                     var deltaT_mag = Math.abs(Ts - TfIn);
                     var tScale = Math.min(Math.max(deltaT_mag / 60.0, 0.15), 1.6);
-                    
+
                     // The temperature profile curve
                     for (var j3 = 0; j3 <= 60; j3++) {
                         var yn4 = -1 + 2 * j3 / 60;
@@ -18045,7 +18088,7 @@ function initInternalBLSimulation() {
                             tv = 1.0 - tv;
                         }
                         // Scale it proportionally to temperature difference
-                        var tt = px + tv * tScale * maxArr * 0.55; 
+                        var tt = px + tv * tScale * maxArr * 0.55;
                         var yt4 = L.pipeYc + yn4 * L.pipeR;
                         if (j3 === 0) ctx.moveTo(tt, yt4); else ctx.lineTo(tt, yt4);
                     }
@@ -18060,7 +18103,7 @@ function initInternalBLSimulation() {
         ctx.beginPath();
         for (var fp = 0; fp <= 60; fp++) {
             var fyn = -1 + 2 * fp / 60;
-            var fv  = uProfile(1.0, fyn, Re);                           // normalized (0..2)
+            var fv = uProfile(1.0, fyn, Re);                           // normalized (0..2)
             var fxt = fdX + fv * (L.pipeR * 0.42) * fdArrScale;    // scale with Re
             var fyt = L.pipeYc + fyn * L.pipeR;
             if (fp === 0) ctx.moveTo(fxt, fyt); else ctx.lineTo(fxt, fyt);
@@ -18085,7 +18128,7 @@ function initInternalBLSimulation() {
 
         // Pipe walls
         ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 3;
-        ctx.beginPath(); ctx.moveTo(L.pipeLeft, L.pipeTop);    ctx.lineTo(L.pipeRight, L.pipeTop);    ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(L.pipeLeft, L.pipeTop); ctx.lineTo(L.pipeRight, L.pipeTop); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(L.pipeLeft, L.pipeBottom); ctx.lineTo(L.pipeRight, L.pipeBottom); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(L.pipeLeft, L.pipeTop - 8); ctx.lineTo(L.pipeLeft, L.pipeBottom + 8); ctx.stroke();
 
@@ -18098,14 +18141,14 @@ function initInternalBLSimulation() {
         // Particles — speed proportional to Re so higher Re = faster tracers
         if (particles.length === 0) buildParticles();
         var dt = 0.0025 * speed * velScale;
-        
+
         if (typeof canvas.particleTimer === 'undefined') canvas.particleTimer = 0;
         canvas.particleTimer += velScale;
         // Spawn a vertical column periodically so they trace out the velocity profile visibly
         if (canvas.particleTimer > 60) {
             canvas.particleTimer = 0;
-            for(var pi = 0; pi <= 12; pi++) {
-                particles.push({ xn: 0.0, yn: (pi/12) * 1.94 - 0.97 });
+            for (var pi = 0; pi <= 12; pi++) {
+                particles.push({ xn: 0.0, yn: (pi / 12) * 1.94 - 0.97 });
             }
         }
 
@@ -18115,26 +18158,26 @@ function initInternalBLSimulation() {
             var pPhys = isInFD ? 1.0 : (p.xn / fdVisual);
             var v = Math.max(0.02, uProfile(pPhys, p.yn, Re));
             p.xn += v * dt * 0.40;
-            
+
             if (Re >= 2300) {
                 var turbulenceIntensity = Re > 4000 ? 0.05 : 0.05 * ((Re - 2300) / 1700);
                 p.yn += (Math.random() - 0.5) * turbulenceIntensity;
                 if (p.yn > 0.95) p.yn = 0.95;
                 if (p.yn < -0.95) p.yn = -0.95;
             }
-            
+
             if (p.xn > 1.02) {
                 particles.splice(i, 1);
                 continue;
             }
-            
+
             var px2 = L.pipeLeft + p.xn * L.pipeW;
-            var py2 = L.pipeYc  + p.yn * L.pipeR;
+            var py2 = L.pipeYc + p.yn * L.pipeR;
             var fd2 = p.xn >= fdVisual;
             var pPhys2 = fd2 ? 1.0 : (p.xn / fdVisual);
             var dk2 = Math.min(1.0, Math.sqrt(pPhys2) * 1.1);
-            var nw  = Math.abs(p.yn) > (1.0 - dk2 * 0.55);
-            var c2  = fd2 ? '#34d399' : (nw ? 'rgba(251,146,60,0.95)' : '#60a5fa');
+            var nw = Math.abs(p.yn) > (1.0 - dk2 * 0.55);
+            var c2 = fd2 ? '#34d399' : (nw ? 'rgba(251,146,60,0.95)' : '#60a5fa');
             ctx.beginPath(); ctx.arc(px2, py2, 2.8, 0, Math.PI * 2);
             ctx.fillStyle = c2; ctx.globalAlpha = 0.85; ctx.fill(); ctx.globalAlpha = 1.0;
         }
@@ -18150,22 +18193,22 @@ function initInternalBLSimulation() {
         ctx.save();
         ctx.strokeStyle = '#f59e0b'; ctx.fillStyle = '#f59e0b'; ctx.lineWidth = 1.2;
         ctx.beginPath(); ctx.moveTo(L.pipeLeft + 6, L.pipeBottom + 18); ctx.lineTo(fdX - 6, L.pipeBottom + 18); ctx.stroke();
-        [[L.pipeLeft + 6, -1], [fdX - 6, 1]].forEach(function(arr) {
+        [[L.pipeLeft + 6, -1], [fdX - 6, 1]].forEach(function (arr) {
             ctx.beginPath(); ctx.moveTo(arr[0], L.pipeBottom + 18);
-            ctx.lineTo(arr[0] + 6*arr[1], L.pipeBottom + 14);
-            ctx.lineTo(arr[0] + 6*arr[1], L.pipeBottom + 22);
+            ctx.lineTo(arr[0] + 6 * arr[1], L.pipeBottom + 14);
+            ctx.lineTo(arr[0] + 6 * arr[1], L.pipeBottom + 22);
             ctx.closePath(); ctx.fill();
         });
         ctx.font = '10px Outfit, sans-serif'; ctx.textAlign = 'center';
         ctx.fillText('Lₕ = 0.05 · Re · D = ' + Lh + ' m',
-                     (L.pipeLeft + fdX) / 2, L.pipeBottom + 31);
+            (L.pipeLeft + fdX) / 2, L.pipeBottom + 31);
         ctx.restore();
 
         // Wall / CL text
         ctx.font = '10px Outfit, sans-serif'; ctx.fillStyle = '#94a3b8'; ctx.textAlign = 'left';
         ctx.fillText('Pared', L.pipeLeft + 4, L.pipeTop - 4);
         ctx.fillText('Pared', L.pipeLeft + 4, L.pipeBottom + 13);
-        ctx.fillText('CL',    L.pipeLeft + 4, L.pipeYc + 4);
+        ctx.fillText('CL', L.pipeLeft + 4, L.pipeYc + 4);
 
         // BL legend
         if (showB) {
@@ -18182,7 +18225,7 @@ function initInternalBLSimulation() {
 
     var pane = document.getElementById('internal-bl-sim');
     if (pane) {
-        new IntersectionObserver(function(entries) {
+        new IntersectionObserver(function (entries) {
             if (!entries[0].isIntersecting) { if (animId) { cancelAnimationFrame(animId); animId = null; } }
             else { if (!animId) draw(); }
         }, { threshold: 0.1 }).observe(pane);
@@ -18195,38 +18238,45 @@ function initInternalBLSimulation() {
 // =========================================================================
 // COMMUNITY COMMENT WALL SYSTEM (LOCALSTORAGE ENGINE + FIREBASE READY)
 // =========================================================================
-(function() {
+(function () {
     let currentUser = null;
     let selectedAvatar = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/GodfreyKneller-IsaacNewton-1689.jpg/330px-GodfreyKneller-IsaacNewton-1689.jpg";
     let commentCurrentPage = 1;
     const firebaseConfig = {
-      apiKey: "AIzaSyCVeHphav65sj851u72ikIcDXY1e2BN3Qk",
-      authDomain: "thermal-science-history.firebaseapp.com",
-      projectId: "thermal-science-history",
-      storageBucket: "thermal-science-history.firebasestorage.app",
-      messagingSenderId: "820331402760",
-      appId: "1:820331402760:web:706f1ea98599a474ce23bd",
-      measurementId: "G-X3KWMMZE1J"
+        apiKey: "AIzaSyCVeHphav65sj851u72ikIcDXY1e2BN3Qk",
+        authDomain: "thermal-science-history.firebaseapp.com",
+        projectId: "thermal-science-history",
+        storageBucket: "thermal-science-history.firebasestorage.app",
+        messagingSenderId: "820331402760",
+        appId: "1:820331402760:web:706f1ea98599a474ce23bd",
+        measurementId: "G-X3KWMMZE1J"
     };
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
+    let database = null;
+    try {
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        database = firebase.database();
+    } catch (e) {
+        console.warn("Firebase Database could not be initialized. Please check your databaseURL.", e);
     }
-    const database = firebase.database();
 
     // Helper to fetch from cloud with fallback
     async function cloudFetch(key, defaultValue) {
-        try {
-            const snapshot = await database.ref(key).once('value');
-            if (snapshot.exists()) {
-                let val = snapshot.val();
-                // Firebase a veces convierte Arrays en Objetos si tienen índices faltantes.
-                if (Array.isArray(defaultValue) && !Array.isArray(val) && val !== null && typeof val === 'object') {
-                    val = Object.values(val);
+        if (database) {
+            try {
+                const snapshot = await database.ref(key).once('value');
+                if (snapshot.exists()) {
+                    let val = snapshot.val();
+                    // Firebase a veces convierte Arrays en Objetos si tienen índices faltantes.
+                    if (Array.isArray(defaultValue) && !Array.isArray(val) && val !== null && typeof val === 'object') {
+                        val = Object.values(val);
+                    }
+                    return val || defaultValue;
                 }
-                return val || defaultValue;
+            } catch (e) {
+                console.warn("Cloud read failed, using localStorage fallback:", e);
             }
-        } catch (e) {
-            console.warn("Cloud read failed, using localStorage fallback:", e);
         }
         return JSON.parse(localStorage.getItem(`ht_${key}`) || JSON.stringify(defaultValue));
     }
@@ -18234,10 +18284,12 @@ function initInternalBLSimulation() {
     // Helper to save to cloud & local
     async function cloudSave(key, data) {
         localStorage.setItem(`ht_${key}`, JSON.stringify(data));
-        try {
-            await database.ref(key).set(data);
-        } catch (e) {
-            console.error("Cloud write failed:", e);
+        if (database) {
+            try {
+                await database.ref(key).set(data);
+            } catch (e) {
+                console.error("Cloud write failed:", e);
+            }
         }
     }
 
@@ -18253,11 +18305,11 @@ function initInternalBLSimulation() {
 
         const cloudComments = await cloudFetch("comments", []);
         let localComments = JSON.parse(localStorage.getItem("ht_comments") || "[]");
-        
+
         const commentMap = new Map();
         localComments.forEach(c => commentMap.set(c.id, c));
         cloudComments.forEach(c => commentMap.set(c.id, c));
-        
+
         // Ensure default comments of the three scientists are ALWAYS present
         defaultComments.forEach(defComm => {
             if (!commentMap.has(defComm.id)) {
@@ -18266,7 +18318,7 @@ function initInternalBLSimulation() {
         });
 
         const mergedComments = Array.from(commentMap.values()).sort((a, b) => b.timestamp - a.timestamp);
-        
+
         let needsSave = false;
         mergedComments.forEach(comment => {
             if (comment.avatar && comment.avatar.includes("Jean_Baptiste_Joseph_Fourier.jpg")) {
@@ -18293,7 +18345,7 @@ function initInternalBLSimulation() {
             author: "Sir Isaac Newton",
             avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/GodfreyKneller-IsaacNewton-1689.jpg/330px-GodfreyKneller-IsaacNewton-1689.jpg",
             role: "Hero",
-            text: "¡Este laboratorio de termociencias es fascinante! Me alegra ver que mi Ley de Enfriamiento sigue vigente.",
+            text: "¡Este laboratorio de termociencias es fascinante! Me alegra ver que mi Ley de Enfriamiento sigue vigente. Wow! acabo de observar que otros científicos e ingenieros avanzaron la ciencia y la ingeniería con mis descubrimientos. Wow, jamás imaginé que habían colores más allá de los que difractados por el prisma",
             timestamp: Date.now() - 3600000 * 24 // 1 day ago
         },
         {
@@ -18337,18 +18389,18 @@ function initInternalBLSimulation() {
                     img.className = "avatar-option" + (first ? " selected" : "");
                     img.src = ev.image;
                     img.title = ev.surname;
-                    
+
                     if (first) {
                         selectedAvatar = ev.image;
                         first = false;
                     }
-                    
+
                     img.addEventListener("click", () => {
                         document.querySelectorAll("#register-avatar-selector .avatar-option").forEach(opt => opt.classList.remove("selected"));
                         img.classList.add("selected");
                         selectedAvatar = ev.image;
                     });
-                    
+
                     avatarContainer.appendChild(img);
                 }
             });
@@ -18368,7 +18420,7 @@ function initInternalBLSimulation() {
         syncFromCloud();
     }
 
-    window.switchAuthTab = function(tab) {
+    window.switchAuthTab = function (tab) {
         const loginForm = document.getElementById("auth-login-form");
         const registerForm = document.getElementById("auth-register-form");
         const loginBtn = document.getElementById("auth-tab-login");
@@ -18403,15 +18455,15 @@ function initInternalBLSimulation() {
         }
     };
 
-    window.selectAvatar = function(element, avatarUrl) {
+    window.selectAvatar = function (element, avatarUrl) {
         document.querySelectorAll(".avatar-option").forEach(opt => opt.classList.remove("selected"));
         element.classList.add("selected");
         selectedAvatar = avatarUrl;
     };
 
-    window.handleAuthSubmit = function(event, type) {
+    window.handleAuthSubmit = function (event, type) {
         if (event) event.preventDefault();
-        
+
         if (type === 'register') {
             const name = document.getElementById("register-name").value.trim();
             const email = document.getElementById("register-email").value.trim().toLowerCase();
@@ -18447,7 +18499,7 @@ function initInternalBLSimulation() {
             // Automatically login
             currentUser = { id: newUser.id, name: newUser.name, email: newUser.email, avatar: newUser.avatar, role: newUser.role };
             localStorage.setItem("ht_logged_user", JSON.stringify(currentUser));
-            
+
             if (errorMsg) errorMsg.style.display = "none";
             showLoggedInState();
             syncFromCloud();
@@ -18479,13 +18531,13 @@ function initInternalBLSimulation() {
         }
     };
 
-    window.handleLogOut = function() {
+    window.handleLogOut = function () {
         currentUser = null;
         localStorage.removeItem("ht_logged_user");
         showLoggedOutState();
     };
 
-    window.handlePostComment = function() {
+    window.handlePostComment = function () {
         if (!currentUser) {
             alert(window.currentLanguage === 'en' ? "Please log in or register to comment." : "Por favor inicia sesión o regístrate para comentar.");
             return;
@@ -18520,7 +18572,7 @@ function initInternalBLSimulation() {
         document.getElementById("auth-logged-in-state").style.display = "block";
         document.getElementById("user-profile-avatar").src = currentUser.avatar;
         document.getElementById("user-profile-name").textContent = currentUser.name;
-        
+
         let displayRole = currentUser.role;
         if (currentUser.role === "Administrador" && window.currentLanguage === 'en') {
             displayRole = "Administrator";
@@ -18546,7 +18598,7 @@ function initInternalBLSimulation() {
         if (!container) return;
 
         let comments = JSON.parse(localStorage.getItem("ht_comments") || "[]");
-        
+
         // Auto-fix legacy broken avatar URLs cached in user's browser localStorage
         let needsSave = false;
         comments.forEach(comment => {
@@ -18563,27 +18615,27 @@ function initInternalBLSimulation() {
                 needsSave = true;
             }
         });
-        
+
         if (comments.length === 0) {
             comments = [...defaultComments];
             needsSave = true;
         }
-        
+
         if (needsSave) {
             localStorage.setItem("ht_comments", JSON.stringify(comments));
         }
 
         container.innerHTML = "";
-        
+
         // Pagination logic
         const itemsPerPage = 20;
         const totalPages = Math.ceil(comments.length / itemsPerPage);
-        
+
         // Ensure current page is valid
         if (commentCurrentPage > totalPages) {
             commentCurrentPage = Math.max(1, totalPages);
         }
-        
+
         const startIndex = (commentCurrentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         const paginatedComments = comments.slice(startIndex, endIndex);
@@ -18591,7 +18643,7 @@ function initInternalBLSimulation() {
         paginatedComments.forEach(comment => {
             const card = document.createElement("div");
             card.className = "comment-card";
-            
+
             const date = new Date(comment.timestamp);
             const timeStr = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 
@@ -18663,8 +18715,8 @@ function initInternalBLSimulation() {
             indicator.style.fontSize = "0.8rem";
             indicator.style.color = "var(--text-secondary)";
             indicator.style.fontWeight = "600";
-            indicator.innerHTML = window.currentLanguage === 'en' 
-                ? `Page ${commentCurrentPage} of ${totalPages}` 
+            indicator.innerHTML = window.currentLanguage === 'en'
+                ? `Page ${commentCurrentPage} of ${totalPages}`
                 : `Página ${commentCurrentPage} de ${totalPages}`;
 
             const nextBtn = document.createElement("button");
@@ -18691,9 +18743,9 @@ function initInternalBLSimulation() {
         }
     }
 
-    window.deleteComment = function(commentId) {
+    window.deleteComment = function (commentId) {
         if (!currentUser || currentUser.role !== "Administrador") return;
-        
+
         const confirmDelete = confirm(window.currentLanguage === 'en' ? "Are you sure you want to delete this comment?" : "¿Estás seguro de que deseas borrar este comentario?");
         if (!confirmDelete) return;
 
