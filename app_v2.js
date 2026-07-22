@@ -18199,15 +18199,26 @@ function initInternalBLSimulation() {
     let currentUser = null;
     let selectedAvatar = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/GodfreyKneller-IsaacNewton-1689.jpg/330px-GodfreyKneller-IsaacNewton-1689.jpg";
     let commentCurrentPage = 1;
-    const BUCKET_URL = "https://kvdb.io/XSFFmaPeEnZSRDXeczAcT9";
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVeHphav65sj851u72ikIcDXY1e2BN3Qk",
+      authDomain: "thermal-science-history.firebaseapp.com",
+      databaseURL: "https://thermal-science-history-default-rtdb.firebaseio.com",
+      projectId: "thermal-science-history",
+      storageBucket: "thermal-science-history.firebasestorage.app",
+      messagingSenderId: "820331402760",
+      appId: "1:820331402760:web:706f1ea98599a474ce23bd"
+    };
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const database = firebase.database();
 
     // Helper to fetch from cloud with fallback
     async function cloudFetch(key, defaultValue) {
         try {
-            const res = await fetch(`${BUCKET_URL}/${key}`);
-            if (res.ok) {
-                const data = await res.json();
-                return data;
+            const snapshot = await database.ref(key).once('value');
+            if (snapshot.exists()) {
+                return snapshot.val();
             }
         } catch (e) {
             console.warn("Cloud read failed, using localStorage fallback:", e);
@@ -18219,11 +18230,7 @@ function initInternalBLSimulation() {
     async function cloudSave(key, data) {
         localStorage.setItem(`ht_${key}`, JSON.stringify(data));
         try {
-            await fetch(`${BUCKET_URL}/${key}`, {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: { 'Content-Type': 'application/json' }
-            });
+            await database.ref(key).set(data);
         } catch (e) {
             console.error("Cloud write failed:", e);
         }
