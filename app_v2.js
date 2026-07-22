@@ -18509,25 +18509,40 @@ function initInternalBLSimulation() {
             const password = document.getElementById("login-password").value;
             const errorMsg = document.getElementById("login-error-msg");
 
-            // Fetch users from cloud first to ensure we have any newly registered users from other devices
-            cloudFetch("users", []).then(users => {
-                localStorage.setItem("ht_registered_users", JSON.stringify(users));
+            const attemptLogin = (users) => {
                 const user = users.find(u => u.email === email && u.password === password);
+                if (user) {
+                    currentUser = { id: user.id, name: user.name, email: user.email, avatar: user.avatar, role: user.role };
+                    localStorage.setItem("ht_logged_user", JSON.stringify(currentUser));
+                    if (errorMsg) errorMsg.style.display = "none";
+                    showLoggedInState();
+                    syncFromCloud();
+                    return true;
+                }
+                return false;
+            };
 
-                if (!user) {
+            // 1. Try instant login with local users first
+            const localUsers = JSON.parse(localStorage.getItem("ht_registered_users") || "[]");
+            if (attemptLogin(localUsers)) {
+                return;
+            }
+
+            // 2. Fallback to cloud users if not found locally
+            cloudFetch("users", []).then(cloudUsers => {
+                const allUsers = [...localUsers];
+                (cloudUsers || []).forEach(cu => {
+                    if (!allUsers.some(u => u.email === cu.email)) {
+                        allUsers.push(cu);
+                    }
+                });
+                localStorage.setItem("ht_registered_users", JSON.stringify(allUsers));
+                if (!attemptLogin(allUsers)) {
                     if (errorMsg) {
                         errorMsg.textContent = window.currentLanguage === 'en' ? "Invalid email or password." : "Correo o contraseña inválidos.";
                         errorMsg.style.display = "block";
                     }
-                    return;
                 }
-
-                currentUser = { id: user.id, name: user.name, email: user.email, avatar: user.avatar, role: user.role };
-                localStorage.setItem("ht_logged_user", JSON.stringify(currentUser));
-
-                if (errorMsg) errorMsg.style.display = "none";
-                showLoggedInState();
-                syncFromCloud();
             });
         }
     };
@@ -18617,12 +18632,18 @@ function initInternalBLSimulation() {
             }
         });
 
-        // Always ensure default comments (scientists) are present in the list
+        // Always ensure default comments (scientists) are present and updated in the list
         defaultComments.forEach(defComm => {
-            const exists = comments.some(c => String(c.id) === String(defComm.id) || c.author === defComm.author);
-            if (!exists) {
+            const existing = comments.find(c => String(c.id) === String(defComm.id) || c.author === defComm.author);
+            if (!existing) {
                 comments.push(defComm);
                 needsSave = true;
+            } else {
+                if (existing.text !== defComm.text || existing.avatar !== defComm.avatar) {
+                    existing.text = defComm.text;
+                    existing.avatar = defComm.avatar;
+                    needsSave = true;
+                }
             }
         });
 
