@@ -18242,100 +18242,99 @@ function initInternalBLSimulation() {
     let currentUser = null;
     let selectedAvatar = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/GodfreyKneller-IsaacNewton-1689.jpg/330px-GodfreyKneller-IsaacNewton-1689.jpg";
     let commentCurrentPage = 1;
-    const firebaseConfig = {
-        apiKey: "AIzaSyCVeHphav65sj851u72ikIcDXY1e2BN3Qk",
-        authDomain: "thermal-science-history.firebaseapp.com",
-        projectId: "thermal-science-history",
-        storageBucket: "thermal-science-history.firebasestorage.app",
-        messagingSenderId: "820331402760",
-        appId: "1:820331402760:web:706f1ea98599a474ce23bd",
-        measurementId: "G-X3KWMMZE1J"
+    const CLOUD_ENDPOINTS = {
+        comments: "https://jsonblob.com/api/jsonBlob/019f91c0-e461-7be7-bb4c-9768e308e84a",
+        users: "https://jsonblob.com/api/jsonBlob/019f91c0-e71c-7374-82c8-cee3df14a6d1"
     };
-    let database = null;
-    try {
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-        database = firebase.database();
-    } catch (e) {
-        console.warn("Firebase Database could not be initialized. Please check your databaseURL.", e);
-    }
 
     // Helper to fetch from cloud with fallback
-    async function cloudFetch(key, defaultValue) {
-        if (database) {
-            try {
-                const snapshot = await database.ref(key).once('value');
-                if (snapshot.exists()) {
-                    let val = snapshot.val();
-                    // Firebase a veces convierte Arrays en Objetos si tienen índices faltantes.
-                    if (Array.isArray(defaultValue) && !Array.isArray(val) && val !== null && typeof val === 'object') {
-                        val = Object.values(val);
-                    }
-                    return val || defaultValue;
-                }
-            } catch (e) {
-                console.warn("Cloud read failed, using localStorage fallback:", e);
+    async function cloudFetch(key, defaultValue = null) {
+        const url = CLOUD_ENDPOINTS[key];
+        if (!url) return defaultValue;
+        try {
+            const res = await fetch(url, {
+                headers: { 'Accept': 'application/json' }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                return data;
             }
+        } catch (e) {
+            console.warn(`Cloud read failed for ${key}, using localStorage fallback:`, e);
         }
-        return JSON.parse(localStorage.getItem(`ht_${key}`) || JSON.stringify(defaultValue));
+        return defaultValue;
     }
 
     // Helper to save to cloud & local
     async function cloudSave(key, data) {
         localStorage.setItem(`ht_${key}`, JSON.stringify(data));
-        if (database) {
-            try {
-                await database.ref(key).set(data);
-            } catch (e) {
-                console.error("Cloud write failed:", e);
-            }
+        const url = CLOUD_ENDPOINTS[key];
+        if (!url) return;
+        try {
+            await fetch(url, {
+                method: 'PUT',
+                body: JSON.stringify(data),
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            });
+        } catch (e) {
+            console.error(`Cloud write failed for ${key}:`, e);
         }
     }
 
     async function syncFromCloud() {
-        const cloudUsers = await cloudFetch("users", []);
+        const cloudUsers = await cloudFetch("users", null);
         const localUsers = JSON.parse(localStorage.getItem("ht_registered_users") || "[]");
         const userMap = new Map();
         localUsers.forEach(u => userMap.set(u.email, u));
-        cloudUsers.forEach(u => userMap.set(u.email, u));
+        if (Array.isArray(cloudUsers)) {
+            cloudUsers.forEach(u => userMap.set(u.email, u));
+        }
         const mergedUsers = Array.from(userMap.values());
         localStorage.setItem("ht_registered_users", JSON.stringify(mergedUsers));
-        await cloudSave("users", mergedUsers);
 
-        const cloudComments = await cloudFetch("comments", []);
+        if (mergedUsers.length > (Array.isArray(cloudUsers) ? cloudUsers.length : 0)) {
+            await cloudSave("users", mergedUsers);
+        }
+
+        const cloudComments = await cloudFetch("comments", null);
         let localComments = JSON.parse(localStorage.getItem("ht_comments") || "[]");
-
+        
         const commentMap = new Map();
-        localComments.forEach(c => commentMap.set(c.id, c));
-        cloudComments.forEach(c => commentMap.set(c.id, c));
-
-        // Ensure default comments of the three scientists are ALWAYS present
+        // 1. Always seed default scientist comments
         defaultComments.forEach(defComm => {
-            if (!commentMap.has(defComm.id)) {
-                commentMap.set(defComm.id, defComm);
-            }
+            commentMap.set(defComm.id, defComm);
         });
+        // 2. Add comments fetched from cloud
+        if (Array.isArray(cloudComments)) {
+            cloudComments.forEach(c => commentMap.set(c.id, c));
+        }
+        // 3. Add local comments (preserves user's comments from this browser)
+        localComments.forEach(c => commentMap.set(c.id, c));
 
         const mergedComments = Array.from(commentMap.values()).sort((a, b) => b.timestamp - a.timestamp);
-
-        let needsSave = false;
+        
         mergedComments.forEach(comment => {
             if (comment.avatar && comment.avatar.includes("Jean_Baptiste_Joseph_Fourier.jpg")) {
                 comment.avatar = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Fourier2_-_restoration1.jpg/330px-Fourier2_-_restoration1.jpg";
-                needsSave = true;
             }
             if (comment.avatar && comment.avatar.includes("Sadi_Carnot_in_military_uniform.jpg")) {
                 comment.avatar = "Sadi_Carnot.jpeg";
-                needsSave = true;
             }
             if (comment.avatar && comment.avatar.includes("Jpjoule.jpg")) {
                 comment.avatar = "joule.jpg";
-                needsSave = true;
             }
         });
+
         localStorage.setItem("ht_comments", JSON.stringify(mergedComments));
-        await cloudSave("comments", mergedComments);
+
+        const cloudCount = Array.isArray(cloudComments) ? cloudComments.length : 0;
+        if (mergedComments.length > cloudCount) {
+            await cloudSave("comments", mergedComments);
+        }
+
         drawComments();
     }
 
@@ -18345,7 +18344,7 @@ function initInternalBLSimulation() {
             author: "Sir Isaac Newton",
             avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/GodfreyKneller-IsaacNewton-1689.jpg/330px-GodfreyKneller-IsaacNewton-1689.jpg",
             role: "Hero",
-            text: "¡Este laboratorio de termociencias es fascinante! Me alegra ver que mi Ley de Enfriamiento sigue vigente. Wow! acabo de observar que otros científicos e ingenieros avanzaron la ciencia y la ingeniería con mis descubrimientos. Wow, jamás imaginé que habían colores más allá de los que difractados por el prisma",
+            text: "¡Este laboratorio de termociencias es fascinante! Me alegra ver que mi Ley de Enfriamiento sigue vigente. Acabo de observar que otros científicos e ingenieros avanzaron la ciencia y la ingeniería con mis descubrimientos. Jamás imaginé que habían colores más allá de los que difractados por el prisma",
             timestamp: Date.now() - 3600000 * 24 // 1 day ago
         },
         {
