@@ -18274,7 +18274,7 @@ function initInternalBLSimulation() {
             await fetch(url, {
                 method: 'PUT',
                 body: JSON.stringify(data),
-                headers: { 
+                headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 }
@@ -18301,7 +18301,7 @@ function initInternalBLSimulation() {
 
         const cloudComments = await cloudFetch("comments", null);
         let localComments = JSON.parse(localStorage.getItem("ht_comments") || "[]");
-        
+
         const commentMap = new Map();
         // 1. Always seed default scientist comments
         defaultComments.forEach(defComm => {
@@ -18315,7 +18315,7 @@ function initInternalBLSimulation() {
         localComments.forEach(c => commentMap.set(c.id, c));
 
         const mergedComments = Array.from(commentMap.values()).sort((a, b) => b.timestamp - a.timestamp);
-        
+
         mergedComments.forEach(comment => {
             if (comment.avatar && comment.avatar.includes("Jean_Baptiste_Joseph_Fourier.jpg")) {
                 comment.avatar = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Fourier2_-_restoration1.jpg/330px-Fourier2_-_restoration1.jpg";
@@ -18344,7 +18344,7 @@ function initInternalBLSimulation() {
             author: "Sir Isaac Newton",
             avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/GodfreyKneller-IsaacNewton-1689.jpg/330px-GodfreyKneller-IsaacNewton-1689.jpg",
             role: "Hero",
-            text: "¡Este laboratorio de termociencias es fascinante! Me alegra ver que mi Ley de Enfriamiento sigue vigente. Acabo de observar que otros científicos e ingenieros avanzaron la ciencia y la ingeniería con mis descubrimientos. Jamás imaginé que habían colores más allá de los que difractados por el prisma",
+            text: "¡Este laboratorio de termociencias es fascinante! Me alegra ver que mi Ley de Enfriamiento sigue vigente. Acabo de observar que otros científicos avanzaron la ciencia con mis descubrimientos. Jamás imaginé que habían colores más que los difractados por el prisma",
             timestamp: Date.now() - 3600000 * 24 // 1 day ago
         },
         {
