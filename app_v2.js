@@ -18657,46 +18657,54 @@ function initInternalBLSimulation() {
         }
     };
 
-    window.handleLogOut = function() {
-        currentUser = null;
-        localStorage.removeItem("ht_logged_user");
-        showLoggedOutState();
-    };
+    window.handlePostComment = async function(event) {
+        if (event) event.preventDefault();
 
-    window.handlePostComment = async function() {
         if (!currentUser) {
             alert(window.currentLanguage === 'en' ? "Please log in or register to comment." : "Por favor inicia sesión o regístrate para comentar.");
             return;
         }
 
         const input = document.getElementById("comment-input-text");
-        if (!input || !input.value.trim()) return;
-
-        const db = getDb();
-        if (!db) {
-            alert(window.currentLanguage === 'en' ? "Cloud connection error." : "Error de conexión con la nube.");
+        if (!input || !input.value.trim()) {
+            alert(window.currentLanguage === 'en' ? "Please write a comment before posting." : "Por favor escribe un comentario antes de publicar.");
             return;
         }
 
+        const commentText = input.value.trim();
         const commentId = Date.now();
         const newComment = {
             id: commentId,
-            author: currentUser.name,
-            avatar: currentUser.avatar,
-            role: currentUser.role,
-            text: input.value.trim(),
+            author: currentUser.name || "Usuario",
+            avatar: currentUser.avatar || selectedAvatar,
+            role: currentUser.role || "Estudiante",
+            text: commentText,
             timestamp: commentId
         };
 
-        try {
-            await db.ref("comments/comment_" + commentId).set(newComment);
-            input.value = "";
-            const counter = document.getElementById("comment-char-counter");
-            if (counter) counter.textContent = "300";
-            commentCurrentPage = 1;
-        } catch (e) {
-            console.error("Firebase post comment error:", e);
-            alert(window.currentLanguage === 'en' ? "Error posting comment." : "Error al publicar el comentario.");
+        // 1. Limpiar campo de texto y contador inmediatamente
+        input.value = "";
+        const counter = document.getElementById("comment-char-counter");
+        if (counter) counter.textContent = "300";
+
+        // 2. Renderizado instantáneo local (0ms de espera)
+        const commentMap = new Map();
+        commentMap.set(newComment.id, newComment);
+        activeCommentsList.forEach(c => {
+            if (c && c.id) commentMap.set(c.id, c);
+        });
+        activeCommentsList = Array.from(commentMap.values()).sort((a, b) => b.timestamp - a.timestamp);
+        commentCurrentPage = 1;
+        drawComments();
+
+        // 3. Guardado asíncrono en la nube de Firebase Realtime Database
+        const db = getDb();
+        if (db) {
+            try {
+                await db.ref("comments/comment_" + commentId).set(newComment);
+            } catch (e) {
+                console.warn("Advertencia al publicar comentario en Firebase RTDB:", e);
+            }
         }
     };
 
