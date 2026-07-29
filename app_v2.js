@@ -18228,34 +18228,55 @@ function initInternalBLSimulation() {
         return firebaseDb;
     }
 
-    async function processSuccessfulGoogleUser(gUser) {
-        if (!gUser) return;
-        const email = gUser.email ? gUser.email.toLowerCase() : "";
-        const isEmailAdmin = email === "felipe.colorado@udea.edu.co";
-        const avatarUrl = gUser.photoURL || selectedAvatar;
-
-        currentUser = {
-            id: Date.now(),
-            name: gUser.displayName || (email ? email.split("@")[0] : "Usuario"),
-            email: email,
-            avatar: avatarUrl,
-            role: isEmailAdmin ? "Administrador" : "Estudiante"
-        };
-
-        // Save user profile to Firebase DB if not exists
-        const db = getDb();
-        if (db && email) {
-            const userKey = email.replace(/\./g, "_at_");
-            await db.ref("users/" + userKey).update({
-                name: currentUser.name,
-                email: currentUser.email,
-                avatar: currentUser.avatar,
-                role: currentUser.role
-            });
+    async function handleAuthStateUser(firebaseUser) {
+        if (!firebaseUser) {
+            currentUser = null;
+            showLoggedOutState();
+            return;
         }
 
-        localStorage.setItem("ht_logged_user", JSON.stringify(currentUser));
+        const email = firebaseUser.email ? firebaseUser.email.toLowerCase() : "";
+        const isEmailAdmin = email === "felipe.colorado@udea.edu.co";
+        let displayName = firebaseUser.displayName || (email ? email.split("@")[0] : "Usuario");
+        let avatarUrl = firebaseUser.photoURL || selectedAvatar;
+        let role = isEmailAdmin ? "Administrador" : "Estudiante";
+
+        const db = getDb();
+        if (db && email) {
+            try {
+                const userKey = email.replace(/\./g, "_at_");
+                const snapshot = await db.ref("users/" + userKey).once("value");
+                if (snapshot.exists()) {
+                    const uData = snapshot.val();
+                    if (uData.name) displayName = uData.name;
+                    if (uData.avatar) avatarUrl = uData.avatar;
+                    if (uData.role) role = uData.role;
+                } else {
+                    await db.ref("users/" + userKey).set({
+                        name: displayName,
+                        email: email,
+                        avatar: avatarUrl,
+                        role: role
+                    });
+                }
+            } catch (err) {
+                console.warn("Error leyendo/guardando perfil de usuario en Firebase RTDB:", err);
+            }
+        }
+
+        currentUser = {
+            id: firebaseUser.uid || Date.now(),
+            name: displayName,
+            email: email,
+            avatar: avatarUrl,
+            role: role
+        };
+
         showLoggedInState();
+    }
+
+    async function processSuccessfulGoogleUser(gUser) {
+        await handleAuthStateUser(gUser);
     }
 
     window.handleGoogleSignIn = async function() {
@@ -18406,30 +18427,23 @@ function initInternalBLSimulation() {
     }
 
     function initCommentSystem() {
-        // Check for Firebase Auth Redirect Result (for Chrome fallback where popups are blocked)
+        getDb();
+
         if (typeof firebase !== 'undefined' && firebase.auth) {
             try {
-                getDb();
                 firebase.auth().getRedirectResult().then(async (result) => {
                     if (result && result.user) {
-                        await processSuccessfulGoogleUser(result.user);
+                        await handleAuthStateUser(result.user);
                     }
                 }).catch((err) => {
                     console.error("Firebase getRedirectResult error:", err);
                 });
-            } catch (err) {
-                console.error("Redirect check init error:", err);
-            }
-        }
 
-        // Load logged in session (only session state kept locally)
-        const storedUser = localStorage.getItem("ht_logged_user");
-        if (storedUser) {
-            try {
-                currentUser = JSON.parse(storedUser);
-                showLoggedInState();
-            } catch (e) {
-                showLoggedOutState();
+                firebase.auth().onAuthStateChanged(async (user) => {
+                    await handleAuthStateUser(user);
+                });
+            } catch (err) {
+                console.error("Auth listener init error:", err);
             }
         } else {
             showLoggedOutState();
@@ -18534,32 +18548,34 @@ function initInternalBLSimulation() {
             const errorMsg = document.getElementById("register-error-msg");
 
             if (!name || !email || !password) return;
+            if (errorMsg) errorMsg.style.display = "none";
 
-            // Safe key for Firebase path (replace dots)
             const userKey = email.replace(/\./g, "_at_");
 
-            if (!db) {
-                if (errorMsg) {
-                    errorMsg.textContent = window.currentLanguage === 'en' ? "Cloud database connection error." : "Error de conexión con la nube.";
-                    errorMsg.style.display = "block";
-                }
-                return;
-            }
-
             try {
-                const snapshot = await db.ref("users/" + userKey).once("value");
-                if (snapshot.exists()) {
-                    if (errorMsg) {
-                        errorMsg.textContent = window.currentLanguage === 'en' ? "Email already registered." : "El correo electrónico ya está registrado.";
-                        errorMsg.style.display = "block";
+                let firebaseUser = null;
+                if (typeof firebase !== 'undefined' && firebase.auth) {
+                    try {
+                        const userCred = await firebase.auth().createUserWithEmailAndPassword(email, password);
+                        firebaseUser = userCred.user;
+                        if (firebaseUser) {
+                            await firebaseUser.updateProfile({ displayName: name, photoURL: selectedAvatar });
+                        }
+                    } catch (authErr) {
+                        if (authErr.code === "auth/email-already-in-use") {
+                            if (errorMsg) {
+                                errorMsg.textContent = window.currentLanguage === 'en' ? "Email already registered." : "El correo electrónico ya está registrado.";
+                                errorMsg.style.display = "block";
+                            }
+                            return;
+                        }
+                        console.warn("Registro en Firebase Auth omitido/falló:", authErr);
                     }
-                    return;
                 }
 
-                // Create user profile in Firebase cloud
                 const isEmailAdmin = email === "felipe.colorado@udea.edu.co";
                 const newUser = {
-                    id: Date.now(),
+                    id: firebaseUser ? firebaseUser.uid : Date.now(),
                     name: name,
                     email: email,
                     password: password,
@@ -18567,14 +18583,14 @@ function initInternalBLSimulation() {
                     role: isEmailAdmin ? "Administrador" : "Estudiante"
                 };
 
-                await db.ref("users/" + userKey).set(newUser);
+                if (db) {
+                    await db.ref("users/" + userKey).set(newUser);
+                }
 
-                // Set session active
-                currentUser = { id: newUser.id, name: newUser.name, email: newUser.email, avatar: newUser.avatar, role: newUser.role };
-                localStorage.setItem("ht_logged_user", JSON.stringify(currentUser));
-                
-                if (errorMsg) errorMsg.style.display = "none";
-                showLoggedInState();
+                if (!firebaseUser) {
+                    currentUser = { id: newUser.id, name: newUser.name, email: newUser.email, avatar: newUser.avatar, role: newUser.role };
+                    showLoggedInState();
+                }
             } catch (e) {
                 console.error("Firebase register error:", e);
                 if (errorMsg) {
@@ -18588,34 +18604,35 @@ function initInternalBLSimulation() {
             const errorMsg = document.getElementById("login-error-msg");
 
             if (!email || !password) return;
+            if (errorMsg) errorMsg.style.display = "none";
 
             const userKey = email.replace(/\./g, "_at_");
 
-            if (!db) {
-                if (errorMsg) {
-                    errorMsg.textContent = window.currentLanguage === 'en' ? "Cloud connection error." : "Error de conexión con la nube.";
-                    errorMsg.style.display = "block";
-                }
-                return;
-            }
-
             try {
-                const snapshot = await db.ref("users/" + userKey).once("value");
-                const user = snapshot.val();
-
-                if (!user || user.password !== password) {
-                    if (errorMsg) {
-                        errorMsg.textContent = window.currentLanguage === 'en' ? "Invalid email or password." : "Correo o contraseña inválidos.";
-                        errorMsg.style.display = "block";
+                if (typeof firebase !== 'undefined' && firebase.auth) {
+                    try {
+                        await firebase.auth().signInWithEmailAndPassword(email, password);
+                        return;
+                    } catch (authErr) {
+                        console.warn("Inicio en Firebase Auth omitido/falló, verificando BD nube:", authErr.code);
                     }
-                    return;
                 }
 
-                currentUser = { id: user.id, name: user.name, email: user.email, avatar: user.avatar, role: user.role };
-                localStorage.setItem("ht_logged_user", JSON.stringify(currentUser));
+                if (db) {
+                    const snapshot = await db.ref("users/" + userKey).once("value");
+                    const user = snapshot.val();
 
-                if (errorMsg) errorMsg.style.display = "none";
-                showLoggedInState();
+                    if (!user || user.password !== password) {
+                        if (errorMsg) {
+                            errorMsg.textContent = window.currentLanguage === 'en' ? "Invalid email or password." : "Correo o contraseña inválidos.";
+                            errorMsg.style.display = "block";
+                        }
+                        return;
+                    }
+
+                    currentUser = { id: user.id, name: user.name, email: user.email, avatar: user.avatar, role: user.role };
+                    showLoggedInState();
+                }
             } catch (e) {
                 console.error("Firebase login error:", e);
                 if (errorMsg) {
@@ -18686,7 +18703,6 @@ function initInternalBLSimulation() {
 
     window.handleLogOut = function() {
         currentUser = null;
-        localStorage.removeItem("ht_logged_user");
         if (typeof firebase !== 'undefined' && firebase.auth && firebase.auth().currentUser) {
             firebase.auth().signOut().catch(console.error);
         }
