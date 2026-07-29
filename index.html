@@ -7779,6 +7779,15 @@
                                     <button type="submit" class="btn-clear" style="width:100%; font-weight:700; background: var(--accent-blue); color:white; border:none; padding: 10px; border-radius: 8px; font-size: 0.85rem; cursor:pointer; box-shadow: 0 4px 12px rgba(59,130,246,0.25);"><span class="lang-es">Acceder</span><span class="lang-en" style="display:none;">Login</span></button>
                                 </form>
 
+                                <!-- Botón Google Sign In -->
+                                <div style="margin-top: 15px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); text-align: center;">
+                                    <button type="button" onclick="window.handleGoogleSignIn()" class="btn-clear" style="width:100%; font-weight:600; background: rgba(255,255,255,0.08); color:white; border:1px solid rgba(255,255,255,0.15); padding: 9px; border-radius: 8px; font-size: 0.82rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+                                        <i class="fab fa-google" style="color: #4285F4; font-size: 0.95rem;"></i>
+                                        <span class="lang-es">Continuar con Google</span>
+                                        <span class="lang-en" style="display:none;">Continue with Google</span>
+                                    </button>
+                                </div>
+
                                 <!-- Formulario Registro -->
                                 <form id="auth-register-form" onsubmit="window.handleAuthSubmit(event, 'register')" style="display: none;">
                                     <div class="auth-form-group" style="margin-bottom: 12px;">
@@ -8060,7 +8069,19 @@
 
         </div>
 
-
+        <!-- Pie de página / Marca de actualización -->
+        <footer style="text-align: center; padding: 25px 15px; margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.08); color: var(--text-secondary); font-size: 0.82rem;">
+            <p style="margin: 0 0 6px 0;">
+                <span class="lang-es">Laboratorio Virtual de Historia de las Ciencias Térmicas</span>
+                <span class="lang-en" style="display:none;">Virtual Thermal Science History Laboratory</span>
+                &copy; 2026 — <strong style="color: var(--accent-blue);">Universidad de Antioquia</strong>
+            </p>
+            <p style="margin: 0; font-size: 0.76rem; opacity: 0.7;">
+                <i class="fas fa-sync-alt" style="margin-right: 4px; color: var(--accent-green);"></i>
+                <span class="lang-es">Última actualización: Julio 2026 (Autenticación Google Auth & Firebase v2)</span>
+                <span class="lang-en" style="display:none;">Last update: July 2026 (Google Auth & Firebase v2 Integration)</span>
+            </p>
+        </footer>
 
         <!-- MathJax configured in <head> with startup.typeset=false -->
 
@@ -8077,9 +8098,10 @@
         </script>
         <!-- Firebase SDK (compat) -->
         <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
         <script src="translations.js"></script>
-        <script src="app_v2.js?v=v2fix2"></script>
+        <script src="app_v2.js?v=v2google1"></script>
 
         <script>
             // ── Celsius Simulation – standalone, bypasses safeInit ──────────────────
