@@ -18228,7 +18228,7 @@ function initInternalBLSimulation() {
         return firebaseDb;
     }
 
-    async function handleAuthStateUser(firebaseUser) {
+    function handleAuthStateUser(firebaseUser) {
         if (!firebaseUser) {
             currentUser = null;
             showLoggedOutState();
@@ -18241,29 +18241,7 @@ function initInternalBLSimulation() {
         let avatarUrl = firebaseUser.photoURL || selectedAvatar;
         let role = isEmailAdmin ? "Administrador" : "Estudiante";
 
-        const db = getDb();
-        if (db && email) {
-            try {
-                const userKey = email.replace(/\./g, "_at_");
-                const snapshot = await db.ref("users/" + userKey).once("value");
-                if (snapshot.exists()) {
-                    const uData = snapshot.val();
-                    if (uData.name) displayName = uData.name;
-                    if (uData.avatar) avatarUrl = uData.avatar;
-                    if (uData.role) role = uData.role;
-                } else {
-                    await db.ref("users/" + userKey).set({
-                        name: displayName,
-                        email: email,
-                        avatar: avatarUrl,
-                        role: role
-                    });
-                }
-            } catch (err) {
-                console.warn("Error leyendo/guardando perfil de usuario en Firebase RTDB:", err);
-            }
-        }
-
+        // Actualizar currentUser y la interfaz DE INMEDIATO sin esperar a la base de datos
         currentUser = {
             id: firebaseUser.uid || Date.now(),
             name: displayName,
@@ -18273,10 +18251,46 @@ function initInternalBLSimulation() {
         };
 
         showLoggedInState();
+
+        // Consulta/guardado no bloqueante en segundo plano en Firebase Realtime Database
+        const db = getDb();
+        if (db && email) {
+            const userKey = email.replace(/\./g, "_at_");
+            db.ref("users/" + userKey).once("value").then((snapshot) => {
+                if (snapshot.exists()) {
+                    const uData = snapshot.val();
+                    let updated = false;
+                    if (uData.name && uData.name !== currentUser.name) {
+                        currentUser.name = uData.name;
+                        updated = true;
+                    }
+                    if (uData.avatar && uData.avatar !== currentUser.avatar) {
+                        currentUser.avatar = uData.avatar;
+                        updated = true;
+                    }
+                    if (uData.role && uData.role !== currentUser.role) {
+                        currentUser.role = uData.role;
+                        updated = true;
+                    }
+                    if (updated) {
+                        showLoggedInState();
+                    }
+                } else {
+                    db.ref("users/" + userKey).set({
+                        name: displayName,
+                        email: email,
+                        avatar: avatarUrl,
+                        role: role
+                    }).catch((e) => console.warn("Advertencia al guardar usuario en RTDB:", e));
+                }
+            }).catch((err) => {
+                console.warn("Advertencia al leer perfil de usuario en RTDB:", err);
+            });
+        }
     }
 
     async function processSuccessfulGoogleUser(gUser) {
-        await handleAuthStateUser(gUser);
+        handleAuthStateUser(gUser);
     }
 
     window.handleGoogleSignIn = async function() {
@@ -18312,7 +18326,7 @@ function initInternalBLSimulation() {
         try {
             const result = await firebase.auth().signInWithPopup(provider);
             if (result && result.user) {
-                await processSuccessfulGoogleUser(result.user);
+                handleAuthStateUser(result.user);
             }
         } catch (e) {
             console.warn("Google signInWithPopup error:", e);
@@ -18687,18 +18701,27 @@ function initInternalBLSimulation() {
     };
 
     function showLoggedInState() {
-        document.getElementById("auth-logged-out-state").style.display = "none";
-        document.getElementById("auth-logged-in-state").style.display = "block";
-        document.getElementById("user-profile-avatar").src = currentUser.avatar;
-        document.getElementById("user-profile-name").textContent = currentUser.name;
+        const loggedOutState = document.getElementById("auth-logged-out-state");
+        const loggedInState = document.getElementById("auth-logged-in-state");
+        if (loggedOutState) loggedOutState.style.display = "none";
+        if (loggedInState) loggedInState.style.display = "block";
         
-        let displayRole = currentUser.role;
-        if (currentUser.role === "Administrador" && window.currentLanguage === 'en') {
-            displayRole = "Administrator";
-        } else if (currentUser.role === "Estudiante" && window.currentLanguage === 'en') {
-            displayRole = "Student";
+        const avatarElem = document.getElementById("user-profile-avatar");
+        const nameElem = document.getElementById("user-profile-name");
+        const roleElem = document.getElementById("user-profile-role");
+
+        if (avatarElem && currentUser && currentUser.avatar) avatarElem.src = currentUser.avatar;
+        if (nameElem && currentUser && currentUser.name) nameElem.textContent = currentUser.name;
+
+        if (roleElem && currentUser && currentUser.role) {
+            let displayRole = currentUser.role;
+            if (currentUser.role === "Administrador" && window.currentLanguage === 'en') {
+                displayRole = "Administrator";
+            } else if (currentUser.role === "Estudiante" && window.currentLanguage === 'en') {
+                displayRole = "Student";
+            }
+            roleElem.textContent = displayRole;
         }
-        document.getElementById("user-profile-role").textContent = displayRole;
     }
 
     window.handleLogOut = function() {
