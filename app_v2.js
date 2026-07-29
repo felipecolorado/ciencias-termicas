@@ -18229,6 +18229,13 @@ function initInternalBLSimulation() {
     }
 
     window.handleGoogleSignIn = async function() {
+        if (window.location.protocol === 'file:') {
+            alert(window.currentLanguage === 'en' 
+                ? "Google Sign-In requires an HTTP/HTTPS web server (e.g. GitHub Pages or Live Server). When opening local HTML files directly (file://), please register or sign in using the Email & Password form above." 
+                : "El inicio de sesión con Google requiere estar en un servidor web HTTP/HTTPS (como en GitHub Pages o Live Server). Si estás abriendo el archivo HTML localmente (file://), por favor regístrate o inicia sesión usando el formulario de Correo y Contraseña arriba.");
+            return;
+        }
+
         if (typeof firebase === 'undefined' || !firebase.auth) {
             alert(window.currentLanguage === 'en' ? "Google Authentication module not loaded." : "Módulo de autenticación de Google no cargado.");
             return;
@@ -18270,7 +18277,11 @@ function initInternalBLSimulation() {
             showLoggedInState();
         } catch (e) {
             console.error("Google sign in error:", e);
-            if (e.code !== "auth/popup-closed-by-user") {
+            if (e.code === "auth/operation-not-supported-in-this-environment") {
+                alert(window.currentLanguage === 'en'
+                    ? "Google Sign-In is only supported over http/https (e.g. GitHub Pages or Live Server). Please use the Email & Password form when running locally."
+                    : "El inicio de sesión con Google requiere un servidor web (http:// o https:// como GitHub Pages). Para ingresar en un archivo local, por favor usa el formulario de Correo y Contraseña.");
+            } else if (e.code !== "auth/popup-closed-by-user") {
                 alert((window.currentLanguage === 'en' ? "Google login failed: " : "Error al iniciar sesión con Google: ") + e.message);
             }
         }
@@ -18402,6 +18413,7 @@ function initInternalBLSimulation() {
             });
         }
 
+        drawComments();
         setupCloudListeners();
     }
 
