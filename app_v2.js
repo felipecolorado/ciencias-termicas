@@ -18259,20 +18259,34 @@ function initInternalBLSimulation() {
     }
 
     window.handleGoogleSignIn = async function() {
+        const errorMsg = document.getElementById("login-error-msg");
+        if (errorMsg) errorMsg.style.display = "none";
+
         if (window.location.protocol === 'file:') {
-            alert(window.currentLanguage === 'en' 
+            const msg = window.currentLanguage === 'en' 
                 ? "Google Sign-In requires an HTTP/HTTPS web server (e.g. GitHub Pages or Live Server). When opening local HTML files directly (file://), please register or sign in using the Email & Password form above." 
-                : "El inicio de sesión con Google requiere estar en un servidor web HTTP/HTTPS (como en GitHub Pages o Live Server). Si estás abriendo el archivo HTML localmente (file://), por favor regístrate o inicia sesión usando el formulario de Correo y Contraseña arriba.");
+                : "El inicio de sesión con Google requiere estar en un servidor web HTTP/HTTPS (como en GitHub Pages o Live Server). Si estás abriendo el archivo HTML localmente (file://), por favor regístrate o inicia sesión usando el formulario de Correo y Contraseña arriba.";
+            alert(msg);
+            if (errorMsg) {
+                errorMsg.textContent = msg;
+                errorMsg.style.display = "block";
+            }
             return;
         }
 
         if (typeof firebase === 'undefined' || !firebase.auth) {
-            alert(window.currentLanguage === 'en' ? "Google Authentication module not loaded." : "Módulo de autenticación de Google no cargado.");
+            const msg = window.currentLanguage === 'en' ? "Google Authentication module not loaded." : "Módulo de autenticación de Google no cargado.";
+            alert(msg);
+            if (errorMsg) {
+                errorMsg.textContent = msg;
+                errorMsg.style.display = "block";
+            }
             return;
         }
 
         getDb(); // Ensure firebase app initialized
         const provider = new firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
 
         try {
             const result = await firebase.auth().signInWithPopup(provider);
@@ -18280,23 +18294,44 @@ function initInternalBLSimulation() {
                 await processSuccessfulGoogleUser(result.user);
             }
         } catch (e) {
-            console.warn("Google signInWithPopup error or window closed:", e);
-            // Handling Chrome third-party cookie blocking / popup restrictions via Redirect fallback:
-            if (e.code === "auth/popup-closed-by-user" || e.code === "auth/popup-blocked" || e.code === "auth/cancelled-popup-request" || e.code === "auth/internal-error") {
+            console.warn("Google signInWithPopup error:", e);
+            const isSpanish = window.currentLanguage !== 'en';
+
+            if (e.code === "auth/unauthorized-domain") {
+                const domainMsg = isSpanish 
+                    ? `El dominio actual (${window.location.hostname}) no está autorizado en la consola de Firebase. Por favor agrega "${window.location.hostname}" en Firebase Console -> Authentication -> Settings -> Authorized Domains.`
+                    : `Current domain (${window.location.hostname}) is not authorized in Firebase Console. Please add "${window.location.hostname}" under Firebase Console -> Authentication -> Settings -> Authorized Domains.`;
+                alert(domainMsg);
+                if (errorMsg) { errorMsg.textContent = domainMsg; errorMsg.style.display = "block"; }
+            } else if (e.code === "auth/popup-blocked") {
+                const blockedMsg = isSpanish 
+                    ? "La ventana emergente de Google fue bloqueada por el navegador Chrome o un bloqueador de anuncios. Por favor permite popups para este sitio o usa el inicio de sesión por correo."
+                    : "Google popup was blocked by Chrome or an ad-blocker. Please allow popups for this site or use email login.";
+                alert(blockedMsg);
+                if (errorMsg) { errorMsg.textContent = blockedMsg; errorMsg.style.display = "block"; }
+            } else if (e.code === "auth/popup-closed-by-user" || e.code === "auth/cancelled-popup-request") {
                 try {
-                    console.log("Attempting fallback with signInWithRedirect...");
+                    console.log("Popup closed/blocked in Chrome, attempting signInWithRedirect...");
                     await firebase.auth().signInWithRedirect(provider);
                     return;
-                } catch (redirectErr) {
-                    console.error("signInWithRedirect fallback error:", redirectErr);
+                } catch (redErr) {
+                    console.error("signInWithRedirect error:", redErr);
+                    const closedMsg = isSpanish 
+                        ? "Google cerró la ventana emergente en Chrome (posiblemente por bloqueo de cookies de terceros o privacidad del navegador). Por favor usa el registro con Correo y Contraseña arriba."
+                        : "Google popup closed in Chrome (likely due to third-party cookie blocking or browser privacy settings). Please use Email & Password registration above.";
+                    alert(closedMsg);
+                    if (errorMsg) { errorMsg.textContent = closedMsg; errorMsg.style.display = "block"; }
                 }
-            }
-            if (e.code === "auth/operation-not-supported-in-this-environment") {
-                alert(window.currentLanguage === 'en'
-                    ? "Google Sign-In is only supported over http/https (e.g. GitHub Pages or Live Server). Please use the Email & Password form when running locally."
-                    : "El inicio de sesión con Google requiere un servidor web (http:// o https:// como GitHub Pages). Para ingresar en un archivo local, por favor usa el formulario de Correo y Contraseña.");
-            } else if (e.code !== "auth/popup-closed-by-user" && e.code !== "auth/cancelled-popup-request") {
-                alert((window.currentLanguage === 'en' ? "Google login failed: " : "Error al iniciar sesión con Google: ") + e.message);
+            } else if (e.code === "auth/operation-not-supported-in-this-environment") {
+                const envMsg = isSpanish
+                    ? "El inicio de sesión con Google requiere un servidor web (http:// o https:// como GitHub Pages). Para ingresar en un archivo local, por favor usa el formulario de Correo y Contraseña."
+                    : "Google Sign-In is only supported over http/https (e.g. GitHub Pages or Live Server). Please use the Email & Password form when running locally.";
+                alert(envMsg);
+                if (errorMsg) { errorMsg.textContent = envMsg; errorMsg.style.display = "block"; }
+            } else {
+                const genMsg = (isSpanish ? "Error al iniciar sesión con Google (" + e.code + "): " : "Google login failed (" + e.code + "): ") + e.message;
+                alert(genMsg);
+                if (errorMsg) { errorMsg.textContent = genMsg; errorMsg.style.display = "block"; }
             }
         }
     };
