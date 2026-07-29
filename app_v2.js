@@ -18281,7 +18281,7 @@ function initInternalBLSimulation() {
                 alert(window.currentLanguage === 'en'
                     ? "Google Sign-In is only supported over http/https (e.g. GitHub Pages or Live Server). Please use the Email & Password form when running locally."
                     : "El inicio de sesión con Google requiere un servidor web (http:// o https:// como GitHub Pages). Para ingresar en un archivo local, por favor usa el formulario de Correo y Contraseña.");
-            } else if (e.code !== "auth/popup-closed-by-user") {
+            } else if (e.code !== "auth/popup-closed-by-user" && e.code !== "auth/cancelled-popup-request") {
                 alert((window.currentLanguage === 'en' ? "Google login failed: " : "Error al iniciar sesión con Google: ") + e.message);
             }
         }
