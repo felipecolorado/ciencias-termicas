@@ -49,20 +49,31 @@
 </head>
 
 <body>
-    <div class="lang-selector-container"
-        style="position: fixed; top: 20px; right: 130px; z-index: 1000; display: flex; gap: 4px; background: var(--panel-bg); padding: 4px; border-radius: 20px; border: 1px solid var(--panel-border); backdrop-filter: blur(10px);">
-        <button class="lang-btn active" data-lang="es" onclick="translateDOM('es')"
-            style="background: none; border: none; color: var(--text-primary); font-size: 0.72rem; font-weight: 700; padding: 4px 10px; border-radius: 12px; cursor: pointer; transition: all 0.2s;">ES</button>
-        <button class="lang-btn" data-lang="en" onclick="translateDOM('en')"
-            style="background: none; border: none; color: var(--text-muted); font-size: 0.72rem; font-weight: 700; padding: 4px 10px; border-radius: 12px; cursor: pointer; transition: all 0.2s;">EN</button>
+    <!-- Top Navbar Floating Controls -->
+    <div style="position: fixed; top: 20px; right: 20px; z-index: 99999; display: flex; align-items: center; gap: 8px;">
+        <div class="lang-selector-container"
+            style="display: flex; gap: 4px; background: var(--panel-bg); padding: 4px; border-radius: 20px; border: 1px solid var(--panel-border); backdrop-filter: blur(10px);">
+            <button class="lang-btn active" data-lang="es" onclick="translateDOM('es')"
+                style="background: none; border: none; color: var(--text-primary); font-size: 0.72rem; font-weight: 700; padding: 4px 10px; border-radius: 12px; cursor: pointer; transition: all 0.2s;">ES</button>
+            <button class="lang-btn" data-lang="en" onclick="translateDOM('en')"
+                style="background: none; border: none; color: var(--text-muted); font-size: 0.72rem; font-weight: 700; padding: 4px 10px; border-radius: 12px; cursor: pointer; transition: all 0.2s;">EN</button>
+        </div>
+
+        <button id="wiki-toggle" class="btn-clear" title="Abrir Wiki de Ciencias Térmicas"
+            style="background: var(--panel-bg); color: var(--accent-orange); border: 1px solid var(--panel-border); font-weight: 700; padding: 6px 14px; border-radius: 20px; cursor: pointer; backdrop-filter: blur(10px); display: inline-flex; align-items: center; gap: 5px; font-size: 0.8rem;" onclick="window.openThermalWiki();">
+            <i class="fas fa-book-open"></i> <span>Wiki</span>
+        </button>
+
+        <button id="theme-toggle" class="btn-clear" title="Alternar Modo Oscuro/Claro"
+            style="background: var(--panel-bg); color: var(--text-primary); border: 1px solid var(--panel-border); padding: 6px 12px; border-radius: 50%; cursor: pointer; backdrop-filter: blur(10px); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-moon"></i>
+        </button>
+
+        <button id="contact-toggle" class="btn-clear" title="Mostrar Información de Contacto"
+            style="background: var(--panel-bg); color: var(--text-primary); border: 1px solid var(--panel-border); padding: 6px 12px; border-radius: 50%; cursor: pointer; backdrop-filter: blur(10px); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-envelope"></i>
+        </button>
     </div>
-    <button id="theme-toggle" class="theme-toggle-btn" title="Alternar Modo Oscuro/Claro">
-        <i class="fas fa-moon"></i>
-    </button>
-    <button id="contact-toggle" class="theme-toggle-btn" title="Mostrar Información de Contacto"
-        style="right: 75px; background: var(--panel-bg); color: var(--text-primary); border: 1px solid var(--panel-border);">
-        <i class="fas fa-envelope"></i>
-    </button>
     <div id="contact-box" class="contact-box glass"
         style="display: none; position: fixed; top: 75px; right: 20px; z-index: 1000; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--panel-border); font-size: 0.75rem; color: var(--text-secondary); max-width: 300px; text-align: left; background: var(--panel-bg); flex-direction: column; gap: 4px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25); backdrop-filter: blur(10px);">
         <div
@@ -7865,6 +7876,51 @@
             </div>
         </footer>
     </main>
+
+    <!-- MODAL INTERACTIVO: WIKI DE CIENCIAS TÉRMICAS -->
+    <div id="thermal-wiki-modal" class="modal-overlay" style="display: none; align-items: center; justify-content: center; z-index: 2000;">
+        <div class="modal-content glass" style="max-width: 900px; width: 92%; max-height: 85vh; display: flex; flex-direction: column; padding: 25px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 20px 50px rgba(0,0,0,0.5); background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px);">
+            <!-- Header Modal -->
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 15px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div style="background: rgba(245, 158, 11, 0.15); width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(245, 158, 11, 0.3);">
+                        <i class="fas fa-book-open" style="color: var(--accent-orange); font-size: 1.25rem;"></i>
+                    </div>
+                    <div>
+                        <h3 style="margin: 0; color: white; font-size: 1.25rem; font-weight: 700;">
+                            <span class="lang-es">Wiki de Ciencias Térmicas & Termodinámica</span>
+                            <span class="lang-en" style="display:none;">Thermal Sciences & Thermodynamics Wiki</span>
+                        </h3>
+                        <p style="margin: 2px 0 0 0; font-size: 0.78rem; color: var(--text-secondary);">
+                            <span class="lang-es">Enciclopedia conceptual, fórmulas clave, números adimensionales e historia.</span>
+                            <span class="lang-en" style="display:none;">Conceptual encyclopedia, key formulas, dimensionless numbers, and history.</span>
+                        </p>
+                    </div>
+                </div>
+                <span class="close-modal" onclick="window.closeThermalWiki()" style="cursor: pointer; font-size: 1.6rem; color: var(--text-secondary);">&times;</span>
+            </div>
+
+            <!-- Buscador y Filtros -->
+            <div style="display: flex; gap: 12px; margin-bottom: 15px; flex-wrap: wrap;">
+                <div style="flex: 1; position: relative; min-width: 260px;">
+                    <i class="fas fa-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); font-size: 0.85rem;"></i>
+                    <input type="text" id="wiki-search-input" onkeyup="window.filterWikiArticles()" placeholder="Buscar concepto, ecuación, número adimensional (ej: Fourier, Nusselt, Convección)..." style="width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 12px 10px 36px; color: white; font-family: inherit; font-size: 0.85rem;" />
+                </div>
+                <div style="display: flex; gap: 6px;" id="wiki-category-filters">
+                    <button class="wiki-cat-btn active" onclick="window.filterWikiCategory('all', this)" style="background: var(--accent-orange); color: white; border: none; padding: 8px 14px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; cursor: pointer;">Todas</button>
+                    <button class="wiki-cat-btn" onclick="window.filterWikiCategory('conduccion', this)" style="background: rgba(255,255,255,0.06); color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.1); padding: 8px 14px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; cursor: pointer;">Conducción</button>
+                    <button class="wiki-cat-btn" onclick="window.filterWikiCategory('conveccion', this)" style="background: rgba(255,255,255,0.06); color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.1); padding: 8px 14px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; cursor: pointer;">Convección</button>
+                    <button class="wiki-cat-btn" onclick="window.filterWikiCategory('radiacion', this)" style="background: rgba(255,255,255,0.06); color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.1); padding: 8px 14px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; cursor: pointer;">Radiación</button>
+                    <button class="wiki-cat-btn" onclick="window.filterWikiCategory('termodinamica', this)" style="background: rgba(255,255,255,0.06); color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.1); padding: 8px 14px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; cursor: pointer;">Termodinámica</button>
+                </div>
+            </div>
+
+            <!-- Contenido de Artículos Wiki -->
+            <div id="wiki-articles-container" style="flex: 1; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 15px; padding-right: 5px;">
+                <!-- Artículos dinámicos renderizados por JS -->
+            </div>
+        </div>
+    </div>
 
     <div id="image-modal" class="modal-overlay">
         <div class="modal-content">
