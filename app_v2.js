@@ -18228,6 +18228,36 @@ function initInternalBLSimulation() {
         return firebaseDb;
     }
 
+    async function processSuccessfulGoogleUser(gUser) {
+        if (!gUser) return;
+        const email = gUser.email ? gUser.email.toLowerCase() : "";
+        const isEmailAdmin = email === "felipe.colorado@udea.edu.co";
+        const avatarUrl = gUser.photoURL || selectedAvatar;
+
+        currentUser = {
+            id: Date.now(),
+            name: gUser.displayName || (email ? email.split("@")[0] : "Usuario"),
+            email: email,
+            avatar: avatarUrl,
+            role: isEmailAdmin ? "Administrador" : "Estudiante"
+        };
+
+        // Save user profile to Firebase DB if not exists
+        const db = getDb();
+        if (db && email) {
+            const userKey = email.replace(/\./g, "_at_");
+            await db.ref("users/" + userKey).update({
+                name: currentUser.name,
+                email: currentUser.email,
+                avatar: currentUser.avatar,
+                role: currentUser.role
+            });
+        }
+
+        localStorage.setItem("ht_logged_user", JSON.stringify(currentUser));
+        showLoggedInState();
+    }
+
     window.handleGoogleSignIn = async function() {
         if (window.location.protocol === 'file:') {
             alert(window.currentLanguage === 'en' 
@@ -18246,37 +18276,21 @@ function initInternalBLSimulation() {
 
         try {
             const result = await firebase.auth().signInWithPopup(provider);
-            const gUser = result.user;
-            if (!gUser) return;
-
-            const email = gUser.email.toLowerCase();
-            const isEmailAdmin = email === "felipe.colorado@udea.edu.co";
-            const avatarUrl = gUser.photoURL || selectedAvatar;
-
-            currentUser = {
-                id: Date.now(),
-                name: gUser.displayName || email.split("@")[0],
-                email: email,
-                avatar: avatarUrl,
-                role: isEmailAdmin ? "Administrador" : "Estudiante"
-            };
-
-            // Save user profile to Firebase DB if not exists
-            const db = getDb();
-            if (db) {
-                const userKey = email.replace(/\./g, "_at_");
-                await db.ref("users/" + userKey).update({
-                    name: currentUser.name,
-                    email: currentUser.email,
-                    avatar: currentUser.avatar,
-                    role: currentUser.role
-                });
+            if (result && result.user) {
+                await processSuccessfulGoogleUser(result.user);
             }
-
-            localStorage.setItem("ht_logged_user", JSON.stringify(currentUser));
-            showLoggedInState();
         } catch (e) {
-            console.error("Google sign in error:", e);
+            console.warn("Google signInWithPopup error or window closed:", e);
+            // Handling Chrome third-party cookie blocking / popup restrictions via Redirect fallback:
+            if (e.code === "auth/popup-closed-by-user" || e.code === "auth/popup-blocked" || e.code === "auth/cancelled-popup-request" || e.code === "auth/internal-error") {
+                try {
+                    console.log("Attempting fallback with signInWithRedirect...");
+                    await firebase.auth().signInWithRedirect(provider);
+                    return;
+                } catch (redirectErr) {
+                    console.error("signInWithRedirect fallback error:", redirectErr);
+                }
+            }
             if (e.code === "auth/operation-not-supported-in-this-environment") {
                 alert(window.currentLanguage === 'en'
                     ? "Google Sign-In is only supported over http/https (e.g. GitHub Pages or Live Server). Please use the Email & Password form when running locally."
@@ -18357,6 +18371,22 @@ function initInternalBLSimulation() {
     }
 
     function initCommentSystem() {
+        // Check for Firebase Auth Redirect Result (for Chrome fallback where popups are blocked)
+        if (typeof firebase !== 'undefined' && firebase.auth) {
+            try {
+                getDb();
+                firebase.auth().getRedirectResult().then(async (result) => {
+                    if (result && result.user) {
+                        await processSuccessfulGoogleUser(result.user);
+                    }
+                }).catch((err) => {
+                    console.error("Firebase getRedirectResult error:", err);
+                });
+            } catch (err) {
+                console.error("Redirect check init error:", err);
+            }
+        }
+
         // Load logged in session (only session state kept locally)
         const storedUser = localStorage.getItem("ht_logged_user");
         if (storedUser) {
