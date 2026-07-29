@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://felipecolorado.github.io/ciencias-termicas/sitemap.xml

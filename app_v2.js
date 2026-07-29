@@ -18221,6 +18221,29 @@ function initInternalBLSimulation() {
                     firebase.initializeApp(firebaseConfig);
                 }
                 firebaseDb = firebase.database();
+                
+                // Attach auth state listener to ensure UI sync
+                if (firebase.auth) {
+                    firebase.auth().onAuthStateChanged(async (gUser) => {
+                        if (gUser && !currentUser) {
+                            const email = gUser.email ? gUser.email.toLowerCase() : "";
+                            const isEmailAdmin = email === "felipe.colorado@udea.edu.co";
+                            const avatarUrl = gUser.photoURL || selectedAvatar;
+
+                            currentUser = {
+                                id: Date.now(),
+                                name: gUser.displayName || email.split("@")[0] || "Usuario",
+                                email: email,
+                                avatar: avatarUrl,
+                                role: isEmailAdmin ? "Administrador" : "Estudiante"
+                            };
+
+                            localStorage.setItem("ht_logged_user", JSON.stringify(currentUser));
+                            showLoggedInState();
+                            drawComments();
+                        }
+                    });
+                }
             } catch (e) {
                 console.error("Firebase init error:", e);
             }
@@ -18618,6 +18641,15 @@ function initInternalBLSimulation() {
         }
         document.getElementById("user-profile-role").textContent = displayRole;
     }
+
+    window.handleLogOut = function() {
+        currentUser = null;
+        localStorage.removeItem("ht_logged_user");
+        if (typeof firebase !== 'undefined' && firebase.auth && firebase.auth().currentUser) {
+            firebase.auth().signOut().catch(console.error);
+        }
+        showLoggedOutState();
+    };
 
     function showLoggedOutState() {
         document.getElementById("auth-logged-out-state").style.display = "block";
