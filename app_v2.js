@@ -18202,7 +18202,7 @@ function initInternalBLSimulation() {
     let firebaseDb = null;
     let activeCommentsList = [];
 
-    // Initialize Firebase SDK if credentials exist
+    // Initialize Firebase Realtime Database Engine
     const firebaseConfig = {
         apiKey: "AIzaSyCVeHphav65sj851u72ikIcDXY1e2BN3Qk",
         authDomain: "thermal-science-history.firebaseapp.com",
@@ -18221,31 +18221,8 @@ function initInternalBLSimulation() {
                     firebase.initializeApp(firebaseConfig);
                 }
                 firebaseDb = firebase.database();
-                
-                // Attach auth state listener to ensure UI sync
-                if (firebase.auth) {
-                    firebase.auth().onAuthStateChanged(async (gUser) => {
-                        if (gUser && !currentUser) {
-                            const email = gUser.email ? gUser.email.toLowerCase() : "";
-                            const isEmailAdmin = email === "felipe.colorado@udea.edu.co";
-                            const avatarUrl = gUser.photoURL || selectedAvatar;
-
-                            currentUser = {
-                                id: Date.now(),
-                                name: gUser.displayName || email.split("@")[0] || "Usuario",
-                                email: email,
-                                avatar: avatarUrl,
-                                role: isEmailAdmin ? "Administrador" : "Estudiante"
-                            };
-
-                            localStorage.setItem("ht_logged_user", JSON.stringify(currentUser));
-                            showLoggedInState();
-                            drawComments();
-                        }
-                    });
-                }
             } catch (e) {
-                console.error("Firebase init error:", e);
+                console.error("Firebase Realtime Database init error:", e);
             }
         }
         return firebaseDb;
@@ -18807,6 +18784,247 @@ function initInternalBLSimulation() {
     if (document.readyState !== 'loading') {
         initCommentSystem();
     }
+})();
+
+// =========================================================================
+// WIKI INTERACTIVA DE CIENCIAS TÉRMICAS & TERMODINÁMICA
+// =========================================================================
+(function() {
+    let activeWikiCategory = "all";
+
+    const wikiDatabase = [
+        {
+            id: "fourier-ley",
+            category: "conduccion",
+            title: "Ley de Fourier de la Conducción",
+            titleEn: "Fourier's Law of Heat Conductions",
+            formula: "q'' = -k \\frac{dT}{dx}",
+            simTarget: "fourier-sim",
+            description: "Establece que la tasa de transferencia de calor por conducción en una dirección es proporcional al gradiente de temperatura y al área perpendicular al flujo.",
+            descriptionEn: "States that the heat transfer rate by conduction in a given direction is proportional to the temperature gradient and area perpendicular to flow.",
+            details: "Formulada por Joseph Fourier en 1822 en su obra 'Théorie Analytique de la Chaleur'. El signo negativo garantiza que el calor fluya naturalmente de mayor a menor temperatura obedeciendo la Segunda Ley."
+        },
+        {
+            id: "nusselt-numero",
+            category: "conveccion",
+            title: "Número de Nusselt (Nu)",
+            titleEn: "Nusselt Number (Nu)",
+            formula: "Nu = \\frac{h L}{k_f}",
+            simTarget: "nusselt-sim",
+            description: "Parámetro adimensional que representa la relación entre la transferencia de calor por convección y la transferencia por conducción pura en el fluido.",
+            descriptionEn: "Dimensionless parameter representing the ratio of convective heat transfer to pure conduction heat transfer across the fluid layer.",
+            details: "Formulado por Wilhelm Nusselt (1915). Un valor de Nu = 1 indica convección equivalente a conducción pura. Cuanto mayor sea Nu, más dominante es la convección activa."
+        },
+        {
+            id: "reynolds-numero",
+            category: "conveccion",
+            title: "Número de Reynolds (Re)",
+            titleEn: "Reynolds Number (Re)",
+            formula: "Re = \\frac{\\rho V D}{\\mu}",
+            simTarget: "reynolds-sim",
+            description: "Criterio adimensional fundamental que determina la transición entre un régimen de flujo laminar y un régimen turbulento.",
+            descriptionEn: "Fundamental dimensionless criterion that determines the transition between laminar and turbulent flow regimes.",
+            details: "Demostrado experimentalmente por Osborne Reynolds en 1883 en tubos circulares. En tuberías, el número crítico de transición es Re ≈ 2300."
+        },
+        {
+            id: "planck-ley",
+            category: "radiacion",
+            title: "Ley de Radiación de Planck",
+            titleEn: "Planck's Radiation Law",
+            formula: "E_{\\lambda,b} = \\frac{2\\pi h c^2}{\\lambda^5 (e^{\\frac{hc}{\\lambda k T}} - 1)}",
+            simTarget: "planck-sim",
+            description: "Describe la emitancia espectral de un cuerpo negro en función de la longitud de onda y la temperatura absoluta.",
+            descriptionEn: "Describes the spectral emissive power of a blackbody as a function of wavelength and absolute temperature.",
+            details: "Presentada por Max Planck en 1900. Dio origen a la Física Cuántica al introducir la cuantización del paquete de energía electromagnética (cuantos)."
+        },
+        {
+            id: "stefan-boltzmann",
+            category: "radiacion",
+            title: "Ley de Stefan-Boltzmann",
+            titleEn: "Stefan-Boltzmann Law",
+            formula: "E_b = \\sigma T^4",
+            simTarget: "invsq-sim",
+            description: "Establece que la potencia emisiva total de un cuerpo negro es directamente proporcional a la cuarta potencia de su temperatura absoluta.",
+            descriptionEn: "States that the total emissive power of a blackbody is directly proportional to the fourth power of its absolute temperature.",
+            details: "Deducida experimentalmente por Josef Stefan (1879) y demostrada teóricamente por Ludwig Boltzmann (1884). Constante σ = 5.67 × 10⁻⁸ W/(m²·K⁴)."
+        },
+        {
+            id: "newton-enfriamiento",
+            category: "conveccion",
+            title: "Ley de Enfriamiento de Newton",
+            titleEn: "Newton's Law of Cooling",
+            formula: "q'' = h (T_s - T_\\infty)",
+            simTarget: "newton-sim",
+            description: "Describe la tasa de pérdida de calor de un cuerpo hacia su entorno como proporcional a la diferencia de temperatura entre ellos.",
+            descriptionEn: "Describes the rate of heat loss of a body to its surroundings as proportional to the temperature difference between them.",
+            details: "Publicada por Sir Isaac Newton en 1701. Define el coeficiente de transferencia de calor por convección 'h' [W/m²K]."
+        },
+        {
+            id: "prandtl-numero",
+            category: "conveccion",
+            title: "Número de Prandtl (Pr)",
+            titleEn: "Prandtl Number (Pr)",
+            formula: "Pr = \\frac{\\nu}{\\alpha} = \\frac{C_p \\mu}{k}",
+            simTarget: "prandtl-sim",
+            description: "Relación entre la difusividad de cantidad de movimiento (viscosidad cinemática) y la difusividad térmica en el fluido.",
+            descriptionEn: "Ratio of momentum diffusivity (kinematic viscosity) to thermal diffusivity in the fluid.",
+            details: "Introducido por Ludwig Prandtl (1904). Describe el espesor relativo de la capa límite hidrodinámica respecto a la capa límite térmica."
+        },
+        {
+            id: "carnot-eficiencia",
+            category: "termodinamica",
+            title: "Ciclo de Carnot & Eficiencia Máxima",
+            titleEn: "Carnot Engine & Maximum Efficiency",
+            formula: "\\eta_{max} = 1 - \\frac{T_C}{T_H}",
+            simTarget: "watt-sim",
+            description: "Establece el límite superior teórico de eficiencia para cualquier motor térmico operando entre dos fuentes térmicas.",
+            descriptionEn: "Establishes the theoretical upper limit of efficiency for any heat engine operating between two thermal reservoirs.",
+            details: "Formulado por Sadi Carnot en 1824 ('Reflexiones sobre la potencia motriz del fuego'). Fundamento cardinal de la Segunda Ley de la Termodinámica."
+        },
+        {
+            id: "clausius-entropia",
+            category: "termodinamica",
+            title: "Definición de Entropía (Clausius)",
+            titleEn: "Clausius Entropy Definition",
+            formula: "dS = \\frac{dQ_{rev}}{T}",
+            simTarget: "clausius-sim",
+            description: "Define la propiedad termodinámica de estado que mide la irreversibilidad y el grado de desorden de un sistema.",
+            descriptionEn: "Defines the thermodynamic state property measuring irreversibility and systemic disorder.",
+            details: "Introducida por Rudolf Clausius en 1865 a partir de la palabra griega 'trope' (transformación). Para todo proceso real aislado, dS ≥ 0."
+        },
+        {
+            id: "heisler-transitorio",
+            category: "conduccion",
+            title: "Número de Biot (Bi) & Conducción Transitoria",
+            titleEn: "Biot Number & Transient Conduction",
+            formula: "Bi = \\frac{h L_c}{k_s}",
+            simTarget: "transient-sim",
+            description: "Evalúa la resistencia térmica interna de un sólido en relación con la resistencia convectiva externa.",
+            descriptionEn: "Evaluates internal thermal resistance of a solid relative to external convective resistance.",
+            details: "Nombrado en honor a Jean-Baptiste Biot. Si Bi < 0.1, se puede aplicar la hipótesis de capacidad térmica concentrada (temperatura uniforme en el cuerpo)."
+        }
+    ];
+
+    window.openThermalWiki = function() {
+        const modal = document.getElementById("thermal-wiki-modal");
+        if (modal) {
+            modal.classList.add("show");
+            modal.style.setProperty("display", "flex", "important");
+            renderWikiArticles();
+            setTimeout(() => {
+                if (window.MathJax && window.MathJax.typesetPromise) {
+                    window.MathJax.typesetPromise();
+                }
+            }, 50);
+        }
+    };
+
+    window.closeThermalWiki = function() {
+        const modal = document.getElementById("thermal-wiki-modal");
+        if (modal) {
+            modal.classList.remove("show");
+            modal.style.setProperty("display", "none", "important");
+        }
+    };
+
+    // Initial render call on load
+    document.addEventListener("DOMContentLoaded", () => {
+        const wikiBtn = document.getElementById("wiki-toggle");
+        if (wikiBtn) {
+            wikiBtn.addEventListener("click", window.openThermalWiki);
+        }
+    });
+
+    window.filterWikiCategory = function(cat, btnElement) {
+        activeWikiCategory = cat;
+        document.querySelectorAll("#wiki-category-filters .wiki-cat-btn").forEach(btn => {
+            btn.style.background = "rgba(255,255,255,0.06)";
+            btn.style.color = "var(--text-secondary)";
+            btn.style.border = "1px solid rgba(255,255,255,0.1)";
+        });
+        if (btnElement) {
+            btnElement.style.background = "var(--accent-orange)";
+            btnElement.style.color = "white";
+            btnElement.style.border = "none";
+        }
+        renderWikiArticles();
+    };
+
+    window.filterWikiArticles = function() {
+        renderWikiArticles();
+    };
+
+    function renderWikiArticles() {
+        const container = document.getElementById("wiki-articles-container");
+        const searchInput = document.getElementById("wiki-search-input");
+        if (!container) return;
+
+        const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
+
+        const filtered = wikiDatabase.filter(art => {
+            const matchCat = activeWikiCategory === "all" || art.category === activeWikiCategory;
+            const matchQuery = !query || 
+                art.title.toLowerCase().includes(query) || 
+                art.description.toLowerCase().includes(query) || 
+                art.details.toLowerCase().includes(query) ||
+                art.category.toLowerCase().includes(query);
+            return matchCat && matchQuery;
+        });
+
+        container.innerHTML = "";
+
+        if (filtered.length === 0) {
+            container.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-secondary);">
+                    <i class="fas fa-search-minus" style="font-size: 2rem; margin-bottom: 10px; color: var(--accent-orange);"></i>
+                    <p style="margin: 0; font-weight: 500;">No se encontraron artículos o conceptos que coincidan con la búsqueda.</p>
+                </div>
+            `;
+            return;
+        }
+
+        filtered.forEach(art => {
+            const card = document.createElement("div");
+            card.className = "wiki-card glass";
+            card.style.cssText = "background: rgba(15,23,42,0.4); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; transition: transform 0.2s, border-color 0.2s;";
+            
+            const isEs = window.currentLanguage !== 'en';
+            const title = isEs ? art.title : art.titleEn;
+            const desc = isEs ? art.description : art.descriptionEn;
+
+            card.innerHTML = `
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 8px;">
+                        <h4 style="margin: 0; color: white; font-size: 1.02rem; font-weight: 700;">${title}</h4>
+                        <span style="font-size: 0.68rem; text-transform: uppercase; background: rgba(59,130,246,0.15); color: var(--accent-blue); padding: 3px 8px; border-radius: 6px; font-weight: 700; border: 1px solid rgba(59,130,246,0.3);">${art.category}</span>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 8px; text-align: center; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05); font-size: 1.05rem; color: var(--accent-orange);">
+                        \\[ ${art.formula} \\]
+                    </div>
+                    <p style="margin: 0 0 8px 0; font-size: 0.83rem; color: #cbd5e1; line-height: 1.4;">${desc}</p>
+                    <p style="margin: 0; font-size: 0.76rem; color: var(--text-secondary); opacity: 0.85; line-height: 1.35; font-style: italic;">${art.details}</p>
+                </div>
+                <div style="padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.06); text-align: right;">
+                    <button class="btn-clear" onclick="window.closeThermalWiki(); window.openSimFromWiki('${art.simTarget}');" style="font-size: 0.78rem; font-weight: 700; color: var(--accent-cyan); background: none; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;">
+                        <span><span class="lang-es">Probar en Simulador</span><span class="lang-en" style="display:none;">Try in Simulator</span></span> <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        if (window.MathJax && window.MathJax.typesetPromise) {
+            window.MathJax.typesetPromise();
+        }
+    }
+
+    window.openSimFromWiki = function(targetSimId) {
+        const btn = document.querySelector(`.tab-btn[data-target="${targetSimId}"]`);
+        if (btn) {
+            btn.click();
+            btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    };
 })();
 
 
