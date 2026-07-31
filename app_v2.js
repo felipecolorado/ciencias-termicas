@@ -18409,15 +18409,20 @@ function initInternalBLSimulation() {
 
             // Seed default comments
             defaultComments.forEach(defComm => {
-                commentMap.set(defComm.id, defComm);
+                commentMap.set(String(defComm.id), defComm);
             });
 
             if (data) {
                 Object.keys(data).forEach(key => {
                     const c = data[key];
                     if (c && c.id) {
-                        commentMap.set(c.id, c);
+                        commentMap.set(String(c.id), c);
                     }
+                });
+            } else {
+                // Si la base de datos está vacía, subir los comentarios por defecto a Firebase
+                defaultComments.forEach(defComm => {
+                    db.ref("comments/comment_" + defComm.id).set(defComm).catch(() => {});
                 });
             }
 
