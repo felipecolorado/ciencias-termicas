@@ -7847,7 +7847,57 @@
 
                         <!-- Muro de Comentarios Compacto -->
                         <div class="comment-feed" id="comment-feed-container" style="max-height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 5px;">
-                            <!-- Dynamic rows of comments -->
+                            <!-- Dynamic rows of community user comments -->
+                        </div>
+
+                        <!-- Comentarios Especiales Históricos (Estáticos) -->
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.12);">
+                            <h4 style="margin: 0 0 10px 0; color: var(--accent-orange); font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 6px;">
+                                <i class="fas fa-certificate"></i>
+                                <span class="lang-es">Comentarios Históricos de Honor</span>
+                                <span class="lang-en" style="display:none;">Historical Honor Comments</span>
+                            </h4>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <div class="comment-card" style="border: 1px solid rgba(245, 158, 11, 0.3); background: rgba(245, 158, 11, 0.05);">
+                                    <img class="comment-card-avatar" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/GodfreyKneller-IsaacNewton-1689.jpg/330px-GodfreyKneller-IsaacNewton-1689.jpg" alt="Isaac Newton" />
+                                    <div class="comment-card-content">
+                                        <div class="comment-card-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                            <div style="display: flex; align-items: center; flex-wrap: wrap;">
+                                                <span class="comment-author-name">Sir Isaac Newton</span>
+                                                <span style="font-size:0.7rem; color:var(--accent-orange); background:rgba(245,158,11,0.15); padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:600;">Hero</span>
+                                            </div>
+                                            <span class="comment-timestamp" style="font-size: 0.7rem; opacity: 0.6;">1701</span>
+                                        </div>
+                                        <div class="comment-card-body" style="margin-top: 4px;">¡Este laboratorio de termociencias es fascinante! Me alegra ver que mi Ley de Enfriamiento sigue vigente.</div>
+                                    </div>
+                                </div>
+                                <div class="comment-card" style="border: 1px solid rgba(6, 182, 212, 0.3); background: rgba(6, 182, 212, 0.05);">
+                                    <img class="comment-card-avatar" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Fourier2_-_restoration1.jpg/330px-Fourier2_-_restoration1.jpg" alt="Joseph Fourier" />
+                                    <div class="comment-card-content">
+                                        <div class="comment-card-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                            <div style="display: flex; align-items: center; flex-wrap: wrap;">
+                                                <span class="comment-author-name">Joseph Fourier</span>
+                                                <span style="font-size:0.7rem; color:var(--accent-cyan); background:rgba(6,182,212,0.15); padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:600;">Conduction Legend</span>
+                                            </div>
+                                            <span class="comment-timestamp" style="font-size: 0.7rem; opacity: 0.6;">1822</span>
+                                        </div>
+                                        <div class="comment-card-body" style="margin-top: 4px;">Excellent numerical calculus work. The linear heat conduction resolution is impeccable.</div>
+                                    </div>
+                                </div>
+                                <div class="comment-card" style="border: 1px solid rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.05);">
+                                    <img class="comment-card-avatar" src="Sadi_Carnot.jpeg" alt="Sadi Carnot" />
+                                    <div class="comment-card-content">
+                                        <div class="comment-card-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                            <div style="display: flex; align-items: center; flex-wrap: wrap;">
+                                                <span class="comment-author-name">Sadi Carnot</span>
+                                                <span style="font-size:0.7rem; color:var(--accent-green); background:rgba(16,185,129,0.15); padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:600;">Thermodynamics Pioneer</span>
+                                            </div>
+                                            <span class="comment-timestamp" style="font-size: 0.7rem; opacity: 0.6;">1824</span>
+                                        </div>
+                                        <div class="comment-card-body" style="margin-top: 4px;">Una herramienta muy útil para entender el límite de eficiencia termodinámica de mis motores.</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -7866,10 +7916,10 @@
                     style="color: var(--accent-orange); text-decoration: none;">felipe.colorado@udea.edu.co</a>
             </p>
             <p style="font-size: 0.75rem; margin-top: 8px; color: var(--text-secondary); opacity: 0.8;"><i
-                    class="far fa-clock"></i> <span class="lang-es">Última actualización: 29 de julio de 2026, 6:28 PM -
-                    Versión 2.2 (Autenticación y comentarios 100% sincronizados en la Nube con Firebase Auth & Realtime DB)</span><span
-                    class="lang-en" style="display:none;">Last update: July 29, 2026, 6:28 PM -
-                    Version 2.2 (100% Cloud-synchronized Auth & Realtime Comments with Firebase Auth & Realtime DB)</span></p>
+                    class="far fa-clock"></i> <span class="lang-es">Última actualización: 30 de julio de 2026, 8:15 PM -
+                    Versión 2.3 (Reglas y persistencia de comentarios históricos y de usuarios 100% sincronizados en la Nube con Firebase Auth & Realtime DB)</span><span
+                    class="lang-en" style="display:none;">Last update: July 30, 2026, 8:15 PM -
+                    Version 2.3 (100% Cloud-synchronized Auth & Realtime Comments with Firebase Auth & Realtime DB Rules)</span></p>
             <div style="margin-top: 15px; text-align: center;">
                 <span class="lang-es"><img src="https://api.visitorbadge.io/api/visitors?path=felipecolorado.github.io/ciencias-termicas/&label=visitas&countColor=%23f59e0b" alt="Visitas" /></span>
                 <span class="lang-en" style="display:none;"><img src="https://api.visitorbadge.io/api/visitors?path=felipecolorado.github.io/ciencias-termicas/&label=visitors&countColor=%23f59e0b" alt="Visitors" /></span>
@@ -8134,8 +8184,8 @@
             </p>
             <p style="margin: 0; font-size: 0.76rem; opacity: 0.7;">
                 <i class="fas fa-sync-alt" style="margin-right: 4px; color: var(--accent-green);"></i>
-                <span class="lang-es">Última actualización: 29 de Julio de 2026 — 6:22 PM (Autenticación Google Auth & Firebase v2)</span>
-                <span class="lang-en" style="display:none;">Last update: July 29, 2026 — 6:22 PM (Google Auth & Firebase v2 Integration)</span>
+                <span class="lang-es">Última actualización: 30 de Julio de 2026 — 8:15 PM (Persistencia de comentarios y reglas de seguridad Firebase)</span>
+                <span class="lang-en" style="display:none;">Last update: July 30, 2026 — 8:15 PM (Firebase Security Rules & Comment Persistence)</span>
             </p>
         </footer>
 
@@ -8397,8 +8447,8 @@
             </p>
             <p style="margin: 0; font-size: 0.78rem; color: #cbd5e1;">
                 <i class="fas fa-sync-alt" style="margin-right: 4px; color: #10b981;"></i>
-                <span class="lang-es">Última actualización: 29 de Julio de 2026 — 6:28 PM (100% Nube Firebase)</span>
-                <span class="lang-en" style="display:none;">Last update: July 29, 2026 — 6:28 PM (100% Firebase Cloud)</span>
+                <span class="lang-es">Última actualización: 30 de Julio de 2026 — 8:15 PM (100% Nube Firebase & Reglas de Seguridad)</span>
+                <span class="lang-en" style="display:none;">Last update: July 30, 2026 — 8:15 PM (100% Firebase Cloud & Security Rules)</span>
             </p>
         </footer>
 </body>

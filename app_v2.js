@@ -18378,7 +18378,7 @@ function initInternalBLSimulation() {
             avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/GodfreyKneller-IsaacNewton-1689.jpg/330px-GodfreyKneller-IsaacNewton-1689.jpg",
             role: "Hero",
             text: "¡Este laboratorio de termociencias es fascinante! Me alegra ver que mi Ley de Enfriamiento sigue vigente.",
-            timestamp: Date.now() - 3600000 * 24
+            timestamp: 1700000000000
         },
         {
             id: 2,
@@ -18386,7 +18386,7 @@ function initInternalBLSimulation() {
             avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Fourier2_-_restoration1.jpg/330px-Fourier2_-_restoration1.jpg",
             role: "Conduction Legend",
             text: "Excellent numerical calculus work. The linear heat conduction resolution is impeccable.",
-            timestamp: Date.now() - 3600000 * 12
+            timestamp: 1700000000001
         },
         {
             id: 3,
@@ -18394,7 +18394,7 @@ function initInternalBLSimulation() {
             avatar: "Sadi_Carnot.jpeg",
             role: "Thermodynamics Pioneer",
             text: "Una herramienta muy útil para entender el límite de eficiencia termodinámica de mis motores.",
-            timestamp: Date.now() - 3600000 * 2
+            timestamp: 1700000000002
         }
     ];
 
@@ -18405,28 +18405,18 @@ function initInternalBLSimulation() {
         // Listen for Realtime Comments from Cloud
         db.ref("comments").on("value", (snapshot) => {
             const data = snapshot.val();
-            const commentMap = new Map();
-
-            // Seed default comments
-            defaultComments.forEach(defComm => {
-                commentMap.set(String(defComm.id), defComm);
-            });
+            const commentList = [];
 
             if (data) {
                 Object.keys(data).forEach(key => {
                     const c = data[key];
-                    if (c && c.id) {
-                        commentMap.set(String(c.id), c);
+                    if (c && c.id && !["1", "2", "3", 1, 2, 3].includes(c.id)) {
+                        commentList.push(c);
                     }
-                });
-            } else {
-                // Si la base de datos está vacía, subir los comentarios por defecto a Firebase
-                defaultComments.forEach(defComm => {
-                    db.ref("comments/comment_" + defComm.id).set(defComm).catch(() => {});
                 });
             }
 
-            activeCommentsList = Array.from(commentMap.values()).sort((a, b) => b.timestamp - a.timestamp);
+            activeCommentsList = commentList.sort((a, b) => b.timestamp - a.timestamp);
 
             // Fix legacy broken avatar URLs
             activeCommentsList.forEach(comment => {
@@ -18511,7 +18501,6 @@ function initInternalBLSimulation() {
             });
         }
 
-        drawComments();
         setupCloudListeners();
     }
 
@@ -18760,10 +18749,8 @@ function initInternalBLSimulation() {
         const container = document.getElementById("comment-feed-container");
         if (!container) return;
 
-        let comments = activeCommentsList.length > 0 ? activeCommentsList : [...defaultComments];
+        let comments = activeCommentsList;
 
-        container.innerHTML = "";
-        
         // Pagination logic
         const itemsPerPage = 20;
         const totalPages = Math.ceil(comments.length / itemsPerPage) || 1;
@@ -18777,16 +18764,28 @@ function initInternalBLSimulation() {
         const endIndex = startIndex + itemsPerPage;
         const paginatedComments = comments.slice(startIndex, endIndex);
 
+        // Map existing comment nodes by data-comment-id to prevent DOM re-creation flickering
+        const existingCards = new Map();
+        Array.from(container.querySelectorAll(".comment-card")).forEach(card => {
+            if (card.dataset.commentId) {
+                existingCards.set(card.dataset.commentId, card);
+            }
+        });
+
+        // Clear pagination controls if present
+        const oldControls = container.querySelector(".comment-pagination");
+        if (oldControls) oldControls.remove();
+
+        const fragment = document.createDocumentFragment();
+
         paginatedComments.forEach(comment => {
-            const card = document.createElement("div");
-            card.className = "comment-card";
-            
+            const commIdStr = String(comment.id);
             const date = new Date(comment.timestamp);
             const timeStr = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 
             const isAdmin = currentUser && currentUser.role === "Administrador";
             const deleteBtnHtml = isAdmin ? `
-                <button onclick="window.deleteComment(${comment.id})" class="btn-clear" style="background: none; border: none; color: #f87171; cursor: pointer; padding: 4px; font-size: 0.82rem; margin-left: 10px; opacity: 0.7; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7" title="Borrar comentario">
+                <button onclick="window.deleteComment('${commIdStr}')" class="btn-clear" style="background: none; border: none; color: #f87171; cursor: pointer; padding: 4px; font-size: 0.82rem; margin-left: 10px; opacity: 0.7; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7" title="Borrar comentario">
                     <i class="fas fa-trash-alt"></i>
                 </button>
             ` : "";
@@ -18798,7 +18797,16 @@ function initInternalBLSimulation() {
                 displayRole = "Student";
             }
 
-            card.innerHTML = `
+            let card = existingCards.get(commIdStr);
+            if (card) {
+                existingCards.delete(commIdStr);
+            } else {
+                card = document.createElement("div");
+                card.className = "comment-card";
+                card.dataset.commentId = commIdStr;
+            }
+
+            const newInnerHTML = `
                 <img class="comment-card-avatar" src="${comment.avatar}" alt="Avatar" />
                 <div class="comment-card-content">
                     <div class="comment-card-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
@@ -18814,8 +18822,19 @@ function initInternalBLSimulation() {
                     <div class="comment-card-body" style="margin-top: 4px;">${comment.text}</div>
                 </div>
             `;
-            container.appendChild(card);
+
+            if (card.innerHTML !== newInnerHTML) {
+                card.innerHTML = newInnerHTML;
+            }
+            fragment.appendChild(card);
         });
+
+        // Remove cards no longer present in current page view
+        existingCards.forEach(card => card.remove());
+
+        // Replace container children cleanly
+        container.innerHTML = "";
+        container.appendChild(fragment);
 
         // Render pagination controls if total comments > 20
         if (comments.length > itemsPerPage) {
