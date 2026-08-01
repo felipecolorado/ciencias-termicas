@@ -44,7 +44,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-    <link rel="stylesheet" href="style.css?v=v2fix1">
+    <link rel="stylesheet" href="style.css?v=v3fix16">
 
 </head>
 
@@ -58,6 +58,27 @@
             <button class="lang-btn" data-lang="en" onclick="translateDOM('en')"
                 style="background: none; border: none; color: var(--text-muted); font-size: 0.72rem; font-weight: 700; padding: 4px 10px; border-radius: 12px; cursor: pointer; transition: all 0.2s;">EN</button>
         </div>
+
+        <!-- Botón de Contador de Usuarios Registrados -->
+        <button id="user-count-btn" class="btn-clear" title="Usuarios Registrados"
+            style="background: var(--panel-bg); color: #10b981; border: 1px solid var(--panel-border); font-weight: 700; padding: 6px 14px; border-radius: 20px; cursor: pointer; backdrop-filter: blur(10px); display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem;">
+            <i class="fas fa-users"></i> <span id="user-count-text"><i class="fas fa-spinner fa-spin" style="font-size: 0.75rem;"></i></span>
+        </button>
+
+        <!-- Botón de Usuarios Conectados en Línea -->
+        <button id="online-count-btn" class="btn-clear" title="Usuarios en Línea (Conectados)"
+            style="background: var(--panel-bg); color: #38bdf8; border: 1px solid var(--panel-border); font-weight: 700; padding: 6px 14px; border-radius: 20px; cursor: pointer; backdrop-filter: blur(10px); display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem;">
+            <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #38bdf8; box-shadow: 0 0 8px #38bdf8; animation: pulse-online 1.5s infinite;"></span>
+            <span id="online-count-text"><i class="fas fa-spinner fa-spin" style="font-size: 0.75rem;"></i></span>
+        </button>
+
+        <style>
+            @keyframes pulse-online {
+                0% { opacity: 0.4; }
+                50% { opacity: 1; }
+                100% { opacity: 0.4; }
+            }
+        </style>
 
         <button id="wiki-toggle" class="btn-clear" title="Abrir Wiki de Ciencias Térmicas"
             style="background: var(--panel-bg); color: var(--accent-orange); border: 1px solid var(--panel-border); font-weight: 700; padding: 6px 14px; border-radius: 20px; cursor: pointer; backdrop-filter: blur(10px); display: inline-flex; align-items: center; gap: 5px; font-size: 0.8rem;" onclick="window.openThermalWiki();">
@@ -94,7 +115,30 @@
         </div>
     </div>
     <div class="bg-glow"></div>
-    <header class="app-header">
+    <header class="app-header" style="position: relative;">
+        <!-- Escudo Universidad de Antioquia -->
+        <div class="udea-shield-container" style="position: absolute; top: 15px; left: 30px; z-index: 10; display: flex; align-items: center; justify-content: center; background: rgba(15, 23, 42, 0.45); border: 1px solid rgba(16, 185, 129, 0.25); padding: 18px 24px; border-radius: 16px; backdrop-filter: blur(8px); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); transition: all 0.3s ease;">
+            <img src="Escudo-UdeA.svg" alt="Escudo Universidad de Antioquia" style="height: 200px; width: auto; filter: drop-shadow(0 0 12px rgba(16, 185, 129, 0.35));" />
+        </div>
+        <style>
+            .udea-shield-container:hover {
+                transform: translateY(-2px);
+                border-color: rgba(16, 185, 129, 0.65);
+                box-shadow: 0 6px 24px rgba(16, 185, 129, 0.35);
+            }
+            @media (max-width: 768px) {
+                .udea-shield-container {
+                    position: relative;
+                    top: 0;
+                    left: 0;
+                    margin: 0 auto 15px;
+                    display: inline-flex;
+                }
+                .udea-shield-container img {
+                    height: 120px !important;
+                }
+            }
+        </style>
         <div class="header-content">
             <span class="badge">Universidad de Antioquia</span>
             <h1>Historia de las<br><span class="highlight">Ciencias Térmicas</span></h1>
@@ -176,23 +220,25 @@
                         <button class="tab-btn heat-transfer-highlight" data-target="invsq-sim">Ley de la Inversa del
                             Cuadrado</button>
                         <button class="tab-btn" data-target="bernoulli-sim">Principio de Bernoulli (1738)</button>
+                        <button class="tab-btn heat-transfer-highlight" data-target="chatelet-sim" onclick="setTimeout(function(){ if(window.initChateletSimulation) window.initChateletSimulation(); }, 50);"><i class="fas fa-fire" style="color:#f59e0b; margin-right:4px;"></i> <span class="lang-es">Émilie du Châtelet: Conservación de la Energía (1738)</span><span class="lang-en" style="display:none;">Émilie du Châtelet: Energy Conservation (1738)</span></button>
                         <button class="tab-btn" data-target="celsius-sim">Calibración de Celsius (1742)</button>
-                        <button class="tab-btn" data-target="ns-sim">Flujo Navier-Stokes / Perfil Alar (1822)</button>
                         <button class="tab-btn heat-transfer-highlight" data-target="herschel-sim">Experimento de
                             Herschel (1800)</button>
                         <button class="tab-btn active heat-transfer-highlight" data-target="fourier-sim">Ley de Fourier
                             (Conducción, 1822)</button>
+                        <button class="tab-btn" data-target="ns-sim">Flujo Navier-Stokes / Perfil Alar (1822)</button>
+                        <button class="tab-btn" data-target="cpcv-sim">Capacidades Caloríficas Cp y Cv (1842)</button>
                         <button class="tab-btn" data-target="joule-sim">Experimento de Joule (1843)</button>
                         <button class="tab-btn" data-target="kelvin-sim">Escala Kelvin (Cero Absoluto, 1848)</button>
                         <button class="tab-btn" data-target="clausius-sim">Entropía y Segunda Ley (Clausius,
                             1850)</button>
-                        <button class="tab-btn" data-target="cpcv-sim">Capacidades Caloríficas Cp y Cv (1842)</button>
+                        <button class="tab-btn heat-transfer-highlight" data-target="foote-sim" onclick="setTimeout(function(){ if(window.initFooteSimulation) window.initFooteSimulation(); }, 50);"><i class="fas fa-sun" style="color:#ec4899; margin-right:4px;"></i> <span class="lang-es">Efecto Invernadero (Eunice Foote, 1856)</span><span class="lang-en" style="display:none;">Greenhouse Effect (Eunice Foote, 1856)</span></button>
+                        <button class="tab-btn" data-target="maxwell-sim">Teoría Cinética (Maxwell-Boltzmann,
+                            1860)</button>
                         <button class="tab-btn heat-transfer-highlight" data-target="reynolds-sim">Experimento de
                             Reynolds (1883)</button>
                         <button class="tab-btn heat-transfer-highlight" data-target="planck-sim">Ley de Planck
                             (Radiación, 1900)</button>
-                        <button class="tab-btn" data-target="maxwell-sim">Teoría Cinética (Maxwell-Boltzmann,
-                            1860)</button>
                         <button class="tab-btn heat-transfer-highlight" data-target="prandtl-sim">Teoría de la Capa
                             Límite (Prandtl, 1904)</button>
                         <button class="tab-btn heat-transfer-highlight" data-target="bl-sim">Desarrollo Capa
@@ -238,6 +284,8 @@
                             Microcanales (1981)</button>
                         <button class="tab-btn heat-transfer-highlight" data-target="internal-bl-sim">Capa Límite en
                             Flujo Interno</button>
+                        <button class="tab-btn heat-transfer-highlight" data-target="pennington-sim" onclick="setTimeout(function(){ if(window.initPenningtonSimulation) window.initPenningtonSimulation(); }, 50);"><i class="fas fa-snowflake" style="color:#38bdf8; margin-right:4px;"></i> <span class="lang-es">Cadena de Frío & Aislamiento (Mary Pennington, 1910)</span><span class="lang-en" style="display:none;">Cold Chain & Insulation (Mary Pennington, 1910)</span></button>
+                        <button class="tab-btn heat-transfer-highlight" data-target="telkes-sim" onclick="setTimeout(function(){ if(window.initTelkesSimulation) window.initTelkesSimulation(); }, 50);"><i class="fas fa-cube" style="color:#a855f7; margin-right:4px;"></i> <span class="lang-es">Almacenamiento PCM & Calor Latente (Maria Telkes, 1948)</span><span class="lang-en" style="display:none;">PCM Thermal Storage & Latent Heat (Maria Telkes, 1948)</span></button>
                         <div class="tab-category-title"><span class="lang-es">Comunidad</span><span class="lang-en" style="display:none;">Community</span></div>
                         <button class="tab-btn" onclick="document.getElementById('community-board-section').scrollIntoView({ behavior: 'smooth' })" style="border-left: 3px solid var(--accent-blue); color: var(--accent-blue) !important; background: rgba(59,130,246,0.06);"><i class="fas fa-users" style="margin-right: 4px;"></i> <span class="lang-es">Muro de Comentarios</span><span class="lang-en" style="display:none;">Comment Wall</span></button>
                     </div>
@@ -248,7 +296,7 @@
                         <div class="tab-pane active" id="fourier-sim">
                             <div class="sim-intro">
                                 <h3><span class="lang-es">Ley de Fourier de la Conducción (1822)</span><span
-                                        class="lang-en" style="display:none;">Fourier's Law of Driving (1822)</span>
+                                        class="lang-en" style="display:none;">Fourier's Law of Heat Conduction (1822)</span>
                                 </h3>
                                 <p><span class="lang-es">La tasa de transferencia de calor total ($q$ en $\text{W}$) a
                                         través de un medio sólido estacionario está dada por la diferencia de
@@ -2488,6 +2536,302 @@
                             window._buildBoilingChart = buildBoilingChart;
                         })();
                         </script>
+
+                        <!-- Émilie du Châtelet Nature of Fire & Energy Simulation Tab -->
+                        <div class="tab-pane" id="chatelet-sim">
+                            <div class="sim-intro">
+                                <h3><span class="lang-es">Émilie du Châtelet: Conservación de la Energía (1738)</span><span class="lang-en" style="display:none;">Émilie du Châtelet: Energy Conservation (1738)</span></h3>
+                                <p><span class="lang-es">En su ensayo <i>Dissertation sur la nature et la propagation du feu</i> (1738) y sus posteriores experimentos de caída de esferas sobre superficies blandas (arcilla), Gabrielle Émilie Le Tonnelier de Breteuil, Marquesa du Châtelet, demostró que la energía cinética disipada como calor e impronta de deformación no se escala linealmente con la velocidad ($v$), sino con el <strong>cuadrado de la velocidad ($v^2$)</strong>: $E_k = \frac{1}{2} m v^2 \to \Delta Q$.</span>
+                                <span class="lang-en" style="display:none;">In her essay <i>Dissertation sur la nature et la propagation du feu</i> (1738) and sphere drop experiments on soft clay, Émilie du Châtelet proved that kinetic energy dissipated as heat and deformation scales with <strong>velocity squared ($v^2$)</strong>: $E_k = \frac{1}{2} m v^2 \to \Delta Q$.</span></p>
+
+                                <div style="display:flex; flex-direction:column; gap:10px; margin: 12px 0; width:100%;">
+                                    <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; background: rgba(255,255,255,0.03); padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.06);">
+                                        <div style="flex:1; min-width:180px;">
+                                            <label for="chatelet-mass"><span class="lang-es">Masa de la Esfera (<i>m</i>):</span><span class="lang-en" style="display:none;">Sphere Mass (<i>m</i>):</span> <span id="chatelet-mass-val" style="color:var(--accent-orange); font-weight:bold;">1.0 kg</span></label>
+                                            <input type="range" id="chatelet-mass" min="0.2" max="5.0" step="0.1" value="1.0" style="width: 100%;">
+                                        </div>
+                                        <div style="flex:1; min-width:180px;">
+                                            <label for="chatelet-height"><span class="lang-es">Altura de Caída (<i>h</i>):</span><span class="lang-en" style="display:none;">Drop Height (<i>h</i>):</span> <span id="chatelet-height-val" style="color:var(--accent-cyan); font-weight:bold;">2.0 m</span></label>
+                                            <input type="range" id="chatelet-height" min="0.5" max="10.0" step="0.5" value="2.0" style="width: 100%;">
+                                        </div>
+                                        <div style="display:flex; gap:8px; width:100%; margin-top:4px;">
+                                            <button id="chatelet-drop-btn" class="btn-clear" style="flex:1; background:var(--accent-orange); color:white; border:none; padding:10px; border-radius:8px; font-weight:bold; cursor:pointer;"><i class="fas fa-play"></i> <span class="lang-es">Soltar Esfera</span><span class="lang-en" style="display:none;">Drop Sphere</span></button>
+                                            <button id="chatelet-reset-btn" class="btn-clear" style="background:rgba(239,68,68,0.2); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:10px; border-radius:8px; font-weight:bold; cursor:pointer;"><i class="fas fa-redo"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Canvas & Energy Metrics -->
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-top:15px;" class="sim-grid-responsive">
+                                <div style="background: rgba(0,0,0,0.3); border-radius:10px; padding:12px; border:1px solid rgba(255,255,255,0.08); display:flex; flex-direction:column; align-items:center;">
+                                    <h4 style="margin-top:0; color:#f59e0b; font-size:0.95rem; width:100%; text-align:left;"><i class="fas fa-bullseye"></i> <span class="lang-es">Experimento de Impacto y Deformación Térmica</span><span class="lang-en" style="display:none;">Impact & Thermal Deformation Experiment</span></h4>
+                                    <div style="width:100%; height:320px; position:relative;">
+                                        <canvas id="chatelet-canvas" style="width:100%; height:100%; display:block;"></canvas>
+                                    </div>
+                                </div>
+
+                                <div style="background: rgba(0,0,0,0.3); border-radius:10px; padding:12px; border:1px solid rgba(255,255,255,0.08); display:flex; flex-direction:column;">
+                                    <h4 style="margin-top:0; color:var(--accent-cyan); font-size:0.95rem;"><i class="fas fa-chart-bar"></i> <span class="lang-es">Disipación de Energía E_k = ½m·v²</span><span class="lang-en" style="display:none;">Energy Dissipation E_k = ½m·v²</span></h4>
+                                    <div style="width:100%; height:230px; position:relative;">
+                                        <canvas id="chatelet-chart" style="width:100%; height:100%; display:block;"></canvas>
+                                    </div>
+                                    <div id="chatelet-metrics" style="margin-top:10px; padding:10px; background:rgba(255,255,255,0.03); border-radius:6px; font-size:0.8rem; color:#cbd5e1; border:1px solid rgba(255,255,255,0.05); display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+                                         <div><strong>Velocidad de Impacto (<i>v</i>):</strong> <br><span id="chatelet-v-val" style="color:#38bdf8; font-weight:bold; font-size:0.9rem;">0.0 m/s</span></div>
+                                         <div><strong>Energía Cinética / Calórica (&Delta;<i>Q</i>):</strong> <br><span id="chatelet-ek-val" style="color:#f59e0b; font-weight:bold; font-size:0.9rem;">0.0 J</span></div>
+                                         <div><strong>Profundidad de Huella (<i>d</i> &propto; <i>v</i>²):</strong> <br><span id="chatelet-def-val" style="color:#10b981; font-weight:bold; font-size:0.9rem;">0.0 mm</span></div>
+                                         <div><strong>Área de Indentación (<i>A</i> &propto; <i>v</i>²):</strong> <br><span id="chatelet-area-val" style="color:#a855f7; font-weight:bold; font-size:0.9rem;">0.0 cm²</span></div>
+                                         <div style="grid-column: span 2;"><strong>Resistencia Media de Arcilla (<i>F</i><sub>res</sub>):</strong> <span id="chatelet-fres-val" style="color:#f87171; font-weight:bold;">150 N</span></div>
+                                         <div style="grid-column: span 2; border-top: 1px solid rgba(255,255,255,0.08); padding-top:6px; margin-top:2px;">
+                                             <i class="fas fa-balance-scale" style="color:#38bdf8; margin-right:4px;"></i> <strong>Equivalencia de Deformación a Trabajo:</strong> <br>
+                                             <span style="font-size:0.75rem; color:#94a3b8;"><span class="lang-es">Trabajo realizado por la fuerza de resistencia de la arcilla</span><span class="lang-en" style="display:none;">Work done by the clay resistance force</span>: </span>
+                                             <span id="chatelet-work-eq-val" style="color:#f59e0b; font-weight:bold;">W = F_res · d = 0.0 J</span>
+                                         </div>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Eunice Newton Foote Greenhouse Effect Simulation Tab -->
+                        <div class="tab-pane" id="foote-sim">
+                            <div class="sim-intro">
+                                <h3><span class="lang-es">Efecto Invernadero (Eunice Foote, 1856)</span><span class="lang-en" style="display:none;">Greenhouse Effect (Eunice Foote, 1856)</span></h3>
+                                <p><span class="lang-es">En 1856, Eunice Newton Foote descubrió experimentalmente que el <strong>Dióxido de Carbono (CO<sub>2</sub>)</strong> y otros gases atrapan la radiación infrarroja del sol de forma diferenciada. El calentamiento en un volumen cerrado impulsado por radiación constante <i>I</i><sub>solar</sub> depende del coeficiente de absorción infrarroja del gas (&alpha;<sub>IR</sub>), la densidad (&rho;) y la <strong>capacidad calorífica a presión constante (<i>C</i><sub>p</sub>)</strong>:</span>
+                                <span class="lang-en" style="display:none;">In 1856, Eunice Newton Foote experimentally discovered that <strong>Carbon Dioxide (CO<sub>2</sub>)</strong> and other gases absorb solar infrared radiation differently. Heating in a closed volume driven by constant radiation <i>I</i><sub>solar</sub> depends on the gas infrared absorption coefficient (&alpha;<sub>IR</sub>), density (&rho;), and <strong>heat capacity at constant pressure (<i>C</i><sub>p</sub>)</strong>:</span></p>
+
+                                <div style="display:flex; flex-direction:column; gap:10px; margin: 12px 0; width:100%;">
+                                    <div style="width:100%; text-align:center; font-size: 0.95rem; background:rgba(0,0,0,0.25); padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.05); overflow-x:auto;">
+                                        $$\rho \cdot V \cdot C_v \frac{dT}{dt} = \alpha_{\text{IR}} \cdot I_{\text{solar}} \cdot A_{\text{rad}} - h \cdot A_{\text{conv}} \cdot (T - T_{\text{amb}})$$
+                                    </div>
+                                    <div style="width:100%; text-align:center; font-size: 0.90rem; background:rgba(56,189,248,0.1); padding:8px; border-radius:8px; border:1px solid rgba(56,189,248,0.3); color:#38bdf8; overflow-x:auto;">
+                                        $$A_{\text{rad}} = D \cdot L \quad \text{y} \quad A_{\text{conv}} = \pi D L + 2\left(\frac{\pi D^2}{4}\right)$$
+                                    </div>
+                                    <div style="width:100%; text-align:center; font-size: 0.95rem; background:rgba(245,158,11,0.1); padding:10px; border-radius:8px; border:1px solid rgba(245,158,11,0.3); color:#f59e0b; overflow-x:auto;">
+                                        $$\Delta U = m \cdot C_v \cdot \Delta T = m \cdot C_v \cdot (T - T_{\text{amb}})$$
+                                    </div>
+                                </div>
+
+                                <ul>
+                                    <li><strong>CO<sub>2</sub> (Dióxido de Carbono):</strong> Elevada absorción infrarroja y mayor densidad &rarr; Alta retención térmica y <i>T</i><sub>eq</sub> elevada.</li>
+                                    <li><strong>Aire Seco (N<sub>2</sub> + O<sub>2</sub>):</strong> Absorción infrarroja moderada.</li>
+                                    <li><strong>SF<sub>6</sub> / N<sub>2</sub>O / Metano (CH<sub>4</sub>):</strong> Gases potentes de efecto invernadero con distintas respuestas térmicas.</li>
+                                </ul>
+                            </div>
+
+                            <div class="simulation-workspace" style="display:flex; flex-direction:column; gap:15px; width:100%;">
+                                <div class="controls-card glass" style="width:100%; max-width:none;">
+                                    <h4 class="sim-subheading"><i class="fas fa-sliders-h"></i> <span class="lang-es">Parámetros del Experimento Solar</span><span class="lang-en" style="display:none;">Solar Experiment Parameters</span></h4>
+
+                                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:15px; align-items:start;">
+                                        <div>
+                                            <div class="control-group" style="margin-bottom: 12px;">
+                                                <label for="foote-solar-irradiance"><span class="lang-es">Irradiancia Solar Simulado (<i>I</i><sub>solar</sub>):</span><span class="lang-en" style="display:none;">Simulated Solar Irradiance (<i>I</i><sub>solar</sub>):</span> <span id="foote-solar-val" style="color:var(--accent-orange); font-weight:bold;">1000 W/m²</span></label>
+                                                <input type="range" id="foote-solar-irradiance" min="200" max="2000" step="50" value="1000" style="width: 100%;">
+                                            </div>
+
+                                            <div class="control-group" style="margin-bottom: 12px;">
+                                                <label for="foote-tamb-input"><span class="lang-es">Temperatura Ambiente (<i>T</i><sub>amb</sub>):</span><span class="lang-en" style="display:none;">Ambient Temperature (<i>T</i><sub>amb</sub>):</span> <span id="foote-tamb-val" style="color:var(--accent-cyan); font-weight:bold;">25 °C</span></label>
+                                                <input type="range" id="foote-tamb-input" min="0" max="40" step="1" value="25" style="width: 100%;">
+                                            </div>
+
+                                            <div class="control-group" style="margin-bottom: 12px;">
+                                                <label for="foote-h-input"><span class="lang-es">Coeficiente Convectivo Exter. (<i>h</i>):</span><span class="lang-en" style="display:none;">Ext. Convective Coeff. (<i>h</i>):</span> <span id="foote-h-val" style="color:#a855f7; font-weight:bold;">12 W/m²·K</span></label>
+                                                <input type="range" id="foote-h-input" min="2" max="50" step="1" value="12" style="width: 100%;">
+                                            </div>
+
+                                            <div class="control-group" style="margin-bottom: 12px;">
+                                                <label for="foote-v-input"><span class="lang-es">Volumen del Recipiente (<i>V</i>):</span><span class="lang-en" style="display:none;">Container Volume (<i>V</i>):</span> <span id="foote-v-val" style="color:#38bdf8; font-weight:bold;">5.0 L (0.005 m³)</span></label>
+                                                <input type="range" id="foote-v-input" min="1" max="20" step="0.5" value="5" style="width: 100%;">
+                                            </div>
+
+                                            <div style="display:flex; gap:10px; margin-bottom:12px; background:rgba(0,0,0,0.2); padding:8px 10px; border-radius:6px; border:1px solid rgba(255,255,255,0.06); font-size:0.8rem; color:#cbd5e1;">
+                                                <div style="flex:1;"><i class="fas fa-vector-square" style="color:#10b981; margin-right:4px;"></i> <strong>Áreas Geométricas Recipiente:</strong> <span id="foote-areas-val"><i>A</i><sub>conv</sub> = 0.16 m² | <i>A</i><sub>rad</sub> = 0.008 m²</span></div>
+                                            </div>
+
+                                            <div style="display:flex; gap:8px; margin-top:10px;">
+                                                <button id="foote-start-btn" class="btn-clear" style="flex:1; background:var(--accent-orange); color:white; border:none; padding:10px; border-radius:8px; font-weight:bold; cursor:pointer;"><i class="fas fa-sun"></i> <span class="lang-es">Encender Sol</span><span class="lang-en" style="display:none;">Turn Solar On</span></button>
+                                                <button id="foote-reset-btn" class="btn-clear" style="background:rgba(239,68,68,0.2); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:10px; border-radius:8px; font-weight:bold; cursor:pointer;"><i class="fas fa-redo"></i></button>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <div class="control-group" style="margin-bottom: 8px;">
+                                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                                    <label style="margin:0;"><span class="lang-es">Gases a Comparar en el Experimento:</span><span class="lang-en" style="display:none;">Gases to Compare in Experiment:</span></label>
+                                                    <div style="display:flex; gap:6px;">
+                                                        <button id="foote-select-all" type="button" style="background:rgba(56,189,248,0.15); color:#38bdf8; border:1px solid rgba(56,189,248,0.3); border-radius:4px; padding:2px 8px; font-size:0.75rem; cursor:pointer;"><i class="fas fa-check-double"></i> <span class="lang-es">Todos</span><span class="lang-en" style="display:none;">All</span></button>
+                                                        <button id="foote-deselect-all" type="button" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); border-radius:4px; padding:2px 8px; font-size:0.75rem; cursor:pointer;"><i class="fas fa-times"></i> <span class="lang-es">Ninguno</span><span class="lang-en" style="display:none;">None</span></button>
+                                                    </div>
+                                                </div>
+                                                <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap:6px; margin-top:4px; background: rgba(0,0,0,0.25); padding:8px; border-radius:6px; border:1px solid rgba(255,255,255,0.08);">
+                                                    <label style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#ec4899; cursor:pointer;">
+                                                        <input type="checkbox" class="foote-gas-check" value="co2" checked> CO₂ (Dióxido)
+                                                    </label>
+                                                    <label style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#0284c7; cursor:pointer;">
+                                                        <input type="checkbox" class="foote-gas-check" value="h2o" checked> H₂O (Vapor de Agua)
+                                                    </label>
+                                                    <label style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#e11d48; cursor:pointer;">
+                                                        <input type="checkbox" class="foote-gas-check" value="o3" checked> O₃ (Ozono)
+                                                    </label>
+                                                    <label style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#6366f1; cursor:pointer;">
+                                                        <input type="checkbox" class="foote-gas-check" value="n2"> N₂ (Nitrógeno)
+                                                    </label>
+                                                    <label style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#38bdf8; cursor:pointer;">
+                                                        <input type="checkbox" class="foote-gas-check" value="o2"> O₂ (Oxígeno)
+                                                    </label>
+                                                    <label style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#3b82f6; cursor:pointer;">
+                                                        <input type="checkbox" class="foote-gas-check" value="air" checked> Aire Seco
+                                                    </label>
+                                                    <label style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#06b6d4; cursor:pointer;">
+                                                        <input type="checkbox" class="foote-gas-check" value="h2"> Hidrógeno (H₂)
+                                                    </label>
+                                                    <label style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#10b981; cursor:pointer;">
+                                                        <input type="checkbox" class="foote-gas-check" value="ch4"> Metano (CH₄)
+                                                    </label>
+                                                    <label style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#94a3b8; cursor:pointer;">
+                                                        <input type="checkbox" class="foote-gas-check" value="ar" checked> Argón (Ar)
+                                                    </label>
+                                                    <label style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#f59e0b; cursor:pointer;">
+                                                        <input type="checkbox" class="foote-gas-check" value="sf6" checked> SF₆ (Hexafluoruro)
+                                                    </label>
+                                                    <label style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#a855f7; cursor:pointer;">
+                                                        <input type="checkbox" class="foote-gas-check" value="n2o" checked> N₂O (Óxido Nitroso)
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="foote-summary-table" style="margin-top: 12px; padding: 8px; background: rgba(15,23,42,0.5); border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); font-size: 0.75rem; overflow-x:auto;">
+                                        <!-- Dynamic gas comparison table -->
+                                    </div>
+                                </div>
+
+                                <div class="animation-card" style="width:100%; display:flex; flex-direction:column; gap:12px;">
+                                    <h4 class="sim-subheading"><i class="fas fa-vial"></i> <span class="lang-es">Cilindros de Vidrio Simultáneos de Eunice Foote & Radiación Infrarroja</span><span class="lang-en" style="display:none;">Eunice Foote's Simultaneous Glass Cylinders & Infrared Radiation</span></h4>
+                                    <div class="canvas-container" style="position:relative; height:240px; background:#060d1a; border-radius:8px; overflow:hidden; border:1px solid rgba(236,72,153,0.3);">
+                                        <canvas id="footeCanvas" style="width:100%; height:100%; display:block;"></canvas>
+                                    </div>
+
+                                    <div style="background: rgba(15,23,42,0.3); border-radius: 8px; padding: 12px; border: 1px solid rgba(255,255,255,0.05); height: 420px;">
+                                        <canvas id="footeTempChart" style="width:100%; height:100%;"></canvas>
+                                    </div>
+
+                                    <div id="foote-quote-banner" style="display:none; margin-top:10px; background:linear-gradient(135deg, rgba(236,72,153,0.15), rgba(168,85,247,0.15)); border:1px solid rgba(236,72,153,0.4); border-radius:10px; padding:14px; color:#f8fafc;">
+                                        <div style="display:flex; align-items:flex-start; gap:12px;">
+                                            <i class="fas fa-quote-left" style="font-size:1.8rem; color:#ec4899; opacity:0.8; margin-top:2px;"></i>
+                                            <div style="flex:1;">
+                                                <p id="foote-quote-text" style="font-size:0.95rem; font-style:italic; font-family:'Georgia', serif; line-height:1.45; color:#f1f5f9; margin-bottom:8px;"></p>
+                                                <div id="foote-conclusion-delta" style="font-size:0.85rem; font-weight:bold; background:rgba(0,0,0,0.3); padding:8px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); color:#38bdf8;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mary Pennington Cold Chain & Insulation Tab -->
+                        <div class="tab-pane" id="pennington-sim">
+                            <div class="sim-intro">
+                                <h3><span class="lang-es">Mary Engler Pennington: Cadena de Frío y Aislamiento Térmico Transitorio (1910)</span><span class="lang-en" style="display:none;">Mary Engler Pennington: Cold Chain & Transient Thermal Insulation (1910)</span></h3>
+                                <p><span class="lang-es">Mary Engler Pennington, la "Madre de la Refrigeración Moderna", estableció los principios de la transferencia de calor por conducción en paredes compuestas aislantes y la conservación de la cadena de frío. La ganancia de calor en un vagón frigorífico sigue la Ley de Fourier: $q'' = \frac{k}{L} (T_{\text{ext}} - T_{\text{int}})$, donde $k$ es la conductividad del aislante y $L$ su espesor.</span>
+                                <span class="lang-en" style="display:none;">Mary Engler Pennington, the "Mother of Modern Refrigeration", established the principles of heat transfer in composite insulated walls and cold chain preservation: $q'' = \frac{k}{L} (T_{\text{ext}} - T_{\text{int}})$.</span></p>
+
+                                <div style="display:flex; flex-direction:column; gap:10px; margin: 12px 0; width:100%;">
+                                    <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; background: rgba(255,255,255,0.03); padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.06);">
+                                        <div style="flex:1; min-width:160px;">
+                                            <label for="pennington-insulation"><span class="lang-es">Material Aislante:</span><span class="lang-en" style="display:none;">Insulation Material:</span></label>
+                                            <select id="pennington-insulation" style="width:100%; background:#1e293b; color:white; border:1px solid rgba(255,255,255,0.15); padding:6px; border-radius:6px;">
+                                                <option value="cork" selected>Corcho prensado (k = 0.040 W/m·K)</option>
+                                                <option value="wood">Fibra de Madera (k = 0.055 W/m·K)</option>
+                                                <option value="pu">Poliuretano Expandido (k = 0.022 W/m·K)</option>
+                                                <option value="none">Sin Aislamiento / Madera sola (k = 0.150 W/m·K)</option>
+                                            </select>
+                                        </div>
+                                        <div style="flex:1; min-width:140px;">
+                                            <label for="pennington-thickness"><span class="lang-es">Espesor Aislante (<i>L</i>):</span><span class="lang-en" style="display:none;">Thickness (<i>L</i>):</span> <span id="pennington-thickness-val" style="color:#38bdf8; font-weight:bold;">10 cm</span></label>
+                                            <input type="range" id="pennington-thickness" min="2" max="30" step="1" value="10" style="width: 100%;">
+                                        </div>
+                                        <div style="flex:1; min-width:140px;">
+                                            <label for="pennington-text"><span class="lang-es">T° Exterior Verano:</span><span class="lang-en" style="display:none;">Ext. Summer T°:</span> <span id="pennington-text-val" style="color:#ef4444; font-weight:bold;">35 °C</span></label>
+                                            <input type="range" id="pennington-text" min="20" max="45" step="1" value="35" style="width: 100%;">
+                                        </div>
+                                        <div style="display:flex; gap:8px; width:100%; margin-top:4px;">
+                                            <button id="pennington-start-btn" class="btn-clear" style="flex:1; background:#0284c7; color:white; border:none; padding:10px; border-radius:8px; font-weight:bold; cursor:pointer;"><i class="fas fa-snowflake"></i> <span class="lang-es">Iniciar Transporte de Frío</span><span class="lang-en" style="display:none;">Start Cold Transport</span></button>
+                                            <button id="pennington-reset-btn" class="btn-clear" style="background:rgba(239,68,68,0.2); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:10px; border-radius:8px; font-weight:bold; cursor:pointer;"><i class="fas fa-redo"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-top:15px;" class="sim-grid-responsive">
+                                <div style="background: rgba(0,0,0,0.3); border-radius:10px; padding:12px; border:1px solid rgba(255,255,255,0.08); display:flex; flex-direction:column; align-items:center;">
+                                    <h4 style="margin-top:0; color:#38bdf8; font-size:0.95rem; width:100%; text-align:left;"><i class="fas fa-truck-loading"></i> <span class="lang-es">Perfil de Pared y Temperatura del Alimento</span><span class="lang-en" style="display:none;">Wall Profile & Food Temperature</span></h4>
+                                    <div style="width:100%; height:320px; position:relative;">
+                                        <canvas id="pennington-canvas" style="width:100%; height:100%; display:block;"></canvas>
+                                    </div>
+                                </div>
+
+                                <div style="background: rgba(0,0,0,0.3); border-radius:10px; padding:12px; border:1px solid rgba(255,255,255,0.08); display:flex; flex-direction:column;">
+                                    <h4 style="margin-top:0; color:#10b981; font-size:0.95rem;"><i class="fas fa-chart-line"></i> <span class="lang-es">Curva Transitoria T(t) y Horas de Preservación Segura</span><span class="lang-en" style="display:none;">Transient T(t) Curve & Safe Preservation Hours</span></h4>
+                                    <div style="width:100%; height:230px; position:relative;">
+                                        <canvas id="pennington-chart" style="width:100%; height:100%; display:block;"></canvas>
+                                    </div>
+                                    <div id="pennington-metrics" style="margin-top:10px; padding:8px; background:rgba(255,255,255,0.03); border-radius:6px; font-size:0.82rem; color:#cbd5e1; border:1px solid rgba(255,255,255,0.05);">
+                                        <div><strong>Flujo Conductivo (<i>q''</i>):</strong> <span id="pennington-q-val" style="color:#ef4444;">0.0 W/m²</span></div>
+                                        <div><strong>Temperatura Actual del Carga:</strong> <span id="pennington-tint-val" style="color:#38bdf8;">4.0 °C</span></div>
+                                        <div><strong>Tiempo de Preservación Segura (&lt; 8°C):</strong> <span id="pennington-time-val" style="color:#10b981;">0.0 horas</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Maria Telkes PCM Latent Heat Thermal Storage Tab -->
+                        <div class="tab-pane" id="telkes-sim">
+                            <div class="sim-intro">
+                                <h3><span class="lang-es">Maria Telkes: Calor Latente (&Delta;H<sub>fusión</sub>) y Almacenamiento Térmico PCM (1948)</span><span class="lang-en" style="display:none;">Maria Telkes: Latent Heat (&Delta;H<sub>fusion</sub>) & PCM Thermal Storage (1948)</span></h3>
+                                <p><span class="lang-es">Maria Telkes, la "Reina del Sol", demostró que los materiales de cambio de fase (PCM) como la sal de Glauber ($\text{Na}_2\text{SO}_4 \cdot 10\text{H}_2\text{O}$) almacenan hasta 5 veces más energía térmica que el agua mediante su <strong>calor latente de fusión ($\Delta H_f = 251\text{ kJ/kg}$) a temperatura constante ($32^\circ\text{C}$)</strong>: $Q = m \cdot \Delta H_f + m \cdot C_p \cdot \Delta T$.</span>
+                                <span class="lang-en" style="display:none;">Maria Telkes showed that phase change materials (PCM) store up to 5x more thermal energy than water via <strong>latent heat of fusion ($\Delta H_f = 251\text{ kJ/kg}$) at constant temperature ($32^\circ\text{C}$)</strong>.</span></p>
+
+                                <div style="display:flex; flex-direction:column; gap:10px; margin: 12px 0; width:100%;">
+                                    <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; background: rgba(255,255,255,0.03); padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.06);">
+                                        <div style="flex:1; min-width:180px;">
+                                            <label for="telkes-solar"><span class="lang-es">Radiación Solar Recibida (<i>I</i><sub>solar</sub>):</span><span class="lang-en" style="display:none;">Solar Radiation (<i>I</i><sub>solar</sub>):</span> <span id="telkes-solar-val" style="color:var(--accent-orange); font-weight:bold;">800 W/m²</span></label>
+                                            <input type="range" id="telkes-solar" min="200" max="1200" step="50" value="800" style="width: 100%;">
+                                        </div>
+                                        <div style="flex:1; min-width:180px;">
+                                            <label for="telkes-mass"><span class="lang-es">Masa del Acumulador (<i>m</i>):</span><span class="lang-en" style="display:none;">Storage Mass (<i>m</i>):</span> <span id="telkes-mass-val" style="color:#a855f7; font-weight:bold;">50 kg</span></label>
+                                            <input type="range" id="telkes-mass" min="10" max="200" step="10" value="50" style="width: 100%;">
+                                        </div>
+                                        <div style="display:flex; gap:8px; width:100%; margin-top:4px;">
+                                            <button id="telkes-start-btn" class="btn-clear" style="flex:1; background:#a855f7; color:white; border:none; padding:10px; border-radius:8px; font-weight:bold; cursor:pointer;"><i class="fas fa-sun"></i> <span class="lang-es">Cargar Calor Solar</span><span class="lang-en" style="display:none;">Charge Solar Heat</span></button>
+                                            <button id="telkes-reset-btn" class="btn-clear" style="background:rgba(239,68,68,0.2); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:10px; border-radius:8px; font-weight:bold; cursor:pointer;"><i class="fas fa-redo"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-top:15px;" class="sim-grid-responsive">
+                                <div style="background: rgba(0,0,0,0.3); border-radius:10px; padding:12px; border:1px solid rgba(255,255,255,0.08); display:flex; flex-direction:column; align-items:center;">
+                                    <h4 style="margin-top:0; color:#a855f7; font-size:0.95rem; width:100%; text-align:left;"><i class="fas fa-atom"></i> <span class="lang-es">Estado del Acumulador PCM (Fusión Sólido-Líquido)</span><span class="lang-en" style="display:none;">PCM Storage State (Solid-Liquid Fusion)</span></h4>
+                                    <div style="width:100%; height:320px; position:relative;">
+                                        <canvas id="telkes-canvas" style="width:100%; height:100%; display:block;"></canvas>
+                                    </div>
+                                </div>
+
+                                <div style="background: rgba(0,0,0,0.3); border-radius:10px; padding:12px; border:1px solid rgba(255,255,255,0.08); display:flex; flex-direction:column;">
+                                    <h4 style="margin-top:0; color:#f59e0b; font-size:0.95rem;"><i class="fas fa-chart-line"></i> <span class="lang-es">Comparación T(t): Sal de Glauber PCM vs Agua (Calor Sensible)</span><span class="lang-en" style="display:none;">T(t) Comparison: Glauber Salt PCM vs Water (Sensible Heat)</span></h4>
+                                    <div style="width:100%; height:230px; position:relative;">
+                                        <canvas id="telkes-chart" style="width:100%; height:100%; display:block;"></canvas>
+                                    </div>
+                                    <div id="telkes-metrics" style="margin-top:10px; padding:8px; background:rgba(255,255,255,0.03); border-radius:6px; font-size:0.82rem; color:#cbd5e1; border:1px solid rgba(255,255,255,0.05);">
+                                        <div><strong>Energía Total Acumulada PCM:</strong> <span id="telkes-qpcm-val" style="color:#a855f7;">0.0 MJ</span></div>
+                                        <div><strong>Fase de la Sal de Glauber:</strong> <span id="telkes-phase-val" style="color:#10b981;">Sólida (20°C)</span></div>
+                                        <div><strong>Meseta de Temperatura Latente:</strong> <span style="color:#f59e0b; font-weight:bold;">32.0 °C (Constante en Fusión)</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <!-- Navier-Stokes Airfoil Simulation Tab -->
 
@@ -7884,6 +8228,20 @@
                                         <div class="comment-card-body" style="margin-top: 4px;">Excellent numerical calculus work. The linear heat conduction resolution is impeccable.</div>
                                     </div>
                                 </div>
+                                <div class="comment-card" style="border: 1px solid rgba(236, 72, 153, 0.4); background: rgba(236, 72, 153, 0.08);">
+                                    <img class="comment-card-avatar" src="Eunice_Newton_Foote.jpg" alt="Eunice Newton Foote" title="Portrait of Eunice Newton Foote by @hejronja.illustration" />
+                                    <div class="comment-card-content">
+                                        <div class="comment-card-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                            <div style="display: flex; align-items: center; flex-wrap: wrap;">
+                                                <span class="comment-author-name">Eunice Newton Foote</span>
+                                                <span style="font-size:0.7rem; color:#ec4899; background:rgba(236,72,153,0.15); padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:600;">Atmospheric Thermal Pioneer</span>
+                                            </div>
+                                            <span class="comment-timestamp" style="font-size: 0.7rem; opacity: 0.6;">1856</span>
+                                        </div>
+                                        <div class="comment-card-body" style="margin-top: 4px;">Demostré por primera vez en 1856 cómo los gases como el CO₂ atrapan la radiación solar y alteran la temperatura del aire. ¡La radiación atmosférica es clave en el equilibrio térmico!</div>
+                                        <div style="font-size: 0.65rem; color: var(--text-secondary); opacity: 0.7; margin-top: 4px; font-style: italic;">Retrato: <i>Portrait of Eunice Newton Foote by @hejronja.illustration</i></div>
+                                    </div>
+                                </div>
                                 <div class="comment-card" style="border: 1px solid rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.05);">
                                     <img class="comment-card-avatar" src="Sadi_Carnot.jpeg" alt="Sadi Carnot" />
                                     <div class="comment-card-content">
@@ -7906,20 +8264,25 @@
 
         <footer class="app-footer">
             <p>&copy; 2026 Historia de las Ciencias Térmicas</p>
-            <p><span class="lang-es">Diseñado para propósitos educativos por</span><span class="lang-en"
-                    style="display:none;">Designed for educational purposes by</span> <strong>Andrés
+            <p style="max-width: 800px; margin: 8px auto 12px; line-height: 1.5;"><span class="lang-es">Diseñado, conceptualizado y dirigido para propósitos educativos por</span><span class="lang-en"
+                    style="display:none;">Designed, conceptualized, and directed for educational purposes by</span> <strong>Andrés
                     Colorado</strong><span class="lang-es">, Ing. Mecánico, M. Sc. Ph. D. Profesor, Facultad de
                     Ingeniería, Universidad de Antioquia.</span><span class="lang-en" style="display:none;">, Mechanical
                     Engineer, M. Sc. Ph. D. Professor, Faculty of Engineering, University of Antioquia.</span><br>
+                <span style="font-size: 0.78rem; color: var(--accent-cyan); display: inline-block; margin-top: 4px;">
+                    <i class="fas fa-brain" style="margin-right: 4px;"></i>
+                    <span class="lang-es"><strong>Autoria y Desarrollo:</strong> La visión pedagógica, arquitectura física y revisión científica son de autoría del Prof. Andrés Colorado. Desarrollado con asistencia de herramientas de Inteligencia Artificial para aceleración y codificación.</span>
+                    <span class="lang-en" style="display:none;"><strong>Authorship & Development:</strong> Pedagogical vision, physical architecture, and scientific review by Prof. Andrés Colorado. Developed with AI tool assistance for coding acceleration.</span>
+                </span><br>
                 <span class="lang-es">e-mail:</span><span class="lang-en" style="display:none;">email:</span> <a
                     href="mailto:felipe.colorado@udea.edu.co"
                     style="color: var(--accent-orange); text-decoration: none;">felipe.colorado@udea.edu.co</a>
             </p>
             <p style="font-size: 0.75rem; margin-top: 8px; color: var(--text-secondary); opacity: 0.8;"><i
-                    class="far fa-clock"></i> <span class="lang-es">Última actualización: 30 de julio de 2026, 8:15 PM -
-                    Versión 2.3 (Reglas y persistencia de comentarios históricos y de usuarios 100% sincronizados en la Nube con Firebase Auth & Realtime DB)</span><span
-                    class="lang-en" style="display:none;">Last update: July 30, 2026, 8:15 PM -
-                    Version 2.3 (100% Cloud-synchronized Auth & Realtime Comments with Firebase Auth & Realtime DB Rules)</span></p>
+                    class="far fa-clock"></i> <span class="lang-es">Última actualización: 31 de julio de 2026, 3:35 PM -
+                    Versión 3.1 (Integración de imágenes históricas; renderizado optimizado de los laboratorios de Foote, Châtelet y Pennington; cálculo del área de indentación en simulador de Châtelet)</span><span
+                    class="lang-en" style="display:none;">Last update: July 31, 2026, 3:35 PM -
+                    Version 3.1 (Local historical images; optimized rendering for Foote, Châtelet & Pennington labs; indentation area calculation in Châtelet sim)</span></p>
             <div style="margin-top: 15px; text-align: center;">
                 <span class="lang-es"><img src="https://api.visitorbadge.io/api/visitors?path=felipecolorado.github.io/ciencias-termicas/&label=visitas&countColor=%23f59e0b" alt="Visitas" /></span>
                 <span class="lang-en" style="display:none;"><img src="https://api.visitorbadge.io/api/visitors?path=felipecolorado.github.io/ciencias-termicas/&label=visitors&countColor=%23f59e0b" alt="Visitors" /></span>
@@ -7987,7 +8350,7 @@
     <!-- Mobile Scientist Details Modal -->
     <div id="scientist-details-modal" class="modal-overlay">
         <div class="modal-content" style="max-width: 500px; width: 90%; background: #1e293b; border: 1px solid #475569; border-radius: 12px; padding: 24px; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);">
-            <span class="close-modal" onclick="closeScientistModal()">&times;</span>
+            <span class="close-modal" onclick="closeScientistModal()" style="position: absolute; top: 12px; right: 16px; color: #94a3b8; font-size: 1.8rem; font-weight: bold; cursor: pointer; transition: all 0.2s; line-height: 1;">&times;</span>
             <div style="display: flex; flex-direction: column; gap: 16px; text-align: left; margin-top: 10px;">
                 <div style="display: flex; gap: 16px; align-items: center;">
                     <img id="mobile-modal-avatar" src="" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-blue);" />
@@ -8175,19 +8538,6 @@
 
         </div>
 
-        <!-- Pie de página / Marca de actualización -->
-        <footer style="text-align: center; padding: 25px 15px; margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.08); color: var(--text-secondary); font-size: 0.82rem;">
-            <p style="margin: 0 0 6px 0;">
-                <span class="lang-es">Laboratorio Virtual de Historia de las Ciencias Térmicas</span>
-                <span class="lang-en" style="display:none;">Virtual Thermal Science History Laboratory</span>
-                &copy; 2026 — <strong style="color: var(--accent-blue);">Universidad de Antioquia</strong>
-            </p>
-            <p style="margin: 0; font-size: 0.76rem; opacity: 0.7;">
-                <i class="fas fa-sync-alt" style="margin-right: 4px; color: var(--accent-green);"></i>
-                <span class="lang-es">Última actualización: 30 de Julio de 2026 — 8:15 PM (Persistencia de comentarios y reglas de seguridad Firebase)</span>
-                <span class="lang-en" style="display:none;">Last update: July 30, 2026 — 8:15 PM (Firebase Security Rules & Comment Persistence)</span>
-            </p>
-        </footer>
 
         <!-- MathJax configured in <head> with startup.typeset=false -->
 
@@ -8207,7 +8557,7 @@
         <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
         <script src="translations.js"></script>
-        <script src="app_v2.js?v=v2cloud3"></script>
+        <script src="app_v2.js?v=v3fix19"></script>
 
         <script>
             // ── Celsius Simulation – standalone, bypasses safeInit ──────────────────
@@ -8438,19 +8788,55 @@
                     if (pane && pane.classList.contains('active')) startAnim();
                 }
         </script>
-        <!-- Pie de página visible / Marca de actualización -->
-        <footer style="text-align: center; padding: 25px 15px; margin: 40px 0 20px 0; border-top: 1px solid rgba(255,255,255,0.08); color: var(--text-secondary, #94a3b8); font-size: 0.85rem;">
-            <p style="margin: 0 0 6px 0;">
-                <span class="lang-es">Laboratorio Virtual de Historia de las Ciencias Térmicas</span>
-                <span class="lang-en" style="display:none;">Virtual Thermal Science History Laboratory</span>
-                &copy; 2026 — <strong style="color: var(--accent-blue, #3b82f6);">Universidad de Antioquia</strong>
-            </p>
-            <p style="margin: 0; font-size: 0.78rem; color: #cbd5e1;">
-                <i class="fas fa-sync-alt" style="margin-right: 4px; color: #10b981;"></i>
-                <span class="lang-es">Última actualización: 30 de Julio de 2026 — 8:15 PM (100% Nube Firebase & Reglas de Seguridad)</span>
-                <span class="lang-en" style="display:none;">Last update: July 30, 2026 — 8:15 PM (100% Firebase Cloud & Security Rules)</span>
-            </p>
-        </footer>
+
+        <!-- Modal de Registro Exclusivo Gratuito (Límite 10 minutos) -->
+        <div id="gatekeeper-modal"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11, 13, 19, 0.95); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
+            <div class="glass"
+                style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(6, 182, 212, 0.25); border-radius: 16px; padding: 2.5rem; max-width: 500px; width: 90%; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; color: white;">
+                <div style="font-size: 3rem; color: var(--accent-orange); margin-bottom: 1rem;">
+                    <i class="fas fa-hourglass-half"></i>
+                </div>
+                <h2 style="margin-top: 0; font-family: 'Outfit', sans-serif;"><span class="lang-es">Tiempo de Demostración Terminado</span><span class="lang-en" style="display:none;">Demo Time Expired</span></h2>
+                <p style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.5; margin-bottom: 1.5rem;">
+                    <span class="lang-es">¡Esperamos que estés disfrutando el Laboratorio Virtual de Ciencias Térmicas! Para continuar explorando las simulaciones interactivas e hitos históricos de forma ilimitada, regístrate gratis.</span>
+                    <span class="lang-en" style="display:none;">We hope you are enjoying the Virtual Thermal Science Lab! To continue exploring interactive simulations and historical milestones without limits, register for free.</span>
+                </p>
+                <form id="gatekeeper-form" onsubmit="window.submitGatekeeper(event)" style="display: flex; flex-direction: column; gap: 12px; text-align: left;">
+                    <div>
+                        <label style="font-size: 0.78rem; font-weight: bold; color: #94a3b8; display: block; margin-bottom: 4px;">Nombre Completo / Full Name:</label>
+                        <input type="text" id="gatekeeper-name" required placeholder="Ej. Juan Pérez" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.3); color: white; outline: none; box-sizing: border-box;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.78rem; font-weight: bold; color: #94a3b8; display: block; margin-bottom: 4px;">Correo Electrónico / Email:</label>
+                        <input type="email" id="gatekeeper-email" required placeholder="correo@ejemplo.com" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.3); color: white; outline: none; box-sizing: border-box;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.78rem; font-weight: bold; color: #94a3b8; display: block; margin-bottom: 4px;">Universidad o Institución / Institution:</label>
+                        <input type="text" id="gatekeeper-inst" required placeholder="Ej. Universidad de Antioquia" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.3); color: white; outline: none; box-sizing: border-box;">
+                    </div>
+                    <button type="submit" style="background: linear-gradient(135deg, var(--accent-orange), #ea580c); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 0.95rem; cursor: pointer; margin-top: 8px; transition: all 0.2s;">
+                        <span class="lang-es">Registrarse Gratis y Continuar</span><span class="lang-en" style="display:none;">Register for Free & Continue</span>
+                    </button>
+                    
+                    <div style="display: flex; align-items: center; justify-content: center; margin: 8px 0; color: #64748b; font-size: 0.8rem;">
+                        <span style="flex: 1; height: 1px; background: rgba(255,255,255,0.08);"></span>
+                        <span style="margin: 0 10px; font-weight: bold; text-transform: uppercase;"><span class="lang-es">o</span><span class="lang-en" style="display:none;">or</span></span>
+                        <span style="flex: 1; height: 1px; background: rgba(255,255,255,0.08);"></span>
+                    </div>
+
+                    <button type="button" onclick="window.handleGoogleSignIn()" style="background: #ffffff; color: #1f2937; border: 1px solid #e5e7eb; padding: 11px; border-radius: 8px; font-weight: bold; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <svg width="18" height="18" viewBox="0 0 18 18">
+                            <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/>
+                            <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z" fill="#34A853"/>
+                            <path d="M3.964 10.707a4.996 4.996 0 0 1 0-3.414V4.961H.957a8.997 8.997 0 0 0 0 8.078l3.007-2.332z" fill="#FBBC05"/>
+                            <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.896 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.293C4.672 5.166 6.656 3.58 9 3.58z" fill="#EA4335"/>
+                        </svg>
+                        <span class="lang-es">Ingresar con Google</span><span class="lang-en" style="display:none;">Sign in with Google</span>
+                    </button>
+                </form>
+            </div>
+        </div>
 </body>
 
 </html>

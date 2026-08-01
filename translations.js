@@ -1051,7 +1051,7 @@ window.uiTranslations = {
   "🌡️ Conexión con la Termodinámica": "🌡️ Connection with Thermodynamics",
   "🔥 El Problema de Newcomen": "🔥 Newcomen's Problem",
 
-  "Ley de Fourier de la Conducción (1822)": "Fourier's Law of Driving (1822)",
+  "Ley de Fourier de la Conducción (1822)": "Fourier's Law of Heat Conduction (1822)",
   "La tasa de transferencia de calor total ($q$ en $\\text{W}$) a través de un medio sólido estacionario está dada por la diferencia de temperaturas y su respectiva resistencia térmica ($R_t$): $q = \\frac{T_1 - T_2}{R_t}$": "The total heat transfer rate ($q$ in $\\text{W}$) through a stationary solid medium is given by the temperature difference and its respective thermal resistance ($R_t$): $q = \\frac{T_1 - T_2}{R_t}$",
   "\[ T(x) = T_1 - (T_1 - T_2) \\frac{x}{L} \]": "\[ T(x) = T_1 - (T_1 - T_2) \\frac{x}{L} \]",
   "(Izquierda/Interna):": "(Left/Inner):",

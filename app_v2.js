@@ -1,5 +1,5 @@
 // Data for the timeline
-const timelineEvents = [
+var timelineEvents = [
     {
         year: -350,
         title: "Aristóteles y la Naturaleza del Calor",
@@ -90,6 +90,22 @@ const timelineEvents = [
         category: "Convección",
         image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/GodfreyKneller-IsaacNewton-1689.jpg/330px-GodfreyKneller-IsaacNewton-1689.jpg",
         bio: { name: "Sir Isaac Newton", life: "1642 - 1727", country: "Reino Unido" }
+    },
+    {
+        year: 1738,
+        title: "Émilie du Châtelet: Conservación de la Energía",
+        title_en: "Émilie du Châtelet: Energy Conservation",
+        surname: "du Châtelet",
+        law: "Dissertation sur la nature del feu / Ek = ½m·v²",
+        law_en: "Nature of Fire Dissertation / Ek = ½m·v²",
+        country: "<img src='https://flagcdn.com/w20/fr.png' alt='Francia' style='vertical-align: text-bottom; margin-right: 4px;'> Francia",
+        country_en: "<img src='https://flagcdn.com/w20/fr.png' alt='Francia' style='vertical-align: text-bottom; margin-right: 4px;'> France",
+        desc: "La matemática y física francesa Émilie du Châtelet publicó en 1738 su <em>Dissertation sur la nature et la propagation du feu</em>. En esta obra demostró experimentalmente que el fuego y el calor no tienen masa (al comprobar que el hierro pesa lo mismo frío que al rojo vivo), y distinguió el calor de la luz. Además, anticipó la termodinámica al plantear que el calor es consecuencia del movimiento interno o 'fuerza viva'.<br><br>Mediante meticulosos experimentos soltando esferas de metal sobre arcilla blanda, demostró también que la energía cinética disipada como calor e impronta de deformación depende del <strong>cuadrado de la velocidad ($v^2$)</strong>: $$ E_k = \\frac{1}{2} m v^2 \\to \\Delta Q $$ Su trabajo corrigió la mecánica newtoniana pura y estableció una de las primeras bases empíricas para la conservación de la energía.<br><br><strong>Anecdotario:</strong> Tradujo los <em>Principia</em> de Isaac Newton al francés, añadiendo sus propios comentarios matemáticos avanzados. Su traducción sigue siendo el texto estándar en francés hasta el día de hoy.",
+        desc_en: "French mathematician and physicist Émilie du Châtelet published her <em>Dissertation sur la nature et la propagation du feu</em> in 1738, demonstrating that heat has no mass by weighing iron before and after being red-hot. She conceptualized heat as internal movement. Through sphere drop experiments on soft clay, she also proved that kinetic energy dissipated as heat and deformation scales with <strong>velocity squared ($v^2$)</strong>: $$ E_k = \\frac{1}{2} m v^2 \\to \\Delta Q $$",
+        category: "Termodinámica",
+        image: "Emilie_Chatelet_portrait_by_Latour.jpg",
+        bio: { name: "Gabrielle Émilie Le Tonnelier de Breteuil, Marquise du Châtelet", life: "1706 - 1749", country: "Francia" },
+        "tab-target": "chatelet-sim"
     },
     {
         year: 1738,
@@ -250,6 +266,22 @@ const timelineEvents = [
         country_en: "United Kingdom", }
     },
     {
+        year: 1856,
+        title: "Efecto Invernadero (Eunice Foote, 1856)",
+        title_en: "Greenhouse Effect (Eunice Foote, 1856)",
+        surname: "Foote",
+        law: "Absorción de Radiación por CO₂",
+        law_en: "CO₂ Radiation Absorption",
+        country: "<img src='https://flagcdn.com/w20/us.png' alt='EE.UU.' style='vertical-align: text-bottom; margin-right: 4px;'> EE.UU.",
+        country_en: "<img src='https://flagcdn.com/w20/us.png' alt='EE.UU.' style='vertical-align: text-bottom; margin-right: 4px;'> USA",
+        desc: "La científica e inventora estadounidense Eunice Newton Foote presentó en 1856 ante la AAAS el primer estudio experimental que demostró cómo los gases del aire absorben la radiación solar y la convierten en calor. Utilizando cilindros de vidrio sellados con aire comprimido, hidrógeno, CO₂ y aire húmedo expuestos al sol, descubrió que el cilindro con <strong>Dióxido de Carbono (CO₂)</strong> alcanzaba la temperatura más alta y tardaba mucho más tiempo en enfriarse. Formuló la primera predicción del cambio climático térmico:<br><br>$$ \\Delta T_{gas} \\propto f(\\text{Absorción IR}, C_v, \\rho) $$<br><br>Concluyó explícitamente: <em>«Una atmósfera de este gas daría a nuestra Tierra una temperatura elevada...»</em>. Su trabajo precedió en 3 años a los experimentos de John Tyndall, convirtiéndola en la verdadera descubridora pionera del <strong>Efecto Invernadero Térmico</strong>.<br><br><strong>Heroína de la Ciencia y los Derechos de las Mujeres:</strong><br>Debido a los prejuicios de género de la época, a Foote no se le permitió leer su propio trabajo científico en la reunión de la AAAS en 1856; tuvo que presentarlo el profesor Joseph Henry del Instituto Smithsoniano, quien inició su discurso proclamando: <em>«La ciencia no es de ningún país ni de ningún sexo. La esfera de la mujer abarca no sólo lo bello y lo útil, sino también lo verdadero»</em>.<br><br>Además de pionera de la física atmosférica, Eunice fue una verdadera **heroína del sufragio femenino y de los derechos civiles**. En 1848, fue una de las principales organizadoras y la quinta mujer en firmar la histórica <strong>Declaración de Sentimientos</strong> en la Convención de Seneca Falls (el primer documento oficial que exigió el voto y la igualdad de derechos legales y educativos para la mujer). Su esposo, Elisha Foote, también la apoyó firmando el documento.<br><br><div style='margin-top:10px; background:rgba(0,0,0,0.25); padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); text-align:center;'><img src='Declaration_sentiments_foote_lrg.jpg' alt='Declaración de Sentimientos de Eunice Foote' style='width:100%; max-width:480px; border-radius:6px; border:1px solid rgba(255,255,255,0.15); display:block; margin:0 auto 6px auto;'><span style='font-size:0.75rem; color:#cbd5e1; display:block; line-height:1.3;'>La página de la firma de la Declaración de Sentimientos de 1848 (Seneca Falls), con la firma de Foote a la izquierda.<br><small style='opacity:0.75;'>Library of Congress / U.S. Library of Congress</small></span></div>",
+        desc_en: "American scientist and inventor Eunice Newton Foote presented in 1856 to the AAAS the first experimental study demonstrating how air gases absorb solar radiation and convert it into heat. Using sealed glass cylinders containing compressed air, hydrogen, CO₂, and humid air exposed to the sun, she discovered that the cylinder containing <strong>Carbon Dioxide (CO₂)</strong> reached the highest temperature and took much longer to cool down. She formulated the first prediction of thermal climate change:<br><br>$$ \\Delta T_{gas} \\propto f(\\text{IR Absorption}, C_v, \\rho) $$<br><br>She explicitly concluded: <em>'An atmosphere of that gas would give to our Earth a high temperature...'</em>. Her work preceded John Tyndall's experiments by 3 years, making her the true pioneer discoverer of the <strong>Thermal Greenhouse Effect</strong>.<br><br><strong>Heroine of Science and Women's Rights:</strong><br>Due to gender bias of the era, Foote was not allowed to read her own scientific paper at the 1856 AAAS meeting; Professor Joseph Henry of the Smithsonian Institution had to present it for her, starting his address by saying: <em>'Science is of no country and of no sex. The sphere of woman embraces not only the beautiful and the useful, but the true'</em>.<br><br>In addition to being a pioneer of atmospheric physics, Eunice was a true **heroine of female suffrage and civil rights**. In 1848, she was one of the lead organizers and the fifth woman to sign the historic <strong>Declaration of Sentiments</strong> at the Seneca Falls Convention (the first official document demanding voting rights and legal and educational equality for women). Her husband, Elisha Foote, also supported her by signing the document.<br><br><div style='margin-top:10px; background:rgba(0,0,0,0.25); padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); text-align:center;'><img src='Declaration_sentiments_foote_lrg.jpg' alt='Declaration of Sentiments bearing Eunice Foote signature' style='width:100%; max-width:480px; border-radius:6px; border:1px solid rgba(255,255,255,0.15); display:block; margin:0 auto 6px auto;'><span style='font-size:0.75rem; color:#cbd5e1; display:block; line-height:1.3;'>Copy of the signature page of the Declaration of Sentiments (1848, Seneca Falls), bearing Eunice Foote’s signature on the left, U.S. Library of Congress.<br><small style='opacity:0.75;'>Library of Congress</small></span></div>",
+        category: "Radiación",
+        image: "Eunice_Newton_Foote.jpg",
+        bio: { name: "Eunice Newton Foote", life: "1819 - 1888", country: "EE.UU.", country_en: "USA" },
+        "tab-target": "foote-sim"
+    },
+    {
         year: 1848,
         title: "Lord Kelvin y la Escala Absoluta",
         title_en: "Lord Kelvin and the Absolute Scale",
@@ -363,6 +395,22 @@ const timelineEvents = [
         country_en: "Germany", }
     },
     {
+        year: 1910,
+        title: "Mary Engler Pennington: Aislamiento Térmico y Cadena de Frío",
+        title_en: "Mary Engler Pennington: Thermal Insulation & Cold Chain",
+        surname: "Pennington",
+        law: "Ingeniería de Aislamiento y Refrigeración",
+        law_en: "Insulation & Refrigeration Engineering",
+        country: "<img src='https://flagcdn.com/w20/us.png' alt='EE.UU.' style='vertical-align: text-bottom; margin-right: 4px;'> EE.UU.",
+        country_en: "<img src='https://flagcdn.com/w20/us.png' alt='EE.UU.' style='vertical-align: text-bottom; margin-right: 4px;'> USA",
+        desc: "La química e ingeniera de refrigeración Mary Engler Pennington fue la jefa fundadora del Laboratorio de Investigación de Alimentos del Departamento de Agricultura de EE.UU. (USDA). Desarrolló los estándares científicos de <strong>transferencia de calor por conducción en paredes compuestas aislantes</strong> ($q'' = \\frac{k}{L}\\Delta T$) para vagones de tren y cuartos fríos, creando la ingeniería moderna de la <strong>Cadena de Frío</strong>.<br><br><strong>Anecdotario:</strong> Para obtener su puesto en el gobierno sin ser rechazada por prejuicios de género, se registró inicialmente como 'M.E. Pennington'. Cuando los funcionarios descubrieron que era una mujer, ¡ya era la investigadora líder indiscutible del departamento!",
+        desc_en: "Chemist and refrigeration engineer Mary Engler Pennington pioneered the scientific standards of <strong>convective and conductive heat transfer in composite insulated walls</strong> ($q'' = \\frac{k}{L}\\Delta T$) for refrigerator cars, establishing modern <strong>Cold Chain engineering</strong>.",
+        category: "Conducción",
+        image: "Mary_Engle_Pennington.jpg",
+        bio: { name: "Mary Engler Pennington", life: "1872 - 1952", country: "EE.UU." },
+        "tab-target": "pennington-sim"
+    },
+    {
         year: 1912,
         title: "Theodore von Kármán y el Instituto de Aerodinámica",
         title_en: "Theodore von Kármán and the Institute of Aerodynamics",
@@ -416,6 +464,7 @@ const timelineEvents = [
         desc: "F. W. Dittus y L. M. K. Boelter de la Universidad de California publicaron en 1930 su famosa correlación empírica para la transferencia de calor en flujo interno turbulento dentro de tuberías lisas. Esta ecuación clásica es uno de los estándares principales para estimar el número de Nusselt en ingeniería térmica:<br><br>$$ Nu = 0.023 Re^{0.8} Pr^n $$<br>Donde $n=0.4$ para calentamiento y $n=0.3$ para enfriamiento del fluido.<br><br><strong>Anecdotario:</strong> Llewellyn Boelter fue un pionero extraordinario en la educación de ingeniería. Fundó el Colegio de Ingeniería en la UCLA y diseñó un plan de estudios que integraba estrechamente las matemáticas y la física en problemas prácticos. Â¡Básicamente, ayudó a crear el modelo moderno de cómo se enseña la ingeniería en todo el mundo!",
         desc_en: "F. W. Dittus and L. M. K. Boelter from the University of California published in 1930 their famous empirical correlation for turbulent internal flow heat transfer in smooth pipes. This classic equation is one of the main standards for estimating the Nusselt number in thermal engineering:<br><br>$$ Nu = 0.023 Re^{0.8} Pr^n $$<br>Where $n=0.4$ for heating and $n=0.3$ for cooling of the fluid.<br><br><strong>Anecdotal:</strong> Llewellyn Boelter was an extraordinary pioneer in engineering education. He founded the College of Engineering at UCLA and designed a curriculum that closely integrated mathematics and physics into practical problems. He basically helped create the modern model of how engineering is taught worldwide!",
         category: "Convección",
+        image: "Llewellyn_M._K._Boelter.jpg",
         law: "Correlación Flujo Interno"
     },
     {
@@ -475,6 +524,22 @@ const timelineEvents = [
         country_en: "USA", }
     },
     {
+        year: 1948,
+        title: "Maria Telkes: Calor Latente (ΔHf) y Almacenamiento PCM",
+        title_en: "Maria Telkes: Latent Heat (ΔHf) & PCM Storage",
+        surname: "Telkes",
+        law: "Almacenamiento Térmico por Cambio de Fase (PCM)",
+        law_en: "Phase Change Thermal Storage (PCM)",
+        country: "<img src='https://flagcdn.com/w20/us.png' alt='EE.UU.' style='vertical-align: text-bottom; margin-right: 4px;'> EE.UU. / <img src='https://flagcdn.com/w20/hu.png' alt='Hungría' style='vertical-align: text-bottom; margin-right: 4px;'> Hungría",
+        country_en: "<img src='https://flagcdn.com/w20/us.png' alt='EE.UU.' style='vertical-align: text-bottom; margin-right: 4px;'> USA / Hungary",
+        desc: "La investigadora del MIT Maria Telkes, conocida como la 'Reina del Sol', diseñó la <em>Dover Sun House</em> (1948), la primera residencia con calefacción solar utilizando materiales de cambio de fase (PCM). Utilizó sal de Glauber (Na₂SO₄·10H₂O) para almacenar energía mediante su <strong>calor latente de fusión ($\\Delta H_f = 251 \\text{ kJ/kg}$) a $32^\\circ\\text{C}$ constante</strong>:<br><br>$$ Q = m \\cdot \\Delta H_f + m \\cdot C_p \\cdot \\Delta T $$<br><br>Demostró que los PCM acumulan hasta 5 veces más calor por volumen que los acumuladores de agua o roca.<br><br><strong>Anecdotario:</strong> Durante la Segunda Guerra Mundial, inventó un kit de desalinización solar inflable de emergencia para pilotos derribados en el mar, que salvó la vida de cientos de aviadores. Fue galardonada con la Medalla de la Society of Women Engineers.",
+        desc_en: "MIT researcher Maria Telkes designed the <em>Dover Sun House</em> (1948), the first solar-heated home using phase change materials (PCM) like Glauber salt storing heat via <strong>latent heat of fusion ($\\Delta H_f = 251\\text{ kJ/kg}$) at constant $32^\\circ\\text{C}$</strong>.",
+        category: "Termodinámica",
+        image: "TELKES-768x539.jpg",
+        bio: { name: "Maria Telkes", life: "1900 - 1995", country: "Hungría / EE.UU." },
+        "tab-target": "telkes-sim"
+    },
+    {
         year: 1939,
         title: "Von Kármán en EE.UU. (Analogía de Turbulencia)",
         title_en: "Von Kármán in the US (Turbulence Analogy)",
@@ -519,52 +584,58 @@ const timelineEvents = [
     }
 ];
 
-// Initialize DOM elements when loaded
-document.addEventListener("DOMContentLoaded", () => {
+// Function to start main initializations
+function startApp() {
     const safeInit = (name, fn) => { 
-        try { fn(); } 
-        catch(e) { console.warn(`Skipping ${name} due to missing DOM elements:`, e); } 
+        try { 
+            const f = (typeof fn === 'function') ? fn : (window[fn] || (typeof fn === 'string' ? eval(fn) : null));
+            if (typeof f === 'function') f(); 
+        } 
+        catch(e) { console.warn(`Skipping ${name}:`, e); } 
     };
 
-    safeInit('Timeline', initTopTimeline);
-    safeInit('TimelineCards', initTimeline);
-    safeInit('Tabs', initTabs);
-    safeInit('Fourier', initFourierSimulation);
-    safeInit('Planck', initPlanckSimulation);
-    safeInit('Maxwell', initMaxwellSimulation);
-    safeInit('InvSq', initInvSqSimulation);
-    safeInit('Bernoulli', initBernoulliSimulation);
-    safeInit('Fin', initFinSimulation);
-    safeInit('Prandtl', initPrandtlSimulation);
-    safeInit('ViewFactor', initViewFactorSimulation);
-    safeInit('Generation', initGenerationSimulation);
-    safeInit('MultiLayer', initMultiLayerSimulation);
-    safeInit('Newton', initNewtonSimulation);
-    safeInit('CondConv', initCondConvSimulation);
-    safeInit('Nusselt', initNusseltSimulation);
-    safeInit('BoundaryLayer', initBoundaryLayerSimulation);
-    safeInit('Resistance', initResistanceSimulation);
-    safeInit('Parallel', initParallelSimulation);
-    safeInit('Reynolds', initReynoldsSimulation);
-    safeInit('NatConv', initNatConvSimulation);
-    safeInit('KelvinScale', initKelvinSimulation);
-    safeInit('Clausius', initClausiusSimulation);
-    safeInit('NavierStokes', initNavierStokesSimulation);
-    safeInit('JouleEquivalent', initJouleSimulation);
-    safeInit('HerschelSimulation', initHerschelSimulation);
-    safeInit('Microchannel', initMicrochannelSimulation);
-    safeInit('CpCv', initCpCvSimulation);
-    safeInit('DoublePipe', initDoublePipeSimulation);
-    safeInit('VortexStreet', initVortexSimulation);
-    safeInit('BoilingRegimes', initBoilingSimulation);
-    safeInit('Transient', initTransientSimulation);
-    safeInit('Insulated', initInsulatedSimulation);
-    safeInit('MulticapaCustom', initMulticapaCustomSimulation);
-    safeInit('Carnot', initCarnotSimulation);
-    safeInit('OttoDiesel', initOttoDieselSimulation);
-    safeInit('Pelton', initPeltonSimulation);
-    safeInit('Celsius', initCelsiusSimulation);
-    safeInit('InternalBL', initInternalBLSimulation);
+    safeInit('Timeline', () => initTopTimeline());
+    safeInit('TimelineCards', () => initTimeline());
+    safeInit('Tabs', () => initTabs());
+    safeInit('Fourier', () => initFourierSimulation());
+    safeInit('Planck', () => initPlanckSimulation());
+    safeInit('Maxwell', () => initMaxwellSimulation());
+    safeInit('InvSq', () => initInvSqSimulation());
+    safeInit('Bernoulli', () => initBernoulliSimulation());
+    safeInit('Fin', () => initFinSimulation());
+    safeInit('Prandtl', () => initPrandtlSimulation());
+    safeInit('ViewFactor', () => initViewFactorSimulation());
+    safeInit('Generation', () => initGenerationSimulation());
+    safeInit('MultiLayer', () => initMultiLayerSimulation());
+    safeInit('Newton', () => initNewtonSimulation());
+    safeInit('CondConv', () => initCondConvSimulation());
+    safeInit('Nusselt', () => initNusseltSimulation());
+    safeInit('BoundaryLayer', () => initBoundaryLayerSimulation());
+    safeInit('Resistance', () => initResistanceSimulation());
+    safeInit('Parallel', () => initParallelSimulation());
+    safeInit('Reynolds', () => initReynoldsSimulation());
+    safeInit('NatConv', () => initNatConvSimulation());
+    safeInit('KelvinScale', () => initKelvinSimulation());
+    safeInit('Clausius', () => initClausiusSimulation());
+    safeInit('NavierStokes', () => initNavierStokesSimulation());
+    safeInit('JouleEquivalent', () => initJouleSimulation());
+    safeInit('HerschelSimulation', () => initHerschelSimulation());
+    safeInit('Microchannel', () => initMicrochannelSimulation());
+    safeInit('CpCv', () => initCpCvSimulation());
+    safeInit('DoublePipe', () => initDoublePipeSimulation());
+    safeInit('VortexStreet', () => initVortexSimulation());
+    safeInit('BoilingRegimes', () => initBoilingSimulation());
+    safeInit('Transient', () => initTransientSimulation());
+    safeInit('Insulated', () => initInsulatedSimulation());
+    safeInit('MulticapaCustom', () => initMulticapaCustomSimulation());
+    safeInit('Carnot', () => initCarnotSimulation());
+    safeInit('OttoDiesel', () => initOttoDieselSimulation());
+    safeInit('Pelton', () => initPeltonSimulation());
+    safeInit('Celsius', () => initCelsiusSimulation());
+    safeInit('InternalBL', () => initInternalBLSimulation());
+    safeInit('Chatelet', () => initChateletSimulation());
+    safeInit('Pennington', () => initPenningtonSimulation());
+    safeInit('Telkes', () => initTelkesSimulation());
 
     // Modal close logic
     const modal = document.getElementById('image-modal');
@@ -656,7 +727,187 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Sync initial theme for charts after they load
     setTimeout(updateAllChartsTheme, 800);
-});
+
+    // Lógica del Gatekeeper (Temporizador de 10 minutos para registro)
+    initGatekeeper();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", startApp);
+} else {
+    startApp();
+}
+
+// Función para manejar el bloqueo de registro y contador de usuarios
+function initGatekeeper() {
+    // Consultar siempre el total de usuarios reales registrados en Firebase
+    fetchRealUserCount();
+
+    const userCountText = document.getElementById("user-count-text");
+
+    // Lógica para verificar el estado de registro local
+    const checkRegistration = () => {
+        // Si ya está registrado localmente, no bloquear y salir
+        const isRegistered = localStorage.getItem("gatekeeper_registered") === "true";
+        
+        // También comprobar si hay una sesión activa de Firebase
+        const hasFirebaseUser = typeof firebase !== 'undefined' && firebase.auth && firebase.auth().currentUser;
+
+        if (isRegistered || hasFirebaseUser) {
+            if (isRegistered && userCountText) {
+                userCountText.parentElement.style.borderColor = "#10b981";
+                userCountText.parentElement.style.color = "#10b981";
+            }
+            return true; // Acceso concedido
+        }
+        return false;
+    };
+
+    // Si ya está concedido el acceso, salir de inmediato
+    if (checkRegistration()) return;
+
+    // Si no está registrado localmente, dar un margen de espera de 2 segundos 
+    // para que la autenticación asíncrona de Firebase intente restaurar la sesión antes de bloquear.
+    setTimeout(() => {
+        if (checkRegistration()) return; // Concedido tras restaurar sesión
+
+        // Temporizador de 10 minutos (600,000 ms)
+        let startTime = localStorage.getItem("gatekeeper_start_time");
+        if (!startTime) {
+            startTime = Date.now().toString();
+            localStorage.setItem("gatekeeper_start_time", startTime);
+        }
+
+        const elapsed = Date.now() - parseInt(startTime);
+        const tenMinutes = 10 * 60 * 1000; // 10 minutos
+
+        if (elapsed >= tenMinutes) {
+            showGatekeeperModal();
+        } else {
+            const remaining = tenMinutes - elapsed;
+            setTimeout(() => {
+                if (checkRegistration()) return;
+                showGatekeeperModal();
+            }, remaining);
+        }
+    }, 2000);
+}
+
+function fetchRealUserCount() {
+    const userCountText = document.getElementById("user-count-text");
+    if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length > 0) {
+        try {
+            const db = firebase.database();
+            db.ref("users").on("value", (snapshot) => {
+                const count = snapshot.numChildren();
+                const displayCount = Math.max(1, count);
+                if (userCountText) {
+                    userCountText.textContent = displayCount.toLocaleString();
+                }
+                localStorage.setItem("gatekeeper_registered_count_real", displayCount);
+            });
+        } catch (e) {
+            console.error("Error al obtener recuento de usuarios reales de Firebase:", e);
+        }
+    } else {
+        setTimeout(fetchRealUserCount, 1000);
+    }
+    
+    // Iniciar rastreo de presencia en línea
+    initOnlinePresence();
+}
+
+function initOnlinePresence() {
+    const onlineCountText = document.getElementById("online-count-text");
+    if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length > 0) {
+        try {
+            const db = firebase.database();
+            
+            // Generar una clave temporal única de sesión para esta pestaña abierta
+            const sessionKey = Math.random().toString(36).substring(2, 15);
+            const myPresenceRef = db.ref("presence/" + sessionKey);
+            const onlineUsersRef = db.ref("presence");
+
+            // Escribir estado 'conectado' al iniciar sesión
+            myPresenceRef.set({
+                timestamp: Date.now(),
+                userAgent: navigator.userAgent
+            });
+
+            // Configurar borrado automático al cerrar la pestaña o desconectarse
+            myPresenceRef.onDisconnect().remove();
+
+            // Escuchar cambios reactivos en las conexiones activas totales
+            onlineUsersRef.on("value", (snapshot) => {
+                const activeConnections = snapshot.numChildren();
+                // Al menos el usuario actual está en línea
+                const displayOnline = Math.max(1, activeConnections);
+                if (onlineCountText) {
+                    onlineCountText.textContent = `${displayOnline} en línea`;
+                }
+            });
+        } catch (e) {
+            console.error("Error en presencia de Firebase:", e);
+            if (onlineCountText) onlineCountText.textContent = "1 en línea";
+        }
+    } else {
+        setTimeout(initOnlinePresence, 1000);
+    }
+}
+
+function showGatekeeperModal() {
+    const gatekeeperModal = document.getElementById("gatekeeper-modal");
+    if (gatekeeperModal) {
+        gatekeeperModal.style.display = "flex";
+    }
+}
+
+window.submitGatekeeper = function(event) {
+    event.preventDefault();
+    const name = document.getElementById("gatekeeper-name").value.trim();
+    const email = document.getElementById("gatekeeper-email").value.trim().toLowerCase();
+    const inst = document.getElementById("gatekeeper-inst").value.trim();
+
+    if (name && email && inst) {
+        const userKey = email.replace(/\./g, "_at_");
+        
+        // Guardar registro en la base de datos real de Firebase
+        if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length > 0) {
+            try {
+                const db = firebase.database();
+                db.ref("users/" + userKey).set({
+                    id: Date.now(),
+                    name: name,
+                    email: email,
+                    institution: inst,
+                    avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/GodfreyKneller-IsaacNewton-1689.jpg/330px-GodfreyKneller-IsaacNewton-1689.jpg",
+                    role: "Estudiante",
+                    registeredViaGatekeeper: true,
+                    timestamp: Date.now()
+                }).then(() => {
+                    // Guardar estado local
+                    localStorage.setItem("gatekeeper_registered", "true");
+                    localStorage.setItem("gatekeeper_user_name", name);
+                    localStorage.setItem("gatekeeper_user_email", email);
+                    localStorage.setItem("gatekeeper_user_inst", inst);
+
+                    // Cerrar modal
+                    const gatekeeperModal = document.getElementById("gatekeeper-modal");
+                    if (gatekeeperModal) gatekeeperModal.style.display = "none";
+
+                    alert(`¡Registro exitoso, ${name}! Tu acceso ilimitado ha sido activado.`);
+                }).catch((error) => {
+                    console.error("Error al registrar en Firebase RTDB:", error);
+                    alert("Ocurrió un error al guardar tu registro en la nube. Por favor intenta de nuevo.");
+                });
+            } catch (e) {
+                console.error("Excepción en conexión de registro Firebase:", e);
+            }
+        } else {
+            alert("El servicio de base de datos no está disponible temporalmente. Inténtalo de nuevo.");
+        }
+    }
+};
 
 // Global function to open modal
 window.openModal = function(idx, event) {
@@ -771,6 +1022,10 @@ window.openScientistModalDirect = function(idx, event) {
         
         country.innerHTML = window.currentLanguage === 'en' ? (ev.country_en || ev.country) : ev.country;
         desc.innerHTML = window.currentLanguage === 'en' ? (ev.desc_en || ev.desc) : ev.desc;
+        
+        if (window.MathJax && window.MathJax.typesetPromise) {
+            window.MathJax.typesetPromise([desc]).catch(err => console.log('MathJax modal error:', err));
+        }
         
         if (tabTarget) {
             simBtn.style.display = "inline-flex";
@@ -955,10 +1210,10 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
                     <span class="card-year" style="color: #c4b5fd; background: rgba(139, 92, 246, 0.2); font-size: 1rem; padding: 6px 14px;"><i class="fas fa-network-wired"></i> Historical Connections Network</span>
                 </div>
                 <div style="margin-top: 15px; font-size: 0.9rem; color: #e2e8f0; line-height: 1.6;">
-                    <p style="margin-bottom: 15px; font-style: italic; opacity: 0.9;">Science was not built in isolation. Behind the great equations, there are deep human relationships, intense rivalries, and unbreakable legacies from master to pupil:</p>
+                    <p style="margin-bottom: 15px; font-style: italic; opacity: 0.9;">Science was not built in isolation. Behind the great equations, there are deep human relationships, intense rivalries, and unbreakable legacies from mentor to pupil:</p>
                     <ul style="padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 14px;">
                         <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #ef4444;">
-                            <strong><i class="fas fa-skull-crossbones" style="color: #ef4444; margin-right: 6px;"></i> Newton vs Hooke (Total War) [~1670 - 1703]:</strong> The relationship between Isaac Newton and Robert Hooke is one of the most toxic feuds in scientific history. Hooke repeatedly accused Newton of plagiarizing his work on optics and gravity (the inverse-square law). Newton's contempt was so visceral that he refused to publish his masterpiece (<em>Optics</em>) until Hooke died. It is said that upon assuming the presidency of the Royal Society after his rival's death, Newton intentionally "lost" the only existing portrait of Hooke, condemning him to be faceless in history books. In fact, Newton's famous "humble" quote: <em>"If I have seen further, it is by standing on the shoulders of giants"</em>, is today considered a veiled insult mocking Hooke's short stature and hunched back.
+                            <strong><i class="fas fa-skull-crossbones" style="color: #ef4444; margin-right: 6px;"></i> Newton vs Hooke (The Total War) [~1670 - 1703]:</strong> The relationship between Isaac Newton and Robert Hooke is one of the most toxic feuds in the history of science. Hooke repeatedly accused Newton of plagiarizing his work on optics and gravity (the inverse square law). Newton's contempt was so visceral that he refused to publish his masterpiece (<em>Optics</em>) until Hooke died. It is said that when Newton became president of the Royal Society, he intentionally "lost" the only existing portrait of Hooke, condemning him to be faceless in history books. Newton's famous "humble" quote: <em>"If I have seen further it is by standing on the shoulders of Giants"</em>, is now widely considered a passive-aggressive jab mocking Hooke's short stature and hunched back.
                         </li>
                         <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #fbbf24;">
                             <strong><i class="fas fa-bolt" style="color: #fbbf24; margin-right: 6px;"></i> The Newton - Bernoulli Rivalry [1696]:</strong> Isaac Newton and Johann Bernoulli fought a fierce intellectual duel. Bernoulli challenged Europe's mathematicians to solve the brachistochrone problem (the curve of fastest descent). Newton solved it in a single night anonymously. Upon reading it, Bernoulli instantly recognized his archrival, saying: <em>"I recognize the lion by his claw"</em>.
@@ -967,19 +1222,29 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
                             <strong><i class="fas fa-fire" style="color: #f97316; margin-right: 6px;"></i> The Bernoulli Family Civil War [1738]:</strong> The Bernoulli family produced brilliant but extremely jealous mathematicians. Johann Bernoulli competed to the death with his older brother Jacob, even stealing his ideas and publicly celebrating his death. However, his worst act was against his own son, Daniel Bernoulli. When Daniel published his revolutionary work <em>Hydrodynamica</em> (1738), Johann, consumed by envy, published his own book (<em>Hydraulica</em>), stole the ideas, and falsified the publication date to 1732 to make it look like his son had plagiarized him! He ended up throwing Daniel out of his own house.
                         </li>
                         <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #14b8a6;">
-                            <strong><i class="fas fa-gavel" style="color: #14b8a6; margin-right: 6px;"></i> Fourier's Rebellion against Lagrange [1807]:</strong> When Joseph Fourier first presented (in 1807) his bold theory on heat conduction, the old guard of French mathematics attacked him. Joseph-Louis Lagrange and Pierre-Simon Laplace flatly rejected his use of "trigonometric series" (today Fourier Series), arguing they lacked rigor and could not represent functions with corners. Despite the initial humiliation, Fourier proved to be correct, permanently revolutionizing applied mathematics. Interestingly, years later, it was his loyal protege and student, Claude-Louis Navier, who defended and posthumously published Fourier's final work.
+                            <strong><i class="fas fa-gavel" style="color: #14b8a6; margin-right: 6px;"></i> Fourier's Rebellion against Lagrange [1807]:</strong> When Joseph Fourier first presented (in 1807) his bold theory on heat conduction, the old guard of French mathematics attacked him. Joseph-Louis Lagrange and Pierre-Simon Laplace flatly rejected his use of "trigonometric series" (today Fourier Series), arguing they lacked rigor and could not represent functions with corners. Despite the initial humiliation, Fourier proved to be correct, permanently revolutionizing applied mathematics. Interestingly, years later, it was his leal protege and student, Claude-Louis Navier, who defended and posthumously published Fourier's final work.
                         </li>
                         <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #34d399;">
                             <strong><i class="fas fa-handshake" style="color: #34d399; margin-right: 6px;"></i> Carnot, Clapeyron and Clausius [1824 - 1850]:</strong> Sadi Carnot died very young of cholera and his brilliant masterpiece on heat engines went completely unnoticed. It was "rescued" from oblivion by Émile Clapeyron, who translated it into analytical language. Years later, a brilliant Rudolf Clausius read Clapeyron's work and unified the ideas to formulate the Second Law of Thermodynamics.
                         </li>
                         <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #60a5fa;">
-                            <strong><i class="fas fa-chalkboard-teacher" style="color: #60a5fa; margin-right: 6px;"></i> Josef Stefan and Ludwig Boltzmann [1879 - 1884]:</strong> One of the most beautiful and productive mentor-pupil relationships in history. Boltzmann was Stefan's student at the University of Vienna. Together, they achieved the monumental milestone of transforming his teacher's empirical radiation law (Stefan's Law) into a law derived purely from the statistical thermodynamics (Stefan-Boltzmann Law).
+                            <strong><i class="fas fa-chalkboard-teacher" style="color: #60a5fa; margin-right: 6px;"></i> Josef Stefan and Ludwig Boltzmann [1879 - 1884]:</strong> One of the most beautiful and productive mentor-pupil relationships in history. Boltzmann was Stefan's student at the University of Vienna. Together, they achieved the monumental milestone of transforming his teacher's radiation law (Stefan's Law) into a law derived purely from statistical thermodynamics (Stefan-Boltzmann Law).
                         </li>
                         <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #a78bfa;">
                             <strong><i class="fas fa-water" style="color: #a78bfa; margin-right: 6px;"></i> The German Foundation (Prandtl and Nusselt) [1904 - 1915]:</strong> Wilhelm Nusselt was not a direct pupil of Ludwig Prandtl, but his monumental work on dimensional analysis of heat transfer (1915) mounted directly on the shoulders of Prandtl's newly born <em>Boundary Layer Theory</em> (1904). Together, though from different universities, they formed the "golden age" of German fluid mechanics.
                         </li>
                         <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #f87171;">
                             <strong><i class="fas fa-link" style="color: #f87171; margin-right: 6px;"></i> From Germany to Berkeley (Nusselt to Dittus-Boelter) [1930]:</strong> After Nusselt established the mathematical relation $Nu = f(Re, Pr)$, the baton crossed the ocean to the University of California, Berkeley. There, Professor Llewellyn M. K. Boelter and his student F. W. Dittus (1930) took Nusselt's theoretical framework and, after extracting mountains of experimental data, created the famous empirical correlation $Nu = 0.023 Re^{0.8} Pr^n$ which continues to torture and save engineering students worldwide.
+                            <div style="margin-top: 8px; display: flex; gap: 10px; align-items: center;">
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <img src="Dittus.jpg" style="width: 50px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2);" alt="F. W. Dittus">
+                                    <span style="font-size: 0.65rem; color: #94a3b8; margin-top: 2px;">F. W. Dittus</span>
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <img src="Llewellyn_M._K._Boelter.jpg" style="width: 50px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2);" alt="L. M. K. Boelter">
+                                    <span style="font-size: 0.65rem; color: #94a3b8; margin-top: 2px;">L. M. K. Boelter</span>
+                                </div>
+                            </div>
                         </li>
                         <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #f472b6;">
                             <strong><i class="fas fa-users" style="color: #f472b6; margin-right: 6px;"></i> Colburn and the "School" of Convection [1930s]:</strong> Allan Colburn (a devoted teacher) and his team at the University of Delaware created a true school of thought that trained dozens of the best engineers of the 20th century. He kept correspondence from his hospital bed with his students, leaving the convection methods that still operate the world's refineries today.
@@ -1002,7 +1267,7 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
                             <strong><i class="fas fa-bolt" style="color: #fbbf24; margin-right: 6px;"></i> La Rivalidad Newton - Bernoulli [1696]:</strong> Isaac Newton y Johann Bernoulli mantuvieron un fiero duelo intelectual. Bernoulli retó a los matemáticos de Europa a resolver el problema de la braquistócrona (la curva de descenso más rápido). Newton lo resolvió en una sola noche de forma anónima. Al leerlo, Bernoulli reconoció al instante a su archirrival diciendo: <em>"Reconozco al león por su garra"</em>.
                         </li>
                         <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #f97316;">
-                            <strong><i class="fas fa-fire" style="color: #f97316; margin-right: 6px;"></i> La Guerra Civil de los Bernoulli [1738]:</strong> La familia Bernoulli produjo matemáticos brillantes, pero extremadamente celosos. Johann Bernoulli compitió a muerte con su hermano mayor Jacob, llegando a robarle ideas y celebrando públicamente su muerte. Sin embargo, su peor acto fue contra su propio hijo, Daniel Bernoulli. Cuando Daniel publicó su revolucionaria obra <em>Hydrodynamica</em> (1738), Johann, consumido por la envidia ante el éxito de su hijo, publicó su propio libro (<em>Hydraulica</em>), le robó las ideas, ¡y falsificó la fecha de publicación al año 1732 para que pareciera que su hijo le había plagiado a él! Terminó expulsando a Daniel de su propia casa.
+                            <strong><i class="fas fa-fire" style="color: #f97316; margin-right: 6px;"></i> La Guerra Civil de los Bernoulli [1738]:</strong> La familia Bernoulli produjo matemáticos brillantes, pero extremadamente celosos. Johann Bernoulli compitió a muerte con su hermano mayor Jacob, llegando a robarle ideas y celebrando públicamente su muerte. Sin embargo, su peor acto fue contra su propio hijo, Daniel Bernoulli. Cuando Daniel publicó su revolucionaria obra <em>Hydrodynamica</em> (1738), Johann, consumido por la envidia ante el éxito de su hijo, publicó su propio libro (<em>Hydraulica</em>), le robó las ideas, ¡y falsificó la fecha de publicación al año 1732 para que pareciera que su hijo le había plagiado a él! Daniel terminó expulsando a Daniel de su propia casa.
                         </li>
                         <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #14b8a6;">
                             <strong><i class="fas fa-gavel" style="color: #14b8a6; margin-right: 6px;"></i> La Rebelión de Fourier frente a Lagrange [1807]:</strong> Cuando Joseph Fourier presentó por primera vez (en 1807) su audaz teoría sobre la conducción del calor, la vieja guardia de las matemáticas francesas se le echó encima. Joseph-Louis Lagrange y Pierre-Simon Laplace rechazaron tajantemente su uso de "series trigonométricas" (hoy Series de Fourier), argumentando que carecían de rigor y no podían representar funciones con esquinas. A pesar de la humillación inicial, Fourier demostró estar en lo correcto, revolucionando para siempre las matemáticas aplicadas. Curiosamente, años más tarde, fue su leal protegido y alumno, Claude-Louis Navier, quien defendió y publicó póstumamente el trabajo final de Fourier.
@@ -1018,6 +1283,16 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
                         </li>
                         <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #f87171;">
                             <strong><i class="fas fa-link" style="color: #f87171; margin-right: 6px;"></i> De Alemania a Berkeley (Nusselt a Dittus-Boelter) [1930]:</strong> Tras establecer Nusselt la relación matemática $Nu = f(Re, Pr)$, el testigo cruzó el océano hasta la Universidad de California, Berkeley. Allí, el profesor Llewellyn M. K. Boelter y su estudiante F. W. Dittus (1930) tomaron el armazón teórico de Nusselt y, tras exprimir montañas de datos experimentales, crearon la famosísima correlación empírica $Nu = 0.023 Re^{0.8} Pr^n$ que sigue torturando y salvando a estudiantes de ingeniería en todo el mundo.
+                            <div style="margin-top: 8px; display: flex; gap: 10px; align-items: center;">
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <img src="Dittus.jpg" style="width: 50px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2);" alt="F. W. Dittus">
+                                    <span style="font-size: 0.65rem; color: #94a3b8; margin-top: 2px;">F. W. Dittus</span>
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <img src="Llewellyn_M._K._Boelter.jpg" style="width: 50px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2);" alt="L. M. K. Boelter">
+                                    <span style="font-size: 0.65rem; color: #94a3b8; margin-top: 2px;">L. M. K. Boelter</span>
+                                </div>
+                            </div>
                         </li>
                         <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #f472b6;">
                             <strong><i class="fas fa-users" style="color: #f472b6; margin-right: 6px;"></i> Colburn y la "Escuela" de la Convección [Años 1930s]:</strong> Allan Colburn (un maestro devoto) y su equipo en la Universidad de Delaware crearon una verdadera escuela de pensamiento que entrenó a docenas de los mejores ingenieros del siglo XX. Mantenía correspondencia desde su cama de hospital con sus estudiantes, legando los métodos de convección que aún operan las refinerías del mundo hoy.
@@ -1026,7 +1301,7 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
                 </div>
             `;
         }
-        container.appendChild(relationsCard);
+container.appendChild(relationsCard);
     }
 
     // Defer MathJax typesetting to allow script to load
@@ -5181,7 +5456,7 @@ function initNusseltSimulation() {
         actx.fillStyle = "#38bdf8";
         actx.font = "bold 11px Outfit";
         actx.textAlign = "left";
-        actx.fillText("T_inf = " + currentTinf.toFixed(0) + "°C", fluidEnd + 10, animCanvas.height / 2);
+        actx.fillText("T∞ = " + currentTinf.toFixed(0) + "°C", fluidEnd + 10, animCanvas.height / 2);
 
         // 4. Partículas
         actx.fillStyle = "rgba(255, 255, 255, 0.4)";
@@ -12844,203 +13119,342 @@ function initCarnotSimulation() {
         pvCtx.shadowBlur = 0;
     }
 
-    // ── Engine Schematic ──────────────────────────────────────
+    // ── Engine Schematic ── Rich 3D animated version ──────────
     function drawEngine(phase) {
         const W = engCanvas.width, H = engCanvas.height;
         engCtx.clearRect(0, 0, W, H);
-        engCtx.fillStyle = '#0f1117';
+        const bgGrad = engCtx.createLinearGradient(0, 0, 0, H);
+        bgGrad.addColorStop(0, '#080b14');
+        bgGrad.addColorStop(1, '#0f1117');
+        engCtx.fillStyle = bgGrad;
         engCtx.fillRect(0, 0, W, H);
 
         const r = solve();
         const cx = W / 2;
+        const now = Date.now();
 
-        // ── Carnot phase segmentation (0 to 1) ─────────────────
-        // phase: 0 -> 0.25 : Expansión Isotérmica (T_H)
-        //        0.25 -> 0.5 : Expansión Adiabática (T_H -> T_C)
-        //        0.5 -> 0.75 : Compresión Isotérmica (T_C)
-        //        0.75 -> 1.0 : Compresión Adiabática (T_C -> T_H)
-        let processName = '';
-        let gasColor = '';
-        let baseType = ''; // 'hot', 'cold', or 'adiabatic'
-        let pistonYOffset = 0; // Displacement of the piston
-        let flowDirection = 0; // 1 = heat entering, -1 = heat leaving, 0 = isolated
-
+        // ── Phase segmentation ─────────────────────────────────
+        let processName = '', phaseColor = '#f97316', baseType = '', pistonFrac = 0, flowDirection = 0;
         if (phase < 0.25) {
             const t = phase / 0.25;
-            processName = '1. Expansión Isotérmica (a→b)';
-            gasColor = 'rgba(239, 68, 68, 0.35)'; // Red gas
-            baseType = 'hot';
-            pistonYOffset = - (t * 30); // Moving up
-            flowDirection = 1; // Heat in
+            processName = '\u2460 Expansi\u00f3n Isot\u00e9rmica  a \u2192 b';
+            phaseColor = '#ef4444'; baseType = 'hot';
+            pistonFrac = t * 0.45; flowDirection = 1;
         } else if (phase < 0.5) {
             const t = (phase - 0.25) / 0.25;
-            processName = '2. Expansión Adiabática (b→c)';
-            gasColor = `rgba(${Math.round(239 - (239 - 59) * t)}, ${Math.round(68 + (130 - 68) * t)}, ${Math.round(68 + (246 - 68) * t)}, 0.25)`; // Red to Blue transition
-            baseType = 'adiabatic';
-            pistonYOffset = -30 - (t * 20); // Moving up further
-            flowDirection = 0; // Isolated
+            processName = '\u2461 Expansi\u00f3n Adiab\u00e1tica  b \u2192 c';
+            phaseColor = '#f97316'; baseType = 'adiabatic';
+            pistonFrac = 0.45 + t * 0.25; flowDirection = 0;
         } else if (phase < 0.75) {
             const t = (phase - 0.5) / 0.25;
-            processName = '3. Compresión Isotérmica (c→d)';
-            gasColor = 'rgba(59, 130, 246, 0.3)'; // Blue gas
-            baseType = 'cold';
-            pistonYOffset = -50 + (t * 30); // Moving down
-            flowDirection = -1; // Heat out
+            processName = '\u2462 Compresi\u00f3n Isot\u00e9rmica  c \u2192 d';
+            phaseColor = '#3b82f6'; baseType = 'cold';
+            pistonFrac = 0.7 - t * 0.45; flowDirection = -1;
         } else {
             const t = (phase - 0.75) / 0.25;
-            processName = '4. Compresión Adiabática (d→a)';
-            gasColor = `rgba(${Math.round(59 + (239 - 59) * t)}, ${Math.round(130 - (130 - 68) * t)}, ${Math.round(246 - (246 - 68) * t)}, 0.28)`; // Blue to Red transition
-            baseType = 'adiabatic';
-            pistonYOffset = -20 + (t * 20); // Moving down further
-            flowDirection = 0; // Isolated
+            processName = '\u2463 Compresi\u00f3n Adiab\u00e1tica  d \u2192 a';
+            phaseColor = '#22d3ee'; baseType = 'adiabatic';
+            pistonFrac = 0.25 - t * 0.25; flowDirection = 0;
         }
 
-        // Draw reservoirs or insulation block at the base
-        const cyBase = H - 150;
-        
-        // ── Draw base contact ──────────────────────────────────
-        if (baseType === 'hot') {
-            // Hot reservoir base
-            const hotGrad = engCtx.createLinearGradient(30, cyBase, W - 30, H - 20);
-            hotGrad.addColorStop(0, '#7f1d1d');
-            hotGrad.addColorStop(1, '#ef4444');
-            engCtx.fillStyle = hotGrad;
-            engCtx.beginPath();
-            engCtx.roundRect(30, cyBase + 20, W - 60, H - cyBase - 40, 10);
-            engCtx.fill();
-            
-            engCtx.fillStyle = '#ffffff';
-            engCtx.font = 'bold 12px Inter';
-            engCtx.fillText('🔥 Foco Caliente (' + r.TH + ' K)', cx, cyBase + 50);
-        } else if (baseType === 'cold') {
-            // Cold reservoir base
-            const coldGrad = engCtx.createLinearGradient(30, cyBase, W - 30, H - 20);
-            coldGrad.addColorStop(0, '#1e3a5f');
-            coldGrad.addColorStop(1, '#3b82f6');
-            engCtx.fillStyle = coldGrad;
-            engCtx.beginPath();
-            engCtx.roundRect(30, cyBase + 20, W - 60, H - cyBase - 40, 10);
-            engCtx.fill();
-            
-            engCtx.fillStyle = '#ffffff';
-            engCtx.font = 'bold 12px Inter';
-            engCtx.fillText('❄️ Foco Frío (' + r.TC + ' K)', cx, cyBase + 50);
-        } else {
-            // Adiabatic support (Insulated base)
-            engCtx.fillStyle = '#374151';
-            engCtx.beginPath();
-            engCtx.roundRect(30, cyBase + 20, W - 60, H - cyBase - 40, 10);
-            engCtx.fill();
-            engCtx.strokeStyle = '#4b5563';
-            engCtx.stroke();
-            
-            engCtx.fillStyle = '#9ca3af';
-            engCtx.font = 'bold 11px Inter';
-            engCtx.fillText('🛑 Soporte Adiabático (Aislado)', cx, cyBase + 50);
+        // Gas color: hot red -> cold blue
+        let gasRGB;
+        if (phase < 0.25) gasRGB = [220, 38, 38];
+        else if (phase < 0.5) { const t=(phase-0.25)/0.25; gasRGB=[Math.round(220-161*t),Math.round(38+92*t),Math.round(38+208*t)]; }
+        else if (phase < 0.75) gasRGB = [59, 130, 246];
+        else { const t=(phase-0.75)/0.25; gasRGB=[Math.round(59+161*t),Math.round(130-92*t),Math.round(246-208*t)]; }
+
+        // ── Layout ─────────────────────────────────────────────
+        const cylW   = Math.min(100, W * 0.28);
+        const cylH   = Math.round(H * 0.36);
+        const cylX   = cx - cylW / 2;
+        const cylTop = Math.round(H * 0.12);
+        const cylBot = cylTop + cylH;
+        const depthX = 8, depthY = 5;
+
+        // ── Cylinder 3D back face ──────────────────────────────
+        engCtx.fillStyle = 'rgba(30,35,50,0.9)';
+        engCtx.beginPath();
+        engCtx.moveTo(cylX+depthX,cylTop+depthY); engCtx.lineTo(cylX+cylW+depthX,cylTop+depthY);
+        engCtx.lineTo(cylX+cylW+depthX,cylBot+depthY); engCtx.lineTo(cylX+depthX,cylBot+depthY);
+        engCtx.closePath(); engCtx.fill();
+        // Right face
+        engCtx.fillStyle = 'rgba(55,65,90,0.8)';
+        engCtx.beginPath();
+        engCtx.moveTo(cylX+cylW,cylTop); engCtx.lineTo(cylX+cylW+depthX,cylTop+depthY);
+        engCtx.lineTo(cylX+cylW+depthX,cylBot+depthY); engCtx.lineTo(cylX+cylW,cylBot);
+        engCtx.closePath(); engCtx.fill();
+
+        // ── Gas fill ───────────────────────────────────────────
+        const pistonY = cylTop + pistonFrac * cylH + 16;
+        const gasGrad = engCtx.createLinearGradient(cylX, pistonY, cylX, cylBot);
+        gasGrad.addColorStop(0, `rgba(${gasRGB[0]},${gasRGB[1]},${gasRGB[2]},0.7)`);
+        gasGrad.addColorStop(1, `rgba(${gasRGB[0]},${gasRGB[1]},${gasRGB[2]},0.35)`);
+        engCtx.fillStyle = gasGrad;
+        engCtx.fillRect(cylX+2, pistonY+14, cylW-4, Math.max(0, cylBot-pistonY-14));
+
+        // ── Gas particles ───────────────────────────────────────
+        const particleSpeed = 0.4 + (gasRGB[0]/220)*1.6;
+        engCtx.save();
+        engCtx.beginPath(); engCtx.rect(cylX+3, pistonY+15, cylW-6, Math.max(1,cylBot-pistonY-15)); engCtx.clip();
+        for (let i=0; i<10; i++) {
+            const seed=i*137.508, areaH=Math.max(1,cylBot-pistonY-20);
+            const px=cylX+8+Math.abs((seed*2.3+now*particleSpeed*0.03*(i%2===0?1:-1))%(cylW-16));
+            const py=pistonY+18+Math.abs((seed*1.7+now*particleSpeed*0.025*(i%3===0?1.2:0.8))%areaH);
+            engCtx.beginPath(); engCtx.arc(px,py,1.6+(i%3)*0.7,0,Math.PI*2);
+            engCtx.fillStyle=`rgba(${gasRGB[0]},${gasRGB[1]},${gasRGB[2]},0.9)`; engCtx.fill();
         }
+        engCtx.restore();
 
-        // ── Draw Cylinder ──────────────────────────────────────
-        const cylW = 100;
-        const cylH = 150;
-        const cylX = cx - cylW / 2;
-        const cylY = 80;
+        // ── Cylinder walls ─────────────────────────────────────
+        const wallGrad=engCtx.createLinearGradient(cylX,0,cylX+cylW,0);
+        wallGrad.addColorStop(0,'rgba(160,175,200,1)'); wallGrad.addColorStop(0.08,'rgba(215,225,240,1)');
+        wallGrad.addColorStop(0.92,'rgba(195,208,225,1)'); wallGrad.addColorStop(1,'rgba(130,145,165,1)');
+        engCtx.strokeStyle=wallGrad; engCtx.lineWidth=5; engCtx.lineCap='round';
+        engCtx.beginPath(); engCtx.moveTo(cylX,cylTop); engCtx.lineTo(cylX,cylBot); engCtx.stroke();
+        engCtx.beginPath(); engCtx.moveTo(cylX+cylW,cylTop); engCtx.lineTo(cylX+cylW,cylBot); engCtx.stroke();
 
-        // Inside gas area
-        engCtx.fillStyle = gasColor;
-        engCtx.fillRect(cylX + 5, cylY + 30 - pistonYOffset, cylW - 10, cylH - 30 + pistonYOffset);
+        // ── Piston ─────────────────────────────────────────────
+        const pistonH=14, pistonTop=pistonY;
+        const pistGrad=engCtx.createLinearGradient(cylX+3,pistonTop,cylX+cylW-3,pistonTop);
+        pistGrad.addColorStop(0,'#374151'); pistGrad.addColorStop(0.15,'#9ca3af');
+        pistGrad.addColorStop(0.5,'#e5e7eb'); pistGrad.addColorStop(0.85,'#9ca3af'); pistGrad.addColorStop(1,'#374151');
+        engCtx.fillStyle=pistGrad; engCtx.beginPath(); engCtx.roundRect(cylX+3,pistonTop,cylW-6,pistonH,3); engCtx.fill();
+        engCtx.strokeStyle='rgba(255,255,255,0.4)'; engCtx.lineWidth=1;
+        engCtx.beginPath(); engCtx.moveTo(cylX+8,pistonTop+3); engCtx.lineTo(cylX+cylW-8,pistonTop+3); engCtx.stroke();
+        for (let ri=0;ri<2;ri++){
+            engCtx.strokeStyle='#6b7280'; engCtx.lineWidth=1.5;
+            engCtx.beginPath(); engCtx.moveTo(cylX+3,pistonTop+5+ri*5); engCtx.lineTo(cylX+cylW-3,pistonTop+5+ri*5); engCtx.stroke();
+        }
+        // Rod
+        const rodGrad=engCtx.createLinearGradient(cx-4,0,cx+4,0);
+        rodGrad.addColorStop(0,'#374151'); rodGrad.addColorStop(0.45,'#9ca3af'); rodGrad.addColorStop(1,'#4b5563');
+        engCtx.fillStyle=rodGrad; engCtx.fillRect(cx-4,Math.round(H*0.04),8,pistonTop-Math.round(H*0.04));
+        engCtx.fillStyle='#c9cfd8'; engCtx.beginPath(); engCtx.ellipse(cx,Math.round(H*0.04)+4,11,4,0,0,Math.PI*2); engCtx.fill();
 
-        // Cylinder walls (left, right, bottom)
-        engCtx.strokeStyle = '#e5e7eb';
-        engCtx.lineWidth = 4;
-        engCtx.beginPath();
-        // Left wall
-        engCtx.moveTo(cylX, cylY);
-        engCtx.lineTo(cylX, cylY + cylH);
-        // Bottom wall (thin thermal window or thick insulated window)
-        engCtx.lineTo(cylX + cylW, cylY + cylH);
-        // Right wall
-        engCtx.lineTo(cylX + cylW, cylY);
-        engCtx.stroke();
+        // ── Work output arrow ──────────────────────────────────
+        const wA=0.5+0.5*Math.abs(Math.sin(now*0.002));
+        const wAX=cylX+cylW+depthX+6, wAY=pistonTop+pistonH/2;
+        engCtx.strokeStyle=`rgba(249,115,22,${wA})`; engCtx.fillStyle=`rgba(249,115,22,${wA})`;
+        engCtx.shadowColor='#f97316'; engCtx.shadowBlur=7; engCtx.lineWidth=2.5;
+        engCtx.beginPath(); engCtx.moveTo(wAX,wAY); engCtx.lineTo(wAX+24,wAY); engCtx.stroke();
+        engCtx.beginPath(); engCtx.moveTo(wAX+29,wAY); engCtx.lineTo(wAX+20,wAY-5); engCtx.lineTo(wAX+20,wAY+5); engCtx.closePath(); engCtx.fill();
+        engCtx.shadowBlur=0;
+        engCtx.fillStyle=`rgba(249,115,22,${wA})`; engCtx.font='bold 9px Inter'; engCtx.textAlign='left';
+        engCtx.fillText('W='+r.W.toFixed(0)+'kJ', wAX+32, wAY+4);
 
-        // Base thermal window (indicates heat conductivity)
-        engCtx.lineWidth = 4;
-        engCtx.strokeStyle = (baseType === 'adiabatic') ? '#4b5563' : '#fbbf24';
-        engCtx.beginPath();
-        engCtx.moveTo(cylX + 4, cylY + cylH);
-        engCtx.lineTo(cylX + cylW - 4, cylY + cylH);
-        engCtx.stroke();
+        // ══════════════════════════════════════════════════════
+        // ── ROTATING THERMAL DISC (valve below cylinder) ──────
+        // ══════════════════════════════════════════════════════
+        // The disc has 4 equal sectors (90° each). Sectors are shifted +PI/4 so that
+        // the LEADING EDGE of each sector arrives at the contact point (12 o'clock)
+        // exactly when its corresponding Carnot phase begins:
+        //   HOT  sector: from -PI/2 to  0        → leading edge at 12 o'clock at phase=0
+        //   ADI1 sector: from  0    to  PI/2      → leading edge at 12 o'clock at phase=0.25
+        //   COLD sector: from  PI/2 to  PI        → leading edge at 12 o'clock at phase=0.5
+        //   ADI2 sector: from  PI   to  3*PI/2    → leading edge at 12 o'clock at phase=0.75
 
-        // ── Draw Piston ────────────────────────────────────────
-        const pistonHeight = 15;
-        const pistonY = cylY + 15 - pistonYOffset;
-        
-        // Piston block
-        engCtx.fillStyle = '#9ca3af';
-        engCtx.beginPath();
-        engCtx.fillRect(cylX + 2, pistonY, cylW - 4, pistonHeight);
-        
-        // Piston rod (vástago)
-        engCtx.fillStyle = '#6b7280';
-        engCtx.fillRect(cx - 6, 25, 12, pistonY - 25);
+        const discR  = Math.min(62, W * 0.19);
+        const discCy = cylBot + discR + 18;          // disc centre Y (below cylinder)
+        const discCx = cx;                            // disc centre X (aligned with cylinder)
 
-        // ── Draw Heat Flow arrows (Q) ───────────────────────────
-        if (flowDirection === 1) { // Entering heat
-            const pulse = Math.sin(Date.now() * 0.01) * 4;
-            engCtx.strokeStyle = '#f87171';
-            engCtx.lineWidth = 3;
-            // Draw arrows going up through the base
-            const arrY = cylY + cylH + 10;
+        const rot    = phase * 2 * Math.PI;           // total CCW rotation (screen-space)
+
+        // Segment angles in ORIGINAL (unrotated) disc frame.
+        // ctx.rotate(-rot) shifts each angle by -rot in screen space.
+        const segments = [
+            { from: -Math.PI/2, to:  0,             type: 'hot'  },   // upper-right quadrant
+            { from:  0,         to:  Math.PI/2,     type: 'adi1' },   // lower-right quadrant
+            { from:  Math.PI/2, to:  Math.PI,       type: 'cold' },   // lower-left  quadrant
+            { from:  Math.PI,   to:  3*Math.PI/2,   type: 'adi2' }    // upper-left  quadrant
+        ];
+
+        // ── Disc shadow
+        engCtx.beginPath(); engCtx.ellipse(discCx+4,discCy+4,discR+4,discR+4,0,0,Math.PI*2);
+        engCtx.fillStyle='rgba(0,0,0,0.35)'; engCtx.fill();
+
+        // ── Draw disc sectors ──────────────────────────────────
+        engCtx.save();
+        engCtx.translate(discCx, discCy);
+        engCtx.rotate(-rot);   // CCW rotation in screen space (disc appears to spin CCW)
+
+        segments.forEach(seg => {
             engCtx.beginPath();
-            engCtx.moveTo(cx, arrY + 15);
-            engCtx.lineTo(cx, arrY - 5 + pulse);
-            engCtx.stroke();
-            
-            engCtx.fillStyle = '#f87171';
-            engCtx.beginPath();
-            engCtx.moveTo(cx, arrY - 7 + pulse);
-            engCtx.lineTo(cx - 5, arrY + pulse);
-            engCtx.lineTo(cx + 5, arrY + pulse);
+            engCtx.moveTo(0,0);
+            engCtx.arc(0, 0, discR, seg.from, seg.to, false);
             engCtx.closePath();
-            engCtx.fill();
 
-            engCtx.fillStyle = '#ef4444';
-            engCtx.font = 'bold 11px Inter';
-            engCtx.fillText('QH Calor Entrando', cx - 60, arrY + 5);
-        } else if (flowDirection === -1) { // Leaving heat
-            const pulse = Math.sin(Date.now() * 0.01) * 4;
-            engCtx.strokeStyle = '#60a5fa';
-            engCtx.lineWidth = 3;
-            const arrY = cylY + cylH + 10;
-            engCtx.beginPath();
-            engCtx.moveTo(cx, arrY - 5);
-            engCtx.lineTo(cx, arrY + 15 + pulse);
-            engCtx.stroke();
-            
-            engCtx.fillStyle = '#60a5fa';
-            engCtx.beginPath();
-            engCtx.moveTo(cx, arrY + 17 + pulse);
-            engCtx.lineTo(cx - 5, arrY + 10 + pulse);
-            engCtx.lineTo(cx + 5, arrY + 10 + pulse);
-            engCtx.closePath();
+            if (seg.type === 'hot') {
+                const g = engCtx.createRadialGradient(0,0,0,0,0,discR);
+                g.addColorStop(0,'rgba(220,38,38,0.95)');
+                g.addColorStop(0.6,'rgba(185,28,28,0.9)');
+                g.addColorStop(1,'rgba(127,29,29,0.85)');
+                engCtx.fillStyle = g;
+            } else if (seg.type === 'cold') {
+                const g = engCtx.createRadialGradient(0,0,0,0,0,discR);
+                g.addColorStop(0,'rgba(59,130,246,0.95)');
+                g.addColorStop(0.6,'rgba(29,78,216,0.9)');
+                g.addColorStop(1,'rgba(14,36,100,0.85)');
+                engCtx.fillStyle = g;
+            } else {
+                const g = engCtx.createRadialGradient(0,0,0,0,0,discR);
+                g.addColorStop(0,'rgba(75,85,99,0.9)');
+                g.addColorStop(1,'rgba(31,41,55,0.85)');
+                engCtx.fillStyle = g;
+            }
             engCtx.fill();
+            engCtx.strokeStyle='rgba(0,0,0,0.6)'; engCtx.lineWidth=1.5; engCtx.stroke();
 
-            engCtx.fillStyle = '#3b82f6';
-            engCtx.font = 'bold 11px Inter';
-            engCtx.fillText('QC Calor Saliendo', cx - 60, arrY + 5);
+            // Sector icons / texture
+            const midAngle = (seg.from + seg.to) / 2;
+            const iconR = discR * 0.62;
+            const ix = Math.cos(midAngle)*iconR, iy = Math.sin(midAngle)*iconR;
+
+            engCtx.save();
+            engCtx.translate(ix, iy);
+
+            if (seg.type === 'hot') {
+                // Flame spikes
+                for (let f=0;f<3;f++) {
+                    const fa = (f-1)*0.4;
+                    const fh = 9+Math.sin(now*0.008+f*1.5)*3;
+                    const fGrad=engCtx.createLinearGradient(Math.sin(fa)*4,fh/2,Math.sin(fa)*4,-fh/2);
+                    fGrad.addColorStop(0,'rgba(252,211,77,0)'); fGrad.addColorStop(0.5,'rgba(251,146,60,0.9)'); fGrad.addColorStop(1,'rgba(239,68,68,1)');
+                    engCtx.fillStyle=fGrad;
+                    engCtx.beginPath(); engCtx.ellipse(Math.sin(fa)*4,-2,3,fh/2,fa,0,Math.PI*2); engCtx.fill();
+                }
+                // Label
+                engCtx.fillStyle='#fecaca'; engCtx.font='bold 8px Inter'; engCtx.textAlign='center';
+                engCtx.fillText('HOT', 0, 16);
+            } else if (seg.type === 'cold') {
+                // Crystal lines
+                for (let a=0;a<3;a++) {
+                    const ca=a*Math.PI/3, cs=7+Math.sin(now*0.005+a)*1.5;
+                    engCtx.strokeStyle=`rgba(147,197,253,${0.7+0.3*Math.sin(now*0.006+a)})`;
+                    engCtx.lineWidth=1.5;
+                    engCtx.beginPath(); engCtx.moveTo(-Math.cos(ca)*cs,-Math.sin(ca)*cs);
+                    engCtx.lineTo(Math.cos(ca)*cs,Math.sin(ca)*cs); engCtx.stroke();
+                }
+                engCtx.fillStyle='#bfdbfe'; engCtx.font='bold 8px Inter'; engCtx.textAlign='center';
+                engCtx.fillText('COLD', 0, 16);
+            } else {
+                // Hatch lines (insulation)
+                engCtx.strokeStyle='rgba(156,163,175,0.5)'; engCtx.lineWidth=1;
+                for (let li=-12;li<=12;li+=5) {
+                    engCtx.beginPath(); engCtx.moveTo(li,-12); engCtx.lineTo(li+8,12); engCtx.stroke();
+                }
+                engCtx.fillStyle='#9ca3af'; engCtx.font='bold 7px Inter'; engCtx.textAlign='center';
+                engCtx.fillText('ADI', 0, 16);
+            }
+            engCtx.restore();
+        });
+
+        // ── Disc rim (fixed outer ring, doesn't rotate) ────────
+        engCtx.restore(); // end rotation
+
+        // Outer fixed ring
+        engCtx.beginPath(); engCtx.arc(discCx,discCy,discR+4,0,Math.PI*2);
+        engCtx.strokeStyle='rgba(148,163,184,0.7)'; engCtx.lineWidth=3.5;
+        engCtx.shadowColor='rgba(148,163,184,0.3)'; engCtx.shadowBlur=6;
+        engCtx.stroke(); engCtx.shadowBlur=0;
+
+        // ── Active window (slot at top of disc → cylinder base) ─
+        // Draw a bright indicator triangle/slot at the top of the disc
+        const winY = discCy - discR - 4;
+
+        // Active glow ring at contact point
+        const activeColor = baseType==='hot'?'#ef4444':(baseType==='cold'?'#60a5fa':'#6b7280');
+        const glowGrad = engCtx.createRadialGradient(discCx,winY,0,discCx,winY,16);
+        glowGrad.addColorStop(0,activeColor.replace(')',',0.9)').replace('rgb','rgba').replace('#ef4444','rgba(239,68,68,0.9)').replace('#60a5fa','rgba(96,165,250,0.9)').replace('#6b7280','rgba(107,114,128,0.6)'));
+        glowGrad.addColorStop(1,'rgba(0,0,0,0)');
+        engCtx.fillStyle = glowGrad;
+        // Simple approach: colored circle at top contact
+        engCtx.beginPath(); engCtx.arc(discCx, winY, 10, 0, Math.PI*2);
+        if (baseType==='hot') engCtx.fillStyle='rgba(239,68,68,0.8)';
+        else if (baseType==='cold') engCtx.fillStyle='rgba(96,165,250,0.8)';
+        else engCtx.fillStyle='rgba(107,114,128,0.5)';
+        engCtx.shadowColor=activeColor; engCtx.shadowBlur=14;
+        engCtx.fill(); engCtx.shadowBlur=0;
+
+        // ── Connection shaft between disc and cylinder ──────────
+        const shaftTop = cylBot + 2, shaftBot = discCy - discR + 2;
+        const shaftGrad = engCtx.createLinearGradient(cx-5,0,cx+5,0);
+        shaftGrad.addColorStop(0,'#374151'); shaftGrad.addColorStop(0.5,'#9ca3af'); shaftGrad.addColorStop(1,'#374151');
+        engCtx.fillStyle = shaftGrad;
+        engCtx.fillRect(cx-5, shaftTop, 10, shaftBot-shaftTop);
+
+        // Bottom plate of cylinder (thermal contact face)
+        const plateGlow = baseType==='hot'?'#fbbf24':(baseType==='cold'?'#60a5fa':'#4b5563');
+        engCtx.lineWidth=5; engCtx.strokeStyle=plateGlow;
+        engCtx.shadowColor=plateGlow; engCtx.shadowBlur=(baseType==='adiabatic'?0:14);
+        engCtx.beginPath(); engCtx.moveTo(cylX+3,cylBot); engCtx.lineTo(cylX+cylW-3,cylBot); engCtx.stroke();
+        engCtx.shadowBlur=0;
+
+        // ── Heat flow arrows between disc top and cylinder bottom
+        if (flowDirection !== 0) {
+            const arrCount = 3;
+            for (let ai=0;ai<arrCount;ai++) {
+                const ax = cx-16+ai*16;
+                const aAlpha = 0.4+0.6*Math.abs(Math.sin(now*0.008+ai*1.1));
+                const aColor = flowDirection===1?`rgba(252,165,0,${aAlpha})`:`rgba(96,165,250,${aAlpha})`;
+                const aGlow  = flowDirection===1?'#fbbf24':'#60a5fa';
+                engCtx.strokeStyle=aColor; engCtx.fillStyle=aColor;
+                engCtx.shadowColor=aGlow; engCtx.shadowBlur=6; engCtx.lineWidth=2;
+                const ay1 = discCy-discR+2, ay2 = cylBot-2;
+                if (flowDirection===1) {
+                    engCtx.beginPath(); engCtx.moveTo(ax,ay1); engCtx.lineTo(ax,ay2); engCtx.stroke();
+                    engCtx.beginPath(); engCtx.moveTo(ax,ay2-8); engCtx.lineTo(ax-4,ay2); engCtx.lineTo(ax+4,ay2); engCtx.closePath(); engCtx.fill();
+                } else {
+                    engCtx.beginPath(); engCtx.moveTo(ax,ay2); engCtx.lineTo(ax,ay1); engCtx.stroke();
+                    engCtx.beginPath(); engCtx.moveTo(ax,ay1+8); engCtx.lineTo(ax-4,ay1); engCtx.lineTo(ax+4,ay1); engCtx.closePath(); engCtx.fill();
+                }
+                engCtx.shadowBlur=0;
+            }
         }
 
-        // ── Text Overlays ──────────────────────────────────────
-        // Phase title
-        engCtx.fillStyle = '#f97316';
-        engCtx.font = 'bold 12px Inter';
-        engCtx.textAlign = 'center';
-        engCtx.fillText(processName, cx, 18);
+        // ── Disc centre hub ────────────────────────────────────
+        const hubGrad=engCtx.createRadialGradient(discCx,discCy,0,discCx,discCy,10);
+        hubGrad.addColorStop(0,'#e2e8f0'); hubGrad.addColorStop(0.5,'#94a3b8'); hubGrad.addColorStop(1,'#475569');
+        engCtx.fillStyle=hubGrad; engCtx.beginPath(); engCtx.arc(discCx,discCy,10,0,Math.PI*2); engCtx.fill();
+        engCtx.strokeStyle='rgba(255,255,255,0.3)'; engCtx.lineWidth=1;
+        engCtx.beginPath(); engCtx.arc(discCx,discCy,10,0,Math.PI*2); engCtx.stroke();
 
-        // Efficiency inside the base info area
-        engCtx.fillStyle = 'rgba(255,255,255,0.7)';
-        engCtx.font = '10px Inter';
-        engCtx.fillText('Eficiencia de Carnot: ' + (r.eta * 100).toFixed(1) + '%', cx, H - 15);
+        // Rotation tick marks (fixed on rim, show rotation speed)
+        for (let t=0;t<12;t++) {
+            const ta = -rot + t*Math.PI/6;
+            const tr1=discR+5, tr2=discR+(t%3===0?12:8);
+            engCtx.strokeStyle=t%3===0?'rgba(203,213,225,0.9)':'rgba(100,116,139,0.6)';
+            engCtx.lineWidth=t%3===0?2:1;
+            engCtx.beginPath();
+            engCtx.moveTo(discCx+Math.cos(ta)*tr1,discCy+Math.sin(ta)*tr1);
+            engCtx.lineTo(discCx+Math.cos(ta)*tr2,discCy+Math.sin(ta)*tr2);
+            engCtx.stroke();
+        }
+
+        // ── Legend (side labels, fixed) ────────────────────────
+        const legX = 6, legY = discCy - 30;
+        const legItems = [
+            {color:'#ef4444',label:'Foco Caliente (Q\u2095)'},
+            {color:'#6b7280',label:'Aislado (Adiab\u00e1tico)'},
+            {color:'#3b82f6',label:'Foco Fr\u00edo (Q\u1d04)'}
+        ];
+        legItems.forEach((item,i) => {
+            engCtx.fillStyle=item.color; engCtx.beginPath(); engCtx.arc(legX+5,legY+i*18,5,0,Math.PI*2); engCtx.fill();
+            engCtx.fillStyle='rgba(203,213,225,0.8)'; engCtx.font='9px Inter'; engCtx.textAlign='left';
+            engCtx.fillText(item.label, legX+13, legY+i*18+4);
+        });
+
+        // ── Phase title ────────────────────────────────────────
+        engCtx.fillStyle=phaseColor; engCtx.shadowColor=phaseColor; engCtx.shadowBlur=10;
+        engCtx.font='bold 12px Inter'; engCtx.textAlign='center';
+        engCtx.fillText(processName, cx, 14); engCtx.shadowBlur=0;
+
+        // ── Efficiency badge ───────────────────────────────────
+        engCtx.fillStyle='rgba(15,23,42,0.85)'; engCtx.beginPath(); engCtx.roundRect(W-82,4,76,22,5); engCtx.fill();
+        engCtx.fillStyle='#f59e0b'; engCtx.font='bold 10px Inter'; engCtx.textAlign='center';
+        engCtx.fillText('\u03b7 = '+(r.eta*100).toFixed(1)+'%', W-44, 19);
     }
+
 
     // ── T-S Diagram — fully dynamic axes + animated point ──────
     function drawTS(phase) {
@@ -18250,6 +18664,13 @@ function initInternalBLSimulation() {
             role: role
         };
 
+        // Si el usuario inicia sesión mediante Firebase (Correo o Google), activar acceso ilimitado
+        localStorage.setItem("gatekeeper_registered", "true");
+        const gatekeeperModal = document.getElementById("gatekeeper-modal");
+        if (gatekeeperModal) {
+            gatekeeperModal.style.display = "none";
+        }
+
         showLoggedInState();
 
         // Consulta/guardado no bloqueante en segundo plano en Firebase Realtime Database
@@ -18985,6 +19406,17 @@ function initInternalBLSimulation() {
             details: "Deducida experimentalmente por Josef Stefan (1879) y demostrada teóricamente por Ludwig Boltzmann (1884). Constante σ = 5.67 × 10⁻⁸ W/(m²·K⁴)."
         },
         {
+            id: "foote-invernadero",
+            category: "radiacion",
+            title: "Absorción Solar y Efecto Invernadero (Eunice Foote)",
+            titleEn: "Solar Absorption & Greenhouse Effect (Eunice Foote)",
+            formula: "\\rho V C_p \\frac{dT}{dt} = \\alpha_{IR} I_{solar} A - h A (T - T_{amb})",
+            simTarget: "foote-sim",
+            description: "Demuestra la capacidad diferenciada de los gases (CO₂, CH₄, H₂) para absorber la radiación solar infrarroja y retener calor en un volumen cerrado.",
+            descriptionEn: "Demonstrates the differentiated capacity of gases (CO₂, CH₄, H₂) to absorb solar infrared radiation and retain heat in a closed volume.",
+            details: "Descubierto experimentalmente por Eunice Newton Foote en 1856. Fue el primer estudio de la historia en predecir el cambio climático por calentamiento atmosférico de CO₂."
+        },
+        {
             id: "newton-enfriamiento",
             category: "conveccion",
             title: "Ley de Enfriamiento de Newton",
@@ -19153,6 +19585,1220 @@ function initInternalBLSimulation() {
             window.MathJax.typesetPromise();
         }
     }
+
+    // ==========================================
+    // EUNICE NEWTON FOOTE SIMULATION (1856)
+    // Greenhouse Effect & Solar Radiation
+    // ==========================================
+    function initFooteSimulation() {
+        const canvas = document.getElementById("footeCanvas");
+        const chartCanvas = document.getElementById("footeTempChart");
+        if (!canvas || !chartCanvas) return;
+
+        const ctx = canvas.getContext("2d");
+        const solarSlider = document.getElementById("foote-solar-irradiance");
+        const solarVal = document.getElementById("foote-solar-val");
+        const tambInput = document.getElementById("foote-tamb-input");
+        const tambVal = document.getElementById("foote-tamb-val");
+        const hInput = document.getElementById("foote-h-input");
+        const hVal = document.getElementById("foote-h-val");
+        const vInput = document.getElementById("foote-v-input");
+        const vVal = document.getElementById("foote-v-val");
+        const areasVal = document.getElementById("foote-areas-val");
+        const startBtn = document.getElementById("foote-start-btn");
+        const resetBtn = document.getElementById("foote-reset-btn");
+        const summaryTable = document.getElementById("foote-summary-table");
+        const gasCheckboxes = document.querySelectorAll(".foote-gas-check");
+
+        // Gas properties database (Cp & Cv in kJ/kg·K)
+        const gasData = {
+            co2: { name: "CO₂", fullName: "Dióxido de Carbono", cp: 0.84, cv: 0.65, absIR: 0.85, rho: 1.84, color: "#ec4899" },
+            h2o: { name: "H₂O", fullName: "Vapor de Agua (Principal Invernadero)", cp: 1.86, cv: 1.41, absIR: 1.40, rho: 0.75, color: "#0284c7" },
+            o3:  { name: "O₃",  fullName: "Ozono (Fuerte Absorbedor IR/UV)", cp: 0.82, cv: 0.64, absIR: 1.25, rho: 2.00, color: "#e11d48" },
+            n2:  { name: "N₂",  fullName: "Nitrógeno Puro (Diatómico Transparente IR)", cp: 1.04, cv: 0.743, absIR: 0.28, rho: 1.16, color: "#6366f1" },
+            o2:  { name: "O₂",  fullName: "Oxígeno Puro (Diatómico Transparente IR)", cp: 0.92, cv: 0.658, absIR: 0.30, rho: 1.33, color: "#38bdf8" },
+            air: { name: "Aire", fullName: "Aire Seco (78% N₂ + 21% O₂)", cp: 1.005, cv: 0.718, absIR: 0.35, rho: 1.20, color: "#3b82f6" },
+            h2:  { name: "H₂", fullName: "Hidrógeno", cp: 14.3, cv: 10.1, absIR: 0.10, rho: 0.089, color: "#06b6d4" },
+            ch4: { name: "CH₄", fullName: "Metano", cp: 2.22, cv: 1.70, absIR: 0.95, rho: 0.66, color: "#10b981" },
+            ar:  { name: "Ar", fullName: "Argón (Monoatómico - Inerte IR)", cp: 0.52, cv: 0.312, absIR: 0.02, rho: 1.66, color: "#94a3b8" },
+            sf6: { name: "SF₆", fullName: "Hexafluoruro de Azufre (Súper Invernadero)", cp: 0.67, cv: 0.61, absIR: 1.80, rho: 6.13, color: "#f59e0b" },
+            n2o: { name: "N₂O", fullName: "Óxido Nitroso (Potente Invernadero)", cp: 0.88, cv: 0.69, absIR: 1.15, rho: 1.80, color: "#a855f7" }
+        };
+
+        let isRunning = false;
+        let time = 0;
+        let animationId = null;
+        let hasReachedEquilibriumFlag = false;
+
+        // Current state for each gas
+        let state = {};
+        function initState() {
+            const T0 = parseFloat(tambInput.value);
+            state = {
+                co2: { T: T0, history: [T0], t_eq: null },
+                h2o: { T: T0, history: [T0], t_eq: null },
+                o3:  { T: T0, history: [T0], t_eq: null },
+                n2:  { T: T0, history: [T0], t_eq: null },
+                o2:  { T: T0, history: [T0], t_eq: null },
+                air: { T: T0, history: [T0], t_eq: null },
+                h2:  { T: T0, history: [T0], t_eq: null },
+                ch4: { T: T0, history: [T0], t_eq: null },
+                ar:  { T: T0, history: [T0], t_eq: null },
+                sf6: { T: T0, history: [T0], t_eq: null },
+                n2o: { T: T0, history: [T0], t_eq: null }
+            };
+        }
+        initState();
+
+        let timeData = [0];
+        let chartInstance = null;
+
+        function getActiveGasKeys() {
+            const active = [];
+            gasCheckboxes.forEach(cb => {
+                if (cb.checked) active.push(cb.value);
+            });
+            return active.length > 0 ? active : ['co2', 'air', 'h2', 'ch4'];
+        }
+
+        function initChart() {
+            if (chartInstance) chartInstance.destroy();
+
+            const activeKeys = getActiveGasKeys();
+            const datasets = activeKeys.map(key => {
+                const gas = gasData[key];
+                return {
+                    label: gas.fullName,
+                    data: state[key].history,
+                    borderColor: gas.color,
+                    backgroundColor: "transparent",
+                    borderWidth: 2.5,
+                    pointRadius: 0,
+                    tension: 0.3
+                };
+            });
+
+            const chartCtx = chartCanvas.getContext("2d");
+            chartInstance = new Chart(chartCtx, {
+                type: "line",
+                data: {
+                    labels: timeData,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    scales: {
+                        x: {
+                            title: { display: true, text: "Tiempo (min)", color: "#cbd5e1" },
+                            ticks: { color: "#94a3b8" },
+                            grid: { color: "rgba(255,255,255,0.05)" }
+                        },
+                        y: {
+                            title: { display: true, text: "Temp (°C)", color: "#cbd5e1", font: { size: 12, weight: "bold" } },
+                            ticks: { 
+                                color: "#cbd5e1",
+                                stepSize: 1, // High resolution ticks every 1°C
+                                font: { size: 11 }
+                            },
+                            grid: { color: "rgba(255,255,255,0.08)" }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: "#cbd5e1", font: { size: 11 } } }
+                    }
+                }
+            });
+        }
+
+        function getCylinderGeometry() {
+            const V_liters = vInput ? parseFloat(vInput.value) : 5.0;
+            const V_m3 = V_liters / 1000.0;
+            // Assuming aspect ratio L/D = 4
+            // V = pi/4 * D^2 * L = pi/4 * 4 * D^3 = pi * D^3  =>  D = (V / pi)^(1/3)
+            const D = Math.cbrt(V_m3 / Math.PI);
+            const L = 4.0 * D;
+            const A_rad = D * L; // m² (projected solar absorption area)
+            const A_conv = Math.PI * D * L + 2 * (Math.PI * D * D / 4.0); // m² (total convective area)
+            return { V_liters, V_m3, D, L, A_rad, A_conv };
+        }
+
+        function calculateEquilibriumTemp(I_sol, T_amb, gasKey) {
+            const gas = gasData[gasKey];
+            const h = hInput ? parseFloat(hInput.value) : 12.0;
+            const geom = getCylinderGeometry();
+            const Q_in = gas.absIR * I_sol * geom.A_rad;
+            const dT_eq = Q_in / (h * geom.A_conv);
+            return T_amb + dT_eq;
+        }
+
+        function updateDisplays() {
+            const I_sol = parseFloat(solarSlider.value);
+            const T_amb = parseFloat(tambInput.value);
+            const h_val = hInput ? parseFloat(hInput.value) : 12.0;
+            const geom = getCylinderGeometry();
+
+            solarVal.textContent = `${I_sol} W/m²`;
+            tambVal.textContent = `${T_amb} °C`;
+            if (hVal) hVal.textContent = `${h_val} W/m²·K`;
+            if (vVal) vVal.textContent = `${geom.V_liters.toFixed(1)} L (${geom.V_m3.toFixed(4)} m³)`;
+            if (areasVal) areasVal.innerHTML = `<i>A</i><sub>conv</sub> = ${geom.A_conv.toFixed(3)} m² | <i>A</i><sub>rad</sub> = ${geom.A_rad.toFixed(4)} m²`;
+
+            const activeKeys = getActiveGasKeys();
+
+            let tableHTML = `
+                <table style="width:100%; border-collapse:collapse; color:#e2e8f0; text-align:left;">
+                    <thead>
+                        <tr style="border-bottom:1px solid rgba(255,255,255,0.1); color:#94a3b8;">
+                            <th style="padding:4px;">Gas</th>
+                            <th style="padding:4px;">Abs. IR (&alpha;<sub>IR</sub>)</th>
+                            <th style="padding:4px;">Densidad (&rho;)</th>
+                            <th style="padding:4px;">Masa (<i>m</i>)</th>
+                            <th style="padding:4px;"><i>C</i><sub>v</sub> (kJ/kg·K)</th>
+                            <th style="padding:4px;"><i>T</i><sub>actual</sub> / <i>T</i><sub>eq</sub></th>
+                            <th style="padding:4px; color:#10b981;">Tiempo Equilibrio (<i>t</i><sub>eq</sub>)</th>
+                            <th style="padding:4px; color:#f59e0b;">Energía Absorbida (&Delta;<i>U</i>)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            activeKeys.forEach(key => {
+                const gas = gasData[key];
+                const Teq = calculateEquilibriumTemp(I_sol, T_amb, key);
+                const T_curr = state[key] ? state[key].T : T_amb;
+                const m = gas.rho * geom.V_m3; // kg
+                const deltaU_kJ = m * gas.cv * (T_curr - T_amb); // kJ
+                const deltaU_J = deltaU_kJ * 1000; // Joules
+
+                const t_eq_str = state[key] && state[key].t_eq !== null 
+                    ? `<span style="color:#10b981; font-weight:bold;">${state[key].t_eq.toFixed(1)} min</span>` 
+                    : `<span style="color:#94a3b8; font-style:italic;">En calentamiento...</span>`;
+
+                tableHTML += `
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                        <td style="padding:4px; font-weight:bold; color:${gas.color};">${gas.name}</td>
+                        <td style="padding:4px;">${gas.absIR}</td>
+                        <td style="padding:4px; color:#38bdf8;">${gas.rho.toFixed(2)} kg/m³</td>
+                        <td style="padding:4px;">${(m * 1000).toFixed(2)} g</td>
+                        <td style="padding:4px; color:var(--accent-cyan);">${gas.cv}</td>
+                        <td style="padding:4px; font-weight:bold;">${T_curr.toFixed(1)} / ${Teq.toFixed(1)} °C</td>
+                        <td style="padding:4px;">${t_eq_str}</td>
+                        <td style="padding:4px; font-weight:bold; color:#f59e0b;">${deltaU_J.toFixed(2)} J (${deltaU_kJ.toFixed(4)} kJ)</td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `</tbody></table>`;
+            if (summaryTable) summaryTable.innerHTML = tableHTML;
+        }
+
+        function showEuniceQuoteAndConclusion() {
+            const quoteBanner = document.getElementById("foote-quote-banner");
+            const quoteText = document.getElementById("foote-quote-text");
+            const conclusionDelta = document.getElementById("foote-conclusion-delta");
+            if (!quoteBanner || !quoteText || !conclusionDelta) return;
+
+            const I_sol = parseFloat(solarSlider.value);
+            const T_amb = parseFloat(tambInput.value);
+            const activeKeys = getActiveGasKeys();
+
+            // Find gas with max temperature
+            let maxGasKey = activeKeys[0];
+            let maxTemp = state[maxGasKey] ? state[maxGasKey].T : T_amb;
+
+            activeKeys.forEach(key => {
+                if (state[key] && state[key].T > maxTemp) {
+                    maxTemp = state[key].T;
+                    maxGasKey = key;
+                }
+            });
+
+            const maxGas = gasData[maxGasKey];
+            const airTemp = state['air'] ? state['air'].T : calculateEquilibriumTemp(I_sol, T_amb, 'air');
+            const deltaT_vs_Air = maxTemp - airTemp;
+            const t_eq_val = state[maxGasKey] && state[maxGasKey].t_eq !== null ? `${state[maxGasKey].t_eq.toFixed(1)} min` : "N/A";
+
+            quoteText.innerHTML = `«Una atmósfera de <strong>${maxGas.fullName} (${maxGas.name})</strong> daría a nuestra Tierra una temperatura muy elevada...» <br><span style="font-size:0.8rem; opacity:0.8; font-style:normal;">— Eunice Newton Foote (1856)</span>`;
+
+            conclusionDelta.innerHTML = `<i class="fas fa-temperature-high" style="color:#ef4444; margin-right:6px;"></i> <strong>Conclusión del Experimento:</strong> El gas <strong>${maxGas.name}</strong> alcanzó su temperatura de equilibrio de <strong>${maxTemp.toFixed(1)}°C</strong> en <strong><i>t</i><sub>eq</sub> = ${t_eq_val}</strong>, superando al Aire Seco en una diferencia de temperatura <strong>&Delta;T = +${deltaT_vs_Air.toFixed(1)}°C</strong> por sobrecalentamiento infrarrojo.`;
+
+            quoteBanner.style.display = "block";
+        }
+
+        function resetSim() {
+            isRunning = false;
+            time = 0;
+            hasReachedEquilibriumFlag = false;
+            initState();
+            timeData = [0];
+
+            const quoteBanner = document.getElementById("foote-quote-banner");
+            if (quoteBanner) quoteBanner.style.display = "none";
+
+            startBtn.innerHTML = '<i class="fas fa-sun"></i> <span class="lang-es">Encender Sol</span><span class="lang-en" style="display:none;">Turn Solar On</span>';
+            startBtn.style.background = "var(--accent-orange)";
+            startBtn.style.border = "none";
+            startBtn.style.color = "white";
+
+            updateDisplays();
+            initChart();
+            drawCanvas();
+        }
+
+        function drawCanvas() {
+            if (!canvas.parentElement) return;
+            const w = canvas.parentElement.clientWidth;
+            const h = canvas.parentElement.clientHeight;
+            if (w === 0 || h === 0) {
+                requestAnimationFrame(drawCanvas);
+                return;
+            }
+            canvas.width = w;
+            canvas.height = h;
+            ctx.clearRect(0, 0, w, h);
+
+            const I_sol = parseFloat(solarSlider.value);
+            const activeKeys = getActiveGasKeys();
+            const N = activeKeys.length;
+
+            // Draw Solar Light Rays
+            if (isRunning) {
+                const rayGradient = ctx.createLinearGradient(0, 0, w * 0.5, h);
+                const rayAlpha = (I_sol / 2000) * 0.45;
+                rayGradient.addColorStop(0, `rgba(251, 191, 36, ${rayAlpha})`);
+                rayGradient.addColorStop(1, "rgba(251, 191, 36, 0)");
+
+                ctx.fillStyle = rayGradient;
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(w, 0);
+                ctx.lineTo(w, h);
+                ctx.lineTo(0, h);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            // Draw Multiple Cylinders Side-by-Side
+            const cylW = Math.min(75, Math.floor((w - 40) / N - 15));
+            const cylH = h * 0.6;
+            const cylY = h * 0.22;
+            const totalW = N * cylW + (N - 1) * 15;
+            const startX = (w - totalW) / 2;
+
+            activeKeys.forEach((key, index) => {
+                const gas = gasData[key];
+                const T_curr = state[key].T;
+                const cylX = startX + index * (cylW + 15);
+
+                const tempRatio = Math.min(1, Math.max(0, (T_curr - 20) / 40));
+                const innerR = Math.floor(59 + tempRatio * 180);
+                const innerG = Math.floor(130 - tempRatio * 90);
+                const innerB = Math.floor(246 - tempRatio * 150);
+
+                // Cylinder background
+                ctx.fillStyle = `rgba(${innerR}, ${innerG}, ${innerB}, 0.25)`;
+                ctx.fillRect(cylX, cylY, cylW, cylH);
+
+                // Glass frame
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.35)";
+                ctx.lineWidth = 2;
+                ctx.strokeRect(cylX, cylY, cylW, cylH);
+
+                // Top & Bottom caps
+                ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
+                ctx.fillRect(cylX - 3, cylY - 8, cylW + 6, 8);
+                ctx.fillRect(cylX - 3, cylY + cylH, cylW + 6, 8);
+
+                // Mini Thermometer
+                const thermX = cylX + cylW * 0.5;
+                const thermY1 = cylY + 15;
+                const thermY2 = cylY + cylH - 15;
+                const thermH = thermY2 - thermY1;
+
+                ctx.fillStyle = "rgba(255,255,255,0.4)";
+                ctx.fillRect(thermX - 2, thermY1, 4, thermH);
+
+                const fillH = Math.min(1, Math.max(0.1, tempRatio)) * thermH;
+                ctx.fillStyle = gas.color;
+                ctx.fillRect(thermX - 2, thermY2 - fillH, 4, fillH);
+
+                // Particles inside cylinder
+                const numParticles = Math.floor(gas.rho * 6);
+                ctx.fillStyle = gas.color;
+                for (let i = 0; i < numParticles; i++) {
+                    const px = cylX + 8 + ((i * 23 + Math.sin(time * 0.05 + i + index) * 6) % (cylW - 16));
+                    const py = cylY + 10 + ((i * 19 + Math.cos(time * 0.05 + i + index) * 10) % (cylH - 20));
+                    ctx.beginPath();
+                    ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // Labels
+                ctx.font = "bold 12px Outfit, sans-serif";
+                ctx.fillStyle = gas.color;
+                ctx.textAlign = "center";
+                ctx.fillText(gas.name, cylX + cylW / 2, cylY - 14);
+
+                ctx.font = "bold 13px Outfit, sans-serif";
+                ctx.fillStyle = "#ffffff";
+                ctx.fillText(`${T_curr.toFixed(1)}°C`, cylX + cylW / 2, cylY + cylH / 2 + 4);
+            });
+        }
+
+        function loop() {
+            if (isRunning) {
+                time += 0.5;
+                const I_sol = parseFloat(solarSlider.value);
+                const T_amb = parseFloat(tambInput.value);
+                const activeKeys = getActiveGasKeys();
+
+                let allEquilibrium = true;
+
+                activeKeys.forEach(key => {
+                    const gas = gasData[key];
+                    const geom = getCylinderGeometry();
+                    const h = hInput ? parseFloat(hInput.value) : 12.0;
+                    const m = gas.rho * geom.V_m3; // kg
+                    const C_total = m * gas.cv; // Thermal capacity (kJ/K)
+                    const Teq = calculateEquilibriumTemp(I_sol, T_amb, key);
+                    
+                    // Thermal time constant tau = (m * Cv) / (h * A_conv) in seconds
+                    const tau_sec = Math.max(1.0, (C_total * 1000) / (h * geom.A_conv));
+                    const dt_step = 0.5; // simulation time step (seconds per frame)
+                    
+                    const dT = ((Teq - state[key].T) / tau_sec) * dt_step;
+                    state[key].T += dT;
+
+                    if (Math.abs(Teq - state[key].T) >= 0.05) {
+                        allEquilibrium = false;
+                    } else {
+                        state[key].T = Teq;
+                        if (state[key].t_eq === null) {
+                            state[key].t_eq = time;
+                        }
+                    }
+                });
+
+                if (allEquilibrium && !hasReachedEquilibriumFlag) {
+                    hasReachedEquilibriumFlag = true;
+                    startBtn.innerHTML = '<i class="fas fa-sun" style="color:#f59e0b;"></i> <span class="lang-es">Sol Encendido (Equilibrio)</span><span class="lang-en" style="display:none;">Sun On (Equilibrium)</span>';
+                    startBtn.style.background = "rgba(245, 158, 11, 0.25)";
+                    startBtn.style.border = "1px solid rgba(245, 158, 11, 0.5)";
+                    showEuniceQuoteAndConclusion();
+                }
+
+                if (Math.abs(time % 1) < 0.5) {
+                    if (!hasReachedEquilibriumFlag) {
+                        timeData.push(time.toFixed(0));
+                        activeKeys.forEach(key => {
+                            state[key].history.push(parseFloat(state[key].T.toFixed(1)));
+                        });
+
+                        if (chartInstance) {
+                            chartInstance.data.labels = timeData;
+                            chartInstance.data.datasets.forEach((dataset, idx) => {
+                                const key = activeKeys[idx];
+                                if (key && state[key]) {
+                                    dataset.data = state[key].history;
+                                }
+                            });
+                            chartInstance.update();
+                        }
+                    }
+                    updateDisplays();
+                }
+            }
+
+            drawCanvas();
+            animationId = requestAnimationFrame(loop);
+        }
+
+        solarSlider.addEventListener("input", updateDisplays);
+        tambInput.addEventListener("input", updateDisplays);
+        if (hInput) hInput.addEventListener("input", updateDisplays);
+        if (vInput) vInput.addEventListener("input", updateDisplays);
+        const selectAllBtn = document.getElementById("foote-select-all");
+        const deselectAllBtn = document.getElementById("foote-deselect-all");
+
+        if (selectAllBtn) {
+            selectAllBtn.addEventListener("click", () => {
+                gasCheckboxes.forEach(cb => cb.checked = true);
+                updateDisplays();
+                initChart();
+            });
+        }
+
+        if (deselectAllBtn) {
+            deselectAllBtn.addEventListener("click", () => {
+                gasCheckboxes.forEach(cb => cb.checked = false);
+                updateDisplays();
+                initChart();
+            });
+        }
+
+        gasCheckboxes.forEach(cb => {
+            cb.addEventListener("change", () => {
+                updateDisplays();
+                initChart();
+            });
+        });
+
+        startBtn.addEventListener("click", () => {
+            isRunning = !isRunning;
+            startBtn.style.border = "none";
+            startBtn.style.color = "white";
+            if (isRunning) {
+                startBtn.innerHTML = '<i class="fas fa-pause"></i> <span class="lang-es">Pausar Experimento</span><span class="lang-en" style="display:none;">Pause Experiment</span>';
+                startBtn.style.background = "#3b82f6";
+            } else {
+                startBtn.innerHTML = '<i class="fas fa-sun"></i> <span class="lang-es">Reanudar Experimento</span><span class="lang-en" style="display:none;">Resume Experiment</span>';
+                startBtn.style.background = "var(--accent-orange)";
+            }
+        });
+
+        resetBtn.addEventListener("click", resetSim);
+
+        if (!canvas.dataset.resizeAttached) {
+            window.addEventListener("resize", () => { if (canvas.offsetParent) drawCanvas(); });
+            canvas.dataset.resizeAttached = "true";
+        }
+        resetSim();
+        loop();
+    }
+
+    window.initFooteSimulation = initFooteSimulation;
+
+    /* ==========================================================================
+       ÉMILIE DU CHÂTELET (1738) - NATURE OF FIRE & ENERGY (Ek = 1/2 m v^2 -> Q)
+       ========================================================================== */
+    function initChateletSimulation() {
+        const massSlider = document.getElementById("chatelet-mass");
+        const heightSlider = document.getElementById("chatelet-height");
+        const dropBtn = document.getElementById("chatelet-drop-btn");
+        const resetBtn = document.getElementById("chatelet-reset-btn");
+        const canvas = document.getElementById("chatelet-canvas");
+        const chartCanvas = document.getElementById("chatelet-chart");
+        if (!canvas || !chartCanvas) return;
+
+        const ctx = canvas.getContext("2d");
+        const massVal = document.getElementById("chatelet-mass-val");
+        const heightVal = document.getElementById("chatelet-height-val");
+        const vVal = document.getElementById("chatelet-v-val");
+        const ekVal = document.getElementById("chatelet-ek-val");
+        const defVal = document.getElementById("chatelet-def-val");
+        const areaVal = document.getElementById("chatelet-area-val");
+        const fresVal = document.getElementById("chatelet-fres-val");
+        const workEqVal = document.getElementById("chatelet-work-eq-val");
+
+        let isFalling = false;
+        let sphereY = 0; // Starts from top (0) to bottom (100)
+        let chartInstance = null;
+        let animationId = null;
+        let craterDepth = 0; // Persistent crater depth until reset
+        let craterWidth = 0;
+
+        function updateDisplays() {
+            const m = parseFloat(massSlider.value);
+            const h = parseFloat(heightSlider.value);
+            massVal.textContent = `${m.toFixed(1)} kg`;
+            heightVal.textContent = `${h.toFixed(1)} m`;
+
+            const v = Math.sqrt(2 * 9.81 * h);
+            const Ek = 0.5 * m * v * v;
+            
+            const calculated_def = Ek / 1.5; 
+            const F_res = 150; // Average constant resistance force of 150 N
+            
+            // Calculate sphere radius in mm (approx. 50mm for 1kg, scales with cubic root of mass)
+            const R_mm = 50 * Math.pow(m, 1/3);
+            // Crater surface area A = pi * d * (2R - d) in mm², then convert to cm²
+            const calculated_area = Math.PI * calculated_def * Math.max(0, 2 * R_mm - calculated_def) / 100;
+
+            vVal.textContent = `${v.toFixed(1)} m/s`;
+            ekVal.textContent = `${Ek.toFixed(1)} J`;
+            defVal.textContent = `${calculated_def.toFixed(1)} mm`;
+            if (areaVal) areaVal.textContent = `${calculated_area.toFixed(1)} cm²`;
+            if (fresVal) fresVal.textContent = `${F_res.toFixed(0)} N (Constante)`;
+            
+            const Work = F_res * (calculated_def / 1000); // F * d (in meters)
+            if (workEqVal) {
+                workEqVal.textContent = `W = F_res · d = ${F_res} N · ${(calculated_def / 1000).toFixed(4)} m = ${Work.toFixed(1)} J`;
+            }
+
+            if (!isFalling && sphereY === 0) {
+                craterDepth = 0;
+                craterWidth = 0;
+            }
+        }
+
+        function initChart() {
+            if (chartInstance) chartInstance.destroy();
+            const ctxChart = chartCanvas.getContext("2d");
+            
+            const heights = [0.5, 1.0, 2.0, 3.0, 4.0, 5.0, 7.5, 10.0];
+            const m = parseFloat(massSlider.value);
+            const ekData = heights.map(h => 0.5 * m * (2 * 9.81 * h));
+
+            chartInstance = new Chart(ctxChart, {
+                type: 'line',
+                data: {
+                    labels: heights.map(h => `${h}m`),
+                    datasets: [{
+                        label: 'Energía Cinética de Impacto / Calor (J)',
+                        data: ekData,
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.15)',
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
+                    },
+                    plugins: { legend: { labels: { color: '#e2e8f0', font: { size: 10 } } } }
+                }
+            });
+        }
+
+        function drawCanvas() {
+            if (!canvas.parentElement) return;
+            const w = canvas.parentElement.clientWidth;
+            const h = canvas.parentElement.clientHeight;
+            if (w === 0 || h === 0) {
+                requestAnimationFrame(drawCanvas);
+                return;
+            }
+            canvas.width = w;
+            canvas.height = h;
+            ctx.clearRect(0, 0, w, h);
+
+            const groundY = h - 65;
+            
+            // Draw Clay Bed with dynamic crater indents
+            ctx.fillStyle = "#78350f";
+            ctx.fillRect(20, groundY, w - 40, 55);
+
+            ctx.fillStyle = "#d97706";
+            ctx.font = "bold 11px sans-serif";
+            ctx.fillText("Bloque de Arcilla Blanda (Experimento de Châtelet)", 30, groundY + 20);
+
+            // Height guide lines and scale on left side
+            const topY = 45;
+            ctx.strokeStyle = "rgba(255,255,255,0.15)";
+            ctx.lineWidth = 1;
+            ctx.setLineDash([3, 3]);
+            ctx.beginPath();
+            ctx.moveTo(w / 2, topY);
+            ctx.lineTo(w / 2, groundY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Draw a ruler on the left side of the canvas
+            ctx.strokeStyle = "rgba(255,255,255,0.3)";
+            ctx.fillStyle = "rgba(255,255,255,0.5)";
+            ctx.font = "9px sans-serif";
+            ctx.beginPath();
+            ctx.moveTo(40, topY);
+            ctx.lineTo(40, groundY);
+            ctx.stroke();
+            for (let i = 0; i <= 10; i++) {
+                const tickY = topY + (i / 10) * (groundY - topY);
+                ctx.beginPath();
+                ctx.moveTo(35, tickY);
+                ctx.lineTo(40, tickY);
+                ctx.stroke();
+                ctx.fillText(`${(10 - i).toFixed(0)}m`, 15, tickY + 3);
+            }
+
+            // Draw the crater dent in the clay if it exists
+            if (craterDepth > 0) {
+                // Outer deformation ring
+                ctx.fillStyle = "rgba(239, 68, 68, 0.4)";
+                ctx.beginPath();
+                ctx.ellipse(w / 2, groundY, craterWidth * 1.3, craterDepth * 0.4, 0, 0, Math.PI, false);
+                ctx.fill();
+
+                // Inner core crater
+                ctx.fillStyle = "#451a03";
+                ctx.beginPath();
+                ctx.ellipse(w / 2, groundY, craterWidth, craterDepth * 0.8, 0, 0, Math.PI, false);
+                ctx.fill();
+
+                // Draw heat/energy dissipating lines
+                ctx.strokeStyle = "rgba(245, 158, 11, 0.6)";
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.arc(w / 2, groundY, craterWidth * 1.5, Math.PI, 0);
+                ctx.stroke();
+            }
+
+            // Sphere calculation
+            const m = parseFloat(massSlider.value);
+            const radius = 10 + m * 3;
+            
+            // Calculate sphere Y coordinate dynamically based on height slider
+            const heightM = parseFloat(heightSlider.value);
+            // heightM range is 0.5m to 10m. Map to canvas: 10m -> topY, 0.5m -> near groundY
+            const initialHeightY = groundY - radius - ((heightM - 0.5) / 9.5) * (groundY - topY - radius - 10);
+            
+            let currentY = initialHeightY;
+            if (isFalling) {
+                currentY = initialHeightY + (sphereY / 100) * (groundY - radius - initialHeightY);
+            } else if (craterDepth > 0) {
+                // Sphere resting inside the crater after impact
+                currentY = groundY + (craterDepth * 0.4) - radius * 0.8;
+            }
+
+            // Draw thermal glow on impact (only when falling hits bottom or resting)
+            if (isFalling && sphereY >= 98) {
+                const glowGrad = ctx.createRadialGradient(w / 2, groundY, 2, w / 2, groundY, radius * 2);
+                glowGrad.addColorStop(0, "rgba(239, 68, 68, 0.9)");
+                glowGrad.addColorStop(0.5, "rgba(245, 158, 11, 0.5)");
+                glowGrad.addColorStop(1, "rgba(239, 68, 68, 0)");
+                ctx.fillStyle = glowGrad;
+                ctx.beginPath();
+                ctx.arc(w / 2, groundY, radius * 2.2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Draw indicator line pointing from height ruler to sphere position
+            if (!isFalling && craterDepth === 0) {
+                ctx.strokeStyle = "rgba(245, 158, 11, 0.6)";
+                ctx.lineWidth = 1;
+                ctx.setLineDash([2, 2]);
+                ctx.beginPath();
+                ctx.moveTo(40, currentY);
+                ctx.lineTo(w / 2 - radius - 5, currentY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = "#f59e0b";
+                ctx.font = "bold 9px sans-serif";
+                ctx.textAlign = "right";
+                ctx.fillText(`h = ${heightM.toFixed(1)} m`, w / 2 - radius - 8, currentY - 4);
+            }
+
+            // Draw the sphere
+            const sGrad = ctx.createRadialGradient(w / 2 - radius * 0.3, currentY - radius * 0.3, 2, w / 2, currentY, radius);
+            sGrad.addColorStop(0, "#fef08a");
+            sGrad.addColorStop(0.5, "#f59e0b");
+            sGrad.addColorStop(1, "#b45309");
+            ctx.fillStyle = sGrad;
+            ctx.beginPath();
+            ctx.arc(w / 2, currentY, radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Label
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 9px sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText(`${m} kg`, w / 2, currentY + 3);
+        }
+
+        function dropSphere() {
+            if (isFalling) return;
+            isFalling = true;
+            sphereY = 0;
+            craterDepth = 0;
+            craterWidth = 0;
+            const h_m = parseFloat(heightSlider.value);
+            const m_kg = parseFloat(massSlider.value);
+
+            let t = 0;
+            function fallLoop() {
+                t += 0.035;
+                // Galileo equation for falling: s = 0.5 * g * t^2
+                sphereY = Math.min(100, (0.5 * 9.81 * t * t / h_m) * 100);
+                drawCanvas();
+
+                if (sphereY < 100) {
+                    animationId = requestAnimationFrame(fallLoop);
+                } else {
+                    isFalling = false;
+                    const v = Math.sqrt(2 * 9.81 * h_m);
+                    const Ek = 0.5 * m_kg * v * v;
+                    
+                    // Indentation depth directly proportional to Kinetic Energy (scaling with v^2)
+                    craterDepth = Math.min(40, Ek / 1.5);
+                    craterWidth = Math.min(50, 10 + m_kg * 4 + (craterDepth * 0.5));
+                    
+                    updateDisplays();
+                    drawCanvas();
+                }
+            }
+            fallLoop();
+        }
+
+        massSlider.addEventListener("input", () => { updateDisplays(); initChart(); drawCanvas(); });
+        heightSlider.addEventListener("input", () => { updateDisplays(); initChart(); drawCanvas(); });
+        dropBtn.addEventListener("click", dropSphere);
+        resetBtn.addEventListener("click", () => {
+            isFalling = false;
+            sphereY = 0;
+            craterDepth = 0;
+            craterWidth = 0;
+            if (animationId) cancelAnimationFrame(animationId);
+            updateDisplays();
+            drawCanvas();
+        });
+
+        if (!canvas.dataset.resizeAttached) {
+            window.addEventListener("resize", () => { if (canvas.offsetParent) drawCanvas(); });
+            canvas.dataset.resizeAttached = "true";
+        }
+        updateDisplays();
+        initChart();
+        drawCanvas();
+    }
+    window.initChateletSimulation = initChateletSimulation;
+
+    /* ==========================================================================
+       MARY ENGLER PENNINGTON (1910) - COLD CHAIN & TRANSIENT THERMAL INSULATION
+       ========================================================================== */
+    function initPenningtonSimulation() {
+        const insSelect = document.getElementById("pennington-insulation");
+        const thickSlider = document.getElementById("pennington-thickness");
+        const textSlider = document.getElementById("pennington-text");
+        const startBtn = document.getElementById("pennington-start-btn");
+        const resetBtn = document.getElementById("pennington-reset-btn");
+        const canvas = document.getElementById("pennington-canvas");
+        const chartCanvas = document.getElementById("pennington-chart");
+        if (!canvas || !chartCanvas) return;
+
+        const ctx = canvas.getContext("2d");
+        const thickVal = document.getElementById("pennington-thickness-val");
+        const textVal = document.getElementById("pennington-text-val");
+        const qVal = document.getElementById("pennington-q-val");
+        const tintVal = document.getElementById("pennington-tint-val");
+        const timeVal = document.getElementById("pennington-time-val");
+
+        let isRunning = false;
+        let timeHours = 0;
+        let T_cargo = 4.0; // °C initial refrigerated cargo temp
+        let animationId = null;
+        let historyTime = [0];
+        let historyTemp = [4.0];
+        let chartInstance = null;
+
+        const k_map = {
+            cork: 0.040,
+            wood: 0.055,
+            pu: 0.022,
+            none: 0.150
+        };
+
+        function getParams() {
+            const mat = insSelect.value;
+            const k = k_map[mat] || 0.04;
+            const L_m = parseFloat(thickSlider.value) / 100.0; // cm to meters
+            const Text = parseFloat(textSlider.value);
+            return { k, L_m, Text };
+        }
+
+        function updateDisplays() {
+            const { k, L_m, Text } = getParams();
+            thickVal.textContent = `${(L_m * 100).toFixed(0)} cm`;
+            textVal.textContent = `${Text.toFixed(0)} °C`;
+
+            const q_flux = (k / L_m) * (Text - T_cargo);
+            qVal.textContent = `${q_flux.toFixed(1)} W/m²`;
+            tintVal.textContent = `${T_cargo.toFixed(1)} °C`;
+        }
+
+        function initChart() {
+            if (chartInstance) chartInstance.destroy();
+            const ctxChart = chartCanvas.getContext("2d");
+            chartInstance = new Chart(ctxChart, {
+                type: 'line',
+                data: {
+                    labels: historyTime.map(t => `${t.toFixed(0)}h`),
+                    datasets: [{
+                        label: 'Temperatura Carga Refresca (°C)',
+                        data: historyTemp,
+                        borderColor: '#38bdf8',
+                        backgroundColor: 'rgba(56, 189, 248, 0.15)',
+                        fill: true,
+                        tension: 0.2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+                        y: { min: 0, max: 40, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
+                    },
+                    plugins: { legend: { labels: { color: '#e2e8f0', font: { size: 10 } } } }
+                }
+            });
+        }
+
+        function drawCanvas() {
+            if (!canvas.parentElement) return;
+            const w = canvas.parentElement.clientWidth;
+            const h = canvas.parentElement.clientHeight;
+            if (w === 0 || h === 0) {
+                requestAnimationFrame(drawCanvas);
+                return;
+            }
+            canvas.width = w;
+            canvas.height = h;
+            ctx.clearRect(0, 0, w, h);
+
+            // Refrigerator car outer wall
+            ctx.fillStyle = "#1e293b";
+            ctx.fillRect(40, 40, w - 80, h - 80);
+
+            // Insulation layer
+            const { L_m, Text } = getParams();
+            const thickPx = Math.min(60, L_m * 200);
+            ctx.fillStyle = insSelect.value === 'pu' ? '#fef08a' : (insSelect.value === 'cork' ? '#b45309' : '#64748b');
+            ctx.fillRect(40, 40, thickPx, h - 80);
+
+            // Cargo area inside
+            ctx.fillStyle = "rgba(14, 165, 233, 0.15)";
+            ctx.fillRect(40 + thickPx, 40, w - 80 - thickPx, h - 80);
+
+            // Labels
+            ctx.fillStyle = "#ef4444";
+            ctx.font = "bold 12px sans-serif";
+            ctx.fillText(`Exterior: ${Text}°C (Sol de Verano)`, 50, 30);
+
+            ctx.fillStyle = "#38bdf8";
+            ctx.fillText(`Carga Fría (Pennington): ${T_cargo.toFixed(1)}°C`, 40 + thickPx + 20, h / 2);
+
+            // Heat flux arrows
+            ctx.strokeStyle = "rgba(239, 68, 68, 0.6)";
+            ctx.lineWidth = 2;
+            for (let y = 70; y < h - 70; y += 40) {
+                ctx.beginPath();
+                ctx.moveTo(10, y);
+                ctx.lineTo(40 + thickPx - 5, y);
+                ctx.stroke();
+            }
+        }
+
+        function loop() {
+            if (isRunning) {
+                const { k, L_m, Text } = getParams();
+                const q_flux = (k / L_m) * (Text - T_cargo);
+                // Heat capacity of refrigerated cargo batch (approx thermal mass)
+                const C_cargo = 5000; // kJ/K per m2
+                const dT_per_hour = (q_flux * 3600) / (C_cargo * 1000);
+                
+                T_cargo += dT_per_hour * 0.2;
+                timeHours += 0.2;
+
+                if (Math.abs(timeHours % 1) < 0.2) {
+                    historyTime.push(timeHours);
+                    historyTemp.push(parseFloat(T_cargo.toFixed(1)));
+                    if (chartInstance) {
+                        chartInstance.data.labels = historyTime.map(t => `${t.toFixed(0)}h`);
+                        chartInstance.data.datasets[0].data = historyTemp;
+                        chartInstance.update();
+                    }
+                }
+
+                updateDisplays();
+                drawCanvas();
+
+                if (T_cargo < Text - 0.5) {
+                    animationId = requestAnimationFrame(loop);
+                } else {
+                    isRunning = false;
+                }
+            }
+        }
+
+        startBtn.addEventListener("click", () => {
+            isRunning = !isRunning;
+            if (isRunning) {
+                startBtn.innerHTML = '<i class="fas fa-pause"></i> Pausar Transporte';
+                loop();
+            } else {
+                startBtn.innerHTML = '<i class="fas fa-snowflake"></i> Reanudar Transporte';
+            }
+        });
+
+        resetBtn.addEventListener("click", () => {
+            isRunning = false;
+            timeHours = 0;
+            T_cargo = 4.0;
+            historyTime = [0];
+            historyTemp = [4.0];
+            if (animationId) cancelAnimationFrame(animationId);
+            updateDisplays();
+            initChart();
+            drawCanvas();
+        });
+
+        if (!canvas.dataset.resizeAttached) {
+            window.addEventListener("resize", () => { if (canvas.offsetParent) drawCanvas(); });
+            canvas.dataset.resizeAttached = "true";
+        }
+        updateDisplays();
+        initChart();
+        drawCanvas();
+    }
+    window.initPenningtonSimulation = initPenningtonSimulation;
+
+    /* ==========================================================================
+       MARIA TELKES (1948) - PCM LATENT HEAT THERMAL STORAGE
+       ========================================================================== */
+    function initTelkesSimulation() {
+        const solarSlider = document.getElementById("telkes-solar");
+        const massSlider = document.getElementById("telkes-mass");
+        const startBtn = document.getElementById("telkes-start-btn");
+        const resetBtn = document.getElementById("telkes-reset-btn");
+        const canvas = document.getElementById("telkes-canvas");
+        const chartCanvas = document.getElementById("telkes-chart");
+        if (!canvas || !chartCanvas) return;
+
+        const ctx = canvas.getContext("2d");
+        const solarVal = document.getElementById("telkes-solar-val");
+        const massVal = document.getElementById("telkes-mass-val");
+        const qpcmVal = document.getElementById("telkes-qpcm-val");
+        const phaseVal = document.getElementById("telkes-phase-val");
+
+        let isRunning = false;
+        let timeMinutes = 0;
+        let T_pcm = 20.0; // °C
+        let T_water = 20.0; // °C sensible comparison
+        let pcmMeltFraction = 0.0; // 0 (solid) to 1 (liquid)
+        let animationId = null;
+
+        let historyTime = [0];
+        let historyPcm = [20.0];
+        let historyWater = [20.0];
+        let chartInstance = null;
+
+        const T_melt = 32.0; // Glauber salt melting point °C
+        const H_fusion = 251.0; // kJ/kg
+        const Cp_salt = 1.9; // kJ/kg·K
+        const Cp_water = 4.18; // kJ/kg·K
+
+        function updateDisplays() {
+            const I_sol = parseFloat(solarSlider.value);
+            const m = parseFloat(massSlider.value);
+            solarVal.textContent = `${I_sol} W/m²`;
+            massVal.textContent = `${m} kg`;
+
+            // Calculate total accumulated Q in MJ
+            const Q_sensible = m * Cp_salt * (T_pcm - 20.0);
+            const Q_latent = m * H_fusion * pcmMeltFraction;
+            const Q_total_MJ = (Q_sensible + Q_latent) / 1000.0;
+
+            qpcmVal.textContent = `${Q_total_MJ.toFixed(2)} MJ`;
+
+            if (pcmMeltFraction === 0) {
+                phaseVal.textContent = `Sólido Cristalino (${T_pcm.toFixed(1)}°C)`;
+                phaseVal.style.color = "#38bdf8";
+            } else if (pcmMeltFraction < 1.0) {
+                phaseVal.textContent = `Fusión Transitoria a 32°C (${(pcmMeltFraction * 100).toFixed(0)}% Líquido)`;
+                phaseVal.style.color = "#f59e0b";
+            } else {
+                phaseVal.textContent = `Completamente Líquido (${T_pcm.toFixed(1)}°C)`;
+                phaseVal.style.color = "#a855f7";
+            }
+        }
+
+        function initChart() {
+            if (chartInstance) chartInstance.destroy();
+            const ctxChart = chartCanvas.getContext("2d");
+            chartInstance = new Chart(ctxChart, {
+                type: 'line',
+                data: {
+                    labels: historyTime.map(t => `${t.toFixed(0)}m`),
+                    datasets: [
+                        {
+                            label: 'Sal de Glauber PCM (Telkes - Meseta 32°C)',
+                            data: historyPcm,
+                            borderColor: '#a855f7',
+                            backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                            fill: true,
+                            tension: 0.2
+                        },
+                        {
+                            label: 'Agua (Calor Sensible Tradicional)',
+                            data: historyWater,
+                            borderColor: '#38bdf8',
+                            borderDash: [4, 4],
+                            fill: false,
+                            tension: 0.2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+                        y: { min: 15, max: 60, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
+                    },
+                    plugins: { legend: { labels: { color: '#e2e8f0', font: { size: 10 } } } }
+                }
+            });
+        }
+
+        function drawCanvas() {
+            if (!canvas.parentElement) return;
+            const w = canvas.parentElement.clientWidth;
+            const h = canvas.parentElement.clientHeight;
+            if (w === 0 || h === 0) {
+                requestAnimationFrame(drawCanvas);
+                return;
+            }
+            canvas.width = w;
+            canvas.height = h;
+            ctx.clearRect(0, 0, w, h);
+
+            // Solar receiver panel
+            const I_sol = parseFloat(solarSlider.value);
+            ctx.fillStyle = "#1e293b";
+            ctx.fillRect(30, 40, w - 60, h - 80);
+
+            // PCM Salt container inside
+            const pcmH = (h - 100);
+            const pcmW = (w - 100);
+
+            // Draw solid vs liquid proportion
+            const liquidH = pcmH * pcmMeltFraction;
+            const solidH = pcmH - liquidH;
+
+            // Liquid phase (purple glow)
+            if (liquidH > 0) {
+                ctx.fillStyle = "rgba(168, 85, 247, 0.65)";
+                ctx.fillRect(50, 50, pcmW, liquidH);
+            }
+
+            // Solid phase (crystalline blue)
+            if (solidH > 0) {
+                ctx.fillStyle = "rgba(56, 189, 248, 0.45)";
+                ctx.fillRect(50, 50 + liquidH, pcmW, solidH);
+            }
+
+            // Salt container border
+            ctx.strokeStyle = "#a855f7";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(50, 50, pcmW, pcmH);
+
+            // Labels
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 12px sans-serif";
+            ctx.fillText(`Telkes PCM: Sal de Glauber (Na₂SO₄·10H₂O)`, 60, 70);
+            ctx.fillText(`T_PCM = ${T_pcm.toFixed(1)} °C | Fusión: ${(pcmMeltFraction * 100).toFixed(0)}%`, 60, 90);
+
+            // Solar ray arrows
+            ctx.strokeStyle = "#f59e0b";
+            ctx.lineWidth = 3;
+            for (let x = 70; x < w - 70; x += 50) {
+                ctx.beginPath();
+                ctx.moveTo(x, 10);
+                ctx.lineTo(x, 45);
+                ctx.stroke();
+            }
+        }
+
+        function loop() {
+            if (isRunning) {
+                const I_sol = parseFloat(solarSlider.value);
+                const m = parseFloat(massSlider.value);
+                const Qin_W = I_sol * 0.5; // Area 0.5 m2
+                const dt_min = 0.5;
+
+                // 1. Water heating (Sensible heat Q = m Cp dT)
+                const dT_water = (Qin_W * (dt_min * 60)) / (m * Cp_water * 1000);
+                T_water += dT_water;
+
+                // 2. PCM heating & latent fusion
+                if (T_pcm < T_melt) {
+                    const dT_pcm = (Qin_W * (dt_min * 60)) / (m * Cp_salt * 1000);
+                    T_pcm += dT_pcm;
+                    if (T_pcm >= T_melt) T_pcm = T_melt;
+                } else if (Math.abs(T_pcm - T_melt) < 0.1 && pcmMeltFraction < 1.0) {
+                    // Latent heat phase change
+                    const dMelt = (Qin_W * (dt_min * 60)) / (m * H_fusion * 1000);
+                    pcmMeltFraction = Math.min(1.0, pcmMeltFraction + dMelt);
+                } else {
+                    // Liquid sensible heating
+                    const dT_pcm = (Qin_W * (dt_min * 60)) / (m * Cp_salt * 1000);
+                    T_pcm += dT_pcm;
+                }
+
+                timeMinutes += dt_min;
+
+                if (Math.abs(timeMinutes % 1) < 0.5) {
+                    historyTime.push(timeMinutes);
+                    historyPcm.push(parseFloat(T_pcm.toFixed(1)));
+                    historyWater.push(parseFloat(T_water.toFixed(1)));
+
+                    if (chartInstance) {
+                        chartInstance.data.labels = historyTime.map(t => `${t.toFixed(0)}m`);
+                        chartInstance.data.datasets[0].data = historyPcm;
+                        chartInstance.data.datasets[1].data = historyWater;
+                        chartInstance.update();
+                    }
+                }
+
+                updateDisplays();
+                drawCanvas();
+
+                if (timeMinutes < 120) {
+                    animationId = requestAnimationFrame(loop);
+                } else {
+                    isRunning = false;
+                }
+            }
+        }
+
+        startBtn.addEventListener("click", () => {
+            isRunning = !isRunning;
+            if (isRunning) {
+                startBtn.innerHTML = '<i class="fas fa-pause"></i> Pausar Carga Solar';
+                loop();
+            } else {
+                startBtn.innerHTML = '<i class="fas fa-sun"></i> Reanudar Carga Solar';
+            }
+        });
+
+        resetBtn.addEventListener("click", () => {
+            isRunning = false;
+            timeMinutes = 0;
+            T_pcm = 20.0;
+            T_water = 20.0;
+            pcmMeltFraction = 0.0;
+            historyTime = [0];
+            historyPcm = [20.0];
+            historyWater = [20.0];
+            if (animationId) cancelAnimationFrame(animationId);
+            updateDisplays();
+            initChart();
+            drawCanvas();
+        });
+
+        if (!canvas.dataset.resizeAttached) {
+            window.addEventListener("resize", () => { if (canvas.offsetParent) drawCanvas(); });
+            canvas.dataset.resizeAttached = "true";
+        }
+        updateDisplays();
+        initChart();
+        drawCanvas();
+    }
+    window.initTelkesSimulation = initTelkesSimulation;
+
+    document.addEventListener("click", (e) => {
+        const btn = e.target.closest ? e.target.closest('[data-target="foote-sim"]') : null;
+        if (btn) {
+            setTimeout(initFooteSimulation, 100);
+        }
+    });
 
     window.openSimFromWiki = function(targetSimId) {
         const btn = document.querySelector(`.tab-btn[data-target="${targetSimId}"]`);

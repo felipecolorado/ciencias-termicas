@@ -351,15 +351,15 @@ body {
         border-radius: 12px;
     }
 
-    /* Horizontal top timeline: smaller & scrollable */
+    /* Horizontal top timeline: 9 columns grid on desktop, smooth scaling on mobile */
     .top-timeline-container {
         padding: 0.4rem 0.5rem;
-        gap: 0.3rem;
+        gap: 0.4rem;
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
     }
 
     .timeline-chip {
-        min-width: 72px;
-        max-width: 90px;
+        height: 65px;
         padding: 0.25rem 0.35rem;
     }
 
@@ -1059,53 +1059,59 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 .top-timeline-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.75rem;
-    padding: 1rem 2rem;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.5rem;
+    padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .timeline-chip {
-    flex: 0 0 auto;
-    background: rgba(15, 23, 42, 0.8);
-    border: 1px solid rgba(6, 182, 212, 0.2);
-    border-radius: 6px;
-    padding: 0.5rem 0.75rem;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(6, 182, 212, 0.25);
+    border-radius: 8px;
+    padding: 0.4rem 0.3rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    min-width: 120px;
-    max-width: 140px;
+    width: 100%;
+    min-height: 90px;
+    box-sizing: border-box;
     text-align: center;
+    word-break: break-word;
+    overflow: visible;
 }
 
 .timeline-chip:hover {
-    background: rgba(6, 182, 212, 0.15);
-    border-color: rgba(6, 182, 212, 0.5);
+    background: rgba(6, 182, 212, 0.2);
+    border-color: rgba(6, 182, 212, 0.6);
     transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .timeline-chip .chip-year {
-    font-size: 1.05rem;
-    font-weight: 700;
+    font-size: 0.88rem;
+    font-weight: 800;
     color: var(--accent-orange);
+    line-height: 1.1;
     margin-bottom: 0.15rem;
 }
 
 .timeline-chip .chip-name {
-    font-weight: 600;
+    font-weight: 700;
     color: #f8fafc;
-    font-size: 0.85rem;
+    font-size: 0.76rem;
+    line-height: 1.15;
     margin-bottom: 0.15rem;
 }
 
 .timeline-chip .chip-law {
-    font-size: 0.7rem;
-    line-height: 1.2;
+    font-size: 0.68rem;
+    line-height: 1.15;
     color: var(--text-muted);
 }
 
@@ -1653,3 +1659,5 @@ body.light-theme .newton-tab-btn.active {
 .modal-overlay.show {
     display: flex !important;
 }
+@ m e d i a   ( m a x - w i d t h :   7 6 8 p x )   {   . s i m - g r i d - r e s p o n s i v e   {   g r i d - t e m p l a t e - c o l u m n s :   1 f r   ! i m p o r t a n t ;   }   }  
+ 
