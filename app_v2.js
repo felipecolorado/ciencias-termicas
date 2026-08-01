@@ -779,6 +779,11 @@ if (document.readyState === 'loading') {
 
 // Función para manejar el bloqueo de registro y contador de usuarios
 function initGatekeeper() {
+    // Auto-unlock for local development
+    if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' || window.location.protocol === 'file:') {
+        localStorage.setItem("gatekeeper_registered", "true");
+    }
+
     // Consultar siempre el total de usuarios reales registrados en Firebase
     fetchRealUserCount();
 
@@ -1111,6 +1116,14 @@ window.closeNewtonModal = function () {
     const modal = document.getElementById('newton-tribute-modal');
     if (modal) modal.classList.remove('show');
 };
+
+// Close newton modal when clicking outside of it
+window.addEventListener("click", (e) => {
+    const modal = document.getElementById('newton-tribute-modal');
+    if (modal && e.target === modal) {
+        window.closeNewtonModal();
+    }
+});
 
 window.switchNewtonTab = function (tabId, btn) {
     document.querySelectorAll('.newton-tab-content').forEach(el => el.style.display = 'none');
@@ -3566,6 +3579,7 @@ function initPrandtlSimulation() {
     const sliderU = document.getElementById("prandtl-u");
     const sliderNu = document.getElementById("prandtl-nu");
     const sliderX = document.getElementById("prandtl-x");
+    const sliderL = document.getElementById("prandtl-l");
     const sliderPr = document.getElementById("prandtl-pr");
     const sliderTs = document.getElementById("prandtl-ts");
     const sliderTinf = document.getElementById("prandtl-tinf");
@@ -3581,6 +3595,7 @@ function initPrandtlSimulation() {
     const valUDisplay = document.getElementById("prandtl-u-val");
     const valNuDisplay = document.getElementById("prandtl-nu-val");
     const valXDisplay = document.getElementById("prandtl-x-val");
+    const valLDisplay = document.getElementById("prandtl-l-val");
     const valPrDisplay = document.getElementById("prandtl-pr-val");
     const valTsDisplay = document.getElementById("prandtl-ts-val");
     const valTinfDisplay = document.getElementById("prandtl-tinf-val");
@@ -3849,6 +3864,7 @@ function initPrandtlSimulation() {
         let nu_val, pr_val, sc_val, k_fluid;
 
         if (fluid === "custom") {
+            document.querySelectorAll('.prandtl-custom-prop').forEach(el => el.style.display = "");
             sliderNu.disabled = false;
             sliderPr.disabled = false;
             sliderSc.disabled = false;
@@ -3858,6 +3874,7 @@ function initPrandtlSimulation() {
             sc_val = parseFloat(sliderSc.value);
             k_fluid = 0.026; // arbitrary default for custom
         } else {
+            document.querySelectorAll('.prandtl-custom-prop').forEach(el => el.style.display = "none");
             sliderNu.disabled = true;
             sliderPr.disabled = true;
             
@@ -3934,6 +3951,14 @@ function initPrandtlSimulation() {
             elRegime.style.color = newData.isTurbulent ? "#ef4444" : "#10b981";
         }
         
+        const elDelta = document.getElementById("prandtl-delta-out");
+        const elDeltaT = document.getElementById("prandtl-deltat-out");
+        const elDeltaC = document.getElementById("prandtl-deltac-out");
+        
+        if (elDelta) elDelta.textContent = `${newData.delta_mm.toFixed(2)} mm`;
+        if (elDeltaT) elDeltaT.textContent = `${newData.delta_t_mm.toFixed(2)} mm`;
+        if (elDeltaC) elDeltaC.textContent = `${newData.delta_c_mm.toFixed(2)} mm`;
+
         if (elXc) {
             const xc = (500000 * nu_val) / u_val;
             elXc.textContent = `${xc.toFixed(2)} m`;
@@ -3968,7 +3993,7 @@ function initPrandtlSimulation() {
         const elHLFormula = document.getElementById("prandtl-hl-formula");
         
         if (elReL && elHL && elHLFormula) {
-            const L = 2.0; // The total length of the plate
+            const L = parseFloat(sliderL.value) || 2.0; // The total length of the plate
             const ReL = (u_val * L) / nu_val;
             elReL.textContent = ReL.toExponential(2);
             
@@ -3993,6 +4018,14 @@ function initPrandtlSimulation() {
                 }
             }
         }
+        
+        // Update UI displays
+        const L_val = parseFloat(sliderL.value) || 2.0;
+        const elLTitleEs = document.getElementById("prandtl-l-display-title-es");
+        const elLTitleEn = document.getElementById("prandtl-l-display-title-en");
+        if (elLTitleEs) elLTitleEs.textContent = L_val.toFixed(2);
+        if (elLTitleEn) elLTitleEn.textContent = L_val.toFixed(2);
+        valLDisplay.textContent = L_val.toFixed(1);
 
         prandtlChart.update('none');
     };
@@ -4000,6 +4033,7 @@ function initPrandtlSimulation() {
     sliderU.addEventListener("input", updateDisplay);
     sliderNu.addEventListener("input", updateDisplay);
     sliderX.addEventListener("input", updateDisplay);
+    sliderL.addEventListener("input", updateDisplay);
     sliderPr.addEventListener("input", updateDisplay);
     sliderTs.addEventListener("input", updateDisplay);
     sliderTinf.addEventListener("input", updateDisplay);
@@ -20028,6 +20062,14 @@ function initInternalBLSimulation() {
         if (wikiBtn) {
             wikiBtn.addEventListener("click", window.openThermalWiki);
         }
+        
+        // Close wiki when clicking outside of it
+        window.addEventListener("click", (e) => {
+            const modal = document.getElementById("thermal-wiki-modal");
+            if (modal && e.target === modal) {
+                window.closeThermalWiki();
+            }
+        });
     });
 
     window.filterWikiCategory = function (cat, btnElement) {
