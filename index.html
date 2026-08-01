@@ -213,6 +213,36 @@
                 </p>
 
                 <div class="tabs-container">
+                    <div style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; gap: 8px; flex-wrap: wrap;">
+                        <div style="position: relative; flex: 1; min-width: 200px;">
+                            <i class="fas fa-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
+                            <input type="text" id="lab-search" placeholder="Buscar simulaciones y laboratorios..." onkeyup="window.filterLabs()" style="width: 100%; padding: 8px 12px 8px 35px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; box-sizing: border-box;">
+                        </div>
+                        <select id="lab-filter-category" onchange="window.filterLabs()" style="padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; cursor: pointer;">
+                            <option value="all" class="lang-es">Todas las Categorías</option>
+                            <option value="all" class="lang-en" style="display:none;">All Categories</option>
+                            <option value="Principios" class="lang-es">Principios y Experimentos</option>
+                            <option value="Principios" class="lang-en" style="display:none;">Principles & Experiments</option>
+                            <option value="Motores" class="lang-es">Motores de Calor</option>
+                            <option value="Motores" class="lang-en" style="display:none;">Heat Engines</option>
+                            <option value="Circuitos" class="lang-es">Circuitos Térmicos</option>
+                            <option value="Circuitos" class="lang-en" style="display:none;">Thermal Circuits</option>
+                            <option value="Aplicaciones" class="lang-es">Aplicaciones</option>
+                            <option value="Aplicaciones" class="lang-en" style="display:none;">Applications</option>
+                            <option value="Comunidad" class="lang-es">Comunidad</option>
+                            <option value="Comunidad" class="lang-en" style="display:none;">Community</option>
+                            <optgroup label="Mecanismos" class="lang-es">
+                                <option value="condu">Conducción</option>
+                                <option value="conve">Convección</option>
+                                <option value="radia">Radiación</option>
+                            </optgroup>
+                            <optgroup label="Mechanisms" class="lang-en" style="display:none;">
+                                <option value="condu">Conduction</option>
+                                <option value="conve">Convection</option>
+                                <option value="radia">Radiation</option>
+                            </optgroup>
+                        </select>
+                    </div>
                     <div class="tabs-header">
                         <div class="tab-category-title"><span class="lang-es">Principios Físicos y Experimentos Base</span><span class="lang-en" style="display:none;">Physical Principles and Base Experiments</span></div>
                         <button class="tab-btn heat-transfer-highlight" data-target="newton-sim">Enfriamiento de Newton
@@ -4040,7 +4070,7 @@
                                 </div>
                                 <div class="controls-container">
                                     <div class="sliders-grid"
-                                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                                        style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; font-size: 0.85rem;">
                                         <div class="control-group">
                                             <label for="ibl-uavg"><span class="lang-es">Velocidad
                                                     ($U_{avg}$):</span><span class="lang-en" style="display:none;">Avg.
@@ -4052,22 +4082,22 @@
                                         <div class="control-group">
                                             <label for="ibl-diam"><span class="lang-es">Diámetro ($D$):</span><span
                                                     class="lang-en" style="display:none;">Diameter ($D$):</span> <span
-                                                    id="ibl-diam-val">20</span> mm</label>
-                                            <input type="range" id="ibl-diam" min="1" max="1000" step="1" value="20">
+                                                    id="ibl-diam-val">500</span> mm</label>
+                                            <input type="range" id="ibl-diam" min="1" max="1000" step="1" value="500">
                                         </div>
                                         <div class="control-group">
                                             <label for="ibl-length"><span class="lang-es">Longitud ($L$):</span><span
                                                     class="lang-en" style="display:none;">Length ($L$):</span> <span
-                                                    id="ibl-length-val">130</span> D</label>
-                                            <input type="range" id="ibl-length" min="10" max="300" step="10"
-                                                value="130">
+                                                    id="ibl-length-val">10</span> m</label>
+                                            <input type="range" id="ibl-length" min="1" max="100" step="1"
+                                                value="10">
                                         </div>
                                         <div class="control-group">
                                             <label for="ibl-prandtl"><span class="lang-es">Prandtl ($Pr$):</span><span
                                                     class="lang-en" style="display:none;">Prandtl ($Pr$):</span> <span
-                                                    id="ibl-prandtl-val">7.0</span></label>
+                                                    id="ibl-prandtl-val">1.0</span></label>
                                             <input type="range" id="ibl-prandtl" min="0.1" max="15.0" step="0.1"
-                                                value="7.0">
+                                                value="1.0">
                                         </div>
                                         <div class="control-group">
                                             <label for="ibl-tfin"><span class="lang-es">Temp. fluido
@@ -4082,9 +4112,15 @@
                                                 <span id="ibl-ts-val">80</span> °C</label>
                                             <input type="range" id="ibl-ts" min="0" max="100" step="1" value="80">
                                         </div>
+                                        <div class="control-group">
+                                            <label for="ibl-particles-count"><span class="lang-es">Partículas:</span><span
+                                                    class="lang-en" style="display:none;">Particles:</span> <span
+                                                    id="ibl-particles-count-val">250</span></label>
+                                            <input type="range" id="ibl-particles-count" min="0" max="1000" step="10" value="250">
+                                        </div>
                                     </div>
                                     <div class="sim-controls"
-                                        style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                                        style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px;">
                                         <div class="control-group" style="display:flex; align-items:center; gap:5px;">
                                             <input type="checkbox" id="ibl-show-profiles" checked
                                                 style="width:16px; height:16px; cursor:pointer;">
@@ -4109,42 +4145,52 @@
                                                     class="lang-es">Capa TL</span><span class="lang-en"
                                                     style="display:none;">Thermal BL</span></label>
                                         </div>
+                                        <div class="control-group" style="display:flex; align-items:center; gap:5px;">
+                                            <input type="checkbox" id="ibl-show-particles" checked
+                                                style="width:16px; height:16px; cursor:pointer;">
+                                            <label for="ibl-show-particles"
+                                                style="margin:0; cursor:pointer; display:inline; font-size: 0.8rem;"><span
+                                                    class="lang-es">Partículas</span><span class="lang-en"
+                                                    style="display:none;">Particles</span></label>
+                                        </div>
                                     </div>
 
-                                    <div class="result-card" style="margin-top:15px; padding:12px; border-radius:8px;">
-                                        <h4 style="margin-bottom:8px; font-size:0.85rem; color:var(--accent-cyan);">
+                                    <div class="result-card" style="margin-top:10px; padding:8px; border-radius:8px;">
+                                        <h4 style="margin-bottom:6px; font-size:0.8rem; color:var(--accent-cyan);">
                                             <span class="lang-es">Parámetros del Flujo</span><span class="lang-en"
                                                 style="display:none;">Flow Parameters</span>
                                         </h4>
-                                        <div class="result-row">
+                                        <div style="display: grid; grid-template-columns: 1fr 1fr; row-gap: 4px; font-size: 0.85rem; column-gap: 15px;">
+                                            <div class="result-row" style="margin:0; padding:2px 0;">
                                             <span><span class="lang-es">Long. entrada Hidrodinámica ($L_h$):</span><span
                                                     class="lang-en" style="display:none;">Hydro entry length
                                                     ($L_h$):</span></span>
                                             <strong id="ibl-lh-lbl" style="color:var(--accent-orange);">25.0 D</strong>
-                                        </div>
-                                        <div class="result-row">
+                                            </div>
+                                            <div class="result-row" style="margin:0; padding:2px 0;">
                                             <span><span class="lang-es">Long. entrada Térmica ($L_t$):</span><span
                                                     class="lang-en" style="display:none;">Thermal entry length
                                                     ($L_t$):</span></span>
                                             <strong id="ibl-lt-lbl" style="color:#f43f5e;">175.0 D</strong>
-                                        </div>
-                                        <div class="result-row">
+                                            </div>
+                                            <div class="result-row" style="margin:0; padding:2px 0;">
                                             <span><span class="lang-es">Longitud total ($L$):</span><span
                                                     class="lang-en" style="display:none;">Total length
                                                     ($L$):</span></span>
                                             <strong id="ibl-ltotal-lbl" style="color:var(--accent-orange);">0.0
                                                 m</strong>
-                                        </div>
-                                        <div class="result-row">
+                                            </div>
+                                            <div class="result-row" style="margin:0; padding:2px 0;">
                                             <span><span class="lang-es">Fracción de entrada:</span><span class="lang-en"
                                                     style="display:none;">Entry fraction:</span></span>
                                             <strong id="ibl-frac-lbl" style="color:var(--accent-emerald);">50%</strong>
-                                        </div>
-                                        <div class="result-row">
+                                            </div>
+                                            <div class="result-row" style="margin:0; padding:2px 0;">
                                             <span><span class="lang-es">Régimen:</span><span class="lang-en"
                                                     style="display:none;">Regime:</span></span>
                                             <strong id="ibl-regime-lbl"
                                                 style="color:var(--accent-cyan);">Laminar</strong>
+                                            </div>
                                         </div>
                                         <div class="result-row"
                                             style="margin-top:5px; padding-top:5px; border-top:1px solid rgba(255,255,255,0.05);">
@@ -5103,6 +5149,11 @@
                                                 the tube:</span></p>
                                         <p>$$ R_{tot} = \frac{1}{h_i A_i} + \frac{\ln(D_o / D_i)}{2 \pi k_{wall} L} +
                                             \frac{1}{h_o A_o} \quad , \quad U A = \frac{1}{R_{tot}} $$</p>
+                                        <div style="background: rgba(16, 185, 129, 0.1); border-left: 3px solid #10b981; padding: 10px; margin-top: 15px; border-radius: 4px; font-size: 0.85rem;">
+                                            <i class="fas fa-info-circle" style="color: #10b981; margin-right: 5px;"></i>
+                                            <span class="lang-es"><strong>Nota:</strong> Los intercambiadores de calor se diseñan bien aislados del ambiente (condición "adiabática"), de manera que la transferencia de calor ocurra exclusivamente entre los fluidos de interés, sin pérdidas hacia el exterior.</span>
+                                            <span class="lang-en" style="display:none;"><strong>Note:</strong> Heat exchangers are designed to be well insulated from the environment ("adiabatic" condition), so that heat transfer occurs exclusively between the fluids of interest, without losses to the outside.</span>
+                                        </div>
                             </div>
 
                             <div class="simulation-workspace">
@@ -5123,7 +5174,337 @@
                                     </div>
                                 </div>
 
-                                <div class="animation-card" style="margin-top: 15px;">
+                                <div class="controls-card" style="display: flex; flex-direction: column; gap: 15px;">
+
+
+                                    <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px;">
+                                        <div class="sliders-grid">
+                                            <div class="control-group">
+                                                <label for="dp-fluid-h">Fluido Tubo Interno:</label>
+                                                <select id="dp-fluid-h" class="filter-select"
+                                                    style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-primary); border-radius: 8px; width:100%; padding: 6px;">
+                                                    <option value="water" selected>Agua (Líquida)</option>
+                                                    <option value="air">Aire (Gas Real)</option>
+                                                </select>
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="dp-fluid-c">Fluido Espacio Anular:</label>
+                                                <select id="dp-fluid-c" class="filter-select"
+                                                    style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-primary); border-radius: 8px; width:100%; padding: 6px;">
+                                                    <option value="water" selected>Agua (Líquida)</option>
+                                                    <option value="air">Aire (Gas Real)</option>
+                                                </select>
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="dp-flow">Arreglo del Flujo:</label>
+                                                <select id="dp-flow" class="filter-select"
+                                                    style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-primary); border-radius: 8px; width:100%; padding: 6px;">
+                                                    <option value="counter">Contraflujo (Recomendado)</option>
+                                                    <option value="parallel">Flujo Paralelo</option>
+                                                </select>
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="dp-length"><span class="lang-es">Longitud $(L)$:</span><span
+                                                        class="lang-en" style="display:none;">Length $(L)$:</span> <span
+                                                        id="dp-length-val">5.0</span> m</label>
+                                                <input type="range" id="dp-length" min="1.0" max="100.0" step="0.5"
+                                                    value="5.0">
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="dp-di"><span class="lang-es">Diám. Interno
+                                                        $(D_i)$:</span><span class="lang-en"
+                                                        style="display:none;">Internal Dia. $(D_i)$:</span> <span
+                                                        id="dp-di-val">20</span> mm</label>
+                                                <input type="range" id="dp-di" min="10" max="500" step="5" value="20">
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="dp-thick"><span class="lang-es">Espesor Pared
+                                                        $(t)$:</span><span class="lang-en" style="display:none;">Wall
+                                                        Thickness $(t)$:</span> <span id="dp-thick-val">2.0</span>
+                                                    mm</label>
+                                                <input type="range" id="dp-thick" min="0.5" max="10.0" step="0.5"
+                                                    value="2.0">
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="dp-ds"><span class="lang-es">Diám. Externo
+                                                        $(D_{ext})$:</span><span class="lang-en"
+                                                        style="display:none;">External Dia. $(D_{ext})$:</span> <span
+                                                        id="dp-ds-val">60</span> mm</label>
+                                                <input type="range" id="dp-ds" min="20" max="1000" step="10" value="60">
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="dp-thi"><span class="lang-es">Temp. Entrada Caliente
+                                                        $(T_{h,in})$:</span><span class="lang-en"
+                                                        style="display:none;">Temp. Hot Input $(T_{h,in})$:</span> <span
+                                                        id="dp-thi-val">80</span> °C</label>
+                                                <input type="range" id="dp-thi" min="50" max="95" step="1" value="80">
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="dp-tci"><span class="lang-es">Temp. Entrada Frío
+                                                        $(T_{c,in})$:</span><span class="lang-en"
+                                                        style="display:none;">Temp. Cold Input $(T_{c,in})$:</span>
+                                                    <span id="dp-tci-val">15</span> °C</label>
+                                                <input type="range" id="dp-tci" min="5" max="40" step="1" value="15">
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="dp-mh"><span class="lang-es">Masa Flujo Caliente
+                                                        $(\dot{m}_h)$:</span><span class="lang-en"
+                                                        style="display:none;">Hot Flow Mass $(\dot{m}_h)$:</span> <span
+                                                        id="dp-mh-val">0.30</span> <span
+                                                        class="lang-es">kg/s</span><span class="lang-en"
+                                                        style="display:none;">kg/s</span></label>
+                                                <input type="range" id="dp-mh" min="0.05" max="2.0" step="0.05"
+                                                    value="0.30">
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="dp-mc"><span class="lang-es">Masa Flujo Frío
+                                                        $(\dot{m}_c)$:</span><span class="lang-en"
+                                                        style="display:none;">Cold Flow Mass $(\dot{m}_c)$:</span> <span
+                                                        id="dp-mc-val">0.30</span> <span
+                                                        class="lang-es">kg/s</span><span class="lang-en"
+                                                        style="display:none;">kg/s</span></label>
+                                                <input type="range" id="dp-mc" min="0.05" max="2.0" step="0.05"
+                                                    value="0.30">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="result-card"
+                                        style="padding: 10px; font-size: 0.8rem; line-height: 1.4;">
+                                        <div
+                                            style="font-weight: bold; color: var(--accent-orange); margin-bottom: 5px;">
+                                            <i class="fas fa-calculator"></i> <span class="lang-es">Temperaturas de
+                                                Salida Resultantes</span><span class="lang-en"
+                                                style="display:none;">Resulting Outlet Temperatures</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <span><span class="lang-es">Fluido Caliente de Salida
+                                                    $(T_{h,out})$:</span><span class="lang-en"
+                                                    style="display:none;">Outlet Hot Fluid $(T_{h,out})$:</span></span>
+                                            <strong><span id="dp-tho-val" style="color: #f87171;">-- °C</span></strong>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; margin-top: 4px;">
+                                            <span><span class="lang-es">Fluido Frío de Salida $(T_{c,out})$:</span><span
+                                                    class="lang-en" style="display:none;">Outlet Cold Fluid
+                                                    $(T_{c,out})$:</span></span>
+                                            <strong><span id="dp-tco-val" style="color: #60a5fa;">-- °C</span></strong>
+                                        </div>
+                                    </div>
+
+                                    <div id="dp-boiling-alert" class="result-card"
+                                        style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px dashed #ef4444; padding: 12px; border-radius: 8px; margin-top: 10px; color: #fca5a5; font-size: 0.8rem; line-height: 1.4; align-items: center; gap: 8px;">
+                                        <i class="fas fa-exclamation-triangle"
+                                            style="font-size: 1.2rem; color: #f87171;"></i>
+                                        <div>
+                                            <strong>Alerta de Fase:</strong> Se han alcanzado condiciones de ebullición
+                                            para el agua (T &ge; 100 °C). Se debe diseñar un evaporador para este
+                                            propósito.
+                                        </div>
+                                    </div>
+
+                                    <div class="result-card"
+                                        style="padding: 12px; font-size: 0.8rem; line-height: 1.4;">
+                                        <div style="font-weight: bold; color: var(--accent-cyan); margin-bottom: 6px;">
+                                            <i class="fas fa-flask"></i> <span class="lang-es">Propiedades Termofísicas
+                                                Promedio</span><span class="lang-en" style="display:none;">Average
+                                                Thermophysical Properties</span>
+                                        </div>
+                                        <table
+                                            style="width: 100%; border-collapse: collapse; font-size: 0.7rem; color: var(--text-secondary);">
+                                            <thead>
+                                                <tr
+                                                    style="border-bottom: 1.5px solid rgba(255,255,255,0.1); color: var(--text-primary);">
+                                                    <th style="text-align: left; padding-bottom: 4px;">Propiedad</th>
+                                                    <th style="text-align: right; padding-bottom: 4px; color: #f87171;">
+                                                        Caliente</th>
+                                                    <th style="text-align: right; padding-bottom: 4px; color: #60a5fa;">
+                                                        Frío</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                                    <td style="padding: 3px 0;">Temp. Media $(T_m)$:</td>
+                                                    <td style="text-align: right; font-weight: bold; color: #f87171;">
+                                                        <span id="dp-tmh-val">--</span> °C
+                                                    </td>
+                                                    <td style="text-align: right; font-weight: bold; color: #60a5fa;">
+                                                        <span id="dp-tmc-val">--</span> °C
+                                                    </td>
+                                                </tr>
+                                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                                    <td style="padding: 3px 0;">Calor esp. $(c_p)$:</td>
+                                                    <td
+                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
+                                                        <span id="dp-cph-val">--</span> <span
+                                                            class="lang-es">J/kgK</span><span class="lang-en"
+                                                            style="display:none;">J/kgK</span>
+                                                    </td>
+                                                    <td
+                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
+                                                        <span id="dp-cpc-val">--</span> <span
+                                                            class="lang-es">J/kgK</span><span class="lang-en"
+                                                            style="display:none;">J/kgK</span>
+                                                    </td>
+                                                </tr>
+                                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                                    <td style="padding: 3px 0;"><span class="lang-es">Densidad
+                                                            $(\rho)$:</span><span class="lang-en"
+                                                            style="display:none;">Density $(\rho)$:</span></td>
+                                                    <td
+                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
+                                                        <span id="dp-rhoh-val">--</span> <span
+                                                            class="lang-es">kg/m³</span><span class="lang-en"
+                                                            style="display:none;">kg/m³</span>
+                                                    </td>
+                                                    <td
+                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
+                                                        <span id="dp-rhoc-val">--</span> <span
+                                                            class="lang-es">kg/m³</span><span class="lang-en"
+                                                            style="display:none;">kg/m³</span>
+                                                    </td>
+                                                </tr>
+                                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                                    <td style="padding: 3px 0;">Conductividad $(k)$:</td>
+                                                    <td
+                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
+                                                        <span id="dp-kh-val">--</span> <span
+                                                            class="lang-es">W/mK</span><span class="lang-en"
+                                                            style="display:none;">W/mK</span>
+                                                    </td>
+                                                    <td
+                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
+                                                        <span id="dp-kc-val">--</span> <span
+                                                            class="lang-es">W/mK</span><span class="lang-en"
+                                                            style="display:none;">W/mK</span>
+                                                    </td>
+                                                </tr>
+                                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                                    <td style="padding: 3px 0;"><span class="lang-es">Viscosidad
+                                                            $(\mu)$:</span><span class="lang-en"
+                                                            style="display:none;">Viscosity $(\mu)$:</span></td>
+                                                    <td
+                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
+                                                        <span id="dp-muh-val">--</span> <span
+                                                            class="lang-es">Pa·s</span><span class="lang-en"
+                                                            style="display:none;">Pa·s</span>
+                                                    </td>
+                                                    <td
+                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
+                                                        <span id="dp-muc-val">--</span> <span
+                                                            class="lang-es">Pa·s</span><span class="lang-en"
+                                                            style="display:none;">Pa·s</span>
+                                                    </td>
+                                                </tr>
+                                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                                    <td style="padding: 3px 0;"><span class="lang-es">Visc. cinem.
+                                                            $(\nu)$:</span><span class="lang-en"
+                                                            style="display:none;">Visc. cinem. $(
+                                                            u)$:</span></td>
+                                                    <td
+                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
+                                                        <span id="dp-nuh-val">--</span> <span
+                                                            class="lang-es">m²/s</span><span class="lang-en"
+                                                            style="display:none;">m²/s</span>
+                                                    </td>
+                                                    <td
+                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
+                                                        <span id="dp-nuc-val">--</span> <span
+                                                            class="lang-es">m²/s</span><span class="lang-en"
+                                                            style="display:none;">m²/s</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding: 3px 0;">Número Prandtl $(Pr)$:</td>
+                                                    <td
+                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
+                                                        <span id="dp-prh-val">--</span>
+                                                    </td>
+                                                    <td
+                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
+                                                        <span id="dp-prc-val">--</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="result-card"
+                                        style="padding: 12px; font-size: 0.8rem; line-height: 1.4;">
+                                        <div
+                                            style="font-weight: bold; color: var(--accent-orange); margin-bottom: 6px;">
+                                            <i class="fas fa-chart-line"></i> <span class="lang-es">Correlaciones de
+                                                Convección</span><span class="lang-en" style="display:none;">Convection
+                                                Correlations</span>
+                                        </div>
+                                        <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                                            <strong><span class="lang-es">1. Régimen Laminar $(Re_d</span><span
+                                                    class="lang-en" style="display:none;">1. Laminar Regime
+                                                    $(Re_d</span>
+                                                < 2300)$:</strong>
+                                                    <div
+                                                        style="margin: 4px 0; font-size: 0.75rem; color: var(--text-primary);">
+                                                        $$Nu_d = 3.66$$
+                                                        <span
+                                                            style="font-size: 0.7rem; color: var(--text-secondary); display: block; text-align: center;">(Pared
+                                                            a temperatura constante)</span>
+                                                    </div>
+
+                                                    <strong><span class="lang-es">2. Régimen de Transición $(2300 \le
+                                                            Re_d</span><span class="lang-en" style="display:none;">2.
+                                                            Transition Regime $(2300 \le Re_d</span>
+                                                        < 10000)$:</strong>
+                                                            <div
+                                                                style="margin: 4px 0; font-size: 0.7rem; color: var(--text-secondary);">
+                                                                <span class="lang-es">Correlación de</span><span
+                                                                    class="lang-en" style="display:none;">Correlation
+                                                                    of</span> <strong>Gnielinski</strong>:
+                                                                <div
+                                                                    style="color: var(--text-primary); text-align: center; margin: 4px 0; font-size: 0.75rem;">
+                                                                    $$Nu_d = \frac{(f/8)(Re_d - 1000)Pr}{1 +
+                                                                    12.7\sqrt{f/8}(Pr^{2/3} - 1)}$$
+                                                                </div>
+                                                                <span class="lang-es">donde $f = (0.79\ln(Re_d) -
+                                                                    1.64)^{-2}$ (Petukhov).</span><span class="lang-en"
+                                                                    style="display:none;">where $f = (0.79\ln(Re_d) -
+                                                                    1.64)^{-2}$ (Petukhov).</span>
+                                                            </div>
+
+                                                            <strong><span class="lang-es">3. Régimen Turbulento $(Re_d
+                                                                    \ge 10000)$:</span><span class="lang-en"
+                                                                    style="display:none;">3. Turbulent Regime $(Re_d \ge
+                                                                    10000)$:</span></strong>
+                                                            <div
+                                                                style="margin: 4px 0; font-size: 0.7rem; color: var(--text-secondary);">
+                                                                <span class="lang-es">Correlación de</span><span
+                                                                    class="lang-en" style="display:none;">Correlation
+                                                                    of</span> <strong>Dittus-Boelter</strong>:
+                                                                <div
+                                                                    style="color: var(--text-primary); text-align: center; margin: 4px 0; font-size: 0.75rem;">
+                                                                    $$Nu_d = 0.023 Re_d^{0.8} Pr^n$$
+                                                                </div>
+                                                                <span class="lang-es">Requisitos: $Re_d \ge 10000$,
+                                                                    $L/D_h \ge 10$, y $0.6 \le Pr \le 160$.
+                                                                    Exponente:</span><span class="lang-en"
+                                                                    style="display:none;">Requirements: $Re_d \ge
+                                                                    10000$, $L/D_h \ge 10$, and $0.6 \le Pr \le 160$.
+                                                                    Exponent:</span>
+                                                                <ul
+                                                                    style="padding-left: 15px; margin: 4px 0; font-size: 0.7rem;">
+                                                                    <li>$n = 0.3$ para enfriamiento (fluido caliente en
+                                                                        tubo)</li>
+                                                                    <li>$n = 0.4$ para calentamiento (fluido frío en
+                                                                        anillo)</li>
+                                                                </ul>
+                                                            </div>
+                                                            <strong style="display: block; margin-top: 6px;">Coeficiente
+                                                                local $h$:</strong>
+                                                            <div
+                                                                style="margin: 4px 0; text-align: center; color: var(--text-primary);">
+                                                                $$h = \frac{Nu_d \cdot k}{D_h}$$</div>
+                                        </div>
+                                    </div>
+                                </div>
+<div class="animation-card" style="margin-top: 15px;">
                                     <div
                                         style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; justify-content: center;">
                                         <div class="result-card"
@@ -5464,336 +5845,7 @@
 
                                     </div>
                                 </div>
-                                <div class="controls-card" style="display: flex; flex-direction: column; gap: 15px;">
 
-
-                                    <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px;">
-                                        <div class="sliders-grid">
-                                            <div class="control-group">
-                                                <label for="dp-fluid-h">Fluido Tubo Interno:</label>
-                                                <select id="dp-fluid-h" class="filter-select"
-                                                    style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-primary); border-radius: 8px; width:100%; padding: 6px;">
-                                                    <option value="water" selected>Agua (Líquida)</option>
-                                                    <option value="air">Aire (Gas Real)</option>
-                                                </select>
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="dp-fluid-c">Fluido Espacio Anular:</label>
-                                                <select id="dp-fluid-c" class="filter-select"
-                                                    style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-primary); border-radius: 8px; width:100%; padding: 6px;">
-                                                    <option value="water" selected>Agua (Líquida)</option>
-                                                    <option value="air">Aire (Gas Real)</option>
-                                                </select>
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="dp-flow">Arreglo del Flujo:</label>
-                                                <select id="dp-flow" class="filter-select"
-                                                    style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-primary); border-radius: 8px; width:100%; padding: 6px;">
-                                                    <option value="counter">Contraflujo (Recomendado)</option>
-                                                    <option value="parallel">Flujo Paralelo</option>
-                                                </select>
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="dp-length"><span class="lang-es">Longitud $(L)$:</span><span
-                                                        class="lang-en" style="display:none;">Length $(L)$:</span> <span
-                                                        id="dp-length-val">5.0</span> m</label>
-                                                <input type="range" id="dp-length" min="1.0" max="100.0" step="0.5"
-                                                    value="5.0">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="dp-di"><span class="lang-es">Diám. Interno
-                                                        $(D_i)$:</span><span class="lang-en"
-                                                        style="display:none;">Internal Dia. $(D_i)$:</span> <span
-                                                        id="dp-di-val">20</span> mm</label>
-                                                <input type="range" id="dp-di" min="10" max="500" step="5" value="20">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="dp-thick"><span class="lang-es">Espesor Pared
-                                                        $(t)$:</span><span class="lang-en" style="display:none;">Wall
-                                                        Thickness $(t)$:</span> <span id="dp-thick-val">2.0</span>
-                                                    mm</label>
-                                                <input type="range" id="dp-thick" min="0.5" max="10.0" step="0.5"
-                                                    value="2.0">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="dp-ds"><span class="lang-es">Diám. Externo
-                                                        $(D_{ext})$:</span><span class="lang-en"
-                                                        style="display:none;">External Dia. $(D_{ext})$:</span> <span
-                                                        id="dp-ds-val">60</span> mm</label>
-                                                <input type="range" id="dp-ds" min="20" max="1000" step="10" value="60">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="dp-thi"><span class="lang-es">Temp. Entrada Caliente
-                                                        $(T_{h,in})$:</span><span class="lang-en"
-                                                        style="display:none;">Temp. Hot Input $(T_{h,in})$:</span> <span
-                                                        id="dp-thi-val">80</span> °C</label>
-                                                <input type="range" id="dp-thi" min="50" max="95" step="1" value="80">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="dp-tci"><span class="lang-es">Temp. Entrada Frío
-                                                        $(T_{c,in})$:</span><span class="lang-en"
-                                                        style="display:none;">Temp. Cold Input $(T_{c,in})$:</span>
-                                                    <span id="dp-tci-val">15</span> °C</label>
-                                                <input type="range" id="dp-tci" min="5" max="40" step="1" value="15">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="dp-mh"><span class="lang-es">Masa Flujo Caliente
-                                                        $(\dot{m}_h)$:</span><span class="lang-en"
-                                                        style="display:none;">Hot Flow Mass $(\dot{m}_h)$:</span> <span
-                                                        id="dp-mh-val">0.30</span> <span
-                                                        class="lang-es">kg/s</span><span class="lang-en"
-                                                        style="display:none;">kg/s</span></label>
-                                                <input type="range" id="dp-mh" min="0.05" max="2.0" step="0.05"
-                                                    value="0.30">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="dp-mc"><span class="lang-es">Masa Flujo Frío
-                                                        $(\dot{m}_c)$:</span><span class="lang-en"
-                                                        style="display:none;">Cold Flow Mass $(\dot{m}_c)$:</span> <span
-                                                        id="dp-mc-val">0.30</span> <span
-                                                        class="lang-es">kg/s</span><span class="lang-en"
-                                                        style="display:none;">kg/s</span></label>
-                                                <input type="range" id="dp-mc" min="0.05" max="2.0" step="0.05"
-                                                    value="0.30">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="result-card"
-                                        style="padding: 10px; font-size: 0.8rem; line-height: 1.4;">
-                                        <div
-                                            style="font-weight: bold; color: var(--accent-orange); margin-bottom: 5px;">
-                                            <i class="fas fa-calculator"></i> <span class="lang-es">Temperaturas de
-                                                Salida Resultantes</span><span class="lang-en"
-                                                style="display:none;">Resulting Outlet Temperatures</span>
-                                        </div>
-                                        <div style="display: flex; justify-content: space-between;">
-                                            <span><span class="lang-es">Fluido Caliente de Salida
-                                                    $(T_{h,out})$:</span><span class="lang-en"
-                                                    style="display:none;">Outlet Hot Fluid $(T_{h,out})$:</span></span>
-                                            <strong><span id="dp-tho-val" style="color: #f87171;">-- °C</span></strong>
-                                        </div>
-                                        <div style="display: flex; justify-content: space-between; margin-top: 4px;">
-                                            <span><span class="lang-es">Fluido Frío de Salida $(T_{c,out})$:</span><span
-                                                    class="lang-en" style="display:none;">Outlet Cold Fluid
-                                                    $(T_{c,out})$:</span></span>
-                                            <strong><span id="dp-tco-val" style="color: #60a5fa;">-- °C</span></strong>
-                                        </div>
-                                    </div>
-
-                                    <div id="dp-boiling-alert" class="result-card"
-                                        style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px dashed #ef4444; padding: 12px; border-radius: 8px; margin-top: 10px; color: #fca5a5; font-size: 0.8rem; line-height: 1.4; align-items: center; gap: 8px;">
-                                        <i class="fas fa-exclamation-triangle"
-                                            style="font-size: 1.2rem; color: #f87171;"></i>
-                                        <div>
-                                            <strong>Alerta de Fase:</strong> Se han alcanzado condiciones de ebullición
-                                            para el agua (T &ge; 100 °C). Se debe diseñar un evaporador para este
-                                            propósito.
-                                        </div>
-                                    </div>
-
-                                    <div class="result-card"
-                                        style="padding: 12px; font-size: 0.8rem; line-height: 1.4;">
-                                        <div style="font-weight: bold; color: var(--accent-cyan); margin-bottom: 6px;">
-                                            <i class="fas fa-flask"></i> <span class="lang-es">Propiedades Termofísicas
-                                                Promedio</span><span class="lang-en" style="display:none;">Average
-                                                Thermophysical Properties</span>
-                                        </div>
-                                        <table
-                                            style="width: 100%; border-collapse: collapse; font-size: 0.7rem; color: var(--text-secondary);">
-                                            <thead>
-                                                <tr
-                                                    style="border-bottom: 1.5px solid rgba(255,255,255,0.1); color: var(--text-primary);">
-                                                    <th style="text-align: left; padding-bottom: 4px;">Propiedad</th>
-                                                    <th style="text-align: right; padding-bottom: 4px; color: #f87171;">
-                                                        Caliente</th>
-                                                    <th style="text-align: right; padding-bottom: 4px; color: #60a5fa;">
-                                                        Frío</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                                    <td style="padding: 3px 0;">Temp. Media $(T_m)$:</td>
-                                                    <td style="text-align: right; font-weight: bold; color: #f87171;">
-                                                        <span id="dp-tmh-val">--</span> °C
-                                                    </td>
-                                                    <td style="text-align: right; font-weight: bold; color: #60a5fa;">
-                                                        <span id="dp-tmc-val">--</span> °C
-                                                    </td>
-                                                </tr>
-                                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                                    <td style="padding: 3px 0;">Calor esp. $(c_p)$:</td>
-                                                    <td
-                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
-                                                        <span id="dp-cph-val">--</span> <span
-                                                            class="lang-es">J/kgK</span><span class="lang-en"
-                                                            style="display:none;">J/kgK</span>
-                                                    </td>
-                                                    <td
-                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
-                                                        <span id="dp-cpc-val">--</span> <span
-                                                            class="lang-es">J/kgK</span><span class="lang-en"
-                                                            style="display:none;">J/kgK</span>
-                                                    </td>
-                                                </tr>
-                                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                                    <td style="padding: 3px 0;"><span class="lang-es">Densidad
-                                                            $(\rho)$:</span><span class="lang-en"
-                                                            style="display:none;">Density $(\rho)$:</span></td>
-                                                    <td
-                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
-                                                        <span id="dp-rhoh-val">--</span> <span
-                                                            class="lang-es">kg/m³</span><span class="lang-en"
-                                                            style="display:none;">kg/m³</span>
-                                                    </td>
-                                                    <td
-                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
-                                                        <span id="dp-rhoc-val">--</span> <span
-                                                            class="lang-es">kg/m³</span><span class="lang-en"
-                                                            style="display:none;">kg/m³</span>
-                                                    </td>
-                                                </tr>
-                                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                                    <td style="padding: 3px 0;">Conductividad $(k)$:</td>
-                                                    <td
-                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
-                                                        <span id="dp-kh-val">--</span> <span
-                                                            class="lang-es">W/mK</span><span class="lang-en"
-                                                            style="display:none;">W/mK</span>
-                                                    </td>
-                                                    <td
-                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
-                                                        <span id="dp-kc-val">--</span> <span
-                                                            class="lang-es">W/mK</span><span class="lang-en"
-                                                            style="display:none;">W/mK</span>
-                                                    </td>
-                                                </tr>
-                                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                                    <td style="padding: 3px 0;"><span class="lang-es">Viscosidad
-                                                            $(\mu)$:</span><span class="lang-en"
-                                                            style="display:none;">Viscosity $(\mu)$:</span></td>
-                                                    <td
-                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
-                                                        <span id="dp-muh-val">--</span> <span
-                                                            class="lang-es">Pa·s</span><span class="lang-en"
-                                                            style="display:none;">Pa·s</span>
-                                                    </td>
-                                                    <td
-                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
-                                                        <span id="dp-muc-val">--</span> <span
-                                                            class="lang-es">Pa·s</span><span class="lang-en"
-                                                            style="display:none;">Pa·s</span>
-                                                    </td>
-                                                </tr>
-                                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                                    <td style="padding: 3px 0;"><span class="lang-es">Visc. cinem.
-                                                            $(\nu)$:</span><span class="lang-en"
-                                                            style="display:none;">Visc. cinem. $(
-                                                            u)$:</span></td>
-                                                    <td
-                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
-                                                        <span id="dp-nuh-val">--</span> <span
-                                                            class="lang-es">m²/s</span><span class="lang-en"
-                                                            style="display:none;">m²/s</span>
-                                                    </td>
-                                                    <td
-                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
-                                                        <span id="dp-nuc-val">--</span> <span
-                                                            class="lang-es">m²/s</span><span class="lang-en"
-                                                            style="display:none;">m²/s</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="padding: 3px 0;">Número Prandtl $(Pr)$:</td>
-                                                    <td
-                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
-                                                        <span id="dp-prh-val">--</span>
-                                                    </td>
-                                                    <td
-                                                        style="text-align: right; font-weight: bold; color: var(--text-primary);">
-                                                        <span id="dp-prc-val">--</span>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <div class="result-card"
-                                        style="padding: 12px; font-size: 0.8rem; line-height: 1.4;">
-                                        <div
-                                            style="font-weight: bold; color: var(--accent-orange); margin-bottom: 6px;">
-                                            <i class="fas fa-chart-line"></i> <span class="lang-es">Correlaciones de
-                                                Convección</span><span class="lang-en" style="display:none;">Convection
-                                                Correlations</span>
-                                        </div>
-                                        <div style="font-size: 0.75rem; color: var(--text-secondary);">
-                                            <strong><span class="lang-es">1. Régimen Laminar $(Re_d</span><span
-                                                    class="lang-en" style="display:none;">1. Laminar Regime
-                                                    $(Re_d</span>
-                                                < 2300)$:</strong>
-                                                    <div
-                                                        style="margin: 4px 0; font-size: 0.75rem; color: var(--text-primary);">
-                                                        $$Nu_d = 3.66$$
-                                                        <span
-                                                            style="font-size: 0.7rem; color: var(--text-secondary); display: block; text-align: center;">(Pared
-                                                            a temperatura constante)</span>
-                                                    </div>
-
-                                                    <strong><span class="lang-es">2. Régimen de Transición $(2300 \le
-                                                            Re_d</span><span class="lang-en" style="display:none;">2.
-                                                            Transition Regime $(2300 \le Re_d</span>
-                                                        < 10000)$:</strong>
-                                                            <div
-                                                                style="margin: 4px 0; font-size: 0.7rem; color: var(--text-secondary);">
-                                                                <span class="lang-es">Correlación de</span><span
-                                                                    class="lang-en" style="display:none;">Correlation
-                                                                    of</span> <strong>Gnielinski</strong>:
-                                                                <div
-                                                                    style="color: var(--text-primary); text-align: center; margin: 4px 0; font-size: 0.75rem;">
-                                                                    $$Nu_d = \frac{(f/8)(Re_d - 1000)Pr}{1 +
-                                                                    12.7\sqrt{f/8}(Pr^{2/3} - 1)}$$
-                                                                </div>
-                                                                <span class="lang-es">donde $f = (0.79\ln(Re_d) -
-                                                                    1.64)^{-2}$ (Petukhov).</span><span class="lang-en"
-                                                                    style="display:none;">where $f = (0.79\ln(Re_d) -
-                                                                    1.64)^{-2}$ (Petukhov).</span>
-                                                            </div>
-
-                                                            <strong><span class="lang-es">3. Régimen Turbulento $(Re_d
-                                                                    \ge 10000)$:</span><span class="lang-en"
-                                                                    style="display:none;">3. Turbulent Regime $(Re_d \ge
-                                                                    10000)$:</span></strong>
-                                                            <div
-                                                                style="margin: 4px 0; font-size: 0.7rem; color: var(--text-secondary);">
-                                                                <span class="lang-es">Correlación de</span><span
-                                                                    class="lang-en" style="display:none;">Correlation
-                                                                    of</span> <strong>Dittus-Boelter</strong>:
-                                                                <div
-                                                                    style="color: var(--text-primary); text-align: center; margin: 4px 0; font-size: 0.75rem;">
-                                                                    $$Nu_d = 0.023 Re_d^{0.8} Pr^n$$
-                                                                </div>
-                                                                <span class="lang-es">Requisitos: $Re_d \ge 10000$,
-                                                                    $L/D_h \ge 10$, y $0.6 \le Pr \le 160$.
-                                                                    Exponente:</span><span class="lang-en"
-                                                                    style="display:none;">Requirements: $Re_d \ge
-                                                                    10000$, $L/D_h \ge 10$, and $0.6 \le Pr \le 160$.
-                                                                    Exponent:</span>
-                                                                <ul
-                                                                    style="padding-left: 15px; margin: 4px 0; font-size: 0.7rem;">
-                                                                    <li>$n = 0.3$ para enfriamiento (fluido caliente en
-                                                                        tubo)</li>
-                                                                    <li>$n = 0.4$ para calentamiento (fluido frío en
-                                                                        anillo)</li>
-                                                                </ul>
-                                                            </div>
-                                                            <strong style="display: block; margin-top: 6px;">Coeficiente
-                                                                local $h$:</strong>
-                                                            <div
-                                                                style="margin: 4px 0; text-align: center; color: var(--text-primary);">
-                                                                $$h = \frac{Nu_d \cdot k}{D_h}$$</div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -8279,10 +8331,10 @@
                     style="color: var(--accent-orange); text-decoration: none;">felipe.colorado@udea.edu.co</a>
             </p>
             <p style="font-size: 0.75rem; margin-top: 8px; color: var(--text-secondary); opacity: 0.8;"><i
-                    class="far fa-clock"></i> <span class="lang-es">Última actualización: 31 de julio de 2026, 3:35 PM -
-                    Versión 3.1 (Integración de imágenes históricas; renderizado optimizado de los laboratorios de Foote, Châtelet y Pennington; cálculo del área de indentación en simulador de Châtelet)</span><span
-                    class="lang-en" style="display:none;">Last update: July 31, 2026, 3:35 PM -
-                    Version 3.1 (Local historical images; optimized rendering for Foote, Châtelet & Pennington labs; indentation area calculation in Châtelet sim)</span></p>
+                    class="far fa-clock"></i> <span class="lang-es">Última actualización: 1 de agosto de 2026 -
+                    Versión 3.2 (Optimización del laboratorio de capa límite interna, interfaz compacta, reparación del contador de usuarios en línea y ajuste en tiempo de registro)</span><span
+                    class="lang-en" style="display:none;">Last update: August 1, 2026 -
+                    Version 3.2 (Internal BL lab optimization, compact UI, online users counter fix, and registration time limit adjustment)</span></p>
             <div style="margin-top: 15px; text-align: center;">
                 <span class="lang-es"><img src="https://api.visitorbadge.io/api/visitors?path=felipecolorado.github.io/ciencias-termicas/&label=visitas&countColor=%23f59e0b" alt="Visitas" /></span>
                 <span class="lang-en" style="display:none;"><img src="https://api.visitorbadge.io/api/visitors?path=felipecolorado.github.io/ciencias-termicas/&label=visitors&countColor=%23f59e0b" alt="Visitors" /></span>
@@ -8789,7 +8841,7 @@
                 }
         </script>
 
-        <!-- Modal de Registro Exclusivo Gratuito (Límite 10 minutos) -->
+        <!-- Modal de Registro Exclusivo Gratuito (Límite 5 minutos) -->
         <div id="gatekeeper-modal"
             style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11, 13, 19, 0.95); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
             <div class="glass"
