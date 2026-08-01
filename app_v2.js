@@ -810,7 +810,7 @@ function initGatekeeper() {
     setTimeout(() => {
         if (checkRegistration()) return; // Concedido tras restaurar sesión
 
-        // Temporizador de 10 minutos (600,000 ms)
+        // Temporizador de 5 minutos (300,000 ms)
         let startTime = localStorage.getItem("gatekeeper_start_time");
         if (!startTime) {
             startTime = Date.now().toString();
@@ -3561,39 +3561,125 @@ function initPlanckSimulation() {
 let prandtlChart;
 
 function initPrandtlSimulation() {
-    const sliderRe = document.getElementById("prandtl-re");
+    const fluidSelect = document.getElementById("prandtl-fluid");
+    const sliderP = document.getElementById("prandtl-p");
+    const sliderU = document.getElementById("prandtl-u");
+    const sliderNu = document.getElementById("prandtl-nu");
     const sliderX = document.getElementById("prandtl-x");
-    const valReDisplay = document.getElementById("prandtl-re-val");
+    const sliderPr = document.getElementById("prandtl-pr");
+    const sliderTs = document.getElementById("prandtl-ts");
+    const sliderTinf = document.getElementById("prandtl-tinf");
+    const sliderSc = document.getElementById("prandtl-sc");
+    const sliderCs = document.getElementById("prandtl-cs");
+    const sliderCinf = document.getElementById("prandtl-cinf");
+
+    const cbHydro = document.getElementById("prandtl-show-hydro");
+    const cbTherm = document.getElementById("prandtl-show-therm");
+    const cbConc = document.getElementById("prandtl-show-conc");
+    
+    const valPDisplay = document.getElementById("prandtl-p-val");
+    const valUDisplay = document.getElementById("prandtl-u-val");
+    const valNuDisplay = document.getElementById("prandtl-nu-val");
     const valXDisplay = document.getElementById("prandtl-x-val");
+    const valPrDisplay = document.getElementById("prandtl-pr-val");
+    const valTsDisplay = document.getElementById("prandtl-ts-val");
+    const valTinfDisplay = document.getElementById("prandtl-tinf-val");
+    const valScDisplay = document.getElementById("prandtl-sc-val");
+    const valCsDisplay = document.getElementById("prandtl-cs-val");
+    const valCinfDisplay = document.getElementById("prandtl-cinf-val");
     const ctx = document.getElementById("prandtlChart").getContext("2d");
 
-    function getBoundaryLayer(ReL, x_m) {
-        const L = 2.0;
-        const Rex = ReL * (x_m / L);
+    // Empirical fluid properties at 1 atm (P in atm, Tf in Celsius)
+    function getFluidProperties(fluid, Tf, P) {
+        const Tk = Tf + 273.15; // Kelvin
+        const P_Pa = P * 101325; // Pascals
+        let rho, mu, nu, k, Pr;
+
+        if (fluid === "air") {
+            // Ideal gas law for density
+            rho = P_Pa / (287.05 * Tk);
+            // Sutherland's law for viscosity
+            mu = 1.458e-6 * Math.pow(Tk, 1.5) / (Tk + 110.4);
+            nu = mu / rho;
+            // Simplified k for air
+            k = 0.0241 * Math.pow(Tk / 273.15, 0.8);
+            Pr = 0.71; 
+        } else if (fluid === "water") {
+            // Liquid water (incompressible approx)
+            rho = 1000 - Math.pow(Tf - 4, 2) / 250;
+            if (rho < 900) rho = 900; // rough limit
+            // Viscosity empirical
+            mu = 2.414e-5 * Math.pow(10, 247.8 / (Tk - 140));
+            nu = mu / rho;
+            // Thermal conductivity
+            k = 0.56 + 0.0018 * Tf - 7e-6 * Tf * Tf;
+            // Cp approx 4184
+            Pr = (mu * 4184) / k;
+        } else if (fluid === "co2") {
+            // Ideal gas CO2
+            rho = P_Pa / (188.9 * Tk);
+            // Sutherland-like for CO2
+            mu = 1.57e-6 * Math.pow(Tk, 1.5) / (Tk + 240);
+            nu = mu / rho;
+            // Thermal conductivity
+            k = 0.0146 + 7.3e-5 * Tf;
+            Pr = 0.77;
+        } else if (fluid === "steam") {
+            // Superheated steam approx (ideal gas)
+            rho = P_Pa / (461.5 * Tk);
+            // Viscosity
+            mu = 8.0e-6 + 4.0e-8 * Tf; // rough linear approx
+            nu = mu / rho;
+            k = 0.016 + 7.5e-5 * Tf;
+            // Cp approx 2000 for steam
+            Pr = (mu * 2000) / k;
+        } else {
+            // Custom fallback (won't be used directly to override sliders)
+            return null;
+        }
+
+        return { rho, mu, nu, k, Pr };
+    }
+
+    function getBoundaryLayer(U, nu, x_m, Pr, Sc) {
+        const Rex = (U * x_m) / nu;
         const Rex_crit = 500000;
         let delta = 0;
+        let delta_t = 0;
+        let delta_c = 0;
         let isTurbulent = false;
+        
+        const validPr = Math.max(Pr, 0.01);
+        const validSc = Math.max(Sc, 0.01);
 
         if (Rex < Rex_crit) {
             delta = (5.0 * x_m) / Math.sqrt(Math.max(Rex, 1));
+            delta_t = delta / Math.pow(validPr, 1.0 / 3.0);
+            delta_c = delta / Math.pow(validSc, 1.0 / 3.0);
         } else {
             isTurbulent = true;
             delta = (0.37 * x_m) / Math.pow(Math.max(Rex, 1), 0.2);
+            delta_t = delta / Math.pow(validPr, 1.0 / 3.0);
+            delta_c = delta / Math.pow(validSc, 1.0 / 3.0);
         }
 
-        return { delta, isTurbulent, Rex };
+        return { delta, delta_t, delta_c, isTurbulent, Rex };
     }
 
     // Update profile using laminar (Blasius) or turbulent (1/7 power law) depending on Rex
-    function updatePrandtlData(ReL, x) {
-        const bl = getBoundaryLayer(ReL, x);
+    function updatePrandtlData(U, nu, x, Pr, Sc) {
+        const bl = getBoundaryLayer(U, nu, x, Pr, Sc);
         const delta_mm = bl.delta * 1000;
+        const delta_t_mm = bl.delta_t * 1000;
+        const delta_c_mm = bl.delta_c * 1000;
 
-        // Dynamic y max based on delta to always show the profile properly, but at least 20mm
-        const max_y_mm = Math.max(30, delta_mm * 1.5);
+        // Dynamic y max based on max delta to always show the profile properly, but at least 20mm
+        const max_y_mm = Math.max(30, Math.max(delta_mm, Math.max(delta_t_mm, delta_c_mm)) * 1.5);
 
         const yPoints = [];
         const uPoints = [];
+        const tPoints = [];
+        const cPoints = [];
 
         // Generate points up to max_y_mm
         const steps = 100;
@@ -3607,23 +3693,50 @@ function initPrandtlSimulation() {
                 uPoints.push(1.0);
             } else {
                 if (!bl.isTurbulent) {
-                    // Blasius cubic approx
                     const u_ratio = 1.5 * ratio - 0.5 * Math.pow(ratio, 3);
                     uPoints.push(parseFloat(u_ratio.toFixed(4)));
                 } else {
-                    // 1/7 power law
                     const u_ratio = Math.pow(ratio, 1.0 / 7.0);
                     uPoints.push(parseFloat(u_ratio.toFixed(4)));
                 }
             }
+
+            const ratio_t = y_mm / delta_t_mm;
+            if (ratio_t >= 1.0) {
+                tPoints.push(1.0);
+            } else {
+                if (!bl.isTurbulent) {
+                    const t_ratio = 1.5 * ratio_t - 0.5 * Math.pow(ratio_t, 3);
+                    tPoints.push(parseFloat(t_ratio.toFixed(4)));
+                } else {
+                    const t_ratio = Math.pow(ratio_t, 1.0 / 7.0);
+                    tPoints.push(parseFloat(t_ratio.toFixed(4)));
+                }
+            }
+
+            const ratio_c = y_mm / delta_c_mm;
+            if (ratio_c >= 1.0) {
+                cPoints.push(1.0);
+            } else {
+                if (!bl.isTurbulent) {
+                    const c_ratio = 1.5 * ratio_c - 0.5 * Math.pow(ratio_c, 3);
+                    cPoints.push(parseFloat(c_ratio.toFixed(4)));
+                } else {
+                    const c_ratio = Math.pow(ratio_c, 1.0 / 7.0);
+                    cPoints.push(parseFloat(c_ratio.toFixed(4)));
+                }
+            }
         }
 
-        return { yPoints, uPoints, delta_mm, isTurbulent: bl.isTurbulent, Rex: bl.Rex };
+        return { yPoints, uPoints, tPoints, cPoints, delta_mm, delta_t_mm, delta_c_mm, isTurbulent: bl.isTurbulent, Rex: bl.Rex };
     }
 
-    const Re = parseInt(sliderRe.value);
+    const U = parseFloat(sliderU.value);
+    const nu = parseFloat(sliderNu.value) * 1e-5;
     const x = parseFloat(sliderX.value);
-    let simData = updatePrandtlData(Re, x);
+    const Pr = parseFloat(sliderPr.value);
+    const Sc = parseFloat(sliderSc.value);
+    let simData = updatePrandtlData(U, nu, x, Pr, Sc);
 
     prandtlChart = new Chart(ctx, {
         type: 'line',
@@ -3631,7 +3744,7 @@ function initPrandtlSimulation() {
             labels: simData.yPoints, // Height above plate y
             datasets: [
                 {
-                    label: 'Perfil de Velocidad u/Uinfinity',
+                    label: 'Perfil de Velocidad u/U_inf',
                     data: simData.uPoints,
                     borderColor: '#06b6d4',
                     backgroundColor: 'rgba(6, 182, 212, 0.05)',
@@ -3641,7 +3754,7 @@ function initPrandtlSimulation() {
                     fill: true
                 },
                 {
-                    label: 'Espesor de la Capa Límite (δ)',
+                    label: 'Espesor Capa Hidrodinámica (δ)',
                     data: simData.yPoints.map(y => (Math.abs(y - simData.delta_mm) < (simData.delta_mm * 1.5 / 100) * 1.5) ? 1.0 : null),
                     borderColor: 'rgba(239, 68, 68, 0.8)',
                     borderDash: [5, 5],
@@ -3649,6 +3762,46 @@ function initPrandtlSimulation() {
                     showLine: true,
                     pointRadius: 3,
                     pointBackgroundColor: '#ef4444'
+                },
+                {
+                    label: 'Perfil Temp. Adimensional (θ)',
+                    data: simData.tPoints,
+                    borderColor: '#f59e0b',
+                    backgroundColor: 'rgba(245, 158, 11, 0.05)',
+                    borderWidth: 3,
+                    tension: 0.1,
+                    pointRadius: 0,
+                    fill: true
+                },
+                {
+                    label: 'Espesor Capa Térmica (δ_t)',
+                    data: simData.yPoints.map(y => (Math.abs(y - simData.delta_t_mm) < (simData.delta_t_mm * 1.5 / 100) * 1.5) ? 1.0 : null),
+                    borderColor: 'rgba(245, 158, 11, 0.8)',
+                    borderDash: [2, 2],
+                    borderWidth: 2,
+                    showLine: true,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#f59e0b'
+                },
+                {
+                    label: 'Perfil Conc. Adimensional (φ)',
+                    data: simData.cPoints,
+                    borderColor: '#8b5cf6',
+                    backgroundColor: 'rgba(139, 92, 246, 0.05)',
+                    borderWidth: 3,
+                    tension: 0.1,
+                    pointRadius: 0,
+                    fill: true
+                },
+                {
+                    label: 'Espesor Capa Concentración (δ_c)',
+                    data: simData.yPoints.map(y => (Math.abs(y - simData.delta_c_mm) < (simData.delta_c_mm * 1.5 / 100) * 1.5) ? 1.0 : null),
+                    borderColor: 'rgba(139, 92, 246, 0.8)',
+                    borderDash: [3, 3],
+                    borderWidth: 2,
+                    showLine: true,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#8b5cf6'
                 }
             ]
         },
@@ -3665,7 +3818,7 @@ function initPrandtlSimulation() {
                 x: {
                     min: 0,
                     max: 1.1,
-                    title: { display: true, text: 'Velocidad Normalizada (u / Uinfinity)', color: '#94a3b8' },
+                    title: { display: true, text: 'Valor Normalizado (u/U_inf , θ, φ)', color: '#94a3b8' },
                     grid: { color: 'rgba(255, 255, 255, 0.05)' },
                     ticks: { color: '#94a3b8' }
                 },
@@ -3679,31 +3832,186 @@ function initPrandtlSimulation() {
     });
 
     const updateDisplay = () => {
-        const re_val = parseInt(sliderRe.value);
+        const fluid = fluidSelect.value;
+        const p_val = parseFloat(sliderP.value);
+        const u_val = parseFloat(sliderU.value);
         const x_val = parseFloat(sliderX.value);
-        valReDisplay.textContent = re_val.toLocaleString();
-        valXDisplay.textContent = x_val.toFixed(2);
+        const ts_val = parseInt(sliderTs.value);
+        const tinf_val = parseInt(sliderTinf.value);
+        const cs_val = parseInt(sliderCs.value);
+        const cinf_val = parseInt(sliderCinf.value);
 
-        const newData = updatePrandtlData(re_val, x_val);
+        const hydroVisible = cbHydro.checked;
+        const thermVisible = cbTherm.checked && (ts_val !== tinf_val);
+        const concVisible = cbConc.checked && (cs_val !== cinf_val);
+        
+        const tf = (ts_val + tinf_val) / 2;
+        let nu_val, pr_val, sc_val, k_fluid;
+
+        if (fluid === "custom") {
+            sliderNu.disabled = false;
+            sliderPr.disabled = false;
+            sliderSc.disabled = false;
+            
+            nu_val = parseFloat(sliderNu.value) * 1e-5;
+            pr_val = parseFloat(sliderPr.value);
+            sc_val = parseFloat(sliderSc.value);
+            k_fluid = 0.026; // arbitrary default for custom
+        } else {
+            sliderNu.disabled = true;
+            sliderPr.disabled = true;
+            
+            const props = getFluidProperties(fluid, tf, p_val);
+            nu_val = props.nu;
+            pr_val = props.Pr;
+            k_fluid = props.k;
+            
+            // For Schmidt number, keep slider enabled since it depends on species, 
+            // but we can set defaults based on fluid (like water vapor in air ~0.6)
+            sc_val = parseFloat(sliderSc.value);
+            sliderSc.disabled = false; 
+
+            // Update sliders visually to match calculated properties
+            sliderNu.value = (nu_val * 1e5).toFixed(2);
+            sliderPr.value = pr_val.toFixed(2);
+        }
+
+        valPDisplay.textContent = p_val.toFixed(1);
+        valUDisplay.textContent = u_val.toFixed(1);
+        valNuDisplay.textContent = parseFloat(sliderNu.value).toFixed(2);
+        valXDisplay.textContent = x_val.toFixed(2);
+        valPrDisplay.textContent = parseFloat(sliderPr.value).toFixed(2);
+        valTsDisplay.textContent = ts_val.toString();
+        valTinfDisplay.textContent = tinf_val.toString();
+        valScDisplay.textContent = parseFloat(sliderSc.value).toFixed(2);
+        valCsDisplay.textContent = cs_val.toString();
+        valCinfDisplay.textContent = cinf_val.toString();
+
+        const newData = updatePrandtlData(u_val, nu_val, x_val, pr_val, sc_val);
         prandtlChart.data.labels = newData.yPoints;
         prandtlChart.data.datasets[0].data = newData.uPoints;
 
-        const tol = (Math.max(30, newData.delta_mm * 1.5) / 100) * 1.5;
+        const tol = (Math.max(30, Math.max(newData.delta_mm, Math.max(newData.delta_t_mm, newData.delta_c_mm)) * 1.5) / 100) * 1.5;
         prandtlChart.data.datasets[1].data = newData.yPoints.map(y => (Math.abs(y - newData.delta_mm) < tol) ? 1.0 : null);
+        prandtlChart.data.datasets[2].data = newData.tPoints;
+        prandtlChart.data.datasets[3].data = newData.yPoints.map(y => (Math.abs(y - newData.delta_t_mm) < tol) ? 1.0 : null);
+        prandtlChart.data.datasets[4].data = newData.cPoints;
+        prandtlChart.data.datasets[5].data = newData.yPoints.map(y => (Math.abs(y - newData.delta_c_mm) < tol) ? 1.0 : null);
+
+        // Visibility
+        prandtlChart.setDatasetVisibility(0, hydroVisible);
+        prandtlChart.setDatasetVisibility(1, hydroVisible);
+        prandtlChart.setDatasetVisibility(2, thermVisible);
+        prandtlChart.setDatasetVisibility(3, thermVisible);
+        prandtlChart.setDatasetVisibility(4, concVisible);
+        prandtlChart.setDatasetVisibility(5, concVisible);
 
         // Update annotation if plugin exists
         if (prandtlChart.options.plugins && prandtlChart.options.plugins.annotation && prandtlChart.options.plugins.annotation.annotations && prandtlChart.options.plugins.annotation.annotations.regimeLabel) {
             prandtlChart.options.plugins.annotation.annotations.regimeLabel.content = newData.isTurbulent ? `RÉGIMEN TURBULENTO (Rex = ${newData.Rex.toExponential(2)})` : `RÉGIMEN LAMINAR (Rex = ${newData.Rex.toExponential(2)})`;
             prandtlChart.options.plugins.annotation.annotations.regimeLabel.backgroundColor = newData.isTurbulent ? 'rgba(239,68,68,0.2)' : 'rgba(16,185,129,0.2)';
             prandtlChart.options.plugins.annotation.annotations.regimeLabel.color = newData.isTurbulent ? '#ef4444' : '#10b981';
-            prandtlChart.options.plugins.annotation.annotations.regimeLabel.yValue = Math.max(30, newData.delta_mm * 1.5) * 0.9;
+            prandtlChart.options.plugins.annotation.annotations.regimeLabel.yValue = Math.max(30, Math.max(newData.delta_mm, Math.max(newData.delta_t_mm, newData.delta_c_mm)) * 1.5) * 0.9;
+        }
+
+        // Update results panel
+        const le = sc_val / pr_val;
+        
+        const elTf = document.getElementById("prandtl-tf-out");
+        const elLe = document.getElementById("prandtl-le-out");
+        const elRex = document.getElementById("prandtl-rex-out");
+        const elRegime = document.getElementById("prandtl-regime-out");
+        const elXc = document.getElementById("prandtl-xc-out");
+        const elHx = document.getElementById("prandtl-hx-out");
+        const elFormula = document.getElementById("prandtl-hx-formula");
+
+        if(elTf) elTf.textContent = `${tf.toFixed(1)} °C`;
+        if(elLe) elLe.textContent = le.toFixed(2);
+        if(elRex) elRex.textContent = newData.Rex.toExponential(2);
+        
+        if (elRegime) {
+            elRegime.textContent = newData.isTurbulent ? "TURBULENTO" : "LAMINAR";
+            elRegime.style.color = newData.isTurbulent ? "#ef4444" : "#10b981";
+        }
+        
+        if (elXc) {
+            const xc = (500000 * nu_val) / u_val;
+            elXc.textContent = `${xc.toFixed(2)} m`;
+        }
+        
+        if (elHx && elFormula) {
+            let nux, hx, formula;
+            if (newData.isTurbulent) {
+                nux = 0.0296 * Math.pow(newData.Rex, 0.8) * Math.pow(pr_val, 1/3);
+                formula = "\\(Nu_x = 0.0296 Re_x^{4/5} Pr^{1/3}\\)<br>\\(h_x = \\frac{Nu_x k}{x}\\)";
+            } else {
+                nux = 0.332 * Math.pow(newData.Rex, 0.5) * Math.pow(pr_val, 1/3);
+                formula = "\\(Nu_x = 0.332 Re_x^{1/2} Pr^{1/3}\\)<br>\\(h_x = \\frac{Nu_x k}{x}\\)";
+            }
+            hx = (nux * k_fluid) / x_val;
+            
+            elHx.innerHTML = `${hx.toFixed(2)} <span style="font-size: 0.8rem">W/m²K</span>`;
+            
+            // Only update formula if it changed to avoid excessive MathJax calls
+            if (elFormula.dataset.formula !== formula) {
+                elFormula.dataset.formula = formula;
+                elFormula.innerHTML = formula;
+                if (window.MathJax) {
+                    MathJax.typesetPromise([elFormula]).catch(err => console.log(err));
+                }
+            }
+        }
+        
+        // Update global results
+        const elReL = document.getElementById("prandtl-rel-out");
+        const elHL = document.getElementById("prandtl-hl-out");
+        const elHLFormula = document.getElementById("prandtl-hl-formula");
+        
+        if (elReL && elHL && elHLFormula) {
+            const L = 2.0; // The total length of the plate
+            const ReL = (u_val * L) / nu_val;
+            elReL.textContent = ReL.toExponential(2);
+            
+            let nuL_avg, formulaL;
+            if (ReL < 500000) {
+                nuL_avg = 0.664 * Math.pow(ReL, 0.5) * Math.pow(pr_val, 1/3);
+                formulaL = "\\(\\overline{Nu}_L = 0.664 Re_L^{1/2} Pr^{1/3}\\)<br>\\(\\bar{h}_L = \\frac{\\overline{Nu}_L k}{L}\\)";
+            } else {
+                const A = 0.037 * Math.pow(500000, 0.8) - 0.664 * Math.pow(500000, 0.5); // A approx 871
+                nuL_avg = (0.037 * Math.pow(ReL, 0.8) - A) * Math.pow(pr_val, 1/3);
+                formulaL = `\\(\\overline{Nu}_L = (0.037 Re_L^{4/5} - ${Math.round(A)}) Pr^{1/3}\\)<br>\\(\\bar{h}_L = \\frac{\\overline{Nu}_L k}{L}\\)`;
+            }
+            
+            const hL_avg = (nuL_avg * k_fluid) / L;
+            elHL.innerHTML = `${hL_avg.toFixed(2)} <span style="font-size: 0.8rem">W/m²K</span>`;
+            
+            if (elHLFormula.dataset.formula !== formulaL) {
+                elHLFormula.dataset.formula = formulaL;
+                elHLFormula.innerHTML = formulaL;
+                if (window.MathJax) {
+                    MathJax.typesetPromise([elHLFormula]).catch(err => console.log(err));
+                }
+            }
         }
 
         prandtlChart.update('none');
     };
 
-    sliderRe.addEventListener("input", updateDisplay);
+    sliderU.addEventListener("input", updateDisplay);
+    sliderNu.addEventListener("input", updateDisplay);
     sliderX.addEventListener("input", updateDisplay);
+    sliderPr.addEventListener("input", updateDisplay);
+    sliderTs.addEventListener("input", updateDisplay);
+    sliderTinf.addEventListener("input", updateDisplay);
+    sliderSc.addEventListener("input", updateDisplay);
+    sliderCs.addEventListener("input", updateDisplay);
+    sliderCinf.addEventListener("input", updateDisplay);
+    fluidSelect.addEventListener("change", updateDisplay);
+    sliderP.addEventListener("input", updateDisplay);
+
+    cbHydro.addEventListener("change", updateDisplay);
+    cbTherm.addEventListener("change", updateDisplay);
+    cbConc.addEventListener("change", updateDisplay);
 
     // Particle animation logic
     const canvas = document.getElementById("boundaryLayerCanvas");
@@ -3718,9 +4026,11 @@ function initPrandtlSimulation() {
             this.x = 0;
             this.y = Math.random() * (canvas.height - 15);
         }
-        update(ReL) {
+        update(U, nu) {
             const physicalX = (this.x / canvas.width) * 2.0;
-            const bl = getBoundaryLayer(ReL, physicalX);
+            const currentPr = parseFloat(sliderPr.value) || 0.7;
+            const currentSc = parseFloat(sliderSc.value) || 0.7;
+            const bl = getBoundaryLayer(U, nu, physicalX, currentPr, currentSc);
             const scaleY = canvas.height / 0.040; // 40mm fills the canvas
             const delta_pixels = bl.delta * scaleY;
 
@@ -3774,28 +4084,78 @@ function initPrandtlSimulation() {
         animCtx.fillStyle = "#475569";
         animCtx.fillRect(0, canvas.height - 4, canvas.width, 4);
 
-        const ReL = parseInt(sliderRe.value);
+        const currentU = parseFloat(sliderU.value);
+        const currentNu = parseFloat(sliderNu.value) * 1e-5;
         const currentX = parseFloat(sliderX.value);
+        const currentPr = parseFloat(sliderPr.value) || 0.7;
+        const currentSc = parseFloat(sliderSc.value) || 0.7;
+        const hydroVisible = cbHydro.checked;
+        const thermVisible = cbTherm.checked && (parseInt(sliderTs.value) !== parseInt(sliderTinf.value));
+        const concVisible = cbConc.checked && (parseInt(sliderCs.value) !== parseInt(sliderCinf.value));
         const scaleY = canvas.height / 0.040; // 40mm fits canvas vertically
 
-        // Draw boundary layer boundary delta(x)
-        animCtx.beginPath();
-        animCtx.moveTo(0, canvas.height);
-        for (let px = 0; px <= canvas.width; px += 5) {
-            const physicalX = (px / canvas.width) * 2.0;
-            const bl = getBoundaryLayer(ReL, physicalX);
-            const delta_pixels = bl.delta * scaleY;
-            animCtx.lineTo(px, canvas.height - delta_pixels);
+        // Draw hydrodynamic boundary layer boundary delta(x)
+        if (hydroVisible) {
+            animCtx.beginPath();
+            animCtx.moveTo(0, canvas.height);
+            for (let px = 0; px <= canvas.width; px += 5) {
+                const physicalX = (px / canvas.width) * 2.0;
+                const bl = getBoundaryLayer(currentU, currentNu, physicalX, currentPr, currentSc);
+                const delta_pixels = bl.delta * scaleY;
+                animCtx.lineTo(px, canvas.height - delta_pixels);
+            }
+            animCtx.strokeStyle = "rgba(239, 68, 68, 0.4)";
+            animCtx.lineWidth = 2;
+            animCtx.stroke();
+            
+            // Shade the hydrodynamic boundary layer area
+            animCtx.beginPath();
+            animCtx.moveTo(0, canvas.height);
+            for (let px = 0; px <= canvas.width; px += 5) {
+                const physicalX = (px / canvas.width) * 2.0;
+                const bl = getBoundaryLayer(currentU, currentNu, physicalX, currentPr, currentSc);
+                const delta_pixels = bl.delta * scaleY;
+                animCtx.lineTo(px, canvas.height - delta_pixels);
+            }
+            animCtx.lineTo(canvas.width, canvas.height);
+            animCtx.lineTo(0, canvas.height);
+            animCtx.fillStyle = "rgba(239, 68, 68, 0.05)";
+            animCtx.fill();
         }
-        animCtx.strokeStyle = "rgba(239, 68, 68, 0.4)";
-        animCtx.lineWidth = 2;
-        animCtx.stroke();
 
-        // Shade the boundary layer area
-        animCtx.lineTo(canvas.width, canvas.height);
-        animCtx.lineTo(0, canvas.height);
-        animCtx.fillStyle = "rgba(239, 68, 68, 0.05)";
-        animCtx.fill();
+        // Draw thermal boundary layer boundary delta_t(x)
+        if (thermVisible) {
+            animCtx.beginPath();
+            animCtx.moveTo(0, canvas.height);
+            for (let px = 0; px <= canvas.width; px += 5) {
+                const physicalX = (px / canvas.width) * 2.0;
+                const bl = getBoundaryLayer(currentU, currentNu, physicalX, currentPr, currentSc);
+                const delta_t_pixels = bl.delta_t * scaleY;
+                animCtx.lineTo(px, canvas.height - delta_t_pixels);
+            }
+            animCtx.strokeStyle = "rgba(245, 158, 11, 0.6)"; // orange
+            animCtx.lineWidth = 2;
+            animCtx.setLineDash([4, 4]);
+            animCtx.stroke();
+            animCtx.setLineDash([]);
+        }
+
+        // Draw concentration boundary layer boundary delta_c(x)
+        if (concVisible) {
+            animCtx.beginPath();
+            animCtx.moveTo(0, canvas.height);
+            for (let px = 0; px <= canvas.width; px += 5) {
+                const physicalX = (px / canvas.width) * 2.0;
+                const bl = getBoundaryLayer(currentU, currentNu, physicalX, currentPr, currentSc);
+                const delta_c_pixels = bl.delta_c * scaleY;
+                animCtx.lineTo(px, canvas.height - delta_c_pixels);
+            }
+            animCtx.strokeStyle = "rgba(139, 92, 246, 0.6)"; // purple
+            animCtx.lineWidth = 2;
+            animCtx.setLineDash([2, 4]);
+            animCtx.stroke();
+            animCtx.setLineDash([]);
+        }
 
         // Draw sliderX location line
         const indicatorPx = (currentX / 2.0) * canvas.width;
@@ -3811,7 +4171,7 @@ function initPrandtlSimulation() {
         const numArrows = 8;
         const arrowMaxPx = 60; // max length of arrow for V_infinity
         const physicalX_ind = currentX;
-        const bl_ind = getBoundaryLayer(ReL, physicalX_ind);
+        const bl_ind = getBoundaryLayer(currentU, currentNu, physicalX_ind, currentPr, currentSc);
         const delta_pixels_ind = bl_ind.delta * scaleY;
 
         // Draw curve connecting tips
@@ -3885,7 +4245,7 @@ function initPrandtlSimulation() {
 
         // Update and draw particles
         particles.forEach(p => {
-            p.update(ReL);
+            p.update(currentU, currentNu);
             p.draw();
         });
 
@@ -3893,6 +4253,8 @@ function initPrandtlSimulation() {
     }
     animateParticles();
 }
+
+/* =========================================================================
 
 /* =========================================================================
    INVERSE SQUARE LAW SIMULATOR
