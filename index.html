@@ -363,6 +363,17 @@
                             1850)</button>
                         <button class="tab-btn" data-target="maxwell-sim">Teoría Cinética (Maxwell-Boltzmann,
                             1860)</button>
+                        <button class="tab-btn heat-transfer-highlight" data-target="water-substance-sim"><span
+                                class="lang-es">Sustancias Puras: Diagramas del Agua (IAPWS-IF97)</span><span
+                                class="lang-en" style="display:none;">Pure Substances: Water Diagrams
+                                (IAPWS-IF97)</span></button>
+
+                        <div class="tab-category-title"><span class="lang-es">Laboratorios de Psicrometría</span><span
+                                class="lang-en" style="display:none;">Psychrometrics Laboratories</span></div>
+                        <button class="tab-btn heat-transfer-highlight" data-target="psychrometry-lab-sim"
+                            onclick="setTimeout(function(){ if(window.initPsychrometryLab) window.initPsychrometryLab(); }, 50);">
+                            <span class="lang-es">Laboratorio de Psicrometría</span><span class="lang-en"
+                                style="display:none;">Psychrometrics Lab</span></button>
 
                         <div class="tab-category-title"><span class="lang-es">Motores de Calor</span><span
                                 class="lang-en" style="display:none;">Heat Engines</span></div>
@@ -824,6 +835,243 @@
                                                     \times 10^{-23}$ J/K), the bridge between macroscopic temperature
                                                     and microscopic kinetic energy.</span></li>
                                         </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pure Substance: Water Properties Lab (IAPWS-IF97) -->
+                        <div class="tab-pane" id="water-substance-sim">
+                            <div class="sim-intro">
+                                <h3><span class="lang-es">Sustancias Puras: Propiedades del Agua (IAPWS-IF97)</span><span
+                                        class="lang-en" style="display:none;">Pure Substances: Water Properties
+                                        (IAPWS-IF97)</span></h3>
+                                <p><span class="lang-es">Una sustancia pura tiene composición química homogénea e
+                                        invariable (como el agua). Su estado termodinámico queda completamente
+                                        definido por <strong>dos propiedades intensivas independientes</strong> — por
+                                        ejemplo, presión $P$ y temperatura $T$ — excepto dentro de la región de
+                                        mezcla saturada, donde $T$ y $P$ dejan de ser independientes ($T = T_{sat}(P)$)
+                                        y se necesita la calidad $x$ como segunda propiedad.</span><span
+                                        class="lang-en" style="display:none;">A pure substance has a fixed, uniform
+                                        chemical composition (like water). Its thermodynamic state is fully defined by
+                                        <strong>two independent intensive properties</strong> — for example pressure
+                                        $P$ and temperature $T$ — except inside the saturated mixture region, where
+                                        $T$ and $P$ stop being independent ($T = T_{sat}(P)$) and the quality $x$ is
+                                        needed as the second property.</span></p>
+                                <p><span class="lang-es">Ajusta $P$ y $T$ (o activa el modo de mezcla saturada y ajusta
+                                        la calidad $x$) para calcular en tiempo real el volumen específico $v$, la
+                                        energía interna $u$, la entalpía $h = u + Pv$ y la entropía $s$ del agua,
+                                        usando la formulación industrial <strong>IAPWS-IF97</strong> (la misma base de
+                                        las tablas de vapor de los libros de termodinámica), y observa en qué región
+                                        del diagrama te encuentras.</span><span class="lang-en" style="display:none;">
+                                        Adjust $P$ and $T$ (or switch to saturated-mixture mode and set the quality
+                                        $x$) to compute water's specific volume $v$, internal energy $u$, enthalpy
+                                        $h = u + Pv$ and entropy $s$ in real time, using the
+                                        <strong>IAPWS-IF97</strong> industrial formulation (the same basis behind
+                                        textbook steam tables), and see which region of the diagram you are
+                                        in.</span></p>
+                                <div class="info-card" style="margin-top: 15px; margin-bottom: 15px;">
+                                    <p style="font-weight: bold; margin-bottom: 8px; color: #06b6d4; display: flex; align-items: center; gap: 8px;">
+                                        <i class="fas fa-info-circle"></i> <span class="lang-es">Regiones del
+                                            diagrama:</span><span class="lang-en" style="display:none;">Diagram
+                                            regions:</span>
+                                    </p>
+                                    <ul style="font-size: 0.85rem; color: #cbd5e1; padding-left: 20px; margin: 0; line-height: 1.6; display: flex; flex-direction: column; gap: 4px;">
+                                        <li><strong style="color:#3b82f6;"><span class="lang-es">Líquido
+                                                    subenfriado</span><span class="lang-en"
+                                                    style="display:none;">Subcooled (compressed) liquid</span></strong>
+                                            <span class="lang-es">— a la temperatura dada, $P > P_{sat}(T)$.</span><span
+                                                class="lang-en" style="display:none;">— at the given temperature,
+                                                $P > P_{sat}(T)$.</span></li>
+                                        <li><strong style="color:#06b6d4;"><span class="lang-es">Líquido
+                                                    saturado</span><span class="lang-en" style="display:none;">Saturated
+                                                    liquid</span></strong> <span class="lang-es">— sobre la línea de
+                                                saturación, calidad $x = 0$.</span><span class="lang-en"
+                                                style="display:none;">— on the saturation line, quality $x = 0$.</span>
+                                        </li>
+                                        <li><strong style="color:#a855f7;"><span class="lang-es">Vapor húmedo (mezcla
+                                                    saturada)</span><span class="lang-en" style="display:none;">Wet
+                                                    steam (saturated mixture)</span></strong> <span class="lang-es">—
+                                                dentro del domo, $0 < x < 1$.</span><span class="lang-en"
+                                                style="display:none;">— inside the dome, $0 < x < 1$.</span></li>
+                                        <li><strong style="color:#eab308;"><span class="lang-es">Vapor saturado
+                                                    seco</span><span class="lang-en" style="display:none;">Dry
+                                                    saturated vapor</span></strong> <span class="lang-es">— sobre la
+                                                línea de saturación, calidad $x = 1$.</span><span class="lang-en"
+                                                style="display:none;">— on the saturation line, quality $x = 1$.</span>
+                                        </li>
+                                        <li><strong style="color:#ef4444;"><span class="lang-es">Vapor
+                                                    sobrecalentado</span><span class="lang-en"
+                                                    style="display:none;">Superheated vapor</span></strong> <span
+                                                class="lang-es">— a la temperatura dada, $P < P_{sat}(T)$.</span><span
+                                                class="lang-en" style="display:none;">— at the given temperature,
+                                                $P < P_{sat}(T)$.</span></li>
+                                        <li><strong style="color:#f97316;"><span class="lang-es">Punto
+                                                    crítico</span><span class="lang-en" style="display:none;">Critical
+                                                    point</span></strong> <span class="lang-es">— $P_c = 22.064$ MPa,
+                                                $T_c = 373.95\,^\circ\text{C}$; más allá no existe distinción entre
+                                                líquido y vapor.</span><span class="lang-en" style="display:none;">—
+                                                $P_c = 22.064$ MPa, $T_c = 373.95\,^\circ\text{C}$; beyond it there is
+                                                no distinction between liquid and vapor.</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="simulation-workspace">
+                                <div style="display: flex; flex-direction: column; gap: 15px; width: 100%;">
+                                    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                                        <span style="font-size: 0.8rem; color: var(--text-muted); margin-right: 4px;">
+                                            <span class="lang-es">Diagrama:</span><span class="lang-en"
+                                                style="display:none;">Diagram:</span></span>
+                                        <button class="water-diagram-btn active" data-diagram="Ts"
+                                            style="padding: 6px 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); background: var(--accent-cyan); color: #05202a; font-weight: 700; cursor: pointer; font-size: 0.8rem;">T
+                                            – s</button>
+                                        <button class="water-diagram-btn" data-diagram="Pv"
+                                            style="padding: 6px 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #e2e8f0; font-weight: 700; cursor: pointer; font-size: 0.8rem;">P
+                                            – v</button>
+                                        <button class="water-diagram-btn" data-diagram="Ph"
+                                            style="padding: 6px 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #e2e8f0; font-weight: 700; cursor: pointer; font-size: 0.8rem;">P
+                                            – h</button>
+                                        <div id="water-region-badge"
+                                            style="margin-left: auto; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.8rem; background: rgba(59,130,246,0.15); color: #3b82f6; border: 1px solid rgba(59,130,246,0.4); white-space: nowrap;">
+                                            <span class="lang-es">Líquido subenfriado</span><span class="lang-en"
+                                                style="display:none;">Subcooled liquid</span>
+                                        </div>
+                                    </div>
+                                    <div class="chart-container" style="height: 380px;">
+                                        <canvas id="waterDiagramChart"></canvas>
+                                    </div>
+                                </div>
+                                <div class="controls-container">
+                                    <div class="sliders-grid">
+                                        <div class="control-group" style="grid-column: span 2; display: flex; gap: 10px; align-items: center; justify-content: space-between;">
+                                            <label style="margin-bottom: 0;"><span class="lang-es">Modo de
+                                                    estado:</span><span class="lang-en"
+                                                    style="display:none;">State mode:</span></label>
+                                            <button id="water-mode-toggle"
+                                                style="padding: 6px 14px; border-radius: 6px; background: #3b82f6; color: white; border: none; cursor: pointer; font-weight: bold; font-size: 0.78rem;">
+                                                <span class="lang-es">P y T libres</span><span class="lang-en"
+                                                    style="display:none;">Free P & T</span>
+                                            </button>
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="water-p"><span class="lang-es">Presión
+                                                    $(P)$:</span><span class="lang-en" style="display:none;">Pressure
+                                                    $(P)$:</span> <span id="water-p-val">101.3</span> kPa</label>
+                                            <input type="range" id="water-p" min="1" max="22064" step="0.5"
+                                                value="101.325">
+                                        </div>
+                                        <div class="control-group" id="water-t-group">
+                                            <label for="water-t"><span class="lang-es">Temperatura
+                                                    $(T)$:</span><span class="lang-en" style="display:none;">Temperature
+                                                    $(T)$:</span> <span id="water-t-val">25</span> °C</label>
+                                            <input type="range" id="water-t" min="0.1" max="600" step="0.5"
+                                                value="25">
+                                        </div>
+                                        <div class="control-group" id="water-x-group" style="display:none;">
+                                            <label for="water-x"><span class="lang-es">Calidad
+                                                    $(x)$:</span><span class="lang-en" style="display:none;">Quality
+                                                    $(x)$:</span> <span id="water-x-val">0.50</span></label>
+                                            <input type="range" id="water-x" min="0" max="1" step="0.01" value="0.5">
+                                        </div>
+                                        <div class="control-group" style="grid-column: span 2;">
+                                            <label style="margin-bottom: 6px;"><span class="lang-es">Comparar
+                                                    isóbaras en el diagrama (líneas de saturación
+                                                    horizontales):</span><span class="lang-en"
+                                                    style="display:none;">Compare isobars on the diagram (horizontal
+                                                    saturation lines):</span></label>
+                                            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px;">
+                                                <input type="number" id="water-isobar-input" placeholder="kPa"
+                                                    min="1" max="22064" step="1"
+                                                    style="width: 90px; padding: 5px 8px; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #e2e8f0; font-size: 0.78rem;">
+                                                <button id="water-isobar-add"
+                                                    style="padding: 5px 12px; border-radius: 6px; background: rgba(255,255,255,0.08); color: #e2e8f0; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; font-weight: bold; font-size: 0.78rem;">
+                                                    <span class="lang-es">Añadir</span><span class="lang-en"
+                                                        style="display:none;">Add</span>
+                                                </button>
+                                                <button class="water-isobar-preset" data-p="101.325"
+                                                    style="padding: 5px 10px; border-radius: 6px; background: rgba(255,255,255,0.05); color: #94a3b8; border: 1px solid rgba(255,255,255,0.12); cursor: pointer; font-size: 0.72rem;">1
+                                                    atm</button>
+                                                <button class="water-isobar-preset" data-p="1000"
+                                                    style="padding: 5px 10px; border-radius: 6px; background: rgba(255,255,255,0.05); color: #94a3b8; border: 1px solid rgba(255,255,255,0.12); cursor: pointer; font-size: 0.72rem;">1
+                                                    MPa</button>
+                                                <button class="water-isobar-preset" data-p="5000"
+                                                    style="padding: 5px 10px; border-radius: 6px; background: rgba(255,255,255,0.05); color: #94a3b8; border: 1px solid rgba(255,255,255,0.12); cursor: pointer; font-size: 0.72rem;">5
+                                                    MPa</button>
+                                                <button class="water-isobar-preset" data-p="10000"
+                                                    style="padding: 5px 10px; border-radius: 6px; background: rgba(255,255,255,0.05); color: #94a3b8; border: 1px solid rgba(255,255,255,0.12); cursor: pointer; font-size: 0.72rem;">10
+                                                    MPa</button>
+                                            </div>
+                                            <div id="water-isobar-chips" style="display: flex; flex-wrap: wrap; gap: 6px;"></div>
+                                        </div>
+                                        <div class="control-group"
+                                            style="grid-column: span 2; display: flex; gap: 10px; margin-top: 6px;">
+                                            <button id="water-critical-btn"
+                                                style="flex: 1; padding: 8px; border-radius: 6px; background: rgba(249,115,22,0.15); color: #f97316; border: 1px solid rgba(249,115,22,0.4); cursor: pointer; font-weight: bold; font-size: 0.78rem;">
+                                                <span class="lang-es">Ir al Punto Crítico</span><span class="lang-en"
+                                                    style="display:none;">Go to Critical Point</span>
+                                            </button>
+                                            <button id="water-reset-btn"
+                                                style="flex: 1; padding: 8px; border-radius: 6px; background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(255,255,255,0.15); cursor: pointer; font-weight: bold; font-size: 0.78rem;">
+                                                <span class="lang-es">Reiniciar</span><span class="lang-en"
+                                                    style="display:none;">Reset</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group result-card" style="margin-top: 15px;">
+                                        <div class="result-row">
+                                            <span><span class="lang-es">Volumen específico
+                                                    $(v)$:</span><span class="lang-en" style="display:none;">Specific
+                                                    volume $(v)$:</span></span>
+                                            <span id="water-v-res" class="highlight-val">0.001003 m³/kg</span>
+                                        </div>
+                                        <div class="result-row">
+                                            <span><span class="lang-es">Energía interna
+                                                    $(u)$:</span><span class="lang-en" style="display:none;">Internal
+                                                    energy $(u)$:</span></span>
+                                            <span id="water-u-res" class="highlight-val">0.0 kJ/kg</span>
+                                        </div>
+                                        <div class="result-row">
+                                            <span><span class="lang-es">Entalpía $(h)$:</span><span class="lang-en"
+                                                    style="display:none;">Enthalpy $(h)$:</span></span>
+                                            <span id="water-h-res" class="highlight-val"
+                                                style="color: var(--accent-orange);">0.0 kJ/kg</span>
+                                        </div>
+                                        <div class="result-row">
+                                            <span><span class="lang-es">Entropía $(s)$:</span><span class="lang-en"
+                                                    style="display:none;">Entropy $(s)$:</span></span>
+                                            <span id="water-s-res" class="highlight-val">0.0000 kJ/kg·K</span>
+                                        </div>
+                                        <div class="result-row" id="water-x-res-row">
+                                            <span><span class="lang-es">Calidad $(x)$:</span><span class="lang-en"
+                                                    style="display:none;">Quality $(x)$:</span></span>
+                                            <span id="water-x-res" class="highlight-val">—</span>
+                                        </div>
+                                        <div class="result-row border-top-row">
+                                            <span><span class="lang-es">Temp. de saturación a esta
+                                                    $P$ $(T_{sat})$:</span><span class="lang-en"
+                                                    style="display:none;">Saturation temp. at this $P$
+                                                    $(T_{sat})$:</span></span>
+                                            <span id="water-tsat-res" class="highlight-val"
+                                                style="color: #06b6d4;">0.0 °C</span>
+                                        </div>
+                                        <div class="result-row">
+                                            <span><span class="lang-es">Presión de saturación a esta
+                                                    $T$ $(P_{sat})$:</span><span class="lang-en"
+                                                    style="display:none;">Saturation pressure at this $T$
+                                                    $(P_{sat})$:</span></span>
+                                            <span id="water-psat-res" class="highlight-val"
+                                                style="color: #06b6d4;">0.0 kPa</span>
+                                        </div>
+                                    </div>
+                                    <div style="font-size: 0.7rem; color: #94a3b8; line-height: 1.35; padding: 0 4px;">
+                                        <span class="lang-es">Nota: por encima de ≈350 °C en la rama líquida (región 3
+                                            de IAPWS-IF97, cerca del punto crítico) los valores son una aproximación
+                                            continua, no la solución exacta de esa región.</span><span class="lang-en"
+                                            style="display:none;">Note: above ≈350 °C on the liquid branch (IAPWS-IF97
+                                            Region 3, near the critical point) values are a smooth approximation, not
+                                            the exact solution for that region.</span>
                                     </div>
                                 </div>
                             </div>
@@ -8041,6 +8289,23 @@
                     <!-- END Carnot Lab -->
 
                     <!-- =====================================================
+                         LAB: LABORATORIO DE PSICROMETRÍA
+                         ===================================================== -->
+                    <div class="tab-pane" id="psychrometry-lab-sim">
+                        <div class="sim-intro">
+                            <h3><span class="lang-es">Laboratorio de Psicrometría</span><span class="lang-en"
+                                    style="display:none;">Psychrometrics Lab</span></h3>
+                            <p><span class="lang-es">Analiza procesos de acondicionamiento de aire (calentamiento/enfriamiento
+                                    sensible, deshumidificación, enfriamiento evaporativo y combinado) sobre la carta
+                                    psicrométrica.</span><span class="lang-en" style="display:none;">Analyze air-conditioning
+                                    processes (sensible heating/cooling, dehumidification, evaporative cooling and combined)
+                                    on the psychrometric chart.</span></p>
+                        </div>
+                        <div id="psychrometry-lab-mount"></div>
+                    </div>
+                    <!-- END Psychrometry Lab -->
+
+                    <!-- =====================================================
                          LAB 28b: NEWCOMEN vs. WATT — Eficiencia de la Máquina de Vapor
                          ===================================================== -->
                     <div class="tab-pane" id="watt-sim">
@@ -9170,10 +9435,10 @@
                     style="color: var(--accent-orange); text-decoration: none;">felipe.colorado@udea.edu.co</a>
             </p>
             <p style="font-size: 0.75rem; margin-top: 8px; color: var(--text-secondary); opacity: 0.8;"><i
-                    class="far fa-clock"></i> <span class="lang-es">Última actualización: <span id="last-updated-time">4 de agosto de 2026, 08:30</span> -
-                    Versión 3.5 (Contador de usuarios en línea multi-dispositivo sin autenticación requerida)</span><span class="lang-en"
-                    style="display:none;">Last update: August 4, 2026, 08:30 -
-                    Version 3.5 (Multi-device online user counter without authentication required)</span></p>
+                    class="far fa-clock"></i> <span class="lang-es">Última actualización: <span id="last-updated-time">4 de agosto de 2026, 08:50</span> -
+                    Versión 3.6 (Convección natural corregida en animación de Newton: flujo por flotabilidad alrededor del cilindro)</span><span class="lang-en"
+                    style="display:none;">Last update: August 4, 2026, 08:50 -
+                    Version 3.6 (Corrected natural convection in Newton animation: buoyancy-driven flow around hot cylinder)</span></p>
             <div style="margin-top: 15px; text-align: center;">
                 <span class="lang-es"><img
                         src="https://api.visitorbadge.io/api/visitors?path=felipecolorado.github.io/ciencias-termicas/&label=visitas&countColor=%23f59e0b"
@@ -9510,7 +9775,25 @@
         <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
         <script src="translations.js"></script>
-        <script src="app_v2.js?v=v35"></script>
+        <script src="app_v2.js?v=v36"></script>
+        <script src="water-lab.js?v=v1"></script>
+
+        <!-- PsychrometryLab (orden de dependencia: formulas -> state -> processes -> chart -> view) -->
+        <script src="PsychrometryLab/psychrometry-formulas.js?v=v1"></script>
+        <script src="PsychrometryLab/psychrometry-state.js?v=v1"></script>
+        <script src="PsychrometryLab/psychrometry-processes.js?v=v1"></script>
+        <script src="PsychrometryLab/psychrometry-chart.js?v=v1"></script>
+        <script src="PsychrometryLab/psychrometry-lab-view.js?v=v1"></script>
+        <script>
+            // Lazy-mount: PsychrometryLabView construye su propio DOM/CSS al activarse por primera vez
+            // (mismo patrón que initChateletSimulation / initFooteSimulation ya usados en este archivo).
+            window.initPsychrometryLab = function () {
+                var mountEl = document.getElementById('psychrometry-lab-mount');
+                if (!mountEl || mountEl.dataset.mounted === '1') return;
+                mountEl.dataset.mounted = '1';
+                PsychrometryLabView.mount(mountEl);
+            };
+        </script>
 
         <script>
             // ── Celsius Simulation – standalone, bypasses safeInit ──────────────────

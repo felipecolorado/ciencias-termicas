@@ -5595,7 +5595,7 @@ function initNewtonSimulation() {
                     label: 'Tiempo Actual',
                     data: [],
                     borderColor: '#f97316',
-                    borderWidth: 2,
+                    borderWidth: 1.5,
                     pointRadius: 0,
                     showLine: true,
                     fill: false
@@ -5654,25 +5654,244 @@ function initNewtonSimulation() {
     let currentTi, currentTinf, currentD, currentK, currentRho, currentCp;
     let simData = [];
 
+    let currentTemps = [20, 20, 20, 20];
+    let visualR = 40;
+
     function initParticles() {
+        if (canvas.clientWidth > 0) {
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+        }
         particles = [];
-        const numParticlesPerZone = 30;
         const numCylinders = 4;
         const spacing = canvas.width / numCylinders;
-        
+        const visualR_init = 22; // approximate initial radius
+
         for (let zone = 0; zone < numCylinders; zone++) {
-            const xStart = spacing * zone;
-            for (let i = 0; i < numParticlesPerZone; i++) {
-                particles.push({
-                    x: xStart + Math.random() * spacing,
-                    y: Math.random() * canvas.height,
-                    vx: (Math.random() - 0.5) * 0.5,
-                    vy: (Math.random() - 0.5) * 0.5,
-                    zone: zone
-                });
+            const cx = spacing * zone + spacing / 2;
+            const cy = canvas.height / 2;
+            // 20 particles per zone
+            for (let i = 0; i < 20; i++) {
+                particles.push(new NewtonPlumeParticle(cx, cy, visualR_init, zone, i));
             }
         }
     }
+
+    class NewtonPlumeParticle {
+        constructor(cx, cy, baseR, zone, idx) {
+            this.zone = zone;
+            this.idx = idx;
+            this.reset(cx, cy, baseR);
+            // Stagger initial progress
+            this.y = cy + (Math.random() - 0.5) * canvas.height;
+            this.x = cx + (Math.random() - 0.5) * (baseR * 2);
+            if (this.zone === 1) { // Forced Air
+                this.x = (canvas.width / 4) * 1 + Math.random() * (canvas.width / 4);
+                this.y = Math.random() * canvas.height;
+            }
+            this.life = Math.random();
+        }
+
+        reset(cx, cy, baseR) {
+            this.life = 1.0;
+            this.decay = 0.0015 + Math.random() * 0.0025;
+            
+            if (this.zone === 1) {
+                // Forced air spawns at the left boundary of Zone 1
+                const xMin = (canvas.width / 4) * 1;
+                this.x = xMin;
+                this.y = Math.random() * canvas.height;
+                this.vx = 1.2 + Math.random() * 1.5;
+                this.vy = (Math.random() - 0.5) * 0.15;
+                this.size = 1.2 + Math.random() * 1.6;
+            } else {
+                // Natural convection: spawn below the cylinder
+                const angle = (Math.PI / 2) + (Math.random() - 0.5) * Math.PI;
+                this.x = cx + Math.cos(angle) * (baseR + 2);
+                this.y = cy + Math.sin(angle) * (baseR + 2);
+                this.side = Math.sign(this.x - cx) || 1;
+                
+                let speedScale = 1.0;
+                if (this.zone === 0) speedScale = 0.5; // Aire Quieto
+                else if (this.zone === 2) speedScale = 0.25; // Aceite
+                else if (this.zone === 3) speedScale = 1.2; // Agua
+                
+                this.vx = (Math.random() - 0.5) * 0.04 * speedScale;
+                this.vy = (-0.12 - Math.random() * 0.18) * speedScale;
+                this.size = 1.2 + Math.random() * 2.0;
+            }
+        }
+
+        update(cx, cy, baseR, heatFactor, w, h) {
+            this.life -= this.decay;
+            if (this.life <= 0) {
+                this.reset(cx, cy, baseR);
+                return;
+            }
+
+            const xMinZone = (canvas.width / 4) * this.zone;
+            const xMaxZone = (canvas.width / 4) * (this.zone + 1);
+
+            if (this.zone === 1) {
+                // Forced Air update logic: fluid particles stream past and curve smoothly
+                // around the cylinder, like a real flow wrapping around an obstacle
+                const forceX = 0.05 * (1.0 + heatFactor);
+                this.vx = Math.min(3.5, this.vx + forceX);
+
+                const dx = this.x - cx;
+                const dy = this.y - cy;
+                const dist = Math.sqrt(dx * dx + dy * dy) || 0.0001;
+                const minAllowedDist = baseR + 3;
+                const influenceDist = baseR + 22;
+
+                if (dist < influenceDist) {
+                    const nx = dx / dist;
+                    const ny = dy / dist;
+
+                    // Cancel the velocity component pointing into the cylinder instead of
+                    // letting the particle collide with (and bounce off) the solid surface
+                    const dot = this.vx * nx + this.vy * ny;
+                    if (dot < 0) {
+                        this.vx -= dot * nx;
+                        this.vy -= dot * ny;
+                    }
+
+                    // Smooth tangential acceleration that grows closer to the surface,
+                    // curving the path gradually around the cylinder
+                    const proximity = (influenceDist - dist) / influenceDist;
+                    const tx = -ny;
+                    const ty = nx;
+                    const dir = Math.sign(dy) || 1;
+                    const curve = 0.18 * proximity;
+                    this.vx += tx * dir * curve;
+                    this.vy += ty * dir * curve;
+
+                    // Hard floor only to keep the particle out of the solid, no bounce impulse
+                    if (dist < minAllowedDist) {
+                        this.x = cx + nx * minAllowedDist;
+                        this.y = cy + ny * minAllowedDist;
+                    }
+                }
+
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x > xMaxZone) {
+                    this.reset(cx, cy, baseR);
+                }
+                if (this.y < 0 || this.y > h) {
+                    this.y = Math.random() * h;
+                    this.x = xMinZone;
+                }
+            } else {
+                // Natural Convection update logic (exactly matching initNatConvSimulation)
+                let speedScale = 1.0;
+                if (this.zone === 0) speedScale = 0.5; // Aire Quieto
+                else if (this.zone === 2) speedScale = 0.25; // Aceite
+                else if (this.zone === 3) speedScale = 1.2; // Agua
+
+                // Fluids never truly stand still: keep a minimum baseline of thermal
+                // agitation even after the cylinder reaches equilibrium with its surroundings
+                const ambientFactor = Math.max(0.18, heatFactor);
+                const buoyancyForce = Math.min(0.5, ambientFactor * 0.5);
+                this.vy -= buoyancyForce * 0.015 * speedScale;
+
+                // Small continuous random drift so particles keep gently jiggling at equilibrium
+                this.vx += (Math.random() - 0.5) * 0.012 * speedScale;
+                this.vy += (Math.random() - 0.5) * 0.012 * speedScale;
+
+                const maxVy = (0.35 + ambientFactor * 0.45) * speedScale;
+                const maxVx = 0.22 * speedScale;
+                this.vx = Math.max(-maxVx, Math.min(maxVx, this.vx));
+                this.vy = Math.max(-maxVy, Math.min(maxVy, this.vy));
+
+                this.x += this.vx;
+                this.y += this.vy;
+
+                const dx = this.x - cx;
+                const dy = this.y - cy;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const minAllowedDist = baseR + 2;
+                const huggingDist = baseR + 12;
+
+                if (dist < huggingDist) {
+                    const nx = dx / dist;
+                    const ny = dy / dist;
+
+                    if (dist < minAllowedDist) {
+                        this.x = cx + nx * minAllowedDist;
+                        this.y = cy + ny * minAllowedDist;
+                    }
+
+                    const inSeparationZone = (ny < -0.15); // separates at the top
+
+                    if (!inSeparationZone) {
+                        const dotProduct = this.vx * nx + this.vy * ny;
+                        if (dotProduct < 0) {
+                            this.vx -= dotProduct * nx;
+                            this.vy -= dotProduct * ny;
+                        }
+                        const pullForce = 0.03 * (huggingDist - dist);
+                        this.vx -= nx * pullForce;
+                        this.vy -= ny * pullForce;
+
+                        const tx = -ny;
+                        const ty = nx;
+                        const sweepDirection = -Math.sign(ty) || 1;
+                        const sweepForce = (0.1 + Math.random() * 0.15) * (0.3 + buoyancyForce);
+                        this.vx += tx * sweepDirection * sweepForce * 0.15;
+                        this.vy += ty * sweepDirection * sweepForce * 0.15;
+                    } else {
+                        this.vy -= 0.05 * speedScale;
+                    }
+                }
+
+                // Wave oscillation above cylinder
+                const yDist = cy - this.y;
+                if (yDist > baseR) {
+                    const waveAmp = Math.min(6, (yDist - baseR) * 0.05 * Math.min(2, ambientFactor * 5));
+                    const waveOffset = Math.sin(this.y * 0.04 - performance.now() * 0.003) * waveAmp;
+                    this.x += waveOffset * 0.05;
+                }
+
+                if (this.y < -10) {
+                    this.reset(cx, cy, baseR);
+                }
+                if (this.x < xMinZone + 5) {
+                    this.x = xMinZone + 5;
+                    this.vx = Math.abs(this.vx);
+                }
+                if (this.x > xMaxZone - 5) {
+                    this.x = xMaxZone - 5;
+                    this.vx = -Math.abs(this.vx);
+                }
+            }
+        }
+
+        draw(ctx, heatFactor) {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            
+            const alpha = this.life * 0.5;
+            
+            if (this.zone === 0) {
+                // Aire quieto: warm amber
+                ctx.fillStyle = `rgba(251, 191, 36, ${alpha})`;
+            } else if (this.zone === 1) {
+                // Aire forzado: light blue
+                ctx.fillStyle = `rgba(147, 197, 253, ${alpha})`;
+            } else if (this.zone === 2) {
+                // Aceite: golden orange
+                ctx.fillStyle = `rgba(249, 115, 22, ${alpha})`;
+            } else {
+                // Agua: cyan
+                ctx.fillStyle = `rgba(34, 211, 238, ${alpha})`;
+            }
+            ctx.fill();
+        }
+    }
+
+    let newtonTime = 0;
 
     function updateSimulationParams() {
         currentTi = parseFloat(sliderTi.value);
@@ -5696,7 +5915,6 @@ function initNewtonSimulation() {
 
         simData = mediums.map(m => {
             const Bi = (m.h * Lc) / currentK;
-            // Incorporate conductivity effect: tau = tau_lumped * (1 + Bi)
             const tau_lump = (currentRho * V * currentCp) / (m.h * As);
             const tau = tau_lump * (1 + Bi);
             return {
@@ -5708,7 +5926,6 @@ function initNewtonSimulation() {
             };
         });
 
-        // Update table
         if (tbodyResults) {
             tbodyResults.innerHTML = '';
             simData.forEach(d => {
@@ -5740,282 +5957,129 @@ function initNewtonSimulation() {
         }
 
         lastTimestamp = performance.now();
-        initParticles();
 
-        // The longest tau determines the overall x-axis scale initially, starting at 200s
-        const tMax = 200;
+        // Reset the visible time window whenever the parameters change
+        currentChartMax = 200;
+        updateChartCurves();
+    }
 
+    function updateChartCurves() {
+        if (!chartInstance) return;
+        const tMax = currentChartMax;
         simData.forEach((d, idx) => {
-            const graphData = [];
-            for (let t = 0; t <= tMax; t += tMax / 50) {
-                const T = currentTinf + (currentTi - currentTinf) * Math.exp(-t / d.tau);
-                graphData.push({ x: t, y: T });
+            if (chartInstance.data.datasets[idx]) {
+                const data = [];
+                for (let t = 0; t <= tMax; t += tMax / 50) {
+                    const T = currentTinf + (currentTi - currentTinf) * Math.exp(-t / d.tau);
+                    data.push({ x: t, y: T });
+                }
+                chartInstance.data.datasets[idx].data = data;
             }
-            chartInstance.data.datasets[idx].data = graphData;
         });
-
+        chartInstance.options.scales.x.max = tMax;
+        chartInstance.options.scales.x.ticks.stepSize = tMax > 200 ? 100 : 10;
         const maxTemp = Math.max(currentTi, currentTinf);
         const minTemp = Math.min(currentTi, currentTinf);
-        const yMax = maxTemp > 500 ? Math.ceil(maxTemp / 100) * 100 : (Math.ceil(maxTemp / 10) * 10 + 10);
-        const yMin = minTemp < 0 ? Math.floor(minTemp / 10) * 10 : (minTemp > 20 ? 0 : Math.floor(minTemp / 10) * 10 - 10);
-        chartInstance.options.scales.y.max = yMax;
-        chartInstance.options.scales.y.min = yMin;
-        currentChartMax = tMax;
-        chartInstance.options.scales.x.max = tMax;
-        chartInstance.options.scales.x.ticks.stepSize = tMax <= 200 ? 10 : 100;
-
-        // Update markers
-        chartInstance.data.datasets[4].data = [
-            { x: simTime, y: yMin },
-            { x: simTime, y: yMax }
-        ];
-        chartInstance.data.datasets[5].data = simData.map((d) => {
-            const T = currentTinf + (currentTi - currentTinf) * Math.exp(-simTime / d.tau);
-            return { x: simTime, y: T };
-        });
-
+        chartInstance.options.scales.y.max = maxTemp > 500 ? Math.ceil(maxTemp / 100) * 100 : (Math.ceil(maxTemp / 10) * 10 + 10);
+        chartInstance.options.scales.y.min = minTemp < 0 ? Math.floor(minTemp / 10) * 10 : (minTemp > 20 ? 0 : Math.floor(minTemp / 10) * 10 - 10);
         chartInstance.update();
     }
 
-    function getColorForTemp(T) {
-        const minT = 0;
-        const maxT = 500;
-        const normalized = Math.max(0, Math.min(1, (T - minT) / (maxT - minT)));
-        const r = Math.round(normalized * 255);
-        const b = Math.round((1 - normalized) * 255);
-        return `rgb(${r}, 50, ${b})`;
-    }
-
     function draw(timestamp) {
-        if (!lastTimestamp) lastTimestamp = timestamp;
-        const dt = (timestamp - lastTimestamp) / 1000;
+        if (!timestamp) timestamp = performance.now();
+        if (isPlaying) {
+            const dt = (timestamp - lastTimestamp) / 1000;
+            simTime += dt * 5;
+        }
         lastTimestamp = timestamp;
 
-        if (isPlaying) {
-            simTime += dt * timeScale;
-        }
         if (resTime) resTime.innerHTML = simTime.toFixed(1) + " s";
 
-        let allEquilibrated = true;
-        const currentTemps = simData.map((d, idx) => {
-            const T = currentTinf + (currentTi - currentTinf) * Math.exp(-simTime / d.tau);
-            if (Math.abs(T - currentTinf) > 0.05) {
-                allEquilibrated = false;
-            }
-            return T;
-        });
-
-        if (isPlaying && allEquilibrated) {
-            isPlaying = false;
-            if (startBtn) {
-                startBtn.textContent = 'Iniciar Enfriamiento';
-                startBtn.style.background = '#3b82f6';
-            }
-        }
-
-        // Dynamically adjust x-axis in increments of 2000s if simTime exceeds current max
-        if (simTime > chartInstance.options.scales.x.max) {
-            const newMax = Math.ceil(simTime / 2000) * 2000;
-            currentChartMax = newMax;
-            chartInstance.options.scales.x.max = newMax;
-            chartInstance.options.scales.x.ticks.stepSize = newMax <= 200 ? 10 : 100;
-
-            simData.forEach((d, idx) => {
-                const graphData = [];
-                for (let t = 0; t <= newMax; t += newMax / 50) {
-                    const T = currentTinf + (currentTi - currentTinf) * Math.exp(-t / d.tau);
-                    graphData.push({ x: t, y: T });
-                }
-                chartInstance.data.datasets[idx].data = graphData;
-            });
-        }
-
-        // Update markers in real-time
-        const yMin = (chartInstance.options.scales && chartInstance.options.scales.y && typeof chartInstance.options.scales.y.min === 'number') ? chartInstance.options.scales.y.min : (currentTinf - 50);
-        const yMax = (chartInstance.options.scales && chartInstance.options.scales.y && typeof chartInstance.options.scales.y.max === 'number') ? chartInstance.options.scales.y.max : (currentTi + 50);
-        chartInstance.data.datasets[4].data = [
-            { x: simTime, y: yMin },
-            { x: simTime, y: yMax }
-        ];
-        chartInstance.data.datasets[5].data = simData.map((d, idx) => {
-            return { x: simTime, y: currentTemps[idx] };
-        });
-
-        chartInstance.update('none');
-
-        const parent = canvas.parentElement;
-        if (canvas.width !== parent.clientWidth || canvas.height !== parent.clientHeight) {
-            canvas.width = parent.clientWidth;
-            canvas.height = parent.clientHeight;
+        if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
             initParticles();
         }
 
-        ctx.fillStyle = 'rgba(15, 23, 42, 0.3)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        const numCylinders = 4;
-        const spacing = canvas.width / numCylinders;
-        
-        const minR = 10;
-        const maxR = 35;
-        const visualR = minR + ((currentD - 0.01) / (0.3 - 0.01)) * (maxR - minR);
+        const spacing = canvas.width / 4;
+        const visualR = 25;
 
-        // Draw ambient particles zone by zone with specific physics
+        // draw cylinders
+        simData.forEach((d, idx) => {
+            const T = currentTinf + (currentTi - currentTinf) * Math.exp(-simTime / d.tau);
+            currentTemps[idx] = T;
+            const cx = spacing * idx + spacing / 2;
+            const cy = canvas.height / 2;
+            
+            // Draw gradient representation of cylinder temperature
+            const grad = ctx.createRadialGradient(cx, cy, 2, cx, cy, visualR);
+            // Incandescent color based on temperature: hot is red/orange, cold is grey/dark blue
+            const ratio = Math.max(0, Math.min(1, (T - currentTinf) / Math.max(1, currentTi - currentTinf)));
+            const rVal = Math.round(50 + 205 * ratio);
+            const gVal = Math.round(70 + 80 * ratio);
+            const bVal = Math.round(90 - 40 * ratio);
+            
+            grad.addColorStop(0, `rgb(${rVal}, ${gVal}, ${bVal})`);
+            grad.addColorStop(1, '#1e293b');
 
+            ctx.beginPath();
+            ctx.arc(cx, cy, visualR, 0, Math.PI * 2);
+            ctx.fillStyle = grad;
+            ctx.strokeStyle = d.color;
+            ctx.lineWidth = 2;
+            ctx.fill();
+            ctx.stroke();
+            
+            ctx.fillStyle = d.color;
+            ctx.font = "bold 11px sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText(d.name, cx, cy - visualR - 10);
+
+            ctx.fillStyle = "#fff";
+            ctx.font = "bold 12px sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText(T.toFixed(1) + "°C", cx, cy + visualR + 20);
+        });
+
+        // draw particles
         particles.forEach(p => {
             const cx = spacing * p.zone + spacing / 2;
             const cy = canvas.height / 2;
             const T = currentTemps[p.zone];
             const dT = T - currentTinf;
-            const xMin = spacing * p.zone;
-            const xMax = spacing * (p.zone + 1);
+            const heatFactor = Math.max(0, dT) / Math.max(1, currentTi - currentTinf);
 
-            if (p.zone === 0) {
-                // ZONE 0: Aire Quieto (Natural Convection)
-                // Particles near the hot cylinder rise up due to heating (buoyancy)
-                const dx = p.x - cx;
-                const dy = p.y - cy;
-                const dist = Math.hypot(dx, dy);
-                const heatFactor = Math.max(0, dT) / Math.max(1, currentTi - currentTinf);
-
-                // Buoyancy force (upwards) close to the cylinder and in the plume directly above it
-                if (dist < visualR * 2.5) {
-                    p.vy -= 0.12 * heatFactor * (2.5 - dist / visualR);
-                    // Diverge outwards when hitting above the cylinder
-                    if (p.y < cy) {
-                        p.vx += 0.06 * heatFactor * (dx / (dist + 0.1));
-                    }
-                } else {
-                    // Sinking current on the sides to complete the loop
-                    if (Math.abs(dx) > visualR * 1.5) {
-                        p.vy += 0.03 * heatFactor;
-                        // Converge back towards the bottom of the cylinder
-                        if (p.y > cy + visualR) {
-                            p.vx -= 0.04 * heatFactor * (dx / (Math.abs(dx) + 0.1));
-                        }
-                    }
-                }
-
-                // Drag/limit speed
-                p.vx *= 0.95;
-                p.vy *= 0.95;
-
-                // Add small thermal brownian jitter (stops or diminishes when cold)
-                p.vx += (Math.random() - 0.5) * (0.05 + 0.1 * heatFactor);
-                p.vy += (Math.random() - 0.5) * (0.05 + 0.1 * heatFactor);
-
-            } else if (p.zone === 1) {
-                // ZONE 1: Aire Forzado (Forced Convection)
-                // Strong horizontal flow from left to right
-                const heatFactor = Math.max(0, dT) / Math.max(1, currentTi - currentTinf);
-                p.vx = 2.5; // Constant wind speed
-                p.vy = (Math.random() - 0.5) * 0.2; // Slight flutter
-
-                // Deflect around cylinder
-                const dx = p.x - cx;
-                const dy = p.y - cy;
-                const dist = Math.hypot(dx, dy);
-                if (dist < visualR * 1.3) {
-                    const angle = Math.atan2(dy, dx);
-                    p.x = cx + Math.cos(angle) * visualR * 1.3;
-                    p.y = cy + Math.sin(angle) * visualR * 1.3;
-                }
-            } else if (p.zone === 2) {
-                // ZONE 2: Aceite (Moderate convection currents)
-                const dx = p.x - cx;
-                const dy = p.y - cy;
-                const dist = Math.hypot(dx, dy);
-                const heatFactor = Math.max(0, dT) / Math.max(1, currentTi - currentTinf);
-
-                // Slow circular convection loops in liquid
-                const angle = Math.atan2(dy, dx);
-                const speed = 0.4 * heatFactor;
-                p.vx = -Math.sin(angle) * speed + (Math.random() - 0.5) * 0.05;
-                p.vy = Math.cos(angle) * speed + (Math.random() - 0.5) * 0.05;
-            } else if (p.zone === 3) {
-                // ZONE 3: Agua (Fast turbulent convection / currents)
-                const dx = p.x - cx;
-                const dy = p.y - cy;
-                const dist = Math.hypot(dx, dy);
-                const heatFactor = Math.max(0, dT) / Math.max(1, currentTi - currentTinf);
-
-                const angle = Math.atan2(dy, dx);
-                const speed = 1.2 * heatFactor;
-                p.vx = -Math.sin(angle) * speed + (Math.random() - 0.5) * 0.2;
-                p.vy = Math.cos(angle) * speed + (Math.random() - 0.5) * 0.2;
-            }
-
-            // Update position
-            p.x += p.vx;
-            p.y += p.vy;
-
-            // Keep within zone boundaries
-            if (p.x < xMin) p.x = xMax;
-            if (p.x > xMax) p.x = xMin;
-            if (p.y < 0) p.y = canvas.height;
-            if (p.y > canvas.height) p.y = 0;
-
-            // Draw particle
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.zone === 0 ? 1.2 : 1.5, 0, Math.PI * 2);
-            if (p.zone === 0) {
-                // Glow particle based on heating
-                const heatFactor = Math.max(0, dT) / Math.max(1, currentTi - currentTinf);
-                ctx.fillStyle = `rgba(251, 191, 36, ${0.1 + 0.5 * heatFactor})`;
-            } else {
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
-            }
-            ctx.fill();
+            p.update(cx, cy, visualR, heatFactor, spacing, canvas.height);
+            p.draw(ctx, heatFactor);
         });
 
-        // Draw cylinders
-        for (let i = 0; i < numCylinders; i++) {
-            const cx = spacing * i + spacing / 2;
-            const cy = canvas.height / 2;
-            const T = currentTemps[i];
-            
-            // Draw medium background indicator lightly
-            ctx.fillStyle = simData[i].color + '22'; // low opacity
-            ctx.fillRect(spacing * i + 5, 5, spacing - 10, canvas.height - 10);
-
-            // Draw cylinder
-            ctx.beginPath();
-            ctx.arc(cx, cy, visualR, 0, Math.PI * 2);
-            ctx.fillStyle = getColorForTemp(T);
-            ctx.fill();
-            ctx.strokeStyle = simData[i].color;
-            ctx.lineWidth = 2;
-            ctx.stroke();
-
-            // Temp Text
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 12px Outfit';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(`${T.toFixed(1)} °C`, cx, cy);
-            
-            // Name Text
-            ctx.fillStyle = simData[i].color;
-            ctx.font = 'bold 11px Outfit';
-            ctx.fillText(simData[i].name, cx, canvas.height - 15);
+        // Expand the chart's visible time window once the simulation passes it,
+        // so the curves keep showing beyond the initial 200 s range
+        if (simTime > currentChartMax * 0.9) {
+            currentChartMax = currentChartMax * 2;
+            updateChartCurves();
         }
 
-        // Draw global T_infinito label
-        ctx.save();
-        ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
-        ctx.fillRect(10, 10, 95, 24);
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(10, 10, 95, 24);
+        // Update current time vertical line on the chart
+        if (chartInstance) {
+            chartInstance.data.datasets[4].data = [
+                { x: simTime, y: chartInstance.options.scales.y.min },
+                { x: simTime, y: chartInstance.options.scales.y.max }
+            ];
 
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = 'bold 11px Outfit';
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(`T_∞ = ${currentTinf.toFixed(1)} °C`, 15, 22);
-        ctx.restore();
+            const statePoints = simData.map((d, idx) => {
+                const T = currentTemps[idx];
+                return { x: simTime, y: T };
+            });
+            chartInstance.data.datasets[5].data = statePoints;
+            chartInstance.update();
+        }
 
-        animationId = requestAnimationFrame(draw);
+        if (isPlaying || simTime === 0) {
+            animationId = requestAnimationFrame(draw);
+        }
     }
 
     [sliderTi, sliderTinf, sliderD, sliderK, sliderRho, sliderCp].forEach(el => {
@@ -6029,6 +6093,7 @@ function initNewtonSimulation() {
                 startBtn.textContent = 'Pausar Enfriamiento';
                 startBtn.style.background = '#eab308';
                 lastTimestamp = performance.now();
+                animationId = requestAnimationFrame(draw);
             } else {
                 startBtn.textContent = 'Iniciar Enfriamiento';
                 startBtn.style.background = '#3b82f6';
@@ -6045,11 +6110,13 @@ function initNewtonSimulation() {
                 startBtn.style.background = '#3b82f6';
             }
             updateSimulationParams();
+            initParticles();
         });
     }
 
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
+            initParticles();
             updateSimulationParams();
             lastTimestamp = performance.now();
             animationId = requestAnimationFrame(draw);
@@ -6059,11 +6126,7 @@ function initNewtonSimulation() {
     });
 
     observer.observe(canvas);
-}
-// ==========================================
-// Conduction + Convection Simulation
-// ==========================================
-function initCondConvSimulation() {
+}function initCondConvSimulation() {
     const canvas = document.getElementById("condConvChart");
     if (!canvas) return;
 
@@ -21877,3 +21940,4 @@ function initInternalBLSimulation() {
 })();
 
 
+        

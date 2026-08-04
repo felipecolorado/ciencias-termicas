@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PsychrometryLab — Prueba standalone</title>
+<style>
+  body {
+    margin: 0;
+    padding: 32px;
+    background: #05060a;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+  }
+  #root { width: 100%; max-width: 1100px; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- Batch 1: lógica pura -->
+  <script src="psychrometry-formulas.js"></script>
+  <script src="psychrometry-state.js"></script>
+  <script src="psychrometry-processes.js"></script>
+  <!-- Batch 3: carta psicrométrica (debe cargar antes que la vista) -->
+  <script src="psychrometry-chart.js"></script>
+  <!-- Batch 2: vista (embebe la carta) -->
+  <script src="psychrometry-lab-view.js"></script>
+
+  <script>
+    // Self-test rápido en consola antes de montar la vista.
+    console.log('PsychroFormulas.selfTest():', PsychroFormulas.selfTest());
+    PsychrometryLabView.mount(document.getElementById('root'));
+  </script>
+</body>
+</html>
