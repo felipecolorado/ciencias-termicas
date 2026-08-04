@@ -878,6 +878,119 @@ function initOnlinePresence() {
                 });
             }
             const db = firebase.database();
+            const sessionKey = Math.random().toString(36).substring(2, 15);
+            const onlineUsersRef = db.ref("presence");
+
+            let myPresenceRef = null;
+
+            // Escuchar cambios reactivos en las conexiones activas totales
+            let firebaseConnected = false;
+            onlineUsersRef.on("value", (snapshot) => {
+                firebaseConnected = true;
+                const activeConnections = snapshot.numChildren();
+                const displayOnline = Math.max(1, activeConnections);
+                if (onlineCountText) {
+                    onlineCountText.textContent = `${displayOnline} en línea`;
+                }
+            }, (error) => {
+                console.error("Firebase presence listener error:", error);
+                if (onlineCountText) onlineCountText.textContent = "1 en línea";
+            });
+
+            // Función para escribir/actualizar presencia
+            const updatePresence = (user) => {
+                if (myPresenceRef) {
+                    myPresenceRef.remove().catch(() => {});
+                }
+
+                // Generar una clave que combine UID y sessionKey para evitar colisión si es el mismo usuario en 2 dispositivos
+                const uid = user ? user.uid : "anon";
+                const pathKey = `${uid}_${sessionKey}`;
+                myPresenceRef = db.ref("presence/" + pathKey);
+
+                myPresenceRef.set({
+                    timestamp: firebase.database.ServerValue.TIMESTAMP,
+                    userAgent: navigator.userAgent,
+                    uid: uid,
+                    session: sessionKey
+                }).then(() => {
+                    myPresenceRef.onDisconnect().remove();
+                }).catch(err => {
+                    console.warn("Presence set failed (retrying anonymously if possible):", err);
+                    if (!user && firebase.auth) {
+                        firebase.auth().signInAnonymously().catch(anonErr => {
+                            console.error("Anonymous authentication failed:", anonErr);
+                        });
+                    }
+                });
+            };
+
+            // Escuchar cambios en la autenticación para re-escribir presencia con credenciales correctas
+            if (firebase.auth) {
+                firebase.auth().onAuthStateChanged((user) => {
+                    updatePresence(user);
+                });
+            } else {
+                updatePresence(null);
+            }
+
+            // Fallback si no responde en 4 segundos
+            setTimeout(() => {
+                if (!firebaseConnected && onlineCountText && onlineCountText.innerHTML.includes("fa-spinner")) {
+                    onlineCountText.textContent = "1 en línea";
+                }
+            }, 4000);
+
+        } catch (e) {
+            console.error("Error en initOnlinePresence:", e);
+            if (onlineCountText) onlineCountText.textContent = "1 en línea";
+        }
+    } else {
+        if (onlineCountText) onlineCountText.textContent = "1 en línea";
+    }
+}
+
+function fetchRealUserCount() {
+    const userCountText = document.getElementById("user-count-text");
+    if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length > 0) {
+        try {
+            const db = firebase.database();
+            db.ref("users").on("value", (snapshot) => {
+                const count = snapshot.numChildren();
+                const displayCount = Math.max(1, count);
+                if (userCountText) {
+                    userCountText.textContent = displayCount.toLocaleString();
+                }
+                localStorage.setItem("gatekeeper_registered_count_real", displayCount);
+            });
+        } catch (e) {
+            console.error("Error al obtener recuento de usuarios reales de Firebase:", e);
+        }
+    } else {
+        setTimeout(fetchRealUserCount, 1000);
+    }
+
+    // Iniciar rastreo de presencia en línea
+    initOnlinePresence();
+}
+
+function initOnlinePresence() {
+    const onlineCountText = document.getElementById("online-count-text");
+    if (typeof firebase !== 'undefined') {
+        try {
+            if (!firebase.apps.length) {
+                firebase.initializeApp({
+                    apiKey: "AIzaSyCVeHphav65sj851u72ikIcDXY1e2BN3Qk",
+                    authDomain: "thermal-science-history.firebaseapp.com",
+                    projectId: "thermal-science-history",
+                    storageBucket: "thermal-science-history.firebasestorage.app",
+                    messagingSenderId: "820331402760",
+                    appId: "1:820331402760:web:706f1ea98599a474ce23bd",
+                    measurementId: "G-X3KWMMZE1J",
+                    databaseURL: "https://thermal-science-history-default-rtdb.firebaseio.com"
+                });
+            }
+            const db = firebase.database();
 
             // Generar una clave temporal única de sesión para esta pestaña abierta
             const sessionKey = Math.random().toString(36).substring(2, 15);
