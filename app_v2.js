@@ -865,6 +865,135 @@ function initOnlinePresence() {
     const onlineCountText = document.getElementById("online-count-text");
     const btnOnline = document.getElementById("online-count-btn");
 
+    const setDisplay = (n, tooltip) => {
+        if (onlineCountText) onlineCountText.textContent = `${Math.max(1, n)} en línea`;
+        if (btnOnline) btnOnline.title = tooltip || `${Math.max(1, n)} usuario(s) conectado(s)`;
+    };
+
+    // --- Estrategia 1: Firebase Realtime Database con nodo público "presence" ---
+    if (typeof firebase !== 'undefined') {
+        try {
+            if (!firebase.apps.length) {
+                firebase.initializeApp({
+                    apiKey: "AIzaSyCVeHphav65sj851u72ikIcDXY1e2BN3Qk",
+                    authDomain: "thermal-science-history.firebaseapp.com",
+                    projectId: "thermal-science-history",
+                    storageBucket: "thermal-science-history.firebasestorage.app",
+                    messagingSenderId: "820331402760",
+                    appId: "1:820331402760:web:706f1ea98599a474ce23bd",
+                    measurementId: "G-X3KWMMZE1J",
+                    databaseURL: "https://thermal-science-history-default-rtdb.firebaseio.com"
+                });
+            }
+
+            const db = firebase.database();
+
+            // Clave única por pestaña/dispositivo (no por usuario)
+            const sessionKey = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            const myRef = db.ref('online_sessions/' + sessionKey);
+
+            // Escribir presencia sin autenticación (nodo público en reglas Firebase)
+            myRef.set({ t: firebase.database.ServerValue.TIMESTAMP })
+                .then(() => {
+                    myRef.onDisconnect().remove();
+                    if (btnOnline) btnOnline.title = `Conectado (Sesión: ${sessionKey})`;
+                })
+                .catch(err => {
+                    // Si permission denied: el nodo "online_sessions" no es público
+                    // Usar método alternativo: contador REST/Cloud Function
+                    if (btnOnline) btnOnline.title = `Error: ${err.code} - ${err.message}`;
+                    useCounterFallback(setDisplay);
+                });
+
+            // Escuchar el total de sesiones activas
+            let listening = false;
+            db.ref('online_sessions').on('value', snap => {
+                listening = true;
+                setDisplay(snap.numChildren(), `Conectados ahora: ${snap.numChildren()}`);
+            }, err => {
+                if (btnOnline) btnOnline.title = `Error lectura: ${err.message}`;
+                setDisplay(1);
+            });
+
+            // Fallback si Firebase no responde en 5s
+            setTimeout(() => {
+                if (!listening) {
+                    if (btnOnline) btnOnline.title = "Firebase sin respuesta (5s)";
+                    setDisplay(1);
+                }
+            }, 5000);
+
+        } catch (e) {
+            if (btnOnline) btnOnline.title = `Excepción JS: ${e.message}`;
+            setDisplay(1);
+        }
+    } else {
+        // Firebase no cargó (adblocker, red lenta, etc.)
+        if (btnOnline) btnOnline.title = "Firebase no disponible";
+        setDisplay(1);
+    }
+}
+
+// Contador alternativo vía Cloud Function o variable de sesión temporal
+function useCounterFallback(setDisplay) {
+    // Si Firebase RTDB está bloqueado, intentar con Firestore REST API (sin SDK, sin autenticación)
+    const projectId = "thermal-science-history";
+    const collection = "online_sessions";
+    const docId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${collection}/${docId}`;
+
+    // Escribir documento de presencia via REST (no requiere auth si reglas lo permiten)
+    fetch(url, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            fields: { t: { integerValue: Date.now() } }
+        })
+    }).then(r => r.json())
+    .then(data => {
+        if (data.name) {
+            // Leer el conteo total
+            const listUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${collection}`;
+            return fetch(listUrl).then(r => r.json());
+        }
+    })
+    .then(data => {
+        const count = (data && data.documents) ? data.documents.length : 1;
+        setDisplay(count, `Conectados: ${count} (vía Firestore)`);
+    })
+    .catch(() => {
+        setDisplay(1, "Sin conteo disponible");
+    });
+}
+
+function fetchRealUserCount() {
+    const userCountText = document.getElementById("user-count-text");
+    if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length > 0) {
+        try {
+            const db = firebase.database();
+            db.ref("users").on("value", (snapshot) => {
+                const count = snapshot.numChildren();
+                const displayCount = Math.max(1, count);
+                if (userCountText) {
+                    userCountText.textContent = displayCount.toLocaleString();
+                }
+                localStorage.setItem("gatekeeper_registered_count_real", displayCount);
+            });
+        } catch (e) {
+            console.error("Error al obtener recuento de usuarios reales de Firebase:", e);
+        }
+    } else {
+        setTimeout(fetchRealUserCount, 1000);
+    }
+
+    // Iniciar rastreo de presencia en línea
+    initOnlinePresence();
+}
+
+function initOnlinePresence() {
+    const onlineCountText = document.getElementById("online-count-text");
+    const btnOnline = document.getElementById("online-count-btn");
+
     if (typeof firebase !== 'undefined') {
         try {
             if (!firebase.apps.length) {
