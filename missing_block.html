@@ -1,0 +1,349 @@
+<div class="control-group result-card" style="margin-top: 15px;">
+                                        <div class="result-row">
+                                            <span>Flujo de Calor $(q'')$:</span>
+                                            <span id="multi-q-val" class="highlight-val" style="color: #ef4444;">0.00
+                                                kW/m²</span>
+                                        </div>
+                                        <div class="result-row">
+                                            <span><span class="lang-es">Resistencia Total
+                                                    $(R''_{\text{tot}})$:</span><span class="lang-en"
+                                                    style="display:none;">Total Resistance
+                                                    $(R''_{\text{tot}})$:</span></span>
+                                            <span id="multi-r-val" class="highlight-val">0.0000 m²K/W</span>
+                                        </div>
+                                        <div class="result-row"
+                                            style="font-size: 0.8rem; padding-left: 10px; color: var(--text-muted);">
+                                            <span>&bull; Conv. Izquierda $(R''_{\text{conv,1}})$:</span>
+                                            <span id="multi-r-conv1-val">0.0000 m²K/W</span>
+                                        </div>
+                                        <div class="result-row"
+                                            style="font-size: 0.8rem; padding-left: 10px; color: var(--text-muted);">
+                                            <span>&bull; Conducción Capa 1 $(R''_{\text{cond,1}})$:</span>
+                                            <span id="multi-r-cond1-val">0.0000 m²K/W</span>
+                                        </div>
+                                        <div class="result-row"
+                                            style="font-size: 0.8rem; padding-left: 10px; color: var(--text-muted);">
+                                            <span>&bull; Conducción Capa 2 $(R''_{\text{cond,2}})$:</span>
+                                            <span id="multi-r-cond2-val">0.0000 m²K/W</span>
+                                        </div>
+                                        <div class="result-row"
+                                            style="font-size: 0.8rem; padding-left: 10px; color: var(--text-muted);">
+                                            <span>&bull; Conducción Capa 3 $(R''_{\text{cond,3}})$:</span>
+                                            <span id="multi-r-cond3-val">0.0000 m²K/W</span>
+                                        </div>
+                                        <div class="result-row"
+                                            style="font-size: 0.8rem; padding-left: 10px; color: var(--text-muted); margin-bottom: 0.5rem;">
+                                            <span>&bull; Conv. Derecha $(R''_{\text{conv,2}})$:</span>
+                                            <span id="multi-r-conv2-val">0.0000 m²K/W</span>
+                                        </div>
+                                        <div class="result-row border-top-row">
+                                            <span><span class="lang-es">Temp. Superficie Izq. $(T_{s, 1})$:</span><span
+                                                    class="lang-en" style="display:none;">Temp. Left Surface $(T_{s,
+                                                    1})$:</span></span>
+                                            <span id="multi-ts1-val" class="highlight-val"
+                                                style="color: var(--accent-orange);">0.0 &deg;C</span>
+                                        </div>
+                                        <div class="result-row">
+                                            <span><span class="lang-es">Temp. Interfaz 1-2 $(T_{\text{int},
+                                                    1})$:</span><span class="lang-en" style="display:none;">Temp.
+                                                    Interface 1-2 $(T_{\text{int}, 1})$:</span></span>
+                                            <span id="multi-tint1-val" class="highlight-val">0.0 &deg;C</span>
+                                        </div>
+                                        <div class="result-row">
+                                            <span><span class="lang-es">Temp. Interfaz 2-3 $(T_{\text{int},
+                                                    2})$:</span><span class="lang-en" style="display:none;">Temp.
+                                                    Interface 2-3 $(T_{\text{int}, 2})$:</span></span>
+                                            <span id="multi-tint2-val" class="highlight-val">0.0 &deg;C</span>
+                                        </div>
+                                        <div class="result-row">
+                                            <span><span class="lang-es">Temp. Superficie Der. $(T_{s, 2})$:</span><span
+                                                    class="lang-en" style="display:none;">Temp. Right Surface $(T_{s,
+                                                    2})$:</span></span>
+                                            <span id="multi-ts2-val" class="highlight-val"
+                                                style="color: var(--accent-cyan);">0.0 &deg;C</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="cond-conv-sim">
+                            <div class="sim-intro">
+                                <h3><span class="lang-es">Conducción y Convección Combinadas (Frontera
+                                        Mixta)</span><span class="lang-en" style="display:none;">Combined Conduction and
+                                        Convection (Mixed Frontier)</span></h3>
+                                <p><span class="lang-es">En problemas reales, una pared sólida transfiere calor a un
+                                        fluido circundante. La resistencia térmica total es la suma de las resistencias
+                                        en serie: $R_{total} = R_{cond} + R_{conv} = \frac{L}{k} +
+                                        \frac{1}{h}$.</span><span class="lang-en" style="display:none;">In real
+                                        problems, a solid wall transfers heat to a surrounding fluid. The total thermal
+                                        resistance is the sum of the series resistances: $R_{total} = R_{cond} +
+                                        R_{conv} = \frac{L}{k} + \frac{1}{h}$.</span></p>
+                                <p><span class="lang-es">El flujo de calor es constante a través de ambas capas: $q'' =
+                                        \frac{T_1 - T_\infty}{R_{total}}$. Conocido $q''$, la temperatura en la
+                                        superficie exterior se calcula como $T_2 = T_\infty +
+                                        \frac{q''}{h}$.</span><span class="lang-en" style="display:none;">The heat flow
+                                        is constant through both layers: $q'' = \frac{T_1 - T_\infty}{R_{total}}$.
+                                        Knowing $q''$, the temperature at the outer surface is calculated as $T_2 =
+                                        T_\infty + \frac{q''}{h}$.</span></p>
+                            </div>
+
+                            <div class="simulation-workspace">
+                                <div class="chart-container" style="height: auto; min-height: 400px; padding: 15px;">
+                                    <canvas id="condConvChart" style="width: 100%; height: 400px;"></canvas>
+                                </div>
+                                <div class="controls-container">
+                                    <div class="sliders-grid">
+                                        <div class="control-group">
+                                            <label for="cc-t1"><span class="lang-es">Temp. Interna Pared
+                                                    $(T_1)$:</span><span class="lang-en" style="display:none;">Temp.
+                                                    Internal Wall $(T_1)$:</span> <span id="cc-t1-val">100</span>
+                                                °C</label>
+                                            <input type="range" id="cc-t1" min="0" max="500" step="5" value="100">
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="cc-k"><span class="lang-es">Conductividad Pared
+                                                    $(k)$:</span><span class="lang-en" style="display:none;">Wall
+                                                    Conductivity $(k)$:</span> <span id="cc-k-val">50</span> <span
+                                                    class="lang-es">W/mK</span><span class="lang-en"
+                                                    style="display:none;">W/mK</span></label>
+                                            <input type="range" id="cc-k" min="0.1" max="400" step="0.5" value="50">
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="cc-l"><span class="lang-es">Espesor Pared $(L)$:</span><span
+                                                    class="lang-en" style="display:none;">Wall Thickness $(L)$:</span>
+                                                <span id="cc-l-val">0.10</span> m</label>
+                                            <input type="range" id="cc-l" min="0.01" max="1" step="0.01" value="0.10">
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="cc-tinf"><span class="lang-es">Temp. Fluido Exterior
+                                                    $(T_\infty)$:</span><span class="lang-en"
+                                                    style="display:none;">Temp. Outer Fluid $(T_\infty)$:</span> <span
+                                                    id="cc-tinf-val">20</span> °C</label>
+                                            <input type="range" id="cc-tinf" min="-50" max="300" step="5" value="20">
+                                        </div>
+                                        <div class="control-group" style="grid-column: span 2;">
+                                            <label for="cc-h"><span class="lang-es">Coef. Convección $(h)$:</span><span
+                                                    class="lang-en" style="display:none;">Coef. Convection $(h)$:</span>
+                                                <span id="cc-h-val">25</span> <span class="lang-es">W/m²K</span><span
+                                                    class="lang-en" style="display:none;">W/m²K</span></label>
+                                            <input type="range" id="cc-h" min="1" max="1000" step="1" value="25">
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group result-card" style="margin-top: 15px;">
+                                        <div class="result-row">
+                                            <span class="lang-es">Temperatura Superficie Derecha $(T_2)$:</span>
+                                            <span class="lang-en" style="display:none;">Right Surface Temperature $(T_2)$:</span>
+                                            <span id="cc-t2-res" class="highlight-val" style="color: #f59e0b;">0.0
+                                                °C</span>
+                                        </div>
+                                        <div class="result-row">
+                                            <span class="lang-es">Flujo de Calor $(q'')$:</span>
+                                            <span class="lang-en" style="display:none;">Heat Flux $(q'')$:</span>
+                                            <span id="cc-q-res" class="highlight-val" style="color: #ef4444;">0.0
+                                                W/m²</span>
+                                        </div>
+                                        <div class="result-row border-top-row">
+                                            <span><span class="lang-es">Resistencia Conducción
+                                                    $(R''_{\text{cond}})$:</span><span class="lang-en"
+                                                    style="display:none;">Conduction Resistance
+                                                    $(R''_{\text{cond}})$:</span></span>
+                                            <span id="cc-rcond-res" class="highlight-val">0.0000 m²K/W</span>
+                                        </div>
+                                        <div class="result-row">
+                                            <span><span class="lang-es">Resistencia Convección
+                                                    $(R''_{\text{conv}})$:</span><span class="lang-en"
+                                                    style="display:none;">Convection Resistance
+                                                    $(R''_{\text{conv}})$:</span></span>
+                                            <span id="cc-rconv-res" class="highlight-val">0.0000 m²K/W</span>
+                                        </div>
+                                        <div class="result-row">
+                                            <span><span class="lang-es">Resistencia Total
+                                                    $(R''_{\text{tot}})$:</span><span class="lang-en"
+                                                    style="display:none;">Total Resistance
+                                                    $(R''_{\text{tot}})$:</span></span>
+                                            <span id="cc-rtot-res" class="highlight-val"
+                                                style="color: var(--accent-orange);">0.0000 m²K/W</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Multilayer Wall Simulation Tab -->
+
+                        <div class="tab-pane" id="newton-sim">
+                            <div class="sim-intro">
+                                <h3><span class="lang-es">Experimento de Enfriamiento de Newton (1701)</span><span
+                                        class="lang-en" style="display:none;">Newton's Cooling Experiment (1701)</span>
+                                </h3>
+                                <p><span class="lang-es">Newton postuló que la tasa de pérdida de calor de un cuerpo es
+                                        proporcional a la diferencia de temperatura entre el cuerpo y su entorno: $q = h
+                                        A (T_s - T_\infty)$.</span><span class="lang-en" style="display:none;">Newton
+                                        postulated that the rate of heat loss from a body is proportional to the
+                                        temperature difference between the body and its surroundings: $q = h A (T_s -
+                                        T_\infty)$.</span></p>
+                                <p><span class="lang-es">En el estado transitorio (asumiendo conducción interna rápida),
+                                        la temperatura decae exponencialmente: $$ T(t) = T_\infty + (T_i -
+                                        T_\infty)e^{-t/\tau} $$</span><span class="lang-en" style="display:none;">In the
+                                        transient state (assuming fast internal conduction), the temperature decays
+                                        exponentially: $$ T(t) = T_\infty + (T_i - T_\infty)e^{-t/\tau} $$</span></p>
+                                <p><span class="lang-es">Donde la constante de tiempo térmica $\tau$ se calcula como: $$
+                                        \tau = \frac{\rho V c_p}{h A_s} $$ Aquí $\rho$ es la densidad, $V$ el volumen,
+                                        $c_p$ el calor específico, $h$ el coeficiente de transferencia de calor y $A_s$
+                                        el área superficial del cilindro.</span><span class="lang-en"
+                                        style="display:none;">Where the thermal time constant $\tau$ is calculated as:
+                                        $$ \tau = \frac{\rho V c_p}{h A_s} $$ Here $\rho$ is the density, $V$ the
+                                        volume, $c_p$ the specific heat, $h$ the heat transfer coefficient and $A_s$ the
+                                        surface area of the cylinder.</span></p>
+                                <div class="info-card" style="margin-top: 15px; margin-bottom: 15px;">
+                                    <p
+                                        style="font-weight: bold; margin-bottom: 8px; color: #06b6d4; display: flex; align-items: center; gap: 8px;">
+                                        <i class="fas fa-info-circle"></i> <span class="lang-es">Significado físico de
+                                            la constante de tiempo ($\tau$):</span><span class="lang-en"
+                                            style="display:none;">Physical meaning of the time constant ($\tau$):</span>
+                                    </p>
+                                    <ul
+                                        style="font-size: 0.85rem; color: #cbd5e1; padding-left: 20px; margin: 0; line-height: 1.5; display: flex; flex-direction: column; gap: 6px;">
+                                        <li><strong><span class="lang-es">$\tau$ Pequeño (Respuesta rápida):</span><span
+                                                    class="lang-en" style="display:none;">$\tau$ Small (Quick
+                                                    Answer):</span></strong> <span class="lang-es">El cuerpo se enfría o
+                                                calienta velozmente. Ocurre con baja inercia térmica (masa pequeña o
+                                                bajo $c_p$) o una alta transferencia de calor (coeficiente $h$ alto,
+                                                como en agua, o gran área superficial expuesta).</span><span
+                                                class="lang-en" style="display:none;">The body cools or heats up
+                                                quickly. It occurs with low thermal inertia (small mass or low $c_p$) or
+                                                high heat transfer (high $h$ coefficient, as in water, or large exposed
+                                                surface area).</span></li>
+                                        <li><strong><span class="lang-es">$\tau$ Grande (Respuesta lenta):</span><span
+                                                    class="lang-en" style="display:none;">$\tau$ Large (Slow
+                                                    response):</span></strong> <span class="lang-es">El cuerpo se
+                                                resiste a cambiar su temperatura. Ocurre con alta inercia térmica
+                                                (cuerpo muy masivo o alto $c_p$) o baja transferencia de calor
+                                                (coeficiente $h$ bajo, como en aire quieto).</span><span class="lang-en"
+                                                style="display:none;">The body resists changing its temperature. It
+                                                occurs with high thermal inertia (very massive body or high $c_p$) or
+                                                low heat transfer (low coefficient $h$, as in still air).</span></li>
+                                    </ul>
+                                </div>
+                                <p><span class="lang-es">Selecciona un medio para modificar el coeficiente de convección
+                                        $h$ y observa cómo un bloque de hierro al rojo vivo ($500^\circ\text{C}$) se
+                                        enfría en tiempo real.</span><span class="lang-en" style="display:none;">Select
+                                        a means to modify the convection coefficient $h$ and watch a red-hot block of
+                                        iron ($500^\circ\text{C}$) cool in real time.</span></p>
+                            </div>
+
+                            <div class="simulation-workspace">
+                                <div style="display: flex; flex-direction: column; gap: 15px; width: 100%;">
+                                    <!-- Canvas de animación física -->
+                                    <div
+                                        style="height: 220px; position: relative; border-radius: 8px; overflow: hidden; background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.05);">
+                                        <canvas id="newtonCanvas"
+                                            style="width: 100%; height: 100%; display: block;"></canvas>
+                                    </div>
+                                    <!-- Gráfico de Temperatura vs Tiempo -->
+                                    <div class="chart-container" style="height: 320px;">
+                                        <canvas id="newtonGraph"></canvas>
+                                    </div>
+                                </div>
+                                <div class="controls-container">
+                                    <div class="sliders-grid">
+                                        <div class="control-group" style="grid-column: span 2;">
+                                            <label>Medio de Enfriamiento:</label>
+                                            <select id="newton-medium"
+                                                style="width: 100%; padding: 8px; border-radius: 4px; background: #1e293b; color: white; border: 1px solid rgba(255,255,255,0.2); font-family: 'Outfit', sans-serif;">
+                                                <option value="15" style="background: #1e293b; color: white;">Aire
+                                                    Quieto (h = 15 <span class="lang-es">W/m²K</span><span
+                                                        class="lang-en" style="display:none;">W/m²K</span>)</option>
+                                                <option value="70" style="background: #1e293b; color: white;">Aire
+                                                    Forzado (h = 70 <span class="lang-es">W/m²K</span><span
+                                                        class="lang-en" style="display:none;">W/m²K</span>)</option>
+                                                <option value="300" style="background: #1e293b; color: white;">Aceite de
+                                                    Linaza (h = 300 <span class="lang-es">W/m²K</span><span
+                                                        class="lang-en" style="display:none;">W/m²K</span>)</option>
+                                                <option value="1000" style="background: #1e293b; color: white;">Agua (h
+                                                    = 1000 <span class="lang-es">W/m²K</span><span class="lang-en"
+                                                        style="display:none;">W/m²K</span>)</option>
+                                            </select>
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="newton-ti"><span class="lang-es">Temp. Inicial Hierro
+                                                    $(T_i)$:</span><span class="lang-en" style="display:none;">Temp.
+                                                    Initial Iron $(T_i)$:</span> <span id="newton-ti-val">500</span>
+                                                °C</label>
+                                            <input type="range" id="newton-ti" min="100" max="800" step="10"
+                                                value="500">
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="newton-tinf"><span class="lang-es">Temp. Entorno
+                                                    $(T_\infty)$:</span><span class="lang-en"
+                                                    style="display:none;">Temp. Environment $(T_\infty)$:</span> <span
+                                                    id="newton-tinf-val">20</span> °C</label>
+                                            <input type="range" id="newton-tinf" min="0" max="100" step="5" value="20">
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="newton-d"><span class="lang-es">Diámetro Cilindro
+                                                    $(D)$:</span><span class="lang-en" style="display:none;">Cylinder
+                                                    Diameter $(D)$:</span> <span id="newton-d-val">0.05</span> m</label>
+                                            <input type="range" id="newton-d" min="0.01" max="0.30" step="0.01"
+                                                value="0.05">
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="newton-k"><span class="lang-es">Conductividad Sólido
+                                                    $(k)$:</span><span class="lang-en" style="display:none;">Solid
+                                                    Conductivity $(k)$:</span> <span id="newton-k-val">80.2</span> <span
+                                                    class="lang-es">W/mK</span><span class="lang-en"
+                                                    style="display:none;">W/mK</span></label>
+                                            <input type="range" id="newton-k" min="1" max="400" step="1" value="80">
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="newton-rho"><span class="lang-es">Densidad $(\rho)$:</span><span
+                                                    class="lang-en" style="display:none;">Density $(\rho)$:</span> <span
+                                                    id="newton-rho-val">7870</span> <span
+                                                    class="lang-es">kg/m³</span><span class="lang-en"
+                                                    style="display:none;">kg/m³</span></label>
+                                            <input type="range" id="newton-rho" min="100" max="20000" step="50"
+                                                value="7870">
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="newton-cp"><span class="lang-es">Calor Específico
+                                                    $(c_p)$:</span><span class="lang-en" style="display:none;">Specific
+                                                    Heat $(c_p)$:</span> <span id="newton-cp-val">450</span> <span
+                                                    class="lang-es">J/kg·K</span><span class="lang-en"
+                                                    style="display:none;">J/kg·K</span></label>
+                                            <input type="range" id="newton-cp" min="100" max="4000" step="50"
+                                                value="450">
+                                        </div>
+                                        <div class="control-group"
+                                            style="grid-column: span 2; display: flex; gap: 10px; margin-top: 10px;">
+                                            <button id="newton-start-btn"
+                                                style="flex: 1; padding: 10px; border-radius: 6px; background: #3b82f6; color: white; border: none; cursor: pointer; font-weight: bold;"><span class="lang-es">Iniciar
+                                                Enfriamiento</span><span class="lang-en" style="display:none;">Start Cooling</span></button>
+                                            <button id="newton-reset-btn"
+                                                style="flex: 1; padding: 10px; border-radius: 6px; background: #ef4444; color: white; border: none; cursor: pointer; font-weight: bold;"><span class="lang-es">Reiniciar</span><span class="lang-en" style="display:none;">Reset</span></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group result-card" style="margin-top: 15px;">
+                                        <div class="result-row">
+                                            <span class="lang-es">Temperatura Actual:</span><span class="lang-en" style="display:none;">Current Temperature:</span>
+                                            <span id="newton-current-t" class="highlight-val"
+                                                style="color: #f97316;">500.0 °C</span>
+                                        </div>
+                                        <div class="result-row">
+                                            <span class="lang-es">Tiempo Transcurrido (Simulado):</span><span class="lang-en" style="display:none;">Elapsed Time (Simulated):</span>
+                                            <span id="newton-time" class="highlight-val" style="color: #cbd5e1;">0.0
+                                                s</span>
+                                        </div>
+                                        <div class="result-row border-top-row">
+                                            <span>Número de Biot $(Bi)$:</span>
+                                            <span id="newton-bi-res" class="highlight-val">0.0000</span>
+                                        </div>
+                                        <div class="result-row">
+                                            <span><span class="lang-es">Constante de Tiempo $(\tau)$:</span><span
+                                                    class="lang-en" style="display:none;">Time Constant
+                                                    $(\tau)$:</span></span>
+                                            <span id="newton-tau-res" class="highlight-val">0.0 s</span>
+                                        </div>
+                                    </div>

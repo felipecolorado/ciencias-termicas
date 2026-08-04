@@ -1117,13 +1117,64 @@ window.closeNewtonModal = function () {
     if (modal) modal.classList.remove('show');
 };
 
-// Close newton modal when clicking outside of it
+// Close modals when clicking outside of them
 window.addEventListener("click", (e) => {
     const modal = document.getElementById('newton-tribute-modal');
     if (modal && e.target === modal) {
         window.closeNewtonModal();
     }
+    const shareModal = document.getElementById('share-modal');
+    if (shareModal && e.target === shareModal) {
+        window.closeShareModal();
+    }
 });
+
+window.openShareModal = function () {
+    const modal = document.getElementById('share-modal');
+    if (modal) {
+        modal.classList.add('show');
+        // Construct WhatsApp share link dynamic URL
+        const whatsappBtn = document.getElementById('share-whatsapp-btn');
+        if (whatsappBtn) {
+            const shareUrl = "https://felipecolorado.github.io/ciencias-termicas/";
+            const currentUrl = encodeURIComponent(shareUrl);
+            const shareText = encodeURIComponent("¡Mira este increíble simulador de Historia de las Ciencias Térmicas de la Universidad de Antioquia! ");
+            whatsappBtn.href = `https://api.whatsapp.com/send?text=${shareText}${currentUrl}`;
+        }
+    }
+};
+
+window.closeShareModal = function () {
+    const modal = document.getElementById('share-modal');
+    if (modal) modal.classList.remove('show');
+};
+
+window.copyShareLink = function (btn) {
+    const shareUrl = "https://felipecolorado.github.io/ciencias-termicas/";
+    navigator.clipboard.writeText(shareUrl).then(() => {
+        const spanEs = btn.querySelector('.lang-es');
+        const spanEn = btn.querySelector('.lang-en');
+        const icon = btn.querySelector('i');
+        
+        const origTextEs = spanEs ? spanEs.textContent : "Copiar Enlace";
+        const origTextEn = spanEn ? spanEn.textContent : "Copy Link";
+        
+        if (spanEs) spanEs.textContent = "¡Copiado!";
+        if (spanEn) spanEn.textContent = "Copied!";
+        if (icon) icon.className = "fas fa-check";
+        const oldBg = btn.style.background;
+        btn.style.background = "#10b981"; // Success green
+        
+        setTimeout(() => {
+            if (spanEs) spanEs.textContent = origTextEs;
+            if (spanEn) spanEn.textContent = origTextEn;
+            if (icon) icon.className = "fas fa-copy";
+            btn.style.background = oldBg || "#3b82f6"; // Reset to original
+        }, 2000);
+    }).catch(err => {
+        console.error('Error copying text: ', err);
+    });
+};
 
 window.switchNewtonTab = function (tabId, btn) {
     document.querySelectorAll('.newton-tab-content').forEach(el => el.style.display = 'none');
@@ -1630,8 +1681,8 @@ function initFourierSimulation() {
         const numParticles = 80;
         for (let i = 0; i < numParticles; i++) {
             particles.push({
-                x: Math.random(),
-                y: Math.random(),
+                x: Math.random(), 
+                y: Math.random(), 
                 size: 2 + Math.random() * 2,
                 angle: Math.random() * Math.PI * 2,
                 r_norm: Math.random()
@@ -2211,7 +2262,7 @@ function initNewtonSimulation_OLD_UNUSED() {
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
                 vx: (Math.random() - 0.5) * 2,
-                vy: (Math.random() - 0.5) * 2 - 1 // Tendencia hacia arriba por convección natural
+                vy: (Math.random() - 0.5) * 2 - 1
             });
         }
     }
@@ -2253,9 +2304,23 @@ function initNewtonSimulation_OLD_UNUSED() {
 
         const maxTemp = Math.max(currentTi, currentTinf);
         const minTemp = Math.min(currentTi, currentTinf);
-        chartInstance.options.scales.y.max = maxTemp > 500 ? Math.ceil(maxTemp / 100) * 100 : (Math.ceil(maxTemp / 10) * 10 + 10);
-        chartInstance.options.scales.y.min = minTemp < 0 ? Math.floor(minTemp / 10) * 10 : (minTemp > 20 ? 0 : Math.floor(minTemp / 10) * 10 - 10);
+        const yMax = maxTemp > 500 ? Math.ceil(maxTemp / 100) * 100 : (Math.ceil(maxTemp / 10) * 10 + 10);
+        const yMin = minTemp < 0 ? Math.floor(minTemp / 10) * 10 : (minTemp > 20 ? 0 : Math.floor(minTemp / 10) * 10 - 10);
+        chartInstance.options.scales.y.max = yMax;
+        chartInstance.options.scales.y.min = yMin;
+        currentChartMax = tMax;
         chartInstance.options.scales.x.max = tMax;
+        chartInstance.options.scales.x.ticks.stepSize = tMax <= 200 ? 10 : 100;
+
+        // Update markers
+        chartInstance.data.datasets[4].data = [
+            { x: simTime, y: yMin },
+            { x: simTime, y: yMax }
+        ];
+        chartInstance.data.datasets[5].data = simData.map((d) => {
+            const T = currentTinf + (currentTi - currentTinf) * Math.exp(-simTime / d.tau);
+            return { x: simTime, y: T };
+        });
 
         chartInstance.update();
     }
@@ -5222,7 +5287,6 @@ function initNewtonSimulation() {
 
     const sliderTi = document.getElementById('newton-ti');
     const sliderTinf = document.getElementById('newton-tinf');
-    const selectMedium = document.getElementById('newton-medium');
     const sliderD = document.getElementById('newton-d');
     const sliderK = document.getElementById('newton-k');
     const sliderRho = document.getElementById('newton-rho');
@@ -5235,10 +5299,8 @@ function initNewtonSimulation() {
     const valRho = document.getElementById('newton-rho-val');
     const valCp = document.getElementById('newton-cp-val');
 
-    const resBi = document.getElementById('newton-bi-res');
-    const resTau = document.getElementById('newton-tau-res');
     const resTime = document.getElementById('newton-time');
-    const resCurrentT = document.getElementById('newton-current-t');
+    const tbodyResults = document.getElementById('newton-results-tbody');
 
     const startBtn = document.getElementById('newton-start-btn');
     const resetBtn = document.getElementById('newton-reset-btn');
@@ -5248,34 +5310,52 @@ function initNewtonSimulation() {
 
     const L_cylinder = 0.1;
 
+    const mediums = [
+        { name: "Aire Quieto", h: 15, color: "#8b5cf6" },   // Purple
+        { name: "Aire Forzado", h: 70, color: "#3b82f6" },  // Blue
+        { name: "Aceite", h: 300, color: "#eab308" },       // Yellow
+        { name: "Agua", h: 1000, color: "#06b6d4" }         // Cyan
+    ];
+
+    let currentChartMax = 200;
+
     let chartInstance = new Chart(graphCtx, {
         type: 'line',
         data: {
             datasets: [
-                {
-                    label: 'T(t) Cilindro de Hierro',
+                ...mediums.map(m => ({
+                    label: m.name,
                     data: [],
-                    borderColor: '#ef4444',
-                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    borderColor: m.color,
+                    backgroundColor: m.color,
                     borderWidth: 2,
                     pointRadius: 0,
-                    fill: true,
+                    fill: false,
                     tension: 0.1
+                })),
+                {
+                    label: 'Tiempo Actual',
+                    data: [],
+                    borderColor: '#f97316',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    showLine: true,
+                    fill: false
                 },
                 {
-                    label: 'Estado Actual',
+                    label: 'Puntos de Estado',
                     data: [],
-                    borderColor: '#fbbf24',
-                    backgroundColor: '#fbbf24',
-                    pointRadius: 6,
-                    pointHoverRadius: 8,
-                    showLine: false
+                    borderColor: '#ffffff',
+                    backgroundColor: '#ffffff',
+                    pointRadius: 4,
+                    showLine: false,
+                    fill: false
                 }
             ]
         },
         options: {
-            legend: { display: false },
-            plugins: { legend: { display: false } },
+            legend: { display: true, position: 'top', labels: { color: '#e2e8f0', boxWidth: 12 } },
+            plugins: { legend: { display: true, position: 'top', labels: { color: '#e2e8f0', boxWidth: 12 } } },
             responsive: true,
             maintainAspectRatio: false,
             animation: false,
@@ -5285,10 +5365,13 @@ function initNewtonSimulation() {
                     title: { display: true, text: 'Tiempo (s)', color: '#94a3b8' },
                     ticks: {
                         color: '#cbd5e1',
+                        stepSize: 10,
                         precision: 0,
                         callback: function (value) {
-                            if (value % 1 === 0) {
-                                return value;
+                            if (currentChartMax <= 200) {
+                                if (value % 10 === 0) return value;
+                            } else {
+                                if (value % 100 === 0) return value;
                             }
                         }
                     },
@@ -5299,9 +5382,6 @@ function initNewtonSimulation() {
                     ticks: { color: '#cbd5e1' },
                     grid: { color: 'rgba(255,255,255,0.1)' }
                 }
-            },
-            plugins: {
-                legend: { labels: { color: '#e2e8f0' } }
             }
         }
     });
@@ -5313,34 +5393,40 @@ function initNewtonSimulation() {
     let lastTimestamp = 0;
     let isPlaying = false;
 
-    let currentTi, currentTinf, currentH, currentD, currentK, currentRho, currentCp;
-    let currentTau, currentBi;
+    let currentTi, currentTinf, currentD, currentK, currentRho, currentCp;
+    let simData = [];
 
     function initParticles() {
         particles = [];
-        const numParticles = 100;
-        for (let i = 0; i < numParticles; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 2,
-                vy: (Math.random() - 0.5) * 2 - 1
-            });
+        const numParticlesPerZone = 30;
+        const numCylinders = 4;
+        const spacing = canvas.width / numCylinders;
+        
+        for (let zone = 0; zone < numCylinders; zone++) {
+            const xStart = spacing * zone;
+            for (let i = 0; i < numParticlesPerZone; i++) {
+                particles.push({
+                    x: xStart + Math.random() * spacing,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    zone: zone
+                });
+            }
         }
     }
 
     function updateSimulationParams() {
         currentTi = parseFloat(sliderTi.value);
         currentTinf = parseFloat(sliderTinf.value);
-        currentH = parseFloat(selectMedium.value);
         currentD = parseFloat(sliderD.value);
         currentK = parseFloat(sliderK.value);
         currentRho = parseFloat(sliderRho.value);
         currentCp = parseFloat(sliderCp.value);
 
-        valTi.textContent = currentTi;
-        valTinf.textContent = currentTinf;
-        valD.textContent = currentD.toFixed(2);
+        if (valTi) valTi.textContent = currentTi;
+        if (valTinf) valTinf.textContent = currentTinf;
+        if (valD) valD.textContent = currentD.toFixed(2);
         if (valK) valK.textContent = currentK.toFixed(1);
         if (valRho) valRho.textContent = currentRho;
         if (valCp) valCp.textContent = currentCp;
@@ -5350,39 +5436,85 @@ function initNewtonSimulation() {
         const V = Math.PI * r * r * L_cylinder;
         const Lc = V / As;
 
-        currentBi = (currentH * Lc) / currentK;
-        currentTau = (currentRho * V * currentCp) / (currentH * As);
+        simData = mediums.map(m => {
+            const Bi = (m.h * Lc) / currentK;
+            // Incorporate conductivity effect: tau = tau_lumped * (1 + Bi)
+            const tau_lump = (currentRho * V * currentCp) / (m.h * As);
+            const tau = tau_lump * (1 + Bi);
+            return {
+                name: m.name,
+                h: m.h,
+                Bi: Bi,
+                tau: tau,
+                color: m.color
+            };
+        });
 
-        resBi.innerHTML = currentBi.toFixed(4) + (currentBi < 0.1 ? " <span style='color:#10b981;'>(Válido)</span>" : " <span style='color:#ef4444;'>(Inválido)</span>");
-        resTau.innerHTML = currentTau.toFixed(1) + " s";
+        // Update table
+        if (tbodyResults) {
+            tbodyResults.innerHTML = '';
+            simData.forEach(d => {
+                const tr = document.createElement('tr');
+                tr.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                const tdName = document.createElement('td');
+                tdName.style.padding = '4px';
+                tdName.style.color = d.color;
+                tdName.textContent = d.name + ` (h=${d.h})`;
+                
+                const tdBi = document.createElement('td');
+                tdBi.style.padding = '4px';
+                tdBi.innerHTML = d.Bi.toFixed(4) + (d.Bi < 0.1 ? " <span style='color:#10b981;font-size:0.7em;'>(V)</span>" : " <span style='color:#ef4444;font-size:0.7em;'>(I)</span>");
+                
+                const tdTau = document.createElement('td');
+                tdTau.style.padding = '4px';
+                tdTau.textContent = d.tau.toFixed(1);
+                
+                tr.appendChild(tdName);
+                tr.appendChild(tdBi);
+                tr.appendChild(tdTau);
+                tbodyResults.appendChild(tr);
+            });
+        }
 
         if (!isPlaying) {
             simTime = 0;
-            resTime.innerHTML = simTime.toFixed(1) + " s";
-            if (resCurrentT) {
-                resCurrentT.textContent = currentTi.toFixed(1) + " °C";
-            }
+            if (resTime) resTime.innerHTML = simTime.toFixed(1) + " s";
         }
 
         lastTimestamp = performance.now();
         initParticles();
 
-        const tMax = currentTau * 5;
-        const graphData = [];
-        for (let t = 0; t <= tMax; t += tMax / 50) {
-            const T = currentTinf + (currentTi - currentTinf) * Math.exp(-t / currentTau);
-            graphData.push({ x: t, y: T });
-        }
-        chartInstance.data.datasets[0].data = graphData;
+        // The longest tau determines the overall x-axis scale initially, starting at 200s
+        const tMax = 200;
 
-        const currentT = currentTinf + (currentTi - currentTinf) * Math.exp(-simTime / currentTau);
-        chartInstance.data.datasets[1].data = [{ x: simTime, y: currentT }];
+        simData.forEach((d, idx) => {
+            const graphData = [];
+            for (let t = 0; t <= tMax; t += tMax / 50) {
+                const T = currentTinf + (currentTi - currentTinf) * Math.exp(-t / d.tau);
+                graphData.push({ x: t, y: T });
+            }
+            chartInstance.data.datasets[idx].data = graphData;
+        });
 
         const maxTemp = Math.max(currentTi, currentTinf);
         const minTemp = Math.min(currentTi, currentTinf);
-        chartInstance.options.scales.y.max = maxTemp > 500 ? Math.ceil(maxTemp / 100) * 100 : (Math.ceil(maxTemp / 10) * 10 + 10);
-        chartInstance.options.scales.y.min = minTemp < 0 ? Math.floor(minTemp / 10) * 10 : (minTemp > 20 ? 0 : Math.floor(minTemp / 10) * 10 - 10);
+        const yMax = maxTemp > 500 ? Math.ceil(maxTemp / 100) * 100 : (Math.ceil(maxTemp / 10) * 10 + 10);
+        const yMin = minTemp < 0 ? Math.floor(minTemp / 10) * 10 : (minTemp > 20 ? 0 : Math.floor(minTemp / 10) * 10 - 10);
+        chartInstance.options.scales.y.max = yMax;
+        chartInstance.options.scales.y.min = yMin;
+        currentChartMax = tMax;
         chartInstance.options.scales.x.max = tMax;
+        chartInstance.options.scales.x.ticks.stepSize = tMax <= 200 ? 10 : 100;
+
+        // Update markers
+        chartInstance.data.datasets[4].data = [
+            { x: simTime, y: yMin },
+            { x: simTime, y: yMax }
+        ];
+        chartInstance.data.datasets[5].data = simData.map((d) => {
+            const T = currentTinf + (currentTi - currentTinf) * Math.exp(-simTime / d.tau);
+            return { x: simTime, y: T };
+        });
 
         chartInstance.update();
     }
@@ -5404,12 +5536,18 @@ function initNewtonSimulation() {
         if (isPlaying) {
             simTime += dt * timeScale;
         }
-        resTime.innerHTML = simTime.toFixed(1) + " s";
+        if (resTime) resTime.innerHTML = simTime.toFixed(1) + " s";
 
-        const currentT = currentTinf + (currentTi - currentTinf) * Math.exp(-simTime / currentTau);
+        let allEquilibrated = true;
+        const currentTemps = simData.map((d, idx) => {
+            const T = currentTinf + (currentTi - currentTinf) * Math.exp(-simTime / d.tau);
+            if (Math.abs(T - currentTinf) > 0.05) {
+                allEquilibrated = false;
+            }
+            return T;
+        });
 
-        // Auto-pause when equilibrium is reached (difference < 0.05 °C)
-        if (isPlaying && Math.abs(currentT - currentTinf) < 0.05) {
+        if (isPlaying && allEquilibrated) {
             isPlaying = false;
             if (startBtn) {
                 startBtn.textContent = 'Iniciar Enfriamiento';
@@ -5417,24 +5555,33 @@ function initNewtonSimulation() {
             }
         }
 
-        if (resCurrentT) {
-            resCurrentT.textContent = currentT.toFixed(1) + " °C";
-        }
-
-        chartInstance.data.datasets[1].data = [{ x: simTime, y: currentT }];
-
-        // Dynamically adjust x-axis if simTime exceeds the current max
+        // Dynamically adjust x-axis in increments of 2000s if simTime exceeds current max
         if (simTime > chartInstance.options.scales.x.max) {
-            const newMax = simTime + currentTau;
+            const newMax = Math.ceil(simTime / 2000) * 2000;
+            currentChartMax = newMax;
             chartInstance.options.scales.x.max = newMax;
+            chartInstance.options.scales.x.ticks.stepSize = newMax <= 200 ? 10 : 100;
 
-            const graphData = [];
-            for (let t = 0; t <= newMax; t += newMax / 50) {
-                const T = currentTinf + (currentTi - currentTinf) * Math.exp(-t / currentTau);
-                graphData.push({ x: t, y: T });
-            }
-            chartInstance.data.datasets[0].data = graphData;
+            simData.forEach((d, idx) => {
+                const graphData = [];
+                for (let t = 0; t <= newMax; t += newMax / 50) {
+                    const T = currentTinf + (currentTi - currentTinf) * Math.exp(-t / d.tau);
+                    graphData.push({ x: t, y: T });
+                }
+                chartInstance.data.datasets[idx].data = graphData;
+            });
         }
+
+        // Update markers in real-time
+        const yMin = (chartInstance.options.scales && chartInstance.options.scales.y && typeof chartInstance.options.scales.y.min === 'number') ? chartInstance.options.scales.y.min : (currentTinf - 50);
+        const yMax = (chartInstance.options.scales && chartInstance.options.scales.y && typeof chartInstance.options.scales.y.max === 'number') ? chartInstance.options.scales.y.max : (currentTi + 50);
+        chartInstance.data.datasets[4].data = [
+            { x: simTime, y: yMin },
+            { x: simTime, y: yMax }
+        ];
+        chartInstance.data.datasets[5].data = simData.map((d, idx) => {
+            return { x: simTime, y: currentTemps[idx] };
+        });
 
         chartInstance.update('none');
 
@@ -5448,78 +5595,172 @@ function initNewtonSimulation() {
         ctx.fillStyle = 'rgba(15, 23, 42, 0.3)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        const cx = canvas.width / 2;
-        const cy = canvas.height / 2;
-
-        const minR = 20;
-        const maxR = 100;
+        const numCylinders = 4;
+        const spacing = canvas.width / numCylinders;
+        
+        const minR = 10;
+        const maxR = 35;
         const visualR = minR + ((currentD - 0.01) / (0.3 - 0.01)) * (maxR - minR);
 
-        ctx.fillStyle = getColorForTemp(currentTinf);
+        // Draw ambient particles zone by zone with specific physics
+
         particles.forEach(p => {
-            const deltaT = currentT - currentTinf;
-            const dist = Math.hypot(p.x - cx, p.y - cy);
+            const cx = spacing * p.zone + spacing / 2;
+            const cy = canvas.height / 2;
+            const T = currentTemps[p.zone];
+            const dT = T - currentTinf;
+            const xMin = spacing * p.zone;
+            const xMax = spacing * (p.zone + 1);
 
-            let speedFactor = 1;
-            if (dist < visualR * 3) {
-                speedFactor = 1 + (deltaT / 100) * (1 - dist / (visualR * 3));
-            }
+            if (p.zone === 0) {
+                // ZONE 0: Aire Quieto (Natural Convection)
+                // Particles near the hot cylinder rise up due to heating (buoyancy)
+                const dx = p.x - cx;
+                const dy = p.y - cy;
+                const dist = Math.hypot(dx, dy);
+                const heatFactor = Math.max(0, dT) / Math.max(1, currentTi - currentTinf);
 
-            p.x += p.vx * speedFactor;
-            p.y += p.vy * speedFactor;
-
-            if (p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height) {
-                if (Math.random() > 0.5) {
-                    p.x = Math.random() * canvas.width;
-                    p.y = canvas.height;
+                // Buoyancy force (upwards) close to the cylinder and in the plume directly above it
+                if (dist < visualR * 2.5) {
+                    p.vy -= 0.12 * heatFactor * (2.5 - dist / visualR);
+                    // Diverge outwards when hitting above the cylinder
+                    if (p.y < cy) {
+                        p.vx += 0.06 * heatFactor * (dx / (dist + 0.1));
+                    }
                 } else {
-                    p.x = Math.random() > 0.5 ? 0 : canvas.width;
-                    p.y = Math.random() * canvas.height;
+                    // Sinking current on the sides to complete the loop
+                    if (Math.abs(dx) > visualR * 1.5) {
+                        p.vy += 0.03 * heatFactor;
+                        // Converge back towards the bottom of the cylinder
+                        if (p.y > cy + visualR) {
+                            p.vx -= 0.04 * heatFactor * (dx / (Math.abs(dx) + 0.1));
+                        }
+                    }
                 }
-                if (Math.random() > 0.7) {
-                    p.x = cx + (Math.random() - 0.5) * visualR * 4;
-                    p.y = cy + (Math.random() - 0.5) * visualR * 4;
+
+                // Drag/limit speed
+                p.vx *= 0.95;
+                p.vy *= 0.95;
+
+                // Add small thermal brownian jitter (stops or diminishes when cold)
+                p.vx += (Math.random() - 0.5) * (0.05 + 0.1 * heatFactor);
+                p.vy += (Math.random() - 0.5) * (0.05 + 0.1 * heatFactor);
+
+            } else if (p.zone === 1) {
+                // ZONE 1: Aire Forzado (Forced Convection)
+                // Strong horizontal flow from left to right
+                const heatFactor = Math.max(0, dT) / Math.max(1, currentTi - currentTinf);
+                p.vx = 2.5; // Constant wind speed
+                p.vy = (Math.random() - 0.5) * 0.2; // Slight flutter
+
+                // Deflect around cylinder
+                const dx = p.x - cx;
+                const dy = p.y - cy;
+                const dist = Math.hypot(dx, dy);
+                if (dist < visualR * 1.3) {
+                    const angle = Math.atan2(dy, dx);
+                    p.x = cx + Math.cos(angle) * visualR * 1.3;
+                    p.y = cy + Math.sin(angle) * visualR * 1.3;
                 }
+            } else if (p.zone === 2) {
+                // ZONE 2: Aceite (Moderate convection currents)
+                const dx = p.x - cx;
+                const dy = p.y - cy;
+                const dist = Math.hypot(dx, dy);
+                const heatFactor = Math.max(0, dT) / Math.max(1, currentTi - currentTinf);
+
+                // Slow circular convection loops in liquid
+                const angle = Math.atan2(dy, dx);
+                const speed = 0.4 * heatFactor;
+                p.vx = -Math.sin(angle) * speed + (Math.random() - 0.5) * 0.05;
+                p.vy = Math.cos(angle) * speed + (Math.random() - 0.5) * 0.05;
+            } else if (p.zone === 3) {
+                // ZONE 3: Agua (Fast turbulent convection / currents)
+                const dx = p.x - cx;
+                const dy = p.y - cy;
+                const dist = Math.hypot(dx, dy);
+                const heatFactor = Math.max(0, dT) / Math.max(1, currentTi - currentTinf);
+
+                const angle = Math.atan2(dy, dx);
+                const speed = 1.2 * heatFactor;
+                p.vx = -Math.sin(angle) * speed + (Math.random() - 0.5) * 0.2;
+                p.vy = Math.cos(angle) * speed + (Math.random() - 0.5) * 0.2;
             }
 
+            // Update position
+            p.x += p.vx;
+            p.y += p.vy;
+
+            // Keep within zone boundaries
+            if (p.x < xMin) p.x = xMax;
+            if (p.x > xMax) p.x = xMin;
+            if (p.y < 0) p.y = canvas.height;
+            if (p.y > canvas.height) p.y = 0;
+
+            // Draw particle
             ctx.beginPath();
-            ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+            ctx.arc(p.x, p.y, p.zone === 0 ? 1.2 : 1.5, 0, Math.PI * 2);
+            if (p.zone === 0) {
+                // Glow particle based on heating
+                const heatFactor = Math.max(0, dT) / Math.max(1, currentTi - currentTinf);
+                ctx.fillStyle = `rgba(251, 191, 36, ${0.1 + 0.5 * heatFactor})`;
+            } else {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+            }
             ctx.fill();
         });
 
-        ctx.beginPath();
-        ctx.arc(cx, cy, visualR, 0, Math.PI * 2);
-        ctx.fillStyle = getColorForTemp(currentT);
-        ctx.fill();
-        ctx.strokeStyle = '#ffffff';
-        ctx.lineWidth = 2;
-        ctx.stroke();
+        // Draw cylinders
+        for (let i = 0; i < numCylinders; i++) {
+            const cx = spacing * i + spacing / 2;
+            const cy = canvas.height / 2;
+            const T = currentTemps[i];
+            
+            // Draw medium background indicator lightly
+            ctx.fillStyle = simData[i].color + '22'; // low opacity
+            ctx.fillRect(spacing * i + 5, 5, spacing - 10, canvas.height - 10);
 
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 16px Outfit';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(`${currentT.toFixed(1)} °C`, cx, cy);
+            // Draw cylinder
+            ctx.beginPath();
+            ctx.arc(cx, cy, visualR, 0, Math.PI * 2);
+            ctx.fillStyle = getColorForTemp(T);
+            ctx.fill();
+            ctx.strokeStyle = simData[i].color;
+            ctx.lineWidth = 2;
+            ctx.stroke();
 
-        // Dibujar etiqueta T_infinito en el ambiente (esquina superior izquierda)
+            // Temp Text
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 12px Outfit';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(`${T.toFixed(1)} °C`, cx, cy);
+            
+            // Name Text
+            ctx.fillStyle = simData[i].color;
+            ctx.font = 'bold 11px Outfit';
+            ctx.fillText(simData[i].name, cx, canvas.height - 15);
+        }
+
+        // Draw global T_infinito label
         ctx.save();
         ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
-        ctx.fillRect(15, 15, 130, 32);
+        ctx.fillRect(10, 10, 95, 24);
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
         ctx.lineWidth = 1;
-        ctx.strokeRect(15, 15, 130, 32);
+        ctx.strokeRect(10, 10, 95, 24);
 
-        ctx.fillStyle = '#94a3b8'; // color texto secundario
-        ctx.font = 'bold 13px Outfit';
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = 'bold 11px Outfit';
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
-        ctx.fillText(`T_∞ = ${currentTinf.toFixed(1)} °C`, 25, 31);
+        ctx.fillText(`T_∞ = ${currentTinf.toFixed(1)} °C`, 15, 22);
         ctx.restore();
 
         animationId = requestAnimationFrame(draw);
     }
 
-    [sliderTi, sliderTinf, selectMedium, sliderD, sliderK, sliderRho, sliderCp].forEach(el => {
+    [sliderTi, sliderTinf, sliderD, sliderK, sliderRho, sliderCp].forEach(el => {
         if (el) el.addEventListener('input', updateSimulationParams);
     });
 
@@ -5561,7 +5802,6 @@ function initNewtonSimulation() {
 
     observer.observe(canvas);
 }
-
 // ==========================================
 // Conduction + Convection Simulation
 // ==========================================
@@ -5834,7 +6074,7 @@ function initNusseltSimulation() {
         for (let i = 0; i < numParticles; i++) {
             particles.push({
                 y: Math.random() * animCanvas.height,
-                xRel: Math.random(),
+                xRel: Math.random(), 
                 size: 1.5 + Math.random() * 2
             });
         }
@@ -10548,7 +10788,7 @@ function initVortexSimulation() {
     window.addEventListener('resize', resize);
 
     // Initialize particles across the canvas
-    function initParticles() {
+        function initParticles() {
         particles = [];
         const w = canvas.width / (window.devicePixelRatio || 1);
         const h = canvas.height / (window.devicePixelRatio || 1);
@@ -16617,7 +16857,7 @@ function initClausiusSimulation() {
     }
     window.addEventListener('resize', () => { if (isVisible) resize(); });
 
-    function initParticles() {
+        function initParticles() {
         particles = [];
         const N = parseInt(sliderN.value);
         spanN.textContent = N;
