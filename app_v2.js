@@ -863,6 +863,8 @@ function fetchRealUserCount() {
 
 function initOnlinePresence() {
     const onlineCountText = document.getElementById("online-count-text");
+    const btnOnline = document.getElementById("online-count-btn");
+
     if (typeof firebase !== 'undefined') {
         try {
             if (!firebase.apps.length) {
@@ -892,8 +894,14 @@ function initOnlinePresence() {
                 if (onlineCountText) {
                     onlineCountText.textContent = `${displayOnline} en línea`;
                 }
+                if (btnOnline) {
+                    btnOnline.title = `Usuarios en línea - Activos: ${activeConnections} (Sesión: ${sessionKey})`;
+                }
             }, (error) => {
                 console.error("Firebase presence listener error:", error);
+                if (btnOnline) {
+                    btnOnline.title = `Error lectura presencia: ${error.message}`;
+                }
                 if (onlineCountText) onlineCountText.textContent = "1 en línea";
             });
 
@@ -915,8 +923,14 @@ function initOnlinePresence() {
                     session: sessionKey
                 }).then(() => {
                     myPresenceRef.onDisconnect().remove();
+                    if (btnOnline) {
+                        btnOnline.title = `Conectado como ${uid}. Total activos: ${firebaseConnected ? 'leído' : 'cargando'}`;
+                    }
                 }).catch(err => {
                     console.warn("Presence set failed (retrying anonymously if possible):", err);
+                    if (btnOnline) {
+                        btnOnline.title = `Error escritura: ${err.message}`;
+                    }
                     if (!user && firebase.auth) {
                         firebase.auth().signInAnonymously().catch(anonErr => {
                             console.error("Anonymous authentication failed:", anonErr);
@@ -944,9 +958,11 @@ function initOnlinePresence() {
         } catch (e) {
             console.error("Error en initOnlinePresence:", e);
             if (onlineCountText) onlineCountText.textContent = "1 en línea";
+            if (btnOnline) btnOnline.title = `Excepción JS: ${e.message}`;
         }
     } else {
         if (onlineCountText) onlineCountText.textContent = "1 en línea";
+        if (btnOnline) btnOnline.title = "Firebase no disponible (Adblocker o conexión lenta)";
     }
 }
 
