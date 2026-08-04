@@ -617,6 +617,48 @@ var timelineEvents = [
         law: "Método de Bell-Delaware",
         law_en: "Bell-Delaware method",
         law_descr: "Flujos Reales en Intercambiadores"
+    },
+    {
+        year: 1962,
+        title: "Invención del Tubo de Calor (Heat Pipe)",
+        title_en: "Invention of the Heat Pipe",
+        surname: "Grover",
+        country: "<img src='https://flagcdn.com/w20/us.png' alt='Estados Unidos' style='vertical-align: text-bottom; margin-right: 4px;'> Estados Unidos",
+        country_en: "<img src='https://flagcdn.com/w20/us.png' alt='Estados Unidos' style='vertical-align: text-bottom; margin-right: 4px;'> United States",
+        desc: "George Grover patenta el tubo de calor (heat pipe) en el Laboratorio Nacional de Los Álamos. Este dispositivo de transferencia térmica pasiva de ultra alta conductividad utiliza la evaporación y condensación de un fluido de trabajo dentro de una estructura capilar para transportar calor con diferencias de temperatura mínimas. Su desarrollo revolucionó el enfriamiento de componentes electrónicos, CPUs y sistemas térmicos en naves espaciales.",
+        desc_en: "George Grover patents the heat pipe at the Los Alamos National Laboratory. This ultra-high conductivity passive heat transfer device utilizes the evaporation and condensation of a working fluid within a capillary structure to transport heat with minimal temperature differences. Its development revolutionized the cooling of electronic components, CPUs, and space spacecraft thermal systems.",
+        category: "Convección",
+        law: "Tubo de Calor (Heat Pipe)",
+        law_en: "Heat Pipe",
+        bio: { name: "George M. Grover", life: "1915 - 1996", country: "Estados Unidos", country_en: "United States" }
+    },
+    {
+        year: 1972,
+        title: "Algoritmo SIMPLE y Nacimiento del CFD Térmico",
+        title_en: "SIMPLE Algorithm and the Birth of Thermal CFD",
+        surname: "Patankar & Spalding",
+        country: "<img src='https://flagcdn.com/w20/gb.png' alt='Reino Unido' style='vertical-align: text-bottom; margin-right: 4px;'> Reino Unido",
+        country_en: "<img src='https://flagcdn.com/w20/gb.png' alt='Reino Unido' style='vertical-align: text-bottom; margin-right: 4px;'> United Kingdom",
+        desc: "Suhas Patankar y Brian Spalding desarrollan el algoritmo SIMPLE (Semi-Implicit Method for Pressure Linked Equations) en el Imperial College de Londres. Este método numérico resolvió el acoplamiento crítico entre la presión y la velocidad en la solución de las ecuaciones de Navier-Stokes. Se convirtió en la piedra angular del análisis de transferencia de calor y dinámica de fluidos computacional (CFD) en la industria.",
+        desc_en: "Suhas Patankar and Brian Spalding develop the SIMPLE (Semi-Implicit Method for Pressure Linked Equations) algorithm at Imperial College London. This numerical method resolved the critical pressure-velocity coupling in solving the Navier-Stokes equations. It became the cornerstone of computer-aided heat transfer and computational fluid dynamics (CFD) analysis across the industry.",
+        category: "Convección",
+        law: "Algoritmo SIMPLE",
+        law_en: "SIMPLE Algorithm",
+        bio: { name: "Suhas V. Patankar & D. Brian Spalding", life: "Spalding: 1923 - 2019", country: "Reino Unido", country_en: "United Kingdom" }
+    },
+    {
+        year: 1996,
+        title: "Ley Constructal en Termodinámica",
+        title_en: "Constructal Law in Thermodynamics",
+        surname: "Bejan",
+        country: "<img src='https://flagcdn.com/w20/ro.png' alt='Rumania' style='vertical-align: text-bottom; margin-right: 4px;'> Rumania / EE.UU.",
+        country_en: "<img src='https://flagcdn.com/w20/ro.png' alt='Rumania' style='vertical-align: text-bottom; margin-right: 4px;'> Romania / US",
+        desc: "Adrian Bejan formula la Ley Constructal en la Universidad de Duke, postulando que para que un sistema de flujo de tamaño finito persista en el tiempo (sobreviva), debe evolucionar de tal manera que proporcione un acceso más fácil a las corrientes que lo atraviesan. Esta ley unifica el diseño geométrico natural y de ingeniería, optimizando la distribución espacial y temporal de flujos térmicos y de fluidos.",
+        desc_en: "Adrian Bejan formulates the Constructal Law at Duke University, postulating that for a finite-size flow system to persist in time (to survive), it must evolve in such a way that it provides easier access to its currents. This law unifies natural and engineering geometric design, optimizing the spatial and temporal distribution of thermal and fluid flows.",
+        category: "Termodinámica",
+        law: "Ley Constructal",
+        law_en: "Constructal Law",
+        bio: { name: "Adrian Bejan", life: "1948 - Presente", country: "Rumania", country_en: "Romania" }
     }
 ];
 
@@ -5651,6 +5693,8 @@ function initNewtonSimulation() {
     let lastTimestamp = 0;
     let isPlaying = false;
 
+    let simSpeedMultiplier = 1;
+
     let currentTi, currentTinf, currentD, currentK, currentRho, currentCp;
     let simData = [];
 
@@ -5665,7 +5709,8 @@ function initNewtonSimulation() {
         particles = [];
         const numCylinders = 4;
         const spacing = canvas.width / numCylinders;
-        const visualR_init = 22; // approximate initial radius
+        const currentD_init = parseFloat(sliderD.value);
+        const visualR_init = 15 + (currentD_init / 0.30) * 50;
 
         for (let zone = 0; zone < numCylinders; zone++) {
             const cx = spacing * zone + spacing / 2;
@@ -5989,7 +6034,7 @@ function initNewtonSimulation() {
         if (!timestamp) timestamp = performance.now();
         if (isPlaying) {
             const dt = (timestamp - lastTimestamp) / 1000;
-            simTime += dt * 5;
+            simTime += dt * 5 * simSpeedMultiplier;
         }
         lastTimestamp = timestamp;
 
@@ -6004,7 +6049,7 @@ function initNewtonSimulation() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         const spacing = canvas.width / 4;
-        const visualR = 25;
+        const visualR = 15 + (currentD / 0.30) * 50;
 
         // draw cylinders
         simData.forEach((d, idx) => {
@@ -6084,6 +6129,24 @@ function initNewtonSimulation() {
 
     [sliderTi, sliderTinf, sliderD, sliderK, sliderRho, sliderCp].forEach(el => {
         if (el) el.addEventListener('input', updateSimulationParams);
+    });
+
+    // Speed buttons event listeners
+    const speedButtons = document.querySelectorAll('.newton-speed-btn');
+    speedButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            speedButtons.forEach(b => {
+                b.classList.remove('active');
+                b.style.background = '#1e293b';
+                b.style.color = '#94a3b8';
+                b.style.borderColor = '#334155';
+            });
+            btn.classList.add('active');
+            btn.style.background = '#334155';
+            btn.style.color = 'white';
+            btn.style.borderColor = '#475569';
+            simSpeedMultiplier = parseFloat(btn.getAttribute('data-speed')) || 1;
+        });
     });
 
     if (startBtn) {

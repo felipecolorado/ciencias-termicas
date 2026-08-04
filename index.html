@@ -281,6 +281,8 @@
                             </option>
                             <option value="Motores" class="lang-es">Motores de Calor</option>
                             <option value="Motores" class="lang-en" style="display:none;">Heat Engines</option>
+                            <option value="Termodinámica" class="lang-es">Termodinámica</option>
+                            <option value="Termodinámica" class="lang-en" style="display:none;">Thermodynamics</option>
                             <option value="Circuitos" class="lang-es">Circuitos Térmicos</option>
                             <option value="Circuitos" class="lang-en" style="display:none;">Thermal Circuits</option>
                             <option value="Aplicaciones" class="lang-es">Aplicaciones</option>
@@ -367,9 +369,6 @@
                                 class="lang-es">Sustancias Puras: Diagramas del Agua (IAPWS-IF97)</span><span
                                 class="lang-en" style="display:none;">Pure Substances: Water Diagrams
                                 (IAPWS-IF97)</span></button>
-
-                        <div class="tab-category-title"><span class="lang-es">Laboratorios de Psicrometría</span><span
-                                class="lang-en" style="display:none;">Psychrometrics Laboratories</span></div>
                         <button class="tab-btn heat-transfer-highlight" data-target="psychrometry-lab-sim"
                             onclick="setTimeout(function(){ if(window.initPsychrometryLab) window.initPsychrometryLab(); }, 50);">
                             <span class="lang-es">Laboratorio de Psicrometría</span><span class="lang-en"
@@ -2251,6 +2250,15 @@
                                                     style="display:none;">J/kg·K</span></label>
                                             <input type="range" id="newton-cp" min="100" max="4000" step="50"
                                                 value="450">
+                                        </div>
+                                        <div class="control-group" style="grid-column: span 2;">
+                                            <label><span class="lang-es">Velocidad de Simulación:</span><span class="lang-en" style="display:none;">Simulation Speed:</span></label>
+                                            <div class="speed-btn-group" style="display: flex; gap: 5px; margin-top: 5px;">
+                                                <button type="button" class="newton-speed-btn active" data-speed="1" style="flex: 1; padding: 6px; border-radius: 4px; background: #334155; color: white; border: 1px solid #475569; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: all 0.2s;">1x</button>
+                                                <button type="button" class="newton-speed-btn" data-speed="2" style="flex: 1; padding: 6px; border-radius: 4px; background: #1e293b; color: #94a3b8; border: 1px solid #334155; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: all 0.2s;">2x</button>
+                                                <button type="button" class="newton-speed-btn" data-speed="5" style="flex: 1; padding: 6px; border-radius: 4px; background: #1e293b; color: #94a3b8; border: 1px solid #334155; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: all 0.2s;">5x</button>
+                                                <button type="button" class="newton-speed-btn" data-speed="10" style="flex: 1; padding: 6px; border-radius: 4px; background: #1e293b; color: #94a3b8; border: 1px solid #334155; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: all 0.2s;">10x</button>
+                                            </div>
                                         </div>
                                         <div class="control-group"
                                             style="grid-column: span 2; display: flex; gap: 10px; margin-top: 10px;">
@@ -9435,9 +9443,9 @@
                     style="color: var(--accent-orange); text-decoration: none;">felipe.colorado@udea.edu.co</a>
             </p>
             <p style="font-size: 0.75rem; margin-top: 8px; color: var(--text-secondary); opacity: 0.8;"><i
-                    class="far fa-clock"></i> <span class="lang-es">Última actualización: <span id="last-updated-time">4 de agosto de 2026, 08:50</span> -
+                    class="far fa-clock"></i> <span class="lang-es">Última actualización: <span id="last-updated-time">4 de agosto de 2026 - 18:40</span> -
                     Versión 3.6 (Convección natural corregida en animación de Newton: flujo por flotabilidad alrededor del cilindro)</span><span class="lang-en"
-                    style="display:none;">Last update: August 4, 2026, 08:50 -
+                    style="display:none;">Last update: August 4, 2026 - 18:40 -
                     Version 3.6 (Corrected natural convection in Newton animation: buoyancy-driven flow around hot cylinder)</span></p>
             <div style="margin-top: 15px; text-align: center;">
                 <span class="lang-es"><img
