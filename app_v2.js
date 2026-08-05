@@ -717,6 +717,7 @@ function startApp() {
     safeInit('Chatelet', () => initChateletSimulation());
     safeInit('Pennington', () => initPenningtonSimulation());
     safeInit('Telkes', () => initTelkesSimulation());
+    safeInit('RadiacionPlacaPlana', () => initRadiacionPlacaPlanaSimulation());
 
     // Modal close logic
     const modal = document.getElementById('image-modal');
@@ -21985,6 +21986,436 @@ function initInternalBLSimulation() {
         drawCanvas();
     }
     window.initTelkesSimulation = initTelkesSimulation;
+
+    function initRadiacionPlacaPlanaSimulation() {
+        const canvas = document.getElementById("radPlateCanvas");
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+
+        const inputLargo = document.getElementById("rad-largo");
+        const inputAncho = document.getElementById("rad-ancho");
+        const inputEmissivity = document.getElementById("rad-emissivity");
+        const inputT1 = document.getElementById("rad-t1");
+        const inputT2 = document.getElementById("rad-t2");
+        const selectQUnit = document.getElementById("rad-q-unit");
+
+        const valLargo = document.getElementById("rad-largo-val");
+        const valAncho = document.getElementById("rad-ancho-val");
+        const valEmissivity = document.getElementById("rad-emissivity-val");
+        const valT1 = document.getElementById("rad-t1-val");
+        const valT2 = document.getElementById("rad-t2-val");
+        const valT1C = document.getElementById("rad-t1-c-val");
+        const valT2C = document.getElementById("rad-t2-c-val");
+
+        const valQ = document.getElementById("rad-q-val");
+        const valR = document.getElementById("rad-r-val");
+        const valH = document.getElementById("rad-h-val");
+
+        const sigma = 5.670374e-8; // Stefan-Boltzmann constant
+
+        let animationFrameId = null;
+        let particles = [];
+
+        function resizeCanvas() {
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * window.devicePixelRatio;
+            canvas.height = rect.height * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
+        function getColorForTemp(tempC) {
+            if (tempC < 0) {
+                // Cool/cold colors (blue/ice)
+                const ratio = Math.min(1, Math.abs(tempC) / 100);
+                const r = Math.round(100 - ratio * 50);
+                const g = Math.round(149 + ratio * 50);
+                const b = Math.round(237 + ratio * 18);
+                return `rgb(${r}, ${g}, ${b})`;
+            } else if (tempC < 150) {
+                // Slate / metal colors
+                const ratio = tempC / 150;
+                const r = Math.round(148 + ratio * 50);
+                const g = Math.round(163 + ratio * 20);
+                const b = Math.round(184 + ratio * 10);
+                return `rgb(${r}, ${g}, ${b})`;
+            } else if (tempC < 500) {
+                // Dull red/orange glow
+                const ratio = (tempC - 150) / 350;
+                const r = Math.round(198 + ratio * 40);
+                const g = Math.round(183 - ratio * 100);
+                const b = Math.round(194 - ratio * 150);
+                return `rgb(${r}, ${g}, ${b})`;
+            } else if (tempC < 1200) {
+                // Bright orange / red-orange
+                const ratio = (tempC - 500) / 700;
+                const r = 238;
+                const g = Math.round(83 + ratio * 100);
+                const b = Math.round(44 - ratio * 30);
+                return `rgb(${r}, ${g}, ${b})`;
+            } else {
+                // White-hot / bright yellow
+                const ratio = Math.min(1, (tempC - 1200) / 1300);
+                const r = 254;
+                const g = Math.round(183 + ratio * 72);
+                const b = Math.round(14 + ratio * 241);
+                return `rgb(${r}, ${g}, ${b})`;
+            }
+        }
+
+        function calculateOutputs() {
+            const L1 = parseFloat(inputLargo.value);
+            const L2 = parseFloat(inputAncho.value);
+            const eps = parseFloat(inputEmissivity.value);
+            const T1_K = parseFloat(inputT1.value);
+            const T2_K = parseFloat(inputT2.value);
+            const qUnit = selectQUnit.value;
+
+            // Updates display inputs
+            valLargo.textContent = L1.toFixed(1);
+            valAncho.textContent = L2.toFixed(1);
+            valEmissivity.textContent = eps.toFixed(2);
+            valT1.textContent = T1_K.toFixed(0);
+            valT2.textContent = T2_K.toFixed(0);
+
+            // Automatic conversions
+            const T1_C = T1_K - 273.15;
+            const T2_C = T2_K - 273.15;
+
+            valT1C.textContent = T1_C.toFixed(2);
+            valT2C.textContent = T2_C.toFixed(2);
+
+            // Area calculation
+            const A = L1 * L2;
+
+            // Heat rate: Q = eps * sigma * A * (T1^4 - T2^4)
+            const Q_rad = eps * sigma * A * (Math.pow(T1_K, 4) - Math.pow(T2_K, 4));
+
+            // Format Q_rad based on unit
+            let Q_display = Q_rad;
+            if (qUnit === "kW") {
+                Q_display = Q_rad / 1000;
+            } else if (qUnit === "MW") {
+                Q_display = Q_rad / 1e6;
+            }
+            valQ.textContent = `${Q_display.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${qUnit}`;
+
+            // Thermal resistance: R_rad = |T1 - T2| / |Q_rad|
+            const deltaT = Math.abs(T1_K - T2_K);
+            if (Math.abs(Q_rad) > 1e-6) {
+                const R_rad = deltaT / Math.abs(Q_rad);
+                valR.textContent = `${R_rad.toLocaleString(undefined, { minimumFractionDigits: 4, maximumFractionDigits: 4 })} K/W`;
+            } else {
+                valR.textContent = "∞ K/W";
+            }
+
+            // Linearized radiation coefficient: h_rad = eps * sigma * (T1 + T2) * (T1^2 + T2^2)
+            const h_rad = eps * sigma * (T1_K + T2_K) * (Math.pow(T1_K, 2) + Math.pow(T2_K, 2));
+            valH.textContent = `${h_rad.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} W/(m²·K)`;
+
+            return { L1, L2, T1_C, T1_K, T2_K, Q_rad };
+        }
+
+        // Particle class for radiant photons
+        class RadiationParticle {
+            constructor(startX, startY, isEscaping, color) {
+                this.x = startX;
+                this.y = startY;
+                this.isEscaping = isEscaping; // true means escaping from plate, false means entering
+                this.color = color;
+                
+                // Direction vector: mostly upward or downward with some horizontal dispersion
+                const angle = (Math.random() * Math.PI / 3) + (isEscaping ? -2 * Math.PI / 3 : Math.PI / 3);
+                this.speed = Math.random() * 1.5 + 0.8;
+                this.vx = Math.cos(angle) * this.speed;
+                this.vy = Math.sin(angle) * this.speed;
+                
+                this.life = Math.random() * 60 + 30;
+                this.maxLife = this.life;
+                this.size = Math.random() * 3 + 1.5;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life--;
+            }
+
+            draw(c) {
+                const alpha = this.life / this.maxLife;
+                c.save();
+                c.beginPath();
+                c.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+                c.fillStyle = this.color.replace(')', `, ${alpha})`).replace('rgb', 'rgba');
+                c.shadowBlur = 8;
+                c.shadowColor = this.color;
+                c.fill();
+                c.restore();
+            }
+        }
+
+        function draw() {
+            if (!canvas.offsetParent) {
+                animationFrameId = requestAnimationFrame(draw);
+                return;
+            }
+
+            const w = canvas.width / window.devicePixelRatio;
+            const h = canvas.height / window.devicePixelRatio;
+            ctx.clearRect(0, 0, w, h);
+
+            const { L1, L2, T1_C, T1_K, T2_K, Q_rad } = calculateOutputs();
+            const area = L1 * L2;
+
+            // Draw Background and Surroundings Temperature indicator
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, w, h);
+
+            // Surroundings visualization info
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.1)';
+            ctx.font = '12px Inter';
+            ctx.fillText(window.currentLanguage === 'en' ? `Surroundings: ${T2_K} K` : `Alrededores: ${T2_K} K`, 15, h - 15);
+
+            // Draw isometric grid reference / room floor
+            ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < w; i += 40) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, h);
+                ctx.stroke();
+            }
+            for (let i = 0; i < h; i += 40) {
+                ctx.beginPath();
+                ctx.moveTo(0, i);
+                ctx.lineTo(w, i);
+                ctx.stroke();
+            }
+
+            // Draw isometric flat plate in 2.5D
+            // Center of the screen
+            const cx = w / 2;
+            const cy = h / 2 + 30;
+
+            // Dimensions scaled (L1 = Length/width, L2 = Width/depth)
+            const scale = 35; // px per meter
+            const pL1 = L1 * scale;
+            const pL2 = L2 * scale;
+
+            // Flat plate corners in isometric coordinates
+            const getIsoPoint = (lx, ly) => {
+                return {
+                    x: cx + (lx - ly) * Math.cos(Math.PI / 6),
+                    y: cy + (lx + ly) * Math.sin(Math.PI / 6)
+                };
+            };
+
+            const p0 = getIsoPoint(-pL1 / 2, -pL2 / 2);
+            const p1 = getIsoPoint(pL1 / 2, -pL2 / 2);
+            const p2 = getIsoPoint(pL1 / 2, pL2 / 2);
+            const p3 = getIsoPoint(-pL1 / 2, pL2 / 2);
+
+            const plateColor = getColorForTemp(T1_C);
+
+            // Draw the surrounding dome/cupola (T2)
+            const domeRadius = Math.min(w * 0.45, h * 0.7);
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(cx, cy - 10, domeRadius, Math.PI, 2 * Math.PI);
+            const domeColor = getColorForTemp(T2_K - 273.15);
+            
+            // Radial gradient for the dome
+            const domeGrad = ctx.createRadialGradient(cx, cy - 10, domeRadius - 30, cx, cy - 10, domeRadius);
+            domeGrad.addColorStop(0, 'rgba(15, 23, 42, 0)');
+            domeGrad.addColorStop(0.8, domeColor.replace('rgb', 'rgba').replace(')', ', 0.1)'));
+            domeGrad.addColorStop(1, domeColor.replace('rgb', 'rgba').replace(')', ', 0.3)'));
+            ctx.fillStyle = domeGrad;
+            ctx.fill();
+            
+            // Dashed outline
+            ctx.strokeStyle = domeColor.replace('rgb', 'rgba').replace(')', ', 0.5)');
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.stroke();
+            ctx.restore();
+
+            // 1. Draw bottom depth face
+            const thickness = 12;
+            ctx.beginPath();
+            ctx.moveTo(p3.x, p3.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.lineTo(p2.x, p2.y + thickness);
+            ctx.lineTo(p3.x, p3.y + thickness);
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.8)';
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.lineTo(p2.x, p2.y + thickness);
+            ctx.lineTo(p1.x, p1.y + thickness);
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+            ctx.fill();
+            ctx.stroke();
+
+            // 2. Draw top main face of the plate
+            ctx.beginPath();
+            ctx.moveTo(p0.x, p0.y);
+            ctx.lineTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.lineTo(p3.x, p3.y);
+            ctx.closePath();
+
+            // Create linear gradient on the plate to make it feel hot/glowing
+            const grad = ctx.createLinearGradient(p0.x, p0.y, p2.x, p2.y);
+            grad.addColorStop(0, plateColor);
+            grad.addColorStop(1, plateColor.replace(')', ', 0.85)').replace('rgb', 'rgba'));
+            ctx.fillStyle = grad;
+
+            ctx.shadowBlur = T1_C > 300 ? Math.min(30, (T1_C - 300) / 50) : 0;
+            ctx.shadowColor = plateColor;
+            ctx.fill();
+            ctx.shadowBlur = 0; // reset
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Draw dimension labels
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '10px Inter';
+            ctx.textAlign = 'center';
+            
+            // L1 label along the front-left edge
+            const l1Mid = getIsoPoint(0, pL2 / 2 + 10);
+            ctx.fillText(`L1 = ${L1.toFixed(1)} m`, l1Mid.x, l1Mid.y + 12);
+            
+            // L2 label along the front-right edge
+            const l2Mid = getIsoPoint(pL1 / 2 + 10, 0);
+            ctx.fillText(`L2 = ${L2.toFixed(1)} m`, l2Mid.x + 10, l2Mid.y + 4);
+
+            // Draw Area text on top of the plate
+            ctx.save();
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 11px Inter';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.shadowBlur = 4;
+            ctx.shadowColor = 'rgba(0,0,0,0.8)';
+            ctx.fillText(`A = ${area.toFixed(2)} m²`, cx, cy);
+            ctx.restore();
+
+            // Draw vacuum medium indicator
+            ctx.save();
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.7)';
+            ctx.font = '500 11px Inter';
+            ctx.textAlign = 'center';
+            const mediumText = window.currentLanguage === 'en'
+                ? 'Medium: Vacuum (Pure Radiation)'
+                : 'Medio: Vacío (Radiación Pura)';
+            ctx.fillText(mediumText, cx, cy - domeRadius * 0.6);
+            ctx.restore();
+
+            // 3. Emit / update / draw particles
+            const isEscaping = Q_rad > 0;
+            const absQ = Math.abs(Q_rad);
+            
+            // Spawn rate proportional to net heat flux density (Q_rad / Area)
+            const fluxDensity = absQ / area;
+            let spawnRate = Math.min(15, Math.ceil(fluxDensity / 150));
+            if (absQ < 0.1) spawnRate = 0;
+
+            for (let i = 0; i < spawnRate; i++) {
+                if (isEscaping) {
+                    // T1 > T2 -> Photons emit from plate towards the dome
+                    const pColor = getColorForTemp(T1_C);
+                    const p = new RadiationParticle(cx, cy, true, pColor);
+                    
+                    // Uniform hemispherical emission pattern (angle: -pi to 0)
+                    const angle = -Math.PI * Math.random();
+                    const speed = Math.random() * 1.5 + 1.0;
+                    p.vx = Math.cos(angle) * speed;
+                    p.vy = Math.sin(angle) * speed;
+                    p.life = Math.ceil(domeRadius / speed);
+                    p.maxLife = p.life;
+                    particles.push(p);
+                } else {
+                    // T2 > T1 -> Photons return from the dome towards the plate
+                    const domeAngle = Math.PI + Math.random() * Math.PI;
+                    const startX = cx + Math.cos(domeAngle) * domeRadius;
+                    const startY = (cy - 10) + Math.sin(domeAngle) * domeRadius;
+                    
+                    const pColor = getColorForTemp(T2_K - 273.15);
+                    const p = new RadiationParticle(startX, startY, false, pColor);
+                    
+                    const dx = cx - startX;
+                    const dy = cy - startY;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const speed = Math.random() * 1.5 + 1.0;
+                    p.vx = (dx / dist) * speed;
+                    p.vy = (dy / dist) * speed;
+                    p.life = Math.ceil(dist / speed);
+                    p.maxLife = p.life;
+                    particles.push(p);
+                }
+            }
+
+            // Update & Draw particles
+            particles = particles.filter(p => {
+                p.update();
+                p.draw(ctx);
+                return p.life > 0;
+            });
+
+            // Draw heat flow label indicator above the plate
+            if (absQ > 0.01) {
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 12px Outfit';
+                ctx.textAlign = 'center';
+                const directionText = isEscaping 
+                    ? (window.currentLanguage === 'en' ? `Heat Emitted Q = +${(absQ > 1000 ? (absQ/1000).toFixed(2) + ' kW' : absQ.toFixed(1) + ' W')}` : `Calor Emitido Q = +${(absQ > 1000 ? (absQ/1000).toFixed(2) + ' kW' : absQ.toFixed(1) + ' W')}`)
+                    : (window.currentLanguage === 'en' ? `Heat Absorbed Q = -${(absQ > 1000 ? (absQ/1000).toFixed(2) + ' kW' : absQ.toFixed(1) + ' W')}` : `Calor Absorbido Q = -${(absQ > 1000 ? (absQ/1000).toFixed(2) + ' kW' : absQ.toFixed(1) + ' W')}`);
+                ctx.fillText(directionText, cx, cy - pL2/4 - 60);
+            }
+
+            animationFrameId = requestAnimationFrame(draw);
+        }
+
+        // Add event listeners
+        const inputs = [inputLargo, inputAncho, inputEmissivity, inputT1, inputT2];
+        inputs.forEach(inp => {
+            inp.addEventListener("input", calculateOutputs);
+        });
+        selectQUnit.addEventListener("change", calculateOutputs);
+
+        // Resize behavior
+        resizeCanvas();
+        calculateOutputs();
+        draw();
+
+        // Safe cleanup when switching tabs
+        const tabBtns = document.querySelectorAll(".tab-btn");
+        tabBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                if (btn.getAttribute("data-target") !== "lab-radiacion-placa-plana") {
+                    if (animationFrameId) {
+                        cancelAnimationFrame(animationFrameId);
+                        animationFrameId = null;
+                    }
+                }
+            });
+        });
+
+        window.addEventListener("resize", () => {
+            if (canvas.offsetParent) {
+                resizeCanvas();
+            }
+        });
+    }
+
+    window.initRadiacionPlacaPlanaSimulation = initRadiacionPlacaPlanaSimulation;
 
     document.addEventListener("click", (e) => {
         const btn = e.target.closest ? e.target.closest('[data-target="foote-sim"]') : null;

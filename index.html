@@ -279,6 +279,8 @@
                             <option value="Principios" class="lang-es">Principios y Experimentos</option>
                             <option value="Principios" class="lang-en" style="display:none;">Principles & Experiments
                             </option>
+                            <option id="mecanica-de-fluidos" value="Mecánica" class="lang-es">Laboratorios de Mecánica de Fluidos</option>
+                            <option id="mecanica-de-fluidos-en" value="Mecánica" class="lang-en" style="display:none;">Fluid Mechanics Laboratories</option>
                             <option value="Motores" class="lang-es">Motores de Calor</option>
                             <option value="Motores" class="lang-en" style="display:none;">Heat Engines</option>
                             <option value="Termodinámica" class="lang-es">Termodinámica</option>
@@ -341,6 +343,10 @@
                             (Ebullición, 1934)</button>
                         <button class="tab-btn heat-transfer-highlight" data-target="transient-sim">Conducción
                             Transitoria (Heisler, 1947)</button>
+                        <button class="tab-btn heat-transfer-highlight" data-target="lab-radiacion-placa-plana"
+                            onclick="setTimeout(function(){ if(window.initRadiacionPlacaPlanaSimulation) window.initRadiacionPlacaPlanaSimulation(); }, 50);">
+                            <span class="lang-es">Laboratorio de Radiación en Placa Plana</span><span class="lang-en"
+                                style="display:none;">Flat Plate Radiation Lab</span></button>
 
                         <div class="tab-category-title"><span class="lang-es">Laboratorios de Mecánica de
                                 Fluidos</span><span class="lang-en" style="display:none;">Fluid Mechanics
@@ -8312,6 +8318,149 @@
                         <div id="psychrometry-lab-mount"></div>
                     </div>
                     <!-- END Psychrometry Lab -->
+
+                    <!-- =====================================================
+                         LAB: LABORATORIO DE RADIACIÓN EN PLACA PLANA
+                         ===================================================== -->
+                    <div class="tab-pane" id="lab-radiacion-placa-plana">
+                        <div class="sim-intro">
+                            <h3><span class="lang-es">Laboratorio de Radiación Pura en Placa Plana</span><span class="lang-en"
+                                    style="display:none;">Pure Flat Plate Radiation Lab</span></h3>
+                            <p><span class="lang-es">Simula la transferencia de calor por radiación térmica pura de una placa plana hacia sus alrededores. Permite configurar dimensiones, emisividad y temperaturas con conversión automática y cálculo del coeficiente de radiación linealizado y la resistencia térmica.</span><span class="lang-en" style="display:none;">Simulates pure thermal radiation heat transfer from a flat plate to its surroundings. Configure dimensions, emissivity, and temperatures with automatic conversion and calculation of the linearized radiation coefficient and thermal resistance.</span></p>
+                        </div>
+
+                        <div class="simulation-workspace">
+                            <div class="chart-container" style="position: relative; min-height: 350px;">
+                                <canvas id="radPlateCanvas" style="width: 100%; height: 100%; min-height: 350px; background: rgba(15,23,42,0.6); border-radius: 8px; border: 1px solid var(--panel-border);"></canvas>
+                            </div>
+                            <div class="controls-container">
+                                <div class="control-group">
+                                    <label style="display:flex; justify-content:space-between;">
+                                        <span class="lang-es">Largo (L1):</span><span class="lang-en" style="display:none;">Length (L1):</span>
+                                        <span><span id="rad-largo-val">1.0</span> m</span>
+                                    </label>
+                                    <input type="range" id="rad-largo" min="0.1" max="5.0" step="0.1" value="1.0">
+                                </div>
+                                <div class="control-group">
+                                    <label style="display:flex; justify-content:space-between;">
+                                        <span class="lang-es">Ancho (L2):</span><span class="lang-en" style="display:none;">Width (L2):</span>
+                                        <span><span id="rad-ancho-val">1.0</span> m</span>
+                                    </label>
+                                    <input type="range" id="rad-ancho" min="0.1" max="5.0" step="0.1" value="1.0">
+                                </div>
+                                <div class="control-group">
+                                    <label style="display:flex; justify-content:space-between;">
+                                        <span class="lang-es">Emisividad (ε):</span><span class="lang-en" style="display:none;">Emissivity (ε):</span>
+                                        <span><span id="rad-emissivity-val">0.80</span></span>
+                                    </label>
+                                    <input type="range" id="rad-emissivity" min="0.01" max="1.00" step="0.01" value="0.80">
+                                </div>
+                                <div class="control-group">
+                                    <label style="display:flex; justify-content:space-between;">
+                                        <span class="lang-es">Temperatura de Superficie (T1):</span><span class="lang-en" style="display:none;">Surface Temp. (T1):</span>
+                                        <span><span id="rad-t1-val">773</span> K</span>
+                                    </label>
+                                    <input type="range" id="rad-t1" min="0" max="3000" step="10" value="773">
+                                    <div class="auto-conv-hint" style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; display: flex; justify-content: space-between;">
+                                        <span>Conversión:</span>
+                                        <span><span id="rad-t1-c-val">499.85</span> °C</span>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label style="display:flex; justify-content:space-between;">
+                                        <span class="lang-es">Temperatura Alrededores (T2):</span><span class="lang-en" style="display:none;">Surroundings Temp. (T2):</span>
+                                        <span><span id="rad-t2-val">300</span> K</span>
+                                    </label>
+                                    <input type="range" id="rad-t2" min="0" max="5000" step="10" value="300">
+                                    <div class="auto-conv-hint" style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; display: flex; justify-content: space-between;">
+                                        <span>Conversión:</span>
+                                        <span><span id="rad-t2-c-val">26.85</span> °C</span>
+                                    </div>
+                                </div>
+
+                                <div class="control-group result-card" style="margin-top: 15px; background: rgba(30,41,59,0.5); padding: 12px; border-radius: 8px; border: 1px solid var(--panel-border);">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                        <span style="font-weight: 600; font-size: 0.85rem;" class="lang-es">Unidad de Q_rad:</span>
+                                        <span style="font-weight: 600; font-size: 0.85rem;" class="lang-en" style="display:none;">Q_rad Unit:</span>
+                                        <select id="rad-q-unit" style="background: rgba(15,23,42,0.8); color: white; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 2px 6px; font-size: 0.8rem; cursor: pointer;">
+                                            <option value="W">W</option>
+                                            <option value="kW">kW</option>
+                                            <option value="MW">MW</option>
+                                        </select>
+                                    </div>
+                                    <div class="result-row" style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                                        <span class="lang-es" style="font-size: 0.85rem; color: var(--text-secondary);">Tasa de Calor (Q_rad):</span>
+                                        <span class="lang-en" style="display:none; font-size: 0.85rem; color: var(--text-secondary);">Heat Rate (Q_rad):</span>
+                                        <span id="rad-q-val" class="highlight-val" style="font-weight: 700; color: var(--accent-orange);">--</span>
+                                    </div>
+                                    <div class="result-row border-top-row" style="display: flex; justify-content: space-between; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.05); margin-bottom: 6px;">
+                                        <span class="lang-es" style="font-size: 0.85rem; color: var(--text-secondary);">Resistencia Térmica (R_rad):</span>
+                                        <span class="lang-en" style="display:none; font-size: 0.85rem; color: var(--text-secondary);">Thermal Resistance (R_rad):</span>
+                                        <span id="rad-r-val" class="highlight-val" style="font-weight: 700; color: var(--accent-blue);">--</span>
+                                    </div>
+                                    <div class="result-row border-top-row" style="display: flex; justify-content: space-between; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.05);">
+                                        <span class="lang-es" style="font-size: 0.85rem; color: var(--text-secondary);">Coef. Linealizado (h_rad):</span>
+                                        <span class="lang-en" style="display:none; font-size: 0.85rem; color: var(--text-secondary);">Linearized Coeff. (h_rad):</span>
+                                        <span id="rad-h-val" class="highlight-val" style="font-weight: 700; color: #10b981;">--</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MathJax / LaTeX Equations Panel -->
+                            <div class="control-group" style="background: rgba(30,41,59,0.4); padding: 16px; border-radius: 8px; border: 1px solid var(--panel-border); margin-top: 10px; width: 100%; box-sizing: border-box;">
+                                <h4 style="margin-top: 0; margin-bottom: 12px; color: var(--text-primary); font-size: 0.95rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                                    <i class="fas fa-calculator" style="color: var(--accent-orange);"></i>
+                                    <span class="lang-es">Ecuaciones del Modelo (Radiación Térmica)</span>
+                                    <span class="lang-en" style="display:none;">Model Equations (Thermal Radiation)</span>
+                                </h4>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; font-size: 0.85rem; color: var(--text-secondary);">
+                                    <div style="background: rgba(15,23,42,0.3); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.03);">
+                                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">
+                                            <span class="lang-es">Área de la Placa</span>
+                                            <span class="lang-en" style="display:none;">Plate Area</span>
+                                        </div>
+                                        <div style="font-size: 0.95rem; text-align: center; padding: 4px 0;">$$A = L_1 \cdot L_2$$</div>
+                                    </div>
+                                    <div style="background: rgba(15,23,42,0.3); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.03);">
+                                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">
+                                            <span class="lang-es">Constante de Stefan-Boltzmann</span>
+                                            <span class="lang-en" style="display:none;">Stefan-Boltzmann Constant</span>
+                                        </div>
+                                        <div style="font-size: 0.95rem; text-align: center; padding: 4px 0;">$$\sigma = 5.67 \times 10^{-8} \text{ W/(m}^2\cdot\text{K}^4)$$</div>
+                                    </div>
+                                    <div style="background: rgba(15,23,42,0.3); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.03);">
+                                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">
+                                            <span class="lang-es">Poder Emisivo Total</span>
+                                            <span class="lang-en" style="display:none;">Total Emissive Power</span>
+                                        </div>
+                                        <div style="font-size: 0.95rem; text-align: center; padding: 4px 0;">$$E = \epsilon \cdot \sigma \cdot T_1^4$$</div>
+                                    </div>
+                                    <div style="background: rgba(15,23,42,0.3); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.03);">
+                                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">
+                                            <span class="lang-es">Tasa Neta de Radiación</span>
+                                            <span class="lang-en" style="display:none;">Net Radiation Rate</span>
+                                        </div>
+                                        <div style="font-size: 0.95rem; text-align: center; padding: 4px 0;">$$Q_{rad} = \epsilon \cdot \sigma \cdot A \cdot (T_1^4 - T_2^4)$$</div>
+                                    </div>
+                                    <div style="background: rgba(15,23,42,0.3); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.03);">
+                                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">
+                                            <span class="lang-es">Resistencia a la Radiación</span>
+                                            <span class="lang-en" style="display:none;">Radiation Resistance</span>
+                                        </div>
+                                        <div style="font-size: 0.95rem; text-align: center; padding: 4px 0;">$$R_{rad} = \frac{|T_1 - T_2|}{Q_{rad}} = \frac{1}{h_{rad} \cdot A}$$</div>
+                                    </div>
+                                    <div style="background: rgba(15,23,42,0.3); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.03);">
+                                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">
+                                            <span class="lang-es">Coef. de Radiación ($h_{rad}$)</span>
+                                            <span class="lang-en" style="display:none;">Radiation Coeff. ($h_{rad}$)</span>
+                                        </div>
+                                        <div style="font-size: 0.95rem; text-align: center; padding: 4px 0;">$$h_{rad} = \epsilon \cdot \sigma \cdot (T_1 + T_2) \cdot (T_1^2 + T_2^2)$$</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Radiacion Placa Plana Lab -->
 
                     <!-- =====================================================
                          LAB 28b: NEWCOMEN vs. WATT — Eficiencia de la Máquina de Vapor
