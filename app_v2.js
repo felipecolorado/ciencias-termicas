@@ -993,20 +993,20 @@ function useCounterFallback(setDisplay) {
             fields: { t: { integerValue: Date.now() } }
         })
     }).then(r => r.json())
-    .then(data => {
-        if (data.name) {
-            // Leer el conteo total
-            const listUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${collection}`;
-            return fetch(listUrl).then(r => r.json());
-        }
-    })
-    .then(data => {
-        const count = (data && data.documents) ? data.documents.length : 1;
-        setDisplay(count, `Conectados: ${count} (vía Firestore)`);
-    })
-    .catch(() => {
-        setDisplay(1, "Sin conteo disponible");
-    });
+        .then(data => {
+            if (data.name) {
+                // Leer el conteo total
+                const listUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${collection}`;
+                return fetch(listUrl).then(r => r.json());
+            }
+        })
+        .then(data => {
+            const count = (data && data.documents) ? data.documents.length : 1;
+            setDisplay(count, `Conectados: ${count} (vía Firestore)`);
+        })
+        .catch(() => {
+            setDisplay(1, "Sin conteo disponible");
+        });
 }
 
 function fetchRealUserCount() {
@@ -1080,7 +1080,7 @@ function initOnlinePresence() {
             // Función para escribir/actualizar presencia
             const updatePresence = (user) => {
                 if (myPresenceRef) {
-                    myPresenceRef.remove().catch(() => {});
+                    myPresenceRef.remove().catch(() => { });
                 }
 
                 // Generar una clave que combine UID y sessionKey para evitar colisión si es el mismo usuario en 2 dispositivos
@@ -1456,16 +1456,16 @@ window.copyShareLink = function (btn) {
         const spanEs = btn.querySelector('.lang-es');
         const spanEn = btn.querySelector('.lang-en');
         const icon = btn.querySelector('i');
-        
+
         const origTextEs = spanEs ? spanEs.textContent : "Copiar Enlace";
         const origTextEn = spanEn ? spanEn.textContent : "Copy Link";
-        
+
         if (spanEs) spanEs.textContent = "¡Copiado!";
         if (spanEn) spanEn.textContent = "Copied!";
         if (icon) icon.className = "fas fa-check";
         const oldBg = btn.style.background;
         btn.style.background = "#10b981"; // Success green
-        
+
         setTimeout(() => {
             if (spanEs) spanEs.textContent = origTextEs;
             if (spanEn) spanEn.textContent = origTextEn;
@@ -1695,7 +1695,7 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
                             <strong><i class="fas fa-bolt" style="color: #fbbf24; margin-right: 6px;"></i> La Rivalidad Newton - Bernoulli [1696]:</strong> Isaac Newton y Johann Bernoulli mantuvieron un fiero duelo intelectual. Bernoulli retó a los matemáticos de Europa a resolver el problema de la braquistócrona (la curva de descenso más rápido). Newton lo resolvió en una sola noche de forma anónima. Al leerlo, Bernoulli reconoció al instante a su archirrival diciendo: <em>"Reconozco al león por su garra"</em>.
                         </li>
                         <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #f97316;">
-                            <strong><i class="fas fa-fire" style="color: #f97316; margin-right: 6px;"></i> La Guerra Civil de los Bernoulli [1738]:</strong> La familia Bernoulli produjo matemáticos brillantes, pero extremadamente celosos. Johann Bernoulli compitió a muerte con su hermano mayor Jacob, llegando a robarle ideas y celebrando públicamente su muerte. Sin embargo, su peor acto fue contra su propio hijo, Daniel Bernoulli. Cuando Daniel publicó su revolucionaria obra <em>Hydrodynamica</em> (1738), Johann, consumido por la envidia ante el éxito de su hijo, publicó su propio libro (<em>Hydraulica</em>), le robó las ideas, ¡y falsificó la fecha de publicación al año 1732 para que pareciera que su hijo le había plagiado a él! Daniel terminó expulsando a Daniel de su propia casa.
+                            <strong><i class="fas fa-fire" style="color: #f97316; margin-right: 6px;"></i> La Guerra Civil de los Bernoulli [1738]:</strong> La familia Bernoulli produjo matemáticos brillantes, pero extremadamente celosos. Johann Bernoulli compitió a muerte con su hermano mayor Jacob, llegando a robarle ideas y celebrando públicamente su muerte. Sin embargo, su peor acto fue contra su propio hijo, Daniel Bernoulli. Cuando Daniel publicó su revolucionaria obra <em>Hydrodynamica</em> (1738), Johann, consumido por la envidia ante el éxito de su hijo, publicó su propio libro (<em>Hydraulica</em>), le robó las ideas, ¡y falsificó la fecha de publicación al año 1732 para que pareciera que su hijo le había plagiado a él! Johann terminó expulsando a Daniel de su propia casa.
                         </li>
                         <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #14b8a6;">
                             <strong><i class="fas fa-gavel" style="color: #14b8a6; margin-right: 6px;"></i> La Rebelión de Fourier frente a Lagrange [1807]:</strong> Cuando Joseph Fourier presentó por primera vez (en 1807) su audaz teoría sobre la conducción del calor, la vieja guardia de las matemáticas francesas se le echó encima. Joseph-Louis Lagrange y Pierre-Simon Laplace rechazaron tajantemente su uso de "series trigonométricas" (hoy Series de Fourier), argumentando que carecían de rigor y no podían representar funciones con esquinas. A pesar de la humillación inicial, Fourier demostró estar en lo correcto, revolucionando para siempre las matemáticas aplicadas. Curiosamente, años más tarde, fue su leal protegido y alumno, Claude-Louis Navier, quien defendió y publicó póstumamente el trabajo final de Fourier.
@@ -1903,6 +1903,36 @@ function switchTab(tabId, disableTimelineSync = false) {
         window.dispatchEvent(new Event('resize'));
     }, 50);
 
+    // FIX newton-sim: forzar resize+update del chart de Newton si es el tab activo.
+    // Chart.js colapsa a 0x0 cuando el contenedor estaba oculto al renderizar;
+    // hay que pedirle explícitamente que recalcule sus dimensiones.
+    if (tabId === 'newton-sim') {
+        setTimeout(() => {
+            const newtonGraphCanvas = document.getElementById('newtonGraph');
+            if (newtonGraphCanvas && window.Chart) {
+                const newtonChart = Chart.getChart
+                    ? Chart.getChart(newtonGraphCanvas)
+                    : null;
+                if (newtonChart) {
+                    newtonChart.resize();
+                    newtonChart.update('none'); // 'none' = sin animación para evitar flicker
+                }
+            }
+            // Forzar redimensionamiento del canvas de animación física.
+            // CRÍTICO: leer dimensiones del SHELL (padre con altura CSS fija),
+            // nunca de canvas.clientHeight que podría estar inflado en el bucle.
+            const newtonCanvas = document.getElementById('newtonCanvas');
+            if (newtonCanvas) {
+                const shell = newtonCanvas.closest('.newton-canvas-shell');
+                const rect = shell ? shell.getBoundingClientRect() : null;
+                const w = rect && rect.width > 0 ? Math.floor(rect.width) : (newtonCanvas.clientWidth || newtonCanvas.offsetWidth || 600);
+                const h = rect && rect.height > 0 ? Math.floor(rect.height) : (newtonCanvas.clientHeight || newtonCanvas.offsetHeight || 280);
+                newtonCanvas.width = w;
+                newtonCanvas.height = h;
+            }
+        }, 80); // 80 ms > 50 ms del resize event, para que el DOM ya esté pintado
+    }
+
     // FIX v2: Re-render MathJax equations for the newly visible tab pane
     setTimeout(() => {
         if (window.MathJax && MathJax.typesetPromise) {
@@ -1982,8 +2012,8 @@ function initFourierSimulation() {
         const numParticles = 80;
         for (let i = 0; i < numParticles; i++) {
             particles.push({
-                x: Math.random(), 
-                y: Math.random(), 
+                x: Math.random(),
+                y: Math.random(),
                 size: 2 + Math.random() * 2,
                 angle: Math.random() * Math.PI * 2,
                 r_norm: Math.random()
@@ -3956,7 +3986,7 @@ function initPrandtlSimulation() {
     const cbHydro = document.getElementById("prandtl-show-hydro");
     const cbTherm = document.getElementById("prandtl-show-therm");
     const cbConc = document.getElementById("prandtl-show-conc");
-    
+
     const valPDisplay = document.getElementById("prandtl-p-val");
     const valUDisplay = document.getElementById("prandtl-u-val");
     const valNuDisplay = document.getElementById("prandtl-nu-val");
@@ -3984,7 +4014,7 @@ function initPrandtlSimulation() {
             nu = mu / rho;
             // Simplified k for air
             k = 0.0241 * Math.pow(Tk / 273.15, 0.8);
-            Pr = 0.71; 
+            Pr = 0.71;
         } else if (fluid === "water") {
             // Liquid water (incompressible approx)
             rho = 1000 - Math.pow(Tf - 4, 2) / 250;
@@ -4029,7 +4059,7 @@ function initPrandtlSimulation() {
         let delta_t = 0;
         let delta_c = 0;
         let isTurbulent = false;
-        
+
         const validPr = Math.max(Pr, 0.01);
         const validSc = Math.max(Sc, 0.01);
 
@@ -4225,7 +4255,7 @@ function initPrandtlSimulation() {
         const hydroVisible = cbHydro.checked;
         const thermVisible = cbTherm.checked && (ts_val !== tinf_val);
         const concVisible = cbConc.checked && (cs_val !== cinf_val);
-        
+
         const tf = (ts_val + tinf_val) / 2;
         let nu_val, pr_val, sc_val, k_fluid;
 
@@ -4234,7 +4264,7 @@ function initPrandtlSimulation() {
             sliderNu.disabled = false;
             sliderPr.disabled = false;
             sliderSc.disabled = false;
-            
+
             nu_val = parseFloat(sliderNu.value) * 1e-5;
             pr_val = parseFloat(sliderPr.value);
             sc_val = parseFloat(sliderSc.value);
@@ -4243,16 +4273,16 @@ function initPrandtlSimulation() {
             document.querySelectorAll('.prandtl-custom-prop').forEach(el => el.style.display = "none");
             sliderNu.disabled = true;
             sliderPr.disabled = true;
-            
+
             const props = getFluidProperties(fluid, tf, p_val);
             nu_val = props.nu;
             pr_val = props.Pr;
             k_fluid = props.k;
-            
+
             // For Schmidt number, keep slider enabled since it depends on species, 
             // but we can set defaults based on fluid (like water vapor in air ~0.6)
             sc_val = parseFloat(sliderSc.value);
-            sliderSc.disabled = false; 
+            sliderSc.disabled = false;
 
             // Update sliders visually to match calculated properties
             sliderNu.value = (nu_val * 1e5).toFixed(2);
@@ -4299,7 +4329,7 @@ function initPrandtlSimulation() {
 
         // Update results panel
         const le = sc_val / pr_val;
-        
+
         const elTf = document.getElementById("prandtl-tf-out");
         const elLe = document.getElementById("prandtl-le-out");
         const elRex = document.getElementById("prandtl-rex-out");
@@ -4308,19 +4338,19 @@ function initPrandtlSimulation() {
         const elHx = document.getElementById("prandtl-hx-out");
         const elFormula = document.getElementById("prandtl-hx-formula");
 
-        if(elTf) elTf.textContent = `${tf.toFixed(1)} °C`;
-        if(elLe) elLe.textContent = le.toFixed(2);
-        if(elRex) elRex.textContent = newData.Rex.toExponential(2);
-        
+        if (elTf) elTf.textContent = `${tf.toFixed(1)} °C`;
+        if (elLe) elLe.textContent = le.toFixed(2);
+        if (elRex) elRex.textContent = newData.Rex.toExponential(2);
+
         if (elRegime) {
             elRegime.textContent = newData.isTurbulent ? "TURBULENTO" : "LAMINAR";
             elRegime.style.color = newData.isTurbulent ? "#ef4444" : "#10b981";
         }
-        
+
         const elDelta = document.getElementById("prandtl-delta-out");
         const elDeltaT = document.getElementById("prandtl-deltat-out");
         const elDeltaC = document.getElementById("prandtl-deltac-out");
-        
+
         if (elDelta) elDelta.textContent = `${newData.delta_mm.toFixed(2)} mm`;
         if (elDeltaT) elDeltaT.textContent = `${newData.delta_t_mm.toFixed(2)} mm`;
         if (elDeltaC) elDeltaC.textContent = `${newData.delta_c_mm.toFixed(2)} mm`;
@@ -4329,20 +4359,20 @@ function initPrandtlSimulation() {
             const xc = (500000 * nu_val) / u_val;
             elXc.textContent = `${xc.toFixed(2)} m`;
         }
-        
+
         if (elHx && elFormula) {
             let nux, hx, formula;
             if (newData.isTurbulent) {
-                nux = 0.0296 * Math.pow(newData.Rex, 0.8) * Math.pow(pr_val, 1/3);
+                nux = 0.0296 * Math.pow(newData.Rex, 0.8) * Math.pow(pr_val, 1 / 3);
                 formula = "\\(Nu_x = 0.0296 Re_x^{4/5} Pr^{1/3}\\)<br>\\(h_x = \\frac{Nu_x k}{x}\\)";
             } else {
-                nux = 0.332 * Math.pow(newData.Rex, 0.5) * Math.pow(pr_val, 1/3);
+                nux = 0.332 * Math.pow(newData.Rex, 0.5) * Math.pow(pr_val, 1 / 3);
                 formula = "\\(Nu_x = 0.332 Re_x^{1/2} Pr^{1/3}\\)<br>\\(h_x = \\frac{Nu_x k}{x}\\)";
             }
             hx = (nux * k_fluid) / x_val;
-            
+
             elHx.innerHTML = `${hx.toFixed(2)} <span style="font-size: 0.8rem">W/m²K</span>`;
-            
+
             // Only update formula if it changed to avoid excessive MathJax calls
             if (elFormula.dataset.formula !== formula) {
                 elFormula.dataset.formula = formula;
@@ -4352,30 +4382,30 @@ function initPrandtlSimulation() {
                 }
             }
         }
-        
+
         // Update global results
         const elReL = document.getElementById("prandtl-rel-out");
         const elHL = document.getElementById("prandtl-hl-out");
         const elHLFormula = document.getElementById("prandtl-hl-formula");
-        
+
         if (elReL && elHL && elHLFormula) {
             const L = parseFloat(sliderL.value) || 2.0; // The total length of the plate
             const ReL = (u_val * L) / nu_val;
             elReL.textContent = ReL.toExponential(2);
-            
+
             let nuL_avg, formulaL;
             if (ReL < 500000) {
-                nuL_avg = 0.664 * Math.pow(ReL, 0.5) * Math.pow(pr_val, 1/3);
+                nuL_avg = 0.664 * Math.pow(ReL, 0.5) * Math.pow(pr_val, 1 / 3);
                 formulaL = "\\(\\overline{Nu}_L = 0.664 Re_L^{1/2} Pr^{1/3}\\)<br>\\(\\bar{h}_L = \\frac{\\overline{Nu}_L k}{L}\\)";
             } else {
                 const A = 0.037 * Math.pow(500000, 0.8) - 0.664 * Math.pow(500000, 0.5); // A approx 871
-                nuL_avg = (0.037 * Math.pow(ReL, 0.8) - A) * Math.pow(pr_val, 1/3);
+                nuL_avg = (0.037 * Math.pow(ReL, 0.8) - A) * Math.pow(pr_val, 1 / 3);
                 formulaL = `\\(\\overline{Nu}_L = (0.037 Re_L^{4/5} - ${Math.round(A)}) Pr^{1/3}\\)<br>\\(\\bar{h}_L = \\frac{\\overline{Nu}_L k}{L}\\)`;
             }
-            
+
             const hL_avg = (nuL_avg * k_fluid) / L;
             elHL.innerHTML = `${hL_avg.toFixed(2)} <span style="font-size: 0.8rem">W/m²K</span>`;
-            
+
             if (elHLFormula.dataset.formula !== formulaL) {
                 elHLFormula.dataset.formula = formulaL;
                 elHLFormula.innerHTML = formulaL;
@@ -4384,7 +4414,7 @@ function initPrandtlSimulation() {
                 }
             }
         }
-        
+
         // Update UI displays
         const L_val = parseFloat(sliderL.value) || 2.0;
         const elLTitleEs = document.getElementById("prandtl-l-display-title-es");
@@ -4507,7 +4537,7 @@ function initPrandtlSimulation() {
             animCtx.strokeStyle = "rgba(239, 68, 68, 0.4)";
             animCtx.lineWidth = 2;
             animCtx.stroke();
-            
+
             // Shade the hydrodynamic boundary layer area
             animCtx.beginPath();
             animCtx.moveTo(0, canvas.height);
@@ -5702,21 +5732,38 @@ function initNewtonSimulation() {
     let currentTemps = [20, 20, 20, 20];
     let visualR = 40;
 
+    // Umbral de equilibrio térmico: por debajo de este ΔT la convección natural
+    // no tiene fuerza impulsora (ΔρAG → 0) y la animación del fluido debe
+    // quedar estática. Física: cuando T_cilindro → T_∞, ΔT → 0 → β·g·ΔT → 0.
+    const EQUILIBRIUM_EPSILON = 0.1; // °C
+
     function initParticles() {
-        if (canvas.clientWidth > 0) {
-            canvas.width = canvas.clientWidth;
-            canvas.height = canvas.clientHeight;
+        // Leer siempre las dimensiones renderizadas del contenedor.
+        // getBoundingClientRect() devuelve el tamaño real post-layout,
+        // evitando el 0 que puede dar clientWidth antes del primer paint.
+        const shell = canvas.closest('.newton-canvas-shell');
+        const shellRect = shell ? shell.getBoundingClientRect() : null;
+        const shellW = shellRect && shellRect.width > 0 ? shellRect.width : 0;
+        const shellH = shellRect && shellRect.height > 0 ? shellRect.height : 0;
+
+        const newW = shellW > 0 ? Math.floor(shellW) : (canvas.clientWidth || canvas.offsetWidth || 600);
+        const newH = shellH > 0 ? Math.floor(shellH) : (canvas.clientHeight || canvas.offsetHeight || 300);
+
+        // Solo reasignar si las dimensiones realmente cambiaron
+        if (canvas.width !== newW || canvas.height !== newH) {
+            canvas.width = newW;
+            canvas.height = newH;
         }
+
         particles = [];
         const numCylinders = 4;
-        const spacing = canvas.width / numCylinders;
+        const spacing = canvas.width / numCylinders;   // recalcula con ancho real
         const currentD_init = parseFloat(sliderD.value);
         const visualR_init = 15 + (currentD_init / 0.30) * 50;
 
         for (let zone = 0; zone < numCylinders; zone++) {
             const cx = spacing * zone + spacing / 2;
             const cy = canvas.height / 2;
-            // 20 particles per zone
             for (let i = 0; i < 20; i++) {
                 particles.push(new NewtonPlumeParticle(cx, cy, visualR_init, zone, i));
             }
@@ -5741,7 +5788,7 @@ function initNewtonSimulation() {
         reset(cx, cy, baseR) {
             this.life = 1.0;
             this.decay = 0.0015 + Math.random() * 0.0025;
-            
+
             if (this.zone === 1) {
                 // Forced air spawns at the left boundary of Zone 1
                 const xMin = (canvas.width / 4) * 1;
@@ -5756,12 +5803,12 @@ function initNewtonSimulation() {
                 this.x = cx + Math.cos(angle) * (baseR + 2);
                 this.y = cy + Math.sin(angle) * (baseR + 2);
                 this.side = Math.sign(this.x - cx) || 1;
-                
+
                 let speedScale = 1.0;
                 if (this.zone === 0) speedScale = 0.5; // Aire Quieto
                 else if (this.zone === 2) speedScale = 0.25; // Aceite
                 else if (this.zone === 3) speedScale = 1.2; // Agua
-                
+
                 this.vx = (Math.random() - 0.5) * 0.04 * speedScale;
                 this.vy = (-0.12 - Math.random() * 0.18) * speedScale;
                 this.size = 1.2 + Math.random() * 2.0;
@@ -5830,29 +5877,49 @@ function initNewtonSimulation() {
                     this.x = xMinZone;
                 }
             } else {
-                // Natural Convection update logic (exactly matching initNatConvSimulation)
+                // Natural Convection update logic
                 let speedScale = 1.0;
                 if (this.zone === 0) speedScale = 0.5; // Aire Quieto
                 else if (this.zone === 2) speedScale = 0.25; // Aceite
                 else if (this.zone === 3) speedScale = 1.2; // Agua
 
-                // Fluids never truly stand still: keep a minimum baseline of thermal
-                // agitation even after the cylinder reaches equilibrium with its surroundings
-                const ambientFactor = Math.max(0.18, heatFactor);
-                const buoyancyForce = Math.min(0.5, ambientFactor * 0.5);
-                this.vy -= buoyancyForce * 0.015 * speedScale;
+                // ── FÍSICA CORRECTA ─────────────────────────────────────────────────────
+                // La fuerza de flotación es β·g·ΔT·ρ, proporcional a ΔT = T_cil − T_∞.
+                // heatFactor = ΔT / (Ti − T∞) ∈ [0,1]; cuando ΔT ≤ ε → heatFactor = 0
+                // (forzado en draw()) → no hay gradiente de densidad → sin flujo convectivo
+                // → las partículas deben decelerar hasta el reposo completo.
+                // ────────────────────────────────────────────────────────────────────────
+                const atEquilibrium = (heatFactor <= 0);
 
-                // Small continuous random drift so particles keep gently jiggling at equilibrium
-                this.vx += (Math.random() - 0.5) * 0.012 * speedScale;
-                this.vy += (Math.random() - 0.5) * 0.012 * speedScale;
+                if (atEquilibrium) {
+                    // Sin fuerza impulsora: amortiguación viscosa hasta v = 0
+                    this.vx *= 0.82;
+                    this.vy *= 0.82;
+                    if (Math.abs(this.vx) < 0.005 && Math.abs(this.vy) < 0.005) {
+                        this.vx = 0;
+                        this.vy = 0;
+                    }
+                } else {
+                    // Fuerza de flotación proporcional a ΔT (no a un mínimo artificial)
+                    const buoyancyForce = Math.min(0.5, heatFactor * 0.5);
+                    this.vy -= buoyancyForce * 0.015 * speedScale;
 
-                const maxVy = (0.35 + ambientFactor * 0.45) * speedScale;
-                const maxVx = 0.22 * speedScale;
-                this.vx = Math.max(-maxVx, Math.min(maxVx, this.vx));
-                this.vy = Math.max(-maxVy, Math.min(maxVy, this.vy));
+                    // Agitación molecular aleatoria también proporcional a ΔT
+                    this.vx += (Math.random() - 0.5) * 0.012 * heatFactor * speedScale;
+                    this.vy += (Math.random() - 0.5) * 0.012 * heatFactor * speedScale;
+
+                    const maxVy = (0.35 + heatFactor * 0.45) * speedScale;
+                    const maxVx = 0.22 * speedScale;
+                    this.vx = Math.max(-maxVx, Math.min(maxVx, this.vx));
+                    this.vy = Math.max(-maxVy, Math.min(maxVy, this.vy));
+                }
 
                 this.x += this.vx;
                 this.y += this.vy;
+
+                // La fuerza de hugging y la oscilación de pluma solo actúan si hay ΔT.
+                // buoyancyForce y waveAmp son proporcionales a heatFactor (no a un mínimo).
+                const activeBuoyancy = atEquilibrium ? 0 : Math.min(0.5, heatFactor * 0.5);
 
                 const dx = this.x - cx;
                 const dy = this.y - cy;
@@ -5884,18 +5951,19 @@ function initNewtonSimulation() {
                         const tx = -ny;
                         const ty = nx;
                         const sweepDirection = -Math.sign(ty) || 1;
-                        const sweepForce = (0.1 + Math.random() * 0.15) * (0.3 + buoyancyForce);
+                        // sweepForce → 0 cuando ΔT → 0 (sin convección natural)
+                        const sweepForce = (0.1 + Math.random() * 0.15) * (0.3 + activeBuoyancy);
                         this.vx += tx * sweepDirection * sweepForce * 0.15;
                         this.vy += ty * sweepDirection * sweepForce * 0.15;
                     } else {
-                        this.vy -= 0.05 * speedScale;
+                        if (!atEquilibrium) this.vy -= 0.05 * speedScale;
                     }
                 }
 
-                // Wave oscillation above cylinder
+                // Wave oscillation above cylinder: se apaga cuando ΔT → 0
                 const yDist = cy - this.y;
-                if (yDist > baseR) {
-                    const waveAmp = Math.min(6, (yDist - baseR) * 0.05 * Math.min(2, ambientFactor * 5));
+                if (yDist > baseR && !atEquilibrium) {
+                    const waveAmp = Math.min(6, (yDist - baseR) * 0.05 * Math.min(2, heatFactor * 5));
                     const waveOffset = Math.sin(this.y * 0.04 - performance.now() * 0.003) * waveAmp;
                     this.x += waveOffset * 0.05;
                 }
@@ -5917,9 +5985,9 @@ function initNewtonSimulation() {
         draw(ctx, heatFactor) {
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            
+
             const alpha = this.life * 0.5;
-            
+
             if (this.zone === 0) {
                 // Aire quieto: warm amber
                 ctx.fillStyle = `rgba(251, 191, 36, ${alpha})`;
@@ -5974,25 +6042,71 @@ function initNewtonSimulation() {
 
         if (tbodyResults) {
             tbodyResults.innerHTML = '';
+            const lang = (typeof getLang === 'function') ? getLang() : 'es';
             simData.forEach(d => {
+                // ── Tiempos de equilibrio térmico ──────────────────────────────────────
+                // τ es la constante de tiempo de la capacitancia global.
+                // t₉₅ ≈ 3τ → el cilindro ha recorrido el 95.0% de (Ti − T∞)  [1−e⁻³ ≈ 0.950]
+                // t₉₉ ≈ 5τ → el cilindro ha recorrido el 99.3% de (Ti − T∞)  [1−e⁻⁵ ≈ 0.993]
+                const t95 = 3 * d.tau;
+                const t99 = 5 * d.tau;
+
+                // Helper: formatea segundos → "X.X s" o "X.X min" si ≥ 120 s
+                function fmtTime(secs) {
+                    return secs >= 120
+                        ? (secs / 60).toFixed(1) + ' min'
+                        : secs.toFixed(1) + ' s';
+                }
+
                 const tr = document.createElement('tr');
                 tr.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+
+                // Columna: Medio
                 const tdName = document.createElement('td');
                 tdName.style.padding = '4px';
                 tdName.style.color = d.color;
                 tdName.textContent = d.name + ` (h=${d.h})`;
-                
+
+                // Columna: Número de Biot
                 const tdBi = document.createElement('td');
                 tdBi.style.padding = '4px';
-                tdBi.innerHTML = d.Bi.toFixed(4) + (d.Bi < 0.1 ? " <span style='color:#10b981;font-size:0.7em;'>(V)</span>" : " <span style='color:#ef4444;font-size:0.7em;'>(I)</span>");
-                
+                const biValid = d.Bi < 0.1;
+                const biTooltip = biValid
+                    ? (lang === 'en' ? 'Bi < 0.1: Lumped Capacitance valid' : 'Bi < 0.1: Capacitancia global válida')
+                    : (lang === 'en' ? 'Bi ≥ 0.1: Significant internal gradient' : 'Bi ≥ 0.1: Gradiente interno significativo');
+                tdBi.innerHTML = d.Bi.toFixed(4) +
+                    (biValid
+                        ? ` <span style='color:#10b981;font-size:0.7em;' title='${biTooltip}'>(V)</span>`
+                        : ` <span style='color:#ef4444;font-size:0.7em;' title='${biTooltip}'>(I)</span>`);
+
+                // Columna: Tiempo característico τ
                 const tdTau = document.createElement('td');
                 tdTau.style.padding = '4px';
                 tdTau.textContent = d.tau.toFixed(1);
-                
+
+                // Columna: t₉₅ = 3τ  (95% de equilibrio)
+                const tdT95 = document.createElement('td');
+                tdT95.style.padding = '4px';
+                tdT95.style.color = '#fbbf24';
+                tdT95.title = lang === 'en'
+                    ? `95% thermal equilibrium ≈ 3τ = ${fmtTime(t95)}`
+                    : `Equilibrio térmico al 95% ≈ 3τ = ${fmtTime(t95)}`;
+                tdT95.textContent = fmtTime(t95);
+
+                // Columna: t₉₉ = 5τ  (99.3% de equilibrio)
+                const tdT99 = document.createElement('td');
+                tdT99.style.padding = '4px';
+                tdT99.style.color = '#34d399';
+                tdT99.title = lang === 'en'
+                    ? `99.3% thermal equilibrium ≈ 5τ = ${fmtTime(t99)}`
+                    : `Equilibrio térmico al 99.3% ≈ 5τ = ${fmtTime(t99)}`;
+                tdT99.textContent = fmtTime(t99);
+
                 tr.appendChild(tdName);
                 tr.appendChild(tdBi);
                 tr.appendChild(tdTau);
+                tr.appendChild(tdT95);
+                tr.appendChild(tdT99);
                 tbodyResults.appendChild(tr);
             });
         }
@@ -6041,10 +6155,33 @@ function initNewtonSimulation() {
 
         if (resTime) resTime.innerHTML = simTime.toFixed(1) + " s";
 
-        if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
-            canvas.width = canvas.clientWidth;
-            canvas.height = canvas.clientHeight;
+        // ── Resize guard ────────────────────────────────────────────────────
+        // Leer SIEMPRE desde el shell (padre con height CSS fijo: 280 px).
+        // Nunca de canvas.clientHeight directamente: si el shell no tuviese
+        // altura explícita el canvas devolvería su propio tamaño → bucle
+        // infinito de estiramiento vertical en cada frame de rAF.
+        // getBoundingClientRect() devuelve el tamaño ya pintado por el browser
+        // y no genera reflow adicional dentro del loop de animación.
+        const shell = canvas.closest('.newton-canvas-shell');
+        const shellRect = shell ? shell.getBoundingClientRect() : null;
+        const targetW = shellRect && shellRect.width > 0
+            ? Math.floor(shellRect.width)
+            : (canvas.clientWidth || canvas.offsetWidth || 0);
+        // Si el shell no tiene altura > 0, NO redimensionamos: evita el bucle.
+        const targetH = shellRect && shellRect.height > 0
+            ? Math.floor(shellRect.height)
+            : 0;
+
+        if (targetW > 0 && targetH > 0 &&
+            (canvas.width !== targetW || canvas.height !== targetH)) {
+            canvas.width = targetW;
+            canvas.height = targetH;
             initParticles();
+
+            // Notificar a Chart.js que el contenedor cambió de tamaño
+            if (chartInstance) {
+                chartInstance.resize();
+            }
         }
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -6058,7 +6195,7 @@ function initNewtonSimulation() {
             currentTemps[idx] = T;
             const cx = spacing * idx + spacing / 2;
             const cy = canvas.height / 2;
-            
+
             // Draw gradient representation of cylinder temperature
             const grad = ctx.createRadialGradient(cx, cy, 2, cx, cy, visualR);
             // Incandescent color based on temperature: hot is red/orange, cold is grey/dark blue
@@ -6066,7 +6203,7 @@ function initNewtonSimulation() {
             const rVal = Math.round(50 + 205 * ratio);
             const gVal = Math.round(70 + 80 * ratio);
             const bVal = Math.round(90 - 40 * ratio);
-            
+
             grad.addColorStop(0, `rgb(${rVal}, ${gVal}, ${bVal})`);
             grad.addColorStop(1, '#1e293b');
 
@@ -6077,7 +6214,7 @@ function initNewtonSimulation() {
             ctx.lineWidth = 2;
             ctx.fill();
             ctx.stroke();
-            
+
             ctx.fillStyle = d.color;
             ctx.font = "bold 11px sans-serif";
             ctx.textAlign = "center";
@@ -6095,7 +6232,14 @@ function initNewtonSimulation() {
             const cy = canvas.height / 2;
             const T = currentTemps[p.zone];
             const dT = T - currentTinf;
-            const heatFactor = Math.max(0, dT) / Math.max(1, currentTi - currentTinf);
+
+            // Aplicar umbral físico de equilibrio: cuando |ΔT| < ε la diferencia de
+            // densidad β·ΔT → 0, por lo que no existe fuerza de flotación y la
+            // convección natural cesa. Se fuerza heatFactor = 0 para que el bloque
+            // `atEquilibrium` de NewtonPlumeParticle.update() amortigue las partículas
+            // hasta el reposo. (Corrección física: EQUILIBRIUM_EPSILON = 0.1 °C)
+            const rawHeatFactor = Math.max(0, dT) / Math.max(1, currentTi - currentTinf);
+            const heatFactor = (Math.abs(dT) < EQUILIBRIUM_EPSILON) ? 0 : rawHeatFactor;
 
             p.update(cx, cy, visualR, heatFactor, spacing, canvas.height);
             p.draw(ctx, heatFactor);
@@ -6132,20 +6276,12 @@ function initNewtonSimulation() {
         if (el) el.addEventListener('input', updateSimulationParams);
     });
 
-    // Speed buttons event listeners
+    // Speed buttons event listeners — estilos manejados por CSS (.active en style.css)
     const speedButtons = document.querySelectorAll('.newton-speed-btn');
     speedButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-            speedButtons.forEach(b => {
-                b.classList.remove('active');
-                b.style.background = '#1e293b';
-                b.style.color = '#94a3b8';
-                b.style.borderColor = '#334155';
-            });
+            speedButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            btn.style.background = '#334155';
-            btn.style.color = 'white';
-            btn.style.borderColor = '#475569';
             simSpeedMultiplier = parseFloat(btn.getAttribute('data-speed')) || 1;
         });
     });
@@ -6154,13 +6290,20 @@ function initNewtonSimulation() {
         startBtn.addEventListener('click', () => {
             isPlaying = !isPlaying;
             if (isPlaying) {
-                startBtn.textContent = 'Pausar Enfriamiento';
-                startBtn.style.background = '#eab308';
+                // Actualizar texto dentro de los spans bilingües (preserva estructura HUD)
+                const esSpan = startBtn.querySelector('.lang-es');
+                const enSpan = startBtn.querySelector('.lang-en');
+                if (esSpan) esSpan.textContent = 'Pausar';
+                if (enSpan) enSpan.textContent = 'Pause';
+                startBtn.style.background = 'linear-gradient(135deg,#92400e,#eab308)';
                 lastTimestamp = performance.now();
                 animationId = requestAnimationFrame(draw);
             } else {
-                startBtn.textContent = 'Iniciar Enfriamiento';
-                startBtn.style.background = '#3b82f6';
+                const esSpan = startBtn.querySelector('.lang-es');
+                const enSpan = startBtn.querySelector('.lang-en');
+                if (esSpan) esSpan.textContent = 'Iniciar Enfriamiento';
+                if (enSpan) enSpan.textContent = 'Start Cooling';
+                startBtn.style.background = '';   // deja que el CSS lo controle
             }
         });
     }
@@ -6170,27 +6313,120 @@ function initNewtonSimulation() {
             isPlaying = false;
             simTime = 0;
             if (startBtn) {
-                startBtn.textContent = 'Iniciar Enfriamiento';
-                startBtn.style.background = '#3b82f6';
+                const esSpan = startBtn.querySelector('.lang-es');
+                const enSpan = startBtn.querySelector('.lang-en');
+                if (esSpan) esSpan.textContent = 'Iniciar Enfriamiento';
+                if (enSpan) enSpan.textContent = 'Start Cooling';
+                startBtn.style.background = '';   // restaura gradiente CSS
             }
             updateSimulationParams();
             initParticles();
         });
     }
 
+    // ── HUD: fill dinámico del riel de cada slider ──────────────────────────
+    // Actualiza la CSS custom property --val-pct para que el degradé del riel
+    // refleje la posición actual del thumb (compatible con style.css § Newton HUD).
+    function updateSliderFill(slider) {
+        const min = parseFloat(slider.min) || 0;
+        const max = parseFloat(slider.max) || 100;
+        const pct = ((parseFloat(slider.value) - min) / (max - min)) * 100;
+        slider.style.setProperty('--val-pct', pct.toFixed(1) + '%');
+    }
+
+    [sliderTi, sliderTinf, sliderD, sliderK, sliderRho, sliderCp].forEach(s => {
+        if (!s) return;
+        updateSliderFill(s);                          // valor inicial
+        s.addEventListener('input', () => updateSliderFill(s));
+    });
+
+    // ── HUD: ResizeObserver para canvas de animación ─────────────────────────
+    // Cuando el usuario abre/cierra el modal fullscreen el shell cambia de tamaño;
+    // forzamos el redimensionamiento del canvas para que la animación llene el área.
+    if (typeof ResizeObserver !== 'undefined') {
+        const canvasShell = canvas.closest('.newton-canvas-shell');
+        if (canvasShell) {
+            let resizeRAF = null; // debounce con rAF para no disparar en cada px
+            const shellObserver = new ResizeObserver(() => {
+                if (resizeRAF) cancelAnimationFrame(resizeRAF);
+                resizeRAF = requestAnimationFrame(() => {
+                    const rect = canvasShell.getBoundingClientRect();
+                    const w = Math.floor(rect.width);
+                    const h = Math.floor(rect.height);
+                    if (w > 0 && h > 0 && (canvas.width !== w || canvas.height !== h)) {
+                        canvas.width = w;
+                        canvas.height = h;
+                        initParticles(); // recalcula zonas con el nuevo ancho
+                    }
+                    // El gráfico vive en un contenedor hermano; resize() lo adapta
+                    if (chartInstance) {
+                        chartInstance.resize();
+                    }
+                });
+            });
+            shellObserver.observe(canvasShell);
+
+            // También observar el contenedor del gráfico directamente
+            const chartShell = graphCanvas
+                ? graphCanvas.closest('.chart-container, .newton-chart-area')
+                : null;
+            if (chartShell) {
+                shellObserver.observe(chartShell);
+            }
+        }
+    }
+
+    // ── Listener para el evento newton:resize emitido por resizeNewtonAssets() ──
+    // Permite que el fullscreen controller (IIFE externo) notifique a esta
+    // función de que el canvas ya fue redimensionado y hay que reiniciar
+    // partículas, sin crear dependencia circular de funciones internas.
+    function onNewtonResize() {
+        initParticles();
+        if (chartInstance) chartInstance.resize();
+    }
+    window.addEventListener('newton:resize', onNewtonResize);
+
+    // ── window.resize: cubre TANTO fullscreen COMO modo normal ───────────────
+    // El fullscreen controller ya tiene su propio debounce para fullscreen;
+    // este listener cubre el caso de redimensionado de ventana en modo normal
+    // (cambio de ancho de panel, rotación de dispositivo, etc.).
+    let _winResizeRAF = null;
+    function onWindowResize() {
+        if (_winResizeRAF) cancelAnimationFrame(_winResizeRAF);
+        _winResizeRAF = requestAnimationFrame(() => {
+            const modal = document.getElementById('newton-lab-modal');
+            // En modo normal (sin .fullscreen), el fullscreen controller no actúa;
+            // hacemos el resize aquí. En fullscreen lo hace resizeNewtonAssets().
+            const isFullscreen = modal && modal.classList.contains('fullscreen');
+            if (!isFullscreen) {
+                initParticles();
+                if (chartInstance) chartInstance.resize();
+            }
+        });
+    }
+    window.addEventListener('resize', onWindowResize);
+
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
-            initParticles();
-            updateSimulationParams();
-            lastTimestamp = performance.now();
-            animationId = requestAnimationFrame(draw);
+            // Diferir un frame para que el browser haya aplicado
+            // el CSS grid 2fr/1fr antes de leer las dimensiones del canvas
+            requestAnimationFrame(() => {
+                initParticles();          // lee getBoundingClientRect() ya correcto
+                updateSimulationParams();
+                if (chartInstance) chartInstance.resize(); // gráfica al ancho 2fr
+                lastTimestamp = performance.now();
+                animationId = requestAnimationFrame(draw);
+            });
         } else {
-            if (animationId) cancelAnimationFrame(animationId);
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
         }
     });
 
     observer.observe(canvas);
-}function initCondConvSimulation() {
+} function initCondConvSimulation() {
     const canvas = document.getElementById("condConvChart");
     if (!canvas) return;
 
@@ -6459,7 +6695,7 @@ function initNusseltSimulation() {
         for (let i = 0; i < numParticles; i++) {
             particles.push({
                 y: Math.random() * animCanvas.height,
-                xRel: Math.random(), 
+                xRel: Math.random(),
                 size: 1.5 + Math.random() * 2
             });
         }
@@ -11173,7 +11409,7 @@ function initVortexSimulation() {
     window.addEventListener('resize', resize);
 
     // Initialize particles across the canvas
-        function initParticles() {
+    function initParticles() {
         particles = [];
         const w = canvas.width / (window.devicePixelRatio || 1);
         const h = canvas.height / (window.devicePixelRatio || 1);
@@ -17242,7 +17478,7 @@ function initClausiusSimulation() {
     }
     window.addEventListener('resize', () => { if (isVisible) resize(); });
 
-        function initParticles() {
+    function initParticles() {
         particles = [];
         const N = parseInt(sliderN.value);
         spanN.textContent = N;
@@ -19688,14 +19924,14 @@ function initInternalBLSimulation() {
 
         if (showParticles) {
             if (particles.length === 0 && maxPCount > 0) buildParticles();
-            
+
             // Adjust particle count dynamically if slider decreased
             if (particles.length > maxPCount) particles.length = maxPCount;
 
             var dt = 0.0025 * speed * velScale;
             if (typeof canvas.particleTimer === 'undefined') canvas.particleTimer = 0;
             canvas.particleTimer += velScale;
-            
+
             if (canvas.particleTimer > 60) {
                 canvas.particleTimer = 0;
                 // Spawn a vertical column periodically so they trace out the velocity profile visibly
@@ -19705,35 +19941,35 @@ function initInternalBLSimulation() {
                 }
             }
 
-        for (var i = particles.length - 1; i >= 0; i--) {
-            var p = particles[i];
-            var isInFD = p.xn >= fdVisual;
-            var pPhys = isInFD ? 1.0 : (p.xn / fdVisual);
-            var v = uProfile(pPhys, p.yn, Re);
-            var px2 = L.pipeLeft + p.xn * L.pipeW;
-            var py2 = L.pipeYc + p.yn * L.pipeR;
-            var fd2 = p.xn >= fdVisual;
-            var pPhys2 = fd2 ? 1.0 : (p.xn / fdVisual);
-            var dk2 = Math.min(1.0, Math.sqrt(pPhys2));
-            var nw = Math.abs(p.yn) >= (1.0 - dk2);
-            var c2 = fd2 ? '#34d399' : (nw ? 'rgba(251,146,60,0.95)' : '#60a5fa');
-            ctx.beginPath(); ctx.arc(px2, py2, 1.5, 0, Math.PI * 2);
-            ctx.fillStyle = c2; ctx.globalAlpha = 0.85; ctx.fill(); ctx.globalAlpha = 1.0;
+            for (var i = particles.length - 1; i >= 0; i--) {
+                var p = particles[i];
+                var isInFD = p.xn >= fdVisual;
+                var pPhys = isInFD ? 1.0 : (p.xn / fdVisual);
+                var v = uProfile(pPhys, p.yn, Re);
+                var px2 = L.pipeLeft + p.xn * L.pipeW;
+                var py2 = L.pipeYc + p.yn * L.pipeR;
+                var fd2 = p.xn >= fdVisual;
+                var pPhys2 = fd2 ? 1.0 : (p.xn / fdVisual);
+                var dk2 = Math.min(1.0, Math.sqrt(pPhys2));
+                var nw = Math.abs(p.yn) >= (1.0 - dk2);
+                var c2 = fd2 ? '#34d399' : (nw ? 'rgba(251,146,60,0.95)' : '#60a5fa');
+                ctx.beginPath(); ctx.arc(px2, py2, 1.5, 0, Math.PI * 2);
+                ctx.fillStyle = c2; ctx.globalAlpha = 0.85; ctx.fill(); ctx.globalAlpha = 1.0;
 
-            p.xn += v * dt * 0.40;
+                p.xn += v * dt * 0.40;
 
-            if (Re >= 2300) {
-                var turbulenceIntensity = Re > 4000 ? 0.05 : 0.05 * ((Re - 2300) / 1700);
-                p.yn += (Math.random() - 0.5) * turbulenceIntensity;
-                if (p.yn > 0.95) p.yn = 0.95;
-                if (p.yn < -0.95) p.yn = -0.95;
+                if (Re >= 2300) {
+                    var turbulenceIntensity = Re > 4000 ? 0.05 : 0.05 * ((Re - 2300) / 1700);
+                    p.yn += (Math.random() - 0.5) * turbulenceIntensity;
+                    if (p.yn > 0.95) p.yn = 0.95;
+                    if (p.yn < -0.95) p.yn = -0.95;
+                }
+
+                if (p.xn > 1.02) {
+                    particles.splice(i, 1);
+                    continue;
+                }
             }
-
-            if (p.xn > 1.02) {
-                particles.splice(i, 1);
-                continue;
-            }
-        }
         } else {
             particles = [];
         }
@@ -20687,7 +20923,7 @@ function initInternalBLSimulation() {
         if (wikiBtn) {
             wikiBtn.addEventListener("click", window.openThermalWiki);
         }
-        
+
         // Close wiki when clicking outside of it
         window.addEventListener("click", (e) => {
             const modal = document.getElementById("thermal-wiki-modal");
@@ -22122,13 +22358,13 @@ function initInternalBLSimulation() {
                 this.y = startY;
                 this.isEscaping = isEscaping; // true means escaping from plate, false means entering
                 this.color = color;
-                
+
                 // Direction vector: mostly upward or downward with some horizontal dispersion
                 const angle = (Math.random() * Math.PI / 3) + (isEscaping ? -2 * Math.PI / 3 : Math.PI / 3);
                 this.speed = Math.random() * 1.5 + 0.8;
                 this.vx = Math.cos(angle) * this.speed;
                 this.vy = Math.sin(angle) * this.speed;
-                
+
                 this.life = Math.random() * 60 + 30;
                 this.maxLife = this.life;
                 this.size = Math.random() * 3 + 1.5;
@@ -22222,7 +22458,7 @@ function initInternalBLSimulation() {
             ctx.beginPath();
             ctx.arc(cx, cy - 10, domeRadius, Math.PI, 2 * Math.PI);
             const domeColor = getColorForTemp(T2_K - 273.15);
-            
+
             // Radial gradient for the dome
             const domeGrad = ctx.createRadialGradient(cx, cy - 10, domeRadius - 30, cx, cy - 10, domeRadius);
             domeGrad.addColorStop(0, 'rgba(15, 23, 42, 0)');
@@ -22230,7 +22466,7 @@ function initInternalBLSimulation() {
             domeGrad.addColorStop(1, domeColor.replace('rgb', 'rgba').replace(')', ', 0.3)'));
             ctx.fillStyle = domeGrad;
             ctx.fill();
-            
+
             // Dashed outline
             ctx.strokeStyle = domeColor.replace('rgb', 'rgba').replace(')', ', 0.5)');
             ctx.lineWidth = 2;
@@ -22287,11 +22523,11 @@ function initInternalBLSimulation() {
             ctx.fillStyle = '#94a3b8';
             ctx.font = '10px Inter';
             ctx.textAlign = 'center';
-            
+
             // L1 label along the front-left edge
             const l1Mid = getIsoPoint(0, pL2 / 2 + 10);
             ctx.fillText(`L1 = ${L1.toFixed(1)} m`, l1Mid.x, l1Mid.y + 12);
-            
+
             // L2 label along the front-right edge
             const l2Mid = getIsoPoint(pL1 / 2 + 10, 0);
             ctx.fillText(`L2 = ${L2.toFixed(1)} m`, l2Mid.x + 10, l2Mid.y + 4);
@@ -22321,7 +22557,7 @@ function initInternalBLSimulation() {
             // 3. Emit / update / draw particles
             const isEscaping = Q_rad > 0;
             const absQ = Math.abs(Q_rad);
-            
+
             // Spawn rate proportional to net heat flux density (Q_rad / Area)
             const fluxDensity = absQ / area;
             let spawnRate = Math.min(15, Math.ceil(fluxDensity / 150));
@@ -22332,7 +22568,7 @@ function initInternalBLSimulation() {
                     // T1 > T2 -> Photons emit from plate towards the dome
                     const pColor = getColorForTemp(T1_C);
                     const p = new RadiationParticle(cx, cy, true, pColor);
-                    
+
                     // Uniform hemispherical emission pattern (angle: -pi to 0)
                     const angle = -Math.PI * Math.random();
                     const speed = Math.random() * 1.5 + 1.0;
@@ -22346,10 +22582,10 @@ function initInternalBLSimulation() {
                     const domeAngle = Math.PI + Math.random() * Math.PI;
                     const startX = cx + Math.cos(domeAngle) * domeRadius;
                     const startY = (cy - 10) + Math.sin(domeAngle) * domeRadius;
-                    
+
                     const pColor = getColorForTemp(T2_K - 273.15);
                     const p = new RadiationParticle(startX, startY, false, pColor);
-                    
+
                     const dx = cx - startX;
                     const dy = cy - startY;
                     const dist = Math.sqrt(dx * dx + dy * dy);
@@ -22374,10 +22610,10 @@ function initInternalBLSimulation() {
                 ctx.fillStyle = '#ffffff';
                 ctx.font = 'bold 12px Outfit';
                 ctx.textAlign = 'center';
-                const directionText = isEscaping 
-                    ? (window.currentLanguage === 'en' ? `Heat Emitted Q = +${(absQ > 1000 ? (absQ/1000).toFixed(2) + ' kW' : absQ.toFixed(1) + ' W')}` : `Calor Emitido Q = +${(absQ > 1000 ? (absQ/1000).toFixed(2) + ' kW' : absQ.toFixed(1) + ' W')}`)
-                    : (window.currentLanguage === 'en' ? `Heat Absorbed Q = -${(absQ > 1000 ? (absQ/1000).toFixed(2) + ' kW' : absQ.toFixed(1) + ' W')}` : `Calor Absorbido Q = -${(absQ > 1000 ? (absQ/1000).toFixed(2) + ' kW' : absQ.toFixed(1) + ' W')}`);
-                ctx.fillText(directionText, cx, cy - pL2/4 - 60);
+                const directionText = isEscaping
+                    ? (window.currentLanguage === 'en' ? `Heat Emitted Q = +${(absQ > 1000 ? (absQ / 1000).toFixed(2) + ' kW' : absQ.toFixed(1) + ' W')}` : `Calor Emitido Q = +${(absQ > 1000 ? (absQ / 1000).toFixed(2) + ' kW' : absQ.toFixed(1) + ' W')}`)
+                    : (window.currentLanguage === 'en' ? `Heat Absorbed Q = -${(absQ > 1000 ? (absQ / 1000).toFixed(2) + ' kW' : absQ.toFixed(1) + ' W')}` : `Calor Absorbido Q = -${(absQ > 1000 ? (absQ / 1000).toFixed(2) + ' kW' : absQ.toFixed(1) + ' W')}`);
+                ctx.fillText(directionText, cx, cy - pL2 / 4 - 60);
             }
 
             animationFrameId = requestAnimationFrame(draw);
@@ -22434,4 +22670,283 @@ function initInternalBLSimulation() {
 })();
 
 
-        
+
+
+/* ============================================================
+   NEWTON COOLING LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId: 'newton-lab-modal',
+        openBtnId: 'newton-lab-open-btn',
+        closeBtnId: 'newton-lab-close-btn',
+        fullscreenClass: 'fullscreen',
+        closingClass: 'is-closing',
+        bodyLockClass: 'newton-lab-open',
+        transitionMs: 350,
+    };
+
+    function getNewtonChart() {
+        // Intentar por id directo primero
+        var canvas = document.getElementById('newtonGraph');
+        if (!canvas) canvas = document.querySelector('#newton-sim canvas#newtonGraph');
+        if (!canvas) canvas = document.querySelector('#newton-lab-modal canvas#newtonGraph');
+        if (canvas && window.Chart) {
+            // Chart.js v3+
+            if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
+            // Fallback: buscar en Chart.instances (v2)
+            if (Chart.instances) {
+                return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            }
+        }
+        return null;
+    }
+
+    function getNewtonCanvas() {
+        return document.getElementById('newtonCanvas');
+    }
+
+    function resizeNewtonAssets() {
+        // ── 1. Gráfico Chart.js ────────────────────────────────────────────────
+        var chart = getNewtonChart();
+        if (chart) {
+            try {
+                chart.resize();
+                chart.update('none'); // sin animación → evita flicker
+            } catch (e) { }
+        }
+
+        // ── 2. Canvas de animación ─────────────────────────────────────────────
+        // Leer el tamaño desde el SHELL (padre con height CSS fija), nunca de
+        // c.clientHeight directamente: sin altura fija en el padre el canvas
+        // devuelve su propio tamaño inflado → bucle de estiramiento vertical.
+        var c = getNewtonCanvas();
+        if (c) {
+            var shell = c.closest ? c.closest('.newton-canvas-shell') : null;
+            var rect = shell ? shell.getBoundingClientRect() : null;
+            var w = rect && rect.width > 0 ? Math.floor(rect.width) : (c.clientWidth || c.offsetWidth || 0);
+            var h = rect && rect.height > 0 ? Math.floor(rect.height) : 0; // 0 → no redimensionar
+
+            if (w > 0 && h > 0 && (c.width !== w || c.height !== h)) {
+                c.width = w;
+                c.height = h;
+                // Disparar re-inicialización de partículas a través del evento global
+                // que escucha initNewtonSimulation() para evitar dependencia circular.
+                window.dispatchEvent(new CustomEvent('newton:resize', { detail: { w: w, h: h } }));
+            }
+        }
+    }
+
+    function retypesetMathJax() {
+        var modal = document.getElementById('newton-sim');
+        if (!modal) return;
+        if (window.MathJax) {
+            if (typeof MathJax.typesetPromise === 'function') {
+                MathJax.typesetPromise([modal]).catch(function () { });
+            } else if (MathJax.Hub) {
+                MathJax.Hub.Queue(['Typeset', MathJax.Hub, modal]);
+            }
+        }
+    }
+
+    function getLang() {
+        return window.currentLang || window.currentLanguage || 'es';
+    }
+
+    function t(key) {
+        var lang = getLang();
+        var tr = window.uiTranslations || {};
+        // translations.js is a flat es→en map; key lookup for es returns key itself
+        if (lang === 'en' && tr[key]) return tr[key];
+        return key;
+    }
+
+    /* ---- OPEN ---- */
+    function openNewtonLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal) return;
+        // Guard: no double-open
+        if (modal.classList.contains(CFG.fullscreenClass)) return;
+
+        // ── 1. GUARDAR POSICIÓN ORIGINAL ──────────────────────────────────────
+        // Guardamos el padre y creamos un nodo comentario invisible como marcador
+        // exacto de la posición, para poder devolver el nodo al lugar preciso al cerrar.
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('newton-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent;
+        modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement;
+        modal._cleanupDone = false; // bandera anti-doble-cleanup
+
+        // ── 2. TELEPORT AL BODY ───────────────────────────────────────────────
+        // appendChild MUEVE (no clona) el nodo. Al sacarlo de su contenedor padre
+        // (que tiene overflow:auto y crea un stacking context propio), el botón
+        // de cierre con position:fixed vuelve a ser relativo al viewport real.
+        document.body.appendChild(modal);
+
+        // ── 3. ACTIVAR ESTADO FULLSCREEN ──────────────────────────────────────
+        modal.classList.remove(CFG.closingClass);
+        modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden';
+        document.body.classList.add(CFG.bodyLockClass);
+
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+
+        var live = document.getElementById('newton-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en'
+            ? 'Lab opened in full screen. Press Escape to exit.'
+            : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+
+        // Tick 0: resize inmediato cuando el browser ya tiene el layout fullscreen
+        setTimeout(function () { resizeNewtonAssets(); }, 0);
+
+        // Tras la transición CSS: resize final + re-typeset + foco
+        setTimeout(function () {
+            resizeNewtonAssets();
+            retypesetMathJax();
+            var first = modal.querySelector('button, input, [tabindex]:not([tabindex="-1"])');
+            if (first) first.focus();
+        }, CFG.transitionMs + 50);
+    }
+
+    /* ---- CLOSE ---- */
+    function closeNewtonLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+
+        modal.classList.add(CFG.closingClass);
+
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+
+        // ── CLEANUP: se ejecuta UNA sola vez (bandera anti-doble-disparo) ──────
+        // El problema original era que tanto 'transitionend' como setTimeout
+        // podían disparar cleanup(), corrompiendo el DOM al intentar reinsertar
+        // el nodo dos veces. La bandera _cleanupDone lo previene.
+        function cleanup() {
+            if (modal._cleanupDone) return;
+            modal._cleanupDone = true;
+
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass);
+            document.body.style.overflow = '';
+
+            // ── DEVOLVER EL NODO A SU POSICIÓN ORIGINAL ─────────────────────────
+            // insertBefore(modal, placeholder) lo coloca exactamente donde estaba
+            // antes del teleport, luego eliminamos el comentario-marcador.
+            var parent = modal._originalParent;
+            var placeholder = modal._placeholder;
+
+            if (parent && placeholder && placeholder.parentNode === parent) {
+                parent.insertBefore(modal, placeholder);
+                parent.removeChild(placeholder);
+            } else if (parent) {
+                parent.appendChild(modal); // fallback si el placeholder desapareció
+            }
+
+            // Limpiar referencias para no retener memoria
+            modal._originalParent = null;
+            modal._placeholder = null;
+
+            // Resize al tamaño de columna ahora que el nodo está en su contenedor
+            resizeNewtonAssets();
+
+            if (modal._returnFocus && modal._returnFocus.focus) {
+                modal._returnFocus.focus();
+                modal._returnFocus = null;
+            }
+
+            var live = document.getElementById('newton-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en'
+                ? 'Lab closed. Returning to main view.'
+                : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+
+        // transitionend como disparo principal; setTimeout como respaldo
+        modal.addEventListener('transitionend', function handler(e) {
+            if (e.target !== modal) return;
+            modal.removeEventListener('transitionend', handler);
+            cleanup();
+        });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    /* ---- TOGGLE ---- */
+    function toggleNewtonLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (modal && modal.classList.contains(CFG.fullscreenClass)) {
+            closeNewtonLabFullscreen();
+        } else {
+            openNewtonLabFullscreen();
+        }
+    }
+
+    /* ---- DEBOUNCE ---- */
+    function debounce(fn, ms) {
+        var t; return function () { clearTimeout(t); t = setTimeout(fn, ms); };
+    }
+
+    /* ---- LISTENERS ---- */
+    function attachListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+
+        if (openBtn) openBtn.addEventListener('click', openNewtonLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeNewtonLabFullscreen);
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' || e.keyCode === 27) closeNewtonLabFullscreen();
+        });
+
+        window.addEventListener('resize', debounce(function () {
+            // resizeNewtonAssets() cubre tanto fullscreen como modo normal:
+            // el guard de altura > 0 dentro de la función evita el bucle vertical.
+            resizeNewtonAssets();
+        }, 200));
+    }
+
+    /* ---- INIT ---- */
+    function init() {
+        attachListeners();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+    /* ---- PUBLIC API ---- */
+    window.NewtonLab = {
+        open: openNewtonLabFullscreen,
+        close: closeNewtonLabFullscreen,
+        toggle: toggleNewtonLabFullscreen,
+    };
+
+}());
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Newton HUD — MathJax re-render para el <details> del número de Biot.
+   Cuando el usuario expande el panel por primera vez después del renderizado
+   inicial del tab, forzamos un typeset parcial para que la ecuación aparezca.
+   ═══════════════════════════════════════════════════════════════════════════ */
+(function attachNewtonBiotDetailsListener() {
+    function handler(e) {
+        if (
+            e.target &&
+            e.target.classList &&
+            e.target.classList.contains('nhud-biot-details') &&
+            e.target.open
+        ) {
+            if (window.MathJax && typeof MathJax.typesetPromise === 'function') {
+                MathJax.typesetPromise([e.target]).catch(function () { });
+            }
+        }
+    }
+    // 'toggle' en capture para interceptarlo antes de que burbujee
+    document.addEventListener('toggle', handler, true);
+}());

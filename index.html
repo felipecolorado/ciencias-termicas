@@ -2132,219 +2132,430 @@
 
                         <!-- Multilayer Wall Simulation Tab -->
 
+                        <!-- ═══════════════════════════════════════════════════════════
+                             TAB: Experimento de Enfriamiento de Newton (1701)
+                             Estructura: tab-pane > newton-lab-modal > [intro] + [2col]
+                        ═══════════════════════════════════════════════════════════ -->
                         <div class="tab-pane" id="newton-sim">
-                            <div class="sim-intro">
-                                <h3><span class="lang-es">Experimento de Enfriamiento de Newton (1701)</span><span
-                                        class="lang-en" style="display:none;">Newton's Cooling Experiment (1701)</span>
-                                </h3>
-                                <p><span class="lang-es">Newton postuló que la tasa de pérdida de calor de un cuerpo es
-                                        proporcional a la diferencia de temperatura entre el cuerpo y su entorno: $q = h
-                                        A (T_s - T_\infty)$.</span><span class="lang-en" style="display:none;">Newton
-                                        postulated that the rate of heat loss from a body is proportional to the
-                                        temperature difference between the body and its surroundings: $q = h A (T_s -
-                                        T_\infty)$.</span></p>
-                                <p><span class="lang-es">En el estado transitorio (asumiendo conducción interna rápida),
-                                        la temperatura decae exponencialmente: $$ T(t) = T_\infty + (T_i -
-                                        T_\infty)e^{-t/\tau} $$</span><span class="lang-en" style="display:none;">In the
-                                        transient state (assuming fast internal conduction), the temperature decays
-                                        exponentially: $$ T(t) = T_\infty + (T_i - T_\infty)e^{-t/\tau} $$</span></p>
-                                <p><span class="lang-es">Donde la constante de tiempo térmica $\tau$ se calcula como: $$
-                                        \tau = \frac{\rho V c_p}{h A_s} $$ Aquí $\rho$ es la densidad, $V$ el volumen,
-                                        $c_p$ el calor específico, $h$ el coeficiente de transferencia de calor y $A_s$
-                                        el área superficial del cilindro.</span><span class="lang-en"
-                                        style="display:none;">Where the thermal time constant $\tau$ is calculated as:
-                                        $$ \tau = \frac{\rho V c_p}{h A_s} $$ Here $\rho$ is the density, $V$ the
-                                        volume, $c_p$ the specific heat, $h$ the heat transfer coefficient and $A_s$ the
-                                        surface area of the cylinder.</span></p>
-                                <div class="info-card" style="margin-top: 15px; margin-bottom: 15px;">
-                                    <p
-                                        style="font-weight: bold; margin-bottom: 8px; color: #06b6d4; display: flex; align-items: center; gap: 8px;">
-                                        <i class="fas fa-info-circle"></i> <span class="lang-es">Significado físico de
-                                            la constante de tiempo ($\tau$):</span><span class="lang-en"
-                                            style="display:none;">Physical meaning of the time constant ($\tau$):</span>
+
+                            <!-- ── Fullscreen wrapper ───────────────────────────────────── -->
+                            <div id="newton-lab-modal">
+
+                                <!-- Botón cerrar pantalla completa (posición fija, esquina sup-der) -->
+                                <button id="newton-lab-close-btn"
+                                        aria-label="Cerrar pantalla completa"
+                                        title="Cerrar pantalla completa">&#x2715;</button>
+
+                                <!-- ARIA live region (lectores de pantalla) -->
+                                <div id="newton-lab-aria-live" class="sr-only"
+                                     role="status" aria-live="polite"></div>
+
+                                <!-- Botón abrir pantalla completa -->
+                                <div style="display:flex; justify-content:flex-end; margin-bottom:4px;">
+                                    <button id="newton-lab-open-btn"
+                                            title="Abrir laboratorio en pantalla completa"
+                                            aria-label="Abrir laboratorio en pantalla completa">
+                                        <i class="fas fa-expand"></i>
+                                        <span class="lang-es">Pantalla Completa</span>
+                                        <span class="lang-en" style="display:none;">Full Screen</span>
+                                    </button>
+                                </div>
+
+                                <!-- ── Introducción teórica ──────────────────────────────── -->
+                                <div class="sim-intro">
+                                    <h3>
+                                        <span class="lang-es">Experimento de Enfriamiento de Newton (1701)</span>
+                                        <span class="lang-en" style="display:none;">Newton's Cooling Experiment (1701)</span>
+                                    </h3>
+
+                                    <p>
+                                        <span class="lang-es">Newton postuló que la tasa de pérdida de calor de un cuerpo es proporcional a la diferencia de temperatura entre el cuerpo y su entorno: $q = h A (T_s - T_\infty)$.</span>
+                                        <span class="lang-en" style="display:none;">Newton postulated that the rate of heat loss from a body is proportional to the temperature difference between the body and its surroundings: $q = h A (T_s - T_\infty)$.</span>
                                     </p>
-                                    <ul
-                                        style="font-size: 0.85rem; color: #cbd5e1; padding-left: 20px; margin: 0; line-height: 1.5; display: flex; flex-direction: column; gap: 6px;">
-                                        <li><strong><span class="lang-es">$\tau$ Pequeño (Respuesta rápida):</span><span
-                                                    class="lang-en" style="display:none;">$\tau$ Small (Quick
-                                                    Answer):</span></strong> <span class="lang-es">El cuerpo se enfría o
-                                                calienta velozmente. Ocurre con baja inercia térmica (masa pequeña o
-                                                bajo $c_p$) o una alta transferencia de calor (coeficiente $h$ alto,
-                                                como en agua, o gran área superficial expuesta).</span><span
-                                                class="lang-en" style="display:none;">The body cools or heats up
-                                                quickly. It occurs with low thermal inertia (small mass or low $c_p$) or
-                                                high heat transfer (high $h$ coefficient, as in water, or large exposed
-                                                surface area).</span></li>
-                                        <li><strong><span class="lang-es">$\tau$ Grande (Respuesta lenta):</span><span
-                                                    class="lang-en" style="display:none;">$\tau$ Large (Slow
-                                                    response):</span></strong> <span class="lang-es">El cuerpo se
-                                                resiste a cambiar su temperatura. Ocurre con alta inercia térmica
-                                                (cuerpo muy masivo o alto $c_p$) o baja transferencia de calor
-                                                (coeficiente $h$ bajo, como en aire quieto).</span><span class="lang-en"
-                                                style="display:none;">The body resists changing its temperature. It
-                                                occurs with high thermal inertia (very massive body or high $c_p$) or
-                                                low heat transfer (low coefficient $h$, as in still air).</span></li>
-                                    </ul>
-                                </div>
-                                <p><span class="lang-es">Selecciona un medio para modificar el coeficiente de convección
-                                        $h$ y observa cómo un bloque de hierro al rojo vivo ($500^\circ\text{C}$) se
-                                        enfría en tiempo real.</span><span class="lang-en" style="display:none;">Select
-                                        a means to modify the convection coefficient $h$ and watch a red-hot block of
-                                        iron ($500^\circ\text{C}$) cool in real time.</span></p>
-                            </div>
 
-                            <div class="simulation-workspace">
-                                <div style="display: flex; flex-direction: column; gap: 15px; width: 100%;">
-                                    <!-- Canvas de animación física -->
-                                    <div
-                                        style="height: 220px; position: relative; border-radius: 8px; overflow: hidden; background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.05);">
-                                        <canvas id="newtonCanvas"
-                                            style="width: 100%; height: 100%; display: block;"></canvas>
+                                    <p>
+                                        <span class="lang-es">En el estado transitorio (asumiendo conducción interna rápida), la temperatura decae exponencialmente: $$ T(t) = T_\infty + (T_i - T_\infty)e^{-t/\tau} $$</span>
+                                        <span class="lang-en" style="display:none;">In the transient state (assuming fast internal conduction), the temperature decays exponentially: $$ T(t) = T_\infty + (T_i - T_\infty)e^{-t/\tau} $$</span>
+                                    </p>
+
+                                    <p>
+                                        <span class="lang-es">Donde la constante de tiempo térmica $\tau$ se calcula como: $$ \tau = \frac{\rho V c_p}{h A_s} $$ Aquí $\rho$ es la densidad, $V$ el volumen, $c_p$ el calor específico, $h$ el coeficiente de transferencia de calor y $A_s$ el área superficial del cilindro.</span>
+                                        <span class="lang-en" style="display:none;">Where the thermal time constant $\tau$ is calculated as: $$ \tau = \frac{\rho V c_p}{h A_s} $$ Here $\rho$ is the density, $V$ the volume, $c_p$ the specific heat, $h$ the heat transfer coefficient and $A_s$ the surface area of the cylinder.</span>
+                                    </p>
+
+                                    <div class="info-card" style="margin-top:15px; margin-bottom:15px;">
+                                        <p style="font-weight:bold; margin-bottom:8px; color:#06b6d4; display:flex; align-items:center; gap:8px;">
+                                            <i class="fas fa-info-circle"></i>
+                                            <span class="lang-es">Significado físico de la constante de tiempo ($\tau$):</span>
+                                            <span class="lang-en" style="display:none;">Physical meaning of the time constant ($\tau$):</span>
+                                        </p>
+                                        <ul style="font-size:0.85rem; color:#cbd5e1; padding-left:20px; margin:0; line-height:1.5; display:flex; flex-direction:column; gap:6px;">
+                                            <li>
+                                                <strong>
+                                                    <span class="lang-es">$\tau$ Pequeño (Respuesta rápida):</span>
+                                                    <span class="lang-en" style="display:none;">$\tau$ Small (Quick response):</span>
+                                                </strong>
+                                                <span class="lang-es">El cuerpo se enfría o calienta velozmente. Ocurre con baja inercia térmica (masa pequeña o bajo $c_p$) o una alta transferencia de calor (coeficiente $h$ alto, como en agua, o gran área superficial expuesta).</span>
+                                                <span class="lang-en" style="display:none;">The body cools or heats up quickly. It occurs with low thermal inertia (small mass or low $c_p$) or high heat transfer (high $h$ coefficient, as in water, or large exposed surface area).</span>
+                                            </li>
+                                            <li>
+                                                <strong>
+                                                    <span class="lang-es">$\tau$ Grande (Respuesta lenta):</span>
+                                                    <span class="lang-en" style="display:none;">$\tau$ Large (Slow response):</span>
+                                                </strong>
+                                                <span class="lang-es">El cuerpo se resiste a cambiar su temperatura. Ocurre con alta inercia térmica (cuerpo muy masivo o alto $c_p$) o baja transferencia de calor (coeficiente $h$ bajo, como en aire quieto).</span>
+                                                <span class="lang-en" style="display:none;">The body resists changing its temperature. It occurs with high thermal inertia (very massive body or high $c_p$) or low heat transfer (low coefficient $h$, as in still air).</span>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <!-- Gráfico de Temperatura vs Tiempo -->
-                                    <div class="chart-container" style="height: 320px;">
-                                        <canvas id="newtonGraph"></canvas>
-                                    </div>
-                                </div>
-                                <div class="controls-container">
-                                    <div class="sliders-grid">
-                                        
-                                        <div class="control-group">
-                                            <label for="newton-ti"><span class="lang-es">Temp. Inicial Hierro
-                                                    $(T_i)$:</span><span class="lang-en" style="display:none;">Temp.
-                                                    Initial Iron $(T_i)$:</span> <span id="newton-ti-val">500</span>
-                                                °C</label>
-                                            <input type="range" id="newton-ti" min="100" max="800" step="10"
-                                                value="500">
-                                        </div>
-                                        <div class="control-group">
-                                            <label for="newton-tinf"><span class="lang-es">Temp. Entorno
-                                                    $(T_\infty)$:</span><span class="lang-en"
-                                                    style="display:none;">Temp. Environment $(T_\infty)$:</span> <span
-                                                    id="newton-tinf-val">20</span> °C</label>
-                                            <input type="range" id="newton-tinf" min="0" max="100" step="5" value="20">
-                                        </div>
-                                        <div class="control-group">
-                                            <label for="newton-d"><span class="lang-es">Diámetro Cilindro
-                                                    $(D)$:</span><span class="lang-en" style="display:none;">Cylinder
-                                                    Diameter $(D)$:</span> <span id="newton-d-val">0.05</span> m</label>
-                                            <input type="range" id="newton-d" min="0.01" max="0.30" step="0.01"
-                                                value="0.05">
-                                        </div>
-                                        <div class="control-group">
-                                            <label for="newton-k"><span class="lang-es">Conductividad Sólido
-                                                    $(k)$:</span><span class="lang-en" style="display:none;">Solid
-                                                    Conductivity $(k)$:</span> <span id="newton-k-val">80.2</span> <span
-                                                    class="lang-es">W/mK</span><span class="lang-en"
-                                                    style="display:none;">W/mK</span></label>
-                                            <input type="range" id="newton-k" min="1" max="400" step="1" value="80">
-                                        </div>
-                                        <div class="control-group">
-                                            <label for="newton-rho"><span class="lang-es">Densidad $(\rho)$:</span><span
-                                                    class="lang-en" style="display:none;">Density $(\rho)$:</span> <span
-                                                    id="newton-rho-val">7870</span> <span
-                                                    class="lang-es">kg/m³</span><span class="lang-en"
-                                                    style="display:none;">kg/m³</span></label>
-                                            <input type="range" id="newton-rho" min="100" max="20000" step="50"
-                                                value="7870">
-                                        </div>
-                                        <div class="control-group">
-                                            <label for="newton-cp"><span class="lang-es">Calor Específico
-                                                    $(c_p)$:</span><span class="lang-en" style="display:none;">Specific
-                                                    Heat $(c_p)$:</span> <span id="newton-cp-val">450</span> <span
-                                                    class="lang-es">J/kg·K</span><span class="lang-en"
-                                                    style="display:none;">J/kg·K</span></label>
-                                            <input type="range" id="newton-cp" min="100" max="4000" step="50"
-                                                value="450">
-                                        </div>
-                                        <div class="control-group" style="grid-column: span 2;">
-                                            <label><span class="lang-es">Velocidad de Simulación:</span><span class="lang-en" style="display:none;">Simulation Speed:</span></label>
-                                            <div class="speed-btn-group" style="display: flex; gap: 5px; margin-top: 5px;">
-                                                <button type="button" class="newton-speed-btn active" data-speed="1" style="flex: 1; padding: 6px; border-radius: 4px; background: #334155; color: white; border: 1px solid #475569; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: all 0.2s;">1x</button>
-                                                <button type="button" class="newton-speed-btn" data-speed="2" style="flex: 1; padding: 6px; border-radius: 4px; background: #1e293b; color: #94a3b8; border: 1px solid #334155; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: all 0.2s;">2x</button>
-                                                <button type="button" class="newton-speed-btn" data-speed="5" style="flex: 1; padding: 6px; border-radius: 4px; background: #1e293b; color: #94a3b8; border: 1px solid #334155; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: all 0.2s;">5x</button>
-                                                <button type="button" class="newton-speed-btn" data-speed="10" style="flex: 1; padding: 6px; border-radius: 4px; background: #1e293b; color: #94a3b8; border: 1px solid #334155; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: all 0.2s;">10x</button>
+
+                                    <p>
+                                        <span class="lang-es">Selecciona un medio para modificar el coeficiente de convección $h$ y observa cómo un bloque de hierro al rojo vivo ($500^\circ\text{C}$) se enfría en tiempo real.</span>
+                                        <span class="lang-en" style="display:none;">Select a means to modify the convection coefficient $h$ and watch a red-hot block of iron ($500^\circ\text{C}$) cool in real time.</span>
+                                    </p>
+                                </div><!-- /.sim-intro -->
+
+                                <!-- ══════════════════════════════════════════════════════════
+                                     LAYOUT 2 COLUMNAS  (2fr izquierda | 1fr derecha)
+                                     COL-A: Canvas animación + Gráfico T(t)
+                                     COL-B: Parámetros + Acciones + Métricas
+                                ══════════════════════════════════════════════════════════ -->
+                                <div class="newton-2col-layout">
+
+                                    <!-- ╔══════════════════════════════════════════════════╗
+                                         ║  COLUMNA A — Visualización físico-gráfica  (2fr) ║
+                                         ╚══════════════════════════════════════════════════╝ -->
+                                    <div class="n2col-vis">
+
+                                        <!-- Canvas de animación de los 4 cilindros -->
+                                        <div class="newton-canvas-shell">
+
+                                            <canvas id="newtonCanvas"></canvas>
+
+                                            <!-- HUD sup-izq: tiempo transcurrido -->
+                                            <div class="nhud-overlay nhud-temp-badge"
+                                                 aria-live="polite" aria-atomic="true">
+                                                <i class="fas fa-clock"
+                                                   style="color:var(--accent-orange); font-size:0.7rem;"></i>
+                                                <span class="nhud-overlay-label">
+                                                    <span class="lang-es">Tiempo</span>
+                                                    <span class="lang-en" style="display:none;">Time</span>
+                                                </span>
+                                                <span id="newton-time"
+                                                      class="nhud-overlay-value highlight-val">0.0 s</span>
                                             </div>
-                                        </div>
-                                        <div class="control-group"
-                                            style="grid-column: span 2; display: flex; gap: 10px; margin-top: 10px;">
-                                            <button id="newton-start-btn"
-                                                style="flex: 1; padding: 10px; border-radius: 6px; background: #3b82f6; color: white; border: none; cursor: pointer; font-weight: bold;"><span class="lang-es">Iniciar
-                                                Enfriamiento</span><span class="lang-en" style="display:none;">Start Cooling</span></button>
-                                            <button id="newton-reset-btn"
-                                                style="flex: 1; padding: 10px; border-radius: 6px; background: #ef4444; color: white; border: none; cursor: pointer; font-weight: bold;"><span class="lang-es">Reiniciar</span><span class="lang-en" style="display:none;">Reset</span></button>
-                                        </div>
-                                    </div>
 
-                                    <div class="control-group result-card" style="margin-top: 15px;">
-                                        <div class="result-row" style="margin-bottom: 10px;">
-                                            <span class="lang-es">Tiempo Transcurrido (Simulado):</span><span
-                                                class="lang-en" style="display:none;">Elapsed Time (Simulated):</span>
-                                            <span id="newton-time" class="highlight-val" style="color: #cbd5e1;">0.0 s</span>
+                                            <!-- HUD inf-centro: selector de velocidad -->
+                                            <div class="nhud-speed-hud"
+                                                 role="group"
+                                                 aria-label="Velocidad de simulación">
+                                                <span class="nhud-speed-hud-label">
+                                                    <i class="fas fa-tachometer-alt"></i>
+                                                    <span class="lang-es">Velocidad</span>
+                                                    <span class="lang-en" style="display:none;">Speed</span>
+                                                </span>
+                                                <div class="nhud-speed-btns">
+                                                    <button type="button" class="newton-speed-btn active" data-speed="1">1×</button>
+                                                    <button type="button" class="newton-speed-btn" data-speed="2">2×</button>
+                                                    <button type="button" class="newton-speed-btn" data-speed="5">5×</button>
+                                                    <button type="button" class="newton-speed-btn" data-speed="10">10×</button>
+                                                </div>
+                                            </div>
+
+                                        </div><!-- /.newton-canvas-shell -->
+
+                                        <!-- Gráfico T vs t (Chart.js) -->
+                                        <div class="chart-container newton-chart-area">
+                                            <canvas id="newtonGraph"></canvas>
                                         </div>
-                                        <table style="width: 100%; border-collapse: collapse; font-size: 0.75rem; text-align: left;">
+
+                                    </div><!-- /.n2col-vis (COL-A) -->
+
+
+                                    <!-- ╔══════════════════════════════════════════════════╗
+                                         ║  COLUMNA B — Controles y métricas          (1fr) ║
+                                         ╚══════════════════════════════════════════════════╝ -->
+                                    <aside class="n2col-controls" aria-label="Controles y métricas">
+
+                                        <!-- B1 ── Parámetros del material ─────────────── -->
+                                        <section class="n2col-card n2col-params">
+                                            <header class="n2col-card-header">
+                                                <i class="fas fa-sliders-h" style="color:var(--accent-orange);"></i>
+                                                <span class="lang-es">Parámetros del Material</span>
+                                                <span class="lang-en" style="display:none;">Material Parameters</span>
+                                            </header>
+
+                                            <div class="n2col-sliders-grid">
+
+                                                <!-- T_i — Temperatura inicial -->
+                                                <div class="nhud-control">
+                                                    <div class="nhud-label-row">
+                                                        <span class="nhud-label">$T_i$</span>
+                                                        <span class="nhud-value">
+                                                            <span id="newton-ti-val">500</span>
+                                                            <span class="nhud-unit"> °C</span>
+                                                        </span>
+                                                    </div>
+                                                    <input type="range" id="newton-ti"
+                                                           min="100" max="800" step="10" value="500"
+                                                           aria-label="Temperatura Inicial">
+                                                    <div class="nhud-sublabel">
+                                                        <span class="lang-es">Temp. Inicial</span>
+                                                        <span class="lang-en" style="display:none;">Initial Temp.</span>
+                                                    </div>
+                                                </div>
+
+                                                <!-- T_inf — Temperatura de entorno -->
+                                                <div class="nhud-control">
+                                                    <div class="nhud-label-row">
+                                                        <span class="nhud-label">$T_\infty$</span>
+                                                        <span class="nhud-value">
+                                                            <span id="newton-tinf-val">20</span>
+                                                            <span class="nhud-unit"> °C</span>
+                                                        </span>
+                                                    </div>
+                                                    <input type="range" id="newton-tinf"
+                                                           min="0" max="100" step="5" value="20"
+                                                           aria-label="Temperatura de Entorno">
+                                                    <div class="nhud-sublabel">
+                                                        <span class="lang-es">Temp. Entorno</span>
+                                                        <span class="lang-en" style="display:none;">Ambient Temp.</span>
+                                                    </div>
+                                                </div>
+
+                                                <!-- D — Diámetro del cilindro -->
+                                                <div class="nhud-control">
+                                                    <div class="nhud-label-row">
+                                                        <span class="nhud-label">$D$</span>
+                                                        <span class="nhud-value">
+                                                            <span id="newton-d-val">0.05</span>
+                                                            <span class="nhud-unit"> m</span>
+                                                        </span>
+                                                    </div>
+                                                    <input type="range" id="newton-d"
+                                                           min="0.01" max="0.30" step="0.01" value="0.05"
+                                                           aria-label="Diámetro del cilindro">
+                                                    <div class="nhud-sublabel">
+                                                        <span class="lang-es">Diámetro</span>
+                                                        <span class="lang-en" style="display:none;">Diameter</span>
+                                                    </div>
+                                                </div>
+
+                                                <!-- k — Conductividad térmica -->
+                                                <div class="nhud-control">
+                                                    <div class="nhud-label-row">
+                                                        <span class="nhud-label">$k$</span>
+                                                        <span class="nhud-value">
+                                                            <span id="newton-k-val">80.2</span>
+                                                            <span class="nhud-unit"> W/mK</span>
+                                                        </span>
+                                                    </div>
+                                                    <input type="range" id="newton-k"
+                                                           min="1" max="400" step="1" value="80"
+                                                           aria-label="Conductividad térmica">
+                                                    <div class="nhud-sublabel">
+                                                        <span class="lang-es">Conductividad</span>
+                                                        <span class="lang-en" style="display:none;">Conductivity</span>
+                                                    </div>
+                                                </div>
+
+                                                <!-- ρ — Densidad -->
+                                                <div class="nhud-control">
+                                                    <div class="nhud-label-row">
+                                                        <span class="nhud-label">$\rho$</span>
+                                                        <span class="nhud-value">
+                                                            <span id="newton-rho-val">7870</span>
+                                                            <span class="nhud-unit"> kg/m³</span>
+                                                        </span>
+                                                    </div>
+                                                    <input type="range" id="newton-rho"
+                                                           min="100" max="20000" step="50" value="7870"
+                                                           aria-label="Densidad del material">
+                                                    <div class="nhud-sublabel">
+                                                        <span class="lang-es">Densidad</span>
+                                                        <span class="lang-en" style="display:none;">Density</span>
+                                                    </div>
+                                                </div>
+
+                                                <!-- c_p — Calor específico -->
+                                                <div class="nhud-control">
+                                                    <div class="nhud-label-row">
+                                                        <span class="nhud-label">$c_p$</span>
+                                                        <span class="nhud-value">
+                                                            <span id="newton-cp-val">450</span>
+                                                            <span class="nhud-unit"> J/kg·K</span>
+                                                        </span>
+                                                    </div>
+                                                    <input type="range" id="newton-cp"
+                                                           min="100" max="4000" step="50" value="450"
+                                                           aria-label="Calor específico">
+                                                    <div class="nhud-sublabel">
+                                                        <span class="lang-es">Calor Específico</span>
+                                                        <span class="lang-en" style="display:none;">Specific Heat</span>
+                                                    </div>
+                                                </div>
+
+                                            </div><!-- /.n2col-sliders-grid -->
+                                        </section><!-- /.n2col-params -->
+
+
+                                        <!-- B2 ── Botones de simulación ──────────────── -->
+                                        <section class="n2col-card n2col-actions">
+                                            <header class="n2col-card-header">
+                                                <i class="fas fa-play-circle" style="color:var(--accent-cyan);"></i>
+                                                <span class="lang-es">Simulación</span>
+                                                <span class="lang-en" style="display:none;">Simulation</span>
+                                            </header>
+
+                                            <div class="nhud-action-btns">
+                                                <button id="newton-start-btn" class="nhud-btn nhud-btn-start">
+                                                    <i class="fas fa-play"></i>
+                                                    <span class="lang-es">Iniciar Enfriamiento</span>
+                                                    <span class="lang-en" style="display:none;">Start Cooling</span>
+                                                </button>
+                                                <button id="newton-reset-btn" class="nhud-btn nhud-btn-reset">
+                                                    <i class="fas fa-redo"></i>
+                                                    <span class="lang-es">Reiniciar</span>
+                                                    <span class="lang-en" style="display:none;">Reset</span>
+                                                </button>
+                                            </div>
+                                        </section><!-- /.n2col-actions -->
+
+
+                                        <!-- B3 ── Tabla de resultados por medio ─────── -->
+                                        <section class="n2col-card n2col-metrics">
+                                            <header class="n2col-card-header">
+                                                <i class="fas fa-table" style="color:var(--accent-emerald);"></i>
+                                                <span class="lang-es">Resultados por Medio</span>
+                                                <span class="lang-en" style="display:none;">Results by Medium</span>
+                                            </header>
+
+                                            <!-- Leyenda de colores por medio -->
+                                            <div class="n2col-legend-row">
+                                                <span class="nhud-legend-item">
+                                                    <span class="nhud-legend-dot" style="background:#8b5cf6;"></span>
+                                                    <span class="lang-es">Aire Quieto</span>
+                                                    <span class="lang-en" style="display:none;">Still Air</span>
+                                                </span>
+                                                <span class="nhud-legend-item">
+                                                    <span class="nhud-legend-dot" style="background:#3b82f6;"></span>
+                                                    <span class="lang-es">Aire Forzado</span>
+                                                    <span class="lang-en" style="display:none;">Forced Air</span>
+                                                </span>
+                                                <span class="nhud-legend-item">
+                                                    <span class="nhud-legend-dot" style="background:#eab308;"></span>
+                                                    <span class="lang-es">Aceite</span>
+                                                    <span class="lang-en" style="display:none;">Oil</span>
+                                                </span>
+                                                <span class="nhud-legend-item">
+                                                    <span class="nhud-legend-dot" style="background:#06b6d4;"></span>
+                                                    <span class="lang-es">Agua</span>
+                                                    <span class="lang-en" style="display:none;">Water</span>
+                                                </span>
+                                            </div>
+
+                                            <!-- Tabla Bi / τ / t₉₅ / t₉₉ (llenada por JS) -->
+                                            <div class="nhud-results-wrap">
+                                                <table class="nhud-results-table">
+                                                    <colgroup>
+                                                        <col style="width:36%"><!-- Medio -->
+                                                        <col style="width:16%"><!-- Bi -->
+                                                        <col style="width:16%"><!-- τ -->
+                                                        <col style="width:16%"><!-- t₉₅ -->
+                                                        <col style="width:16%"><!-- t₉₉ -->
+                                                    </colgroup>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                <span class="lang-es">Medio</span>
+                                                                <span class="lang-en" style="display:none;">Medium</span>
+                                                            </th>
+                                                            <th>Bi</th>
+                                                            <th>τ (s)</th>
+                                                            <th class="nhud-th-t95"
+                                                                title="Tiempo para alcanzar el 95% del equilibrio térmico ≈ 3τ">
+                                                                t₉₅
+                                                            </th>
+                                                            <th class="nhud-th-t99"
+                                                                title="Tiempo para alcanzar el 99% del equilibrio térmico ≈ 5τ">
+                                                                t₉₉
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="newton-results-tbody">
+                                                        <!-- Llenado dinámicamente en JS -->
+                                                    </tbody>
+                                                </table>
+
+                                                <!-- Explicación número de Biot (expandible) -->
+                                                <details class="nhud-biot-details">
+                                                    <summary>
+                                                        <i class="fas fa-info-circle"></i>
+                                                        <span class="lang-es">¿Qué significa el número de Biot ($Bi$)?</span>
+                                                        <span class="lang-en" style="display:none;">What does the Biot number ($Bi$) mean?</span>
+                                                    </summary>
+                                                    <p class="nhud-biot-text">
+                                                        <span class="lang-es">$Bi = \frac{h D}{2 k}$. Si $Bi &lt; 0.1$, la temperatura interna es uniforme y la hipótesis de capacitancia global (enfriamiento exponencial) es plenamente válida.</span>
+                                                        <span class="lang-en" style="display:none;">$Bi = \frac{h D}{2 k}$. If $Bi &lt; 0.1$, the internal temperature is uniform and the lumped capacitance assumption (exponential cooling) is fully valid.</span>
+                                                    </p>
+                                                </details>
+                                            </div><!-- /.nhud-results-wrap -->
+                                        </section><!-- /.n2col-metrics -->
+
+                                    </aside><!-- /.n2col-controls (COL-B) -->
+
+                                </div><!-- /.newton-2col-layout -->
+
+                                <!-- ── Tabla de rangos típicos de h (pie del laboratorio) ── -->
+                                <div class="info-card" style="margin-top:20px;">
+                                    <p style="font-weight:bold; margin-bottom:12px; color:#38bdf8; display:flex; align-items:center; gap:8px;">
+                                        <i class="fas fa-temperature-high"></i>
+                                        <span class="lang-es">Rangos Típicos del Coeficiente de Transferencia de Calor por Convección ($h$):</span>
+                                        <span class="lang-en" style="display:none;">Typical Ranges of the Convection Heat Transfer Coefficient ($h$):</span>
+                                    </p>
+                                    <div style="overflow-x:auto;">
+                                        <table style="width:100%; border-collapse:collapse; font-size:0.8rem; text-align:left; color:#cbd5e1;">
                                             <thead>
-                                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: var(--text-muted);">
-                                                    <th style="padding: 4px;">Medio (h)</th>
-                                                    <th style="padding: 4px;">Bi</th>
-                                                    <th style="padding: 4px;">&tau; (s)</th>
+                                                <tr style="border-bottom:2px solid rgba(255,255,255,0.1); color:var(--text-muted);">
+                                                    <th style="padding:8px;">
+                                                        <span class="lang-es">Mecanismo / Proceso</span>
+                                                        <span class="lang-en" style="display:none;">Mechanism / Process</span>
+                                                    </th>
+                                                    <th style="padding:8px; text-align:right;">
+                                                        <span class="lang-es">Rango de $h$ [$\text{W}/(\text{m}^2\cdot\text{K})$]</span>
+                                                        <span class="lang-en" style="display:none;">Range of $h$ [$\text{W}/(\text{m}^2\cdot\text{K})$]</span>
+                                                    </th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="newton-results-tbody">
-                                                <!-- Llenado dinámicamente en JS -->
+                                            <tbody>
+                                                <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                                    <td style="padding:8px;"><span class="lang-es">Convección Natural (Gases)</span><span class="lang-en" style="display:none;">Free Convection (Gases)</span></td>
+                                                    <td style="padding:8px; text-align:right; font-weight:bold; color:#fbbf24;">2 – 25</td>
+                                                </tr>
+                                                <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                                    <td style="padding:8px;"><span class="lang-es">Convección Natural (Líquidos)</span><span class="lang-en" style="display:none;">Free Convection (Liquids)</span></td>
+                                                    <td style="padding:8px; text-align:right; font-weight:bold; color:#eab308;">10 – 1,000</td>
+                                                </tr>
+                                                <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                                    <td style="padding:8px;"><span class="lang-es">Convección Forzada (Gases)</span><span class="lang-en" style="display:none;">Forced Convection (Gases)</span></td>
+                                                    <td style="padding:8px; text-align:right; font-weight:bold; color:#3b82f6;">25 – 250</td>
+                                                </tr>
+                                                <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                                    <td style="padding:8px;"><span class="lang-es">Convección Forzada (Líquidos)</span><span class="lang-en" style="display:none;">Forced Convection (Liquids)</span></td>
+                                                    <td style="padding:8px; text-align:right; font-weight:bold; color:#06b6d4;">100 – 20,000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding:8px;"><span class="lang-es">Procesos de Cambio de Fase (Ebullición o Condensación)</span><span class="lang-en" style="display:none;">Phase Change Processes (Boiling or Condensation)</span></td>
+                                                    <td style="padding:8px; text-align:right; font-weight:bold; color:#10b981;">2,500 – 100,000</td>
+                                                </tr>
                                             </tbody>
                                         </table>
-                                        
-                                        <!-- Biot Number Explanation -->
-                                        <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.7rem; color: #94a3b8; line-height: 1.35;">
-                                            <span class="lang-es"><strong>Número de Biot ($Bi = \frac{h D}{2 k}$):</strong> Evalúa la resistencia térmica a la conducción interna frente a la convección externa. Si $Bi < 0.1$, la temperatura interna se considera uniforme y la hipótesis de capacitancia global (enfriamiento exponencial) es plenamente válida.</span>
-                                            <span class="lang-en" style="display:none;"><strong>Biot Number ($Bi = \frac{h D}{2 k}$):</strong> Evaluates internal conduction resistance versus external convection. If $Bi < 0.1$, internal temperature is uniform and the lumped capacitance method (exponential cooling) is fully valid.</span>
-                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Info card about Convection Coefficient Ranges -->
-                            <div class="info-card" style="margin-top: 20px; grid-column: span 2;">
-                                <p style="font-weight: bold; margin-bottom: 12px; color: #38bdf8; display: flex; align-items: center; gap: 8px;">
-                                    <i class="fas fa-temperature-high"></i> 
-                                    <span class="lang-es">Rangos Típicos del Coeficiente de Transferencia de Calor por Convección ($h$):</span>
-                                    <span class="lang-en" style="display:none;">Typical Ranges of the Convection Heat Transfer Coefficient ($h$):</span>
-                                </p>
-                                <div style="overflow-x: auto;">
-                                    <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: left; color: #cbd5e1;">
-                                        <thead>
-                                            <tr style="border-bottom: 2px solid rgba(255,255,255,0.1); color: var(--text-muted);">
-                                                <th style="padding: 8px;"><span class="lang-es">Mecanismo / Proceso</span><span class="lang-en" style="display:none;">Mechanism / Process</span></th>
-                                                <th style="padding: 8px; text-align: right;"><span class="lang-es">Rango de $h$ [$\text{W}/(\text{m}^2\cdot\text{K})$]</span><span class="lang-en" style="display:none;">Range of $h$ [$\text{W}/(\text{m}^2\cdot\text{K})$]</span></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                                <td style="padding: 8px;"><span class="lang-es">Convección Natural (Gases)</span><span class="lang-en" style="display:none;">Free Convection (Gases)</span></td>
-                                                <td style="padding: 8px; text-align: right; font-weight: bold; color: #fbbf24;">2 – 25</td>
-                                            </tr>
-                                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                                <td style="padding: 8px;"><span class="lang-es">Convección Natural (Líquidos)</span><span class="lang-en" style="display:none;">Free Convection (Liquids)</span></td>
-                                                <td style="padding: 8px; text-align: right; font-weight: bold; color: #eab308;">10 – 1,000</td>
-                                            </tr>
-                                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                                <td style="padding: 8px;"><span class="lang-es">Convección Forzada (Gases)</span><span class="lang-en" style="display:none;">Forced Convection (Gases)</span></td>
-                                                <td style="padding: 8px; text-align: right; font-weight: bold; color: #3b82f6;">25 – 250</td>
-                                            </tr>
-                                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                                <td style="padding: 8px;"><span class="lang-es">Convección Forzada (Líquidos)</span><span class="lang-en" style="display:none;">Forced Convection (Liquids)</span></td>
-                                                <td style="padding: 8px; text-align: right; font-weight: bold; color: #06b6d4;">100 – 20,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="padding: 8px;"><span class="lang-es">Procesos de Cambio de Fase (Ebullición o Condensación)</span><span class="lang-en" style="display:none;">Phase Change Processes (Boiling or Condensation)</span></td>
-                                                <td style="padding: 8px; text-align: right; font-weight: bold; color: #10b981;">2,500 – 100,000</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                                </div><!-- /.info-card rangos-h -->
+
+                            </div><!-- /#newton-lab-modal -->
+
+                        </div><!-- /#newton-sim.tab-pane -->
 
                         <!-- Bernoulli Simulation Tab -->
                         <div class="tab-pane" id="bernoulli-sim">
