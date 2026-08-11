@@ -495,7 +495,7 @@ var timelineEvents = [
         surname: "Dittus & Boelter",
         country: "<img src='https://flagcdn.com/w20/us.png' alt='Estados Unidos' style='vertical-align: text-bottom; margin-right: 4px;'> Estados Unidos",
         country_en: "<img src='https://flagcdn.com/w20/us.png' alt='Estados Unidos' style='vertical-align: text-bottom; margin-right: 4px;'> United States",
-        desc: "F. W. Dittus y L. M. K. Boelter de la Universidad de California publicaron en 1930 su famosa correlación empírica para la transferencia de calor en flujo interno turbulento dentro de tuberías lisas. Esta ecuación clásica es uno de los estándares principales para estimar el número de Nusselt en ingeniería térmica:<br><br>$$ Nu = 0.023 Re^{0.8} Pr^n $$<br>Donde $n=0.4$ para calentamiento y $n=0.3$ para enfriamiento del fluido.<br><br><strong>Anecdotario:</strong> Llewellyn Boelter fue un pionero extraordinario en la educación de ingeniería. Fundó el Colegio de Ingeniería en la UCLA y diseñó un plan de estudios que integraba estrechamente las matemáticas y la física en problemas prácticos. Â¡Básicamente, ayudó a crear el modelo moderno de cómo se enseña la ingeniería en todo el mundo!",
+        desc: "F. W. Dittus y L. M. K. Boelter de la Universidad de California publicaron en 1930 su famosa correlación empírica para la transferencia de calor en flujo interno turbulento dentro de tuberías lisas. Esta ecuación clásica es uno de los estándares principales para estimar el número de Nusselt en ingeniería térmica:<br><br>$$ Nu = 0.023 Re^{0.8} Pr^n $$<br>Donde $n=0.4$ para calentamiento y $n=0.3$ para enfriamiento del fluido.<br><br><strong>Anecdotario:</strong> Llewellyn Boelter fue un pionero extraordinario en la educación de ingeniería. Fundó el Colegio de Ingeniería en la UCLA y diseñó un plan de estudios que integraba estrechamente las matemáticas y la física en problemas prácticos. ¡Básicamente, ayudó a crear el modelo moderno de cómo se enseña la ingeniería en todo el mundo!",
         desc_en: "F. W. Dittus and L. M. K. Boelter from the University of California published in 1930 their famous empirical correlation for turbulent internal flow heat transfer in smooth pipes. This classic equation is one of the main standards for estimating the Nusselt number in thermal engineering:<br><br>$$ Nu = 0.023 Re^{0.8} Pr^n $$<br>Where $n=0.4$ for heating and $n=0.3$ for cooling of the fluid.<br><br><strong>Anecdotal:</strong> Llewellyn Boelter was an extraordinary pioneer in engineering education. He founded the College of Engineering at UCLA and designed a curriculum that closely integrated mathematics and physics into practical problems. He basically helped create the modern model of how engineering is taught worldwide!",
         category: "Convección",
         image: "Llewellyn_M._K._Boelter.jpg",
@@ -689,7 +689,6 @@ function startApp() {
     safeInit('Generation', () => initGenerationSimulation());
     safeInit('MultiLayer', () => initMultiLayerSimulation());
     safeInit('Newton', () => initNewtonSimulation());
-    safeInit('CondConv', () => initCondConvSimulation());
     safeInit('Nusselt', () => initNusseltSimulation());
     safeInit('BoundaryLayer', () => initBoundaryLayerSimulation());
     safeInit('Resistance', () => initResistanceSimulation());
@@ -1960,6 +1959,7 @@ let fourierQ = 1000;
 
 function initFourierSimulation() {
     const sliderT1 = document.getElementById("fourier-t1");
+    if (!sliderT1) return;
     const sliderT2 = document.getElementById("fourier-t2");
     const sliderK = document.getElementById("fourier-k");
     const sliderL = document.getElementById("fourier-l"); // L acts as thickness for plane
@@ -2773,198 +2773,6 @@ function initNewtonSimulation_OLD_UNUSED() {
 // ==========================================
 // Conduction + Convection Simulation
 // ==========================================
-function initCondConvSimulation() {
-    const canvas = document.getElementById("condConvChart");
-    if (!canvas) return;
-
-    const sliderT1 = document.getElementById("cc-t1");
-    const sliderK = document.getElementById("cc-k");
-    const sliderL = document.getElementById("cc-l");
-    const sliderTinf = document.getElementById("cc-tinf");
-    const sliderH = document.getElementById("cc-h");
-
-    const valT1 = document.getElementById("cc-t1-val");
-    const valK = document.getElementById("cc-k-val");
-    const valL = document.getElementById("cc-l-val");
-    const valTinf = document.getElementById("cc-tinf-val");
-    const valH = document.getElementById("cc-h-val");
-
-    const resT2 = document.getElementById("cc-t2-res");
-    const resQ = document.getElementById("cc-q-res");
-    const resRCond = document.getElementById("cc-rcond-res");
-    const resRConv = document.getElementById("cc-rconv-res");
-    const resRTotal = document.getElementById("cc-rtot-res");
-
-    const ctx = canvas.getContext("2d");
-    let chartInstance = new Chart(ctx, {
-        type: "line",
-        data: {
-            datasets: [
-                {
-                    label: "Pared Sólida (Conducción)",
-                    data: [],
-                    borderColor: "#f59e0b",
-                    backgroundColor: "rgba(245, 158, 11, 0.2)",
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0
-                },
-                {
-                    label: "Capa Límite (Convección)",
-                    data: [],
-                    borderColor: "#38bdf8",
-                    backgroundColor: "rgba(56, 189, 248, 0.1)",
-                    borderWidth: 2,
-                    borderDash: [5, 5],
-                    fill: true,
-                    tension: 0.4
-                }
-            ]
-        },
-        options: {
-            legend: { display: false },
-            plugins: { legend: { display: false } },
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: false,
-            scales: {
-                x: {
-                    type: "linear",
-                    title: { display: true, text: "Posición x (m)", color: "#94a3b8" },
-                    ticks: { color: "#cbd5e1" },
-                    grid: { color: "rgba(255,255,255,0.1)" }
-                },
-                y: {
-                    title: { display: true, text: "Temperatura (°C)", color: "#94a3b8" },
-                    ticks: { color: "#cbd5e1" },
-                    grid: { color: "rgba(255,255,255,0.1)" }
-                }
-            },
-            plugins: {
-                legend: { labels: { color: "#e2e8f0" } }
-            }
-        }
-    });
-
-    function formatValue(value, type) {
-        if (type === "q") {
-            const absQ = Math.abs(value);
-            if (absQ >= 1e6) {
-                return `${(value / 1e6).toFixed(2)} MW/m&sup2;`;
-            } else if (absQ >= 1000) {
-                return `${(value / 1000).toFixed(2)} kW/m&sup2;`;
-            } else {
-                return `${value.toFixed(2)} W/m&sup2;`;
-            }
-        } else if (type === "t") {
-            return `${value.toFixed(2)} &deg;C`;
-        }
-    }
-
-    function updateSimulation() {
-        const T1 = parseFloat(sliderT1.value);
-        const k = parseFloat(sliderK.value);
-        const L = parseFloat(sliderL.value);
-        const Tinf = parseFloat(sliderTinf.value);
-        const h = parseFloat(sliderH.value);
-
-        valT1.textContent = T1;
-        valK.textContent = k;
-        valL.textContent = L.toFixed(2);
-        valTinf.textContent = Tinf;
-        valH.textContent = h;
-
-        // Calcular R total y Flujo de calor
-        const R_cond = L / k;
-        const R_conv = 1 / h;
-        const R_total = R_cond + R_conv;
-
-        const q = (T1 - Tinf) / R_total;
-        let T2 = Tinf + (q / h);
-
-        // Validar límite físico
-        if (T2 < -273.15) { T2 = -273.15; }
-
-        resQ.innerHTML = formatValue(q, "q");
-        resT2.innerHTML = formatValue(T2, "t");
-        if (resRCond) resRCond.textContent = R_cond.toFixed(4) + " m²K/W";
-        if (resRConv) resRConv.textContent = R_conv.toFixed(4) + " m²K/W";
-        if (resRTotal) resRTotal.textContent = R_total.toFixed(4) + " m²K/W";
-
-        // Datos para gráfico
-        // 1. Zona sólida (línea recta)
-        const solidData = [
-            { x: 0, y: T1 },
-            { x: L, y: T2 }
-        ];
-
-        // 2. Zona fluida (curva de capa límite)
-        const fluidData = [];
-        const L_fluid = 0.05; // Mostrar 5 cm de fluido
-        const numPoints = 20;
-
-        for (let i = 0; i <= numPoints; i++) {
-            const x_fluid = L + (i / numPoints) * L_fluid;
-            // Distancia en el fluido
-            const dx = x_fluid - L;
-            const decay = Math.exp(-dx * (h / 5));
-            const T_fluid = Tinf + (T2 - Tinf) * decay;
-            fluidData.push({ x: x_fluid, y: T_fluid });
-        }
-
-        chartInstance.data.datasets[0].data = solidData;
-        chartInstance.data.datasets[1].data = fluidData;
-
-        // Ajustar escalas dinámicamente
-        const maxTemp = Math.max(T1, T2, Tinf);
-        const minTemp = Math.min(T1, T2, Tinf);
-        chartInstance.options.scales.y.max = maxTemp > 500 ? Math.ceil(maxTemp / 100) * 100 : 500;
-        chartInstance.options.scales.y.min = minTemp < 0 ? Math.floor(minTemp / 100) * 100 : 0;
-
-        chartInstance.options.scales.x.max = L + L_fluid;
-
-        // Annotations para diferenciar el muro del fluido
-        chartInstance.options.plugins.annotation = {
-            annotations: {
-                wallRegion: {
-                    type: "box",
-                    xMin: 0,
-                    xMax: L,
-                    backgroundColor: "rgba(255, 255, 255, 0.05)",
-                    borderWidth: 0,
-                    label: {
-                        display: true,
-                        content: "Pared",
-                        position: "top"
-                    }
-                },
-                fluidRegion: {
-                    type: "box",
-                    xMin: L,
-                    xMax: L + L_fluid,
-                    backgroundColor: "rgba(56, 189, 248, 0.05)",
-                    borderWidth: 0,
-                    label: {
-                        display: true,
-                        content: "Fluido",
-                        position: "top"
-                    }
-                }
-            }
-        };
-
-        chartInstance.update();
-    }
-
-    [sliderT1, sliderK, sliderL, sliderTinf, sliderH].forEach(slider => {
-        slider.addEventListener("input", updateSimulation);
-    });
-
-    updateSimulation();
-}
-
-
-
 // ==========================================
 // 12. NUSSELT SIMULATION
 // ==========================================
@@ -5494,14 +5302,14 @@ function initMultiLayerSimulation() {
 
         valTinf1.textContent = sliderTinf1.value;
         valH1.textContent = sliderH1.value;
-        valL1.textContent = sliderL1.value;
-        valK1.textContent = sliderK1.value;
+        valL1.textContent = parseFloat(sliderL1.value).toFixed(2);
+        valK1.textContent = k1.toFixed(2);
 
-        valL2.textContent = sliderL2.value;
-        valK2.textContent = sliderK2.value;
+        valL2.textContent = parseFloat(sliderL2.value).toFixed(2);
+        valK2.textContent = k2.toFixed(2);
 
-        valL3.textContent = sliderL3.value;
-        valK3.textContent = sliderK3.value;
+        valL3.textContent = parseFloat(sliderL3.value).toFixed(2);
+        valK3.textContent = k3.toFixed(2);
 
         valTinf2.textContent = sliderTinf2.value;
         valH2.textContent = sliderH2.value;
@@ -6102,11 +5910,35 @@ function initNewtonSimulation() {
                     : `Equilibrio térmico al 99.3% ≈ 5τ = ${fmtTime(t99)}`;
                 tdT99.textContent = fmtTime(t99);
 
+                // Columna: t_obj (Tiempo para llegar a T_inf ± 1°C)
+                const T_obj_diff = 1.0;
+                let t_obj = 0;
+                let t_obj_text = "N/A";
+                let t_obj_tooltip_es = "";
+                let t_obj_tooltip_en = "";
+                if (Math.abs(currentTi - currentTinf) > T_obj_diff) {
+                    t_obj = d.tau * Math.log(Math.abs(currentTi - currentTinf) / T_obj_diff);
+                    t_obj_text = fmtTime(t_obj);
+                    t_obj_tooltip_es = `Tiempo para T_obj = T_inf ± ${T_obj_diff}°C: ${t_obj_text}`;
+                    t_obj_tooltip_en = `Time for T_obj = T_inf ± ${T_obj_diff}°C: ${t_obj_text}`;
+                } else {
+                    t_obj_text = "≈ 0 s";
+                    t_obj_tooltip_es = `T_i ya está dentro de ±${T_obj_diff}°C de T_inf`;
+                    t_obj_tooltip_en = `T_i is already within ±${T_obj_diff}°C of T_inf`;
+                }
+
+                const tdTObj = document.createElement('td');
+                tdTObj.style.padding = '4px';
+                tdTObj.style.color = '#60a5fa'; // Light blue
+                tdTObj.title = lang === 'en' ? t_obj_tooltip_en : t_obj_tooltip_es;
+                tdTObj.textContent = t_obj_text;
+
                 tr.appendChild(tdName);
                 tr.appendChild(tdBi);
                 tr.appendChild(tdTau);
                 tr.appendChild(tdT95);
                 tr.appendChild(tdT99);
+                tr.appendChild(tdTObj);
                 tbodyResults.appendChild(tr);
             });
         }
@@ -6426,188 +6258,7 @@ function initNewtonSimulation() {
     });
 
     observer.observe(canvas);
-} function initCondConvSimulation() {
-    const canvas = document.getElementById("condConvChart");
-    if (!canvas) return;
-
-    const sliderT1 = document.getElementById("cc-t1");
-    const sliderK = document.getElementById("cc-k");
-    const sliderL = document.getElementById("cc-l");
-    const sliderTinf = document.getElementById("cc-tinf");
-    const sliderH = document.getElementById("cc-h");
-
-    const valT1 = document.getElementById("cc-t1-val");
-    const valK = document.getElementById("cc-k-val");
-    const valL = document.getElementById("cc-l-val");
-    const valTinf = document.getElementById("cc-tinf-val");
-    const valH = document.getElementById("cc-h-val");
-
-    const resT2 = document.getElementById("cc-t2-res");
-    const resQ = document.getElementById("cc-q-res");
-    const resRCond = document.getElementById("cc-rcond-res");
-    const resRConv = document.getElementById("cc-rconv-res");
-    const resRTotal = document.getElementById("cc-rtot-res");
-
-    const ctx = canvas.getContext("2d");
-    let chartInstance = new Chart(ctx, {
-        type: "line",
-        data: {
-            datasets: [
-                {
-                    label: "Pared Sólida (Conducción)",
-                    data: [],
-                    borderColor: "#f59e0b",
-                    backgroundColor: "rgba(245, 158, 11, 0.2)",
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0
-                },
-                {
-                    label: "Capa Límite (Convección)",
-                    data: [],
-                    borderColor: "#38bdf8",
-                    backgroundColor: "rgba(56, 189, 248, 0.1)",
-                    borderWidth: 2,
-                    borderDash: [5, 5],
-                    fill: true,
-                    tension: 0.4
-                }
-            ]
-        },
-        options: {
-            legend: { display: false },
-            plugins: { legend: { display: false } },
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: false,
-            scales: {
-                x: {
-                    type: "linear",
-                    title: { display: true, text: "Posición x (m)", color: "#94a3b8" },
-                    ticks: { color: "#cbd5e1" },
-                    grid: { color: "rgba(255,255,255,0.1)" }
-                },
-                y: {
-                    title: { display: true, text: "Temperatura (°C)", color: "#94a3b8" },
-                    ticks: { color: "#cbd5e1" },
-                    grid: { color: "rgba(255,255,255,0.1)" }
-                }
-            },
-            plugins: {
-                legend: { labels: { color: "#e2e8f0" } }
-            }
-        }
-    });
-
-    function formatValue(value, type) {
-        if (type === "q") {
-            const absQ = Math.abs(value);
-            if (absQ >= 1e6) {
-                return `${(value / 1e6).toFixed(2)} MW/m&sup2;`;
-            } else if (absQ >= 1000) {
-                return `${(value / 1000).toFixed(2)} kW/m&sup2;`;
-            } else {
-                return `${value.toFixed(2)} W/m&sup2;`;
-            }
-        } else if (type === "t") {
-            return `${value.toFixed(2)} &deg;C`;
-        }
-    }
-
-    function updateSimulation() {
-        const T1 = parseFloat(sliderT1.value);
-        const k = parseFloat(sliderK.value);
-        const L = parseFloat(sliderL.value);
-        const Tinf = parseFloat(sliderTinf.value);
-        const h = parseFloat(sliderH.value);
-
-        valT1.textContent = T1;
-        valK.textContent = k;
-        valL.textContent = L.toFixed(2);
-        valTinf.textContent = Tinf;
-        valH.textContent = h;
-
-        const R_cond = L / k;
-        const R_conv = 1 / h;
-        const R_total = R_cond + R_conv;
-
-        const q = (T1 - Tinf) / R_total;
-        let T2 = Tinf + (q / h);
-
-        if (T2 < -273.15) { T2 = -273.15; }
-
-        resQ.innerHTML = formatValue(q, "q");
-        resT2.innerHTML = formatValue(T2, "t");
-        if (resRCond) resRCond.textContent = R_cond.toFixed(4) + " m²K/W";
-        if (resRConv) resRConv.textContent = R_conv.toFixed(4) + " m²K/W";
-        if (resRTotal) resRTotal.textContent = R_total.toFixed(4) + " m²K/W";
-
-        const solidData = [
-            { x: 0, y: T1 },
-            { x: L, y: T2 }
-        ];
-
-        const fluidData = [];
-        const L_fluid = 0.05;
-        const numPoints = 20;
-
-        for (let i = 0; i <= numPoints; i++) {
-            const x_fluid = L + (i / numPoints) * L_fluid;
-            const dx = x_fluid - L;
-            const decay = Math.exp(-dx * (h / 5));
-            const T_fluid = Tinf + (T2 - Tinf) * decay;
-            fluidData.push({ x: x_fluid, y: T_fluid });
-        }
-
-        chartInstance.data.datasets[0].data = solidData;
-        chartInstance.data.datasets[1].data = fluidData;
-
-        const maxTemp = Math.max(T1, T2, Tinf);
-        const minTemp = Math.min(T1, T2, Tinf);
-        chartInstance.options.scales.y.max = maxTemp > 500 ? Math.ceil(maxTemp / 100) * 100 : 500;
-        chartInstance.options.scales.y.min = minTemp < 0 ? Math.floor(minTemp / 100) * 100 : 0;
-
-        chartInstance.options.scales.x.max = L + L_fluid;
-
-        chartInstance.options.plugins.annotation = {
-            annotations: {
-                wallRegion: {
-                    type: "box",
-                    xMin: 0,
-                    xMax: L,
-                    backgroundColor: "rgba(255, 255, 255, 0.05)",
-                    borderWidth: 0,
-                    label: {
-                        display: true,
-                        content: "Pared",
-                        position: "top"
-                    }
-                },
-                fluidRegion: {
-                    type: "box",
-                    xMin: L,
-                    xMax: L + L_fluid,
-                    backgroundColor: "rgba(56, 189, 248, 0.05)",
-                    borderWidth: 0,
-                    label: {
-                        display: true,
-                        content: "Fluido",
-                        position: "top"
-                    }
-                }
-            }
-        };
-
-        chartInstance.update();
-    }
-
-    [sliderT1, sliderK, sliderL, sliderTinf, sliderH].forEach(slider => {
-        slider.addEventListener("input", updateSimulation);
-    });
-
-    updateSimulation();
 }
-
 // ==========================================
 // 12. NUSSELT SIMULATION
 // ==========================================
@@ -13673,6 +13324,8 @@ function initMulticapaCustomSimulation() {
         layersContainer.innerHTML = '';
 
         layers.forEach((layer, idx) => {
+            const sub = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉", "₁₀"];
+            const subStr = sub[idx + 1] || (idx + 1);
             const div = document.createElement('div');
             div.className = 'result-card';
             div.style.padding = '10px';
@@ -13680,20 +13333,20 @@ function initMulticapaCustomSimulation() {
             div.style.flexDirection = 'column';
             div.style.gap = '8px';
             div.innerHTML = `
-                <div style="font-weight: bold; font-size: 0.8rem; color: var(--accent-cyan); display: flex; justify-content: space-between;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <span>Capa ${idx + 1}</span>
                     <span id="cm-l${idx}-k-badge" style="font-size: 0.7rem; opacity: 0.8;"></span>
                 </div>
                 <div class="control-group">
-                    <label style="font-size: 0.7rem;">Espesor (L${idx + 1}): <span id="cm-l${idx}-L-val">${layer.L.toFixed(2)}</span> m</label>
-                    <input type="range" class="cm-layer-L" data-idx="${idx}" min="0.01" max="0.30" step="0.01" value="${layer.L}">
+                    <label style="font-size: 0.7rem;">Espesor (L${subStr}): <span id="cm-l${idx}-L-val">${layer.L.toFixed(3)}</span> m</label>
+                    <input type="range" class="cm-layer-L" data-idx="${idx}" min="0.001" max="1.00" step="0.001" value="${layer.L}">
                 </div>
                 <div class="control-group">
-                    <label style="font-size: 0.7rem;">Conductividad (k${idx + 1}): <span id="cm-l${idx}-k-val">${layer.k.toFixed(1)}</span> W/mK</label>
-                    <input type="range" class="cm-layer-k" data-idx="${idx}" min="0.1" max="400" step="0.5" value="${layer.k}">
+                    <label style="font-size: 0.7rem;">Conductividad (k${subStr}): <span id="cm-l${idx}-k-val">${layer.k.toFixed(2)}</span> W/mK</label>
+                    <input type="range" class="cm-layer-k" data-idx="${idx}" min="0.01" max="400" step="0.01" value="${layer.k}">
                 </div>
                 <div style="font-size: 0.7rem; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 6px; color: var(--text-secondary); display: flex; justify-content: space-between; align-items: center;">
-                    <span>Resistencia (R${idx + 1}):</span>
+                    <span>Resistencia (R${subStr}):</span>
                     <strong><span id="cm-l${idx}-R-val" style="color: var(--accent-orange);">${(layer.L / layer.k).toFixed(4)}</span> K/W</strong>
                 </div>
             `;
@@ -13705,7 +13358,7 @@ function initMulticapaCustomSimulation() {
             input.addEventListener('input', (e) => {
                 const idx = parseInt(e.target.getAttribute('data-idx'));
                 layers[idx].L = parseFloat(e.target.value);
-                document.getElementById(`cm-l${idx}-L-val`).innerText = layers[idx].L.toFixed(2);
+                document.getElementById(`cm-l${idx}-L-val`).innerText = layers[idx].L.toFixed(3);
                 document.getElementById(`cm-l${idx}-R-val`).innerText = (layers[idx].L / layers[idx].k).toFixed(4);
                 solveSimulation();
             });
@@ -13715,7 +13368,7 @@ function initMulticapaCustomSimulation() {
             input.addEventListener('input', (e) => {
                 const idx = parseInt(e.target.getAttribute('data-idx'));
                 layers[idx].k = parseFloat(e.target.value);
-                document.getElementById(`cm-l${idx}-k-val`).innerText = layers[idx].k.toFixed(1);
+                document.getElementById(`cm-l${idx}-k-val`).innerText = layers[idx].k.toFixed(2);
                 document.getElementById(`cm-l${idx}-R-val`).innerText = (layers[idx].L / layers[idx].k).toFixed(4);
 
                 // Update material badge text for common values
@@ -13740,16 +13393,15 @@ function initMulticapaCustomSimulation() {
     function updateBcVisibility() {
         const typeL = selectBcLType.value;
         document.getElementById('cm-l-temp-group').style.display = typeL === 'temp' ? 'block' : 'none';
-        document.getElementById('cm-l-conv-group').style.display = (typeL === 'conv' || typeL === 'comb') ? 'block' : 'none';
-        document.getElementById('cm-l-rad-group').style.display = (typeL === 'rad' || typeL === 'comb') ? 'block' : 'none';
-        document.getElementById('cm-l-flux-group').style.display = typeL === 'flux' ? 'block' : 'none';
+        document.getElementById('cm-l-conv-group').style.display = (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') ? 'block' : 'none';
+        document.getElementById('cm-l-rad-group').style.display = (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux') ? 'block' : 'none';
+        document.getElementById('cm-l-flux-group').style.display = (typeL === 'flux' || typeL === 'comb-flux') ? 'block' : 'none';
 
         const typeR = selectBcRType.value;
         document.getElementById('cm-r-temp-group').style.display = typeR === 'temp' ? 'block' : 'none';
-        document.getElementById('cm-r-conv-group').style.display = (typeR === 'conv' || typeR === 'comb') ? 'block' : 'none';
-        document.getElementById('cm-r-rad-group').style.display = (typeR === 'rad' || typeR === 'comb') ? 'none' : 'none'; // wait, keep matching
-        document.getElementById('cm-r-rad-group').style.display = (typeR === 'rad' || typeR === 'comb') ? 'block' : 'none';
-        document.getElementById('cm-r-flux-group').style.display = typeR === 'flux' ? 'block' : 'none';
+        document.getElementById('cm-r-conv-group').style.display = (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') ? 'block' : 'none';
+        document.getElementById('cm-r-rad-group').style.display = (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux') ? 'block' : 'none';
+        document.getElementById('cm-r-flux-group').style.display = (typeR === 'flux' || typeR === 'comb-flux') ? 'block' : 'none';
 
         // Update slider values spans
         const spansMap = [
@@ -13810,17 +13462,17 @@ function initMulticapaCustomSimulation() {
                 return (parseFloat(inputLTemp.value) - T0) / 1e-4; // large virtual h
             }
             let q = 0.0;
-            if (typeL === 'conv' || typeL === 'comb') {
+            if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') {
                 const hL = parseFloat(inputLH.value);
                 const tinfL = parseFloat(inputLTinf.value);
                 q += hL * (tinfL - T0);
             }
-            if (typeL === 'rad' || typeL === 'comb') {
+            if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux') {
                 const epsL = parseFloat(inputLEps.value);
                 const tsurL = parseFloat(inputLTsur.value);
                 q += sigma * epsL * (Math.pow(tsurL + 273.15, 4) - Math.pow(T0 + 273.15, 4));
             }
-            if (typeL === 'flux') {
+            if (typeL === 'flux' || typeL === 'comb-flux') {
                 q += parseFloat(inputLFlux.value);
             }
             return q;
@@ -13832,17 +13484,17 @@ function initMulticapaCustomSimulation() {
                 return (TN - parseFloat(inputRTemp.value)) / 1e-4;
             }
             let q = 0.0;
-            if (typeR === 'conv' || typeR === 'comb') {
+            if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') {
                 const hR = parseFloat(inputRH.value);
                 const tinfR = parseFloat(inputRTinf.value);
                 q += hR * (TN - tinfR);
             }
-            if (typeR === 'rad' || typeR === 'comb') {
+            if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux') {
                 const epsR = parseFloat(inputREps.value);
                 const tsurR = parseFloat(inputRTsur.value);
                 q += sigma * epsR * (Math.pow(TN + 273.15, 4) - Math.pow(tsurR + 273.15, 4));
             }
-            if (typeR === 'flux') {
+            if (typeR === 'flux' || typeR === 'comb-flux') {
                 q += parseFloat(inputRFlux.value);
             }
             return q;
@@ -13852,11 +13504,11 @@ function initMulticapaCustomSimulation() {
         function getDFluxLeftDT(T0) {
             if (typeL === 'temp') return -1e4;
             let dq = 0.0;
-            if (typeL === 'conv' || typeL === 'comb') {
+            if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') {
                 const hL = parseFloat(inputLH.value);
                 dq += -hL;
             }
-            if (typeL === 'rad' || typeL === 'comb') {
+            if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux') {
                 const epsL = parseFloat(inputLEps.value);
                 dq += -4 * sigma * epsL * Math.pow(T0 + 273.15, 3);
             }
@@ -13866,11 +13518,11 @@ function initMulticapaCustomSimulation() {
         function getDFluxRightDT(TN) {
             if (typeR === 'temp') return 1e4;
             let dq = 0.0;
-            if (typeR === 'conv' || typeR === 'comb') {
+            if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') {
                 const hR = parseFloat(inputRH.value);
                 dq += hR;
             }
-            if (typeR === 'rad' || typeR === 'comb') {
+            if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux') {
                 const epsR = parseFloat(inputREps.value);
                 dq += 4 * sigma * epsR * Math.pow(TN + 273.15, 3);
             }
@@ -13931,10 +13583,10 @@ function initMulticapaCustomSimulation() {
 
         // Calculate total resistance including boundary layers (if convection/combined is active)
         let Rtot = Rcond;
-        if (typeL === 'conv' || typeL === 'comb') {
+        if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') {
             Rtot += 1.0 / parseFloat(inputLH.value);
         }
-        if (typeR === 'conv' || typeR === 'comb') {
+        if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') {
             Rtot += 1.0 / parseFloat(inputRH.value);
         }
 
@@ -14064,7 +13716,7 @@ function initMulticapaCustomSimulation() {
             ctx.fillStyle = gradL;
             ctx.fillRect(startX - 20, centerY - heightPlate / 2, 20, heightPlate);
         }
-        if (typeL === 'conv' || typeL === 'comb') {
+        if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') {
             ctx.strokeStyle = parseFloat(inputLTinf.value) > T[0] ? '#f87171' : '#60a5fa';
             ctx.lineWidth = 2.5;
             ctx.globalAlpha = 0.5;
@@ -14079,7 +13731,7 @@ function initMulticapaCustomSimulation() {
             }
             ctx.globalAlpha = 1.0;
         }
-        if (typeL === 'rad' || typeL === 'comb') {
+        if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux') {
             const isLIncoming = parseFloat(inputLTsur.value) > T[0];
             ctx.strokeStyle = isLIncoming ? '#fb923c' : '#c084fc';
             ctx.lineWidth = 1.8;
@@ -14109,7 +13761,7 @@ function initMulticapaCustomSimulation() {
             }
             ctx.globalAlpha = 1.0;
         }
-        if (typeL === 'flux') {
+        if (typeL === 'flux' || typeL === 'comb-flux') {
             const qVal = parseFloat(inputLFlux.value);
             if (Math.abs(qVal) > 1.0) {
                 ctx.strokeStyle = qVal > 0 ? '#f87171' : '#60a5fa';
@@ -14146,7 +13798,7 @@ function initMulticapaCustomSimulation() {
             ctx.fillStyle = gradR;
             ctx.fillRect(endX, centerY - heightPlate / 2, 20, heightPlate);
         }
-        if (typeR === 'conv' || typeR === 'comb') {
+        if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') {
             ctx.strokeStyle = T[N] > parseFloat(inputRTinf.value) ? '#f87171' : '#60a5fa';
             ctx.lineWidth = 2.5;
             ctx.globalAlpha = 0.5;
@@ -14161,7 +13813,7 @@ function initMulticapaCustomSimulation() {
             }
             ctx.globalAlpha = 1.0;
         }
-        if (typeR === 'rad' || typeR === 'comb') {
+        if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux') {
             const isRIncoming = parseFloat(inputRTsur.value) > T[N];
             ctx.strokeStyle = isRIncoming ? '#fb923c' : '#c084fc';
             ctx.lineWidth = 1.8;
@@ -14191,7 +13843,7 @@ function initMulticapaCustomSimulation() {
             }
             ctx.globalAlpha = 1.0;
         }
-        if (typeR === 'flux') {
+        if (typeR === 'flux' || typeR === 'comb-flux') {
             const qValR = parseFloat(inputRFlux.value);
             if (Math.abs(qValR) > 1.0) {
                 ctx.strokeStyle = qValR > 0 ? '#60a5fa' : '#f87171'; // positive leaving = cold-like vs entering = hot-like
@@ -14254,6 +13906,96 @@ function initMulticapaCustomSimulation() {
             ctx.lineTo(startX + 20, arrowY + 5);
         }
         ctx.stroke();
+
+        // 5. Draw interactive boundary condition labels and values
+        ctx.save();
+        
+        function drawSubscriptText(base, sub, value, unit, x, y, align) {
+            ctx.font = '9px Inter, sans-serif';
+            const baseW = ctx.measureText(base).width;
+            ctx.font = '7px Inter, sans-serif';
+            const subW = ctx.measureText(sub).width;
+            ctx.font = '9px Inter, sans-serif';
+            const valW = ctx.measureText(` = ${value} ${unit}`).width;
+            const totalW = baseW + subW + valW;
+
+            let startX = x;
+            if (align === 'right') {
+                startX = x - totalW;
+            } else if (align === 'center') {
+                startX = x - totalW / 2;
+            }
+
+            ctx.textAlign = 'left';
+
+            // Draw Base
+            ctx.font = '9px Inter, sans-serif';
+            ctx.fillText(base, startX, y);
+            
+            // Draw Subscript
+            ctx.font = '7px Inter, sans-serif';
+            ctx.fillText(sub, startX + baseW, y + 2.5);
+
+            // Draw Value & Unit
+            ctx.font = '9px Inter, sans-serif';
+            ctx.fillText(` = ${value} ${unit}`, startX + baseW + subW, y);
+        }
+
+        // Left Side
+        ctx.textAlign = 'left';
+        let yOffsetL = centerY - heightPlate / 2 - 20;
+        ctx.font = 'bold 9px Inter, sans-serif';
+        ctx.fillStyle = 'rgba(255,255,255,0.4)';
+        ctx.fillText("Frontera Izq.", 10, yOffsetL);
+        
+        yOffsetL += 12;
+        if (typeL === 'temp') {
+            ctx.fillStyle = '#60a5fa';
+            drawSubscriptText("T", "L", parseFloat(inputLTemp.value).toFixed(0), "°C", 10, yOffsetL, 'left');
+        }
+        if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') {
+            ctx.fillStyle = '#f87171';
+            drawSubscriptText("T", "∞,L", parseFloat(inputLTinf.value).toFixed(0), "°C", 10, yOffsetL, 'left');
+            yOffsetL += 11;
+        }
+        if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux') {
+            ctx.fillStyle = '#c084fc';
+            drawSubscriptText("T", "sur,L", parseFloat(inputLTsur.value).toFixed(0), "°C", 10, yOffsetL, 'left');
+            yOffsetL += 11;
+        }
+        if (typeL === 'flux' || typeL === 'comb-flux') {
+            ctx.fillStyle = '#fb923c';
+            drawSubscriptText("q\"", "L", parseFloat(inputLFlux.value).toFixed(0), "W/m²", 10, yOffsetL, 'left');
+        }
+        
+        // Right Side
+        ctx.textAlign = 'right';
+        let yOffsetR = centerY + 20;
+        ctx.font = 'bold 9px Inter, sans-serif';
+        ctx.fillStyle = 'rgba(255,255,255,0.4)';
+        ctx.fillText("Frontera Der.", w - 10, yOffsetR);
+        
+        yOffsetR += 12;
+        if (typeR === 'temp') {
+            ctx.fillStyle = '#60a5fa';
+            drawSubscriptText("T", "R", parseFloat(inputRTemp.value).toFixed(0), "°C", w - 10, yOffsetR, 'right');
+        }
+        if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') {
+            ctx.fillStyle = '#f87171';
+            drawSubscriptText("T", "∞,R", parseFloat(inputRTinf.value).toFixed(0), "°C", w - 10, yOffsetR, 'right');
+            yOffsetR += 11;
+        }
+        if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux') {
+            ctx.fillStyle = '#c084fc';
+            drawSubscriptText("T", "sur,R", parseFloat(inputRTsur.value).toFixed(0), "°C", w - 10, yOffsetR, 'right');
+            yOffsetR += 11;
+        }
+        if (typeR === 'flux' || typeR === 'comb-flux') {
+            ctx.fillStyle = '#fb923c';
+            drawSubscriptText("q\"", "R", parseFloat(inputRFlux.value).toFixed(0), "W/m²", w - 10, yOffsetR, 'right');
+        }
+        
+        ctx.restore();
     }
 
     // Loop
@@ -22668,9 +22410,204 @@ function initInternalBLSimulation() {
         }
     };
 })();
+/* ============================================================
+   FOURIER CONDUCTION LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
 
+    var CFG = {
+        modalId: 'fourier-lab-modal',
+        openBtnId: 'fourier-lab-open-btn',
+        closeBtnId: 'fourier-lab-close-btn',
+        fullscreenClass: 'fullscreen',
+        closingClass: 'is-closing',
+        bodyLockClass: 'fourier-lab-open',
+        transitionMs: 300,
+    };
 
+    function getFourierChart() {
+        var canvas = document.getElementById('fourierGraph');
+        if (!canvas) canvas = document.querySelector('#fourier-sim canvas#fourierGraph');
+        if (!canvas) canvas = document.querySelector('#fourier-lab-modal canvas#fourierGraph');
+        
+        if (canvas && window.Chart) {
+            if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
+            if (Chart.instances) {
+                return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            }
+        }
+        if (window.fourierChart) return window.fourierChart;
+        return null;
+    }
 
+    function getFourierCanvas() {
+        return document.getElementById('fourierChart');
+    }
+
+    function resizeFourierAssets() {
+        var chart = getFourierChart();
+        if (chart) {
+            try {
+                chart.resize();
+                chart.update('none');
+            } catch (e) { console.warn("Error redimensionando Fourier Chart", e); }
+        }
+
+        var c = getFourierCanvas();
+        if (c) {
+            var container = c.closest ? c.closest('.canvas-container') : null;
+            var rect = container ? container.getBoundingClientRect() : null;
+            var w = rect && rect.width > 0 ? Math.floor(rect.width) : (c.clientWidth || c.offsetWidth || 0);
+            var h = rect && rect.height > 0 ? Math.floor(rect.height) : 0; 
+
+            if (w > 0 && h > 0 && (c.width !== w || c.height !== h)) {
+                c.width = w;
+                c.height = h;
+            }
+        }
+    }
+
+    function forceDelayedResize() {
+        setTimeout(function () {
+            resizeFourierAssets();
+        }, 80);
+    }
+
+    function retypesetMathJax() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal) return;
+        if (window.MathJax) {
+            if (typeof MathJax.typesetPromise === 'function') {
+                MathJax.typesetPromise([modal]).catch(function () { });
+            } else if (MathJax.Hub) {
+                MathJax.Hub.Queue(['Typeset', MathJax.Hub, modal]);
+            }
+        }
+    }
+
+    function getLang() {
+        return window.currentLang || window.currentLanguage || 'es';
+    }
+
+    function openFourierLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('fourier-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent;
+        modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement;
+        modal._cleanupDone = false;
+
+        document.body.appendChild(modal);
+
+        modal.classList.remove(CFG.closingClass);
+        modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden';
+        document.body.classList.add(CFG.bodyLockClass);
+
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+
+        var live = document.getElementById('fourier-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en'
+            ? 'Lab opened in full screen. Press Escape to exit.'
+            : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+
+        resizeFourierAssets();
+        forceDelayedResize();
+
+        setTimeout(retypesetMathJax, 150);
+    }
+
+    function closeFourierLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+
+        modal.classList.add(CFG.closingClass);
+
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+
+        function cleanup() {
+            if (modal._cleanupDone) return;
+            modal._cleanupDone = true;
+
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass);
+            document.body.style.overflow = '';
+
+            var parent = modal._originalParent;
+            var placeholder = modal._placeholder;
+
+            if (parent && placeholder && placeholder.parentNode === parent) {
+                parent.insertBefore(modal, placeholder);
+                parent.removeChild(placeholder);
+            } else if (parent) {
+                parent.appendChild(modal);
+            }
+
+            modal._originalParent = null;
+            modal._placeholder = null;
+
+            forceDelayedResize();
+
+            if (modal._returnFocus && modal._returnFocus.focus) {
+                modal._returnFocus.focus();
+                modal._returnFocus = null;
+            }
+
+            var live = document.getElementById('fourier-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en'
+                ? 'Lab closed. Returning to main view.'
+                : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+
+        modal.addEventListener('transitionend', function handler(e) {
+            if (e.target !== modal) return;
+            modal.removeEventListener('transitionend', handler);
+            cleanup();
+        });
+        
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+
+        if (openBtn) openBtn.addEventListener('click', openFourierLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeFourierLabFullscreen);
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' || e.keyCode === 27) {
+                closeFourierLabFullscreen();
+            }
+        });
+
+        var resizeTimer;
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(resizeFourierAssets, 80);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attachListeners);
+    } else {
+        attachListeners();
+    }
+
+    window.FourierLab = {
+        open: openFourierLabFullscreen,
+        close: closeFourierLabFullscreen,
+        resize: forceDelayedResize
+    };
+
+})();
 
 /* ============================================================
    NEWTON COOLING LAB — FULLSCREEN CONTROLLER
@@ -22950,3 +22887,62 @@ function initInternalBLSimulation() {
     // 'toggle' en capture para interceptarlo antes de que burbujee
     document.addEventListener('toggle', handler, true);
 }());
+
+
+// --- Lógica de Pantalla Completa para Simuladores ---
+function toggleLabFullscreen(container) {
+  if (!container) return;
+  const isFullscreen = container.classList.toggle('lab-fullscreen');
+  document.body.classList.toggle('no-scroll', isFullscreen);
+
+  const btn = container.querySelector('.lab-expand-btn');
+  if (btn) {
+    btn.textContent = isFullscreen ? '✖ Salir de Pantalla Completa' : '🔍 Pantalla Completa';
+    
+    // Si tienes un sistema de traducción dinámica (como data-i18n), tal vez necesites ajustar esto
+    // de manera que actualice la clave en vez de hacer textContent directo, o manejarlo con translations.js.
+  }
+
+  // Resize de instancias de Chart.js para que ocupen la nueva área expandida
+  setTimeout(() => {
+    try {
+      if (typeof Chart !== 'undefined' && Chart.instances) {
+        Object.values(Chart.instances).forEach(chart => {
+            if (chart && typeof chart.resize === 'function') {
+                chart.resize();
+            }
+        });
+      }
+      if (typeof fourierChart !== 'undefined' && fourierChart) {
+          fourierChart.resize();
+      }
+      if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+        MathJax.typesetPromise().catch(err => console.warn(err));
+      }
+    } catch(e) {
+        console.warn("Error en resize o typeset:", e);
+    }
+  }, 100);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Event delegation para capturar clics en los botones de expandir
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.lab-expand-btn');
+    if (btn) {
+      // Busca el contenedor padre del laboratorio más cercano
+      const container = btn.closest('.lab-container, .card, section, article, .sim-container') || btn.parentElement.parentElement;
+      toggleLabFullscreen(container);
+    }
+  });
+
+  // Cierre automático al presionar la tecla Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const activeLab = document.querySelector('.lab-fullscreen');
+      if (activeLab) {
+        toggleLabFullscreen(activeLab);
+      }
+    }
+  });
+});
