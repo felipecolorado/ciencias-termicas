@@ -2693,6 +2693,7 @@ body.fourier-lab-open {
   cursor: pointer;
 }
 
+
 #fourier-lab-close-btn.visible {
   display: flex;
 }
@@ -2702,3 +2703,792 @@ body.fourier-lab-open {
   border-color: #ef4444;
   color: #ef4444;
 }
+
+/* ============================================================
+   LOTE 1 — SHARED FULLSCREEN HELPERS
+   Reutilizables por todos los labs del lote.
+   ============================================================ */
+
+/* Open-btn base (idéntico al de Fourier) */
+.lab-open-btn-lote1 {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+.lab-open-btn-lote1:hover {
+  background: rgba(59, 130, 246, 0.28);
+  border-color: #60a5fa;
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   FIN LAB — FULLSCREEN & HUD STYLES
+   ============================================================ */
+
+#fin-sim.fullscreen {
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999 !important;
+  background-color: var(--bg-dark, #0f172a);
+  color: var(--text-primary, #e2e8f0);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 72px 32px 48px;
+  box-sizing: border-box;
+  opacity: 1 !important;
+  pointer-events: all !important;
+  transform: none !important;
+}
+
+body.fin-lab-open { overflow: hidden; }
+
+#fin-lab-close-btn {
+  position: fixed;
+  top: 20px; right: 25px;
+  z-index: 1000000;
+  width: 44px; height: 44px;
+  padding: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+  background-color: rgba(255, 255, 255, 0.10);
+  border: 1.5px solid rgba(255, 255, 255, 0.20);
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto !important;
+  isolation: isolate;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.18s ease;
+}
+#fin-lab-close-btn.visible { display: flex; }
+#fin-lab-close-btn:hover, #fin-lab-close-btn:focus-visible {
+  background-color: rgba(239, 68, 68, 0.18);
+  border-color: #ef4444; color: #ef4444;
+  transform: scale(1.1) rotate(90deg); outline: none;
+}
+#fin-lab-close-btn:active { transform: scale(0.93) rotate(90deg); }
+
+#fin-lab-open-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 8px; cursor: pointer;
+  font-size: 0.82rem; font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+#fin-lab-open-btn:hover {
+  background: rgba(59, 130, 246, 0.28);
+  border-color: #60a5fa; transform: translateY(-1px);
+}
+
+#fin-sim.is-closing {
+  display: block !important;
+  opacity: 0; transform: scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#fin-sim::-webkit-scrollbar { width: 7px; }
+#fin-sim::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+#fin-sim::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+
+@media (max-width: 900px) {
+  #fin-sim.fullscreen { padding: 64px 16px 32px; }
+}
+@media (max-width: 600px) {
+  #fin-sim.fullscreen { padding: 56px 10px 24px; }
+}
+
+/* ============================================================
+   TRANSIENT LAB — FULLSCREEN & HUD STYLES
+   ============================================================ */
+
+#transient-sim.fullscreen {
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999 !important;
+  background-color: var(--bg-dark, #0f172a);
+  color: var(--text-primary, #e2e8f0);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 72px 32px 48px;
+  box-sizing: border-box;
+  opacity: 1 !important;
+  pointer-events: all !important;
+  transform: none !important;
+}
+
+body.transient-lab-open { overflow: hidden; }
+
+#transient-lab-close-btn {
+  position: fixed;
+  top: 20px; right: 25px;
+  z-index: 1000000;
+  width: 44px; height: 44px;
+  padding: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem; line-height: 1; font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+  background-color: rgba(255, 255, 255, 0.10);
+  border: 1.5px solid rgba(255, 255, 255, 0.20);
+  border-radius: 50%; cursor: pointer;
+  pointer-events: auto !important; isolation: isolate;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.18s ease;
+}
+#transient-lab-close-btn.visible { display: flex; }
+#transient-lab-close-btn:hover, #transient-lab-close-btn:focus-visible {
+  background-color: rgba(239, 68, 68, 0.18);
+  border-color: #ef4444; color: #ef4444;
+  transform: scale(1.1) rotate(90deg); outline: none;
+}
+#transient-lab-close-btn:active { transform: scale(0.93) rotate(90deg); }
+
+#transient-lab-open-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  background: rgba(59, 130, 246, 0.15); color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 8px; cursor: pointer;
+  font-size: 0.82rem; font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+#transient-lab-open-btn:hover {
+  background: rgba(59, 130, 246, 0.28);
+  border-color: #60a5fa; transform: translateY(-1px);
+}
+
+#transient-sim.is-closing {
+  display: block !important;
+  opacity: 0; transform: scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#transient-sim::-webkit-scrollbar { width: 7px; }
+#transient-sim::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+#transient-sim::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+
+@media (max-width: 900px) {
+  #transient-sim.fullscreen { padding: 64px 16px 32px; }
+}
+@media (max-width: 600px) {
+  #transient-sim.fullscreen { padding: 56px 10px 24px; }
+}
+
+/* ============================================================
+   INSULATED LAB — FULLSCREEN & HUD STYLES
+   ============================================================ */
+
+#insulated-sim.fullscreen {
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999 !important;
+  background-color: var(--bg-dark, #0f172a);
+  color: var(--text-primary, #e2e8f0);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 72px 32px 48px;
+  box-sizing: border-box;
+  opacity: 1 !important;
+  pointer-events: all !important;
+  transform: none !important;
+}
+
+body.insulated-lab-open { overflow: hidden; }
+
+#insulated-lab-close-btn {
+  position: fixed;
+  top: 20px; right: 25px;
+  z-index: 1000000;
+  width: 44px; height: 44px;
+  padding: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem; line-height: 1; font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+  background-color: rgba(255, 255, 255, 0.10);
+  border: 1.5px solid rgba(255, 255, 255, 0.20);
+  border-radius: 50%; cursor: pointer;
+  pointer-events: auto !important; isolation: isolate;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.18s ease;
+}
+#insulated-lab-close-btn.visible { display: flex; }
+#insulated-lab-close-btn:hover, #insulated-lab-close-btn:focus-visible {
+  background-color: rgba(239, 68, 68, 0.18);
+  border-color: #ef4444; color: #ef4444;
+  transform: scale(1.1) rotate(90deg); outline: none;
+}
+#insulated-lab-close-btn:active { transform: scale(0.93) rotate(90deg); }
+
+#insulated-lab-open-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  background: rgba(59, 130, 246, 0.15); color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 8px; cursor: pointer;
+  font-size: 0.82rem; font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+#insulated-lab-open-btn:hover {
+  background: rgba(59, 130, 246, 0.28);
+  border-color: #60a5fa; transform: translateY(-1px);
+}
+
+#insulated-sim.is-closing {
+  display: block !important;
+  opacity: 0; transform: scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#insulated-sim::-webkit-scrollbar { width: 7px; }
+#insulated-sim::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+#insulated-sim::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+
+@media (max-width: 900px) {
+  #insulated-sim.fullscreen { padding: 64px 16px 32px; }
+}
+@media (max-width: 600px) {
+  #insulated-sim.fullscreen { padding: 56px 10px 24px; }
+}
+
+/* ============================================================
+   MULTICAPA-CUSTOM LAB — FULLSCREEN & HUD STYLES
+   ============================================================ */
+
+#multicapa-custom-sim.fullscreen {
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999 !important;
+  background-color: var(--bg-dark, #0f172a);
+  color: var(--text-primary, #e2e8f0);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 72px 32px 48px;
+  box-sizing: border-box;
+  opacity: 1 !important;
+  pointer-events: all !important;
+  transform: none !important;
+}
+
+body.multicapa-lab-open { overflow: hidden; }
+
+#multicapa-lab-close-btn {
+  position: fixed;
+  top: 20px; right: 25px;
+  z-index: 1000000;
+  width: 44px; height: 44px;
+  padding: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem; line-height: 1; font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+  background-color: rgba(255, 255, 255, 0.10);
+  border: 1.5px solid rgba(255, 255, 255, 0.20);
+  border-radius: 50%; cursor: pointer;
+  pointer-events: auto !important; isolation: isolate;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.18s ease;
+}
+#multicapa-lab-close-btn.visible { display: flex; }
+#multicapa-lab-close-btn:hover, #multicapa-lab-close-btn:focus-visible {
+  background-color: rgba(239, 68, 68, 0.18);
+  border-color: #ef4444; color: #ef4444;
+  transform: scale(1.1) rotate(90deg); outline: none;
+}
+#multicapa-lab-close-btn:active { transform: scale(0.93) rotate(90deg); }
+
+#multicapa-lab-open-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  background: rgba(59, 130, 246, 0.15); color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 8px; cursor: pointer;
+  font-size: 0.82rem; font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+#multicapa-lab-open-btn:hover {
+  background: rgba(59, 130, 246, 0.28);
+  border-color: #60a5fa; transform: translateY(-1px);
+}
+
+#multicapa-custom-sim.is-closing {
+  display: block !important;
+  opacity: 0; transform: scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#multicapa-custom-sim::-webkit-scrollbar { width: 7px; }
+#multicapa-custom-sim::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+#multicapa-custom-sim::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+
+@media (max-width: 900px) {
+  #multicapa-custom-sim.fullscreen { padding: 64px 16px 32px; }
+}
+@media (max-width: 600px) {
+  #multicapa-custom-sim.fullscreen { padding: 56px 10px 24px; }
+}
+
+/* ============================================================
+   LOTE 2 — FULLSCREEN STYLES
+   prandtl · nusselt · bl · reynolds · nat-conv · internal-bl
+   ============================================================ */
+
+/* ── Mixin helper (valores idénticos para todos los labs del lote) ── */
+#prandtl-sim.fullscreen,
+#nusselt-sim.fullscreen,
+#bl-sim.fullscreen,
+#reynolds-sim.fullscreen,
+#nat-conv-sim.fullscreen,
+#internal-bl-sim.fullscreen {
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999 !important;
+  background-color: var(--bg-dark, #0f172a);
+  color: var(--text-primary, #e2e8f0);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 72px 32px 48px;
+  box-sizing: border-box;
+  opacity: 1 !important;
+  pointer-events: all !important;
+  transform: none !important;
+}
+
+#prandtl-sim.is-closing,
+#nusselt-sim.is-closing,
+#bl-sim.is-closing,
+#reynolds-sim.is-closing,
+#nat-conv-sim.is-closing,
+#internal-bl-sim.is-closing {
+  display: block !important;
+  opacity: 0;
+  transform: scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#prandtl-sim::-webkit-scrollbar,
+#nusselt-sim::-webkit-scrollbar,
+#bl-sim::-webkit-scrollbar,
+#reynolds-sim::-webkit-scrollbar,
+#nat-conv-sim::-webkit-scrollbar,
+#internal-bl-sim::-webkit-scrollbar { width: 7px; }
+
+#prandtl-sim::-webkit-scrollbar-track,
+#nusselt-sim::-webkit-scrollbar-track,
+#bl-sim::-webkit-scrollbar-track,
+#reynolds-sim::-webkit-scrollbar-track,
+#nat-conv-sim::-webkit-scrollbar-track,
+#internal-bl-sim::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+
+#prandtl-sim::-webkit-scrollbar-thumb,
+#nusselt-sim::-webkit-scrollbar-thumb,
+#bl-sim::-webkit-scrollbar-thumb,
+#reynolds-sim::-webkit-scrollbar-thumb,
+#nat-conv-sim::-webkit-scrollbar-thumb,
+#internal-bl-sim::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+
+/* ── Body scroll lock ── */
+body.prandtl-lab-open,
+body.nusselt-lab-open,
+body.bl-lab-open,
+body.reynolds-lab-open,
+body.nat-conv-lab-open,
+body.internal-bl-lab-open { overflow: hidden; }
+
+/* ── Close buttons (shared shape, individual selector for z-order safety) ── */
+#prandtl-lab-close-btn,
+#nusselt-lab-close-btn,
+#bl-lab-close-btn,
+#reynolds-lab-close-btn,
+#nat-conv-lab-close-btn,
+#internal-bl-lab-close-btn {
+  position: fixed;
+  top: 20px; right: 25px;
+  z-index: 1000000;
+  width: 44px; height: 44px;
+  padding: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+  background-color: rgba(255, 255, 255, 0.10);
+  border: 1.5px solid rgba(255, 255, 255, 0.20);
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto !important;
+  isolation: isolate;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+              color 0.2s ease, transform 0.18s ease;
+}
+
+#prandtl-lab-close-btn.visible,
+#nusselt-lab-close-btn.visible,
+#bl-lab-close-btn.visible,
+#reynolds-lab-close-btn.visible,
+#nat-conv-lab-close-btn.visible,
+#internal-bl-lab-close-btn.visible { display: flex; }
+
+#prandtl-lab-close-btn:hover,  #prandtl-lab-close-btn:focus-visible,
+#nusselt-lab-close-btn:hover,   #nusselt-lab-close-btn:focus-visible,
+#bl-lab-close-btn:hover,        #bl-lab-close-btn:focus-visible,
+#reynolds-lab-close-btn:hover,  #reynolds-lab-close-btn:focus-visible,
+#nat-conv-lab-close-btn:hover,  #nat-conv-lab-close-btn:focus-visible,
+#internal-bl-lab-close-btn:hover, #internal-bl-lab-close-btn:focus-visible {
+  background-color: rgba(239, 68, 68, 0.18);
+  border-color: #ef4444; color: #ef4444;
+  transform: scale(1.1) rotate(90deg); outline: none;
+}
+
+#prandtl-lab-close-btn:active,
+#nusselt-lab-close-btn:active,
+#bl-lab-close-btn:active,
+#reynolds-lab-close-btn:active,
+#nat-conv-lab-close-btn:active,
+#internal-bl-lab-close-btn:active { transform: scale(0.93) rotate(90deg); }
+
+/* ── Open buttons ── */
+#prandtl-lab-open-btn,
+#nusselt-lab-open-btn,
+#bl-lab-open-btn,
+#reynolds-lab-open-btn,
+#nat-conv-lab-open-btn,
+#internal-bl-lab-open-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 8px; cursor: pointer;
+  font-size: 0.82rem; font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+#prandtl-lab-open-btn:hover,
+#nusselt-lab-open-btn:hover,
+#bl-lab-open-btn:hover,
+#reynolds-lab-open-btn:hover,
+#nat-conv-lab-open-btn:hover,
+#internal-bl-lab-open-btn:hover {
+  background: rgba(59, 130, 246, 0.28);
+  border-color: #60a5fa; transform: translateY(-1px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  #prandtl-sim.fullscreen,
+  #nusselt-sim.fullscreen,
+  #bl-sim.fullscreen,
+  #reynolds-sim.fullscreen,
+  #nat-conv-sim.fullscreen,
+  #internal-bl-sim.fullscreen { padding: 64px 16px 32px; }
+}
+
+@media (max-width: 600px) {
+  #prandtl-sim.fullscreen,
+  #nusselt-sim.fullscreen,
+  #bl-sim.fullscreen,
+  #reynolds-sim.fullscreen,
+  #nat-conv-sim.fullscreen,
+  #internal-bl-sim.fullscreen { padding: 56px 10px 24px; }
+}
+
+/* ============================================================
+   LOTE 3 — FULLSCREEN STYLES
+   doublepipe · microchannel · boiling
+   ============================================================ */
+
+/* ── Fullscreen base ── */
+#doublepipe-sim.fullscreen,
+#microchannel-sim.fullscreen,
+#boiling-sim.fullscreen {
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999 !important;
+  background-color: var(--bg-dark, #0f172a);
+  color: var(--text-primary, #e2e8f0);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 72px 32px 48px;
+  box-sizing: border-box;
+  opacity: 1 !important;
+  pointer-events: all !important;
+  transform: none !important;
+}
+
+/* ── Closing animation ── */
+#doublepipe-sim.is-closing,
+#microchannel-sim.is-closing,
+#boiling-sim.is-closing {
+  display: block !important;
+  opacity: 0;
+  transform: scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* ── Scrollbar ── */
+#doublepipe-sim::-webkit-scrollbar,
+#microchannel-sim::-webkit-scrollbar,
+#boiling-sim::-webkit-scrollbar { width: 7px; }
+
+#doublepipe-sim::-webkit-scrollbar-track,
+#microchannel-sim::-webkit-scrollbar-track,
+#boiling-sim::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+
+#doublepipe-sim::-webkit-scrollbar-thumb,
+#microchannel-sim::-webkit-scrollbar-thumb,
+#boiling-sim::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+
+/* ── Body scroll lock ── */
+body.doublepipe-lab-open,
+body.microchannel-lab-open,
+body.boiling-lab-open { overflow: hidden; }
+
+/* ── Close buttons ── */
+#doublepipe-lab-close-btn,
+#microchannel-lab-close-btn,
+#boiling-lab-close-btn {
+  position: fixed;
+  top: 20px; right: 25px;
+  z-index: 1000000;
+  width: 44px; height: 44px;
+  padding: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+  background-color: rgba(255, 255, 255, 0.10);
+  border: 1.5px solid rgba(255, 255, 255, 0.20);
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto !important;
+  isolation: isolate;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+              color 0.2s ease, transform 0.18s ease;
+}
+
+#doublepipe-lab-close-btn.visible,
+#microchannel-lab-close-btn.visible,
+#boiling-lab-close-btn.visible { display: flex; }
+
+#doublepipe-lab-close-btn:hover,  #doublepipe-lab-close-btn:focus-visible,
+#microchannel-lab-close-btn:hover, #microchannel-lab-close-btn:focus-visible,
+#boiling-lab-close-btn:hover,      #boiling-lab-close-btn:focus-visible {
+  background-color: rgba(239, 68, 68, 0.18);
+  border-color: #ef4444; color: #ef4444;
+  transform: scale(1.1) rotate(90deg); outline: none;
+}
+
+#doublepipe-lab-close-btn:active,
+#microchannel-lab-close-btn:active,
+#boiling-lab-close-btn:active { transform: scale(0.93) rotate(90deg); }
+
+/* ── Open buttons ── */
+#doublepipe-lab-open-btn,
+#microchannel-lab-open-btn,
+#boiling-lab-open-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 8px; cursor: pointer;
+  font-size: 0.82rem; font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+#doublepipe-lab-open-btn:hover,
+#microchannel-lab-open-btn:hover,
+#boiling-lab-open-btn:hover {
+  background: rgba(59, 130, 246, 0.28);
+  border-color: #60a5fa; transform: translateY(-1px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  #doublepipe-sim.fullscreen,
+  #microchannel-sim.fullscreen,
+  #boiling-sim.fullscreen { padding: 64px 16px 32px; }
+}
+
+@media (max-width: 600px) {
+  #doublepipe-sim.fullscreen,
+  #microchannel-sim.fullscreen,
+  #boiling-sim.fullscreen { padding: 56px 10px 24px; }
+}
+
+/* ============================================================
+   LOTE 4 — FULLSCREEN STYLES
+   planck · vf · invsq
+   ============================================================ */
+
+/* ── Fullscreen base ── */
+#planck-sim.fullscreen,
+#vf-sim.fullscreen,
+#invsq-sim.fullscreen {
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999 !important;
+  background-color: var(--bg-dark, #0f172a);
+  color: var(--text-primary, #e2e8f0);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 72px 32px 48px;
+  box-sizing: border-box;
+  opacity: 1 !important;
+  pointer-events: all !important;
+  transform: none !important;
+}
+
+/* ── Closing animation ── */
+#planck-sim.is-closing,
+#vf-sim.is-closing,
+#invsq-sim.is-closing {
+  display: block !important;
+  opacity: 0;
+  transform: scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* ── Scrollbar ── */
+#planck-sim::-webkit-scrollbar,
+#vf-sim::-webkit-scrollbar,
+#invsq-sim::-webkit-scrollbar { width: 7px; }
+
+#planck-sim::-webkit-scrollbar-track,
+#vf-sim::-webkit-scrollbar-track,
+#invsq-sim::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+
+#planck-sim::-webkit-scrollbar-thumb,
+#vf-sim::-webkit-scrollbar-thumb,
+#invsq-sim::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+
+/* ── Body scroll lock ── */
+body.planck-lab-open,
+body.vf-lab-open,
+body.invsq-lab-open { overflow: hidden; }
+
+/* ── Close buttons ── */
+#planck-lab-close-btn,
+#vf-lab-close-btn,
+#invsq-lab-close-btn {
+  position: fixed;
+  top: 20px; right: 25px;
+  z-index: 1000000;
+  width: 44px; height: 44px;
+  padding: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+  background-color: rgba(255, 255, 255, 0.10);
+  border: 1.5px solid rgba(255, 255, 255, 0.20);
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto !important;
+  isolation: isolate;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+              color 0.2s ease, transform 0.18s ease;
+}
+
+#planck-lab-close-btn.visible,
+#vf-lab-close-btn.visible,
+#invsq-lab-close-btn.visible { display: flex; }
+
+#planck-lab-close-btn:hover, #planck-lab-close-btn:focus-visible,
+#vf-lab-close-btn:hover,     #vf-lab-close-btn:focus-visible,
+#invsq-lab-close-btn:hover,  #invsq-lab-close-btn:focus-visible {
+  background-color: rgba(239, 68, 68, 0.18);
+  border-color: #ef4444; color: #ef4444;
+  transform: scale(1.1) rotate(90deg); outline: none;
+}
+
+#planck-lab-close-btn:active,
+#vf-lab-close-btn:active,
+#invsq-lab-close-btn:active { transform: scale(0.93) rotate(90deg); }
+
+/* ── Open buttons ── */
+#planck-lab-open-btn,
+#vf-lab-open-btn,
+#invsq-lab-open-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 8px; cursor: pointer;
+  font-size: 0.82rem; font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+#planck-lab-open-btn:hover,
+#vf-lab-open-btn:hover,
+#invsq-lab-open-btn:hover {
+  background: rgba(59, 130, 246, 0.28);
+  border-color: #60a5fa; transform: translateY(-1px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  #planck-sim.fullscreen,
+  #vf-sim.fullscreen,
+  #invsq-sim.fullscreen { padding: 64px 16px 32px; }
+}
+
+@media (max-width: 600px) {
+  #planck-sim.fullscreen,
+  #vf-sim.fullscreen,
+  #invsq-sim.fullscreen { padding: 56px 10px 24px; }
+}
+

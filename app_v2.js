@@ -22411,6 +22411,639 @@ function initInternalBLSimulation() {
     };
 })();
 /* ============================================================
+   FIN (EXTENDED SURFACES) LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'fin-sim',
+        openBtnId:       'fin-lab-open-btn',
+        closeBtnId:      'fin-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'fin-lab-open',
+        transitionMs:     300,
+    };
+
+    function getFinChart() {
+        var canvas = document.getElementById('finChart');
+        if (canvas && window.Chart) {
+            if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
+            if (Chart.instances) {
+                return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            }
+        }
+        return null;
+    }
+
+    function resizeFinAssets() {
+        var chart = getFinChart();
+        if (chart) {
+            try { chart.resize(); chart.update('none'); } catch (e) { console.warn('Error resizing Fin chart', e); }
+        }
+    }
+
+    function forceDelayedResize() {
+        setTimeout(resizeFinAssets, 80);
+    }
+
+    function getLang() {
+        return window.currentLang || window.currentLanguage || 'es';
+    }
+
+    function openFinLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('fin-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent;
+        modal._placeholder    = placeholder;
+        modal._returnFocus    = document.activeElement;
+        modal._cleanupDone    = false;
+
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass);
+        modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden';
+        document.body.classList.add(CFG.bodyLockClass);
+
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+
+        var live = document.getElementById('fin-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en'
+            ? 'Lab opened in full screen. Press Escape to exit.'
+            : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+
+        resizeFinAssets();
+        forceDelayedResize();
+    }
+
+    function closeFinLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+
+        function cleanup() {
+            if (modal._cleanupDone) return;
+            modal._cleanupDone = true;
+
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass);
+            document.body.style.overflow = '';
+
+            var parent      = modal._originalParent;
+            var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) {
+                parent.insertBefore(modal, placeholder);
+                parent.removeChild(placeholder);
+            } else if (parent) {
+                parent.appendChild(modal);
+            }
+            modal._originalParent = null;
+            modal._placeholder    = null;
+
+            forceDelayedResize();
+
+            if (modal._returnFocus && modal._returnFocus.focus) {
+                modal._returnFocus.focus();
+                modal._returnFocus = null;
+            }
+
+            var live = document.getElementById('fin-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en'
+                ? 'Lab closed. Returning to main view.'
+                : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+
+        modal.addEventListener('transitionend', function handler(e) {
+            if (e.target !== modal) return;
+            modal.removeEventListener('transitionend', handler);
+            cleanup();
+        });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachFinListeners() {
+        var openBtn  = document.getElementById(CFG.openBtnId);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn)  openBtn.addEventListener('click', openFinLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeFinLabFullscreen);
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' || e.keyCode === 27) closeFinLabFullscreen();
+        });
+
+        var resizeTimer;
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(resizeFinAssets, 80);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attachFinListeners);
+    } else {
+        attachFinListeners();
+    }
+
+    window.FinLab = { open: openFinLabFullscreen, close: closeFinLabFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   TRANSIENT CONDUCTION LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'transient-sim',
+        openBtnId:       'transient-lab-open-btn',
+        closeBtnId:      'transient-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'transient-lab-open',
+        transitionMs:     300,
+    };
+
+    function getTransientChart() {
+        var canvas = document.getElementById('transientChart');
+        if (canvas && window.Chart) {
+            if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
+            if (Chart.instances) {
+                return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            }
+        }
+        return null;
+    }
+
+    function getTransientCanvas() {
+        return document.getElementById('transientCanvas');
+    }
+
+    function resizeTransientAssets() {
+        var chart = getTransientChart();
+        if (chart) {
+            try { chart.resize(); chart.update('none'); } catch (e) { console.warn('Error resizing Transient chart', e); }
+        }
+        var c = getTransientCanvas();
+        if (c) {
+            var w = c.clientWidth || c.offsetWidth;
+            var h = c.clientHeight || c.offsetHeight;
+            if (w > 0 && h > 0 && (c.width !== w || c.height !== h)) {
+                c.width = w; c.height = h;
+            }
+        }
+    }
+
+    function forceDelayedResize() {
+        setTimeout(resizeTransientAssets, 80);
+    }
+
+    function getLang() {
+        return window.currentLang || window.currentLanguage || 'es';
+    }
+
+    function openTransientLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('transient-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent;
+        modal._placeholder    = placeholder;
+        modal._returnFocus    = document.activeElement;
+        modal._cleanupDone    = false;
+
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass);
+        modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden';
+        document.body.classList.add(CFG.bodyLockClass);
+
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+
+        var live = document.getElementById('transient-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en'
+            ? 'Lab opened in full screen. Press Escape to exit.'
+            : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+
+        resizeTransientAssets();
+        forceDelayedResize();
+    }
+
+    function closeTransientLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+
+        function cleanup() {
+            if (modal._cleanupDone) return;
+            modal._cleanupDone = true;
+
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass);
+            document.body.style.overflow = '';
+
+            var parent      = modal._originalParent;
+            var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) {
+                parent.insertBefore(modal, placeholder);
+                parent.removeChild(placeholder);
+            } else if (parent) {
+                parent.appendChild(modal);
+            }
+            modal._originalParent = null;
+            modal._placeholder    = null;
+
+            forceDelayedResize();
+
+            if (modal._returnFocus && modal._returnFocus.focus) {
+                modal._returnFocus.focus();
+                modal._returnFocus = null;
+            }
+
+            var live = document.getElementById('transient-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en'
+                ? 'Lab closed. Returning to main view.'
+                : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+
+        modal.addEventListener('transitionend', function handler(e) {
+            if (e.target !== modal) return;
+            modal.removeEventListener('transitionend', handler);
+            cleanup();
+        });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachTransientListeners() {
+        var openBtn  = document.getElementById(CFG.openBtnId);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn)  openBtn.addEventListener('click', openTransientLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeTransientLabFullscreen);
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' || e.keyCode === 27) closeTransientLabFullscreen();
+        });
+
+        var resizeTimer;
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(resizeTransientAssets, 80);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attachTransientListeners);
+    } else {
+        attachTransientListeners();
+    }
+
+    window.TransientLab = { open: openTransientLabFullscreen, close: closeTransientLabFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   INSULATED FLAT PLATE LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'insulated-sim',
+        openBtnId:       'insulated-lab-open-btn',
+        closeBtnId:      'insulated-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'insulated-lab-open',
+        transitionMs:     300,
+    };
+
+    function getInsulatedChart() {
+        var canvas = document.getElementById('insulatedChart');
+        if (canvas && window.Chart) {
+            if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
+            if (Chart.instances) {
+                return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            }
+        }
+        return null;
+    }
+
+    function getInsulatedCanvas() {
+        return document.getElementById('insulatedCanvas');
+    }
+
+    function resizeInsulatedAssets() {
+        var chart = getInsulatedChart();
+        if (chart) {
+            try { chart.resize(); chart.update('none'); } catch (e) { console.warn('Error resizing Insulated chart', e); }
+        }
+        var c = getInsulatedCanvas();
+        if (c) {
+            var w = c.clientWidth || c.offsetWidth;
+            var h = c.clientHeight || c.offsetHeight;
+            if (w > 0 && h > 0 && (c.width !== w || c.height !== h)) {
+                c.width = w; c.height = h;
+            }
+        }
+    }
+
+    function forceDelayedResize() {
+        setTimeout(resizeInsulatedAssets, 80);
+    }
+
+    function getLang() {
+        return window.currentLang || window.currentLanguage || 'es';
+    }
+
+    function openInsulatedLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('insulated-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent;
+        modal._placeholder    = placeholder;
+        modal._returnFocus    = document.activeElement;
+        modal._cleanupDone    = false;
+
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass);
+        modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden';
+        document.body.classList.add(CFG.bodyLockClass);
+
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+
+        var live = document.getElementById('insulated-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en'
+            ? 'Lab opened in full screen. Press Escape to exit.'
+            : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+
+        resizeInsulatedAssets();
+        forceDelayedResize();
+    }
+
+    function closeInsulatedLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+
+        function cleanup() {
+            if (modal._cleanupDone) return;
+            modal._cleanupDone = true;
+
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass);
+            document.body.style.overflow = '';
+
+            var parent      = modal._originalParent;
+            var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) {
+                parent.insertBefore(modal, placeholder);
+                parent.removeChild(placeholder);
+            } else if (parent) {
+                parent.appendChild(modal);
+            }
+            modal._originalParent = null;
+            modal._placeholder    = null;
+
+            forceDelayedResize();
+
+            if (modal._returnFocus && modal._returnFocus.focus) {
+                modal._returnFocus.focus();
+                modal._returnFocus = null;
+            }
+
+            var live = document.getElementById('insulated-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en'
+                ? 'Lab closed. Returning to main view.'
+                : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+
+        modal.addEventListener('transitionend', function handler(e) {
+            if (e.target !== modal) return;
+            modal.removeEventListener('transitionend', handler);
+            cleanup();
+        });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachInsulatedListeners() {
+        var openBtn  = document.getElementById(CFG.openBtnId);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn)  openBtn.addEventListener('click', openInsulatedLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeInsulatedLabFullscreen);
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' || e.keyCode === 27) closeInsulatedLabFullscreen();
+        });
+
+        var resizeTimer;
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(resizeInsulatedAssets, 80);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attachInsulatedListeners);
+    } else {
+        attachInsulatedListeners();
+    }
+
+    window.InsulatedLab = { open: openInsulatedLabFullscreen, close: closeInsulatedLabFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   MULTICAPA-CUSTOM LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'multicapa-custom-sim',
+        openBtnId:       'multicapa-lab-open-btn',
+        closeBtnId:      'multicapa-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'multicapa-lab-open',
+        transitionMs:     300,
+    };
+
+    function getMulticapaChart() {
+        var canvas = document.getElementById('customMultiChart');
+        if (canvas && window.Chart) {
+            if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
+            if (Chart.instances) {
+                return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            }
+        }
+        return null;
+    }
+
+    function getMulticapaCanvas() {
+        return document.getElementById('customMultiCanvas');
+    }
+
+    function resizeMulticapaAssets() {
+        var chart = getMulticapaChart();
+        if (chart) {
+            try { chart.resize(); chart.update('none'); } catch (e) { console.warn('Error resizing Multicapa chart', e); }
+        }
+        var c = getMulticapaCanvas();
+        if (c) {
+            var container = c.closest ? c.closest('[style*="position: relative"]') : null;
+            var rect = container ? container.getBoundingClientRect() : null;
+            var w = rect && rect.width > 0 ? Math.floor(rect.width) : (c.clientWidth || c.offsetWidth);
+            var h = rect && rect.height > 0 ? Math.floor(rect.height) : (c.clientHeight || c.offsetHeight);
+            if (w > 0 && h > 0 && (c.width !== w || c.height !== h)) {
+                c.width = w; c.height = h;
+            }
+        }
+    }
+
+    function forceDelayedResize() {
+        setTimeout(resizeMulticapaAssets, 80);
+    }
+
+    function getLang() {
+        return window.currentLang || window.currentLanguage || 'es';
+    }
+
+    function openMulticapaLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('multicapa-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent;
+        modal._placeholder    = placeholder;
+        modal._returnFocus    = document.activeElement;
+        modal._cleanupDone    = false;
+
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass);
+        modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden';
+        document.body.classList.add(CFG.bodyLockClass);
+
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+
+        var live = document.getElementById('multicapa-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en'
+            ? 'Lab opened in full screen. Press Escape to exit.'
+            : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+
+        resizeMulticapaAssets();
+        forceDelayedResize();
+
+        // Reprocesar MathJax si está disponible
+        if (window.MathJax) {
+            setTimeout(function () {
+                if (typeof MathJax.typesetPromise === 'function') {
+                    MathJax.typesetPromise([document.getElementById(CFG.modalId)]).catch(function () {});
+                } else if (MathJax.Hub) {
+                    MathJax.Hub.Queue(['Typeset', MathJax.Hub, document.getElementById(CFG.modalId)]);
+                }
+            }, 150);
+        }
+    }
+
+    function closeMulticapaLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+
+        function cleanup() {
+            if (modal._cleanupDone) return;
+            modal._cleanupDone = true;
+
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass);
+            document.body.style.overflow = '';
+
+            var parent      = modal._originalParent;
+            var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) {
+                parent.insertBefore(modal, placeholder);
+                parent.removeChild(placeholder);
+            } else if (parent) {
+                parent.appendChild(modal);
+            }
+            modal._originalParent = null;
+            modal._placeholder    = null;
+
+            forceDelayedResize();
+
+            if (modal._returnFocus && modal._returnFocus.focus) {
+                modal._returnFocus.focus();
+                modal._returnFocus = null;
+            }
+
+            var live = document.getElementById('multicapa-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en'
+                ? 'Lab closed. Returning to main view.'
+                : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+
+        modal.addEventListener('transitionend', function handler(e) {
+            if (e.target !== modal) return;
+            modal.removeEventListener('transitionend', handler);
+            cleanup();
+        });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachMulticapaListeners() {
+        var openBtn  = document.getElementById(CFG.openBtnId);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn)  openBtn.addEventListener('click', openMulticapaLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeMulticapaLabFullscreen);
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' || e.keyCode === 27) closeMulticapaLabFullscreen();
+        });
+
+        var resizeTimer;
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(resizeMulticapaAssets, 80);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attachMulticapaListeners);
+    } else {
+        attachMulticapaListeners();
+    }
+
+    window.MulticapaLab = { open: openMulticapaLabFullscreen, close: closeMulticapaLabFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
    FOURIER CONDUCTION LAB — FULLSCREEN CONTROLLER
    ============================================================ */
 (function () {
@@ -22946,3 +23579,1021 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+/* ============================================================
+   PRANDTL LAB — FULLSCREEN CONTROLLER
+   Canvas: boundaryLayerCanvas | Chart: prandtlChart
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'prandtl-sim',
+        openBtnId:       'prandtl-lab-open-btn',
+        closeBtnId:      'prandtl-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'prandtl-lab-open',
+        transitionMs:     300,
+    };
+
+    function getPrandtlChart() {
+        var canvas = document.getElementById('prandtlChart');
+        if (canvas && window.Chart) {
+            if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
+            if (Chart.instances) return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+        }
+        return null;
+    }
+
+    function resizePrandtlAssets() {
+        var chart = getPrandtlChart();
+        if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { console.warn('Prandtl chart resize error', e); } }
+        var c = document.getElementById('boundaryLayerCanvas');
+        if (c) { var w = c.clientWidth || c.offsetWidth; var h = c.clientHeight || c.offsetHeight; if (w > 0 && h > 0 && (c.width !== w || c.height !== h)) { c.width = w; c.height = h; } }
+    }
+
+    function forceDelayedResize() { setTimeout(resizePrandtlAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+
+    function openPrandtlLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('prandtl-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent; modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+        var live = document.getElementById('prandtl-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizePrandtlAssets(); forceDelayedResize();
+    }
+
+    function closePrandtlLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var parent = modal._originalParent; var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) { parent.insertBefore(modal, placeholder); parent.removeChild(placeholder); } else if (parent) { parent.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null;
+            forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById('prandtl-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachPrandtlListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId); var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn) openBtn.addEventListener('click', openPrandtlLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closePrandtlLabFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closePrandtlLabFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizePrandtlAssets, 80); });
+    }
+
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachPrandtlListeners); } else { attachPrandtlListeners(); }
+    window.PrandtlLab = { open: openPrandtlLabFullscreen, close: closePrandtlLabFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   NUSSELT LAB — FULLSCREEN CONTROLLER
+   Canvas: nusseltCanvas | Chart: nusseltChart
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'nusselt-sim',
+        openBtnId:       'nusselt-lab-open-btn',
+        closeBtnId:      'nusselt-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'nusselt-lab-open',
+        transitionMs:     300,
+    };
+
+    function getNusseltChart() {
+        var canvas = document.getElementById('nusseltChart');
+        if (canvas && window.Chart) {
+            if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
+            if (Chart.instances) return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+        }
+        return null;
+    }
+
+    function resizeNusseltAssets() {
+        var chart = getNusseltChart();
+        if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { console.warn('Nusselt chart resize error', e); } }
+        var c = document.getElementById('nusseltCanvas');
+        if (c) { var w = c.clientWidth || c.offsetWidth; var h = c.clientHeight || c.offsetHeight; if (w > 0 && h > 0 && (c.width !== w || c.height !== h)) { c.width = w; c.height = h; } }
+    }
+
+    function forceDelayedResize() { setTimeout(resizeNusseltAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+
+    function openNusseltLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('nusselt-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent; modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+        var live = document.getElementById('nusselt-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeNusseltAssets(); forceDelayedResize();
+    }
+
+    function closeNusseltLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var parent = modal._originalParent; var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) { parent.insertBefore(modal, placeholder); parent.removeChild(placeholder); } else if (parent) { parent.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null;
+            forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById('nusselt-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachNusseltListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId); var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn) openBtn.addEventListener('click', openNusseltLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeNusseltLabFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeNusseltLabFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeNusseltAssets, 80); });
+    }
+
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachNusseltListeners); } else { attachNusseltListeners(); }
+    window.NusseltLab = { open: openNusseltLabFullscreen, close: closeNusseltLabFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   BL (BOUNDARY LAYER EXTERNAL) LAB — FULLSCREEN CONTROLLER
+   Chart: blChart
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'bl-sim',
+        openBtnId:       'bl-lab-open-btn',
+        closeBtnId:      'bl-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'bl-lab-open',
+        transitionMs:     300,
+    };
+
+    function getBlChart() {
+        var canvas = document.getElementById('blChart');
+        if (canvas && window.Chart) {
+            if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
+            if (Chart.instances) return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+        }
+        return null;
+    }
+
+    function resizeBlAssets() {
+        var chart = getBlChart();
+        if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { console.warn('BL chart resize error', e); } }
+    }
+
+    function forceDelayedResize() { setTimeout(resizeBlAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+
+    function openBlLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('bl-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent; modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+        var live = document.getElementById('bl-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeBlAssets(); forceDelayedResize();
+    }
+
+    function closeBlLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var parent = modal._originalParent; var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) { parent.insertBefore(modal, placeholder); parent.removeChild(placeholder); } else if (parent) { parent.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null;
+            forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById('bl-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachBlListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId); var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn) openBtn.addEventListener('click', openBlLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeBlLabFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeBlLabFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeBlAssets, 80); });
+    }
+
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachBlListeners); } else { attachBlListeners(); }
+    window.BlLab = { open: openBlLabFullscreen, close: closeBlLabFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   REYNOLDS LAB — FULLSCREEN CONTROLLER
+   Canvas: reynoldsCanvas
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'reynolds-sim',
+        openBtnId:       'reynolds-lab-open-btn',
+        closeBtnId:      'reynolds-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'reynolds-lab-open',
+        transitionMs:     300,
+    };
+
+    function resizeReynoldsAssets() {
+        var c = document.getElementById('reynoldsCanvas');
+        if (c) { var w = c.clientWidth || c.offsetWidth; var h = c.clientHeight || c.offsetHeight; if (w > 0 && h > 0 && (c.width !== w || c.height !== h)) { c.width = w; c.height = h; } }
+    }
+
+    function forceDelayedResize() { setTimeout(resizeReynoldsAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+
+    function openReynoldsLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('reynolds-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent; modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+        var live = document.getElementById('reynolds-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeReynoldsAssets(); forceDelayedResize();
+    }
+
+    function closeReynoldsLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var parent = modal._originalParent; var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) { parent.insertBefore(modal, placeholder); parent.removeChild(placeholder); } else if (parent) { parent.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null;
+            forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById('reynolds-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachReynoldsListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId); var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn) openBtn.addEventListener('click', openReynoldsLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeReynoldsLabFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeReynoldsLabFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeReynoldsAssets, 80); });
+    }
+
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachReynoldsListeners); } else { attachReynoldsListeners(); }
+    window.ReynoldsLab = { open: openReynoldsLabFullscreen, close: closeReynoldsLabFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   NAT-CONV LAB — FULLSCREEN CONTROLLER
+   Canvas: natConvCanvas
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'nat-conv-sim',
+        openBtnId:       'nat-conv-lab-open-btn',
+        closeBtnId:      'nat-conv-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'nat-conv-lab-open',
+        transitionMs:     300,
+    };
+
+    function resizeNatConvAssets() {
+        var c = document.getElementById('natConvCanvas');
+        if (c) { var w = c.clientWidth || c.offsetWidth; var h = c.clientHeight || c.offsetHeight; if (w > 0 && h > 0 && (c.width !== w || c.height !== h)) { c.width = w; c.height = h; } }
+    }
+
+    function forceDelayedResize() { setTimeout(resizeNatConvAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+
+    function openNatConvLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('nat-conv-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent; modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+        var live = document.getElementById('nat-conv-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeNatConvAssets(); forceDelayedResize();
+    }
+
+    function closeNatConvLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var parent = modal._originalParent; var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) { parent.insertBefore(modal, placeholder); parent.removeChild(placeholder); } else if (parent) { parent.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null;
+            forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById('nat-conv-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachNatConvListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId); var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn) openBtn.addEventListener('click', openNatConvLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeNatConvLabFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeNatConvLabFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeNatConvAssets, 80); });
+    }
+
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachNatConvListeners); } else { attachNatConvListeners(); }
+    window.NatConvLab = { open: openNatConvLabFullscreen, close: closeNatConvLabFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   INTERNAL-BL LAB — FULLSCREEN CONTROLLER
+   Canvas: internalBLCanvas
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'internal-bl-sim',
+        openBtnId:       'internal-bl-lab-open-btn',
+        closeBtnId:      'internal-bl-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'internal-bl-lab-open',
+        transitionMs:     300,
+    };
+
+    function resizeInternalBlAssets() {
+        var c = document.getElementById('internalBLCanvas');
+        if (c) { var w = c.clientWidth || c.offsetWidth; var h = c.clientHeight || c.offsetHeight; if (w > 0 && h > 0 && (c.width !== w || c.height !== h)) { c.width = w; c.height = h; } }
+    }
+
+    function forceDelayedResize() { setTimeout(resizeInternalBlAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+
+    function openInternalBlLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('internal-bl-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent; modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+        var live = document.getElementById('internal-bl-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeInternalBlAssets(); forceDelayedResize();
+    }
+
+    function closeInternalBlLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var parent = modal._originalParent; var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) { parent.insertBefore(modal, placeholder); parent.removeChild(placeholder); } else if (parent) { parent.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null;
+            forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById('internal-bl-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachInternalBlListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId); var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn) openBtn.addEventListener('click', openInternalBlLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeInternalBlLabFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeInternalBlLabFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeInternalBlAssets, 80); });
+    }
+
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachInternalBlListeners); } else { attachInternalBlListeners(); }
+    window.InternalBlLab = { open: openInternalBlLabFullscreen, close: closeInternalBlLabFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   DOUBLEPIPE LAB — FULLSCREEN CONTROLLER
+   Canvas: doublepipeCanvas | Chart: doublepipeChart
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'doublepipe-sim',
+        openBtnId:       'doublepipe-lab-open-btn',
+        closeBtnId:      'doublepipe-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'doublepipe-lab-open',
+        transitionMs:     300,
+    };
+
+    function getDoublepipeChart() {
+        var canvas = document.getElementById('doublepipeChart');
+        if (canvas && window.Chart) {
+            if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
+            if (Chart.instances) return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+        }
+        return null;
+    }
+
+    function resizeDoublepipeAssets() {
+        var chart = getDoublepipeChart();
+        if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { console.warn('DoublePipe chart resize error', e); } }
+        var c = document.getElementById('doublepipeCanvas');
+        if (c) { var w = c.clientWidth || c.offsetWidth; var h = c.clientHeight || c.offsetHeight; if (w > 0 && h > 0 && (c.width !== w || c.height !== h)) { c.width = w; c.height = h; } }
+    }
+
+    function forceDelayedResize() { setTimeout(resizeDoublepipeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+
+    function openDoublepipeLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('doublepipe-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent; modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+        var live = document.getElementById('doublepipe-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeDoublepipeAssets(); forceDelayedResize();
+    }
+
+    function closeDoublepipeLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var parent = modal._originalParent; var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) { parent.insertBefore(modal, placeholder); parent.removeChild(placeholder); } else if (parent) { parent.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null;
+            forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById('doublepipe-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachDoublepipeListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId); var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn) openBtn.addEventListener('click', openDoublepipeLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeDoublepipeLabFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeDoublepipeLabFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeDoublepipeAssets, 80); });
+    }
+
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachDoublepipeListeners); } else { attachDoublepipeListeners(); }
+    window.DoublepipeLab = { open: openDoublepipeLabFullscreen, close: closeDoublepipeLabFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   MICROCHANNEL LAB — FULLSCREEN CONTROLLER
+   Canvas: microchannelCanvas | Chart: microchannelChart
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'microchannel-sim',
+        openBtnId:       'microchannel-lab-open-btn',
+        closeBtnId:      'microchannel-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'microchannel-lab-open',
+        transitionMs:     300,
+    };
+
+    function getMicrochannelChart() {
+        var canvas = document.getElementById('microchannelChart');
+        if (canvas && window.Chart) {
+            if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
+            if (Chart.instances) return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+        }
+        return null;
+    }
+
+    function resizeMicrochannelAssets() {
+        var chart = getMicrochannelChart();
+        if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { console.warn('Microchannel chart resize error', e); } }
+        var c = document.getElementById('microchannelCanvas');
+        if (c) { var w = c.clientWidth || c.offsetWidth; var h = c.clientHeight || c.offsetHeight; if (w > 0 && h > 0 && (c.width !== w || c.height !== h)) { c.width = w; c.height = h; } }
+    }
+
+    function forceDelayedResize() { setTimeout(resizeMicrochannelAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+
+    function openMicrochannelLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('microchannel-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent; modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+        var live = document.getElementById('microchannel-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeMicrochannelAssets(); forceDelayedResize();
+    }
+
+    function closeMicrochannelLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var parent = modal._originalParent; var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) { parent.insertBefore(modal, placeholder); parent.removeChild(placeholder); } else if (parent) { parent.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null;
+            forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById('microchannel-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachMicrochannelListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId); var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn) openBtn.addEventListener('click', openMicrochannelLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeMicrochannelLabFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeMicrochannelLabFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeMicrochannelAssets, 80); });
+    }
+
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachMicrochannelListeners); } else { attachMicrochannelListeners(); }
+    window.MicrochannelLab = { open: openMicrochannelLabFullscreen, close: closeMicrochannelLabFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   BOILING LAB — FULLSCREEN CONTROLLER
+   Canvas: boilingCanvas | Chart: nukiyamaChart
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'boiling-sim',
+        openBtnId:       'boiling-lab-open-btn',
+        closeBtnId:      'boiling-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'boiling-lab-open',
+        transitionMs:     300,
+    };
+
+    function getNukiyamaChart() {
+        var canvas = document.getElementById('nukiyamaChart');
+        if (canvas && window.Chart) {
+            if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
+            if (Chart.instances) return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+        }
+        return null;
+    }
+
+    function resizeBoilingAssets() {
+        var chart = getNukiyamaChart();
+        if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { console.warn('Boiling (Nukiyama) chart resize error', e); } }
+        var c = document.getElementById('boilingCanvas');
+        if (c) { var w = c.clientWidth || c.offsetWidth; var h = c.clientHeight || c.offsetHeight; if (w > 0 && h > 0 && (c.width !== w || c.height !== h)) { c.width = w; c.height = h; } }
+    }
+
+    function forceDelayedResize() { setTimeout(resizeBoilingAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+
+    function openBoilingLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('boiling-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent; modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+        var live = document.getElementById('boiling-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeBoilingAssets(); forceDelayedResize();
+    }
+
+    function closeBoilingLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var parent = modal._originalParent; var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) { parent.insertBefore(modal, placeholder); parent.removeChild(placeholder); } else if (parent) { parent.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null;
+            forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById('boiling-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachBoilingListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId); var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn) openBtn.addEventListener('click', openBoilingLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeBoilingLabFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeBoilingLabFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeBoilingAssets, 80); });
+    }
+
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachBoilingListeners); } else { attachBoilingListeners(); }
+    window.BoilingLab = { open: openBoilingLabFullscreen, close: closeBoilingLabFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   PLANCK LAB — FULLSCREEN CONTROLLER
+   Chart: planckChart
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'planck-sim',
+        openBtnId:       'planck-lab-open-btn',
+        closeBtnId:      'planck-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'planck-lab-open',
+        transitionMs:     300,
+    };
+
+    function getPlanckChart() {
+        var canvas = document.getElementById('planckChart');
+        if (canvas && window.Chart) {
+            if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
+            if (Chart.instances) return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+        }
+        return null;
+    }
+
+    function resizePlanckAssets() {
+        var chart = getPlanckChart();
+        if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { console.warn('Planck chart resize error', e); } }
+    }
+
+    function forceDelayedResize() { setTimeout(resizePlanckAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+
+    function openPlanckLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('planck-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent; modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+        var live = document.getElementById('planck-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizePlanckAssets(); forceDelayedResize();
+    }
+
+    function closePlanckLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var parent = modal._originalParent; var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) { parent.insertBefore(modal, placeholder); parent.removeChild(placeholder); } else if (parent) { parent.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null;
+            forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById('planck-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachPlanckLabListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId); var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn) openBtn.addEventListener('click', openPlanckLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closePlanckLabFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closePlanckLabFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizePlanckAssets, 80); });
+    }
+
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachPlanckLabListeners); } else { attachPlanckLabListeners(); }
+    window.PlanckLab = { open: openPlanckLabFullscreen, close: closePlanckLabFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   VIEW FACTOR LAB — FULLSCREEN CONTROLLER
+   Canvas: viewFactorGeometry | Chart: viewFactorChart
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'vf-sim',
+        openBtnId:       'vf-lab-open-btn',
+        closeBtnId:      'vf-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'vf-lab-open',
+        transitionMs:     300,
+    };
+
+    function getVfChart() {
+        var canvas = document.getElementById('viewFactorChart');
+        if (canvas && window.Chart) {
+            if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
+            if (Chart.instances) return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+        }
+        return null;
+    }
+
+    function resizeVfAssets() {
+        var chart = getVfChart();
+        if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { console.warn('ViewFactor chart resize error', e); } }
+        var c = document.getElementById('viewFactorGeometry');
+        if (c) { var w = c.clientWidth || c.offsetWidth; var h = c.clientHeight || c.offsetHeight; if (w > 0 && h > 0 && (c.width !== w || c.height !== h)) { c.width = w; c.height = h; } }
+    }
+
+    function forceDelayedResize() { setTimeout(resizeVfAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+
+    function openVfLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('vf-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent; modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+        var live = document.getElementById('vf-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeVfAssets(); forceDelayedResize();
+    }
+
+    function closeVfLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var parent = modal._originalParent; var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) { parent.insertBefore(modal, placeholder); parent.removeChild(placeholder); } else if (parent) { parent.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null;
+            forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById('vf-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachVfListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId); var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn) openBtn.addEventListener('click', openVfLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeVfLabFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeVfLabFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeVfAssets, 80); });
+    }
+
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachVfListeners); } else { attachVfListeners(); }
+    window.VfLab = { open: openVfLabFullscreen, close: closeVfLabFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   INVERSE SQUARE LAB — FULLSCREEN CONTROLLER
+   Chart: invsqChart
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'invsq-sim',
+        openBtnId:       'invsq-lab-open-btn',
+        closeBtnId:      'invsq-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'invsq-lab-open',
+        transitionMs:     300,
+    };
+
+    function getInvsqChart() {
+        var canvas = document.getElementById('invsqChart');
+        if (canvas && window.Chart) {
+            if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
+            if (Chart.instances) return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+        }
+        return null;
+    }
+
+    function resizeInvsqAssets() {
+        var chart = getInvsqChart();
+        if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { console.warn('InvSq chart resize error', e); } }
+    }
+
+    function forceDelayedResize() { setTimeout(resizeInvsqAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+
+    function openInvsqLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('invsq-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent; modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+        var live = document.getElementById('invsq-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeInvsqAssets(); forceDelayedResize();
+    }
+
+    function closeInvsqLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var parent = modal._originalParent; var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) { parent.insertBefore(modal, placeholder); parent.removeChild(placeholder); } else if (parent) { parent.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null;
+            forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById('invsq-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachInvsqListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId); var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn) openBtn.addEventListener('click', openInvsqLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeInvsqLabFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeInvsqLabFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeInvsqAssets, 80); });
+    }
+
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachInvsqListeners); } else { attachInvsqListeners(); }
+    window.InvsqLab = { open: openInvsqLabFullscreen, close: closeInvsqLabFullscreen, resize: forceDelayedResize };
+})();
+
