@@ -13342,8 +13342,8 @@ function initMulticapaCustomSimulation() {
                     <input type="range" class="cm-layer-L" data-idx="${idx}" min="0.001" max="1.00" step="0.001" value="${layer.L}">
                 </div>
                 <div class="control-group">
-                    <label style="font-size: 0.7rem;">Conductividad (k${subStr}): <span id="cm-l${idx}-k-val">${layer.k.toFixed(2)}</span> W/mK</label>
-                    <input type="range" class="cm-layer-k" data-idx="${idx}" min="0.01" max="400" step="0.01" value="${layer.k}">
+                    <label style="font-size: 0.7rem;">Conductividad (k${subStr}): <span id="cm-l${idx}-k-val">${layer.k.toFixed(3)}</span> W/mK</label>
+                    <input type="range" class="cm-layer-k" data-idx="${idx}" min="0.001" max="2200" step="0.001" value="${layer.k}">
                 </div>
                 <div style="font-size: 0.7rem; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 6px; color: var(--text-secondary); display: flex; justify-content: space-between; align-items: center;">
                     <span>Resistencia (R${subStr}):</span>
@@ -13368,7 +13368,7 @@ function initMulticapaCustomSimulation() {
             input.addEventListener('input', (e) => {
                 const idx = parseInt(e.target.getAttribute('data-idx'));
                 layers[idx].k = parseFloat(e.target.value);
-                document.getElementById(`cm-l${idx}-k-val`).innerText = layers[idx].k.toFixed(2);
+                document.getElementById(`cm-l${idx}-k-val`).innerText = layers[idx].k.toFixed(3);
                 document.getElementById(`cm-l${idx}-R-val`).innerText = (layers[idx].L / layers[idx].k).toFixed(4);
 
                 // Update material badge text for common values
@@ -13376,6 +13376,7 @@ function initMulticapaCustomSimulation() {
                 if (kBadge) {
                     if (layers[idx].k < 0.3) kBadge.innerText = "Madera/Aislante";
                     else if (layers[idx].k < 2.0) kBadge.innerText = "Vidrio/Vidrio templado";
+                    else if (layers[idx].k > 2000) kBadge.innerText = "Diamante";
                     else if (layers[idx].k > 300) kBadge.innerText = "Cobre/Plata";
                     else if (layers[idx].k > 100) kBadge.innerText = "Aluminio";
                     else if (layers[idx].k > 30) kBadge.innerText = "Acero/Hierro";
@@ -13998,8 +13999,183 @@ function initMulticapaCustomSimulation() {
         ctx.restore();
     }
 
+
+    // 6. Data Tabulation and Parametric Graphing
+    let customTabulatedData = [];
+    
+    const btnAddPoint = document.getElementById('multicapa-add-point-btn');
+    const btnClearPoints = document.getElementById('multicapa-clear-points-btn');
+    const btnExportCSV = document.getElementById('multicapa-export-csv-btn');
+    const tabTableBody = document.getElementById('cm-tabulation-table-body');
+    const selGraphX = document.getElementById('cm-graph-x');
+    const selGraphY = document.getElementById('cm-graph-y');
+    const customGraphCanvas = document.getElementById('customMultiGraphCanvas');
+    let customParamChart = null;
+
+    if (customGraphCanvas) {
+        const pCtx = customGraphCanvas.getContext('2d');
+        const bodyStyles = getComputedStyle(document.body);
+        const textColor = bodyStyles.getPropertyValue('--chart-text').trim() || '#94a3b8';
+        const gridColor = bodyStyles.getPropertyValue('--chart-grid').trim() || 'rgba(255, 255, 255, 0.05)';
+
+        customParamChart = new Chart(pCtx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Puntos de Simulación',
+                    data: [],
+                    backgroundColor: '#3b82f6',
+                    borderColor: '#60a5fa',
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        type: 'linear',
+                        title: { display: true, text: 'X', color: textColor },
+                        grid: { color: gridColor },
+                        ticks: { color: textColor }
+                    },
+                    y: {
+                        title: { display: true, text: 'Y', color: textColor },
+                        grid: { color: gridColor },
+                        ticks: { color: textColor }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `(${context.parsed.x.toFixed(3)}, ${context.parsed.y.toFixed(3)}) [Punto ${context.raw.id}]`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        window.customParamChart = customParamChart; // Make it global for resize function
+    }
+
+    function renderTabulationTable() {
+        if (!tabTableBody) return;
+        tabTableBody.innerHTML = '';
+        customTabulatedData.forEach((pt, index) => {
+            const tr = document.createElement('tr');
+            tr.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+            tr.innerHTML = `
+                <td style="padding: 4px;">${pt.id}</td>
+                <td style="padding: 4px;">${pt.L_tot.toFixed(3)}</td>
+                <td style="padding: 4px; font-weight: bold; color: var(--accent-orange);">${pt.q.toFixed(1)}</td>
+                <td style="padding: 4px; color: var(--accent-cyan);">${pt.T_L.toFixed(1)}</td>
+                <td style="padding: 4px; color: var(--accent-cyan);">${pt.T_R.toFixed(1)}</td>
+                <td style="padding: 4px; text-align: center;">
+                    <button class="cm-del-pt" data-idx="${index}" style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 2px 6px;" title="Eliminar fila"><i class="fas fa-times"></i></button>
+                </td>
+            `;
+            tabTableBody.appendChild(tr);
+        });
+
+        document.querySelectorAll('.cm-del-pt').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(e.currentTarget.getAttribute('data-idx'));
+                customTabulatedData.splice(idx, 1);
+                updateParametricGraph();
+                renderTabulationTable();
+            });
+        });
+    }
+
+    function updateParametricGraph() {
+        if (!customParamChart) return;
+        const xKey = selGraphX.value;
+        const yKey = selGraphY.value;
+        
+        const xLabel = selGraphX.options[selGraphX.selectedIndex].text;
+        const yLabel = selGraphY.options[selGraphY.selectedIndex].text;
+        
+        customParamChart.options.scales.x.title.text = xLabel;
+        customParamChart.options.scales.y.title.text = yLabel;
+
+        const dataPoints = customTabulatedData.map(pt => ({
+            x: pt[xKey],
+            y: pt[yKey],
+            id: pt.id
+        }));
+
+        customParamChart.data.datasets[0].data = dataPoints;
+        customParamChart.update('none');
+    }
+
+    if (btnAddPoint) {
+        let pointCounter = 1;
+        btnAddPoint.addEventListener('click', () => {
+            const L_tot = layers.reduce((acc, l) => acc + l.L, 0);
+            
+            // Calculate R_tot from scratch for the data point to match UI calculation
+            let R_tot_current = 0;
+            layers.forEach(l => {
+                R_tot_current += l.L / l.k;
+            });
+            if (selectBcLType.value === 'conv' || selectBcLType.value === 'comb' || selectBcLType.value === 'comb-flux') R_tot_current += 1.0 / parseFloat(inputLH.value);
+            if (selectBcRType.value === 'conv' || selectBcRType.value === 'comb' || selectBcRType.value === 'comb-flux') R_tot_current += 1.0 / parseFloat(inputRH.value);
+
+            const pt = {
+                id: pointCounter++,
+                L_tot: L_tot,
+                k1: layers[0] ? layers[0].k : 0,
+                k2: layers[1] ? layers[1].k : 0,
+                q: qFlux,
+                R_tot: R_tot_current,
+                T_L: T[0],
+                T_R: T[layers.length],
+                T_int1: T[1] !== undefined ? T[1] : 0,
+                T_int2: T[2] !== undefined ? T[2] : 0
+            };
+            customTabulatedData.push(pt);
+            renderTabulationTable();
+            updateParametricGraph();
+        });
+    }
+
+    if (btnClearPoints) {
+        btnClearPoints.addEventListener('click', () => {
+            customTabulatedData = [];
+            renderTabulationTable();
+            updateParametricGraph();
+        });
+    }
+
+    if (btnExportCSV) {
+        btnExportCSV.addEventListener('click', () => {
+            if (customTabulatedData.length === 0) {
+                alert("No hay datos para exportar.");
+                return;
+            }
+            let csv = "ID,L_tot,k1,k2,q,R_tot,T_L,T_R,T_int1,T_int2\n";
+            customTabulatedData.forEach(pt => {
+                csv += `${pt.id},${pt.L_tot.toFixed(4)},${pt.k1.toFixed(3)},${pt.k2.toFixed(3)},${pt.q.toFixed(2)},${pt.R_tot.toFixed(4)},${pt.T_L.toFixed(2)},${pt.T_R.toFixed(2)},${pt.T_int1.toFixed(2)},${pt.T_int2.toFixed(2)}\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', 'multicapa_datos.csv');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+    }
+
+    if (selGraphX) selGraphX.addEventListener('change', updateParametricGraph);
+    if (selGraphY) selGraphY.addEventListener('change', updateParametricGraph);
+
     // Loop
-    let animId;
     function animLoop() {
         animTime += 0.05;
         render();
@@ -22908,6 +23084,10 @@ function initInternalBLSimulation() {
         if (chart) {
             try { chart.resize(); chart.update('none'); } catch (e) { console.warn('Error resizing Multicapa chart', e); }
         }
+        
+        if (window.customParamChart) {
+            try { window.customParamChart.resize(); window.customParamChart.update('none'); } catch (e) { console.warn('Error resizing customParamChart', e); }
+        }
         var c = getMulticapaCanvas();
         if (c) {
             var container = c.closest ? c.closest('[style*="position: relative"]') : null;
@@ -24596,4 +24776,1264 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachInvsqListeners); } else { attachInvsqListeners(); }
     window.InvsqLab = { open: openInvsqLabFullscreen, close: closeInvsqLabFullscreen, resize: forceDelayedResize };
 })();
+
+/* ============================================================
+   THERMAL RESISTANCE LAB — FULLSCREEN CONTROLLER
+   Canvas: resCanvas (updated via slider event)
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'res-sim',
+        openBtnId:       'res-lab-open-btn',
+        closeBtnId:      'res-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'res-lab-open',
+        transitionMs:     300,
+    };
+
+    function resizeResAssets() {
+        var sl = document.getElementById('res-k1');
+        if (sl) sl.dispatchEvent(new Event('input'));
+    }
+
+    function forceDelayedResize() { setTimeout(resizeResAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+
+    function openResLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('res-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent; modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+        var live = document.getElementById('res-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeResAssets(); forceDelayedResize();
+    }
+
+    function closeResLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var parent = modal._originalParent; var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) { parent.insertBefore(modal, placeholder); parent.removeChild(placeholder); } else if (parent) { parent.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null;
+            forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById('res-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachResListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId); var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn) openBtn.addEventListener('click', openResLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeResLabFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeResLabFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeResAssets, 80); });
+    }
+
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachResListeners); } else { attachResListeners(); }
+    window.ResistanceLab = { open: openResLabFullscreen, close: closeResLabFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   PARALLEL RESISTANCE LAB — FULLSCREEN CONTROLLER
+   Canvas: parCanvas (updated via slider event)
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'par-sim',
+        openBtnId:       'par-lab-open-btn',
+        closeBtnId:      'par-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'par-lab-open',
+        transitionMs:     300,
+    };
+
+    function resizeParAssets() {
+        var sl = document.getElementById('par-L1');
+        if (sl) sl.dispatchEvent(new Event('input'));
+    }
+
+    function forceDelayedResize() { setTimeout(resizeParAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+
+    function openParLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('par-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent; modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+        var live = document.getElementById('par-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeParAssets(); forceDelayedResize();
+    }
+
+    function closeParLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var parent = modal._originalParent; var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) { parent.insertBefore(modal, placeholder); parent.removeChild(placeholder); } else if (parent) { parent.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null;
+            forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById('par-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachParListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId); var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn) openBtn.addEventListener('click', openParLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeParLabFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeParLabFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeParAssets, 80); });
+    }
+
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachParListeners); } else { attachParListeners(); }
+    window.ParaleloLab = { open: openParLabFullscreen, close: closeParLabFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   MULTI-LAYER WALL LAB — FULLSCREEN CONTROLLER
+   Chart: multiChart
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId:         'multi-sim',
+        openBtnId:       'multi-lab-open-btn',
+        closeBtnId:      'multi-lab-close-btn',
+        fullscreenClass:  'fullscreen',
+        closingClass:     'is-closing',
+        bodyLockClass:    'multi-lab-open',
+        transitionMs:     300,
+    };
+
+    function getMultiChart() {
+        var canvas = document.getElementById('multiChart');
+        if (canvas && window.Chart) {
+            if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
+            if (Chart.instances) return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+        }
+        return null;
+    }
+
+    function resizeMultiAssets() {
+        var chart = getMultiChart();
+        if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { console.warn('Multi chart resize error', e); } }
+    }
+
+    function forceDelayedResize() { setTimeout(resizeMultiAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+
+    function openMultiLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('multi-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent; modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+        var live = document.getElementById('multi-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeMultiAssets(); forceDelayedResize();
+    }
+
+    function closeMultiLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var parent = modal._originalParent; var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) { parent.insertBefore(modal, placeholder); parent.removeChild(placeholder); } else if (parent) { parent.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null;
+            forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById('multi-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    function attachMultiListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId); var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn) openBtn.addEventListener('click', openMultiLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeMultiLabFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeMultiLabFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeMultiAssets, 80); });
+    }
+
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachMultiListeners); } else { attachMultiListeners(); }
+    window.MultiLab = { open: openMultiLabFullscreen, close: closeMultiLabFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 6: CARNOT LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'carnot-sim', openBtnId: 'carnot-lab-open-btn', closeBtnId: 'carnot-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'carnot-lab-open', transitionMs: 300 };
+    function resizeAssets() { var sl = document.getElementById('carnot-th'); if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); } }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.CarnotLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 6: OTTODIESEL LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'ottodiesel-sim', openBtnId: 'ottodiesel-lab-open-btn', closeBtnId: 'ottodiesel-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'ottodiesel-lab-open', transitionMs: 300 };
+    function resizeAssets() { var sl = document.getElementById('ottodiesel-tmax'); if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); } }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.OttoDieselLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 6: JOULE LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'joule-sim', openBtnId: 'joule-lab-open-btn', closeBtnId: 'joule-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'joule-lab-open', transitionMs: 300 };
+    function resizeAssets() {
+        var canvas = document.getElementById('jouleChart');
+        if (canvas && window.Chart) {
+            var chart = null;
+            if (typeof Chart.getChart === 'function') chart = Chart.getChart(canvas);
+            else if (Chart.instances) chart = Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { } }
+        }
+    }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.JouleLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 6: CLAUSIUS LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'clausius-sim', openBtnId: 'clausius-lab-open-btn', closeBtnId: 'clausius-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'clausius-lab-open', transitionMs: 300 };
+    function resizeAssets() {
+        var canvas = document.getElementById('clausiusChart');
+        if (canvas && window.Chart) {
+            var chart = null;
+            if (typeof Chart.getChart === 'function') chart = Chart.getChart(canvas);
+            else if (Chart.instances) chart = Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { } }
+        }
+    }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.ClausiusLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 6: KELVIN LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'kelvin-sim', openBtnId: 'kelvin-lab-open-btn', closeBtnId: 'kelvin-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'kelvin-lab-open', transitionMs: 300 };
+    function resizeAssets() {
+        var canvas = document.getElementById('kelvinChart');
+        if (canvas && window.Chart) {
+            var chart = null;
+            if (typeof Chart.getChart === 'function') chart = Chart.getChart(canvas);
+            else if (Chart.instances) chart = Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { } }
+        }
+    }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.KelvinLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 6: CPCV LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'cpcv-sim', openBtnId: 'cpcv-lab-open-btn', closeBtnId: 'cpcv-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'cpcv-lab-open', transitionMs: 300 };
+    function resizeAssets() {
+        var canvas = document.getElementById('cpcvChart');
+        if (canvas && window.Chart) {
+            var chart = null;
+            if (typeof Chart.getChart === 'function') chart = Chart.getChart(canvas);
+            else if (Chart.instances) chart = Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { } }
+        }
+    }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.CpCvLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 7: BERNOULLI LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'bernoulli-sim', openBtnId: 'bernoulli-lab-open-btn', closeBtnId: 'bernoulli-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'bernoulli-lab-open', transitionMs: 300 };
+    function resizeAssets() { var sl = document.getElementById('bernoulli-v1'); if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); } }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.BernoulliLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 7: MAXWELL LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'maxwell-sim', openBtnId: 'maxwell-lab-open-btn', closeBtnId: 'maxwell-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'maxwell-lab-open', transitionMs: 300 };
+    function resizeAssets() {
+        var canvas = document.getElementById('maxwellChart');
+        if (canvas && window.Chart) {
+            var chart = null;
+            if (typeof Chart.getChart === 'function') chart = Chart.getChart(canvas);
+            else if (Chart.instances) chart = Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { } }
+        }
+    }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.MaxwellLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 7: NAVIER-STOKES LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'ns-sim', openBtnId: 'ns-lab-open-btn', closeBtnId: 'ns-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'ns-lab-open', transitionMs: 300 };
+    function resizeAssets() {
+        var sl = document.getElementById('ns-alpha'); if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); }
+        var canvas = document.getElementById('nsChart');
+        if (canvas && window.Chart) {
+            var chart = null;
+            if (typeof Chart.getChart === 'function') chart = Chart.getChart(canvas);
+            else if (Chart.instances) chart = Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { } }
+        }
+    }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.NavierStokesLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 7: PELTON LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'pelton-sim', openBtnId: 'pelton-lab-open-btn', closeBtnId: 'pelton-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'pelton-lab-open', transitionMs: 300 };
+    function resizeAssets() { var sl = document.getElementById('pelton-h'); if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); } }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.PeltonLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 7: VORTEX LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'vortex-sim', openBtnId: 'vortex-lab-open-btn', closeBtnId: 'vortex-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'vortex-lab-open', transitionMs: 300 };
+    function resizeAssets() { var sl = document.getElementById('vortex-u'); if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); } }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.VortexLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 8: CELSIUS LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'celsius-sim', openBtnId: 'celsius-lab-open-btn', closeBtnId: 'celsius-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'celsius-lab-open', transitionMs: 300 };
+    function resizeAssets() { var sl = document.getElementById('celsius-temp'); if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); } }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.CelsiusLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 8: CHATELET LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'chatelet-sim', openBtnId: 'chatelet-lab-open-btn', closeBtnId: 'chatelet-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'chatelet-lab-open', transitionMs: 300 };
+    function resizeAssets() { var sl = document.getElementById('chatelet-mass'); if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); } }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.ChateletLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 8: FOOTE LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'foote-sim', openBtnId: 'foote-lab-open-btn', closeBtnId: 'foote-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'foote-lab-open', transitionMs: 300 };
+    function resizeAssets() {
+        var sl = document.getElementById('foote-solar-irradiance'); if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); }
+        var canvas = document.getElementById('footeTempChart');
+        if (canvas && window.Chart) {
+            var chart = null;
+            if (typeof Chart.getChart === 'function') chart = Chart.getChart(canvas);
+            else if (Chart.instances) chart = Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { } }
+        }
+    }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.FooteLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 8: HERSCHEL LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'herschel-sim', openBtnId: 'herschel-lab-open-btn', closeBtnId: 'herschel-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'herschel-lab-open', transitionMs: 300 };
+    function resizeAssets() {
+        var sl = document.getElementById('herschel-pos'); if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); }
+        var canvas = document.getElementById('herschelChart');
+        if (canvas && window.Chart) {
+            var chart = null;
+            if (typeof Chart.getChart === 'function') chart = Chart.getChart(canvas);
+            else if (Chart.instances) chart = Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { } }
+        }
+    }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.HerschelLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 8: GENERATION LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'gen-sim', openBtnId: 'gen-lab-open-btn', closeBtnId: 'gen-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'gen-lab-open', transitionMs: 300 };
+    function resizeAssets() {
+        var sl = document.getElementById('gen-qdot'); if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); }
+        var canvas = document.getElementById('genChart');
+        if (canvas && window.Chart) {
+            var chart = null;
+            if (typeof Chart.getChart === 'function') chart = Chart.getChart(canvas);
+            else if (Chart.instances) chart = Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { } }
+        }
+    }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.GenerationLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 8: WATT LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'watt-sim', openBtnId: 'watt-lab-open-btn', closeBtnId: 'watt-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'watt-lab-open', transitionMs: 300 };
+    function resizeAssets() {
+        var sl = document.getElementById('watt-speed'); if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); }
+        var canvas = document.getElementById('watt-temp-chart');
+        if (canvas && window.Chart) {
+            var chart = null;
+            if (typeof Chart.getChart === 'function') chart = Chart.getChart(canvas);
+            else if (Chart.instances) chart = Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { } }
+        }
+    }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.WattLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 8: PENNINGTON LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'pennington-sim', openBtnId: 'pennington-lab-open-btn', closeBtnId: 'pennington-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'pennington-lab-open', transitionMs: 300 };
+    function resizeAssets() {
+        var sl = document.getElementById('pennington-thickness'); if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); }
+        var canvas = document.getElementById('penningtonChart');
+        if (canvas && window.Chart) {
+            var chart = null;
+            if (typeof Chart.getChart === 'function') chart = Chart.getChart(canvas);
+            else if (Chart.instances) chart = Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { } }
+        }
+    }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.PenningtonLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 8: TELKES LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'telkes-sim', openBtnId: 'telkes-lab-open-btn', closeBtnId: 'telkes-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'telkes-lab-open', transitionMs: 300 };
+    function resizeAssets() {
+        var sl = document.getElementById('telkes-solar'); if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); }
+        var canvas = document.getElementById('telkesChart');
+        if (canvas && window.Chart) {
+            var chart = null;
+            if (typeof Chart.getChart === 'function') chart = Chart.getChart(canvas);
+            else if (Chart.instances) chart = Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { } }
+        }
+    }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.TelkesLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 9: WATER PROPERTIES LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'water-substance-sim', openBtnId: 'water-lab-open-btn', closeBtnId: 'water-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'water-lab-open', transitionMs: 300 };
+    function resizeAssets() {
+        var sl = document.getElementById('water-pres'); if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); }
+        var canvas = document.getElementById('waterDiagramChart');
+        if (canvas && window.Chart) {
+            var chart = null;
+            if (typeof Chart.getChart === 'function') chart = Chart.getChart(canvas);
+            else if (Chart.instances) chart = Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+            if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { } }
+        }
+    }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById('water-lab-aria-live'); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById('water-lab-aria-live'); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.WaterLab = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+/* ============================================================
+   LOTE 9: PSYCHROMETRY LAB — FULLSCREEN CONTROLLER
+   ============================================================ */
+(function () {
+    'use strict';
+    var CFG = { modalId: 'psychrometry-lab-sim', openBtnId: 'psychrometry-lab-open-btn', closeBtnId: 'psychrometry-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'psychrometry-lab-open', transitionMs: 300 };
+    function resizeAssets() {
+        // SVG and DOM based; triggering a global resize is enough for internal reflow
+        window.dispatchEvent(new Event('resize'));
+    }
+    function forceDelayedResize() { setTimeout(resizeAssets, 80); }
+    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+    function openFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+        var op = modal.parentNode; var ph = document.createComment(CFG.modalId + '-placeholder'); op.insertBefore(ph, modal);
+        modal._originalParent = op; modal._placeholder = ph; modal._returnFocus = document.activeElement; modal._cleanupDone = false;
+        document.body.appendChild(modal); modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
+        var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
+        var live = document.getElementById('psychrometry-lab-aria-live'); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        resizeAssets(); forceDelayedResize();
+    }
+    function closeFullscreen() {
+        var modal = document.getElementById(CFG.modalId); if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        modal.classList.add(CFG.closingClass); var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.remove('visible');
+        function cleanup() {
+            if (modal._cleanupDone) return; modal._cleanupDone = true;
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass); document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
+            var p = modal._originalParent; var ph = modal._placeholder;
+            if (p && ph && ph.parentNode === p) { p.insertBefore(modal, ph); p.removeChild(ph); } else if (p) { p.appendChild(modal); }
+            modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
+            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
+            var live = document.getElementById('psychrometry-lab-aria-live'); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+    function attachListeners() {
+        var ob = document.getElementById(CFG.openBtnId); var cb = document.getElementById(CFG.closeBtnId);
+        if (ob) ob.addEventListener('click', openFullscreen); if (cb) cb.addEventListener('click', closeFullscreen);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeFullscreen(); });
+        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeAssets, 80); });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
+    window.PsychrometryLabFullscreen = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
+})();
+
+
 

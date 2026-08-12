@@ -15,8 +15,11 @@ Es una **aplicación web educativa e interactiva** desarrollada para la Universi
 El entorno de trabajo local actual está ubicado en:
 
 ```
-D:\OneDrive - Universidad de Antioquia\Heat transfer history\v3
+D:\OneDrive - Universidad de Antioquia\Heat transfer history\v4
 ```
+
+> **IMPORTANTE**: La carpeta `v4` es el entorno de trabajo actual. La carpeta `v3` sirve EXCLUSIVAMENTE como archivo de restauración. NO debes tocar ni usar la carpeta `v3` para reescribir información a menos que se te indique de manera estricta.
+
 
 Archivos principales:
 - `index.html` — Estructura principal (~900 KB). Contiene todos los laboratorios embebidos.
@@ -81,6 +84,11 @@ Ya implementado en:
 - ✅ **Lote 2** (`prandtl-sim`, `nusselt-sim`, `bl-sim`, `reynolds-sim`, `nat-conv-sim`, `internal-bl-sim`) — Controllers IIFE en `app_v2.js` ~líneas 23583–24074
 - ✅ **Lote 3** (`doublepipe-sim`, `microchannel-sim`, `boiling-sim`) — Controllers IIFE en `app_v2.js` ~líneas 24076+
 - ✅ **Lote 4** (`planck-sim`, `vf-sim`, `invsq-sim`) — Controllers IIFE en `app_v2.js` ~líneas 24339+
+- ✅ **Lote 5** (`res-sim`, `par-sim`, `multi-sim`) — Controllers IIFE en `app_v2.js` ~líneas 24599+
+- ✅ **Lote 6** (`carnot-sim`, `joule-sim`, `clausius-sim`, `kelvin-sim`, `ottodiesel-sim`, `cpcv-sim`) — Controllers IIFE en `app_v2.js` ~líneas 24840+
+- ✅ **Lote 7** (`bernoulli-sim`, `maxwell-sim`, `ns-sim`, `pelton-sim`, `vortex-sim`) — Controllers IIFE en `app_v2.js` ~líneas 25130+
+- ✅ **Lote 8** (`celsius-sim`, `chatelet-sim`, `foote-sim`, `herschel-sim`, `gen-sim`, `watt-sim`, `pennington-sim`, `telkes-sim`, `newton-sim`) — Controllers IIFE en `app_v2.js` ~líneas 25360+
+- ✅ **Lote 9** (`multi-sim`, `water-substance-sim`, `psychrometry-lab-sim`) — Controllers IIFE en `app_v2.js` ~líneas 25760+
 
 Pendiente de implementar (trabajo por lotes, se irá actualizando):
 
@@ -89,7 +97,7 @@ Pendiente de implementar (trabajo por lotes, se irá actualizando):
 | `newton-lab-modal` | Enfriamiento de Newton | ✅ |
 | `fourier-lab-modal` | Conducción de Fourier | ✅ |
 | `multicapa-custom-sim` | Conducción Multicapa con Fronteras | ✅ |
-| `fourier-sim` | Sim. Fourier (adicional) | ✅ |
+| `fourier-sim` | Sim. Fourier | ✅ |
 | `transient-sim` | Conducción Transitoria | ✅ |
 | `fin-sim` | Aletas | ✅ |
 | `insulated-sim` | Pared Insulada | ✅ |
@@ -102,34 +110,34 @@ Pendiente de implementar (trabajo por lotes, se irá actualizando):
 | `boiling-sim` | Ebullición | ✅ |
 | `planck-sim` | Radiación de Planck | ✅ |
 | `vf-sim` | Factor de Vista | ✅ |
-| `multi-sim` | Multi-simulador | ⬜ |
-| `res-sim` | Resistencias Térmicas | ⬜ |
-| `par-sim` | Resistencias en Paralelo | ⬜ |
+| `multi-sim` | Multi-simulador | ✅ |
+| `res-sim` | Resistencias Térmicas | ✅ |
+| `par-sim` | Resistencias en Paralelo | ✅ |
 | `cm-layers-container` | Capas Multicapa | ⬜ |
-| `carnot-sim` | Ciclo de Carnot | ⬜ |
-| `joule-sim` | Expansión de Joule | ⬜ |
-| `clausius-sim` | Clausius | ⬜ |
-| `kelvin-sim` | Kelvin | ⬜ |
-| `bernoulli-sim` | Bernoulli | ⬜ |
-| `maxwell-sim` | Maxwell | ⬜ |
-| `ns-sim` | Navier-Stokes | ⬜ |
-| `celsius-sim` | Celsius | ⬜ |
-| `chatelet-sim` | Châtelet | ⬜ |
-| `foote-sim` | Eunice Newton Foote | ⬜ |
-| `herschel-sim` | Herschel | ⬜ |
-| `gen-sim` | Generación de calor | ⬜ |
+| `carnot-sim` | Ciclo de Carnot | ✅ |
+| `joule-sim` | Expansión de Joule | ✅ |
+| `clausius-sim` | Clausius | ✅ |
+| `kelvin-sim` | Kelvin | ✅ |
+| `bernoulli-sim` | Bernoulli | ✅ |
+| `maxwell-sim` | Maxwell | ✅ |
+| `ns-sim` | Navier-Stokes | ✅ |
+| `celsius-sim` | Celsius | ✅ |
+| `chatelet-sim` | Châtelet | ✅ |
+| `foote-sim` | Eunice Newton Foote | ✅ |
+| `herschel-sim` | Herschel | ✅ |
+| `gen-sim` | Generación de calor | ✅ |
 | `bl-sim` | Capa Límite | ✅ |
 | `internal-bl-sim` | Capa Límite Interna | ✅ |
 | `invsq-sim` | Ley Inverso Cuadrado | ✅ |
-| `ottodiesel-sim` | Otto/Diesel | ⬜ |
-| `cpcv-sim` | Cp/Cv | ⬜ |
-| `pelton-sim` | Turbina Pelton | ⬜ |
-| `vortex-sim` | Vórtice | ⬜ |
-| `pennington-sim` | Pennington | ⬜ |
-| `telkes-sim` | Telkes | ⬜ |
-| `watt-sim` | Watt | ⬜ |
-| `water-substance-sim` | Sustancia pura (agua) | ⬜ |
-| `psychrometry-lab-sim` | Psicrometría | ⬜ |
+| `ottodiesel-sim` | Otto/Diesel | ✅ |
+| `cpcv-sim` | Cp/Cv | ✅ |
+| `pelton-sim` | Turbina Pelton | ✅ |
+| `vortex-sim` | Vórtice | ✅ |
+| `pennington-sim` | Pennington | ✅ |
+| `telkes-sim` | Telkes | ✅ |
+| `watt-sim` | Watt | ✅ |
+| `water-substance-sim` | Sustancia pura (agua) | ✅ |
+| `psychrometry-lab-sim` | Psicrometría | ✅ |
 | `newton-sim` | Newton (simulador adicional) | ⬜ |
 
 ---

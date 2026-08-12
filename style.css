@@ -3059,6 +3059,56 @@ body.multicapa-lab-open { overflow: hidden; }
   #multicapa-custom-sim.fullscreen { padding: 56px 10px 24px; }
 }
 
+/* Custom Grid Layout for Fullscreen Multicapa Lab */
+#multicapa-custom-sim.fullscreen #cm-layout-wrapper {
+  display: grid !important;
+  grid-template-columns: minmax(260px, 1fr) minmax(360px, 2fr) minmax(260px, 1fr);
+  grid-template-areas: 
+    "left-bc canvas right-bc"
+    "layers layers layers"
+    "chart chart results"
+    "tabulation custom-graph custom-graph";
+  gap: 20px;
+  align-items: start;
+}
+
+/* Flatten the rows to let grid items place themselves */
+#multicapa-custom-sim.fullscreen .cm-row {
+  display: contents !important;
+}
+
+#multicapa-custom-sim.fullscreen #cm-panel-left-bc { grid-area: left-bc; }
+#multicapa-custom-sim.fullscreen #cm-panel-canvas { grid-area: canvas; }
+#multicapa-custom-sim.fullscreen #cm-panel-right-bc { grid-area: right-bc; }
+#multicapa-custom-sim.fullscreen #cm-panel-layers { grid-area: layers; }
+#multicapa-custom-sim.fullscreen #cm-panel-chart { grid-area: chart; }
+#multicapa-custom-sim.fullscreen #cm-panel-results { grid-area: results; }
+#multicapa-custom-sim.fullscreen #cm-panel-tabulation { grid-area: tabulation; }
+#multicapa-custom-sim.fullscreen #cm-panel-custom-graph { grid-area: custom-graph; }
+
+@media (max-width: 1100px) {
+  #multicapa-custom-sim.fullscreen #cm-layout-wrapper {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+      "left-bc right-bc"
+      "canvas canvas"
+      "layers layers"
+      "chart results"
+      "tabulation custom-graph";
+  }
+}
+
+@media (max-width: 768px) {
+  #multicapa-custom-sim.fullscreen #cm-layout-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  #multicapa-custom-sim.fullscreen .cm-row {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+}
+
 /* ============================================================
    LOTE 2 — FULLSCREEN STYLES
    prandtl · nusselt · bl · reynolds · nat-conv · internal-bl
@@ -3490,5 +3540,602 @@ body.invsq-lab-open { overflow: hidden; }
   #planck-sim.fullscreen,
   #vf-sim.fullscreen,
   #invsq-sim.fullscreen { padding: 56px 10px 24px; }
+}
+
+/* ============================================================
+   LOTE 5 — FULLSCREEN STYLES
+   res-sim · par-sim · multi-sim
+   ============================================================ */
+
+/* ── Fullscreen base ── */
+#res-sim.fullscreen,
+#par-sim.fullscreen,
+#multi-sim.fullscreen {
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999 !important;
+  background-color: var(--bg-dark, #0f172a);
+  color: var(--text-primary, #e2e8f0);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 72px 32px 48px;
+  box-sizing: border-box;
+  opacity: 1 !important;
+  pointer-events: all !important;
+  transform: none !important;
+}
+
+/* ── Closing animation ── */
+#res-sim.is-closing,
+#par-sim.is-closing,
+#multi-sim.is-closing {
+  display: block !important;
+  opacity: 0;
+  transform: scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* ── Scrollbar ── */
+#res-sim::-webkit-scrollbar,
+#par-sim::-webkit-scrollbar,
+#multi-sim::-webkit-scrollbar { width: 7px; }
+
+#res-sim::-webkit-scrollbar-track,
+#par-sim::-webkit-scrollbar-track,
+#multi-sim::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+
+#res-sim::-webkit-scrollbar-thumb,
+#par-sim::-webkit-scrollbar-thumb,
+#multi-sim::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+
+/* ── Body scroll lock ── */
+body.res-lab-open,
+body.par-lab-open,
+body.multi-lab-open { overflow: hidden; }
+
+/* ── Close buttons ── */
+#res-lab-close-btn,
+#par-lab-close-btn,
+#multi-lab-close-btn {
+  position: fixed;
+  top: 20px; right: 25px;
+  z-index: 1000000;
+  width: 44px; height: 44px;
+  padding: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+  background-color: rgba(255, 255, 255, 0.10);
+  border: 1.5px solid rgba(255, 255, 255, 0.20);
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto !important;
+  isolation: isolate;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+              color 0.2s ease, transform 0.18s ease;
+}
+
+#res-lab-close-btn.visible,
+#par-lab-close-btn.visible,
+#multi-lab-close-btn.visible { display: flex; }
+
+#res-lab-close-btn:hover, #res-lab-close-btn:focus-visible,
+#par-lab-close-btn:hover, #par-lab-close-btn:focus-visible,
+#multi-lab-close-btn:hover, #multi-lab-close-btn:focus-visible {
+  background-color: rgba(239, 68, 68, 0.18);
+  border-color: #ef4444; color: #ef4444;
+  transform: scale(1.1) rotate(90deg); outline: none;
+}
+
+#res-lab-close-btn:active,
+#par-lab-close-btn:active,
+#multi-lab-close-btn:active { transform: scale(0.93) rotate(90deg); }
+
+/* ── Open buttons ── */
+#res-lab-open-btn,
+#par-lab-open-btn,
+#multi-lab-open-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 8px; cursor: pointer;
+  font-size: 0.82rem; font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+#res-lab-open-btn:hover,
+#par-lab-open-btn:hover,
+#multi-lab-open-btn:hover {
+  background: rgba(59, 130, 246, 0.28);
+  border-color: #60a5fa; transform: translateY(-1px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  #res-sim.fullscreen,
+  #par-sim.fullscreen,
+  #multi-sim.fullscreen { padding: 64px 16px 32px; }
+}
+
+@media (max-width: 600px) {
+  #res-sim.fullscreen,
+  #par-sim.fullscreen,
+  #multi-sim.fullscreen { padding: 56px 10px 24px; }
+}
+
+/* ============================================================
+   LOTE 6 — FULLSCREEN STYLES
+   carnot-sim · joule-sim · clausius-sim · kelvin-sim · ottodiesel-sim · cpcv-sim
+   ============================================================ */
+
+/* ── Fullscreen base ── */
+#carnot-sim.fullscreen, #joule-sim.fullscreen, #clausius-sim.fullscreen,
+#kelvin-sim.fullscreen, #ottodiesel-sim.fullscreen, #cpcv-sim.fullscreen {
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999 !important;
+  background-color: var(--bg-dark, #0f172a);
+  color: var(--text-primary, #e2e8f0);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 72px 32px 48px;
+  box-sizing: border-box;
+  opacity: 1 !important;
+  pointer-events: all !important;
+  transform: none !important;
+}
+
+/* ── Closing animation ── */
+#carnot-sim.is-closing, #joule-sim.is-closing, #clausius-sim.is-closing,
+#kelvin-sim.is-closing, #ottodiesel-sim.is-closing, #cpcv-sim.is-closing {
+  display: block !important;
+  opacity: 0;
+  transform: scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* ── Scrollbar ── */
+#carnot-sim::-webkit-scrollbar, #joule-sim::-webkit-scrollbar, #clausius-sim::-webkit-scrollbar,
+#kelvin-sim::-webkit-scrollbar, #ottodiesel-sim::-webkit-scrollbar, #cpcv-sim::-webkit-scrollbar { width: 7px; }
+
+#carnot-sim::-webkit-scrollbar-track, #joule-sim::-webkit-scrollbar-track, #clausius-sim::-webkit-scrollbar-track,
+#kelvin-sim::-webkit-scrollbar-track, #ottodiesel-sim::-webkit-scrollbar-track, #cpcv-sim::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+
+#carnot-sim::-webkit-scrollbar-thumb, #joule-sim::-webkit-scrollbar-thumb, #clausius-sim::-webkit-scrollbar-thumb,
+#kelvin-sim::-webkit-scrollbar-thumb, #ottodiesel-sim::-webkit-scrollbar-thumb, #cpcv-sim::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+
+/* ── Body scroll lock ── */
+body.carnot-lab-open, body.joule-lab-open, body.clausius-lab-open,
+body.kelvin-lab-open, body.ottodiesel-lab-open, body.cpcv-lab-open { overflow: hidden; }
+
+/* ── Close buttons ── */
+#carnot-lab-close-btn, #joule-lab-close-btn, #clausius-lab-close-btn,
+#kelvin-lab-close-btn, #ottodiesel-lab-close-btn, #cpcv-lab-close-btn {
+  position: fixed;
+  top: 20px; right: 25px;
+  z-index: 1000000;
+  width: 44px; height: 44px;
+  padding: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+  background-color: rgba(255, 255, 255, 0.10);
+  border: 1.5px solid rgba(255, 255, 255, 0.20);
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto !important;
+  isolation: isolate;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+              color 0.2s ease, transform 0.18s ease;
+}
+
+#carnot-lab-close-btn.visible, #joule-lab-close-btn.visible, #clausius-lab-close-btn.visible,
+#kelvin-lab-close-btn.visible, #ottodiesel-lab-close-btn.visible, #cpcv-lab-close-btn.visible { display: flex; }
+
+#carnot-lab-close-btn:hover, #carnot-lab-close-btn:focus-visible,
+#joule-lab-close-btn:hover, #joule-lab-close-btn:focus-visible,
+#clausius-lab-close-btn:hover, #clausius-lab-close-btn:focus-visible,
+#kelvin-lab-close-btn:hover, #kelvin-lab-close-btn:focus-visible,
+#ottodiesel-lab-close-btn:hover, #ottodiesel-lab-close-btn:focus-visible,
+#cpcv-lab-close-btn:hover, #cpcv-lab-close-btn:focus-visible {
+  background-color: rgba(239, 68, 68, 0.18);
+  border-color: #ef4444; color: #ef4444;
+  transform: scale(1.1) rotate(90deg); outline: none;
+}
+
+#carnot-lab-close-btn:active, #joule-lab-close-btn:active, #clausius-lab-close-btn:active,
+#kelvin-lab-close-btn:active, #ottodiesel-lab-close-btn:active, #cpcv-lab-close-btn:active { transform: scale(0.93) rotate(90deg); }
+
+/* ── Open buttons ── */
+#carnot-lab-open-btn, #joule-lab-open-btn, #clausius-lab-open-btn,
+#kelvin-lab-open-btn, #ottodiesel-lab-open-btn, #cpcv-lab-open-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 8px; cursor: pointer;
+  font-size: 0.82rem; font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+#carnot-lab-open-btn:hover, #joule-lab-open-btn:hover, #clausius-lab-open-btn:hover,
+#kelvin-lab-open-btn:hover, #ottodiesel-lab-open-btn:hover, #cpcv-lab-open-btn:hover {
+  background: rgba(59, 130, 246, 0.28);
+  border-color: #60a5fa; transform: translateY(-1px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  #carnot-sim.fullscreen, #joule-sim.fullscreen, #clausius-sim.fullscreen,
+  #kelvin-sim.fullscreen, #ottodiesel-sim.fullscreen, #cpcv-sim.fullscreen { padding: 64px 16px 32px; }
+}
+
+@media (max-width: 600px) {
+  #carnot-sim.fullscreen, #joule-sim.fullscreen, #clausius-sim.fullscreen,
+  #kelvin-sim.fullscreen, #ottodiesel-sim.fullscreen, #cpcv-sim.fullscreen { padding: 56px 10px 24px; }
+}
+
+/* ============================================================
+   LOTE 7 — FULLSCREEN STYLES
+   bernoulli-sim · maxwell-sim · ns-sim · pelton-sim · vortex-sim
+   ============================================================ */
+
+/* ── Fullscreen base ── */
+#bernoulli-sim.fullscreen, #maxwell-sim.fullscreen, #ns-sim.fullscreen,
+#pelton-sim.fullscreen, #vortex-sim.fullscreen {
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999 !important;
+  background-color: var(--bg-dark, #0f172a);
+  color: var(--text-primary, #e2e8f0);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 72px 32px 48px;
+  box-sizing: border-box;
+  opacity: 1 !important;
+  pointer-events: all !important;
+  transform: none !important;
+}
+
+/* ── Closing animation ── */
+#bernoulli-sim.is-closing, #maxwell-sim.is-closing, #ns-sim.is-closing,
+#pelton-sim.is-closing, #vortex-sim.is-closing {
+  display: block !important;
+  opacity: 0;
+  transform: scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* ── Scrollbar ── */
+#bernoulli-sim::-webkit-scrollbar, #maxwell-sim::-webkit-scrollbar, #ns-sim::-webkit-scrollbar,
+#pelton-sim::-webkit-scrollbar, #vortex-sim::-webkit-scrollbar { width: 7px; }
+
+#bernoulli-sim::-webkit-scrollbar-track, #maxwell-sim::-webkit-scrollbar-track, #ns-sim::-webkit-scrollbar-track,
+#pelton-sim::-webkit-scrollbar-track, #vortex-sim::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+
+#bernoulli-sim::-webkit-scrollbar-thumb, #maxwell-sim::-webkit-scrollbar-thumb, #ns-sim::-webkit-scrollbar-thumb,
+#pelton-sim::-webkit-scrollbar-thumb, #vortex-sim::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+
+/* ── Body scroll lock ── */
+body.bernoulli-lab-open, body.maxwell-lab-open, body.ns-lab-open,
+body.pelton-lab-open, body.vortex-lab-open { overflow: hidden; }
+
+/* ── Close buttons ── */
+#bernoulli-lab-close-btn, #maxwell-lab-close-btn, #ns-lab-close-btn,
+#pelton-lab-close-btn, #vortex-lab-close-btn {
+  position: fixed;
+  top: 20px; right: 25px;
+  z-index: 1000000;
+  width: 44px; height: 44px;
+  padding: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+  background-color: rgba(255, 255, 255, 0.10);
+  border: 1.5px solid rgba(255, 255, 255, 0.20);
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto !important;
+  isolation: isolate;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+              color 0.2s ease, transform 0.18s ease;
+}
+
+#bernoulli-lab-close-btn.visible, #maxwell-lab-close-btn.visible, #ns-lab-close-btn.visible,
+#pelton-lab-close-btn.visible, #vortex-lab-close-btn.visible { display: flex; }
+
+#bernoulli-lab-close-btn:hover, #bernoulli-lab-close-btn:focus-visible,
+#maxwell-lab-close-btn:hover, #maxwell-lab-close-btn:focus-visible,
+#ns-lab-close-btn:hover, #ns-lab-close-btn:focus-visible,
+#pelton-lab-close-btn:hover, #pelton-lab-close-btn:focus-visible,
+#vortex-lab-close-btn:hover, #vortex-lab-close-btn:focus-visible {
+  background-color: rgba(239, 68, 68, 0.18);
+  border-color: #ef4444; color: #ef4444;
+  transform: scale(1.1) rotate(90deg); outline: none;
+}
+
+#bernoulli-lab-close-btn:active, #maxwell-lab-close-btn:active, #ns-lab-close-btn:active,
+#pelton-lab-close-btn:active, #vortex-lab-close-btn:active { transform: scale(0.93) rotate(90deg); }
+
+/* ── Open buttons ── */
+#bernoulli-lab-open-btn, #maxwell-lab-open-btn, #ns-lab-open-btn,
+#pelton-lab-open-btn, #vortex-lab-open-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 8px; cursor: pointer;
+  font-size: 0.82rem; font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+#bernoulli-lab-open-btn:hover, #maxwell-lab-open-btn:hover, #ns-lab-open-btn:hover,
+#pelton-lab-open-btn:hover, #vortex-lab-open-btn:hover {
+  background: rgba(59, 130, 246, 0.28);
+  border-color: #60a5fa; transform: translateY(-1px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  #bernoulli-sim.fullscreen, #maxwell-sim.fullscreen, #ns-sim.fullscreen,
+  #pelton-sim.fullscreen, #vortex-sim.fullscreen { padding: 64px 16px 32px; }
+}
+
+@media (max-width: 600px) {
+  #bernoulli-sim.fullscreen, #maxwell-sim.fullscreen, #ns-sim.fullscreen,
+  #pelton-sim.fullscreen, #vortex-sim.fullscreen { padding: 56px 10px 24px; }
+}
+
+/* ============================================================
+   LOTE 8 — FULLSCREEN STYLES
+   celsius-sim · chatelet-sim · foote-sim · herschel-sim · gen-sim · watt-sim · pennington-sim · telkes-sim
+   ============================================================ */
+
+/* ── Fullscreen base ── */
+#celsius-sim.fullscreen, #chatelet-sim.fullscreen, #foote-sim.fullscreen, #herschel-sim.fullscreen,
+#gen-sim.fullscreen, #watt-sim.fullscreen, #pennington-sim.fullscreen, #telkes-sim.fullscreen {
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999 !important;
+  background-color: var(--bg-dark, #0f172a);
+  color: var(--text-primary, #e2e8f0);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 72px 32px 48px;
+  box-sizing: border-box;
+  opacity: 1 !important;
+  pointer-events: all !important;
+  transform: none !important;
+}
+
+/* ── Closing animation ── */
+#celsius-sim.is-closing, #chatelet-sim.is-closing, #foote-sim.is-closing, #herschel-sim.is-closing,
+#gen-sim.is-closing, #watt-sim.is-closing, #pennington-sim.is-closing, #telkes-sim.is-closing {
+  display: block !important;
+  opacity: 0;
+  transform: scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* ── Scrollbar ── */
+#celsius-sim::-webkit-scrollbar, #chatelet-sim::-webkit-scrollbar, #foote-sim::-webkit-scrollbar, #herschel-sim::-webkit-scrollbar,
+#gen-sim::-webkit-scrollbar, #watt-sim::-webkit-scrollbar, #pennington-sim::-webkit-scrollbar, #telkes-sim::-webkit-scrollbar { width: 7px; }
+
+#celsius-sim::-webkit-scrollbar-track, #chatelet-sim::-webkit-scrollbar-track, #foote-sim::-webkit-scrollbar-track, #herschel-sim::-webkit-scrollbar-track,
+#gen-sim::-webkit-scrollbar-track, #watt-sim::-webkit-scrollbar-track, #pennington-sim::-webkit-scrollbar-track, #telkes-sim::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+
+#celsius-sim::-webkit-scrollbar-thumb, #chatelet-sim::-webkit-scrollbar-thumb, #foote-sim::-webkit-scrollbar-thumb, #herschel-sim::-webkit-scrollbar-thumb,
+#gen-sim::-webkit-scrollbar-thumb, #watt-sim::-webkit-scrollbar-thumb, #pennington-sim::-webkit-scrollbar-thumb, #telkes-sim::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+
+/* ── Body scroll lock ── */
+body.celsius-lab-open, body.chatelet-lab-open, body.foote-lab-open, body.herschel-lab-open,
+body.gen-lab-open, body.watt-lab-open, body.pennington-lab-open, body.telkes-lab-open { overflow: hidden; }
+
+/* ── Close buttons ── */
+#celsius-lab-close-btn, #chatelet-lab-close-btn, #foote-lab-close-btn, #herschel-lab-close-btn,
+#gen-lab-close-btn, #watt-lab-close-btn, #pennington-lab-close-btn, #telkes-lab-close-btn {
+  position: fixed;
+  top: 20px; right: 25px;
+  z-index: 1000000;
+  width: 44px; height: 44px;
+  padding: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+  background-color: rgba(255, 255, 255, 0.10);
+  border: 1.5px solid rgba(255, 255, 255, 0.20);
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto !important;
+  isolation: isolate;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+              color 0.2s ease, transform 0.18s ease;
+}
+
+#celsius-lab-close-btn.visible, #chatelet-lab-close-btn.visible, #foote-lab-close-btn.visible, #herschel-lab-close-btn.visible,
+#gen-lab-close-btn.visible, #watt-lab-close-btn.visible, #pennington-lab-close-btn.visible, #telkes-lab-close-btn.visible { display: flex; }
+
+#celsius-lab-close-btn:hover, #celsius-lab-close-btn:focus-visible,
+#chatelet-lab-close-btn:hover, #chatelet-lab-close-btn:focus-visible,
+#foote-lab-close-btn:hover, #foote-lab-close-btn:focus-visible,
+#herschel-lab-close-btn:hover, #herschel-lab-close-btn:focus-visible,
+#gen-lab-close-btn:hover, #gen-lab-close-btn:focus-visible,
+#watt-lab-close-btn:hover, #watt-lab-close-btn:focus-visible,
+#pennington-lab-close-btn:hover, #pennington-lab-close-btn:focus-visible,
+#telkes-lab-close-btn:hover, #telkes-lab-close-btn:focus-visible {
+  background-color: rgba(239, 68, 68, 0.18);
+  border-color: #ef4444; color: #ef4444;
+  transform: scale(1.1) rotate(90deg); outline: none;
+}
+
+#celsius-lab-close-btn:active, #chatelet-lab-close-btn:active, #foote-lab-close-btn:active, #herschel-lab-close-btn:active,
+#gen-lab-close-btn:active, #watt-lab-close-btn:active, #pennington-lab-close-btn:active, #telkes-lab-close-btn:active { transform: scale(0.93) rotate(90deg); }
+
+/* ── Open buttons ── */
+#celsius-lab-open-btn, #chatelet-lab-open-btn, #foote-lab-open-btn, #herschel-lab-open-btn,
+#gen-lab-open-btn, #watt-lab-open-btn, #pennington-lab-open-btn, #telkes-lab-open-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 8px; cursor: pointer;
+  font-size: 0.82rem; font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+#celsius-lab-open-btn:hover, #chatelet-lab-open-btn:hover, #foote-lab-open-btn:hover, #herschel-lab-open-btn:hover,
+#gen-lab-open-btn:hover, #watt-lab-open-btn:hover, #pennington-lab-open-btn:hover, #telkes-lab-open-btn:hover {
+  background: rgba(59, 130, 246, 0.28);
+  border-color: #60a5fa; transform: translateY(-1px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  #celsius-sim.fullscreen, #chatelet-sim.fullscreen, #foote-sim.fullscreen, #herschel-sim.fullscreen,
+  #gen-sim.fullscreen, #watt-sim.fullscreen, #pennington-sim.fullscreen, #telkes-sim.fullscreen { padding: 64px 16px 32px; }
+}
+
+@media (max-width: 600px) {
+  #celsius-sim.fullscreen, #chatelet-sim.fullscreen, #foote-sim.fullscreen, #herschel-sim.fullscreen,
+  #gen-sim.fullscreen, #watt-sim.fullscreen, #pennington-sim.fullscreen, #telkes-sim.fullscreen { padding: 56px 10px 24px; }
+}
+
+/* ============================================================
+   LOTE 9 — FULLSCREEN STYLES
+   water-substance-sim · psychrometry-lab-sim
+   ============================================================ */
+
+/* ── Fullscreen base ── */
+#water-substance-sim.fullscreen, #psychrometry-lab-sim.fullscreen {
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999 !important;
+  background-color: var(--bg-dark, #0f172a);
+  color: var(--text-primary, #e2e8f0);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 72px 32px 48px;
+  box-sizing: border-box;
+  opacity: 1 !important;
+  pointer-events: all !important;
+  transform: none !important;
+}
+
+/* ── Closing animation ── */
+#water-substance-sim.is-closing, #psychrometry-lab-sim.is-closing {
+  display: block !important;
+  opacity: 0;
+  transform: scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* ── Scrollbar ── */
+#water-substance-sim::-webkit-scrollbar, #psychrometry-lab-sim::-webkit-scrollbar { width: 7px; }
+#water-substance-sim::-webkit-scrollbar-track, #psychrometry-lab-sim::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+#water-substance-sim::-webkit-scrollbar-thumb, #psychrometry-lab-sim::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+
+/* ── Body scroll lock ── */
+body.water-lab-open, body.psychrometry-lab-open { overflow: hidden; }
+
+/* ── Close buttons ── */
+#water-lab-close-btn, #psychrometry-lab-close-btn {
+  position: fixed;
+  top: 20px; right: 25px;
+  z-index: 1000000;
+  width: 44px; height: 44px;
+  padding: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+  background-color: rgba(255, 255, 255, 0.10);
+  border: 1.5px solid rgba(255, 255, 255, 0.20);
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto !important;
+  isolation: isolate;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+              color 0.2s ease, transform 0.18s ease;
+}
+
+#water-lab-close-btn.visible, #psychrometry-lab-close-btn.visible { display: flex; }
+
+#water-lab-close-btn:hover, #water-lab-close-btn:focus-visible,
+#psychrometry-lab-close-btn:hover, #psychrometry-lab-close-btn:focus-visible {
+  background-color: rgba(239, 68, 68, 0.18);
+  border-color: #ef4444; color: #ef4444;
+  transform: scale(1.1) rotate(90deg); outline: none;
+}
+
+#water-lab-close-btn:active, #psychrometry-lab-close-btn:active { transform: scale(0.93) rotate(90deg); }
+
+/* ── Open buttons ── */
+#water-lab-open-btn, #psychrometry-lab-open-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 8px; cursor: pointer;
+  font-size: 0.82rem; font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+#water-lab-open-btn:hover, #psychrometry-lab-open-btn:hover {
+  background: rgba(59, 130, 246, 0.28);
+  border-color: #60a5fa; transform: translateY(-1px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  #water-substance-sim.fullscreen, #psychrometry-lab-sim.fullscreen { padding: 64px 16px 32px; }
+}
+
+@media (max-width: 600px) {
+  #water-substance-sim.fullscreen, #psychrometry-lab-sim.fullscreen { padding: 56px 10px 24px; }
 }
 
