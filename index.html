@@ -8326,6 +8326,13 @@
                                 calor y las temperaturas resultantes en cada interfase.</span><span class="lang-en"
                                 style="display:none;">An iterative numerical solver calculates the heat flux and
                                 resulting temperatures at each interface in real time.</span></p>
+
+                            <div style="margin-top: 15px;">
+                                <p class="sim-instruction" style="font-size: 0.9rem; color: var(--text-secondary); margin: 0; border-left: 3px solid var(--accent-blue); background: rgba(59, 130, 246, 0.05); padding: 10px 15px; border-radius: 0 8px 8px 0; width: 100%;">
+                                    <span class="lang-es"><i class="fas fa-info-circle" style="color: var(--accent-blue); margin-right: 5px;"></i> <strong>Guía del Experimento:</strong> Inicia seleccionando el <strong>número de capas planas</strong> para tu simulación personalizada. Luego, ajusta los <strong>espesores y conductividades térmicas</strong> de cada capa. Finalmente, define las <strong>condiciones de frontera térmica</strong> en cada extremo de la pared (Radiación, Convección, Flujo de Calor, Temperatura Específica o combinaciones) para evaluar cómo cambia el comportamiento térmico.</span>
+                                    <span class="lang-en" style="display:none;"><i class="fas fa-info-circle" style="color: var(--accent-blue); margin-right: 5px;"></i> <strong>Experiment Guide:</strong> Start by selecting the <strong>number of flat layers</strong> for your custom simulation. Then, adjust the <strong>thicknesses and thermal conductivities</strong> of each layer. Finally, define the <strong>thermal boundary conditions</strong> at each end of the wall (Radiation, Convection, Heat Flux, Specific Temperature or combinations) to evaluate how the thermal behavior changes.</span>
+                                </p>
+                            </div>
                         </div>
 
                         <div class="simulation-workspace">
@@ -8336,10 +8343,32 @@
 
                                     <!-- Canvas Card for 2D Animation -->
                                     <div id="cm-panel-canvas" class="canvas-card" style="display: flex; flex-direction: column; gap: 10px;">
-                                        <h4 class="sim-subheading" style="margin: 0;"><i
-                                                class="fas fa-network-wired"></i> <span class="lang-es">Esquema Térmico
-                                                y Flujo de Calor</span><span class="lang-en"
-                                                style="display:none;">Thermal Scheme and Heat Flow</span></h4>
+                                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                                            <h4 class="sim-subheading" style="margin: 0;"><i
+                                                    class="fas fa-network-wired"></i> <span class="lang-es">Esquema Térmico
+                                                    y Flujo de Calor</span><span class="lang-en"
+                                                    style="display:none;">Thermal Scheme and Heat Flow</span></h4>
+                                            
+                                            <!-- Layers Count Selector -->
+                                            <div style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+                                                <label for="cm-layers-count"
+                                                    style="font-size: 0.8rem; color: var(--text-secondary); margin: 0;">Número de
+                                                    Capas:</label>
+                                                <select id="cm-layers-count" class="filter-select"
+                                                    style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-primary); border-radius: 6px; padding: 2px 6px;">
+                                                    <option value="1">1 Capa</option>
+                                                    <option value="2">2 Capas</option>
+                                                    <option value="3" selected>3 Capas</option>
+                                                    <option value="4">4 Capas</option>
+                                                    <option value="5">5 Capas</option>
+                                                    <option value="6">6 Capas</option>
+                                                    <option value="7">7 Capas</option>
+                                                    <option value="8">8 Capas</option>
+                                                    <option value="9">9 Capas</option>
+                                                    <option value="10">10 Capas</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                         <div
                                             style="position: relative; background: var(--bg-dark); border-radius: 8px; border: 1px solid var(--panel-border); padding: 10px; width: 100%; height: 320px; display: flex; align-items: center; justify-content: center;">
                                             <canvas id="customMultiCanvas"
@@ -8361,13 +8390,30 @@
 
                                 </div>
 
+                                <!-- Row 0: Layer Config Controls (Moved from below) -->
+                                <div id="cm-panel-layers" class="controls-card" style="width: 100%;">
+                                    <div style="margin-bottom: 12px;">
+                                        <h4 class="sim-subheading" style="margin: 0;"><i class="fas fa-layer-group"></i>
+                                            <span class="lang-es">Configuración de las Capas de la Pared</span><span
+                                                class="lang-en" style="display:none;">Wall Layer Configuration</span>
+                                        </h4>
+                                    </div>
+
+                                    <!-- Container where JS will dynamically insert sliders for each layer -->
+                                    <div id="cm-layers-container"
+                                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px;">
+                                        <!-- Will be populated dynamically -->
+                                    </div>
+                                </div>
+
+
                                 <!-- Row 2: General Controls and BC Config -->
                                 <div class="cm-row cm-row-2"
                                     style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%;">
 
                                     <!-- Left Boundary Config -->
                                     <div id="cm-panel-left-bc" class="controls-card">
-                                        <h4 class="sim-subheading" style="color: var(--accent-cyan);"><i
+                                        <h4 class="sim-subheading" style="color: var(--accent-cyan); font-size: 1.15rem; text-align: left; margin-bottom: 15px;"><i
                                                 class="fas fa-chevron-left"></i> <span class="lang-es">Frontera
                                                 Izquierda $(x = 0)$</span><span class="lang-en"
                                                 style="display:none;">Left Border $(x = 0)$</span></h4>
@@ -8437,10 +8483,9 @@
 
                                     <!-- Right Boundary Config -->
                                     <div id="cm-panel-right-bc" class="controls-card">
-                                        <h4 class="sim-subheading" style="color: var(--accent-orange);"><i
-                                                class="fas fa-chevron-right"></i> <span class="lang-es">Frontera Derecha
+                                        <h4 class="sim-subheading" style="color: var(--accent-orange); font-size: 1.15rem; text-align: right; margin-bottom: 15px;"><span class="lang-es">Frontera Derecha
                                                 $(x = L_{tot})$</span><span class="lang-en" style="display:none;">Right
-                                                Border $(x = L_{tot})$</span></h4>
+                                                Border $(x = L_{tot})$</span> <i class="fas fa-chevron-right"></i></h4>
                                         <div
                                             style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
                                             <div class="control-group">
@@ -8507,40 +8552,6 @@
 
                                 </div>
 
-                                <!-- Row 3: Layer Config Controls -->
-                                <div id="cm-panel-layers" class="controls-card" style="width: 100%;">
-                                    <div
-                                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
-                                        <h4 class="sim-subheading" style="margin: 0;"><i class="fas fa-layer-group"></i>
-                                            <span class="lang-es">Configuración de las Capas de la Pared</span><span
-                                                class="lang-en" style="display:none;">Wall Layer Configuration</span>
-                                        </h4>
-                                        <div style="display: flex; align-items: center; gap: 8px;">
-                                            <label for="cm-layers-count"
-                                                style="font-size: 0.8rem; color: var(--text-secondary);">Número de
-                                                Capas:</label>
-                                            <select id="cm-layers-count" class="filter-select"
-                                                style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-primary); border-radius: 8px; padding: 4px 8px;">
-                                                <option value="1">1 Capa</option>
-                                                <option value="2">2 Capas</option>
-                                                <option value="3" selected>3 Capas</option>
-                                                <option value="4">4 Capas</option>
-                                                <option value="5">5 Capas</option>
-                                                <option value="6">6 Capas</option>
-                                                <option value="7">7 Capas</option>
-                                                <option value="8">8 Capas</option>
-                                                <option value="9">9 Capas</option>
-                                                <option value="10">10 Capas</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <!-- Container where JS will dynamically insert sliders for each layer -->
-                                    <div id="cm-layers-container"
-                                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px;">
-                                        <!-- Will be populated dynamically -->
-                                    </div>
-                                </div>
 
                                 <!-- Row 4: Unified Results Panel in a single row -->
                                 <div id="cm-panel-results" class="result-card" style="padding: 20px; width: 100%;">
