@@ -232,12 +232,15 @@
                     </div>
                     <div class="filter-wrapper">
                         <select id="timeline-filter-category" class="filter-select">
-                            <option value="all">Todas las Categorías</option>
+                            <option value="all" class="lang-es">Todas las Categorías</option>
+                            <option value="all" class="lang-en" style="display:none;">All Categories</option>
                             <option value="Historia">Historia</option>
                             <option value="Conducción">Conducción</option>
                             <option value="Convección">Convección</option>
                             <option value="Radiación">Radiación</option>
                             <option value="Termodinámica">Termodinámica</option>
+                            <option value="Otros" class="lang-es">Otros</option>
+                            <option value="Otros" class="lang-en" style="display:none;">Others</option>
                         </select>
                     </div>
                 </div>
@@ -292,6 +295,8 @@
                             <option value="Circuitos" class="lang-en" style="display:none;">Thermal Circuits</option>
                             <option value="Aplicaciones" class="lang-es">Aplicaciones</option>
                             <option value="Aplicaciones" class="lang-en" style="display:none;">Applications</option>
+                            <option value="Otros" class="lang-es">Otros Laboratorios</option>
+                            <option value="Otros" class="lang-en" style="display:none;">Other Laboratories</option>
                             <option value="Comunidad" class="lang-es">Comunidad</option>
                             <option value="Comunidad" class="lang-en" style="display:none;">Community</option>
                             <optgroup label="Mecanismos" class="lang-es">
@@ -312,7 +317,7 @@
                                 Experiments</span></div>
                         <button class="tab-btn" data-target="newton-sim">Enfriamiento de Newton
                             (1701)</button>
-                        <button class="tab-btn" data-target="invsq-sim">Ley de la Inversa del
+                        <button class="tab-btn lab-otros" data-target="invsq-sim">Ley de la Inversa del
                             Cuadrado</button>
 
                         <button class="tab-btn" data-target="chatelet-sim"
@@ -346,7 +351,7 @@
                             (Ebullición, 1934)</button>
                         <button class="tab-btn" data-target="transient-sim">Conducción
                             Transitoria (Heisler, 1947)</button>
-                        <button class="tab-btn" data-target="lab-radiacion-placa-plana"
+                        <button class="tab-btn lab-otros" data-target="lab-radiacion-placa-plana"
                             onclick="setTimeout(function(){ if(window.initRadiacionPlacaPlanaSimulation) window.initRadiacionPlacaPlanaSimulation(); }, 50);">
                             <span class="lang-es">Laboratorio de Radiación en Placa Plana</span><span class="lang-en"
                                 style="display:none;">Flat Plate Radiation Lab</span></button>
@@ -370,9 +375,9 @@
                         <button class="tab-btn" data-target="cpcv-sim">Capacidades Caloríficas Cp y Cv (1842)</button>
                         <button class="tab-btn" data-target="joule-sim">Experimento de Joule (1843)</button>
                         <button class="tab-btn" data-target="kelvin-sim">Escala Kelvin (Cero Absoluto, 1848)</button>
-                        <button class="tab-btn" data-target="clausius-sim">Entropía y Segunda Ley (Clausius,
+                        <button class="tab-btn lab-otros" data-target="clausius-sim">Entropía y Segunda Ley (Clausius,
                             1850)</button>
-                        <button class="tab-btn" data-target="maxwell-sim">Teoría Cinética (Maxwell-Boltzmann,
+                        <button class="tab-btn lab-otros" data-target="maxwell-sim">Teoría Cinética (Maxwell-Boltzmann,
                             1860)</button>
                         <button class="tab-btn" data-target="water-substance-sim"><span class="lang-es">Sustancias
                                 Puras: Diagramas del Agua (IAPWS-IF97)</span><span class="lang-en"
@@ -391,19 +396,19 @@
 
                         <div class="tab-category-title"><span class="lang-es">Circuitos Térmicos</span><span
                                 class="lang-en" style="display:none;">Thermal Circuits</span></div>
-                        <button class="tab-btn" data-target="multi-sim">Pared Multicapa</button>
+                        <button class="tab-btn lab-otros" data-target="multi-sim">Pared Multicapa</button>
                         <button class="tab-btn" data-target="par-sim">Resistencias en
                             Paralelo</button>
                         <button class="tab-btn" data-target="res-sim">Pared Compuesta y Circuito
                             Térmico</button>
-                        <button class="tab-btn" data-target="insulated-sim">Placa Plana
+                        <button class="tab-btn lab-otros" data-target="insulated-sim">Placa Plana
                             Aislada</button>
                         <button class="tab-btn" data-target="multicapa-custom-sim">Pared
                             Multicapa Personalizada</button>
 
                         <div class="tab-category-title"><span class="lang-es">Aplicaciones</span><span class="lang-en"
                                 style="display:none;">Applications</span></div>
-                        <button class="tab-btn" data-target="pelton-sim">Tanque + Venturi + Pelton</button>
+                        <button class="tab-btn lab-otros" data-target="pelton-sim">Tanque + Venturi + Pelton</button>
                         <button class="tab-btn" data-target="fin-sim">Aletas (Superficies
                             Extendidas)</button>
                         <button class="tab-btn" data-target="gen-sim">Generación
@@ -411,16 +416,16 @@
                         <button class="tab-btn" data-target="vf-sim">Factor de Forma</button>
                         <button class="tab-btn" data-target="doublepipe-sim">Intercambiador de
                             Doble Tubo</button>
-                        <button class="tab-btn" data-target="microchannel-sim">Disipador de
+                        <button class="tab-btn lab-otros" data-target="microchannel-sim">Disipador de
                             Microcanales (1981)</button>
 
-                        <button class="tab-btn" data-target="pennington-sim"
+                        <button class="tab-btn lab-otros" data-target="pennington-sim"
                             onclick="setTimeout(function(){ if(window.initPenningtonSimulation) window.initPenningtonSimulation(); }, 50);"><i
                                 class="fas fa-snowflake" style="color:#38bdf8; margin-right:4px;"></i> <span
                                 class="lang-es">Cadena de Frío & Aislamiento (Mary Pennington, 1910)</span><span
                                 class="lang-en" style="display:none;">Cold Chain & Insulation (Mary Pennington,
                                 1910)</span></button>
-                        <button class="tab-btn" data-target="telkes-sim"
+                        <button class="tab-btn lab-otros" data-target="telkes-sim"
                             onclick="setTimeout(function(){ if(window.initTelkesSimulation) window.initTelkesSimulation(); }, 50);"><i
                                 class="fas fa-cube" style="color:#a855f7; margin-right:4px;"></i> <span
                                 class="lang-es">Almacenamiento PCM & Calor Latente (Maria Telkes, 1948)</span><span

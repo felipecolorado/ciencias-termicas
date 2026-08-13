@@ -328,7 +328,7 @@ var timelineEvents = [
         country_en: "<img src='https://flagcdn.com/w20/de.png' alt='Alemania' style='vertical-align: text-bottom; margin-right: 4px;'> Germany",
         desc: "Publica su famoso artículo sobre la fuerza motriz del calor, formulando la Segunda Ley de la Termodinámica: <em>'El calor no puede pasar por sí mismo de un cuerpo más frío a uno más caliente'</em>. Posteriormente, introdujo el concepto fundamental de <strong>Entropía (S)</strong>, definiendo su cambio como la transferencia de calor reversible dividida por la temperatura absoluta:<br><br>$$ dS = \\frac{dQ_{rev}}{T} $$<br>Concluyó que la entropía del universo siempre tiende a un máximo.<br><br><strong>Anecdotario:</strong> Clausius fue un hombre sumamente patriótico. Durante la guerra franco-prusiana (1870), organizó y lideró un cuerpo de ambulancias voluntario de estudiantes para rescatar heridos en el campo de batalla. Fue herido en la pierna, lo que le dejó una cojera permanente, y recibió la Cruz de Hierro por su valentía. Además de su genio teórico, ¡era un verdadero hombre de acción!",
         desc_en: "He publishes his famous article on the motive force of heat, formulating the Second Law of Thermodynamics: <em>'Heat can never pass from a colder to a warmer body without some other change'</em>. Later, he introduced the fundamental concept of <strong>Entropy (S)</strong>, defining its change as the reversible heat transfer divided by the absolute temperature:<br><br>$$ dS = \\frac{dQ_{rev}}{T} $$<br>He concluded that the entropy of the universe always tends to a maximum.<br><br><strong>Anecdotal:</strong> Clausius was a highly patriotic man. During the Franco-Prussian war (1870), he organized and led a volunteer student ambulance corps to rescue the wounded on the battlefield. He was wounded in the leg, leaving him with a permanent limp, and received the Iron Cross for his bravery. Besides his theoretical genius, he was a true man of action!",
-        category: "Termodinámica",
+        category: "Otros",
         image: "Clausius.jpg",
         bio: {
             name: "Rudolf Clausius", life: "1822 - 1888", country: "Alemania",
@@ -346,7 +346,7 @@ var timelineEvents = [
         country_en: "<img src='https://flagcdn.com/w20/gb.png' alt='Reino Unido' style='vertical-align: text-bottom; margin-right: 4px;'> United Kingdom / <img src='https://flagcdn.com/w20/at.png' alt='Austria' style='vertical-align: text-bottom; margin-right: 4px;'> Austria",
         desc: "James Clerk Maxwell y Ludwig Boltzmann formularon de manera independiente la distribución estadística de las velocidades moleculares en un gas ideal. Fue la primera vez que se utilizó la probabilidad en la física fundamental.<br><br>$$ f(v) = 4\\pi \\left(\\frac{m}{2\\pi k_B T}\\right)^{3/2} v^2 e^{-\\frac{m v^2}{2 k_B T}} $$<br>Demostraron que la temperatura de un cuerpo no es más que la medida macroscópica de la energía cinética microscópica de sus átomos.<br><br><strong>Anecdotario:</strong> Maxwell dedujo esta curva matemáticamente en 1860 basándose casi por completo en la intuición de la simetría. Nueve años después, Boltzmann la dotó de un rigor estadístico absoluto. Ambos son los padres fundadores indiscutibles de la mecánica estadística.",
         desc_en: "James Clerk Maxwell and Ludwig Boltzmann independently formulated the statistical distribution of molecular speeds in an ideal gas. It was the first time probability was used in fundamental physics.<br><br>$$ f(v) = 4\\pi \\left(\\frac{m}{2\\pi k_B T}\\right)^{3/2} v^2 e^{-\\frac{m v^2}{2 k_B T}} $$<br>They demonstrated that the temperature of a body is nothing more than the macroscopic measure of the microscopic kinetic energy of its atoms.<br><br><strong>Anecdotal:</strong> Maxwell deduced this curve mathematically in 1860 based almost entirely on the intuition of symmetry. Nine years later, Boltzmann gave it absolute statistical rigor. Both are the undisputed founding fathers of statistical mechanics.",
-        category: "Termodinámica",
+        category: "Otros",
         image: "maxwell.jpg",
         bio: {
             name: "James Clerk Maxwell / Ludwig Boltzmann", life: "1831 - 1879 / 1844 - 1906", country: "Reino Unido / Austria",
@@ -437,7 +437,7 @@ var timelineEvents = [
         country_en: "<img src='https://flagcdn.com/w20/us.png' alt='EE.UU.' style='vertical-align: text-bottom; margin-right: 4px;'> USA",
         desc: "La química e ingeniera de refrigeración Mary Engler Pennington fue la jefa fundadora del Laboratorio de Investigación de Alimentos del Departamento de Agricultura de EE.UU. (USDA). Desarrolló los estándares científicos de <strong>transferencia de calor por conducción en paredes compuestas aislantes</strong> ($q'' = \\frac{k}{L}\\Delta T$) para vagones de tren y cuartos fríos, creando la ingeniería moderna de la <strong>Cadena de Frío</strong>.<br><br><strong>Anecdotario:</strong> Para obtener su puesto en el gobierno sin ser rechazada por prejuicios de género, se registró inicialmente como 'M.E. Pennington'. Cuando los funcionarios descubrieron que era una mujer, ¡ya era la investigadora líder indiscutible del departamento!",
         desc_en: "Chemist and refrigeration engineer Mary Engler Pennington pioneered the scientific standards of <strong>convective and conductive heat transfer in composite insulated walls</strong> ($q'' = \\frac{k}{L}\\Delta T$) for refrigerator cars, establishing modern <strong>Cold Chain engineering</strong>.",
-        category: "Conducción",
+        category: "Otros",
         image: "Mary_Engle_Pennington.jpg",
         bio: { name: "Mary Engler Pennington", life: "1872 - 1952", country: "EE.UU." },
         "tab-target": "pennington-sim"
@@ -570,7 +570,7 @@ var timelineEvents = [
         country_en: "<img src='https://flagcdn.com/w20/us.png' alt='EE.UU.' style='vertical-align: text-bottom; margin-right: 4px;'> USA / Hungary",
         desc: "La investigadora del MIT Maria Telkes, conocida como la 'Reina del Sol', diseñó la <em>Dover Sun House</em> (1948), la primera residencia con calefacción solar utilizando materiales de cambio de fase (PCM). Utilizó sal de Glauber (Na₂SO₄·10H₂O) para almacenar energía mediante su <strong>calor latente de fusión ($\\Delta H_f = 251 \\text{ kJ/kg}$) a $32^\\circ\\text{C}$ constante</strong>:<br><br>$$ Q = m \\cdot \\Delta H_f + m \\cdot C_p \\cdot \\Delta T $$<br><br>Demostró que los PCM acumulan hasta 5 veces más calor por volumen que los acumuladores de agua o roca.<br><br><strong>Anecdotario:</strong> Durante la Segunda Guerra Mundial, inventó un kit de desalinización solar inflable de emergencia para pilotos derribados en el mar, que salvó la vida de cientos de aviadores. Fue galardonada con la Medalla de la Society of Women Engineers.",
         desc_en: "MIT researcher Maria Telkes designed the <em>Dover Sun House</em> (1948), the first solar-heated home using phase change materials (PCM) like Glauber salt storing heat via <strong>latent heat of fusion ($\\Delta H_f = 251\\text{ kJ/kg}$) at constant $32^\\circ\\text{C}$</strong>.",
-        category: "Termodinámica",
+        category: "Otros",
         image: "TELKES-768x539.jpg",
         bio: { name: "Maria Telkes", life: "1900 - 1995", country: "Hungría / EE.UU." },
         "tab-target": "telkes-sim"
@@ -678,6 +678,7 @@ function startApp() {
     safeInit('Timeline', () => initTopTimeline());
     safeInit('TimelineCards', () => initTimeline());
     safeInit('Tabs', () => initTabs());
+    safeInit('FilterLabs', () => { if(window.filterLabs) window.filterLabs(); });
     safeInit('Fourier', () => initFourierSimulation());
     safeInit('Planck', () => initPlanckSimulation());
     safeInit('Maxwell', () => initMaxwellSimulation());
@@ -1496,8 +1497,13 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
     const query = searchText.toLowerCase().trim();
 
     timelineEvents.forEach((ev, idx) => {
-        // Apply category and search filters
-        const matchesCategory = selectedCategory === 'all' || ev.category === selectedCategory;
+        let matchesCategory = false;
+        if (selectedCategory === 'Otros' || selectedCategory === 'otros') {
+            matchesCategory = (ev.category === 'Otros' || ev.category === 'otros');
+        } else {
+            matchesCategory = (ev.category !== 'Otros' && ev.category !== 'otros') &&
+                              (selectedCategory === 'all' || ev.category === selectedCategory);
+        }
 
         const titleVal = (window.currentLanguage === 'en' ? (ev.title_en || ev.title) : ev.title) || "";
         const descVal = (window.currentLanguage === 'en' ? (ev.desc_en || ev.desc) : ev.desc) || "";
@@ -1805,8 +1811,23 @@ window.filterLabs = function () {
 
         const text = tab.textContent.toLowerCase();
 
+        // Identificar si la pestaña es uno de los laboratorios "Otros"
+        const isOtro = tab.classList.contains("lab-otros") ||
+                       tab.getAttribute("data-category") === "Otros" ||
+                       (catTitle && catTitle.toLowerCase().includes("otros"));
+
         let matchesSearch = text.includes(query);
-        let matchesCategory = (category === "all") || (catTitle && catTitle.includes(category)) || text.includes(category.toLowerCase());
+        let matchesCategory = false;
+
+        if (category === "Otros" || category === "otros") {
+            matchesCategory = isOtro;
+        } else {
+            if (isOtro) {
+                matchesCategory = false; // Ocultar por defecto si la categoría no es 'Otros'
+            } else {
+                matchesCategory = (category === "all") || (catTitle && catTitle.includes(category)) || text.includes(category.toLowerCase());
+            }
+        }
 
         if (matchesSearch && matchesCategory) {
             tab.style.display = "";
@@ -1827,7 +1848,7 @@ window.filterLabs = function () {
             }
             next = next.nextElementSibling;
         }
-        cat.style.display = hasVisible || (query === '' && category === 'all') ? "" : "none";
+        cat.style.display = hasVisible ? "" : "none";
     });
 };
 
