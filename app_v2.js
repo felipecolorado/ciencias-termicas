@@ -12008,9 +12008,13 @@ function initBoilingSimulation() {
     function resize() {
         const dpr = window.devicePixelRatio || 1;
         const rect = canvas.getBoundingClientRect();
-        canvas.width = rect.width * dpr;
-        canvas.height = 320 * dpr;
-        ctx.scale(dpr, dpr);
+        const targetW = Math.floor(rect.width * dpr);
+        const targetH = Math.floor(320 * dpr);
+        if (canvas.width !== targetW || canvas.height !== targetH) {
+            canvas.width = targetW;
+            canvas.height = targetH;
+            ctx.scale(dpr, dpr);
+        }
 
         heater.x = rect.width / 2;
         heater.y = 320 * 0.65;
@@ -12321,26 +12325,33 @@ let transientChart = null;
 function initTransientSimulation() {
     const selectGeometry = document.getElementById("transient-geometry");
     const selectMaterial = document.getElementById("transient-material");
-    const inputH = document.getElementById("transient-h");
-    const inputSize = document.getElementById("transient-size");
-    const inputTi = document.getElementById("transient-ti");
+    const inputH    = document.getElementById("transient-h");
+    const inputSize  = document.getElementById("transient-size");
+    const inputTi   = document.getElementById("transient-ti");
     const inputTinf = document.getElementById("transient-tinf");
-    const resetBtn = document.getElementById("transient-reset-btn");
+    const inputK    = document.getElementById("transient-k");
+    const inputRho  = document.getElementById("transient-rho");
+    const inputCp   = document.getElementById("transient-cp");
+    const resetBtn  = document.getElementById("transient-reset-btn");
     const inputSpeed = document.getElementById("transient-speed");
 
-    const valH = document.getElementById("transient-h-val");
+    const valH    = document.getElementById("transient-h-val");
     const valSize = document.getElementById("transient-size-val");
-    const valTi = document.getElementById("transient-ti-val");
+    const valTi   = document.getElementById("transient-ti-val");
     const valTinf = document.getElementById("transient-tinf-val");
     const valSpeed = document.getElementById("transient-speed-val");
+    const valKSpan  = document.getElementById("transient-k-val");
+    const valKType  = document.getElementById("transient-k-type");
+    const valRho    = document.getElementById("transient-rho-val");
+    const valCp     = document.getElementById("transient-cp-val");
 
     const valBi = document.getElementById("transient-bi-val");
     const valFo = document.getElementById("transient-fo-val");
     const valT0 = document.getElementById("transient-t0-val");
     const valTs = document.getElementById("transient-ts-val");
-    const valQ = document.getElementById("transient-q-val");
-    const valTime = document.getElementById("transient-time-val");
-    const valDteq = document.getElementById("transient-dteq-val");
+    const valQ  = document.getElementById("transient-q-val");
+    const valTime  = document.getElementById("transient-time-val");
+    const valDteq  = document.getElementById("transient-dteq-val");
     const regimeNote = document.getElementById("transient-regime-note");
 
     const canvas = document.getElementById("transientCanvas");
@@ -12349,19 +12360,40 @@ function initTransientSimulation() {
 
     const chartCtx = document.getElementById("transientChart");
 
-    // Material properties dictionary
+    // ── Material presets (rho & cp for thermal mass; k overridable by slider) ──
     const Materials = {
-        copper: { k: 401, rho: 8933, cp: 385, name: 'Cobre' },
-        glass: { k: 1.4, rho: 2500, cp: 750, name: 'Vidrio' },
-        wood: { k: 0.15, rho: 700, cp: 1200, name: 'Madera' }
+        copper:   { k: 401,   rho: 8933, cp: 385,  name: 'Cobre' },
+        glass:    { k: 1.4,   rho: 2500, cp: 750,  name: 'Vidrio' },
+        wood:     { k: 0.15,  rho: 700,  cp: 1200, name: 'Madera' },
+        steel:    { k: 50,    rho: 7850, cp: 490,  name: 'Acero' },
+        aluminum: { k: 237,   rho: 2700, cp: 900,  name: 'Aluminio' },
+        concrete: { k: 1.0,   rho: 2300, cp: 880,  name: 'Hormigón' },
+        aerogel:  { k: 0.015, rho: 130,  cp: 1000, name: 'Aerogel' },
+        custom:   { k: 50,    rho: 7850, cp: 490,  name: 'Personalizado' }
     };
 
-    let geometry = selectGeometry.value;
+    // ── Dynamic material-type classifier based on k ──────────────────────────
+    function getMaterialType(kVal) {
+        if      (kVal < 0.05)  return { label: 'Superaislante / Aerogel / Gases',          color: '#06b6d4' };
+        else if (kVal < 0.25)  return { label: 'Aislantes (PUR, Lana de vidrio, Corcho)',   color: '#22d3ee' };
+        else if (kVal < 2.0)   return { label: 'No metálicos / Vidrio / Hormigón / Agua',   color: '#4ade80' };
+        else if (kVal < 15.0)  return { label: 'Rocas / Cerámicas / Acero Inoxidable',      color: '#a3e635' };
+        else if (kVal < 100.0) return { label: 'Aceros al C / Hierro / Plomo',             color: '#facc15' };
+        else if (kVal < 300.0) return { label: 'Aluminio / Latón / Grafito',               color: '#fb923c' };
+        else if (kVal <= 450.0)return { label: 'Cobre / Plata (alta conductividad)',        color: '#f97316' };
+        else                   return { label: 'Monocristales / Diamante / Grafeno',        color: '#ef4444' };
+    }
+
+    let geometry    = selectGeometry.value;
     let materialKey = selectMaterial.value;
-    let h = parseFloat(inputH.value);
-    let size = parseFloat(inputSize.value); // D or 2L
-    let Ti = parseFloat(inputTi.value);
-    let Tinf = parseFloat(inputTinf.value);
+    let h    = parseFloat(inputH.value) || 50;
+    let size = parseFloat(inputSize.value) || 0.10; // D or 2L
+    let Ti   = parseFloat(inputTi.value) || 100;
+    let Tinf = parseFloat(inputTinf.value) || 20;
+    // k, rho, cp parsed with safe fallbacks
+    let k    = (inputK ? parseFloat(inputK.value) : null) || Materials[materialKey].k || 1.0;
+    let rho  = (inputRho ? parseFloat(inputRho.value) : null) || Materials[materialKey].rho || 1000;
+    let cp   = (inputCp ? parseFloat(inputCp.value) : null) || Materials[materialKey].cp || 1000;
 
     let R = size / 2.0; // Radius or half-thickness
     let N = 10; // Number of elements
@@ -12376,22 +12408,19 @@ function initTransientSimulation() {
     let running = true;
 
     function getAdimensionalNumbers() {
-        const mat = Materials[materialKey];
-        const k = mat.k;
-        const alpha = k / (mat.rho * mat.cp);
+        const safeK = k || 1.0;
+        const safeRho = rho || 1000;
+        const safeCp = cp || 1000;
+        const alpha = safeK / (safeRho * safeCp);
 
         // Characteristic length Lc = V / As
         let Lc = R;
-        if (geometry === 'sphere') {
-            Lc = R / 3.0;
-        } else if (geometry === 'cylinder') {
-            Lc = R / 2.0;
-        } else { // slab
-            Lc = R;
-        }
+        if (geometry === 'sphere')   Lc = R / 3.0;
+        else if (geometry === 'cylinder') Lc = R / 2.0;
+        else                         Lc = R; // slab
 
-        const Bi = (h * Lc) / k;
-        const Fo = (alpha * simTime) / (Lc * Lc);
+        const Bi = (h * Lc) / safeK;
+        const Fo = (alpha * simTime) / (Lc * Lc || 1e-6);
         return { Bi, Fo, alpha };
     }
 
@@ -12426,20 +12455,23 @@ function initTransientSimulation() {
     }
 
     function resetSimulation() {
-        geometry = selectGeometry.value;
+        geometry    = selectGeometry.value;
         materialKey = selectMaterial.value;
-        h = parseFloat(inputH.value);
-        size = parseFloat(inputSize.value);
-        Ti = parseFloat(inputTi.value);
-        Tinf = parseFloat(inputTinf.value);
+        h    = parseFloat(inputH.value) || 50;
+        size = parseFloat(inputSize.value) || 0.10;
+        Ti   = parseFloat(inputTi.value) || 100;
+        Tinf = parseFloat(inputTinf.value) || 20;
+        k    = (inputK ? parseFloat(inputK.value) : null) || Materials[materialKey].k || 1.0;
+        rho  = (inputRho ? parseFloat(inputRho.value) : null) || Materials[materialKey].rho || 1000;
+        cp   = (inputCp ? parseFloat(inputCp.value) : null) || Materials[materialKey].cp || 1000;
 
-        R = size / 2.0;
+        R  = size / 2.0;
         dr = R / N;
         T.fill(Ti);
         simTime = 0;
         chartDataCenter = [{ x: 0, y: Ti }];
         chartDataSurface = [{ x: 0, y: Ti }];
-        chartDataFluid = [{ x: 0, y: Tinf }];
+        chartDataFluid   = [{ x: 0, y: Tinf }];
         running = true;
 
         if (transientChart) {
@@ -12451,20 +12483,21 @@ function initTransientSimulation() {
     }
 
     function solveStep() {
-        const mat = Materials[materialKey];
-        const alpha = mat.k / (mat.rho * mat.cp);
-        const k = mat.k;
+        const safeK = k || 1.0;
+        const safeRho = rho || 1000;
+        const safeCp = cp || 1000;
+        const alpha = safeK / (safeRho * safeCp);
 
         let g = 0; // Geometry factor
         if (geometry === 'cylinder') g = 1;
         else if (geometry === 'sphere') g = 2;
 
         // Stability limit considering both center and convection surface node stability:
-        const Bi_delta = (h * dr) / k;
-        const limitCenter = 1.0 / (2 * (1 + g));
+        const Bi_delta = (h * dr) / safeK;
+        const limitCenter  = 1.0 / (2 * (1 + g));
         const limitSurface = 1.0 / (2 * (Math.pow(1 - 0.5 / N, g) + Bi_delta));
         const Fo_delta = 0.9 * Math.min(limitCenter, limitSurface);
-        const dt = (Fo_delta * dr * dr) / alpha;
+        const dt = (Fo_delta * dr * dr) / (alpha || 1e-12);
 
         const T_next = [...T];
 
@@ -12491,17 +12524,40 @@ function initTransientSimulation() {
         return `hsl(${hue}, 85%, 50%)`;
     }
 
+    // ── FIXED canvas backing store ──────────────────────────────────────────
+    // Drawing coordinates are constants. The CSS (width:100%; height:100%)
+    // stretches the canvas visually without affecting logical coordinates.
+    // This eliminates ALL sources of per-frame cx/cy oscillation.
+    const CANVAS_W = 400;
+    const CANVAS_H = 320;
+    const CANVAS_CX = 200; // Math.round(CANVAS_W / 2)
+    const CANVAS_CY = 160; // Math.round(CANVAS_H / 2)
+    const CANVAS_DPR = Math.min(Math.round(window.devicePixelRatio || 1), 3);
+    canvas.width  = CANVAS_W * CANVAS_DPR;
+    canvas.height = CANVAS_H * CANVAS_DPR;
+    ctx.setTransform(CANVAS_DPR, 0, 0, CANVAS_DPR, 0, 0);
+
     function drawSolid() {
-        const w = canvas.width;
-        const h_canvas = canvas.height;
+        const w        = CANVAS_W;
+        const h_canvas = CANVAS_H;
+        const cx       = CANVAS_CX;
+        const cy       = CANVAS_CY;
+
         const isLight = document.body.classList.contains('light-theme');
 
         ctx.fillStyle = isLight ? '#f1f5f9' : '#0f111a';
         ctx.fillRect(0, 0, w, h_canvas);
 
-        const cx = w / 2;
-        const cy = h_canvas / 2;
-        const maxRadius = 100;
+        // ── Dynamic radius: maps size [0.002..2.0 m] → [18..118 px] log-linearly
+        // min size 0.002 m → radius 18 px,  max size 2.0 m → radius 118 px
+        const SIZE_MIN = 0.002, SIZE_MAX = 2.0;
+        const PX_MIN   = 18,    PX_MAX   = 118;
+        const sizeClamped = Math.max(SIZE_MIN, Math.min(SIZE_MAX, size));
+        const t = (Math.log(sizeClamped) - Math.log(SIZE_MIN)) /
+                  (Math.log(SIZE_MAX)   - Math.log(SIZE_MIN)); // 0..1
+        const maxRadius = Math.round(PX_MIN + t * (PX_MAX - PX_MIN));
+        // Slab half-height scales the same way (but capped so text fits)
+        const slabHalf = Math.min(maxRadius * 0.7, 90);
 
         // Draw convection fluid layer background
         const fluidGrad = ctx.createRadialGradient(cx, cy, maxRadius, cx, cy, maxRadius + 30);
@@ -12513,14 +12569,13 @@ function initTransientSimulation() {
         ctx.fill();
 
         if (geometry === 'slab') {
-            // Slab flat parallel layers
+            // Slab flat parallel layers — height uses slabHalf (scales with size)
             const layerWidth = maxRadius * 2 / N;
             for (let i = N - 1; i >= 0; i--) {
                 const color = getColorForTemp(T[i]);
                 ctx.fillStyle = color;
-
                 const wDraw = (i + 1) * layerWidth;
-                ctx.fillRect(cx - wDraw / 2, cy - 70, wDraw, 140);
+                ctx.fillRect(cx - wDraw / 2, cy - slabHalf, wDraw, slabHalf * 2);
             }
         } else {
             // Concentric rings (cylinder or sphere)
@@ -12538,7 +12593,7 @@ function initTransientSimulation() {
         ctx.strokeStyle = isLight ? '#475569' : '#94a3b8';
         ctx.lineWidth = 2;
         if (geometry === 'slab') {
-            ctx.strokeRect(cx - maxRadius, cy - 70, maxRadius * 2, 140);
+            ctx.strokeRect(cx - maxRadius, cy - slabHalf, maxRadius * 2, slabHalf * 2);
         } else {
             ctx.beginPath();
             ctx.arc(cx, cy, maxRadius, 0, 2 * Math.PI);
@@ -12563,19 +12618,19 @@ function initTransientSimulation() {
         if (geometry === 'slab') {
             // Center line
             ctx.beginPath();
-            ctx.moveTo(cx, cy - 75);
-            ctx.lineTo(cx, cy + 75);
+            ctx.moveTo(cx, cy - slabHalf - 5);
+            ctx.lineTo(cx, cy + slabHalf + 5);
             ctx.stroke();
 
             // Surface line right
             ctx.beginPath();
-            ctx.moveTo(cx + maxRadius, cy - 75);
-            ctx.lineTo(cx + maxRadius, cy + 75);
+            ctx.moveTo(cx + maxRadius, cy - slabHalf - 5);
+            ctx.lineTo(cx + maxRadius, cy + slabHalf + 5);
             ctx.stroke();
 
             // Labels
-            ctx.fillText(`Centro T₀: ${T[0].toFixed(1)} °C`, cx - 35, cy - 80);
-            ctx.fillText(`Sup. Ts: ${T[N].toFixed(1)} °C`, cx + maxRadius - 30, cy + 87);
+            ctx.fillText(`Centro T₀: ${T[0].toFixed(1)} °C`, cx - 35, cy - slabHalf - 8);
+            ctx.fillText(`Sup. Ts: ${T[N].toFixed(1)} °C`, cx + maxRadius - 30, cy + slabHalf + 14);
         } else {
             // Line from center to surface
             ctx.beginPath();
@@ -12631,10 +12686,31 @@ function initTransientSimulation() {
         const { Bi, Fo } = getAdimensionalNumbers();
 
         valH.textContent = h;
-        valSize.textContent = size.toFixed(2);
+        valSize.textContent = size.toFixed(3);
         valTi.textContent = Ti;
         valTinf.textContent = Tinf;
         if (valSpeed && inputSpeed) valSpeed.textContent = inputSpeed.value;
+
+        // k display + dynamic material-type badge
+        if (valKSpan) {
+            const kDisplay = k >= 10 ? k.toFixed(1) : k >= 1 ? k.toFixed(2) : k.toFixed(4);
+            valKSpan.textContent = kDisplay;
+        }
+        if (valRho) {
+            valRho.textContent = rho.toFixed(0);
+        }
+        if (valCp) {
+            valCp.textContent = cp.toFixed(0);
+        }
+        if (valKType) {
+            const { label, color } = getMaterialType(k);
+            valKType.textContent = label;
+            valKType.style.color = color;
+            valKType.style.background = color.replace(')', ', 0.15)').replace('rgb', 'rgba').replace('#', 'rgba(').replace('rgba(', 'color-mix(in srgb, ');
+            // simpler: just use inline hex alpha
+            valKType.style.background = `${color}26`; // 15% opacity
+            valKType.style.borderColor = `${color}66`;
+        }
 
         valBi.textContent = Bi.toFixed(4);
         valFo.textContent = Fo.toFixed(4);
@@ -12731,12 +12807,19 @@ function initTransientSimulation() {
     function runLoopStep() {
         if (!running) return;
 
-        const mat = Materials[materialKey];
-        const alpha = mat.k / (mat.rho * mat.cp);
+        const safeK = k || 1.0;
+        const safeRho = rho || 1000;
+        const safeCp = cp || 1000;
+        const alpha = safeK / (safeRho * safeCp);
+
+        if (!isFinite(alpha) || alpha <= 0) {
+            return; // stop execution if values are invalid
+        }
+
         let g = 0;
         if (geometry === 'cylinder') g = 1;
         else if (geometry === 'sphere') g = 2;
-        const Bi_delta = (h * dr) / mat.k;
+        const Bi_delta = (h * dr) / safeK;
         const limitCenter = 1.0 / (2 * (1 + g));
         const limitSurface = 1.0 / (2 * (Math.pow(1 - 0.5 / N, g) + Bi_delta));
         const Fo_delta = 0.9 * Math.min(limitCenter, limitSurface);
@@ -12747,7 +12830,7 @@ function initTransientSimulation() {
         const speedMultiplier = inputSpeed ? parseFloat(inputSpeed.value) : 1;
         const dtFrameTarget = speedMultiplier / 60;
 
-        const stepsPerFrame = Math.min(2500, Math.max(1, Math.round(dtFrameTarget / actualDt)));
+        const stepsPerFrame = Math.min(2500, Math.max(1, Math.round(dtFrameTarget / (actualDt || 1e-12))));
 
         for (let i = 0; i < stepsPerFrame; i++) {
             solveStep();
@@ -12757,7 +12840,7 @@ function initTransientSimulation() {
         let Lc = R;
         if (geometry === 'sphere') Lc = R / 3.0;
         else if (geometry === 'cylinder') Lc = R / 2.0;
-        const tau = (mat.rho * Lc * mat.cp) / h;
+        const tau = (safeRho * Lc * safeCp) / h;
         const tCool = 4.0 * tau;
         const sampleInterval = Math.max(0.01, tCool / 150); // sample around 150 points
 
@@ -12782,28 +12865,79 @@ function initTransientSimulation() {
         updateUI();
     }
 
+    function updateSlidersDisabledState() {
+        const isCustom = (selectMaterial.value === 'custom');
+        if (inputK) {
+            inputK.disabled = !isCustom;
+            inputK.style.opacity = isCustom ? "1.0" : "0.6";
+        }
+        if (inputRho) {
+            inputRho.disabled = !isCustom;
+            inputRho.style.opacity = isCustom ? "1.0" : "0.6";
+        }
+        if (inputCp) {
+            inputCp.disabled = !isCustom;
+            inputCp.style.opacity = isCustom ? "1.0" : "0.6";
+        }
+    }
+
     // Attach listeners
     resetBtn.addEventListener("click", resetSimulation);
 
-    // Sliders dynamic value updates
+    // Sliders dynamic value updates (don't reset simulation — just update state & redraw)
     inputH.addEventListener("input", () => {
-        h = parseFloat(inputH.value);
+        h = parseFloat(inputH.value) || 50;
         updateUI();
     });
     inputSize.addEventListener("input", () => {
-        size = parseFloat(inputSize.value);
-        R = size / 2.0;
+        size = parseFloat(inputSize.value) || 0.10;
+        R  = size / 2.0;
         dr = R / N;
+        drawSolid(); // immediate visual feedback
         updateUI();
     });
     inputTi.addEventListener("input", () => {
-        Ti = parseFloat(inputTi.value);
+        Ti = parseFloat(inputTi.value) || 100;
         updateUI();
     });
     inputTinf.addEventListener("input", () => {
-        Tinf = parseFloat(inputTinf.value);
+        Tinf = parseFloat(inputTinf.value) || 20;
         updateUI();
     });
+    // k, rho, cp sliders — live update without resetting simulation
+    if (inputK) {
+        inputK.addEventListener("input", () => {
+            k = parseFloat(inputK.value) || 1.0;
+            if (selectMaterial.value !== 'custom') {
+                selectMaterial.value = 'custom';
+                materialKey = 'custom';
+                updateSlidersDisabledState();
+            }
+            updateUI();
+        });
+    }
+    if (inputRho) {
+        inputRho.addEventListener("input", () => {
+            rho = parseFloat(inputRho.value) || 1000;
+            if (selectMaterial.value !== 'custom') {
+                selectMaterial.value = 'custom';
+                materialKey = 'custom';
+                updateSlidersDisabledState();
+            }
+            updateUI();
+        });
+    }
+    if (inputCp) {
+        inputCp.addEventListener("input", () => {
+            cp = parseFloat(inputCp.value) || 1000;
+            if (selectMaterial.value !== 'custom') {
+                selectMaterial.value = 'custom';
+                materialKey = 'custom';
+                updateSlidersDisabledState();
+            }
+            updateUI();
+        });
+    }
     if (inputSpeed) {
         inputSpeed.addEventListener("input", () => {
             updateUI();
@@ -12811,22 +12945,39 @@ function initTransientSimulation() {
     }
 
     selectGeometry.addEventListener("change", resetSimulation);
-    selectMaterial.addEventListener("change", resetSimulation);
+
+    // Material selector — acts as preset loader: syncs sliders then resets
+    selectMaterial.addEventListener("change", () => {
+        materialKey = selectMaterial.value;
+        const preset = Materials[materialKey];
+        if (preset) {
+            if (inputK && preset.k !== null) {
+                inputK.value = preset.k;
+                k = preset.k;
+            }
+            if (inputRho && preset.rho !== null) {
+                inputRho.value = preset.rho;
+                rho = preset.rho;
+            }
+            if (inputCp && preset.cp !== null) {
+                inputCp.value = preset.cp;
+                cp = preset.cp;
+            }
+        }
+        updateSlidersDisabledState();
+        resetSimulation();
+    });
+
+    updateSlidersDisabledState();
 
     // Initial setup
+    // NOTE: resize() is intentionally removed. The backing store dimensions are
+    // fixed by CANVAS_W/H/DPR constants (set once above) and the CSS
+    // stretches the visual display without touching logical coordinates.
+    // A window resize listener would cause ctx.scale() to accumulate and
+    // drift the transform, recreating the flickering the constants prevent.
     resetSimulation();
-
-    function resize() {
-        const dpr = window.devicePixelRatio || 1;
-        const rect = canvas.getBoundingClientRect();
-        canvas.width = rect.width * dpr;
-        canvas.height = rect.height * dpr;
-        ctx.scale(dpr, dpr);
-        drawSolid();
-    }
-
-    resize();
-    window.addEventListener('resize', resize);
+    drawSolid();
 
     function loop() {
         const tab = document.getElementById('transient-sim');
@@ -12839,7 +12990,6 @@ function initTransientSimulation() {
 
     return () => {
         cancelAnimationFrame(transientAnimationId);
-        window.removeEventListener('resize', resize);
         if (transientChart) {
             transientChart.destroy();
         }
@@ -24459,7 +24609,18 @@ document.addEventListener('DOMContentLoaded', () => {
         var chart = getNukiyamaChart();
         if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { console.warn('Boiling (Nukiyama) chart resize error', e); } }
         var c = document.getElementById('boilingCanvas');
-        if (c) { var w = c.clientWidth || c.offsetWidth; var h = c.clientHeight || c.offsetHeight; if (w > 0 && h > 0 && (c.width !== w || c.height !== h)) { c.width = w; c.height = h; } }
+        if (c) {
+            var dpr = window.devicePixelRatio || 1;
+            var w = c.clientWidth || c.offsetWidth;
+            var targetW = Math.floor(w * dpr);
+            var targetH = Math.floor(320 * dpr); // matches 320 height scaling from simulation
+            if (w > 0 && (c.width !== targetW || c.height !== targetH)) {
+                c.width = targetW;
+                c.height = targetH;
+                var ctx = c.getContext('2d');
+                ctx.scale(dpr, dpr);
+            }
+        }
     }
 
     function forceDelayedResize() { setTimeout(resizeBoilingAssets, 80); }
