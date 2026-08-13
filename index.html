@@ -351,7 +351,7 @@
                             (Ebullición, 1934)</button>
                         <button class="tab-btn" data-target="transient-sim">Conducción
                             Transitoria (Heisler, 1947)</button>
-                        <button class="tab-btn lab-otros" data-target="lab-radiacion-placa-plana"
+                        <button class="tab-btn" data-target="lab-radiacion-placa-plana"
                             onclick="setTimeout(function(){ if(window.initRadiacionPlacaPlanaSimulation) window.initRadiacionPlacaPlanaSimulation(); }, 50);">
                             <span class="lang-es">Laboratorio de Radiación en Placa Plana</span><span class="lang-en"
                                 style="display:none;">Flat Plate Radiation Lab</span></button>
@@ -455,28 +455,51 @@
                                     title="Cerrar pantalla completa">&#x2715;</button>
                                 <div id="fourier-lab-aria-live" class="sr-only" role="status" aria-live="polite"></div>
                                 <div class="sim-intro">
-                                    <h3><span class="lang-es">Ley de Fourier de la Conducción (1822)</span><span
-                                            class="lang-en" style="display:none;">Fourier's Law of Heat Conduction
-                                            (1822)</span>
-                                    </h3>
-                                    <p><span class="lang-es">La tasa de transferencia de calor total ($q$ en $\text{W}$)
-                                            a
-                                            través de un medio sólido estacionario está dada por la diferencia de
-                                            temperaturas y su respectiva resistencia térmica ($R_t$): $q = \frac{T_1 -
-                                            T_2}{R_t}$</span><span class="lang-en" style="display:none;">The total heat
-                                            transfer rate ($q$ in $\text{W}$) through a stationary solid medium is given
-                                            by
-                                            the temperature difference and its respective thermal resistance ($R_t$): $q
-                                            =
-                                            \frac{T_1 - T_2}{R_t}$</span></p>
-                                    <ul
-                                        style="color: #cbd5e1; margin-left: 20px; margin-bottom: 10px; font-size: 0.95rem;">
+                                    <h3><span class="lang-es">Ley de Fourier de la Conducción (1822)</span><span class="lang-en" style="display:none;">Fourier's Law of Heat Conduction (1822)</span></h3>
+                                    
+                                    <p><span class="lang-es">La <strong>conducción térmica</strong> es el mecanismo de transferencia de calor que ocurre a través de un medio debido al gradiente de temperatura. La formulación diferencial de la <strong>Ley de Fourier</strong> establece que el flujo de calor por unidad de área ($q''$ en $\text{W/m}^2$) es directamente proporcional al gradiente de temperatura ($\nabla T$):</span>
+                                    <span class="lang-en" style="display:none;"><strong>Thermal conduction</strong> is the heat transfer mechanism that occurs through a medium due to a temperature gradient. The differential formulation of <strong>Fourier's Law</strong> states that heat flux per unit area ($q''$ in $\text{W/m}^2$) is directly proportional to the temperature gradient ($\nabla T$):</span></p>
+
+                                    <div style="text-align: center; margin: 12px 0; font-size: 1.1rem; background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                                        $$ q'' = -k \nabla T \quad \implies \quad q_x'' = -k \frac{dT}{dx} $$
+                                    </div>
+
+                                    <p><span class="lang-es">Donde $k$ es la <strong>conductividad térmica</strong> del material ($\text{W/m}\cdot\text{K}$). El <strong>signo negativo</strong> es fundamental: expresa físicamente que la energía se transfiere espontáneamente en la dirección de temperatura decreciente (cumpliendo la Segunda Ley de la Termodinámica).</span>
+                                    <span class="lang-en" style="display:none;">Where $k$ is the material's <strong>thermal conductivity</strong> ($\text{W/m}\cdot\text{K}$). The <strong>negative sign</strong> is fundamental: it physically expresses that energy flows spontaneously in the direction of decreasing temperature (satisfying the Second Law of Thermodynamics).</span></p>
+
+                                    <div style="background: rgba(15, 23, 42, 0.6); border-left: 4px solid #3b82f6; padding: 10px 14px; margin: 12px 0; border-radius: 0 8px 8px 0; font-size: 0.93rem; line-height: 1.5;">
+                                        <strong style="color: #93c5fd;"><i class="fas fa-atom" style="margin-right: 6px;"></i><span class="lang-es">¿Cómo ocurre la Difusión del Calor?</span><span class="lang-en" style="display:none;">How does Heat Diffusion occur?</span></strong>
+                                        <p style="margin-top: 6px; margin-bottom: 6px;"><span class="lang-es">A nivel microscópico, la conducción es un proceso de <em>difusión de energía</em> impulsado por la actividad atómica o molecular:</span>
+                                        <span class="lang-en" style="display:none;">At the microscopic level, conduction is an energy <em>diffusion process</em> driven by atomic or molecular activity:</span></p>
+                                        <ul style="margin-left: 18px; margin-bottom: 4px; color: #cbd5e1;">
+                                            <li><strong><span class="lang-es">En sólidos metálicos:</span><span class="lang-en" style="display:none;">In metallic solids:</span></strong> <span class="lang-es">Se debe a la migración de electrones libres combinada con las vibraciones de la red cristalina (fonones), lo que les otorga una conductividad $k$ muy elevada.</span><span class="lang-en" style="display:none;">It is due to free electron migration combined with lattice vibrations (phonons), granting high $k$.</span></li>
+                                            <li><strong><span class="lang-es">En sólidos aislantes y dieléctricos:</span><span class="lang-en" style="display:none;">In insulators & dielectrics:</span></strong> <span class="lang-es">Ocurre exclusivamente por propagación de ondas de vibración de la red (fonones).</span><span class="lang-en" style="display:none;">Occurs exclusively through lattice vibration waves (phonons).</span></li>
+                                            <li><strong><span class="lang-es">En fluidos (líquidos y gases) EN REPOSO:</span><span class="lang-en" style="display:none;">In FLUIDS AT REST:</span></strong> <span class="lang-es">¡La conducción también ocurre en fluidos! Se transmite mediante colisiones aleatorias y difusión del movimiento traslacional, rotacional y vibracional de las moléculas, <em>siempre y cuando el fluido permanezca estrictamente estático (en reposo)</em>.</span><span class="lang-en" style="display:none;">Conduction also occurs in fluids! It is transmitted via molecular collisions as long as the fluid remains strictly static (at rest).</span></li>
+                                        </ul>
+                                        <div style="margin-top: 8px; font-style: italic; color: #fbbf24; font-size: 0.88rem;">
+                                            <i class="fas fa-exclamation-circle" style="margin-right: 4px;"></i>
+                                            <span class="lang-es"><strong>Transición Conducción vs. Convección:</strong> Tan pronto como el fluido se pone en movimiento macroscópico, el mecanismo dominante de transferencia de calor pasa a ser la <strong>convección</strong> (conducción microscópica + advección o transporte global de masa).</span>
+                                            <span class="lang-en" style="display:none;"><strong>Conduction vs. Convection Transition:</strong> As soon as the fluid experiences bulk macroscopic motion, the dominant heat transfer mechanism becomes <strong>convection</strong> (conduction + fluid advection).</span>
+                                        </div>
+                                    </div>
+
+                                    <p style="margin-top: 10px;"><span class="lang-es">Para un estado estable unidimensional sin generación de calor, integrando la ley de Fourier se obtiene la forma global de transferencia de calor total ($q$ en $\text{W}$), la cual es análoga a la Ley de Ohm ($I = \frac{\Delta V}{R}$): $q = \frac{T_1 - T_2}{R_t}$</span>
+                                    <span class="lang-en" style="display:none;">For a 1D steady-state condition without heat generation, integrating Fourier's law yields the total heat rate ($q$ in $\text{W}$), analogous to Ohm's Law ($I = \frac{\Delta V}{R}$): $q = \frac{T_1 - T_2}{R_t}$</span></p>
+
+                                    <ul style="color: #cbd5e1; margin-left: 20px; margin-bottom: 10px; font-size: 0.93rem;">
                                         <li><strong>Pared Plana:</strong> $R_t = \frac{L}{kA}$</li>
-                                        <li><strong>Casquete Cilíndrico:</strong> $R_t = \frac{\ln(r_2/r_1)}{2\pi kH}$
-                                        </li>
-                                        <li><strong>Casquete Esférico:</strong> $R_t = \frac{r_2 - r_1}{4\pi k r_1 r_2}$
-                                        </li>
+                                        <li><strong>Casquete Cilíndrico:</strong> $R_t = \frac{\ln(r_2/r_1)}{2\pi kH}$</li>
+                                        <li><strong>Casquete Esférico:</strong> $R_t = \frac{r_2 - r_1}{4\pi k r_1 r_2}$</li>
                                     </ul>
+                                    <div class="support-material-box" style="margin-top: 15px; padding: 10px 14px; background: rgba(37, 99, 235, 0.12); border: 1px solid rgba(59, 130, 246, 0.35); border-radius: 8px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                                        <span style="font-weight: 600; color: #93c5fd; font-size: 0.92rem; display: flex; align-items: center; gap: 8px;">
+                                            <i class="fas fa-file-pdf" style="color: #ef4444; font-size: 1.2rem;"></i>
+                                            <span class="lang-es">Material de apoyo:</span><span class="lang-en" style="display:none;">Support material:</span>
+                                        </span>
+                                        <a href="Guia_Estudio_Transferencia_Calor_Masa_2.pdf" download="Guia_Estudio_Transferencia_Calor_Masa_2.pdf" target="_blank" style="padding: 5px 14px; font-size: 0.85rem; font-weight: 600; text-decoration: none; border-radius: 6px; background: #2563eb; color: #ffffff; display: inline-flex; align-items: center; gap: 6px; transition: background 0.2s ease;">
+                                            <i class="fas fa-download"></i> <span class="lang-es">Descargar</span><span class="lang-en" style="display:none;">Download</span>
+                                        </a>
+                                    </div>
                                 </div>
 
                                 <div class="simulation-workspace fourier-layout">
