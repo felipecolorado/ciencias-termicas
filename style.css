@@ -15,6 +15,7 @@
   --font-body: 'Inter', sans-serif;
   --border-radius: 16px;
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --title-color: #38bdf8;
 }
 
 * {
@@ -398,8 +399,9 @@ body {
 
   /* Unificación de títulos en móvil (Hitos Históricos y Labs Virtuales) */
   .card-title,
-  .sim-intro h3 {
-    font-size: 0.9rem;
+  .sim-intro h3,
+  .panel-header h2 {
+    font-size: 1.05rem;
   }
 
   /* Charts */
@@ -498,9 +500,6 @@ body {
 }
 
 .panel-header h2 {
-  font-family: var(--font-heading);
-  font-size: 1.75rem;
-  font-weight: 700;
   margin-bottom: 0.25rem;
 }
 
@@ -634,14 +633,16 @@ body {
 
 /* Regla global unificada para títulos de Hitos Históricos y Laboratorios Virtuales */
 .card-title,
-.sim-intro h3 {
-  font-family: var(--font-body);
-  font-size: 1.05rem;
-  font-weight: 600;
+.sim-intro h3,
+.panel-header h2 {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--title-color);
   line-height: 1.35;
   margin-top: 0;
   margin-bottom: 0.5rem;
-  color: var(--text-primary);
 }
 
 .card-desc {
@@ -1167,6 +1168,7 @@ body.light-theme {
   --accent-emerald-glow: rgba(16, 185, 129, 0.1);
   --chart-grid: rgba(15, 23, 42, 0.08);
   --chart-text: #475569;
+  --title-color: #0284c7;
 }
 
 /* Specific Light Theme Elements styling overrides */
@@ -4947,4 +4949,163 @@ body.psychrometry-lab-open {
   #psychrometry-lab-sim.fullscreen {
     padding: 56px 10px 24px;
   }
+}
+
+/* ── Red de Conexiones Históricas y Modales de Historias ── */
+.relations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.relations-subcard {
+  background: rgba(15, 23, 42, 0.45);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.relations-subcard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(139, 92, 246, 0.45);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.15);
+}
+
+.relations-subcard-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.relations-subcard-meta {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.relations-subcard-btn {
+  align-self: flex-start;
+  font-weight: 600;
+  background: rgba(139, 92, 246, 0.15);
+  color: #c4b5fd;
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.relations-subcard-btn:hover {
+  background: rgba(139, 92, 246, 0.3);
+  border-color: #8b5cf6;
+  transform: translateY(-1px);
+}
+
+/* Modales de Historia Específicos */
+.story-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(11, 13, 19, 0.85);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.story-modal-overlay.show {
+  display: flex;
+  opacity: 1;
+}
+
+.story-modal-content {
+  position: relative;
+  width: 95%;
+  max-width: 900px;
+  max-height: 90vh;
+  background: #1e293b;
+  border: 1px solid #475569;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  animation: storyZoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes storyZoomIn {
+  from {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.story-modal-header {
+  border-bottom: 1px solid #334155;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.story-modal-title {
+  margin: 0;
+  color: #fff;
+  font-size: 1.25rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+}
+
+.story-modal-close {
+  color: #94a3b8;
+  font-size: 1.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.story-modal-close:hover {
+  color: #fff;
+}
+
+.story-modal-body {
+  overflow-y: auto;
+  max-height: calc(90vh - 120px);
+  padding-right: 8px;
+  color: #cbd5e1;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  text-align: justify;
+}
+
+/* Bloqueo de scroll de fondo */
+body.body-lock {
+  overflow: hidden !important;
 }

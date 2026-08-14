@@ -124,7 +124,7 @@ var timelineEvents = [
         image: "Porträt_des_Daniel_Bernoulli_(cropped).jpg",
         bio: {
             name: "Daniel Bernoulli", life: "1700 - 1782", country: "Suiza",
-            country_en: "Swiss",
+            country_en: "Swiss"
         }
     },
     {
@@ -210,6 +210,21 @@ var timelineEvents = [
         category: "Radiación",
         image: "herschel.jpg",
         bio: { name: "Sir William Herschel", life: "1738 - 1822", country: "Alemania / Reino Unido" }
+    },
+    {
+        year: 1804,
+        title: "Jean-Baptiste Biot y la Conducción Transitoria",
+        title_en: "Jean-Baptiste Biot and Transient Conduction",
+        surname: "Biot",
+        law: "Ecuaciones del Enfriamiento y Número de Biot",
+        law_en: "Cooling Equations and Biot Number",
+        country: "<img src='https://flagcdn.com/w20/fr.png' alt='Francia' style='vertical-align: text-bottom; margin-right: 4px;'> Francia",
+        country_en: "<img src='https://flagcdn.com/w20/fr.png' alt='Francia' style='vertical-align: text-bottom; margin-right: 4px;'> France",
+        desc: "Jean-Baptiste Biot presentó ante la Academia de Ciencias de Francia en 1804 sus primeras investigaciones experimentales sobre la conducción del calor en barras sólidas. Demostró matemáticamente cómo el calor disminuye a lo largo de una barra de metal expuesta al aire frío. Su trabajo formuló el concepto fundamental de que la tasa de enfriamiento de un sólido depende del balance entre la resistencia térmica interna del material y la transferencia de calor por convección en la superficie. En su honor, el número adimensional <strong>Número de Biot ($Bi$)</strong> define si la temperatura dentro de un cuerpo es espacialmente uniforme:<br><br>$$ Bi = \\frac{h L_c}{k} $$<br>Si $Bi < 0.1$, la resistencia interna es despreciable y el sólido se comporta como una capacitancia concentrada con temperatura homogénea.<br><br><strong>El Vuelo en Globo de 1804:</strong> En agosto de 1804, Biot y el joven químico Joseph Louis Gay-Lussac realizaron un célebre y arriesgado ascenso científico en un globo de hidrógeno, alcanzando los 4,000 metros de altitud. Equipados con barómetros, termómetros e higrómetros, registraron las variaciones de temperatura y humedad, y demostraron que la intensidad del campo magnético terrestre permanecía constante a gran altura, recolectando además las primeras muestras de aire de la alta atmósfera.<br><br><strong>Relaciones Científicas de su Época:</strong><br>• <strong>Pierre-Simon Laplace:</strong> Fue su mentor y protector; Biot le ayudó a revisar y publicar las pruebas de su monumental <em>Mécanique Céleste</em>.<br>• <strong>Joseph Fourier:</strong> Biot tuvo intensas controversias científicas con Fourier sobre las ecuaciones del calor; aunque Biot propuso modelos iniciales en 1804, Fourier perfeccionó la teoría analítica final en 1822.<br>• <strong>Félix Savart:</strong> Juntos formularon la célebre Ley de Biot-Savart del electromagnetismo tras los descubrimientos de Oersted.<br>• <strong>François Arago y Augustin-Jean Fresnel:</strong> Colaboró y rivalizó activamente en óptica, estudiando la polarización rotatoria de la luz y la teoría ondulatoria.<br><br><strong>Anecdotario:</strong> En julio de 1803, el gobierno de Napoleón Bonaparte comisionó a Biot para investigar una lluvia masiva de miles de piedras calientes que cayeron del cielo en la comuna de L'Aigle. Con una meticulosidad científica brillante, Biot trazó la trayectoria de los fragmentos, entrevistó a testigos y analizó la composición química especial de las rocas. Su detallado reporte demostró al mundo, por primera vez y de manera irrefutable, que los meteoritos provenían del espacio exterior, fundando la ciencia moderna de los meteoritos.",
+        desc_en: "Jean-Baptiste Biot presented to the French Academy of Sciences in 1804 his first experimental investigations on heat conduction in solid bars. He mathematically demonstrated how heat decreases along a metal bar exposed to cool air. His work formulated the fundamental concept that the cooling rate of a solid depends on the balance between the internal thermal resistance of the material and convection heat transfer at the surface. In his honor, the dimensionless <strong>Biot Number ($Bi$)</strong> defines whether the temperature inside a body is spatially uniform:<br><br>$$ Bi = \\frac{h L_c}{k} $$<br>If $Bi < 0.1$, internal resistance is negligible, and the solid behaves as a lumped capacitance with homogeneous temperature.<br><br><strong>The 1804 Balloon Flight:</strong> In August 1804, Biot and the young chemist Joseph Louis Gay-Lussac performed a famous and risky scientific ascent in a hydrogen balloon, reaching an altitude of 4,000 meters. Equipped with barometers, thermometers, and hygrometers, they recorded temperature and humidity variations and proved that the Earth's magnetic field intensity remained constant at high altitudes, collecting the first air samples from the upper atmosphere.<br><br><strong>Scientific Relations of His Era:</strong><br>• <strong>Pierre-Simon Laplace:</strong> He was Biot's mentor; Biot helped him review and proofread his monumental <em>Mécanique Céleste</em>.<br>• <strong>Joseph Fourier:</strong> Biot had intense scientific debates with Fourier over heat equations; although Biot proposed early models in 1804, Fourier perfected the final analytical theory in 1822.<br>• <strong>Félix Savart:</strong> Together they formulated the famous Biot-Savart Law of electromagnetism after Oersted's discoveries.<br>• <strong>François Arago and Augustin-Jean Fresnel:</strong> Collaborated and competed in optics, studying rotational polarization of light and the wave theory of light.<br><br><strong>Anecdote:</strong> In July 1803, Napoleon Bonaparte's government commissioned Biot to investigate a massive rain of thousands of hot stones that fell from the sky in L'Aigle. With brilliant scientific meticulousness, Biot traced the trajectory of the fragments, interviewed witnesses, and analyzed the special chemical composition of the rocks. His detailed report proved to the world, for the first time and irrefutably, that meteorites came from outer space, founding modern meteoritics.",
+        category: "Conducción",
+        image: "Jean_baptiste_biot.jpg",
+        bio: { name: "Jean-Baptiste Biot", life: "1774 - 1862", country: "Francia" }
     },
     {
         year: 1822,
@@ -1335,11 +1350,44 @@ window.openNewtonLegacy = function (event) {
 
 window.closeScientistModal = function () {
     const modal = document.getElementById("scientist-details-modal");
-    if (modal) modal.classList.remove("show");
+    if (modal) {
+        modal.classList.remove("show");
+        const modalContent = modal.querySelector(".modal-content");
+        const desc = document.getElementById("mobile-modal-desc");
+        const descParent = desc ? desc.parentElement : null;
+        if (modalContent && modalContent.hasAttribute("data-orig-style")) {
+            modalContent.setAttribute("style", modalContent.getAttribute("data-orig-style"));
+            modalContent.removeAttribute("data-orig-style");
+        }
+        if (descParent && descParent.hasAttribute("data-orig-style")) {
+            descParent.setAttribute("style", descParent.getAttribute("data-orig-style"));
+            descParent.removeAttribute("data-orig-style");
+        }
+    }
 };
 
 window.openScientistModalDirect = function (idx, event) {
     if (event) event.stopPropagation();
+    const modal = document.getElementById("scientist-details-modal");
+    const avatar = document.getElementById("mobile-modal-avatar");
+    const title = document.getElementById("mobile-modal-title");
+    const years = document.getElementById("mobile-modal-years");
+    const country = document.getElementById("mobile-modal-country");
+    const desc = document.getElementById("mobile-modal-desc");
+    const simBtn = document.getElementById("mobile-modal-sim-btn");
+
+    if (modal) {
+        const modalContent = modal.querySelector(".modal-content");
+        const descParent = desc ? desc.parentElement : null;
+        if (modalContent && modalContent.hasAttribute("data-orig-style")) {
+            modalContent.setAttribute("style", modalContent.getAttribute("data-orig-style"));
+            modalContent.removeAttribute("data-orig-style");
+        }
+        if (descParent && descParent.hasAttribute("data-orig-style")) {
+            descParent.setAttribute("style", descParent.getAttribute("data-orig-style"));
+            descParent.removeAttribute("data-orig-style");
+        }
+    }
     const ev = timelineEvents[idx];
     if (!ev) return;
 
@@ -1373,13 +1421,7 @@ window.openScientistModalDirect = function (idx, event) {
         else if (ev.category === "Termodinámica") tabTarget = "carnot-sim";
     }
 
-    const modal = document.getElementById("scientist-details-modal");
-    const avatar = document.getElementById("mobile-modal-avatar");
-    const title = document.getElementById("mobile-modal-title");
-    const years = document.getElementById("mobile-modal-years");
-    const country = document.getElementById("mobile-modal-country");
-    const desc = document.getElementById("mobile-modal-desc");
-    const simBtn = document.getElementById("mobile-modal-sim-btn");
+    // Dom elements already declared at function top
 
     if (modal) {
         title.textContent = window.currentLanguage === 'en' ? (ev.title_en || ev.title) : ev.title;
@@ -1410,6 +1452,134 @@ window.openScientistModalDirect = function (idx, event) {
             simBtn.style.display = "none";
         }
         modal.classList.add("show");
+    }
+};
+
+window.openRelationsModal = function () {
+    const modal = document.getElementById("scientist-details-modal");
+    const avatar = document.getElementById("mobile-modal-avatar");
+    const title = document.getElementById("mobile-modal-title");
+    const years = document.getElementById("mobile-modal-years");
+    const country = document.getElementById("mobile-modal-country");
+    const desc = document.getElementById("mobile-modal-desc");
+    const simBtn = document.getElementById("mobile-modal-sim-btn");
+
+    if (modal) {
+        // Apply fullscreen presentation styles
+        const modalContent = modal.querySelector(".modal-content");
+        const descParent = desc ? desc.parentElement : null;
+        if (modalContent) {
+            modalContent.setAttribute("data-orig-style", modalContent.getAttribute("style") || "");
+            modalContent.style.maxWidth = "98vw";
+            modalContent.style.width = "98vw";
+            modalContent.style.maxHeight = "96vh";
+            modalContent.style.height = "96vh";
+            modalContent.style.padding = "20px 30px";
+            modalContent.style.display = "flex";
+            modalContent.style.flexDirection = "column";
+        }
+        if (descParent) {
+            descParent.setAttribute("data-orig-style", descParent.getAttribute("style") || "");
+            descParent.style.maxHeight = "calc(96vh - 120px)";
+            descParent.style.height = "calc(96vh - 120px)";
+            descParent.style.flex = "1";
+        }
+
+        title.innerHTML = window.currentLanguage === 'en' ? '<i class="fas fa-network-wired"></i> Historical Connections Network' : '<i class="fas fa-network-wired"></i> Red de Conexiones Históricas';
+        avatar.style.display = "none";
+        years.textContent = "";
+        country.innerHTML = "";
+        
+        let contentHtml = "";
+        if (window.currentLanguage === 'en') {
+            contentHtml = `
+                <div style="font-size: 0.95rem; color: #cbd5e1; line-height: 1.7; max-height: 100%; height: 100%; overflow-y: auto; padding-right: 8px;">
+                    <p style="margin-bottom: 20px; font-style: italic; opacity: 0.9; font-size: 1rem; border-left: 3px solid var(--accent-blue); padding-left: 10px; color: #93c5fd;">Science was not built in isolation. Behind the great equations, there are deep human relationships, intense rivalries, and unbreakable legacies from mentor to pupil:</p>
+                    <ul style="padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 18px;">
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #ef4444; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #fca5a5;"><i class="fas fa-skull-crossbones" style="color: #ef4444; margin-right: 6px;"></i> Newton vs Hooke (The Total War) [~1670 - 1703]:</strong> The relationship between Isaac Newton and Robert Hooke is one of the most toxic feuds in the history of science. Hooke repeatedly accused Newton of plagiarizing his work on optics and gravity (the inverse square law). Newton's contempt was so visceral that he refused to publish his masterpiece (<em>Optics</em>) until Hooke died. It is said that when Newton became president of the Royal Society, he intentionally "lost" the only existing portrait of Hooke, condemning him to be faceless in history books. Newton's famous "humble" quote: <em>"If I have seen further it is by standing on the shoulders of Giants"</em>, is now widely considered a passive-aggressive jab mocking Hooke's short stature and hunched back.
+                        </li>
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #fbbf24; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #fde047;"><i class="fas fa-bolt" style="color: #fbbf24; margin-right: 6px;"></i> The Newton - Bernoulli Rivalry [1696]:</strong> Isaac Newton and Johann Bernoulli fought a fierce intellectual duel. Bernoulli challenged Europe's mathematicians to solve the brachistochrone problem (the curve of fastest descent). Newton solved it in a single night anonymously. Upon reading it, Bernoulli instantly recognized his archrival, saying: <em>"I recognize the lion by his claw"</em>.
+                        </li>
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #f97316; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #ffedd5;"><i class="fas fa-fire" style="color: #f97316; margin-right: 6px;"></i> The Bernoulli Family Civil War [1738]:</strong> The Bernoulli family produced brilliant but extremely jealous mathematicians. Johann Bernoulli competed to the death with his older brother Jacob, even stealing his ideas and publicly celebrating his death. However, his worst act was against his own son, Daniel Bernoulli. When Daniel published his revolutionary work <em>Hydrodynamica</em> (1738), Johann, consumed by envy, published his own book (<em>Hydraulica</em>), stole the ideas, and falsified the publication date to 1732 to make it look like his son had plagiarized him! He ended up throwing Daniel out of his own house.
+                        </li>
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #14b8a6; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #99f6e4;"><i class="fas fa-gavel" style="color: #14b8a6; margin-right: 6px;"></i> Fourier's Rebellion against Lagrange [1807]:</strong> When Joseph Fourier first presented (in 1807) his bold theory on heat conduction, the old guard of French mathematics attacked him. Joseph-Louis Lagrange and Pierre-Simon Laplace flatly rejected his use of "trigonometric series" (today Fourier Series), arguing they lacked rigor and could not represent functions with corners. Despite the initial humiliation, Fourier proved to be correct, permanently revolutionizing applied mathematics. Interestingly, years later, it was his leal protege and student, Claude-Louis Navier, who defended and posthumously published Fourier's final work.
+                        </li>
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #38bdf8; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #bae6fd;"><i class="fas fa-satellite-dish" style="color: #38bdf8; margin-right: 6px;"></i> Biot, Laplace, and Fourier (Mentorship and Discord over Heat) [1804 - 1807]:</strong> Pierre-Simon Laplace was Jean-Baptiste Biot's great mentor and protector, commissioning him with key tasks like proofreading his monumental <em>Mécanique Céleste</em> and backing his rapid ascent in the Academy. However, this close relationship placed Biot in the eye of the storm when Joseph Fourier presented his early ideas on heat conduction in 1807. Armed with Laplace's purist mathematical rigor (which insisted on exact physical models based on particle mechanics), Biot heavily criticized Fourier's bold "trigonometric series" method, arguing it lacked physical formalism. This rivalry delayed the publication of Fourier's treatise by fifteen years, illustrating how the patronage of established titans like Laplace could both elevate careers and stifle outside genius.
+                        </li>
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #34d399; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #a7f3d0;"><i class="fas fa-handshake" style="color: #34d399; margin-right: 6px;"></i> Carnot, Clapeyron and Clausius [1824 - 1850]:</strong> Sadi Carnot died very young of cholera and his brilliant masterpiece on heat engines went completely unnoticed. It was "rescued" from oblivion by Émile Clapeyron, who translated it into analytical language. Years later, a brilliant Rudolf Clausius read Clapeyron's work and unified the ideas to formulate the Second Law of Thermodynamics.
+                        </li>
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #60a5fa; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #bfdbfe;"><i class="fas fa-chalkboard-teacher" style="color: #60a5fa; margin-right: 6px;"></i> Josef Stefan and Ludwig Boltzmann [1879 - 1884]:</strong> One of the most beautiful and fruitful teacher-student relationships in the history of science. Boltzmann was a student of Stefan at the University of Vienna. Together, they achieved the monumental milestone of transforming his teacher's empirical radiation law (Stefan's Law) into a law derived purely from the mathematical depths of statistical thermodynamics (Stefan-Boltzmann Law).
+                        </li>
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #a78bfa; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #ddd6fe;"><i class="fas fa-water" style="color: #a78bfa; margin-right: 6px;"></i> The German Foundation (Prandtl and Nusselt) [1904 - 1915]:</strong> Wilhelm Nusselt was not a direct pupil of Ludwig Prandtl, but his monumental work on dimensional analysis of heat transfer (1915) mounted directly on the shoulders of Prandtl's newly born <em>Boundary Layer Theory</em> (1904). Together, though from different universities, they formed the "golden age" of German fluid mechanics.
+                        </li>
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #f87171; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #fecaca;"><i class="fas fa-link" style="color: #f87171; margin-right: 6px;"></i> From Germany to Berkeley (Nusselt to Dittus-Boelter) [1930]:</strong> After Nusselt established the mathematical relation $Nu = f(Re, Pr)$, the baton crossed the ocean to the University of California, Berkeley. There, Professor Llewellyn M. K. Boelter and his student F. W. Dittus (1930) took Nusselt's theoretical framework and, after extracting mountains of experimental data, created the famous empirical correlation $Nu = 0.023 Re^{0.8} Pr^n$ which continues to torture and save engineering students worldwide.
+                        </li>
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #f472b6; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #fbcfe8;"><i class="fas fa-users" style="color: #f472b6; margin-right: 6px;"></i> Colburn and the "School" of Convection [1930s]:</strong> Allan Colburn (a devoted teacher) and his team at the University of Delaware created a true school of thought that trained dozens of the best engineers of the 20th century. He kept correspondence from his hospital bed with his students, leaving the convection methods that still operate the world's refineries today.
+                        </li>
+                    </ul>
+                </div>
+            `;
+        } else {
+            contentHtml = `
+                <div style="font-size: 0.95rem; color: #cbd5e1; line-height: 1.7; max-height: 100%; height: 100%; overflow-y: auto; padding-right: 8px;">
+                    <p style="margin-bottom: 20px; font-style: italic; opacity: 0.9; font-size: 1rem; border-left: 3px solid var(--accent-blue); padding-left: 10px; color: #93c5fd;">La ciencia no se construyó en aislamiento. Detrás de las grandes ecuaciones, existen relaciones humanas profundas, rivalidades intensas y legados inquebrantables de maestro a pupilo:</p>
+                    <ul style="padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 18px;">
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #ef4444; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #fca5a5;"><i class="fas fa-skull-crossbones" style="color: #ef4444; margin-right: 6px;"></i> Newton contra Hooke (La Guerra Total) [~1670 - 1703]:</strong> La relación entre Isaac Newton y Robert Hooke es una de las enemistades más tóxicas de la historia de la ciencia. Hooke acusó repetidamente a Newton de plagiar su trabajo sobre la óptica y sobre la gravedad (la ley de la inversa del cuadrado). El desprecio de Newton era tan visceral que se negó a publicar su obra cumbre (<em>Óptica</em>) hasta que Hooke murió. Se cuenta que, al asumir la presidencia de la Royal Society tras la muerte de su rival, Newton "extravió" intencionalmente el único retrato que existía de Hooke, condenándolo a no tener rostro en los libros de historia. De hecho, la famosa y "humilde" frase de Newton: <em>"Si he visto más lejos, es poniéndome sobre hombros de gigantes"</em>, se considera hoy un insulto encubierto burlándose de la baja estatura y la espalda encorvada de Hooke.
+                        </li>
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #fbbf24; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #fde047;"><i class="fas fa-bolt" style="color: #fbbf24; margin-right: 6px;"></i> La Rivalidad Newton - Bernoulli [1696]:</strong> Isaac Newton y Johann Bernoulli mantuvieron un fiero duelo intelectual. Bernoulli retó a los matemáticos de Europa a resolver el problema de la braquistócrona (la curva de descenso más rápido). Newton lo resolvió en una sola noche de forma anónima. Al leerlo, Bernoulli reconoció al instante a su archirrival diciendo: <em>"Reconozco al león por su garra"</em>.
+                        </li>
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #f97316; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #ffedd5;"><i class="fas fa-fire" style="color: #f97316; margin-right: 6px;"></i> La Guerra Civil de los Bernoulli [1738]:</strong> La familia Bernoulli produjo matemáticos brillantes, pero extremadamente celosos. Johann Bernoulli compitió a muerte con su hermano mayor Jacob, llegando a robarle ideas y celebrando públicamente su muerte. Sin embargo, su peor acto fue contra su propio hijo, Daniel Bernoulli. Cuando Daniel publicó su revolucionaria obra <em>Hydrodynamica</em> (1738), Johann, consumido por la envidia ante el éxito de su hijo, publicó su propio libro (<em>Hydraulica</em>), le robó las ideas, ¡y falsificó la fecha de publicación al año 1732 para que pareciera que su hijo le había plagiado a él! Johann terminó expulsando a Daniel de su propia casa.
+                        </li>
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #14b8a6; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #99f6e4;"><i class="fas fa-gavel" style="color: #14b8a6; margin-right: 6px;"></i> La Rebelión de Fourier frente a Lagrange [1807]:</strong> Cuando Joseph Fourier presentó por primera vez (en 1807) su audaz teoría sobre la conducción del calor, la vieja guardia de las matemáticas francesas se le echó encima. Joseph-Louis Lagrange y Pierre-Simon Laplace rechazaron tajantemente su uso de "series trigonométricas" (hoy Series de Fourier), argumentando que carecían de rigor y no podían representar funciones con esquinas. A pesar de la humillación inicial, Fourier demostró estar en lo correcto, revolucionando para siempre las matemáticas aplicadas. Curiosamente, años más tarde, fue su leal protegido y alumno, Claude-Louis Navier, quien defendió y publicó póstumamente el trabajo final de Fourier.
+                        </li>
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #38bdf8; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #bae6fd;"><i class="fas fa-satellite-dish" style="color: #38bdf8; margin-right: 6px;"></i> Biot, Laplace y Fourier (Madrinazgo y Discordia por el Calor) [1804 - 1807]:</strong> Pierre-Simon Laplace fue el gran mentor y protector de Jean-Baptiste Biot, encomendándole tareas clave como la revisión de su monumental <em>Mécanique Céleste</em> y apoyando su rápido ascenso en la Academia. Sin embargo, esta estrecha relación colocó a Biot en el centro del huracán cuando Joseph Fourier presentó sus primeras ideas sobre la conducción del calor en 1807. Respaldado por el rigor matemático purista de Laplace (quien insistía en soluciones exactas basadas en la mecánica de partículas), Biot cuestionó duramente el atrevido método matemático de Fourier de las "series trigonométricas", argumentando que carecía de formalismo físico. Esta rivalidad impidió que el tratado de Fourier se publicara durante quince años, evidenciando cómo el tutelaje de los grandes titanes como Laplace podía tanto impulsar carreras como sofocar la genialidad ajena.
+                        </li>
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #34d399; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #a7f3d0;"><i class="fas fa-handshake" style="color: #34d399; margin-right: 6px;"></i> Carnot, Clapeyron y Clausius [1824 - 1850]:</strong> Sadi Carnot murió muy joven de cólera y su genial obra maestra sobre los motores térmicos pasó totalmente desapercibida. Fue "rescatada" del olvido por Émile Clapeyron, quien la tradujo al lenguaje analítico. Años después, un brillante Rudolf Clausius leyó el trabajo de Clapeyron y unificó las ideas para formular la Segunda Ley de la Termodinámica.
+                        </li>
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #60a5fa; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #bfdbfe;"><i class="fas fa-chalkboard-teacher" style="color: #60a5fa; margin-right: 6px;"></i> Josef Stefan y Ludwig Boltzmann [1879 - 1884]:</strong> Una de las relaciones maestro-pupilo más hermosas y prolíficas de la historia. Boltzmann fue estudiante de Stefan en la Universidad de Viena. Juntos, lograron el hito monumental de transformar la ley empírica de radiación de su maestro (Ley de Stefan) en una ley deducida puramente desde las entrañas matemáticas de la termodinámica estadística (Ley de Stefan-Boltzmann).
+                        </li>
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #a78bfa; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #ddd6fe;"><i class="fas fa-water" style="color: #a78bfa; margin-right: 6px;"></i> La Fundación Alemana (Prandtl y Nusselt) [1904 - 1915]:</strong> Wilhelm Nusselt no fue pupilo directo de Ludwig Prandtl, pero su monumental trabajo en el análisis dimensional de la transferencia de calor (1915) se montó directamente sobre los hombros de la recién nacida <em>Teoría de la Capa Límite</em> de Prandtl (1904). Juntos, aunque desde distintas universidades, formaron la "era dorada" de la mecánica de fluidos alemana.
+                        </li>
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #f87171; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #fecaca;"><i class="fas fa-link" style="color: #f87171; margin-right: 6px;"></i> De Alemania a Berkeley (Nusselt a Dittus-Boelter) [1930]:</strong> Tras establecer Nusselt la relación matemática $Nu = f(Re, Pr)$, el testigo cruzó el océano hasta la Universidad de California, Berkeley. Allí, el profesor Llewellyn M. K. Boelter y su estudiante F. W. Dittus (1930) tomaron el armazón teórico de Nusselt y, tras exprimir montañas de datos experimentales, crearon la famosísima correlación empírica $Nu = 0.023 Re^{0.8} Pr^n$ que sigue torturando y salvando a estudiantes de ingeniería en todo el mundo.
+                        </li>
+                        <li style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px; border-left: 4px solid #f472b6; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <strong style="font-size: 1.05rem; display: block; margin-bottom: 6px; color: #fbcfe8;"><i class="fas fa-users" style="color: #f472b6; margin-right: 6px;"></i> Colburn y la "Escuela" de la Convección [Años 1930s]:</strong> Allan Colburn (un maestro devoto) y su equipo en la Universidad de Delaware crearon una verdadera escuela de pensamiento que entrenó a docenas de los mejores ingenieros del siglo XX. Mantenía correspondencia desde su cama de hospital con sus estudiantes, legando los métodos de convección que aún operan las refinerías del mundo hoy.
+                        </li>
+                    </ul>
+                </div>
+            `;
+        }
+        
+        desc.innerHTML = contentHtml;
+        
+        if (simBtn) {
+            simBtn.style.display = "none";
+        }
+        
+        modal.classList.add("show");
+        
+        if (window.MathJax && window.MathJax.typesetPromise) {
+            window.MathJax.typesetPromise([desc]).catch((err) => console.log('MathJax error: ', err));
+        }
     }
 };
 
@@ -1485,6 +1655,155 @@ window.switchNewtonTab = function (tabId, btn) {
     document.querySelectorAll('.newton-tab-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
 };
+
+const connectionsStories = [
+  {
+    id: "newton-hooke",
+    year: "~1670 - 1703",
+    icon: "fa-skull-crossbones",
+    color: "#ef4444",
+    title: "Newton contra Hooke (La Guerra Total)",
+    title_en: "Newton vs Hooke (The Total War)",
+    desc: `La relación entre Isaac Newton y Robert Hooke es una de las enemistades más tóxicas de la historia de la ciencia. Hooke acusó repetidamente a Newton de plagiar su trabajo sobre la óptica y sobre la gravedad (la ley de la inversa del cuadrado). El desprecio de Newton era tan visceral que se negó a publicar su obra cumbre (<em>Óptica</em>) hasta que Hooke murió. Se cuenta que, al asumir la presidencia de la Royal Society tras la muerte de su rival, Newton "extravió" intencionalmente el único retrato que existía de Hooke, condenándolo a no tener rostro en los libros de historia. De hecho, la famosa y "humilde" frase de Newton: <em>"Si he visto más lejos, es poniéndome sobre hombros de gigantes"</em>, se considera hoy un insulto encubierto burlándose de la baja estatura y la espalda encorvada de Hooke.`,
+    desc_en: `The relationship between Isaac Newton and Robert Hooke is one of the most toxic feuds in the history of science. Hooke repeatedly accused Newton of plagiarizing his work on optics and gravity (the inverse square law). Newton's contempt was so visceral that he refused to publish his masterpiece (<em>Optics</em>) until Hooke died. It is said that when Newton became president of the Royal Society, he intentionally "lost" the only existing portrait of Hooke, condemning him to be faceless in history books. Newton's famous "humble" quote: <em>"If I have seen further it is by standing on the shoulders of Giants"</em>, is now widely considered a passive-aggressive jab mocking Hooke's short stature and hunched back.`
+  },
+  {
+    id: "newton-bernoulli",
+    year: "1696",
+    icon: "fa-bolt",
+    color: "#fbbf24",
+    title: "La Rivalidad Newton - Bernoulli",
+    title_en: "The Newton - Bernoulli Rivalry",
+    desc: `Isaac Newton y Johann Bernoulli mantuvieron un fiero duelo intelectual. Bernoulli retó a los matemáticos de Europa a resolver el problema de la braquistócrona (la curva de descenso más rápido). Newton lo resolvió en una sola noche de forma anónima. Al leerlo, Bernoulli reconoció al instante a su archirrival diciendo: <em>"Reconozco al león por su garra"</em>.`,
+    desc_en: `Isaac Newton and Johann Bernoulli fought a fierce intellectual duel. Bernoulli challenged Europe's mathematicians to solve the brachistochrone problem (the curve of fastest descent). Newton solved it in a single night anonymously. Upon reading it, Bernoulli instantly recognized his archrival, saying: <em>"I recognize the lion by his claw"</em>.`
+  },
+  {
+    id: "bernoulli-war",
+    year: "1738",
+    icon: "fa-fire",
+    color: "#f97316",
+    title: "La Guerra Civil de los Bernoulli",
+    title_en: "The Bernoulli Family Civil War",
+    desc: `La familia Bernoulli produjo matemáticos brillantes, pero extremadamente celosos. Johann Bernoulli compitió a muerte con su hermano mayor Jacob, llegando a robarle ideas y celebrando públicamente su muerte. Sin embargo, su peor acto fue contra su propio hijo, Daniel Bernoulli. Cuando Daniel publicó su revolucionaria obra <em>Hydrodynamica</em> (1738), Johann, consumido por la envidia ante el éxito de su hijo, publicó su propio libro (<em>Hydraulica</em>), le robó las ideas, ¡y falsificó la fecha de publicación al año 1732 para que pareciera que su hijo le había plagiado a él! Johann terminó expulsando a Daniel de su propia casa.`,
+    desc_en: `The Bernoulli family produced brilliant but extremely jealous mathematicians. Johann Bernoulli competed to the death with his older brother Jacob, even stealing his ideas and publicly celebrating his death. However, his worst act was against his own son, Daniel Bernoulli. When Daniel published his revolutionary work <em>Hydrodynamica</em> (1738), Johann, consumed by envy, published his own book (<em>Hydraulica</em>), stole the ideas, and falsified the publication date to 1732 to make it look like his son had plagiarized him! He ended up throwing Daniel out of his own house.`
+  },
+  {
+    id: "fourier-rebellion",
+    year: "1807",
+    icon: "fa-gavel",
+    color: "#14b8a6",
+    title: "La Rebelión de Fourier frente a Lagrange",
+    title_en: "Fourier's Rebellion against Lagrange",
+    desc: `Cuando Joseph Fourier presentó por primera vez (en 1807) su audaz teoría sobre la conducción del calor, la vieja guardia de las matemáticas francesas se le echó encima. Joseph-Louis Lagrange y Pierre-Simon Laplace rechazaron tajantemente su uso de "series trigonométricas" (hoy Series de Fourier), argumentando que carecían de rigor y no podían representar funciones con esquinas. A pesar de la humillación inicial, Fourier demostró estar en lo correcto, revolucionando para siempre las matemáticas aplicadas. Curiosamente, años más tarde, fue su leal protegido y alumno, Claude-Louis Navier, quien defendió y publicó póstumamente el trabajo final de Fourier.`,
+    desc_en: `When Joseph Fourier first presented (in 1807) his bold theory on heat conduction, the old guard of French mathematics attacked him. Joseph-Louis Lagrange and Pierre-Simon Laplace flatly rejected his use of "trigonometric series" (today Fourier Series), arguing they lacked rigor and could not represent functions with corners. Despite the initial humiliation, Fourier proved to be correct, permanently revolutionizing applied mathematics. Interestingly, years later, it was his leal protege and student, Claude-Louis Navier, who defended and posthumously published Fourier's final work.`
+  },
+  {
+    id: "biot-laplace-fourier",
+    year: "1804 - 1807",
+    icon: "fa-satellite-dish",
+    color: "#38bdf8",
+    title: "Biot, Laplace y Fourier (Madrinazgo y Discordia)",
+    title_en: "Biot, Laplace, and Fourier (Mentorship and Discord)",
+    desc: `Pierre-Simon Laplace fue el gran mentor y protector de Jean-Baptiste Biot, encomendándole tareas clave como la revisión de su monumental <em>Mécanique Céleste</em> y apoyando su rápido ascenso en la Academia. Sin embargo, esta estrecha relación colocó a Biot en el centro del huracán cuando Joseph Fourier presentó sus primeras ideas sobre la conducción del calor en 1807. Respaldado por el rigor matemático purista de Laplace (quien insistía en soluciones exactas basadas en la mecánica de partículas), Biot cuestionó duramente el atrevido método matemático de Fourier de las "series trigonométricas", argumentando que carecía de formalismo físico. Esta rivalidad impidió que el tratado de Fourier se publicara durante quince años, evidenciando cómo el tutelaje de los grandes titanes como Laplace podía tanto impulsar carreras como sofocar la genialidad ajena.`,
+    desc_en: `Pierre-Simon Laplace was Jean-Baptiste Biot's great mentor and protector, commissioning him with key tasks like proofreading his monumental <em>Mécanique Céleste</em> and backing his rapid ascent in the Academy. However, this close relationship placed Biot in the eye of the storm when Joseph Fourier presented his early ideas on heat conduction in 1807. Armed with Laplace's purist mathematical rigor (which insisted on exact physical models based on particle mechanics), Biot heavily criticized Fourier's bold "trigonometric series" method, arguing it lacked physical formalism. This rivalry delayed the publication of Fourier's treatise by fifteen years, illustrating how the patronage of established titans like Laplace could both elevate careers and stifle outside genius.`
+  },
+  {
+    id: "carnot-clapeyron-clausius",
+    year: "1824 - 1850",
+    icon: "fa-handshake",
+    color: "#34d399",
+    title: "Carnot, Clapeyron y Clausius",
+    title_en: "Carnot, Clapeyron and Clausius",
+    desc: `Sadi Carnot murió muy joven de cólera y su genial obra maestra sobre los motores térmicos pasó totalmente desapercibida. Fue "rescatada" del olvido por Émile Clapeyron, quien la tradujo al lenguaje analítico. Años después, un brillante Rudolf Clausius leyó el trabajo de Clapeyron y unificó las ideas para formular la Segunda Ley de la Termodinámica.`,
+    desc_en: `Sadi Carnot died very young of cholera and his brilliant masterpiece on heat engines went completely unnoticed. It was "rescued" from oblivion by Émile Clapeyron, who translated it into analytical language. Years later, a brilliant Rudolf Clausius read Clapeyron's work and unified the ideas to formulate the Second Law of Thermodynamics.`
+  },
+  {
+    id: "stefan-boltzmann",
+    year: "1879 - 1884",
+    icon: "fa-chalkboard-teacher",
+    color: "#60a5fa",
+    title: "Josef Stefan y Ludwig Boltzmann",
+    title_en: "Josef Stefan and Ludwig Boltzmann",
+    desc: `Una de las relaciones maestro-pupilo más hermosas y prolíficas de la historia. Boltzmann fue estudiante de Stefan en la Universidad de Viena. Juntos, lograron el hito monumental de transformar la ley empírica de radiación de su maestro (Ley de Stefan) en una ley deducida puramente desde las entrañas matemáticas de la termodinámica estadística (Ley de Stefan-Boltzmann).`,
+    desc_en: `One of the most beautiful and productive mentor-pupil relationships in history. Boltzmann was Stefan's student at the University of Vienna. Together, they achieved the monumental milestone of transforming his teacher's radiation law (Stefan's Law) into a law derived purely from statistical thermodynamics (Stefan-Boltzmann Law).`
+  },
+  {
+    id: "prandtl-nusselt",
+    year: "1904 - 1915",
+    icon: "fa-water",
+    color: "#a78bfa",
+    title: "La Fundación Alemana (Prandtl y Nusselt)",
+    title_en: "The German Foundation (Prandtl and Nusselt)",
+    desc: `Wilhelm Nusselt no fue pupilo directo de Ludwig Prandtl, pero su monumental trabajo en el análisis dimensional de la transferencia de calor (1915) se montó directamente sobre los hombros de la recién nacida <em>Teoría de la Capa Límite</em> de Prandtl (1904). Juntos, aunque desde distintas universidades, formaron la "era dorada" de la mecánica de fluidos alemana.`,
+    desc_en: `Wilhelm Nusselt was not a direct pupil of Ludwig Prandtl, but his monumental work on dimensional analysis of heat transfer (1915) mounted directly on the shoulders of Prandtl's newly born <em>Boundary Layer Theory</em> (1904). Together, though from different universities, they formed the "golden age" of German fluid mechanics.`
+  },
+  {
+    id: "nusselt-dittus-boelter",
+    year: "1930",
+    icon: "fa-link",
+    color: "#f87171",
+    title: "De Alemania a Berkeley (Nusselt a Dittus-Boelter)",
+    title_en: "From Germany to Berkeley (Nusselt to Dittus-Boelter)",
+    desc: `Tras establecer Nusselt la relación matemática $Nu = f(Re, Pr)$, el testigo cruzó el océano hasta la Universidad de California, Berkeley. Allí, el profesor Llewellyn M. K. Boelter y su estudiante F. W. Dittus (1930) tomaron el armazón teórico de Nusselt y, tras exprimir montañas de datos experimentales, crearon la famosísima correlación empírica $Nu = 0.023 Re^{0.8} Pr^n$ que sigue torturando y salvando a estudiantes de ingeniería en todo el mundo.<br><br><div style="margin-top: 8px; display: flex; gap: 10px; align-items: center;"><div style="display: flex; flex-direction: column; align-items: center;"><img src="Dittus.jpg" style="width: 50px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2);" alt="F. W. Dittus"><span style="font-size: 0.65rem; color: #94a3b8; margin-top: 2px;">F. W. Dittus</span></div><div style="display: flex; flex-direction: column; align-items: center;"><img src="Llewellyn_M._K._Boelter.jpg" style="width: 50px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2);" alt="L. M. K. Boelter"><span style="font-size: 0.65rem; color: #94a3b8; margin-top: 2px;">L. M. K. Boelter</span></div></div>`,
+    desc_en: `After Nusselt established the mathematical relation $Nu = f(Re, Pr)$, the baton crossed the ocean to the University of California, Berkeley. There, Professor Llewellyn M. K. Boelter and his student F. W. Dittus (1930) took Nusselt's theoretical framework and, after extracting mountains of experimental data, created the famous empirical correlation $Nu = 0.023 Re^{0.8} Pr^n$ which continues to torture and save engineering students worldwide.<br><br><div style="margin-top: 8px; display: flex; gap: 10px; align-items: center;"><div style="display: flex; flex-direction: column; align-items: center;"><img src="Dittus.jpg" style="width: 50px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2);" alt="F. W. Dittus"><span style="font-size: 0.65rem; color: #94a3b8; margin-top: 2px;">F. W. Dittus</span></div><div style="display: flex; flex-direction: column; align-items: center;"><img src="Llewellyn_M._K._Boelter.jpg" style="width: 50px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2);" alt="L. M. K. Boelter"><span style="font-size: 0.65rem; color: #94a3b8; margin-top: 2px;">L. M. K. Boelter</span></div></div>`
+  },
+  {
+    id: "colburn-convection",
+    year: "Años 1930s",
+    icon: "fa-users",
+    color: "#f472b6",
+    title: "Colburn y la \"Escuela\" de la Convección",
+    title_en: "Colburn and the \"School\" of Convection",
+    desc: `Allan Colburn (un maestro devoto) y su equipo en la Universidad de Delaware crearon una verdadera escuela de pensamiento que entrenó a docenas de los mejores ingenieros del siglo XX. Mantenía correspondencia desde su cama de hospital con sus estudiantes, legando los métodos de convección que aún operan las refinerías del mundo hoy.`,
+    desc_en: `Allan Colburn (a devoted teacher) and his team at the University of Delaware created a true school of thought that trained dozens of the best engineers of the 20th century. He kept correspondence from his hospital bed with his students, leaving the convection methods that still operate the world's refineries today.`
+  }
+];
+
+window.abrirHistoria = function (storyId) {
+    const modal = document.getElementById("story-modal-" + storyId);
+    if (modal) {
+        modal.style.display = "flex";
+        setTimeout(() => modal.classList.add("show"), 10);
+        document.body.classList.add("body-lock");
+        
+        const bodyEl = modal.querySelector(".story-modal-body");
+        if (bodyEl && window.MathJax && window.MathJax.typesetPromise) {
+            window.MathJax.typesetPromise([bodyEl]).catch(err => console.log('MathJax story error:', err));
+        }
+    }
+};
+
+window.cerrarHistoria = function (storyId) {
+    const modal = document.getElementById("story-modal-" + storyId);
+    if (modal) {
+        modal.classList.remove("show");
+        setTimeout(() => {
+            modal.style.display = "none";
+        }, 300);
+        
+        const openModals = document.querySelectorAll(".story-modal-overlay.show");
+        if (openModals.length <= 1) {
+            document.body.classList.remove("body-lock");
+        }
+    }
+};
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        const activeModal = document.querySelector(".story-modal-overlay.show");
+        if (activeModal) {
+            const storyId = activeModal.id.replace("story-modal-", "");
+            window.cerrarHistoria(storyId);
+        }
+    }
+});
+
+document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("story-modal-overlay")) {
+        const storyId = e.target.id.replace("story-modal-", "");
+        window.cerrarHistoria(storyId);
+    }
+});
 
 window.currentLanguage = 'es';
 
@@ -1638,102 +1957,89 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
         relationsCard.style.boxShadow = "0 8px 30px rgba(139, 92, 246, 0.2)";
 
         if (window.currentLanguage === 'en') {
+            let storiesHtml = "";
+            connectionsStories.forEach(story => {
+                const titleVal = story.title_en;
+                const descVal = story.desc_en;
+                storiesHtml += `
+                    <div class="relations-subcard" style="border-left: 3px solid ${story.color};">
+                        <div>
+                            <div class="relations-subcard-meta"><i class="fas ${story.icon}" style="color: ${story.color};"></i> ${story.year}</div>
+                            <h4 class="relations-subcard-title" style="margin-top: 4px; margin-bottom: 8px;">${titleVal}</h4>
+                            <div style="font-size: 0.82rem; color: #cbd5e1; opacity: 0.9; line-height: 1.5; text-align: justify; margin-bottom: 12px;">${descVal}</div>
+                        </div>
+                        <button class="relations-subcard-btn" onclick="window.abrirHistoria('${story.id}')"><i class="fas fa-search-plus"></i> Expand Story</button>
+                    </div>
+                `;
+            });
+
             relationsCard.innerHTML = `
-                <div class="card-header" style="justify-content: center; border-bottom: 1px solid rgba(139, 92, 246, 0.2); padding-bottom: 10px;">
+                <div class="card-header" style="border-bottom: 1px solid rgba(139, 92, 246, 0.2); padding-bottom: 10px;">
                     <span class="card-year" style="color: #c4b5fd; background: rgba(139, 92, 246, 0.2); font-size: 1rem; padding: 6px 14px;"><i class="fas fa-network-wired"></i> Historical Connections Network</span>
                 </div>
                 <div style="margin-top: 15px; font-size: 0.9rem; color: #e2e8f0; line-height: 1.6;">
                     <p style="margin-bottom: 15px; font-style: italic; opacity: 0.9;">Science was not built in isolation. Behind the great equations, there are deep human relationships, intense rivalries, and unbreakable legacies from mentor to pupil:</p>
-                    <ul style="padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 14px;">
-                        <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #ef4444;">
-                            <strong><i class="fas fa-skull-crossbones" style="color: #ef4444; margin-right: 6px;"></i> Newton vs Hooke (The Total War) [~1670 - 1703]:</strong> The relationship between Isaac Newton and Robert Hooke is one of the most toxic feuds in the history of science. Hooke repeatedly accused Newton of plagiarizing his work on optics and gravity (the inverse square law). Newton's contempt was so visceral that he refused to publish his masterpiece (<em>Optics</em>) until Hooke died. It is said that when Newton became president of the Royal Society, he intentionally "lost" the only existing portrait of Hooke, condemning him to be faceless in history books. Newton's famous "humble" quote: <em>"If I have seen further it is by standing on the shoulders of Giants"</em>, is now widely considered a passive-aggressive jab mocking Hooke's short stature and hunched back.
-                        </li>
-                        <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #fbbf24;">
-                            <strong><i class="fas fa-bolt" style="color: #fbbf24; margin-right: 6px;"></i> The Newton - Bernoulli Rivalry [1696]:</strong> Isaac Newton and Johann Bernoulli fought a fierce intellectual duel. Bernoulli challenged Europe's mathematicians to solve the brachistochrone problem (the curve of fastest descent). Newton solved it in a single night anonymously. Upon reading it, Bernoulli instantly recognized his archrival, saying: <em>"I recognize the lion by his claw"</em>.
-                        </li>
-                        <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #f97316;">
-                            <strong><i class="fas fa-fire" style="color: #f97316; margin-right: 6px;"></i> The Bernoulli Family Civil War [1738]:</strong> The Bernoulli family produced brilliant but extremely jealous mathematicians. Johann Bernoulli competed to the death with his older brother Jacob, even stealing his ideas and publicly celebrating his death. However, his worst act was against his own son, Daniel Bernoulli. When Daniel published his revolutionary work <em>Hydrodynamica</em> (1738), Johann, consumed by envy, published his own book (<em>Hydraulica</em>), stole the ideas, and falsified the publication date to 1732 to make it look like his son had plagiarized him! He ended up throwing Daniel out of his own house.
-                        </li>
-                        <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #14b8a6;">
-                            <strong><i class="fas fa-gavel" style="color: #14b8a6; margin-right: 6px;"></i> Fourier's Rebellion against Lagrange [1807]:</strong> When Joseph Fourier first presented (in 1807) his bold theory on heat conduction, the old guard of French mathematics attacked him. Joseph-Louis Lagrange and Pierre-Simon Laplace flatly rejected his use of "trigonometric series" (today Fourier Series), arguing they lacked rigor and could not represent functions with corners. Despite the initial humiliation, Fourier proved to be correct, permanently revolutionizing applied mathematics. Interestingly, years later, it was his leal protege and student, Claude-Louis Navier, who defended and posthumously published Fourier's final work.
-                        </li>
-                        <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #34d399;">
-                            <strong><i class="fas fa-handshake" style="color: #34d399; margin-right: 6px;"></i> Carnot, Clapeyron and Clausius [1824 - 1850]:</strong> Sadi Carnot died very young of cholera and his brilliant masterpiece on heat engines went completely unnoticed. It was "rescued" from oblivion by Émile Clapeyron, who translated it into analytical language. Years later, a brilliant Rudolf Clausius read Clapeyron's work and unified the ideas to formulate the Second Law of Thermodynamics.
-                        </li>
-                        <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #60a5fa;">
-                            <strong><i class="fas fa-chalkboard-teacher" style="color: #60a5fa; margin-right: 6px;"></i> Josef Stefan and Ludwig Boltzmann [1879 - 1884]:</strong> One of the most beautiful and productive mentor-pupil relationships in history. Boltzmann was Stefan's student at the University of Vienna. Together, they achieved the monumental milestone of transforming his teacher's radiation law (Stefan's Law) into a law derived purely from statistical thermodynamics (Stefan-Boltzmann Law).
-                        </li>
-                        <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #a78bfa;">
-                            <strong><i class="fas fa-water" style="color: #a78bfa; margin-right: 6px;"></i> The German Foundation (Prandtl and Nusselt) [1904 - 1915]:</strong> Wilhelm Nusselt was not a direct pupil of Ludwig Prandtl, but his monumental work on dimensional analysis of heat transfer (1915) mounted directly on the shoulders of Prandtl's newly born <em>Boundary Layer Theory</em> (1904). Together, though from different universities, they formed the "golden age" of German fluid mechanics.
-                        </li>
-                        <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #f87171;">
-                            <strong><i class="fas fa-link" style="color: #f87171; margin-right: 6px;"></i> From Germany to Berkeley (Nusselt to Dittus-Boelter) [1930]:</strong> After Nusselt established the mathematical relation $Nu = f(Re, Pr)$, the baton crossed the ocean to the University of California, Berkeley. There, Professor Llewellyn M. K. Boelter and his student F. W. Dittus (1930) took Nusselt's theoretical framework and, after extracting mountains of experimental data, created the famous empirical correlation $Nu = 0.023 Re^{0.8} Pr^n$ which continues to torture and save engineering students worldwide.
-                            <div style="margin-top: 8px; display: flex; gap: 10px; align-items: center;">
-                                <div style="display: flex; flex-direction: column; align-items: center;">
-                                    <img src="Dittus.jpg" style="width: 50px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2);" alt="F. W. Dittus">
-                                    <span style="font-size: 0.65rem; color: #94a3b8; margin-top: 2px;">F. W. Dittus</span>
-                                </div>
-                                <div style="display: flex; flex-direction: column; align-items: center;">
-                                    <img src="Llewellyn_M._K._Boelter.jpg" style="width: 50px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2);" alt="L. M. K. Boelter">
-                                    <span style="font-size: 0.65rem; color: #94a3b8; margin-top: 2px;">L. M. K. Boelter</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #f472b6;">
-                            <strong><i class="fas fa-users" style="color: #f472b6; margin-right: 6px;"></i> Colburn and the "School" of Convection [1930s]:</strong> Allan Colburn (a devoted teacher) and his team at the University of Delaware created a true school of thought that trained dozens of the best engineers of the 20th century. He kept correspondence from his hospital bed with his students, leaving the convection methods that still operate the world's refineries today.
-                        </li>
-                    </ul>
+                    <div class="relations-grid">
+                        ${storiesHtml}
+                    </div>
                 </div>
             `;
         } else {
+            let storiesHtml = "";
+            connectionsStories.forEach(story => {
+                const titleVal = story.title;
+                const descVal = story.desc;
+                storiesHtml += `
+                    <div class="relations-subcard" style="border-left: 3px solid ${story.color};">
+                        <div>
+                            <div class="relations-subcard-meta"><i class="fas ${story.icon}" style="color: ${story.color};"></i> ${story.year}</div>
+                            <h4 class="relations-subcard-title" style="margin-top: 4px; margin-bottom: 8px;">${titleVal}</h4>
+                            <div style="font-size: 0.82rem; color: #cbd5e1; opacity: 0.9; line-height: 1.5; text-align: justify; margin-bottom: 12px;">${descVal}</div>
+                        </div>
+                        <button class="relations-subcard-btn" onclick="window.abrirHistoria('${story.id}')"><i class="fas fa-search-plus"></i> Ampliar Historia</button>
+                    </div>
+                `;
+            });
+
             relationsCard.innerHTML = `
-                <div class="card-header" style="justify-content: center; border-bottom: 1px solid rgba(139, 92, 246, 0.2); padding-bottom: 10px;">
+                <div class="card-header" style="border-bottom: 1px solid rgba(139, 92, 246, 0.2); padding-bottom: 10px;">
                     <span class="card-year" style="color: #c4b5fd; background: rgba(139, 92, 246, 0.2); font-size: 1rem; padding: 6px 14px;"><i class="fas fa-network-wired"></i> Red de Conexiones Históricas</span>
                 </div>
                 <div style="margin-top: 15px; font-size: 0.9rem; color: #e2e8f0; line-height: 1.6;">
                     <p style="margin-bottom: 15px; font-style: italic; opacity: 0.9;">La ciencia no se construyó en aislamiento. Detrás de las grandes ecuaciones, existen relaciones humanas profundas, rivalidades intensas y legados inquebrantables de maestro a pupilo:</p>
-                    <ul style="padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 14px;">
-                        <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #ef4444;">
-                            <strong><i class="fas fa-skull-crossbones" style="color: #ef4444; margin-right: 6px;"></i> Newton contra Hooke (La Guerra Total) [~1670 - 1703]:</strong> La relación entre Isaac Newton y Robert Hooke es una de las enemistades más tóxicas de la historia de la ciencia. Hooke acusó repetidamente a Newton de plagiar su trabajo sobre la óptica y sobre la gravedad (la ley de la inversa del cuadrado). El desprecio de Newton era tan visceral que se negó a publicar su obra cumbre (<em>Óptica</em>) hasta que Hooke murió. Se cuenta que, al asumir la presidencia de la Royal Society tras la muerte de su rival, Newton "extravió" intencionalmente el único retrato que existía de Hooke, condenándolo a no tener rostro en los libros de historia. De hecho, la famosa y "humilde" frase de Newton: <em>"Si he visto más lejos, es poniéndome sobre hombros de gigantes"</em>, se considera hoy un insulto encubierto burlándose de la baja estatura y la espalda encorvada de Hooke.
-                        </li>
-                        <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #fbbf24;">
-                            <strong><i class="fas fa-bolt" style="color: #fbbf24; margin-right: 6px;"></i> La Rivalidad Newton - Bernoulli [1696]:</strong> Isaac Newton y Johann Bernoulli mantuvieron un fiero duelo intelectual. Bernoulli retó a los matemáticos de Europa a resolver el problema de la braquistócrona (la curva de descenso más rápido). Newton lo resolvió en una sola noche de forma anónima. Al leerlo, Bernoulli reconoció al instante a su archirrival diciendo: <em>"Reconozco al león por su garra"</em>.
-                        </li>
-                        <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #f97316;">
-                            <strong><i class="fas fa-fire" style="color: #f97316; margin-right: 6px;"></i> La Guerra Civil de los Bernoulli [1738]:</strong> La familia Bernoulli produjo matemáticos brillantes, pero extremadamente celosos. Johann Bernoulli compitió a muerte con su hermano mayor Jacob, llegando a robarle ideas y celebrando públicamente su muerte. Sin embargo, su peor acto fue contra su propio hijo, Daniel Bernoulli. Cuando Daniel publicó su revolucionaria obra <em>Hydrodynamica</em> (1738), Johann, consumido por la envidia ante el éxito de su hijo, publicó su propio libro (<em>Hydraulica</em>), le robó las ideas, ¡y falsificó la fecha de publicación al año 1732 para que pareciera que su hijo le había plagiado a él! Johann terminó expulsando a Daniel de su propia casa.
-                        </li>
-                        <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #14b8a6;">
-                            <strong><i class="fas fa-gavel" style="color: #14b8a6; margin-right: 6px;"></i> La Rebelión de Fourier frente a Lagrange [1807]:</strong> Cuando Joseph Fourier presentó por primera vez (en 1807) su audaz teoría sobre la conducción del calor, la vieja guardia de las matemáticas francesas se le echó encima. Joseph-Louis Lagrange y Pierre-Simon Laplace rechazaron tajantemente su uso de "series trigonométricas" (hoy Series de Fourier), argumentando que carecían de rigor y no podían representar funciones con esquinas. A pesar de la humillación inicial, Fourier demostró estar en lo correcto, revolucionando para siempre las matemáticas aplicadas. Curiosamente, años más tarde, fue su leal protegido y alumno, Claude-Louis Navier, quien defendió y publicó póstumamente el trabajo final de Fourier.
-                        </li>
-                        <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #34d399;">
-                            <strong><i class="fas fa-handshake" style="color: #34d399; margin-right: 6px;"></i> Carnot, Clapeyron y Clausius [1824 - 1850]:</strong> Sadi Carnot murió muy joven de cólera y su genial obra maestra sobre los motores térmicos pasó totalmente desapercibida. Fue "rescatada" del olvido por Émile Clapeyron, quien la tradujo al lenguaje analítico. Años después, un brillante Rudolf Clausius leyó el trabajo de Clapeyron y unificó las ideas para formular la Segunda Ley de la Termodinámica.
-                        </li>
-                        <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #60a5fa;">
-                            <strong><i class="fas fa-chalkboard-teacher" style="color: #60a5fa; margin-right: 6px;"></i> Josef Stefan y Ludwig Boltzmann [1879 - 1884]:</strong> Una de las relaciones maestro-pupilo más hermosas y prolíficas de la historia. Boltzmann fue estudiante de Stefan en la Universidad de Viena. Juntos, lograron el hito monumental de transformar la ley empírica de radiación de su maestro (Ley de Stefan) en una ley deducida puramente desde las entrañas matemáticas de la termodinámica estadística (Ley de Stefan-Boltzmann).
-                        </li>
-                        <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #a78bfa;">
-                            <strong><i class="fas fa-water" style="color: #a78bfa; margin-right: 6px;"></i> La Fundación Alemana (Prandtl y Nusselt) [1904 - 1915]:</strong> Wilhelm Nusselt no fue pupilo directo de Ludwig Prandtl, pero su monumental trabajo en el análisis dimensional de la transferencia de calor (1915) se montó directamente sobre los hombros de la recién nacida <em>Teoría de la Capa Límite</em> de Prandtl (1904). Juntos, aunque desde distintas universidades, formaron la "era dorada" de la mecánica de fluidos alemana.
-                        </li>
-                        <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #f87171;">
-                            <strong><i class="fas fa-link" style="color: #f87171; margin-right: 6px;"></i> De Alemania a Berkeley (Nusselt a Dittus-Boelter) [1930]:</strong> Tras establecer Nusselt la relación matemática $Nu = f(Re, Pr)$, el testigo cruzó el océano hasta la Universidad de California, Berkeley. Allí, el profesor Llewellyn M. K. Boelter y su estudiante F. W. Dittus (1930) tomaron el armazón teórico de Nusselt y, tras exprimir montañas de datos experimentales, crearon la famosísima correlación empírica $Nu = 0.023 Re^{0.8} Pr^n$ que sigue torturando y salvando a estudiantes de ingeniería en todo el mundo.
-                            <div style="margin-top: 8px; display: flex; gap: 10px; align-items: center;">
-                                <div style="display: flex; flex-direction: column; align-items: center;">
-                                    <img src="Dittus.jpg" style="width: 50px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2);" alt="F. W. Dittus">
-                                    <span style="font-size: 0.65rem; color: #94a3b8; margin-top: 2px;">F. W. Dittus</span>
-                                </div>
-                                <div style="display: flex; flex-direction: column; align-items: center;">
-                                    <img src="Llewellyn_M._K._Boelter.jpg" style="width: 50px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2);" alt="L. M. K. Boelter">
-                                    <span style="font-size: 0.65rem; color: #94a3b8; margin-top: 2px;">L. M. K. Boelter</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid #f472b6;">
-                            <strong><i class="fas fa-users" style="color: #f472b6; margin-right: 6px;"></i> Colburn y la "Escuela" de la Convección [Años 1930s]:</strong> Allan Colburn (un maestro devoto) y su equipo en la Universidad de Delaware crearon una verdadera escuela de pensamiento que entrenó a docenas de los mejores ingenieros del siglo XX. Mantenía correspondencia desde su cama de hospital con sus estudiantes, legando los métodos de convección que aún operan las refinerías del mundo hoy.
-                        </li>
-                    </ul>
+                    <div class="relations-grid">
+                        ${storiesHtml}
+                    </div>
                 </div>
             `;
         }
+        
+        // Clean up previous story modals if any
+        document.querySelectorAll(".story-modal-overlay").forEach(el => el.remove());
+        
+        // Append story modals to body
+        connectionsStories.forEach(story => {
+            const modalEl = document.createElement("div");
+            modalEl.id = `story-modal-${story.id}`;
+            modalEl.className = "story-modal-overlay";
+            
+            const titleVal = window.currentLanguage === 'en' ? story.title_en : story.title;
+            const descVal = window.currentLanguage === 'en' ? story.desc_en : story.desc;
+            
+            modalEl.innerHTML = `
+                <div class="story-modal-content">
+                    <div class="story-modal-header">
+                        <h3 class="story-modal-title"><i class="fas ${story.icon}" style="color: ${story.color}; margin-right: 8px;"></i> ${titleVal} [${story.year}]</h3>
+                        <span class="story-modal-close" onclick="window.cerrarHistoria('${story.id}')">&times;</span>
+                    </div>
+                    <div class="story-modal-body">
+                        ${descVal}
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modalEl);
+        });
+
         container.appendChild(relationsCard);
     }
 
@@ -12376,10 +12682,10 @@ function initTransientSimulation() {
     const regimeNote = document.getElementById("transient-regime-note");
 
     const canvas = document.getElementById("transientCanvas");
-    if (!canvas) return;
+    const chartCanvas = document.getElementById("transientChart");
+    if (!canvas || !chartCanvas) return;
     const ctx = canvas.getContext("2d");
-
-    const chartCtx = document.getElementById("transientChart");
+    const chartCtx = chartCanvas.getContext("2d");
 
     // ── Material presets (rho & cp for thermal mass; k overridable by slider) ──
     const Materials = {
@@ -12733,8 +13039,8 @@ function initTransientSimulation() {
             valKType.style.borderColor = `${color}66`;
         }
 
-        valBi.textContent = Bi.toFixed(4);
-        valFo.textContent = Fo.toFixed(4);
+        valBi.textContent = Bi.toFixed(2);
+        valFo.textContent = Fo.toFixed(2);
         valT0.textContent = T[0].toFixed(1) + " °C";
         valTs.textContent = T[N].toFixed(1) + " °C";
 
@@ -12750,10 +13056,10 @@ function initTransientSimulation() {
         // Regime descriptive note
         if (Bi < 0.1) {
             regimeNote.style.borderLeftColor = 'var(--accent-emerald)';
-            regimeNote.innerHTML = `<strong>Método de Capacitancia Global válido (Bi = ${Bi.toFixed(4)} < 0.1)</strong>.<br>La resistencia interna es despreciable. La temperatura del cuerpo es prácticamente uniforme y decrece de forma exponencial pura.`;
+            regimeNote.innerHTML = `<strong>Método de Capacitancia Global válido (Bi = ${Bi.toFixed(2)} < 0.1)</strong>.<br>La resistencia interna es despreciable. La temperatura del cuerpo es prácticamente uniforme y decrece de forma exponencial pura.`;
         } else {
             regimeNote.style.borderLeftColor = 'var(--accent-orange)';
-            regimeNote.innerHTML = `<strong>Gradientes internos importantes (Bi = ${Bi.toFixed(4)} > 0.1)</strong>.<br>Existe resistencia a la conducción interna. El centro (T0 = ${T[0].toFixed(1)}°C) permanece más caliente que la superficie (Ts = ${T[N].toFixed(1)}°C). Requiere soluciones espaciales completas.`;
+            regimeNote.innerHTML = `<strong>Gradientes internos importantes (Bi = ${Bi.toFixed(2)} > 0.1)</strong>.<br>Existe resistencia a la conducción interna. El centro (T₀ = ${T[0].toFixed(1)}°C) permanece más caliente que la superficie (T_s = ${T[N].toFixed(1)}°C). Requiere soluciones espaciales completas.`;
         }
     }
 

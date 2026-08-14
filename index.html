@@ -4080,7 +4080,7 @@
                                                 style="font-size:1.8rem; color:#ec4899; opacity:0.8; margin-top:2px;"></i>
                                             <div style="flex:1;">
                                                 <p id="foote-quote-text"
-                                                    style="font-size:0.95rem; font-style:italic; font-family:'Georgia', serif; line-height:1.45; color:#f1f5f9; margin-bottom:8px;">
+                                                    style="font-size:0.95rem; font-style:italic; font-family:var(--font-body); line-height:1.45; color:#f1f5f9; margin-bottom:8px;">
                                                 </p>
                                                 <div id="foote-conclusion-delta"
                                                     style="font-size:0.85rem; font-weight:bold; background:rgba(0,0,0,0.3); padding:8px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); color:#38bdf8;">
@@ -7922,50 +7922,41 @@
                             <p>Esta simulación interactiva presenta el calentamiento o enfriamiento transitorio
                                 unidimensional de un sólido geométrico sumergido en un fluido con convección. Permite
                                 estudiar la validez del método de capacitancia global (Biot &lt; 0.1) y el surgimiento
-                                de gradientes térmicos espaciales utilizando modelos numéricos en diferencias finitas en
-                                tiempo real.</p>
-                        </div>
-
-                        <div class="simulation-workspace">
+<div class="simulation-workspace">
                             <div style="display: flex; flex-direction: column; gap: 15px; width: 100%;">
                                 <!-- Row 1: Canvas for Temperature Heat Map and Chart.js for T(t) -->
-                                <div
-                                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; width: 100%;">
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; width: 100%;">
                                     <div class="canvas-card" style="display: flex; flex-direction: column; gap: 10px;">
                                         <h4 class="sim-subheading" style="margin: 0;"><i class="fas fa-palette"></i>
-                                            <span class="lang-es">Distribución de Temperatura (Mapa de Calor
-                                                2D)</span><span class="lang-en" style="display:none;">Temperature
-                                                Distribution (2D Heat Map)</span>
+                                            <span class="lang-es">Distribución de Temperatura (Mapa de Calor 2D)</span>
+                                            <span class="lang-en" style="display:none;">Temperature Distribution (2D Heat Map)</span>
                                         </h4>
-                                        <div
-                                            style="position: relative; background: var(--bg-dark); border-radius: 8px; border: 1px solid var(--panel-border); overflow: hidden; width: 100%; height: 320px;">
-                                            <canvas id="transientCanvas"
-                                                style="position: absolute; top: 0; left: 0; display: block; width: 100%; height: 100%;"></canvas>
+                                        <div class="canvas-container" style="height: 320px; position: relative; border-radius: 8px; overflow: hidden; background: #0f172a;">
+                                            <canvas id="transientCanvas" style="width: 100%; height: 100%; display: block;"></canvas>
                                         </div>
                                     </div>
                                     <div class="canvas-card" style="display: flex; flex-direction: column; gap: 10px;">
                                         <h4 class="sim-subheading" style="margin: 0;"><i class="fas fa-chart-line"></i>
-                                            <span class="lang-es">Evolución de Temperatura vs Tiempo</span><span
-                                                class="lang-en" style="display:none;">Evolution of Temperature vs
-                                                Time</span>
+                                            <span class="lang-es">Evolución de Temperatura vs Tiempo</span>
+                                            <span class="lang-en" style="display:none;">Evolution of Temperature vs Time</span>
                                         </h4>
-                                        <div
-                                            style="position: relative; background: var(--bg-dark); border-radius: 8px; border: 1px solid var(--panel-border); padding: 10px; width: 100%; height: 320px; display: flex; align-items: center; justify-content: center;">
-                                            <canvas id="transientChart" style="width: 100%; height: 100%;"></canvas>
+                                        <div class="chart-container" style="height: 320px; position: relative; background: var(--bg-dark); border-radius: 8px; border: 1px solid var(--panel-border); padding: 10px;">
+                                            <canvas id="transientChart" style="width: 100%; height: 100%; display: block;"></canvas>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Row 2: Parameters full-width horizontal panel -->
-                                <div class="controls-card"
-                                    style="width: 100%; display: flex; flex-direction: column; gap: 10px; margin-bottom: 5px;">
+                                <div class="controls-card" style="width: 100%; display: flex; flex-direction: column; gap: 10px; margin-bottom: 5px;">
                                     <h4 class="sim-subheading" style="margin: 0;"><i class="fas fa-sliders-h"></i> <span
                                             class="lang-es">Parámetros de Control</span><span class="lang-en"
                                             style="display:none;">Control Parameters</span></h4>
-                                    <div
-                                        style="display: flex; flex-direction: row; gap: 20px; width: 100%; align-items: flex-start; flex-wrap: wrap;">
-                                        <div class="control-group" style="flex: 1; min-width: 160px;">
-                                            <label for="transient-geometry">Geometría:</label>
+                                    
+                                    <div class="sliders-grid">
+                                        <div class="control-group">
+                                            <label for="transient-geometry" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                                <span class="lang-es">Geometría</span><span class="lang-en" style="display:none;">Geometry</span>
+                                            </label>
                                             <select id="transient-geometry" class="filter-select"
                                                 style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-primary); border-radius: 8px; width: 100%; padding: 8px; font-size: 0.8rem; margin-top: 5px;">
                                                 <option value="sphere" selected>Esfera</option>
@@ -7973,100 +7964,82 @@
                                                 <option value="slab">Placa Plana Infinita</option>
                                             </select>
                                         </div>
-                                        <div class="control-group" style="flex: 1; min-width: 160px;">
-                                            <label for="transient-material">Material (Preset):</label>
+                                        <div class="control-group">
+                                            <label for="transient-material" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                                <span class="lang-es">Material (Preset)</span><span class="lang-en" style="display:none;">Material (Preset)</span>
+                                            </label>
                                             <select id="transient-material" class="filter-select"
                                                 style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-primary); border-radius: 8px; width: 100%; padding: 8px; font-size: 0.8rem; margin-top: 5px;">
-                                                <option value="copper" selected>Cobre (k=401 W/mK)</option>
-                                                <option value="glass">Vidrio (k=1.4 W/mK)</option>
-                                                <option value="wood">Madera (k=0.15 W/mK)</option>
-                                                <option value="steel">Acero al C (k=50 W/mK)</option>
-                                                <option value="aluminum">Aluminio (k=237 W/mK)</option>
-                                                <option value="concrete">Hormigón (k=1.0 W/mK)</option>
-                                                <option value="aerogel">Aerogel (k=0.015 W/mK)</option>
+                                                <option value="copper" selected>Cobre ($k=401$ W/mK)</option>
+                                                <option value="glass">Vidrio ($k=1.4$ W/mK)</option>
+                                                <option value="wood">Madera ($k=0.15$ W/mK)</option>
+                                                <option value="steel">Acero al C ($k=50$ W/mK)</option>
+                                                <option value="aluminum">Aluminio ($k=237$ W/mK)</option>
+                                                <option value="concrete">Hormigón ($k=1.0$ W/mK)</option>
+                                                <option value="aerogel">Aerogel ($k=0.015$ W/mK)</option>
                                                 <option value="custom">Personalizado →</option>
                                             </select>
                                         </div>
-                                        <!-- Conductividad Térmica k con identificador dinámico -->
-                                        <div class="control-group" style="flex: 2; min-width: 260px;">
-                                            <label for="transient-k"
-                                                style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-                                                <span class="lang-es">Conductividad</span><span class="lang-en"
-                                                    style="display:none;">Conductivity</span>
-                                                <em style="font-style:normal;">(k):</em>
-                                                <strong><span id="transient-k-val">401</span> W/m·K</strong>
-                                                <span id="transient-k-type"
-                                                    style="font-size:0.68rem; padding:1px 7px; border-radius:10px; background:rgba(251,146,60,0.18); color:var(--accent-orange); font-weight:600; white-space:nowrap;">Cobre
-                                                    / Plata</span>
+                                        <div class="control-group">
+                                            <label for="transient-k" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                                <span><span class="lang-es">Conductividad</span><span class="lang-en" style="display:none;">Conductivity</span> ($k$):</span>
+                                                <span style="display: flex; align-items: center; gap: 6px;">
+                                                    <strong><span id="transient-k-val">401</span> W/m·K</strong>
+                                                    <span id="transient-k-type" style="font-size:0.68rem; padding:1px 7px; border-radius:10px; background:rgba(251,146,60,0.18); color:var(--accent-orange); font-weight:600; white-space:nowrap;">Cobre / Plata</span>
+                                                </span>
                                             </label>
-                                            <input type="range" id="transient-k" min="0.001" max="4000" step="0.001"
-                                                value="401" style="width: 100%; margin-top: 8px;">
+                                            <input type="range" id="transient-k" min="0.001" max="4000" step="0.001" value="401" style="width: 100%; margin-top: 8px;">
                                         </div>
-                                        <!-- Densidad rho -->
-                                        <div class="control-group" style="flex: 2; min-width: 200px;">
-                                            <label for="transient-rho">
-                                                <span class="lang-es">Densidad</span><span class="lang-en"
-                                                    style="display:none;">Density</span>
-                                                <em style="font-style:normal;">(&rho;):</em>
+                                        <div class="control-group">
+                                            <label for="transient-rho" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                                <span><span class="lang-es">Densidad</span><span class="lang-en" style="display:none;">Density</span> ($\rho$):</span>
                                                 <strong><span id="transient-rho-val">8933</span> kg/m³</strong>
                                             </label>
-                                            <input type="range" id="transient-rho" min="10" max="20000" step="10"
-                                                value="8933" style="width: 100%; margin-top: 8px;">
+                                            <input type="range" id="transient-rho" min="1" max="20000" step="1" value="8933" style="width: 100%; margin-top: 8px;">
                                         </div>
-                                        <!-- Calor específico cp -->
-                                        <div class="control-group" style="flex: 2; min-width: 200px;">
-                                            <label for="transient-cp">
-                                                <span class="lang-es">Calor Específico</span><span class="lang-en"
-                                                    style="display:none;">Specific Heat</span>
-                                                <em style="font-style:normal;">(c_p):</em>
+                                        <div class="control-group">
+                                            <label for="transient-cp" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                                <span><span class="lang-es">Calor Específico</span><span class="lang-en" style="display:none;">Specific Heat</span> ($c_p$):</span>
                                                 <strong><span id="transient-cp-val">385</span> J/kg·K</strong>
                                             </label>
-                                            <input type="range" id="transient-cp" min="10" max="5000" step="10"
-                                                value="385" style="width: 100%; margin-top: 8px;">
+                                            <input type="range" id="transient-cp" min="1" max="5000" step="1" value="385" style="width: 100%; margin-top: 8px;">
                                         </div>
-                                        <div class="control-group" style="flex: 2; min-width: 250px;">
-                                            <label for="transient-h"><span class="lang-es">Coef. Convección
-                                                    (h):</span><span class="lang-en" style="display:none;">Coef.
-                                                    Convection (h):</span> <span id="transient-h-val">50</span> <span
-                                                    class="lang-es">W/m²K</span><span class="lang-en"
-                                                    style="display:none;">W/m²K</span></label>
-                                            <input type="range" id="transient-h" min="1" max="100000" step="1"
-                                                value="50" style="width: 100%; margin-top: 8px;">
+                                        <div class="control-group">
+                                            <label for="transient-h" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                                <span><span class="lang-es">Coef. Convección</span><span class="lang-en" style="display:none;">Convection Coef.</span> ($h$):</span>
+                                                <strong><span id="transient-h-val">50</span> W/m²K</strong>
+                                            </label>
+                                            <input type="range" id="transient-h" min="1" max="100000" step="1" value="50" style="width: 100%; margin-top: 8px;">
                                         </div>
-                                        <div class="control-group" style="flex: 2; min-width: 250px;">
-                                            <label for="transient-size"><span class="lang-es">Dimensión Característica
-                                                    (D o 2L):</span><span class="lang-en"
-                                                    style="display:none;">Characteristic Dimension (D or 2L):</span>
-                                                <span id="transient-size-val">0.10</span> m</label>
-                                            <input type="range" id="transient-size" min="0.002" max="2.0" step="0.002"
-                                                value="0.10" style="width: 100%; margin-top: 8px;">
+                                        <div class="control-group">
+                                            <label for="transient-size" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                                <span><span class="lang-es">Dimensión Característica</span><span class="lang-en" style="display:none;">Characteristic Dimension</span> ($L_c$):</span>
+                                                <strong><span id="transient-size-val">0.10</span> m</strong>
+                                            </label>
+                                            <input type="range" id="transient-size" min="0.001" max="1.0" step="0.001" value="0.10" style="width: 100%; margin-top: 8px;">
                                         </div>
-                                        <div class="control-group" style="flex: 1; min-width: 120px;">
-                                            <label for="transient-ti"><span class="lang-es">Temp. Inicial
-                                                    (Ti):</span><span class="lang-en" style="display:none;">Temp.
-                                                    Initial (Ti):</span> <span id="transient-ti-val">100</span>
-                                                °C</label>
-                                            <input type="range" id="transient-ti" min="-200" max="2000" step="1"
-                                                value="100" style="width: 100%; margin-top: 8px;">
+                                        <div class="control-group">
+                                            <label for="transient-ti" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                                <span><span class="lang-es">Temp. Inicial</span><span class="lang-en" style="display:none;">Initial Temp.</span> ($T_i$):</span>
+                                                <strong><span id="transient-ti-val">100</span> °C</strong>
+                                            </label>
+                                            <input type="range" id="transient-ti" min="-200" max="2000" step="1" value="100" style="width: 100%; margin-top: 8px;">
                                         </div>
-                                        <div class="control-group" style="flex: 1; min-width: 120px;">
-                                            <label for="transient-tinf"><span class="lang-es">Temp. Fluido
-                                                    (Tinf):</span><span class="lang-en" style="display:none;">Temp.
-                                                    Fluid (Tinf):</span> <span id="transient-tinf-val">20</span>
-                                                °C</label>
-                                            <input type="range" id="transient-tinf" min="-200" max="2000" step="1"
-                                                value="20" style="width: 100%; margin-top: 8px;">
+                                        <div class="control-group">
+                                            <label for="transient-tinf" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                                <span><span class="lang-es">Temp. Fluido</span><span class="lang-en" style="display:none;">Fluid Temp.</span> ($T_\infty$):</span>
+                                                <strong><span id="transient-tinf-val">20</span> °C</strong>
+                                            </label>
+                                            <input type="range" id="transient-tinf" min="-200" max="2000" step="1" value="20" style="width: 100%; margin-top: 8px;">
                                         </div>
-                                        <div class="control-group" style="flex: 2; min-width: 180px;">
-                                            <label for="transient-speed"><span class="lang-es">Velocidad
-                                                    Simulación:</span><span class="lang-en"
-                                                    style="display:none;">Simulation Speed:</span> <span
-                                                    id="transient-speed-val">1</span>x</label>
-                                            <input type="range" id="transient-speed" min="1" max="200" step="1"
-                                                value="1" style="width: 100%; margin-top: 8px;">
+                                        <div class="control-group">
+                                            <label for="transient-speed" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                                <span><span class="lang-es">Velocidad Simulación</span><span class="lang-en" style="display:none;">Simulation Speed</span>:</span>
+                                                <strong><span id="transient-speed-val">1</span>x</strong>
+                                            </label>
+                                            <input type="range" id="transient-speed" min="1" max="200" step="1" value="1" style="width: 100%; margin-top: 8px;">
                                         </div>
-                                        <div class="control-group"
-                                            style="flex: 1; min-width: 120px; align-self: center; margin-top: 15px;">
+                                        <div class="control-group" style="grid-column: span 2; display: flex; justify-content: center; align-items: center; border: none; background: none; padding: 0; margin-top: 5px;">
                                             <button id="transient-reset-btn" class="btn-clear"
                                                 style="padding: 10px 15px; border-radius: 8px; width: 100%; font-weight: bold; background: var(--accent-orange); color: white; border: none; cursor: pointer; transition: var(--transition-smooth);"><i
                                                     class="fas fa-redo"></i> Iniciar</button>
@@ -8077,13 +8050,12 @@
                                 <!-- Row 3: Results and Context in horizontal rows -->
                                 <div style="display: flex; flex-direction: column; gap: 15px; width: 100%;">
                                     <!-- Metric cards in a single row -->
-                                    <div
-                                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; width: 100%;">
+                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; width: 100%;">
                                         <div class="result-card"
                                             style="padding: 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 70px;">
                                             <div
                                                 style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 4px;">
-                                                Número de Biot (Bi)</div>
+                                                Número de Biot ($Bi$)</div>
                                             <div
                                                 style="font-size: 1.1rem; font-weight: bold; color: var(--text-primary);">
                                                 <span id="transient-bi-val">--</span>
@@ -8093,7 +8065,7 @@
                                             style="padding: 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 70px;">
                                             <div
                                                 style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 4px;">
-                                                Número de Fourier (Fo)</div>
+                                                Número de Fourier ($Fo$)</div>
                                             <div
                                                 style="font-size: 1.1rem; font-weight: bold; color: var(--accent-orange);">
                                                 <span id="transient-fo-val">--</span>
@@ -8103,7 +8075,7 @@
                                             style="padding: 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 70px;">
                                             <div
                                                 style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 4px;">
-                                                Temp. del Centro (T0)</div>
+                                                Temp. del Centro ($T_0$)</div>
                                             <div
                                                 style="font-size: 1.1rem; font-weight: bold; color: var(--accent-cyan);">
                                                 <span id="transient-t0-val">--</span>
@@ -8113,7 +8085,7 @@
                                             style="padding: 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 70px;">
                                             <div
                                                 style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 4px;">
-                                                Temp. de la Superficie (Ts)</div>
+                                                Temp. de la Superficie ($T_s$)</div>
                                             <div
                                                 style="font-size: 1.1rem; font-weight: bold; color: var(--text-primary);">
                                                 <span id="transient-ts-val">--</span>
@@ -8123,7 +8095,7 @@
                                             style="padding: 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 70px;">
                                             <div
                                                 style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 4px;">
-                                                Fracción Perdida (Q/Q0)</div>
+                                                Fracción Perdida ($Q/Q_0$)</div>
                                             <div
                                                 style="font-size: 1.1rem; font-weight: bold; color: var(--text-primary);">
                                                 <span id="transient-q-val">--</span>
@@ -8133,7 +8105,7 @@
                                             style="padding: 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 70px;">
                                             <div
                                                 style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 4px;">
-                                                Tiempo Transcurrido (t)</div>
+                                                Tiempo Transcurrido ($t$)</div>
                                             <div
                                                 style="font-size: 1.1rem; font-weight: bold; color: var(--accent-cyan);">
                                                 <span id="transient-time-val">--</span>
@@ -8143,7 +8115,7 @@
                                             style="padding: 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 70px;">
                                             <div
                                                 style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 4px;">
-                                                Diferencia al Equilibrio (ΔTeq)</div>
+                                                Diferencia al Equilibrio ($\Delta T_{eq}$)</div>
                                             <div
                                                 style="font-size: 1.1rem; font-weight: bold; color: var(--accent-orange);">
                                                 <span id="transient-dteq-val">--</span>
@@ -8152,8 +8124,7 @@
                                     </div>
 
                                     <!-- Descriptions and Biot criteria note side-by-side -->
-                                    <div
-                                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; width: 100%;">
+                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; width: 100%;">
                                         <div id="transient-regime-note" class="result-card"
                                             style="font-size: 0.75rem; color: var(--text-secondary); border-left: 3px solid var(--accent-orange); padding: 12px; border-radius: var(--border-radius); display: flex; align-items: center; min-height: 80px; line-height: 1.45;">
                                             --
@@ -8161,13 +8132,8 @@
                                         <div class="result-card"
                                             style="padding: 12px; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.45; min-height: 80px;">
                                             <span style="font-weight: bold; color: var(--accent-cyan);"><i
-                                                    class="fas fa-info-circle"></i> <span class="lang-es">Interpretación
-                                                    Física:</span><span class="lang-en" style="display:none;">Physical
-                                                    Interpretation:</span></span>
-                                            Si $Bi &lt; 0.1$, la resistencia interna del sólido es despreciable. La
-                                            temperatura es uniforme espacialmente y el enfriamiento es puramente
-                                            exponencial. Si $Bi &gt; 0.1$, aparecen gradientes térmicos importantes, y
-                                            la superficie se enfría mucho más rápido que el núcleo interno.
+                                                    class="fas fa-info-circle"></i> <span class="lang-es">Interpretación Física:</span><span class="lang-en" style="display:none;">Physical Interpretation:</span></span>
+                                            Si $Bi &lt; 0.1$, la resistencia interna del sólido es despreciable. La temperatura es uniforme espacialmente y el enfriamiento es puramente exponencial. Si $Bi &gt; 0.1$, aparecen gradientes térmicos importantes, y la superficie se enfría mucho más rápido que el núcleo interno.
                                         </div>
                                     </div>
                                 </div>
@@ -10570,6 +10536,25 @@
                                     </div>
                                 </div>
                                 <div class="comment-card"
+                                    style="border: 1px solid rgba(56, 189, 248, 0.3); background: rgba(56, 189, 248, 0.05);">
+                                    <img class="comment-card-avatar"
+                                        src="Jean_baptiste_biot.jpg"
+                                        alt="Jean-Baptiste Biot" />
+                                    <div class="comment-card-content">
+                                        <div class="comment-card-header"
+                                            style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                            <div style="display: flex; align-items: center; flex-wrap: wrap;">
+                                                <span class="comment-author-name">Jean-Baptiste Biot</span>
+                                                <span
+                                                    style="font-size:0.7rem; color:var(--accent-cyan); background:rgba(56,189,248,0.15); padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:600;">Transient Conduction Pioneer</span>
+                                            </div>
+                                            <span class="comment-timestamp"
+                                                style="font-size: 0.7rem; opacity: 0.6;">1804</span>
+                                        </div>
+                                        <div class="comment-card-body" style="margin-top: 4px;">Establecí que la velocidad de enfriamiento de un cuerpo depende de la relación entre su resistencia térmica interna y la transferencia de calor en su superficie. ¡Es un honor ver mi número ($Bi$) representado de forma tan dinámica!</div>
+                                    </div>
+                                </div>
+                                <div class="comment-card"
                                     style="border: 1px solid rgba(6, 182, 212, 0.3); background: rgba(6, 182, 212, 0.05);">
                                     <img class="comment-card-avatar"
                                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Fourier2_-_restoration1.jpg/330px-Fourier2_-_restoration1.jpg"
@@ -10666,12 +10651,12 @@
                     style="color: var(--accent-orange); text-decoration: none;">felipe.colorado@udea.edu.co</a>
             </p>
             <p style="font-size: 0.75rem; margin-top: 8px; color: var(--text-secondary); opacity: 0.8;"><i
-                    class="far fa-clock"></i> <span class="lang-es">Versión 4.1 - Última actualización: <span
-                        id="last-updated-time">13 de agosto de 2026, 09:00</span> -
-                    Optimización de contraste para proyección y control personalizado en simulación
-                    transitoria.</span><span class="lang-en" style="display:none;">Version 4.1 - Last update: August 13,
-                    2026, 09:00 -
-                    Contrast optimization for projection and custom material controls in transient simulation.</span>
+                    class="far fa-clock"></i> <span class="lang-es">Versión 4.2 - Última actualización: <span
+                        id="last-updated-time">13 de agosto de 2026, 20:25</span> -
+                    Optimización de contraste para proyección, control personalizado en simulación
+                    transitoria e incorporación histórica de Jean-Baptiste Biot (1804).</span><span class="lang-en" style="display:none;">Version 4.2 - Last update: August 13,
+                    2026, 20:25 -
+                    Contrast optimization for projection, custom material controls in transient simulation, and historical incorporation of Jean-Baptiste Biot (1804).</span>
             </p>
             <div style="margin-top: 15px; text-align: center;">
                 <span class="lang-es"><img
