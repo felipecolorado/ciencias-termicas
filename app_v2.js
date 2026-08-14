@@ -2172,8 +2172,27 @@ function switchTab(tabId, disableTimelineSync = false) {
     document.querySelectorAll(".tab-pane").forEach(pane => {
         if (pane.getAttribute("id") === tabId) {
             pane.classList.add("active");
+            if (tabId === "multicapa-custom-sim") {
+                pane.style.setProperty('display', 'block', 'important');
+                pane.style.setProperty('visibility', 'visible', 'important');
+                pane.style.setProperty('opacity', '1', 'important');
+                pane.style.setProperty('height', 'auto', 'important');
+                pane.style.setProperty('position', 'relative', 'important');
+                pane.style.setProperty('z-index', '9999', 'important');
+                pane.style.setProperty('background', 'var(--bg-dark, #0f172a)', 'important');
+                setTimeout(() => pane.scrollIntoView({ behavior: 'smooth', block: 'start' }), 10);
+            }
         } else {
             pane.classList.remove("active");
+            if (pane.getAttribute("id") === "multicapa-custom-sim") {
+                pane.style.display = '';
+                pane.style.visibility = '';
+                pane.style.opacity = '';
+                pane.style.height = '';
+                pane.style.position = '';
+                pane.style.zIndex = '';
+                pane.style.background = '';
+            }
         }
     });
 
@@ -2257,6 +2276,28 @@ function switchTab(tabId, disableTimelineSync = false) {
                 newtonCanvas.height = h;
             }
         }, 80); // 80 ms > 50 ms del resize event, para que el DOM ya esté pintado
+    }
+
+    // FIX multicapa-custom-sim: inicialización diferida cuando el canvas ya tiene dimensiones reales
+    if (tabId === 'multicapa-custom-sim') {
+        setTimeout(() => {
+            // Si la inicialización falló al cargar (canvas en display:none), reintentar ahora
+            if (!window._multicapaInited) {
+                try {
+                    initMulticapaCustomSimulation();
+                } catch(e) {
+                    console.error('Error al inicializar Multicapa Custom:', e);
+                }
+            }
+            // Forzar resize de los gráficos
+            if (window.MulticapaLab && typeof window.MulticapaLab.resize === 'function') {
+                window.MulticapaLab.resize();
+            }
+            const activePane = document.getElementById(tabId);
+            if (activePane) {
+                activePane.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 80);
     }
 
     // FIX v2: Re-render MathJax equations for the newly visible tab pane
@@ -13687,10 +13728,20 @@ function initInsulatedSimulation() {
 
 
 function initMulticapaCustomSimulation() {
+    // Guardia: no re-inicializar si ya está activo
+    if (window._multicapaInited) return;
+
     const canvas = document.getElementById('customMultiCanvas');
     if (!canvas) return;
+
+    // Si el canvas no tiene dimensiones reales (tab oculto), diferir
+    if (canvas.offsetWidth === 0 && canvas.offsetHeight === 0) {
+        // El tab está oculto; la inicialización diferida se dispara desde switchTab
+        return;
+    }
+
     const ctx = canvas.getContext('2d');
-    let animTime = 0;
+    let animTime = 0, animId = null;
 
     const chartCanvas = document.getElementById('customMultiChart');
     if (!chartCanvas) return;
@@ -13869,17 +13920,18 @@ function initMulticapaCustomSimulation() {
 
     // Toggle BC inputs visibility
     function updateBcVisibility() {
+        if (!selectBcLType || !selectBcRType) return;
         const typeL = selectBcLType.value;
-        document.getElementById('cm-l-temp-group').style.display = typeL === 'temp' ? 'block' : 'none';
-        document.getElementById('cm-l-conv-group').style.display = (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') ? 'block' : 'none';
-        document.getElementById('cm-l-rad-group').style.display = (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux') ? 'block' : 'none';
-        document.getElementById('cm-l-flux-group').style.display = (typeL === 'flux' || typeL === 'comb-flux') ? 'block' : 'none';
+        const elLTemp = document.getElementById('cm-l-temp-group'); if (elLTemp) elLTemp.style.display = typeL === 'temp' ? 'block' : 'none';
+        const elLConv = document.getElementById('cm-l-conv-group'); if (elLConv) elLConv.style.display = (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') ? 'block' : 'none';
+        const elLRad = document.getElementById('cm-l-rad-group'); if (elLRad) elLRad.style.display = (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux') ? 'block' : 'none';
+        const elLFlux = document.getElementById('cm-l-flux-group'); if (elLFlux) elLFlux.style.display = (typeL === 'flux' || typeL === 'comb-flux') ? 'block' : 'none';
 
         const typeR = selectBcRType.value;
-        document.getElementById('cm-r-temp-group').style.display = typeR === 'temp' ? 'block' : 'none';
-        document.getElementById('cm-r-conv-group').style.display = (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') ? 'block' : 'none';
-        document.getElementById('cm-r-rad-group').style.display = (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux') ? 'block' : 'none';
-        document.getElementById('cm-r-flux-group').style.display = (typeR === 'flux' || typeR === 'comb-flux') ? 'block' : 'none';
+        const elRTemp = document.getElementById('cm-r-temp-group'); if (elRTemp) elRTemp.style.display = typeR === 'temp' ? 'block' : 'none';
+        const elRConv = document.getElementById('cm-r-conv-group'); if (elRConv) elRConv.style.display = (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') ? 'block' : 'none';
+        const elRRad = document.getElementById('cm-r-rad-group'); if (elRRad) elRRad.style.display = (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux') ? 'block' : 'none';
+        const elRFlux = document.getElementById('cm-r-flux-group'); if (elRFlux) elRFlux.style.display = (typeR === 'flux' || typeR === 'comb-flux') ? 'block' : 'none';
 
         // Update slider values spans
         const spansMap = [
@@ -13898,19 +13950,28 @@ function initMulticapaCustomSimulation() {
     }
 
     // Attach listeners to BC selectors and range inputs
-    [selectBcLType, selectBcRType].forEach(el => el.addEventListener('change', updateBcVisibility));
-    [
+    if (selectBcLType && selectBcRType) {
+        [selectBcLType, selectBcRType].forEach(el => el.addEventListener('change', updateBcVisibility));
+    }
+    const inputsToBind = [
         inputLTemp, inputLH, inputLTinf, inputLEps, inputLTsur, inputLFlux,
         inputRTemp, inputRH, inputRTinf, inputREps, inputRTsur, inputRFlux
-    ].forEach(el => el.addEventListener('input', updateBcVisibility));
+    ];
+    inputsToBind.forEach(el => {
+        if (el) el.addEventListener('input', updateBcVisibility);
+    });
 
-    selectLayersCount.addEventListener('change', renderLayersConfig);
+    if (selectLayersCount) {
+        selectLayersCount.addEventListener('change', renderLayersConfig);
+    }
 
     // Physics solver
     function solveSimulation() {
-        const typeL = selectBcLType.value;
-        const typeR = selectBcRType.value;
-        const N = layers.length;
+        try {
+            if (!selectBcLType || !selectBcRType) return;
+            const typeL = selectBcLType.value;
+            const typeR = selectBcRType.value;
+            const N = layers.length;
 
         // Calc total wall resistance
         let Rcond = 0.0;
@@ -13920,14 +13981,14 @@ function initMulticapaCustomSimulation() {
 
         // 1. Check for double flux boundary condition
         if (typeL === 'flux' && typeR === 'flux') {
-            const qL = parseFloat(inputLFlux.value);
-            const qR = parseFloat(inputRFlux.value);
+            const qL = inputLFlux ? parseFloat(inputLFlux.value) : 0;
+            const qR = inputRFlux ? parseFloat(inputRFlux.value) : 0;
             if (Math.abs(qL - qR) > 1.0) {
                 // Unstable / no steady state
                 if (alertBox) alertBox.style.display = 'flex';
-                lblRcond.innerText = Rcond.toFixed(4) + ' K/W';
-                lblRtot.innerText = '-- K/W';
-                lblQ.innerText = '-- W/m²';
+                if (lblRcond) lblRcond.innerText = Rcond.toFixed(4) + ' K/W';
+                if (lblRtot) lblRtot.innerText = '-- K/W';
+                if (lblQ) lblQ.innerText = '-- W/m²';
                 return;
             }
         }
@@ -13937,21 +13998,21 @@ function initMulticapaCustomSimulation() {
         // T is in Celsius, return heat flux (W/m^2) entering wall
         function getFluxLeft(T0) {
             if (typeL === 'temp') {
-                return (parseFloat(inputLTemp.value) - T0) / 1e-4; // large virtual h
+                return ((inputLTemp ? parseFloat(inputLTemp.value) : 100) - T0) / 1e-4; // large virtual h
             }
             let q = 0.0;
             if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') {
-                const hL = parseFloat(inputLH.value);
-                const tinfL = parseFloat(inputLTinf.value);
+                const hL = inputLH ? parseFloat(inputLH.value) : 20;
+                const tinfL = inputLTinf ? parseFloat(inputLTinf.value) : 150;
                 q += hL * (tinfL - T0);
             }
             if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux') {
-                const epsL = parseFloat(inputLEps.value);
-                const tsurL = parseFloat(inputLTsur.value);
+                const epsL = inputLEps ? parseFloat(inputLEps.value) : 0.85;
+                const tsurL = inputLTsur ? parseFloat(inputLTsur.value) : 150;
                 q += sigma * epsL * (Math.pow(tsurL + 273.15, 4) - Math.pow(T0 + 273.15, 4));
             }
             if (typeL === 'flux' || typeL === 'comb-flux') {
-                q += parseFloat(inputLFlux.value);
+                q += inputLFlux ? parseFloat(inputLFlux.value) : 500;
             }
             return q;
         }
@@ -13959,21 +14020,21 @@ function initMulticapaCustomSimulation() {
         // T is in Celsius, return heat flux (W/m^2) leaving wall
         function getFluxRight(TN) {
             if (typeR === 'temp') {
-                return (TN - parseFloat(inputRTemp.value)) / 1e-4;
+                return (TN - (inputRTemp ? parseFloat(inputRTemp.value) : 20)) / 1e-4;
             }
             let q = 0.0;
             if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') {
-                const hR = parseFloat(inputRH.value);
-                const tinfR = parseFloat(inputRTinf.value);
+                const hR = inputRH ? parseFloat(inputRH.value) : 20;
+                const tinfR = inputRTinf ? parseFloat(inputRTinf.value) : 10;
                 q += hR * (TN - tinfR);
             }
             if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux') {
-                const epsR = parseFloat(inputREps.value);
-                const tsurR = parseFloat(inputRTsur.value);
+                const epsR = inputREps ? parseFloat(inputREps.value) : 0.85;
+                const tsurR = inputRTsur ? parseFloat(inputRTsur.value) : 10;
                 q += sigma * epsR * (Math.pow(TN + 273.15, 4) - Math.pow(tsurR + 273.15, 4));
             }
             if (typeR === 'flux' || typeR === 'comb-flux') {
-                q += parseFloat(inputRFlux.value);
+                q += inputRFlux ? parseFloat(inputRFlux.value) : 500;
             }
             return q;
         }
@@ -13983,11 +14044,11 @@ function initMulticapaCustomSimulation() {
             if (typeL === 'temp') return -1e4;
             let dq = 0.0;
             if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') {
-                const hL = parseFloat(inputLH.value);
+                const hL = inputLH ? parseFloat(inputLH.value) : 20;
                 dq += -hL;
             }
             if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux') {
-                const epsL = parseFloat(inputLEps.value);
+                const epsL = inputLEps ? parseFloat(inputLEps.value) : 0.85;
                 dq += -4 * sigma * epsL * Math.pow(T0 + 273.15, 3);
             }
             return dq;
@@ -13997,11 +14058,11 @@ function initMulticapaCustomSimulation() {
             if (typeR === 'temp') return 1e4;
             let dq = 0.0;
             if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') {
-                const hR = parseFloat(inputRH.value);
+                const hR = inputRH ? parseFloat(inputRH.value) : 20;
                 dq += hR;
             }
             if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux') {
-                const epsR = parseFloat(inputREps.value);
+                const epsR = inputREps ? parseFloat(inputREps.value) : 0.85;
                 dq += 4 * sigma * epsR * Math.pow(TN + 273.15, 3);
             }
             return dq;
@@ -14012,10 +14073,10 @@ function initMulticapaCustomSimulation() {
         let TN_guess = 20.0;
 
         // Initialize guesses based on specifications if possible
-        if (typeL === 'temp') T0_guess = parseFloat(inputLTemp.value);
-        if (typeR === 'temp') TN_guess = parseFloat(inputRTemp.value);
-        if (typeL === 'conv') T0_guess = parseFloat(inputLTinf.value);
-        if (typeR === 'conv') TN_guess = parseFloat(inputRTinf.value);
+        if (typeL === 'temp' && inputLTemp) T0_guess = parseFloat(inputLTemp.value);
+        if (typeR === 'temp' && inputRTemp) TN_guess = parseFloat(inputRTemp.value);
+        if (typeL === 'conv' && inputLTinf) T0_guess = parseFloat(inputLTinf.value);
+        if (typeR === 'conv' && inputRTinf) TN_guess = parseFloat(inputRTinf.value);
 
         let converged = false;
 
@@ -14062,16 +14123,16 @@ function initMulticapaCustomSimulation() {
         // Calculate total resistance including boundary layers (if convection/combined is active)
         let Rtot = Rcond;
         if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') {
-            Rtot += 1.0 / parseFloat(inputLH.value);
+            Rtot += 1.0 / (inputLH ? parseFloat(inputLH.value) : 20);
         }
         if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') {
-            Rtot += 1.0 / parseFloat(inputRH.value);
+            Rtot += 1.0 / (inputRH ? parseFloat(inputRH.value) : 20);
         }
 
         // Update UI metrics
-        lblRcond.innerText = Rcond.toFixed(4) + ' K/W';
-        lblRtot.innerText = Rtot.toFixed(4) + ' K/W';
-        lblQ.innerText = qFlux.toFixed(1) + ' W/m²';
+        if (lblRcond) lblRcond.innerText = Rcond.toFixed(4) + ' K/W';
+        if (lblRtot) lblRtot.innerText = Rtot.toFixed(4) + ' K/W';
+        if (lblQ) lblQ.innerText = qFlux.toFixed(1) + ' W/m²';
 
         // Update Table
         let tableHtml = '';
@@ -14098,9 +14159,14 @@ function initMulticapaCustomSimulation() {
             if (idx < N) curX += layers[idx].L;
         });
 
-        customChart.data.datasets[0].data = chartData.map((t, idx) => ({ x: chartLabels[idx], y: t }));
-        customChart.options.scales.x.max = curX;
-        customChart.update('none');
+        if (customChart && customChart.data && customChart.data.datasets && customChart.data.datasets[0]) {
+            customChart.data.datasets[0].data = chartData.map((t, idx) => ({ x: chartLabels[idx], y: t }));
+            customChart.options.scales.x.max = curX;
+            customChart.update('none');
+        }
+        } catch (error) {
+            console.error("Error inside solveSimulation:", error);
+        }
     }
 
     // Canvas particle anim and flow diagram
@@ -14652,6 +14718,11 @@ function initMulticapaCustomSimulation() {
     if (selGraphX) selGraphX.addEventListener('change', updateParametricGraph);
     if (selGraphY) selGraphY.addEventListener('change', updateParametricGraph);
 
+    // Initial populate (debe ejecutarse ANTES de animLoop: puebla `T` vía solveSimulation()
+    // para que el primer frame de render() no lea temperaturas indefinidas)
+    renderLayersConfig();
+    updateBcVisibility();
+
     // Loop
     function animLoop() {
         animTime += 0.05;
@@ -14660,9 +14731,8 @@ function initMulticapaCustomSimulation() {
     }
     animLoop();
 
-    // Initial populate
-    renderLayersConfig();
-    updateBcVisibility();
+    // Marca la inicialización como completada para la guardia diferida
+    window._multicapaInited = true;
 }
 
 // ============================================================
