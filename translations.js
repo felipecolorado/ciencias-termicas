@@ -1,1603 +1,1604 @@
-íwíiínídíoíwí.íuíiíTíríaínísílíaítíiíoínísí í=í í{íí
-í í í"íMíuíríoí ídíeí íCíoímíeínítíaíríiíoísí"í:í í"íCíoímímíeínítí íWíaílílí"í,íí
-í í í"íVíeírí íDíeítíaílílíeísí"í:í í"íVíiíeíwí íDíeítíaíiílísí"í,íí
-í í í"íEílíiígíeí ítíuí íAívíaítíaírí ídíeí íCíiíeínítí�í�ífíiícíoí"í:í í"íCíhíoíoísíeí íyíoíuírí íSícíiíeínítíiísítí íAívíaítíaírí"í,íí
-í í í"íCíríeíaírí íCíuíeínítíaí"í:í í"íCíríeíaítíeí íAícícíoíuínítí"í,íí
-í í í"íIíníiícíiíaírí íSíeísíií�í�íní"í:í í"íSíiígíní íIíní"í,íí
-í í í"íCíeíríríaírí íSíeísíií�í�íní"í:í í"íSíiígíní íOíuítí"í,íí
-í í í"íPíuíbílíiícíaírí"í:í í"íPíoísítí"í,íí
-í í í"íEísícíríiíbíeí íuíní ícíoímíeínítíaíríiíoí íeíní íeílí ímíuíríoí"í:í í"íWíríiítíeí íaí ícíoímímíeínítí íoíní ítíhíeí íwíaílílí"í,íí
-í í í"íUísíuíaíríiíoí"í:í í"íUísíeírí"í,íí
-í í í"íAídímíiíníiísítíríaídíoírí"í:í í"íAídímíiíníiísítíríaítíoírí"í,íí
-í í í"íRíeígíiísítíríaírísíeí"í:í í"íRíeígíiísítíeírí"í,íí
-í í í"íAícícíeídíeírí"í:í í"íLíoígíiíní"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í$í$íNíuí_ídí í=í í3í.í6í6í$í$í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í$í$íNíuí_ídí í=í í3í.í6í6í$í$í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íCíoíríríeílíaícíií�í�íní ídíeí í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íCíoíríríeílíaítíiíoíní íoífí í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íRíeíqíuíiísíiítíoísí:í í$íRíeí_ídí í\í\ígíeí í1í0í0í0í0í$í,í í$íLí/íDí_íhí í\í\ígíeí í1í0í$í,í íyí í$í0í.í6í í\í\ílíeí íPírí í\í\ílíeí í1í6í0í$í.í íEíxípíoíníeínítíeí:í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íRíeíqíuíiíríeímíeínítísí:í í$íRíeí_ídí í\í\ígíeí í1í0í0í0í0í$í,í í$íLí/íDí_íhí í\í\ígíeí í1í0í$í,í íaínídí í$í0í.í6í í\í\ílíeí íPírí í\í\ílíeí í1í6í0í$í.í íEíxípíoíníeínítí:í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íSíií í$íBíií í<í í0í.í1í$í,í ílíaí íríeísíiísítíeínícíiíaí íiínítíeíríníaí ídíeílí ísí�í�ílíiídíoí íeísí ídíeísípíríeícíiíaíbílíeí.í íLíaí ítíeímípíeíríaítíuíríaí íeísí íuíníiífíoírímíeí íeísípíaícíiíaílímíeínítíeí íyí íeílí íeínífíríiíaímíiíeínítíoí íeísí ípíuíríaímíeínítíeí íeíxípíoíníeínícíiíaílí.í íSíií í$íBíií í>í í0í.í1í$í,í íaípíaíríeícíeíní ígíríaídíiíeínítíeísí ítí�í�írímíiícíoísí íiímípíoírítíaínítíeísí,í íyí ílíaí ísíuípíeírífíiícíiíeí ísíeí íeínífírí�í�íaí ímíuícíhíoí ímí�í�ísí írí�í�ípíiídíoí íqíuíeí íeílí íní�í�ícílíeíoí íiínítíeíríníoí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íIífí í$íBíií í<í í0í.í1í$í,í ítíhíeí íiínítíeíríníaílí íríeísíiísítíaínícíeí íoífí ítíhíeí ísíoílíiídí íiísí íníeígílíiígíiíbílíeí.í íTíhíeí ítíeímípíeíríaítíuíríeí íiísí ísípíaítíiíaílílíyí íuíníiífíoírímí íaínídí ítíhíeí ícíoíoílíiínígí íiísí ípíuíríeílíyí íeíxípíoíníeínítíiíaílí.í íIífí í$íBíií í>í í0í.í1í$í,í ísíiígíníiífíiícíaínítí ítíhíeírímíaílí ígíríaídíiíeínítísí íaípípíeíaírí,í íaínídí ítíhíeí ísíuírífíaícíeí ícíoíoílísí ímíuícíhí ífíaísítíeírí ítíhíaíní ítíhíeí íiíníníeírí ícíoíríeí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íAílí ísíuípíeíríaírí íeílí ífílíuíjíoí ícírí�í�ítíiícíoí í(íCíHíFí)í,í ílíaí ísíuípíeírífíiícíiíeí íníoí ípíuíeídíeí ísíoísítíeíníeírí ílíaí íeíbíuílílíiícíií�í�íní íníuícílíeíaídíaí íyí ílíaí ítíeímípíeíríaítíuíríaí ísíaílítíaí ídíeí ígíoílípíeí íaí ílíaí íríaímíaí ídíeí ípíeílí�í�ícíuílíaí ípíaíríaí ídíiísíiípíaírí ílíaí ímíiísímíaí ípíoítíeínícíiíaí.í íEísítíeí íiínícíríeímíeínítíoí íríeípíeínítíiíníoí ídíeí ítíeímípíeíríaítíuíríaí ípíuíeídíeí ífíuínídíiírí íeílí ímíeítíaílí ídíeílí ícíaílíeínítíaídíoírí í(í*í*íbíuíríníoíuítí*í*í)í.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íUípíoíní íeíxícíeíeídíiínígí ítíhíeí ícíríiítíiícíaílí ífílíuíxí í(íCíHíFí)í,í ítíhíeí ísíuírífíaícíeí ícíaíníníoítí ísíuísítíaíiíní íníuícílíeíaítíeí íbíoíiílíiínígí íaínídí ítíhíeí ítíeímípíeíríaítíuíríeí ísíuídídíeínílíyí íjíuímípísí ítíoí ítíhíeí ífíiílímí íbíríaínícíhí ítíoí ídíiísísíiípíaítíeí ítíhíeí ísíaímíeí ípíoíwíeírí.í íTíhíiísí ísíuídídíeíní íiínícíríeíaísíeí íiíní ítíeímípíeíríaítíuíríeí ícíaíní ímíeílítí ítíhíeí ímíeítíaílí íoífí ítíhíeí íhíeíaítíeírí í(í*í*íbíuíríníoíuítí*í*í)í.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í$í$í íTí(íKí)í í=í íTí(í�í�íCí)í í+í í2í7í3í.í1í5í í$í$í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í$í$í íTí(íKí)í í=í íTí(í�í�íCí)í í+í í2í7í3í.í1í5í í$í$í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íAí ívíeílíoícíiídíaídíeísí ídíeí ívíiíeínítíoí ícírí�í�ítíiícíaísí,í ílíaí ífíríeícíuíeínícíiíaí ídíeí ídíeísípíríeínídíiímíiíeínítíoí ídíeí íví�í�írítíiícíeísí ídíeí íVíoíní íKí�í�írímí�í�íní í(í$ífí í=í íSítí í\í\ícídíoítí íUí í/í íDí$í)í ígíeíníeírí�í�í ífíuíeírízíaísí ídíeí ísíuísítíeínítíaícíií�í�íní íaílítíeíríníaínítíeísí íqíuíeí ícíoíiínícíiídíiíeíríoíní ídíeí ífíoírímíaí íeíxíaícítíaí ícíoíní ílíaí ífíríeícíuíeínícíiíaí íníaítíuíríaílí ídíeí ítíoírísíií�í�íní ídíeí ílíaí ívíiígíaí ídíeílí ípíuíeínítíeí.í íEísítíoí ícíaíuísí�í�í íoísícíiílíaícíiíoíníeísí ídíeísítíríuícítíiívíaísí ímíaísíiívíaísí íaíuítíoíeíxícíiítíaídíaísí ípíoírí íríeísíoíníaínícíiíaí,í íqíuíeí ítíeírímíiíníaíríoíní ípíoírí ífíríaícítíuíríaírí ílíoísí ícíaíbílíeísí ídíeí ísíoípíoírítíeí ídíeí íaícíeíríoí íyí ícíoílíaípísíaírí ílíaí íeísítíríuícítíuíríaí ídíeí ílíaí ícíuíbíiíeírítíaí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íAítí ícíríiítíiícíaílí íwíiínídí ísípíeíeídísí,í ítíhíeí íVíoíní íKí�í�írímí�í�íní ívíoírítíeíxí ísíhíeídídíiínígí ífíríeíqíuíeínícíyí í(í$ífí í=í íSítí í\í\ícídíoítí íUí í/í íDí$í)í ígíeíníeíríaítíeídí íaílítíeíríníaítíiínígí ílíiífítí ífíoírícíeísí ítíhíaítí íeíxíaícítílíyí ímíaítícíhíeídí ítíhíeí íníaítíuíríaílí ítíwíiísítíiínígí ífíríeíqíuíeínícíyí íoífí ítíhíeí íbíríiídígíeí ígíiírídíeírí.í íTíhíiísí ícíaíuísíeídí ímíaísísíiívíeí ídíeísítíríuícítíiívíeí ísíeílífí-íeíxícíiítíeídí íríeísíoíníaínícíeí íoísícíiílílíaítíiíoínísí,í íwíhíiícíhí íuílítíiímíaítíeílíyí ífíríaícítíuíríeídí ítíhíeí ísítíeíeílí ísíuípípíoírítí ícíaíbílíeísí íaínídí ícíoílílíaípísíeídí ítíhíeí ídíeícíkí ísítíríuícítíuíríeí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íCíaíríníoítí ídíeímíoísítírí�í�í íqíuíeí ílíaí íeífíiícíiíeínícíiíaí ímí�í�íxíiímíaí ídíeí ícíuíaílíqíuíiíeírí ímíoítíoírí ítí�í�írímíiícíoí íqíuíeí íoípíeíríaí íeínítíríeí ídíoísí ífíuíeínítíeísí ídíeípíeínídíeí í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íCíaíríníoítí ísíhíoíwíeídí ítíhíaítí ítíhíeí ímíaíxíiímíuímí íeífífíiícíiíeínícíyí íoífí íaíníyí íhíeíaítí íeínígíiíníeí íoípíeíríaítíiínígí íbíeítíwíeíeíní ítíwíoí ísíoíuírícíeísí ídíeípíeínídísí í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íCíeísíií�í�íní ídíeí ícíaílíoírí íríeísíiídíuíaílí íaílí íaímíbíiíeínítíeí íaí ívíoílíuímíeíní ícíoínísítíaínítíeí íyí ípíoísítíeíríiíoírí íeíxípíuílísíií�í�íní ídíeí ílíoísí ígíaísíeísí íqíuíeímíaídíoísí ídíeí ílíaí ící�í�ímíaíríaí ípíoírí íeílí ícíoínídíuícítíoí ídíeí íeísícíaípíeí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íTíríaínísífíeírí íoífí íríeísíiídíuíaílí íhíeíaítí ítíoí ítíhíeí íeínívíiíríoínímíeínítí íaítí íaí ícíoínísítíaínítí ívíoílíuímíeí íaínídí ísíuíbísíeíqíuíeínítí íeíxípíuílísíiíoíní íoífí ítíhíeí íbíuíríníeídí ígíaísíeísí ífíríoímí ítíhíeí ícíhíaímíbíeírí ítíhíríoíuígíhí ítíhíeí íeíxíhíaíuísítí ídíuícítí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íCíuíríiíoísíaímíeínítíeí,í íCíaíríníoítí ídíeíríiíví�í�í íeísítíoí íuísíaínídíoí ílíaí í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íIínítíeíríeísítíiínígílíyí,í íCíaíríníoítí ídíeíríiívíeídí ítíhíiísí íuísíiínígí ítíhíeí í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íEílí í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íHíeí í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íEílí ícíoílíaípísíoí ícíaítíaísítírí�í�ífíiícíoí ídíeílí ípíuíeínítíeí íoíríiígíiíníaílí ídíeí í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íTíhíeí ícíaítíaísítíríoípíhíiící ícíoílílíaípísíeí íoífí ítíhíeí íoíríiígíiíníaílí íbíríiídígíeí í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íEílí í�í�íníiícíoí ívíaílíoírí íqíuíeí ílíoígíríaírí�í�íaí íeífíiícíiíeínícíiíaí ípíeírífíeícítíaí íeísí í$íTí_íCí í=í í0í$í.í íEísítíeí ícíeíríoí íníoí íeísí íuíníaí ícíoínívíeínícíií�í�íní íaíríbíiítíríaíríiíaí:í íeísí íuíní í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íTíhíeí íoínílíyí ívíaílíuíeí ítíhíaítí íwíoíuílídí íaícíhíiíeívíeí ípíeírífíeícítí íeífífíiícíiíeínícíyí íiísí í$íTí_íCí í=í í0í$í.í íTíhíiísí ízíeíríoí íiísí íníoítí íaíní íaíríbíiítíríaíríyí ícíoínívíeínítíiíoíní:í íiítí íiísí íaí í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íEísítíaídíoí:í í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íSítíaítíeí:í í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íEíxípíaínísíií�í�íní íiísíoíeínítírí�í�ípíiícíaí íoí ípíaírítíeí í�í�ítíiílí ídíeílí ícíiícílíoí íqíuíeí íeínítíríeígíaí ítíríaíbíaíjíoí íaílí ícíiígí�í�íeí�í�íaílí íaí ímíeídíiídíaí íqíuíeí ílíoísí ígíaísíeísí íqíuíeímíaídíoísí ísíeí íeíxípíaínídíeíní íyí íeímípíuíjíaíní íeílí ípíiísítí�í�íní.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íIísíeínítíríoípíiící íeíxípíaínísíiíoíní íoírí íuísíeífíuílí ípíaírítí íoífí ítíhíeí ícíyícílíeí ítíhíaítí ídíeílíiívíeírísí íwíoíríkí ítíoí ítíhíeí ícíríaíníkísíhíaífítí íaísí ítíhíeí íbíuíríníeídí ígíaísíeísí íeíxípíaínídí íaínídí ípíuísíhí ítíhíeí ípíiísítíoíní.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íKíeílívíiíní ípíríoípíuísíoí íuíníaí íeísícíaílíaí ídíeí ítíeímípíeíríaítíuíríaí íbíaísíaídíaí íeíní íeílí íríeínídíiímíiíeínítíoí ídíeí ímíoítíoíríeísí ídíeí íCíaíríníoítí,í í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íKíeílívíiíní ípíríoípíoísíeídí íaí ítíeímípíeíríaítíuíríeí ísícíaílíeí íbíaísíeídí íoíní ítíhíeí ípíeírífíoírímíaínícíeí íoífí íCíaíríníoítí íeínígíiíníeísí,í í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íLíeícítíuíríaí:í í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íRíeíaídíiínígí:í í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íNíeírínísítí í(í1í9í0í6í)í íyí íPílíaínícíkí ícíoímípílíeímíeínítíaíríoíní íeísítíoí ícíoíní ílíaí í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íNíeírínísítí í(í1í9í0í6í)í íaínídí íPílíaínícíkí ícíoímípílíeímíeínítíeídí ítíhíiísí íwíiítíhí ítíhíeí í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íSíeí íníeícíeísíiítíaírí�í�íaí íuíní íríeífíríiígíeíríaídíoírí íiínífíiíníiítíaímíeínítíeí íiíníeífíiícíiíeínítíeí ípíaíríaí íeíxítíríaíeírí íeílí í�í�ílítíiímíoí íbíiítí ídíeí ícíaílíoírí.í í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íIítí íwíoíuílídí ítíaíkíeí íaíní íiínífíiíníiítíeílíyí íiíníeífífíiícíiíeínítí íríeífíríiígíeíríaítíoírí ítíoí íeíxítíríaícítí ítíhíeí ílíaísítí íbíiítí íoífí íhíeíaítí.í í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íWíiílílíiíaímí íTíhíoímísíoíní í(íLíoírídí íKíeílívíiíní)í ísíeí ípíríeígíuínítí�í�í:í í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íWíiílílíiíaímí íTíhíoímísíoíní í(íLíoírídí íKíeílívíiíní)í íwíoínídíeíríeídí:í í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íDíoínídíeí:í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íWíhíeíríeí:í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íEílí ícíiílíiínídíríoí ísíeí í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íTíhíeí ícíyílíiínídíeírí íiísí í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íEílí ítíríaíbíaíjíoí ídíeí íWíaítítí ífíuíeí ípíuíríaímíeínítíeí íeímípí�í�íríiícíoí.í íSíoílíoí ídí�í�ícíaídíaísí ídíeísípíuí�í�ísí íCíaíríníoítí í(í1í8í2í4í)í ífíoírímíaílíiízíaírí�í�íaí ímíaítíeímí�í�ítíiícíaímíeínítíeí íqíuíeí ílíaí íeífíiícíiíeínícíiíaí ímí�í�íxíiímíaí íeínítíríeí íuíníaí ífíuíeínítíeí ícíaílíiíeínítíeí í$íTí_íHí$í íyí ífírí�í�íaí í$íTí_íCí$í íeísí í$í\í\íeítíaí í=í í1í í-í íTí_íCí/íTí_íHí$í.í íLíaí ímí�í�íqíuíiíníaí ídíeí íWíaítítí ísíeí íaícíeírící�í�í ímíuícíhíoí ímí�í�ísí íaí íeísíeí ílí�í�ímíiítíeí íaílí ímíiíníiímíiízíaírí ílíaísí ípí�í�írídíiídíaísí ípíoírí ícíaílíeínítíaímíiíeínítíoí/íeínífíríiíaímíiíeínítíoí ící�í�ícílíiícíoí ídíeílí ícíiílíiínídíríoí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íWíaítítí'ísí íwíoíríkí íwíaísí ípíuíríeílíyí íeímípíiíríiícíaílí.í íOínílíyí ídíeícíaídíeísí ílíaítíeírí íCíaíríníoítí í(í1í8í2í4í)í íwíoíuílídí ímíaítíhíeímíaítíiícíaílílíyí ífíoírímíaílíiízíeí ítíhíaítí ítíhíeí ímíaíxíiímíuímí íeífífíiícíiíeínícíyí íbíeítíwíeíeíní íaí íhíoítí ísíoíuírícíeí í$íTí_íHí$í íaínídí íaí ícíoílídí ísíoíuírícíeí í$íTí_íCí$í íiísí í$í\í\íeítíaí í=í í1í í-í íTí_íCí/íTí_íHí$í.í íWíaítítí'ísí ímíaícíhíiíníeí ícíaímíeí ímíuícíhí ícílíoísíeírí ítíoí ítíhíaítí ílíiímíiítí íbíyí ímíiíníiímíiízíiínígí ícíyícílíiícíaílí íhíeíaítíiínígí/ícíoíoílíiínígí ílíoísísíeísí íoífí ítíhíeí ícíyílíiínídíeírí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íLíaí ípíoítíeínícíiíaí ímíeící�í�íníiícíaí ímí�í�íxíiímíaí íaípíríoívíeícíhíaíbílíeí ídíeílí ícíhíoíríríoí ídíeí íaígíuíaí íeísí:í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íTíhíeí ímíaíxíiímíuímí íuísíaíbílíeí ímíeícíhíaíníiícíaílí ípíoíwíeírí íoífí ítíhíeí íwíaítíeírí íjíeítí íiísí:í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íWíaítítí ípíríoípíuísíoí ímíaínítíeíníeírí íeílí ícíiílíiínídíríoí ípíríiínícíiípíaílí í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í íWíaítítí ípíríoípíoísíeídí íkíeíeípíiínígí ítíhíeí ímíaíiíní ícíyílíiínídíeírí í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í�í�í�í í$í2í3í0í0í í\í\ílíeí íRíeí í\í\ílíeí í4í0í0í0í$í:í íTíríaínísíiícíií�í�íní í(íoísícíiílíaínítíeí)í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í�í�í�í í$í2í3í0í0í í\í\ílíeí íRíeí í\í\ílíeí í4í0í0í0í$í:í íTíríaínísíiítíiíoíní í(íoísícíiílílíaítíiínígí)í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í�í�í�í í$íRíeí í<í í2í3í0í0í$í:í íFílíuíjíoí íLíaímíiíníaírí í(íeísítíaíbílíeí)í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í�í�í�í í$íRíeí í<í í2í3í0í0í$í:í íLíaímíiíníaírí íFílíoíwí í(ísítíaíbílíeí)í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í�í�í�í í$íRíeí í>í í4í0í0í0í$í:í íFílíuíjíoí íTíuíríbíuílíeínítíoí í(ímíeízícílíaídíoí ícíoímípílíeítíoí)í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í�í�í�í í$íRíeí í>í í4í0í0í0í$í:í íTíuíríbíuílíeínítí íFílíoíwí í(ífíuílílí ímíiíxíiínígí)í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í�í�í�í í$íTí_ísí í<í íTí_í\í\íiínífítíyí$í:í íEílí ífílíuíiídíoí ísíeí íeínífírí�í�íaí,í ísíeí ívíuíeílívíeí ímí�í�ísí ídíeínísíoí íyí í*í*ídíeísícíiíeínídíeí*í*í,í ícíríeíaínídíoí íuíníaí ípílíuímíaí ítí�í�írímíiícíaí íhíaícíiíaí íaíbíaíjíoí.í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í�í�í�í í$íTí_ísí í<í íTí_í\í\íiínífítíyí$í:í íTíhíeí ífílíuíiídí ícíoíoílísí,í íbíeícíoímíeísí ídíeínísíeírí,í íaínídí í*í*ídíeísícíeínídísí*í*í,í ícíríeíaítíiínígí íaí ídíoíwíníwíaírídí ítíhíeírímíaílí ípílíuímíeí.í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í�í�í�í í$íTí_ísí í>í íTí_í\í\íiínífítíyí$í:í íEílí ífílíuíiídíoí ísíeí ícíaílíiíeínítíaí,í ísíeí ívíuíeílívíeí ímíeíníoísí ídíeínísíoí íyí í*í*íaísícíiíeínídíeí*í*í,í ícíríeíaínídíoí íuíníaí ípílíuímíaí ítí�í�írímíiícíaí íhíaícíiíaí íaíríríiíbíaí.í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í�í�í�í í$íTí_ísí í>í íTí_í\í\íiínífítíyí$í:í íTíhíeí ífílíuíiídí íhíeíaítísí íuípí,í íbíeícíoímíeísí ílíeísísí ídíeínísíeí,í íaínídí í*í*íríiísíeísí*í*í,í ícíríeíaítíiínígí íaíní íuípíwíaírídí ítíhíeírímíaílí ípílíuímíeí.í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í�í�í�í í$í\í\íDíeílítíaí íTí í=í í0í$í:í íNíoí íhíaíyí ícíoíríríiíeínítíeísí ídíeí ífílíoítíaícíií�í�íní.í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í�í�í�í í$í\í\íDíeílítíaí íTí í=í í0í$í:í íTíhíeíríeí íaíríeí íníoí ífílíoíaítí ícíuíríríeínítísí.í"í,íí
-í í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í íUíní íríeísíoílívíeídíoírí íníuímí�í�íríiícíoí íiítíeíríaítíiívíoí ícíaílícíuílíaí íeíní ítíiíeímípíoí íríeíaílí íeílí ífílíuíjíoí ídíeí ícíaílíoírí íyí ílíaísí ítíeímípíeíríaítíuíríaísí íríeísíuílítíaínítíeísí íeíní ícíaídíaí íiínítíeírífíaísíeí.í"í:í í"í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í íAíní íiítíeíríaítíiívíeí íníuímíeíríiícíaílí ísíoílívíeírí ícíaílícíuílíaítíeísí ítíhíeí íhíeíaítí ífílíuíxí íaínídí íríeísíuílítíiínígí ítíeímípíeíríaítíuíríeísí íaítí íeíaícíhí íiínítíeírífíaícíeí íiíní íríeíaílí ítíiímíeí.í"í,íí
-í í í"í\íní í í í í í í í íeí-ímíaíiílí:í í"í:í í"í\íní í í í í í í í íeí-ímíaíiílí:í í"í,íí
-í í í"í í$íqí'í'í í=í íhí í(íTí_í\í\íiínífítíyí í-í íTí)í$í"í:í í"í í$íqí'í'í í=í íhí í(íTí_í\í\íiínífítíyí í-í íTí)í$í"í,íí
-í í í"í í(í$íIí í=í í\í\íDíeílítíaí íVí í/í íRí$í)í.í íEíní ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí,í ílíaí ícíoíríríiíeínítíeí íeísí ílíaí ítíaísíaí ídíeí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí í(í$íqí$í)í,í íeílí ípíoítíeínícíiíaílí íeísí ílíaí ídíiífíeíríeínícíiíaí ídíeí ítíeímípíeíríaítíuíríaísí í(í$í\í\íDíeílítíaí íTí$í)í,í íyí ílíaí íríeísíiísítíeínícíiíaí íaílí ífílíuíjíoí ísíeí ílílíaímíaí í"í:í í"í í(í$íIí í=í í\í\íDíeílítíaí íVí í/í íRí$í)í.í íIíní íhíeíaítí ítíríaínísífíeírí,í ítíhíeí ícíuíríríeínítí íiísí ítíhíeí íríaítíeí íoífí íhíeíaítí ítíríaínísífíeírí í(í$íqí$í)í,í ítíhíeí ípíoítíeínítíiíaílí íiísí ítíhíeí ítíeímípíeíríaítíuíríeí ídíiífífíeíríeínícíeí í(í$í\í\íDíeílítíaí íTí$í)í,í íaínídí ítíhíeí íríeísíiísítíaínícíeí ítíoí ífílíoíwí íiísí ícíaílílíeídí í"í,íí
-í í í"í í(í1í6í8í7í)í,í ídíeísícíríiíbíeíní ílíaí íríeílíaícíií�í�íní íeínítíríeí ílíaísí ífíuíeírízíaísí íqíuíeí íaícítí�í�íaíní ísíoíbíríeí íuíní ícíuíeírípíoí íyí íeílí ímíoívíiímíiíeínítíoí ídíeí íeísítíeí:í"í:í í"í í(í1í6í8í7í)í,í ídíeísícíríiíbíeí ítíhíeí íríeílíaítíiíoínísíhíiípí íbíeítíwíeíeíní ítíhíeí ífíoírícíeísí íaícítíiínígí íoíní íaí íbíoídíyí íaínídí íiítísí ímíoívíeímíeínítí:í"í,íí
-í í í"í í(í1í7í0í4í)í,í íNíeíwítíoíní íríeívíoílíuícíiíoíní�í�í ílíaí ícíoímípíríeínísíií�í�íní ídíeí ílíaí ílíuízí íyí íeílí ícíoílíoírí:í"í:í í"í í(í1í7í0í4í)í,í íNíeíwítíoíní íríeívíoílíuítíiíoíníiízíeídí ítíhíeí íuínídíeírísítíaínídíiínígí íoífí ílíiígíhítí íaínídí ícíoílíoírí:í"í,íí
-í í í"í í(íDíeíríeícíhíaí/íEíxítíeíríníaí)í:í"í:í í"í í(íRíiígíhítí/íOíuítíeírí)í:í"í,íí
-í í í"í í(íIízíqíuíiíeírídíaí/íIínítíeíríníaí)í:í"í:í í"í í(íLíeífítí/íIíníníeírí)í:í"í,íí
-í í í"í í(íaí ídíiífíeíríeínícíiíaí ídíeí ílíaísí íeísícíaílíaísí íCíeílísíiíuísí íoí íFíaíhíríeíníhíeíiítí,í íbíaísíaídíaísí íeíní íeílí ícíoímípíoírítíaímíiíeínítíoí ídíeílí íaígíuíaí íoí ídíeílí ímíeírícíuíríiíoí)í.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í í(íuínílíiíkíeí ítíhíeí íCíeílísíiíuísí íoírí íFíaíhíríeíníhíeíiítí ísícíaílíeísí,í íbíaísíeídí íoíní ítíhíeí íbíeíhíaívíiíoírí íoífí íwíaítíeírí íoírí ímíeírícíuíríyí)í.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í í(íiínícíoíríríeícítíaí)í,í ípíeíríoí ílíaí ícíoínícílíuísíií�í�íní ífíuíeí ípíeírífíeícítíaímíeínítíeí íví�í�ílíiídíaí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í í(íiínícíoíríríeícítí)í,í íbíuítí ítíhíeí ícíoínícílíuísíiíoíní íwíaísí ípíeírífíeícítílíyí ívíaílíiídí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íAí í0í.í0í0í6í íaítímí í(í6í1í1í íPíaí)í,í íeílí íaígíuíaí íníoí ípíuíeídíeí íeíxíiísítíiírí íeíní íeísítíaídíoí ílí�í�íqíuíiídíoí,í ísíiíní íiímípíoírítíaírí ílíaí ítíeímípíeíríaítíuíríaí.í íPíoírí íeínícíiímíaí ídíeí íeísítíaí íaílítíiítíuídí í(ízíoíníaí ígíríiísí)í,í íeílí íaígíuíaí ísíoílíoí ípíuíeídíeí íeíxíiísítíiírí ícíoímíoí íhíiíeílíoí ísí�í�ílíiídíoí íoí ívíaípíoírí ídíeí íaígíuíaí í(ísíuíbílíiímíaícíií�í�íní)í.í"í:í í"í íAítí í0í.í0í0í6í íaítímí í(í6í1í1í íPíaí)í,í íwíaítíeírí ícíaíníníoítí íeíxíiísítí íiíní íaí ílíiíqíuíiídí ísítíaítíeí,í íríeígíaírídílíeísísí íoífí ítíeímípíeíríaítíuíríeí.í íAíbíoívíeí ítíhíiísí íaílítíiítíuídíeí í(ígíríaíyí ízíoíníeí)í,í íwíaítíeírí ícíaíní íoínílíyí íeíxíiísítí íaísí ísíoílíiídí íiícíeí íoírí íwíaítíeírí ívíaípíoírí í(ísíuíbílíiímíaítíiíoíní)í.í"í,íí
-í í í"í íAí í0í.í0í6í1í íaítímí,í íeílí íaígíuíaí íhíiíeírívíeí íaí í3í7í í�í�íCí í(ítíeímípíeíríaítíuíríaí ícíoírípíoíríaílí)í.í íSíiíní íuíní ítíríaíjíeí ípíríeísíuíríiízíaídíoí,í ílíaí ísíaílíiívíaí íyí ílí�í�ígíríiímíaísí íhíeírívíiírí�í�íaíní íeísípíoínítí�í�íníeíaímíeínítíeí.í"í:í í"í íAítí í0í.í0í6í1í íaítímí,í íwíaítíeírí íbíoíiílísí íaítí í3í7í�í�íCí í(íbíoídíyí ítíeímípíeíríaítíuíríeí)í.í íWíiítíhíoíuítí íaí ípíríeísísíuíríeí ísíuíiítí,í ísíaílíiívíaí íaínídí ítíeíaírísí íwíoíuílídí íbíoíiílí ísípíoínítíaíníeíoíuísílíyí.í"í,íí
-í í í"í íAí ímíaíyíoírí íRíeíyíníoílídísí íoí ímíeíníoírí ídíiísítíaínícíiíaí í$íxí$í,í ílíaí ícíaípíaí ílí�í�ímíiítíeí íeísí ímí�í�ísí ídíeílígíaídíaí íyí íeílí ígíríaídíiíeínítíeí ídíeí ívíeílíoícíiídíaídí íeíní ílíaí ípíaíríeídí í(í$íyí=í0í$í)í íeísí ímíaíyíoírí,í ílíoí íqíuíeí íaíuímíeínítíaí ílíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí ípíoírí ícíoínívíeícícíií�í�íní.í"í:í í"í íAítí íhíiígíhíeírí íRíeíyíníoílídísí íoírí ísíhíoírítíeírí ídíiísítíaínícíeí í$íxí$í,í ítíhíeí íbíoíuínídíaíríyí ílíaíyíeírí íiísí ítíhíiíníníeírí íaínídí ítíhíeí ívíeílíoícíiítíyí ígíríaídíiíeínítí íaícíríoísísí ítíhíeí íwíaílílí í(í$íyí=í0í$í)í íiísí ílíaírígíeírí,í íwíhíiícíhí íiínícíríeíaísíeísí ícíoínívíeícítíiívíeí íhíeíaítí ítíríaínísífíeírí.í"í,íí
-í í í"í íAí ímíeíníoírí í$íDí_í2í$í,í ílíaí ívíeílíoícíiídíaídí í$íví_í2í$í íaíuímíeínítíaí ícíuíaídírí�í�ítíiícíaímíeínítíeí íyí ílíaí ípíríeísíií�í�íní ísíeí ídíeísípílíoímíaí.í íSíií ílíaí ípíríeísíií�í�íní ícíaíyíeíríaí ípíoírí ídíeíbíaíjíoí ídíeí ílíaí ípíríeísíií�í�íní ídíeí ívíaípíoírí,í íeílí ílí�í�íqíuíiídíoí íhíeírívíiírí�í�íaí ílíoícíaílímíeínítíeí í(ícíaívíiítíaícíií�í�íní)í.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íAítí ílíoíwíeírí í$íDí_í2í$í,í ítíhíeí ívíeílíoícíiítíyí í$íví_í2í$í íiínícíríeíaísíeísí íqíuíaídíríaítíiícíaílílíyí íaínídí ítíhíeí ípíríeísísíuíríeí ídíríoípísí.í íIífí ítíhíeí ípíríeísísíuíríeí ífíeílílí íbíeílíoíwí ítíhíeí ívíaípíoírí ípíríeísísíuíríeí,í ítíhíeí ílíiíqíuíiídí íwíoíuílídí íbíoíiílí ílíoícíaílílíyí í(ícíaívíiítíaítíiíoíní)í.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íAí íníiívíeílí íeísítíaídí�í�ísítíiícíoí ímíoílíeícíuílíaírí í(ídíeísíaíríríoílílíaídíoí ípíoírí íBíoílítízímíaíníní)í,í ílíaí íeínítíríoípí�í�íaí ísíeí ídíeífíiíníeí ícíoímíoí:í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íAítí ítíhíeí ímíoílíeícíuílíaírí ísítíaítíiísítíiícíaílí ílíeívíeílí í(ídíeívíeílíoípíeídí íbíyí íBíoílítízímíaíníní)í,í íeínítíríoípíyí íiísí ídíeífíiíníeídí íaísí:í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íAídíiíaíbí�í�ítíiícíaí íbí�í�í�ící"í:í í"í íAídíiíaíbíaítíiící íbí�í�í�ící"í,íí
-í í í"í íAídíiíaíbí�í�ítíiícíaí ídí�í�í�íaí"í:í í"í íAídíiíaíbíaítíiící ídí�í�í�íaí"í,íí
-í í í"í íAídímíiísíií�í�íní íaí ípíríeísíií�í�íní ícíoínísítíaínítíeí í(íríeíníoívíaícíií�í�íní ídíeí ílíaí ímíeízícílíaí íaíiíríeí/ícíoímíbíuísítíiíbílíeí)í.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íAídímíiísísíiíoíní íaítí ícíoínísítíaínítí ípíríeísísíuíríeí í(íríeíníeíwíaílí íoífí ítíhíeí íaíiírí/ífíuíeílí ímíiíxítíuíríeí)í.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íAíníiímíaícíií�í�íní íTí�í�írímíiícíaí ídíeí ílíaí íPílíaícíaí"í:í í"í íTíhíeírímíaílí íPílíaítíeí íAíníiímíaítíiíoíní"í,íí
-í í í"í íAípíoírítíeí ídíeí ícíaílíoírí íaí ívíoílíuímíeíní ícíoínísítíaínítíeí ípíoírí ícíhíiísípíaí.í íLíaí ípíríeísíií�í�íní ísíeí íeílíeívíaí írí�í�ípíiídíaímíeínítíeí íaínítíeísí ídíeílí ítíiíeímípíoí í�í�ítíiílí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íHíeíaítí íiínípíuítí íaítí ícíoínísítíaínítí ívíoílíuímíeí íbíyí ísípíaíríkí.í íTíhíeí ípíríeísísíuíríeí íríiísíeísí íríaípíiídílíyí íbíeífíoíríeí ítíhíeí íuísíeífíuílí ítíiímíeí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íBíaílíaínícíeí ídíeí íEíníeírígí�í�íaí ídíeí íBíeíríníoíuílílíií í(íkíPíaí)í"í:í í"í íBíeíríníoíuílílíií íEíníeírígíyí íBíaílíaínícíeí í(íkíPíaí)í"í,íí
-í í í"í íCíaímípíoí ídíeí íFílíuíjíoí íeí íIínídíuícícíií�í�íní ídíeí íVíoírítíiícíiídíaídí"í:í í"í íFílíoíwí íFíiíeílídí íaínídí íVíoírítíiícíiítíyí íIínídíuícítíiíoíní"í,íí
-í í í"í íCíeíríoí íAíbísíoílíuítíoí"í:í í"í íAíbísíoílíuítíeí íZíeíríoí"í,íí
-í í í"í íCíiírícíuíiítíoí ídíeí íRíeísíiísítíeínícíiíaísí íTí�í�írímíiícíaísí"í:í í"í íTíhíeírímíaílí íRíeísíiísítíaínícíeí íCíiírícíuíiítí"í,íí
-í í í"í íCíoímípíaíríaícíií�í�íní ídíiíríeícítíaí"í:í í"í íDíiíríeícítí ícíoímípíaíríiísíoíní"í,íí
-í í í"í íCíoímípíríeísíií�í�íní ídíeí ílíaí ímíeízícílíaí íaíiíríeí/ícíoímíbíuísítíiíbílíeí ídíeí ífíoírímíaí íiísíoíeínítírí�í�ípíiícíaí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íCíoímípíríeísísíiíoíní íoífí ítíhíeí íaíiírí/ífíuíeílí ímíiíxítíuíríeí íiísíeínítíríoípíiícíaílílíyí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íCíoíní ítíoídíaí íaícícíií�í�íní íoícíuíríríeí ísíiíeímípíríeí íuíníaí íríeíaícícíií�í�íní íiígíuíaílí íyí ícíoínítíríaíríiíaí;í ílíaísí íaícícíiíoíníeísí ímíuítíuíaísí ídíeí ídíoísí ícíuíeírípíoísí ísíiíeímípíríeí ísíoíní íiígíuíaílíeísí íyí ídíiíríiígíiídíaísí íeíní ísíeínítíiídíoísí íoípíuíeísítíoísí.í"í:í í"í íWíiítíhí íeívíeíríyí íaícítíiíoíní ítíhíeíríeí íaílíwíaíyísí íoícícíuírísí íaíní íeíqíuíaílí íaínídí íoípípíoísíiítíeí íríeíaícítíiíoíní;í íTíhíeí ímíuítíuíaílí íaícítíiíoínísí íoífí ítíwíoí íbíoídíiíeísí íaíríeí íaílíwíaíyísí íeíqíuíaílí íaínídí ídíiíríeícítíeídí íiíní íoípípíoísíiítíeí ídíiíríeícítíiíoínísí.í"í,íí
-í í í"í íCíoínífíiígíuíríaícíií�í�íní ídíeí ílíaísí íCíaípíaísí ídíeí ílíaí íPíaíríeídí"í:í í"í íWíaílílí íLíaíyíeírí íCíoínífíiígíuíríaítíiíoíní"í,íí
-í í í"í íCíoínígíeílíaícíií�í�íní íHí�í�í�íOí"í:í í"í íHí�í�í�íOí íFíríeíeízíiínígí"í,íí
-í í í"í íCíoínítíaícítíoí í/í íSíoípíoírítíeí\íní í í í í í í í í"í:í í"í íCíoínítíaícítí í/í íSíuípípíoírítí\íní í í í í í í í í"í,íí
-í í í"í íCíoínítíeíxítíoí ídíeí íIínígíeíníiíeírí�í�íaí:í íTíaícíoímíaí íNíaíríríoíwísí í(í1í9í4í0í)í"í:í í"í íEínígíiíníeíeíríiínígí íCíoínítíeíxítí:í íTíaícíoímíaí íNíaíríríoíwísí í(í1í9í4í0í)í"í,íí
-í í í"í íCíoíríríeílíaícíiíoíníeísí ídíeí íCíoínívíeícícíií�í�íní"í:í í"í íCíoínívíeícítíiíoíní íCíoíríríeílíaítíiíoínísí"í,íí
-í í í"í íCíuírívíaí ídíeí íNíuíkíiíyíaímíaí í(íLíoígí-íLíoígí)í"í:í í"í íNíuíkíiíyíaímíaí ícíuírívíeí í(íLíoígí-íLíoígí)í"í,íí
-í í í"í íDíeínísíiídíaídí ídíeí íPíríoíbíaíbíiílíiídíaídí í(ífíríaícícíií�í�íní ídíeí í�í�ítíoímíoísí íqíuíeí ívíiíaíjíaíní íaí ílíaí ívíeílíoícíiídíaídí í$íví$í)í.í"í:í í"í íPíríoíbíaíbíiílíiítíyí íDíeínísíiítíyí í(ífíríaícítíiíoíní íoífí íaítíoímísí ítíríaívíeílíiínígí íaítí ísípíeíeídí í$íví$í)í.í"í,íí
-í í í"í íDíeísíaíríríoílílíaídíoí ípíoírí í"í:í í"í íDíeívíeílíoípíeídí íbíyí í"í,íí
-í í í"í íDíeísípíeíjíaínídíoí ídíeí ílíaí ífí�í�írímíuílíaí ídíeí íCíaíríníoítí:í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íSíoílívíiínígí ífíoírí íCíaíríníoítí'ísí ífíoírímíuílíaí:í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íDíiíaígíríaímíaí íPí-íVí"í:í í"í íPí-íVí ídíiíaígíríaímí"í,íí
-í í í"í íDíiíaígíríaímíaí íPí-íVí ídíeílí íCíiícílíoí ídíeí íCíaíríníoítí"í:í í"í íPí-íVí íDíiíaígíríaímí íoífí ítíhíeí íCíaíríníoítí íCíyícílíeí"í,íí
-í í í"í íDíiíaígíríaímíaí íTí-íSí"í:í í"í íTí-íSí ídíiíaígíríaímí"í,íí
-í í í"í íDíiíaígíríaímíaí íTí-íSí í(íTíeímípíeíríaítíuíríaí�í�í�íEínítíríoípí�í�íaí)í"í:í í"í íTí-íSí íDíiíaígíríaímí í(íTíeímípíeíríaítíuíríeí�í�í�íEínítíríoípíyí)í"í,íí
-í í í"í íDíiíeísíeílí"í:í í"í íDíiíeísíeílí"í,íí
-í í í"í íDíiísítíríiíbíuícíií�í�íní ídíeí íTíeímípíeíríaítíuíríaí í(íMíaípíaí ídíeí íCíaílíoírí í2íDí)í"í:í í"í íTíeímípíeíríaítíuíríeí íDíiísítíríiíbíuítíiíoíní í(í2íDí íHíeíaítí íMíaípí)í"í,íí
-í í í"í íEíbíuílílíiícíií�í�íní íHí�í�í�íOí"í:í í"í íBíoíiílíiínígí íHí�í�í�íOí"í,íí
-í í í"í íEíbíuílílíiícíií�í�íní ídíeílí íAígíuíaí íhíaísítíaí íeílí íLí�í�ímíiítíeí ídíeí ílíaí íAítímí�í�ísífíeíríaí í(í1í2í0í íkímí)í"í:í í"í íBíoíiílíiínígí íoífí íWíaítíeírí íuípí ítíoí ítíhíeí íLíiímíiítí íoífí ítíhíeí íAítímíoísípíhíeíríeí í(í1í2í0í íkímí)í"í,íí
-í í í"í íEícíuíaícíií�í�íní ídíeí íCíoínívíeírísíií�í�íní íAícítíiívíaí"í:í í"í íAícítíiívíeí íCíoínívíeírísíiíoíní íEíqíuíaítíiíoíní"í,íí
-í í í"í íEífíeícítíoí ídíeí ílíaí íPíríeísíií�í�íní íAítímíoísífí�í�íríiícíaí:í"í:í í"í íEífífíeícítí íoífí íAítímíoísípíhíeíríiící íPíríeísísíuíríeí:í"í,íí
-í í í"í íEílí í\í"íPíuínítíoí ídíeí íQíuíeímíaídíoí\í"í í(íBíuíríníoíuítí)í íeí íIíníeísítíaíbíiílíiídíaídí:í"í:í í"í íTíhíeí í\í"íBíuíríní íPíoíiínítí\í"í í(íBíuíríníoíuítí)í íaínídí íIínísítíaíbíiílíiítíyí:í"í,íí
-í í í"í íEílí íaígíuíaí íaí íuíníaí íaílítíuíríaí ídíeí ícíaírígíaí í$íHí$í ídíeísícíaírígíaí íaí ílíaí íaítímí�í�ísífíeíríaí íaí ítíríaíví�í�ísí ídíeí ílíaí íbíoíqíuíiílílíaí í(íníoízízílíeí)í ícíoínívíiírítíiíeínídíoí ítíoídíaí ílíaí íeíníeírígí�í�íaí ípíoítíeínícíiíaílí íeíní ícíiíní�í�ítíiícíaí:í í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íTíhíeí íwíaítíeírí íaítí íaí ílíoíaídíiínígí íhíeíiígíhítí í$íHí$í ídíiísícíhíaírígíeísí íiínítíoí ítíhíeí íaítímíoísípíhíeíríeí ítíhíríoíuígíhí ítíhíeí íníoízízílíeí,í ícíoínívíeírítíiínígí íaílílí ípíoítíeínítíiíaílí íeíníeírígíyí íiínítíoí íkíiíníeítíiící íeíníeírígíyí:í í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íEílí ícíaílíoírí ífílíuíyíeí íníaítíuíríaílímíeínítíeí ídíeísídíeí íuíní ícíuíeírípíoí ícíaílíiíeínítíeí í(íaílítíaí íeíníeírígí�í�íaí ícíiíní�í�ítíiícíaí ímíoílíeícíuílíaírí)í íhíaícíiíaí íuíníoí ífírí�í�íoí í(íbíaíjíaí íeíníeírígí�í�íaí ícíiíní�í�ítíiícíaí)í,í íhíaísítíaí ílíoígíríaírí íeílí íeíqíuíiílíiíbíríiíoí ítí�í�írímíiícíoí.í íEílí ípíríoícíeísíoí íiínívíeírísíoí íeísí ítíeírímíoídíiíní�í�ímíiícíaímíeínítíeí íiímípíoísíiíbílíeí ídíeí ímíaíníeíríaí íeísípíoínítí�í�íníeíaí.í"í:í í"í íHíeíaítí ífílíoíwísí íníaítíuíríaílílíyí ífíríoímí íaí íhíoítí íbíoídíyí í(íhíiígíhí ímíoílíeícíuílíaírí íkíiíníeítíiící íeíníeírígíyí)í ítíoí íaí ícíoílídí íoíníeí í(ílíoíwí íkíiíníeítíiící íeíníeírígíyí)í,í íuínítíiílí ítíhíeírímíaílí íeíqíuíiílíiíbíríiíuímí íiísí íaícíhíiíeívíeídí.í íTíhíeí íríeívíeírísíeí ípíríoícíeísísí íiísí ítíhíeírímíoídíyíníaímíiícíaílílíyí íiímípíoísísíiíbílíeí ísípíoínítíaíníeíoíuísílíyí.í"í,íí
-í í í"í íEílí ícíuíeírípíoí ísíeí íeínífírí�í�íaí íoí ícíaílíiíeínítíaí ívíeílíoízímíeínítíeí.í íOícíuíríríeí ícíoíní íbíaíjíaí íiíníeírícíiíaí ítí�í�írímíiícíaí í(ímíaísíaí ípíeíqíuíeí�í�íaí íoí íbíaíjíoí í$ící_ípí$í)í íoí íuíníaí íaílítíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí í(ícíoíeífíiícíiíeínítíeí í$íhí$í íaílítíoí,í ícíoímíoí íeíní íaígíuíaí,í íoí ígíríaíní í�í�íríeíaí ísíuípíeírífíiícíiíaílí íeíxípíuíeísítíaí)í.í"í:í í"í íTíhíeí íbíoídíyí ícíoíoílísí íoírí íhíeíaítísí íuípí íqíuíiícíkílíyí.í íIítí íoícícíuírísí íwíiítíhí ílíoíwí ítíhíeírímíaílí íiíníeírítíiíaí í(ísímíaílílí ímíaísísí íoírí ílíoíwí í$ící_ípí$í)í íoírí íhíiígíhí íhíeíaítí ítíríaínísífíeírí í(íhíiígíhí í$íhí$í ícíoíeífífíiícíiíeínítí,í íaísí íiíní íwíaítíeírí,í íoírí ílíaírígíeí íeíxípíoísíeídí ísíuírífíaícíeí íaíríeíaí)í.í"í,íí
-í í í"í íEílí ícíuíeírípíoí ísíeí íríeísíiísítíeí íaí ícíaímíbíiíaírí ísíuí ítíeímípíeíríaítíuíríaí.í íOícíuíríríeí ícíoíní íaílítíaí íiíníeírícíiíaí ítí�í�írímíiícíaí í(ícíuíeírípíoí ímíuíyí ímíaísíiívíoí íoí íaílítíoí í$ící_ípí$í)í íoí íbíaíjíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí í(ícíoíeífíiícíiíeínítíeí í$íhí$í íbíaíjíoí,í ícíoímíoí íeíní íaíiíríeí íqíuíiíeítíoí)í.í"í:í í"í íTíhíeí íbíoídíyí íríeísíiísítísí ícíhíaínígíiínígí íiítísí ítíeímípíeíríaítíuíríeí.í íIítí íoícícíuírísí íwíiítíhí íhíiígíhí ítíhíeírímíaílí íiíníeírítíiíaí í(ívíeíríyí ímíaísísíiívíeí íbíoídíyí íoírí íhíiígíhí í$ící_ípí$í)í íoírí ílíoíwí íhíeíaítí ítíríaínísífíeírí í(ílíoíwí í$íhí$í ícíoíeífífíiícíiíeínítí,í íaísí íiíní ísítíiílílí íaíiírí)í.í"í,íí
-í í í"í íEílí ígíríaídíiíeínítíeí ídíeí ípíríeísíií�í�íní íqíuíeí íiímípíuílísíaí íeílí ífílíuíjíoí ídíeí ízíoíníaísí ídíeí íaílítíaí íaí íbíaíjíaí ípíríeísíií�í�íní í(ígíeíníeíríaí ísíuísítíeínítíaícíií�í�íní íeíní ípíeírífíiílíeísí íaílíaíríeísí)í.í"í:í í"í íTíhíeí ípíríeísísíuíríeí ígíríaídíiíeínítí ítíhíaítí ídíríiívíeísí ítíhíeí ífílíoíwí ífíríoímí íhíiígíhí ítíoí ílíoíwí ípíríeísísíuíríeí ízíoíníeísí í(ígíeíníeíríaítíeísí ílíiífítí íoíní íaíiírífíoíiílísí)í.í"í,íí
-í í í"í íEílí ípíiísítí�í�íní íeísí ílíiíbíríeí ídíeí ímíoívíeírísíeí.í íAílí ícíaílíeínítíaírísíeí,í íeílí ígíaísí ísíeí íeíxípíaínídíeí íríeíaílíiízíaínídíoí ítíríaíbíaíjíoí ímíeící�í�íníiícíoí ícíoínítíríaí ílíaí ípíríeísíií�í�íní íaítímíoísífí�í�íríiícíaí í(í$íWí í=í íPí í\í\íDíeílítíaí íVí$í)í.í íEílí ícíaílíoírí íiíníyíeícítíaídíoí ídíeíbíeí ícíuíbíríiírí ítíaínítíoí ílíaí íeíníeírígí�í�íaí íiínítíeíríníaí ícíoímíoí íeílí ítíríaíbíaíjíoí í(í$íQí_ípí í=í í\í\íDíeílítíaí íUí í+í íWí$í)í.í íPíoírí íeílílíoí,í ísíiíeímípíríeí í$íCí_ípí í>í íCí_íví$í.í"í:í í"í íTíhíeí ípíiísítíoíní íiísí ífíríeíeí ítíoí ímíoívíeí.í íWíhíeíní íhíeíaítíeídí,í ítíhíeí ígíaísí íeíxípíaínídísí ídíoíiínígí ímíeícíhíaíníiícíaílí íwíoíríkí íaígíaíiínísítí íaítímíoísípíhíeíríiící ípíríeísísíuíríeí í(í$íWí í=í íPí í\í\íDíeílítíaí íVí$í)í.í íTíhíeí íiíníjíeícítíeídí íhíeíaítí ímíuísítí ícíoívíeírí íbíoítíhí ítíhíeí íiínítíeíríníaílí íeíníeírígíyí íaínídí ítíhíeí íwíoíríkí í(í$íQí_ípí í=í í\í\íDíeílítíaí íUí í+í íWí$í)í.í íTíhíeíríeífíoíríeí,í íaílíwíaíyísí í$íCí_ípí í>í íCí_íví$í.í"í,íí
-í í í"í íEílí ípíiísítí�í�íní ísíuíbíeí íyí ícíoímípíríiímíeí íeílí íaíiíríeí.í íEílíeívíaí ípíríeísíií�í�íní íyí ítíeímípíeíríaítíuíríaí ípíoírí íeínícíiímíaí ídíeílí ípíuínítíoí ídíeí íaíuítíoíiígíníiícíií�í�íní.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íTíhíeí ípíiísítíoíní íríiísíeísí íaínídí ícíoímípíríeísísíeísí ítíhíeí íaíiírí.í íRíaíiísíeísí ípíríeísísíuíríeí íaínídí ítíeímípíeíríaítíuíríeí íaíbíoívíeí ítíhíeí íaíuítíoíiígíníiítíiíoíní ípíoíiínítí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íEílí ípíuínítíoí íníaíríaíníjíaí ísíeí�í�íaílíaí íeílí íeísítíaídíoí ítí�í�írímíiícíoí íaícítíuíaílí ísíoíbíríeí ílíaí ícíuírívíaí ícíaíríaícítíeírí�í�ísítíiícíaí ídíeílí ífílíuíiídíoí ísíeílíeícícíiíoíníaídíoí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íTíhíeí íoíríaínígíeí ípíoíiínítí íiínídíiícíaítíeísí ítíhíeí ícíuíríríeínítí ítíhíeírímíaílí ísítíaítíeí íoíní ítíhíeí ícíhíaíríaícítíeíríiísítíiící ícíuírívíeí íoífí ítíhíeí ísíeílíeícítíeídí ífílíuíiídí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íEílí íríeícíiípíiíeínítíeí íeísítí�í�í írí�í�ígíiídíoí íyí ícíeíríríaídíoí.í íTíoídíoí íeílí ícíaílíoírí ísíeí ícíoínívíiíeírítíeí íeíní íeíníeírígí�í�íaí íiínítíeíríníaí í(í$íQí_íví í=í í\í\íDíeílítíaí íUí$í)í,í íaíuímíeínítíaínídíoí ílíaí ívíeílíoícíiídíaídí ímíoílíeícíuílíaírí.í íNíoí íhíaíyí íeíxípíaínísíií�í�íní íníií ítíríaíbíaíjíoí í(í$íWí í=í í0í$í)í.í"í:í í"í íTíhíeí ícíoínítíaíiíníeírí íiísí íríiígíiídí íaínídí ícílíoísíeídí.í íAílílí íhíeíaítí íiísí ícíoínívíeírítíeídí íiínítíoí íiínítíeíríníaílí íeíníeírígíyí í(í$íQí_íví í=í í\í\íDíeílítíaí íUí$í)í,í íiínícíríeíaísíiínígí ímíoílíeícíuílíaírí ísípíeíeídí.í íTíhíeíríeí íiísí íníoí íeíxípíaínísíiíoíní íoírí íwíoíríkí í(í$íWí í=í í0í$í)í.í"í,íí
-í í í"í íEílí ísíiísítíeímíaí ígíaíríaínítíiízíaí í$íTí_íCí í<í íTí_íHí$í íaíuítíoímí�í�ítíiícíaímíeínítíeí.í íLíaí íeífíiícíiíeínícíiíaí ísíoílíoí ípíuíeídíeí íaílícíaínízíaírí íeílí í1í0í0í%í ísíií í$íTí_íCí í=í í0í\í\í,íKí$í,í ílíoí ícíuíaílí íeísí íiímípíoísíiíbílíeí ípíoírí ílíaí íTíeírícíeíríaí íLíeíyí ídíeí ílíaí íTíeírímíoídíiíní�í�ímíiícíaí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íTíhíeí ísíyísítíeímí ígíuíaíríaínítíeíeísí í$íTí_íCí í<í íTí_íHí$í íaíuítíoímíaítíiícíaílílíyí.í íEífífíiícíiíeínícíyí ícíaíní íoínílíyí íríeíaícíhí í1í0í0í%í íiífí í$íTí_íCí í=í í0í\í\í,íKí$í,í íwíhíiícíhí íiísí íiímípíoísísíiíbílíeí íbíyí ítíhíeí íTíhíiírídí íLíaíwí íoífí íTíhíeírímíoídíyíníaímíiícísí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íEínítíríoípí�í�íaí í(ímíeídíiídíaí ídíeí ídíeísíoírídíeíní íoí íiíríríeívíeírísíiíbíiílíiídíaídí ídíeílí ísíiísítíeímíaí)í.í"í:í í"í íEínítíríoípíyí í(ímíeíaísíuíríeí íoífí ídíiísíoírídíeírí íoírí íiíríríeívíeírísíiíbíiílíiítíyí íoífí ítíhíeí ísíyísítíeímí)í.í"í,íí
-í í í"í íEísíqíuíeímíaí íTí�í�írímíiícíoí íyí íFílíuíjíoí ídíeí íCíaílíoírí"í:í í"í íTíhíeírímíaílí íSícíhíeímíeí íaínídí íHíeíaítí íFílíoíwí"í,íí
-í í í"í íEísíqíuíeímíaí ídíeílí íMíoítíoírí íTí�í�írímíiícíoí"í:í í"í íTíhíeírímíaílí íEínígíiíníeí íDíiíaígíríaímí"í,íí
-í í í"í íEívíoílíuícíií�í�íní ídíeí íTíeímípíeíríaítíuíríaí ívísí íTíiíeímípíoí"í:í í"í íEívíoílíuítíiíoíní íoífí íTíeímípíeíríaítíuíríeí ívísí íTíiímíeí"í,íí
-í í í"í íEíxípílíoíríaí ílíaí íeívíoílíuícíií�í�íní ícíríoíníoílí�í�ígíiícíaí ídíeí ílíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí íyí ílíaí ítíeírímíoídíiíní�í�ímíiícíaí.í íFíiílítíríaí íyí íbíuísícíaí ílíoísí íaípíoírítíeísí ídíeí ílíoísí ícíiíeínítí�í�ífíiícíoísí íqíuíeí ísíeínítíaíríoíní ílíaísí íbíaísíeísí ídíeí ílíaí ífí�í�ísíiícíaí ímíoídíeíríníaí.í"í:í í"í íEíxípílíoíríeí ítíhíeí ícíhíríoíníoílíoígíiícíaílí íeívíoílíuítíiíoíní íoífí íhíeíaítí ítíríaínísífíeírí íaínídí ítíhíeírímíoídíyíníaímíiícísí.í íFíiílítíeírí íaínídí ísíeíaírícíhí ífíoírí ítíhíeí ícíoínítíríiíbíuítíiíoínísí íoífí ítíhíeí ísícíiíeínítíiísítísí íwíhíoí ílíaíiídí ítíhíeí ífíoíuínídíaítíiíoínísí íoífí ímíoídíeíríní ípíhíyísíiícísí.í"í,íí
-í í í"í íFílíuíjíoísí ídíeí ícíaílíoírí íoípíuíeísítíoísí íníoí íbíaílíaínícíeíaídíoísí.í íNíoí íeíxíiísítíeí íeísítíaídíoí íeísítíaícíiíoíníaíríiíoí.í"í:í í"í íOípípíoísíiínígí íuíníbíaílíaínícíeídí íhíeíaítí ífílíoíwísí.í íTíhíeíríeí íiísí íníoí ísítíeíaídíyí ísítíaítíeí.í"í,íí
-í í í"í íFíríoínítíeíríaí íIízíqíuíiíeírídíaí í$í(íxí í=í í0í)í$í"í:í í"í íLíeífítí íBíoírídíeírí í$í(íxí í=í í0í)í$í"í,íí
-í í í"í íFíuíeírízíaísí ídíeí ícíuíeírípíoí ícíoímíoí ílíaí ígíríaívíeídíaídí íoí ílíaísí ímíaígíní�í�ítíiícíaísí.í"í:í í"í íBíoídíyí ífíoírícíeísí ísíuícíhí íaísí ígíríaívíiítíyí íoírí ímíaígíníeítíiící ífíoírícíeísí.í"í,íí
-í í í"í íFí�í�íjíaítíeí ící�í�ímíoí íaílí ícíaílíeínítíaírí íeílí ígíaísí,í ílíaí ícíaímípíaíníaí ísíeí íaípílíaíníaí íyí ísíeí ídíeísípílíaízíaí íhíaícíiíaí ílíaí ídíeíríeícíhíaí í(í�í�ítíoímíoísí ímí�í�ísí írí�í�ípíiídíoísí)í.í íSíií ícíaímíbíiíaísí íaí íuíní ígíaísí ímí�í�ísí ípíeísíaídíoí í(ícíoímíoí íeílí íXíeíní�í�íní)í,í ílíoísí í�í�ítíoímíoísí ísíeí ímíuíeívíeíní ímíuícíhíoí ímí�í�ísí ílíeínítíoí íaí ílíaí ímíiísímíaí ítíeímípíeíríaítíuíríaí.í"í:í í"í íNíoítíiícíeí íhíoíwí íwíhíeíní ítíhíeí ígíaísí íiísí íhíeíaítíeídí,í ítíhíeí íbíeílílí ífílíaítítíeínísí íoíuítí íaínídí ímíoívíeísí ítíoí ítíhíeí íríiígíhítí í(ífíaísítíeírí íaítíoímísí)í.í íIífí íyíoíuí ísíwíiítícíhí ítíoí íaí íhíeíaívíiíeírí ígíaísí í(ílíiíkíeí íXíeíníoíní)í,í ítíhíeí íaítíoímísí ímíoívíeí ímíuícíhí ísílíoíwíeírí íaítí ítíhíeí ísíaímíeí ítíeímípíeíríaítíuíríeí.í"í,íí
-í í í"í íHíiísítíoíríiíaílí ídíeí íTíeímípíeíríaítíuíríaí ídíeílí íCíiílíiínídíríoí ípíoírí íCíiícílíoí"í:í í"í íCíyílíiínídíeírí íTíeímípíeíríaítíuíríeí íHíiísítíoíríyí íbíyí íCíyícílíeí"í,íí
-í í í"í íHíiítíoísí íHíiísítí�í�íríiícíoísí"í:í í"í íHíiísítíoíríiícíaílí íMíiílíeísítíoíníeísí"í,íí
-í í í"í íIíníiícíiíaírí"í:í í"í íSítíaírítí"í,íí
-í í í"í íIíníiícíiíaírí íCíaílíeínítíaímíiíeínítíoí\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íSítíaírítí íWíaírímí-íuípí\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íIínítíeíríaícítí�í�íaí ícíoíní íeíxípíeíríiímíeínítíoísí ívíiírítíuíaílíeísí íyí íhíeíríríaímíiíeínítíaísí íníuímí�í�íríiícíaísí íeíní ítíiíeímípíoí íríeíaílí.í íAíjíuísítíaí ívíaíríiíaíbílíeísí ífí�í�ísíiícíaísí ípíaíríaí íoíbísíeírívíaírí ídíeí ímíaíníeíríaí ípírí�í�ícítíiícíaí ílíaísí ílíeíyíeísí ídíeí ícíoínídíuícícíií�í�íní,í ícíoínívíeícícíií�í�íní íyí íríaídíiíaícíií�í�íní.í"í:í í"í íIínítíeíríaícítí íwíiítíhí ívíiírítíuíaílí íeíxípíeíríiímíeínítísí íaínídí íníuímíeíríiícíaílí ítíoíoílísí íiíní íríeíaílí ítíiímíeí.í íAídíjíuísítí ípíhíyísíiícíaílí ívíaíríiíaíbílíeísí ítíoí ípíríaícítíiícíaílílíyí íoíbísíeírívíeí ítíhíeí ílíaíwísí íoífí ícíoínídíuícítíiíoíní,í ícíoínívíeícítíiíoíní íaínídí íríaídíiíaítíiíoíní.í"í,íí
-í í í"í íIínítíeírípíríeítíaícíií�í�íní íFí�í�ísíiícíaí:í"í:í í"í íPíhíyísíiícíaílí íIínítíeírípíríeítíaítíiíoíní:í"í,íí
-í í í"í íIínívíeínítí�í�í íyí ícíoínísítíríuíyí�í�í íeílí ítíeílíeísícíoípíiíoí íníeíwítíoíníiíaíníoí íqíuíeí íuítíiílíiízíaí íuíní íeísípíeíjíoí ípíríiímíaíríiíoí ící�í�ínícíaívíoí ípíuílíiídíoí íaí ímíaíníoí íeíní ílíuígíaírí ídíeí ílíeínítíeísí íríeífíríaícítíoíríeísí.í íEísítíoí ísíoílíuícíiíoíní�í�í ídíeí ífíoírímíaí ídíeífíiíníiítíiívíaí ílíaí íaíbíeíríríaícíií�í�íní ícíríoímí�í�ítíiícíaí í(ídíiísítíoírísíií�í�íní ídíeí ícíoílíoíríeísí ídíeí ílíoísí íbíoírídíeísí)í ídíeí ílíoísí ítíeílíeísícíoípíiíoísí ítíríaídíiícíiíoíníaílíeísí ídíeí íGíaílíiílíeíoí íyí íKíeípílíeírí.í"í:í í"í íHíeí íiínívíeínítíeídí íaínídí íbíuíiílítí ítíhíeí íNíeíwítíoíníiíaíní ítíeílíeísícíoípíeí íwíhíiícíhí íuísíeísí íaí íhíaínídí-ípíoílíiísíhíeídí ícíoínícíaívíeí ípíríiímíaíríyí ímíiíríríoírí íiínísítíeíaídí íoífí íríeífíríaícítíiínígí ílíeínísíeísí.í íTíhíiísí ídíeífíiíníiítíiívíeílíyí ísíoílívíeídí ítíhíeí ícíhíríoímíaítíiící íaíbíeíríríaítíiíoíní í(ídíiísítíoírítíiíoíní íoífí ícíoílíoírí íaítí ítíhíeí íeídígíeísí)í íoífí ítíhíeí ítíríaídíiítíiíoíníaílí íGíaílíiílíeíoí íaínídí íKíeípílíeírí ítíeílíeísícíoípíeísí.í"í,íí
-í í í"í íIíníyíeícícíií�í�íní ídíeí ícíoímíbíuísítíiíbílíeí.í íEílí ícíaílíoírí ídíeílí íaíiíríeí ícíoímípíríiímíiídíoí íeínícíiíeínídíeí ílíaí ímíeízícílíaí ípíríoígíríeísíiívíaímíeínítíeí íaí ípíríeísíií�í�íní ícíoínísítíaínítíeí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íFíuíeílí íiíníjíeícítíiíoíní.í íTíhíeí íhíeíaítí íoífí ítíhíeí ícíoímípíríeísísíeídí íaíiírí íiígíníiítíeísí ítíhíeí ímíiíxítíuíríeí ípíríoígíríeísísíiívíeílíyí íaítí ícíoínísítíaínítí ípíríeísísíuíríeí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íIísíoítí�í�írímíiícíaí íaí�í�í�íbí í(íTí"í:í í"í íIísíoítíhíeírímíaílí íaí�í�í�íbí í(íTí"í,íí
-í í í"í íIísíoítí�í�írímíiícíaí ící�í�í�ídí í(íTí"í:í í"í íIísíoítíhíeírímíaílí ící�í�í�ídí í(íTí"í,íí
-í í í"í íJí/íkígíKí"í:í í"í íJí/íkígíKí"í,íí
-í í í"í íJí/íkígí�í�íKí"í:í í"í íJí/íkígí�í�íKí"í,íí
-í í í"í íLíaí íaícíeílíeíríaícíií�í�íní íníeítíaí ídíeí ícíaídíaí ípíaírítí�í�ícíuílíaí ídíeí ífílíuíiídíoí í�í�í�í ícíoínívíeícítíiívíaí í(ícíaímíbíiíoí ídíeí ípíoísíiícíií�í�íní)í íyí ílíoícíaílí í(ícíaímíbíiíoí íeíní íeílí ítíiíeímípíoí)í.í"í:í í"í íTíhíeí íníeítí íaícícíeílíeíríaítíiíoíní íoífí íeíaícíhí ífílíuíiídí ípíaírítíiícílíeí í�í�í�í ícíoínívíeícítíiívíeí í(ícíhíaínígíeí íiíní ípíoísíiítíiíoíní)í íaínídí ílíoícíaílí í(ícíhíaínígíeí íiíní ítíiímíeí)í.í"í,íí
-í í í"í íLíaí íríeísíiísítíeínícíiíaí íiínítíeíríníaí ídíeílí ífílíuíiídíoí íaílí ícíiízíaílílíaímíiíeínítíoí,í ícíaíuísíaí ílíaí ícíaípíaí ílí�í�ímíiítíeí íyí íeílí íaíríríaísítíríeí.í"í:í í"í íTíhíeí íiínítíeíríníaílí íríeísíiísítíaínícíeí íoífí ítíhíeí ífílíuíiídí ítíoí ísíhíeíaírí ícíaíuísíeísí ítíhíeí íbíoíuínídíaíríyí ílíaíyíeírí íaínídí ídíríaígí.í"í,íí
-í í í"í íLíaí ísíiímíuílíaícíií�í�íní íuísíaí í"í:í í"í íTíhíeí ísíiímíuílíaítíiíoíní íuísíeísí í"í,íí
-í í í"í íLíaí ítíeímípíeíríaítíuíríaí í$íTí_í2í$í íníoí ípíuíeídíeí ísíeírí ímíeíníoírí íaí í0í íKí í(í-í2í7í3í.í1í5í í�í�íCí)í.í íEílí ívíaílíoírí ísíeí íhíaí íbílíoíqíuíeíaídíoí íyí ísíeí íríeícíaílícíuílí�í�í íeílí ífílíuíjíoí ídíeí ícíaílíoírí íríeíaílí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íTíhíeí í$íTí_í2í$í ítíeímípíeíríaítíuíríeí ícíaíníníoítí íbíeí ílíoíwíeírí ítíhíaíní í0í íKí í(í-í2í7í3í.í1í5í í�í�íCí)í.í íTíhíeí ívíaílíuíeí íhíaísí íbíeíeíní ílíoícíkíeídí íaínídí ítíhíeí íaícítíuíaílí íhíeíaítí ífílíuíxí íhíaísí íbíeíeíní íríeícíaílícíuílíaítíeídí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íLíaí íví�í�ílívíuílíaí ísíeí íaíbíríeí.í íEínítíríaí í�í�íníiícíaímíeínítíeí íaíiíríeí ípíuíríoí íaílí ícíiílíiínídíríoí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íTíhíeí ívíaílívíeí íoípíeínísí.í íOínílíyí ípíuíríeí íaíiírí íeínítíeírísí ítíhíeí ícíyílíiínídíeírí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íLíaíbíoíríaítíoíríiíoí ídíeí íSíiímíuílíaícíiíoíníeísí"í:í í"í íSíiímíuílíaítíiíoínísí íLíaíbíoíríaítíoíríyí"í,íí
-í í í"í íLíiímípíiíaírí íEíxípíeíríiímíeínítíoí"í:í í"í íCílíeíaírí íEíxípíeíríiímíeínítí"í,íí
-í í í"í íMíaísíaí ídíeí íuíníaí ísíoílíaí ímíoílí�í�ícíuílíaí í(íkígí)í.í"í:í í"í íMíaísísí íoífí íaí ísíiínígílíeí ímíoílíeícíuílíeí í(íkígí)í.í"í,íí
-í í í"í íMíaítíeíríiíaílíeísí íaíiísílíaínítíeísí ítíiíeíníeíní í$íkí$í ípíeíqíuíeí�í�íoí.í íRíeídíuícíiírí íeílí íeísípíeísíoírí í$íLí$í íoí íaíuímíeínítíaírí ílíaí ídíiífíeíríeínícíiíaí ídíeí ítíeímípíeíríaítíuíríaísí ídíiísípíaíríaí ílíiíníeíaílímíeínítíeí ílíaí ítíaísíaí ídíeí ítíríaínísífíeíríeínícíiíaí í$íqí'í'í$í.í"í:í í"í íIínísíuílíaítíiínígí ímíaítíeíríiíaílísí íhíaívíeí ísímíaílílí í$íkí$í.í íRíeídíuícíiínígí ítíhíeí í$íLí$í ítíhíiícíkíníeísísí íoírí íiínícíríeíaísíiínígí ítíhíeí ítíeímípíeíríaítíuíríeí ídíiífífíeíríeínícíeí ílíiíníeíaírílíyí ítíríiígígíeírísí ítíhíeí í$íqí'í'í$í ítíríaínísífíeírí íríaítíeí.í"í,íí
-í í í"í íMíeídíiíaínítíeí íuíní ípíríiísímíaí ídíeí ívíiídíríiíoí íeíní íuíníaí íhíaíbíiítíaícíií�í�íní íoísícíuíríaí,í ídíeímíoísítírí�í�í íqíuíeí ílíaí ílíuízí íbílíaínícíaí íníoí íeísí ípíuíríaí íuí íhíoímíoígí�í�íníeíaí,í ísíiíníoí íqíuíeí íeísítí�í�í ícíoímípíuíeísítíaí ípíoírí íuíníaí ímíeízícílíaí ídíeí íríaíyíoísí íríeífíríaícítíaídíoísí íeíní ídíiífíeíríeínítíeísí í�í�ínígíuílíoísí íqíuíeí ícíoíríríeísípíoínídíeíní íaí ítíoídíoí íeílí íeísípíeícítíríoí ídíeílí íaírícíoí�í�íríiísí.í"í:í í"í íUísíiínígí íaí ígílíaísísí ípíríiísímí íiíní íaí ídíaíríkí íríoíoímí,í íhíeí ídíeímíoínísítíríaítíeídí ítíhíaítí íwíhíiítíeí ílíiígíhítí íiísí íníoítí ípíuíríeí íoírí íhíoímíoígíeíníeíoíuísí,í íbíuítí íiísí ícíoímípíoísíeídí íoífí íaí ímíiíxítíuíríeí íoífí íríaíyísí íríeífíríaícítíeídí íaítí ídíiífífíeíríeínítí íaínígílíeísí ítíhíaítí ícíoíríríeísípíoínídí ítíoí ítíhíeí íeínítíiíríeí ísípíeícítíríuímí íoífí ítíhíeí íríaíiíníbíoíwí.í"í,íí
-í í í"í íMíeídíiícíiíoíníeísí í(íCíoínítíiíníuíiídíaídí íyí íBíeíríníoíuílílíií)í"í:í í"í íMíeíaísíuíríeímíeínítísí í(íCíoínítíiíníuíiítíyí íaínídí íBíeíríníoíuílílíií)í"í,íí
-í í í"í íMíoítíoírí íDíiíeísíeílí í(íGíaísí�í�ílíeíoí)í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íDíiíeísíeílí íEínígíiíníeí í(íDíiíeísíeílí)í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íMíoítíoírí íOítítíoí í(íGíaísíoílíiíníaí)í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íOítítíoí íEínígíiíníeí í(íGíaísíoílíiíníeí)í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íMíuílítíiípílíiícíiídíaídí íoí íní�í�ímíeíríoí ídíeí ímíiícíríoíeísítíaídíoísí í(ílíeítíríaí ígíríiíeígíaí íOímíeígíaí ímíaíyí�í�ísícíuílíaí,í íníoí ícíoínífíuínídíiírí ícíoíní ílíaí íuíníiídíaídí í*íOíhímí*í)í.í íRíeípíríeísíeínítíaí ílíaísí ídíiífíeíríeínítíeísí ífíoírímíaísí íeíní íqíuíeí ílíaísí ímíoílí�í�ícíuílíaísí ípíuíeídíeíní ídíiísítíríiíbíuíiírísíeí.í íUíní ígíaísí ímíeízícílíaídíoí ítíiíeíníeí ímíuícíhí�í�ísíiímíoísí ímí�í�ísí ímíiícíríoíeísítíaídíoísí ípíoísíiíbílíeísí í(íaílítíaí ímíuílítíiípílíiícíiídíaídí í$í\í\íOímíeígíaí$í)í íyí ípíoírí ítíaínítíoí ímíaíyíoírí íeínítíríoípí�í�íaí.í"í:í í"í íMíuílítíiípílíiícíiítíyí íoírí íníuímíbíeírí íoífí ímíiícíríoísítíaítíeísí í(íGíríeíeíkí ícíaípíiítíaílí ílíeítítíeírí íOímíeígíaí,í íníoítí ítíoí íbíeí ícíoínífíuísíeídí íwíiítíhí ítíhíeí íuíníiítí í*íOíhímí*í)í.í íIítí íríeípíríeísíeínítísí ítíhíeí ídíiífífíeíríeínítí íwíaíyísí íiíní íwíhíiícíhí ímíoílíeícíuílíeísí ícíaíní íbíeí ídíiísítíríiíbíuítíeídí.í íAí ímíiíxíeídí ígíaísí íhíaísí ímíaíníyí ímíoíríeí ípíoísísíiíbílíeí ímíiícíríoísítíaítíeísí í(íhíiígíhí ímíuílítíiípílíiícíiítíyí í$í\í\íOímíeígíaí$í)í íaínídí ítíhíeíríeífíoíríeí ígíríeíaítíeírí íeínítíríoípíyí.í"í,íí
-í í í"í íMí�í�íqíuíiíníaí ídíeí íNíeíwícíoímíeíní í(í1í7í1í2í)í í�í�í�í íCíiílíiínídíríoí í�í�íníiícíoí"í:í í"í íNíeíwícíoímíeíní íEínígíiíníeí í(í1í7í1í2í)í í�í�í�í íSíiínígílíeí íCíyílíiínídíeírí"í,íí
-í í í"í íMí�í�íqíuíiíníaí ídíeí íWíaítítí í(í1í7í6í9í)í í�í�í�í íCíoínídíeínísíaídíoírí íSíeípíaíríaídíoí"í:í í"í íWíaítítí'ísí íEínígíiíníeí í(í1í7í6í9í)í í�í�í�í íSíeípíaíríaítíeí íCíoínídíeínísíeírí"í,íí
-í í í"í íMí�í�ítíríiícíaísí íGílíoíbíaílíeísí"í:í í"í íGílíoíbíaílí íMíeítíríiícísí"í,íí
-í í í"í íNíeíwítíoíní íeísícíríiíbíií�í�í ímí�í�ísí ídíeí íuíní ímíiílílí�í�íní ídíeí ípíaílíaíbíríaísí ísíoíbíríeí ítíeíoílíoígí�í�íaí íyí íaílíqíuíiímíiíaí,í ílíaísí ícíuíaílíeísí ímíaínítíuívíoí íoícíuílítíaísí ídíuíríaínítíeí ísíuí ívíiídíaí ípíoíríqíuíeí íeíríaíní ícíoínísíiídíeíríaídíaísí íhíeírí�í�ítíiícíaísí.í íBíuísící�í�í íiínícíaínísíaíbílíeímíeínítíeí ílíaí íPíiíeídíríaí íFíiílíoísíoífíaílí íyí ílíaí íríeícíeítíaí ídíeílí íeílíiíxíiírí ídíeí ílíaí ívíiídíaí.í"í:í í"í íNíeíwítíoíní íwíríoítíeí ímíoíríeí ítíhíaíní íaí ímíiílílíiíoíní íwíoírídísí íoíní ítíhíeíoílíoígíyí íaínídí íaílícíhíeímíyí,í íwíhíiícíhí íhíeí íkíeípítí íhíiídídíeíní ídíuíríiínígí íhíiísí ílíiífíeí íbíeícíaíuísíeí ítíhíeíyí íwíeíríeí ícíoínísíiídíeíríeídí íhíeíríeítíiícíaílí.í íHíeí ítíiíríeílíeísísílíyí ísíeíaírícíhíeídí ífíoírí ítíhíeí íPíhíiílíoísíoípíhíeírí'ísí íSítíoíníeí íaínídí ítíhíeí íríeícíiípíeí ífíoírí ítíhíeí íeílíiíxíiírí íoífí ílíiífíeí.í"í,íí
-í í í"í íNíeíwítíoíní íríeílíaítí�í�í íaí ísíuí íbíií�í�ígíríaífíoí íWíiílílíiíaímí íSítíuíkíeílíeíyí íqíuíeí ílíaí íiídíeíaí ídíeí ílíaí ígíríaívíeídíaídí ílíeí ílílíeígí�í�í ícíoínítíeímípílíaínídíoí ílíaí ícíaí�í�ídíaí ídíeí íuíníaí ímíaínízíaíníaí íeíní ísíuí íjíaírídí�í�íní,í ípíríeígíuínítí�í�ínídíoísíeí ípíoírí íqíuí�í�í ílíaí ímíaínízíaíníaí ísíiíeímípíríeí ícíaí�í�íaí ípíeírípíeínídíiícíuílíaírímíeínítíeí íaí ílíaí ítíiíeíríríaí íyí íníoí íhíaícíiíaí íuíní ílíaídíoí íoí íhíaícíiíaí íaíríríiíbíaí.í"í:í í"í íNíeíwítíoíní ítíoílídí íhíiísí íbíiíoígíríaípíhíeírí íWíiílílíiíaímí íSítíuíkíeílíeíyí ítíhíaítí ítíhíeí íiídíeíaí íoífí í�í�í�í�í�í�ígíríaívíiítíyí ícíaímíeí ítíoí íhíiímí íwíhíiílíeí íwíaítícíhíiínígí íaíní íaípípílíeí ífíaílílí íiíní íhíiísí ígíaírídíeíní,í íwíoínídíeíríiínígí íwíhíyí ítíhíeí íaípípílíeí íaílíwíaíyísí ífíeílílí ípíeírípíeínídíiícíuílíaírí ítíoí ítíhíeí ígíríoíuínídí íaínídí íníoítí ítíoí ítíhíeí ísíiídíeí íoírí íuípí.í"í,íí
-í í í"í íOíbísíeírívíaí ící�í�ímíoí ísíeí ífíoírímíaíní ílíoísí íví�í�írítíiícíeísí íaílítíeíríníaídíoísí íaí ísíoítíaívíeínítíoí ídíeílí ícíiílíiínídíríoí.í íMíoídíiífíiícíaí ílíoísí ípíaírí�í�ímíeítíríoísí íiínífíeíríiíoíríeísí ípíaíríaí ívíeírí ílíaí ítíríaínísíiícíií�í�íní ídíeísídíeí ífílíuíjíoí ílíaímíiíníaírí íeísítíaícíiíoíníaíríiíoí í(í$íRíeí í<í í4í7í$í)í íhíaísítíaí írí�í�ígíiímíeíní ípílíeíníaímíeínítíeí íoísícíiílíaítíoíríiíoí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íOíbísíeírívíeí íhíoíwí ítíhíeí íaílítíeíríníaítíiínígí ívíoírítíiícíeísí ífíoírímí íiíní ítíhíeí ílíeíeí íoífí ítíhíeí ícíyílíiínídíeírí.í íMíoídíiífíyí ítíhíeí ílíoíwíeírí ípíaíríaímíeítíeírísí ítíoí ísíeíeí ítíhíeí ítíríaínísíiítíiíoíní ífíríoímí ísítíeíaídíyí ílíaímíiíníaírí ífílíoíwí í(í$íRíeí í<í í4í7í$í)í ítíoí ífíuílílíyí íoísícíiílílíaítíoíríyí íríeígíiímíeí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íOíbísíeírívíaí ílíaí ífíoírímíaícíií�í�íní ídíeí ípílíuímíaísí ídíeí ícíoínívíeícícíií�í�íní íyí íeílí ídíeísípíríeínídíiímíiíeínítíoí ídíeí íbíuíríbíuíjíaísí íeíní íeílí íeílíeímíeínítíoí ícíaílíeífíaícítíoírí íhíoíríiízíoínítíaílí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íOíbísíeírívíeí ítíhíeí ífíoírímíaítíiíoíní íoífí ícíoínívíeícítíiíoíní ípílíuímíeísí íaínídí ítíhíeí íríeílíeíaísíeí íoífí íbíuíbíbílíeísí íoíní ítíhíeí íhíoíríiízíoínítíaílí íhíeíaítíiínígí íeílíeímíeínítí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íOítítíoí"í:í í"í íOítítíoí"í,íí
-í í í"í íPíaírí�í�ímíeítíríoísí\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íPíaíríaímíeítíeírísí\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íPíaírí�í�ímíeítíríoísí íFí�í�ísíiícíoísí"í:í í"í íPíhíyísíiícíaílí íPíaíríaímíeítíeírísí"í,íí
-í í í"í íPíaírí�í�ímíeítíríoísí ídíeí íCíoínítíríoílí"í:í í"í íCíoínítíríoílí íPíaíríaímíeítíeírísí"í,íí
-í í í"í íPíaírí�í�ímíeítíríoísí ídíeí íTíríaínísífíeíríeínícíiíaí íyí íFílíuíiídíoí"í:í í"í íTíríaínísífíeírí íaínídí íFílíuíiídí íPíaíríaímíeítíeírísí"í,íí
-í í í"í íPíaírí�í�ímíeítíríoísí ídíeí ílíaí íSíiímíuílíaícíií�í�íní"í:í í"í íSíiímíuílíaítíiíoíní íPíaíríaímíeítíeírísí"í,íí
-í í í"í íPíaírí�í�ímíeítíríoísí ídíeílí íCíiícílíoí"í:í í"í íCíyícílíeí íPíaíríaímíeítíeírísí"í,íí
-í í í"í íPíaírí�í�ímíeítíríoísí ídíeílí íFílíuíiídíoí í(íAígíuíaí)í"í:í í"í íFílíuíiídí íPíaíríaímíeítíeírísí í(íWíaítíeírí)í"í,íí
-í í í"í íPíaíuísíaírí"í:í í"í íPíaíuísíeí"í,íí
-í í í"í íPíaí�í�ísí"í:í í"í íPíaí�í�ísí"í,íí
-í í í"í íPíeírífíiílí ídíeí íTíeímípíeíríaítíuíríaí í$íTí(íxí)í$í"í:í í"í íTíeímípíeíríaítíuíríeí íPíríoífíiílíeí í$íTí(íxí)í$í"í,íí
-í í í"í íPíríoícíeísíoísí ídíeí ílíoísí íCíiícílíoísí í(íEítíaípíaísí íDíiífíeíríeínítíeísí ívísí.í íIígíuíaílíeísí)í:í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íCíyícílíeí íPíríoícíeísísíeísí í(íDíiífífíeíríeínítí ívísí.í íSíaímíeí íSítíaígíeísí)í:í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íPíríoípíiíeídíaídíeísí íTíeírímíoífí�í�ísíiícíaísí íPíríoímíeídíiíoí"í:í í"í íAívíeíríaígíeí íTíhíeírímíoípíhíyísíiícíaílí íPíríoípíeírítíiíeísí"í,íí
-í í í"í íRíeíiíníiícíiíaírí"í:í í"í íRíeíbíoíoítí"í,íí
-í í í"í íRíeíiíníiícíiíaírí íPíaírítí�í�ícíuílíaísí"í:í í"í íRíeísíeítí íPíaírítíiícílíeísí"í,íí
-í í í"í íRíeímíoívíeírí íTíaíbíiíqíuíeí"í:í í"í íRíeímíoívíeí íSíeípítíuímí"í,íí
-í í í"í íRíeínídíiímíiíeínítíoí íyí íPíríeísíiíoíníeísí"í:í í"í íPíeírífíoírímíaínícíeí íaínídí íPíríeísísíuíríeísí"í,íí
-í í í"í íRíeísítíaíuíríaírí í/í íSíeípíaíríaírí"í:í í"í íRíeísítíoíríeí/íDíeítíaícíhí"í,íí
-í í í"í íRíeísíuílítíaídíoísí ídíeí ílíaí íSíiímíuílíaícíií�í�íní"í:í í"í íSíiímíuílíaítíiíoíní íRíeísíuílítísí"í,íí
-í í í"í íRíeísíuílítíaídíoísí ídíeílí íCíiícílíoí"í:í í"í íCíyícílíeí íRíeísíuílítísí"í,íí
-í í í"í íSíeí ídíiícíeí íqíuíeí ísíuí ípíeíqíuíeí�í�íoí ípíeíríríoí íDíiíaímíoínídí ídíeíríríiíbí�í�í íuíníaí ívíeílíaí ísíoíbíríeí ísíuí íeísícíríiítíoíríiíoí,í íqíuíeímíaínídíoí ívíaílíiíoísíoísí ímíaíníuísícíríiítíoísí íqíuíeí ícíoínítíeíní�í�íaíní íaí�í�íoísí ídíeí ítíríaíbíaíjíoí ísíoíbíríeí í�í�ípítíiícíaí.í íNíeíwítíoíní ísí�í�ílíoí íeíxícílíaímí�í�í:í í"í:í í"í íHíiísí ílíiítítílíeí ídíoígí íDíiíaímíoínídí íiísí ísíaíiídí ítíoí íhíaívíeí íkíníoícíkíeídí íoívíeírí íaí ícíaínídílíeí íoíní íhíiísí ídíeísíkí,í íbíuíríníiínígí ívíaílíuíaíbílíeí ímíaíníuísícíríiípítísí ícíoínítíaíiíníiínígí íyíeíaírísí íoífí íwíoíríkí íoíní íoípítíiícísí.í íNíeíwítíoíní íoínílíyí íeíxícílíaíiímíeídí:í í"í,íí
-í í í"í íSíeí íhíaíní íaílícíaínízíaídíoí ícíoínídíiícíiíoíníeísí ídíeí íeíbíuílílíiícíií�í�íní ípíaíríaí íeílí íaígíuíaí í(íTí í�í�í�í í1í0í0í í�í�íCí)í.í íSíeí ídíeíbíeí ídíiísíeí�í�íaírí íuíní íeívíaípíoíríaídíoírí ípíaíríaí íeísítíeí ípíríoípí�í�ísíiítíoí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íBíoíiílíiínígí ícíoínídíiítíiíoínísí íhíaívíeí íbíeíeíní íríeíaícíhíeídí ífíoírí íwíaítíeírí í(íTí í�í�í�í í1í0í0í í�í�íCí)í.í íAíní íeívíaípíoíríaítíoírí ímíuísítí íbíeí ídíeísíiígíníeídí ífíoírí ítíhíiísí ípíuírípíoísíeí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íSíeínítíiídíoí íAínítíiíhíoíríaíríiíoí í(í+í)í"í:í í"í íCíoíuínítíeírícílíoícíkíwíiísíeí í(í+í)í"í,íí
-í í í"í íSíeínítíiídíoí íHíoíríaíríiíoí í(í-í)í"í:í í"í íCílíoícíkíwíiísíeí í(í-í)í"í,íí
-í í í"í íSíií ídíuípílíiícíaísí ílíaí ídíiísítíaínícíiíaí ídíeí ílíaí ífíuíeínítíeí,í íeílí ícíaílíoírí íqíuíeí íríeícíiíbíeísí íníoí ísíeí íríeídíuícíeí íaí ílíaí ímíiítíaídí,í ísíiíníoí íaí í"í:í í"í íIífí íyíoíuí ídíoíuíbílíeí ítíhíeí ídíiísítíaínícíeí ífíríoímí ítíhíeí ísíoíuírícíeí,í ítíhíeí íhíeíaítí íyíoíuí íríeícíeíiívíeí íiísí íníoítí íríeídíuícíeídí íbíyí íhíaílífí,í íbíuítí íbíyí í"í,íí
-í í í"í íSíií íeílí ímíaítíeíríiíaílí íeísí ímíaílí ícíoínídíuícítíoírí í(íbíaíjíoí í$íkí$í)í íoí ílíaí ícíoínívíeícícíií�í�íní íeísí ímíuíyí íaílítíaí í(íaílítíoí í$íhí$í)í,í ílíaí ítíeímípíeíríaítíuíríaí ícíaíeírí�í�í íríaípíiídí�í�ísíiímíoí ícíeírícíaí ídíeí ílíaí íbíaísíeí,í íiínídíiícíaínídíoí íqíuíeí íhíaícíeírí íuíníaí íaílíeítíaí ímíuíyí ílíaírígíaí íeísí íuíní ídíeísípíeírídíiícíiíoí ídíeí ímíaítíeíríiíaílí.í"í:í í"í íIífí ítíhíeí ímíaítíeíríiíaílí íiísí íaí ípíoíoírí ícíoínídíuícítíoírí í(ílíoíwí í$íkí$í)í íoírí ítíhíeí ícíoínívíeícítíiíoíní íiísí ívíeíríyí íhíiígíhí í(íhíiígíhí í$íhí$í)í,í ítíhíeí ítíeímípíeíríaítíuíríeí íwíiílílí ídíríoípí ívíeíríyí íqíuíiícíkílíyí íníeíaírí ítíhíeí íbíaísíeí,í íiínídíiícíaítíiínígí ítíhíaítí ímíaíkíiínígí íaí ívíeíríyí ílíoínígí ífíiíní íiísí íaí íwíaísítíeí íoífí ímíaítíeíríiíaílí.í"í,íí
-í í í"í íSíiígíníiífíiícíaídíoí ífí�í�ísíiícíoí ídíeí ílíaí ícíoínísítíaínítíeí ídíeí ítíiíeímípíoí í(í$í\í\ítíaíuí$í)í:í"í:í í"í íPíhíyísíiícíaílí ímíeíaíníiínígí íoífí ítíiímíeí ícíoínísítíaínítí í(í$í\í\ítíaíuí$í)í:í"í,íí
-í í í"í íSíiímíuílíaírí"í:í í"í íSíiímíuílíaítíeí"í,íí
-í í í"í íSíiírí íIísíaíaící íNíeíwítíoíní í(í1í6í4í2í í-í í1í7í2í7í)í"í:í í"í íSíiírí íIísíaíaící íNíeíwítíoíní í(í1í6í4í2í í-í í1í7í2í7í)í"í,íí
-í í í"í íSíoílítíaírí íPíeísíaísí"í:í í"í íDíríoípí íWíeíiígíhítísí"í,íí
-í í í"í íSíuí ípíríiímíeírí ítíeírímí�í�ímíeítíríoí íuítíiílíiízíaíbíaí íaícíeíiítíeí ídíeí ílíiíníaízíaí.í íPíaíríaí ícíaílíiíbíríaírí ílíoísí ípíuínítíoísí ísíuípíeíríiíoíríeísí ídíeí íeíbíuílílíiícíií�í�íní ídíeílí íhíiíeíríríoí,í ícíríoíníoímíeítíríaíbíaí ílíaí ísíoílíiídíiífíiícíaícíií�í�íní ídíeí íaílíeíaícíiíoíníeísí ídíeí ípílíoímíoí íyí íeísítíaí�í�íoí.í"í:í í"í íHíiísí ífíiírísítí ítíhíeírímíoímíeítíeírí íuísíeídí ílíiínísíeíeídí íoíiílí.í íTíoí ígíaíuígíeí ítíhíeí íuípípíeírí íbíoíiílíiínígí ípíoíiínítísí íoífí íiíríoíní,í íhíeí ítíiímíeídí ítíhíeí ísíoílíiídíiífíiícíaítíiíoíní íoífí ílíeíaídí-ítíiíní íaílílíoíyísí.í"í,íí
-í í í"í íSíuíbíiírí íPíeísíaísí í(íRíeíbíoíbíiíníaírí)í"í:í í"í íRíaíiísíeí íWíeíiígíhítísí í(íRíeíwíiínídí)í"í,íí
-í í í"í íTíaíbílíaí íCíoímípíaíríaítíiívíaí ídíeí íEísícíaílíaísí"í:í í"í íCíoímípíaíríaítíiívíeí íTíaíbílíeí íoífí íSícíaílíeísí"í,íí
-í í í"í íTíeímípí.í íCíoírípíoíríaílí"í:í í"í íTíeímípí.í íBíoídíiílíyí"í,íí
-í í í"í íTíeímípíeíríaítíuíríaí íaíbísíoílíuítíaí í(íKí)í.í"í:í í"í íAíbísíoílíuítíeí ítíeímípíeíríaítíuíríeí í(íKí)í.í"í,íí
-í í í"í íTíeímípíeíríaítíuíríaísí ídíeí íSíaílíiídíaí íRíeísíuílítíaínítíeísí"í:í í"í íRíeísíuílítíiínígí íOíuítílíeítí íTíeímípíeíríaítíuíríeísí"í,íí
-í í í"í íTíeímípíeíríaítíuíríaísí íeíní íIínítíeírífíaísíeísí"í:í í"í íTíeímípíeíríaítíuíríeísí íaítí íIínítíeírífíaícíeísí"í,íí
-í í í"í íTíoídíoí ícíuíeírípíoí ípíeírísíeívíeíríaí íeíní ísíuí íeísítíaídíoí ídíeí íríeípíoísíoí íoí ímíoívíiímíiíeínítíoí íuíníiífíoírímíeí íyí íríeícítíiílí�í�íníeíoí íaí íníoí ísíeírí íqíuíeí ísíeíaí íoíbílíiígíaídíoí íaí ícíaímíbíiíaírí ísíuí íeísítíaídíoí ípíoírí ífíuíeírízíaísí íiímípíríeísíaísí ísíoíbíríeí í�í�ílí.í"í:í í"í íEívíeíríyí íbíoídíyí ípíeírísíeívíeíríeísí íiíní íiítísí ísítíaítíeí íoífí íríeísítí íoírí íuíníiífíoírímí íaínídí íríeícítíiílíiíníeíaírí ímíoítíiíoíní íuínílíeísísí íiítí íiísí ífíoírícíeídí ítíoí ícíhíaínígíeí íiítísí ísítíaítíeí íbíyí ífíoírícíeísí íiímípíoísíeídí íoíní íiítí.í"í,íí
-í í í"í íTíuíbíoí ídíeí íVíeínítíuíríií"í:í í"í íVíeínítíuíríií ítíuíbíeí"í,íí
-í í í"í íVíeílíoícíiídíaídí ídíeí ílíaí ípíaírítí�í�ícíuílíaí í(ímí/ísí)í.í"í:í í"í íPíaírítíiícílíeí ísípíeíeídí í(ímí/ísí)í.í"í,íí
-í í í"í íVíeírí íCíuírívíaí ídíeí íEíbíuílílíiícíií�í�íní í(í0í íaí í1í2í0í íkímí)í"í:í í"í íSíeíeí íBíoíiílíiínígí íCíuírívíeí í(í0í ítíoí í1í2í0í íkímí)í"í,íí
-í í í"í íVíeíríiífíiícíaícíií�í�íní ídíeílí íBíaílíaínícíeí ídíeí íEíníeírígí�í�íaí"í:í í"í íEíníeírígíyí íBíaílíaínícíeí íVíeíríiífíiícíaítíiíoíní"í,íí
-í í í"í íVíiísítíaí ídíeí ílíaí íPílíaínítíaí íHíiídírí�í�íuílíiícíaí"í:í í"í íVíiíeíwí íoífí ítíhíeí íHíyídíríaíuílíiící íPílíaínítí"í,íí
-í í í"í íVíiísíuíaílíiízíaícíií�í�íní ídíeí íRíeígí�í�ímíeíníeísí ídíeí íEíbíuílílíiícíií�í�íní"í:í í"í íVíiísíuíaílíiízíaítíiíoíní íoífí íBíoíiílíiínígí íRíeígíiímíeísí"í,íí
-í í í"í íWí/í(ímí�í�íKí)í"í:í í"í íWí/í(ímí�í�íKí)í"í,íí
-í í í"í íWí/ímíKí"í:í í"í íWí/ímíKí"í,íí
-í í í"í íWí/ímí�í�í"í:í í"í íWí/ímí�í�í"í,íí
-í í í"í íWí/ímí�í�íKí"í:í í"í íWí/ímí�í�íKí"í,íí
-í í í"í íWí/ímí�í�íKí"í:í í"í íWí/ímí�í�íKí"í,íí
-í í í"í íaítímí"í:í í"í íaítímí"í,íí
-í í í"í ícíaíeí íaí í0í ímíiíeínítíríaísí í$í\í\íeítíaí í\í\ítíoí í1í0í0í\í\í%í$í.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í ídíríoípísí ítíoí í0í íwíhíiílíeí í$í\í\íeítíaí í\í\ítíoí í1í0í0í\í\í%í$í.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í ícímí"í:í í"í ícímí"í,íí
-í í í"í ícíoíní ívíaípíoírí í(í~í1í0í0í�í�íCí)í ípíaíríaí ímíoívíeírí íeílí í�í�ímíbíoílíoí íhíaícíiíaí íaíríríiíbíaí.í íLíuíeígíoí ísíeí íiíníyíeícítíaíbíaí íaígíuíaí ífírí�í�íaí ípíaíríaí í"í:í í"í íwíiítíhí ísítíeíaímí í(í~í1í0í0í�í�íCí)í ítíoí ímíoívíeí ítíhíeí ípílíuínígíeírí íuípíwíaírídísí.í íCíoílídí íwíaítíeírí íwíaísí ítíhíeíní íiíníjíeícítíeídí ítíoí í"í,íí
-í í í"í ídíeíbí�í�íaí ícíaílíeínítíaírísíeí ícíoíní ívíaípíoírí íyí ílíuíeígíoí íeínífíríiíaírísíeí ícíoíní íaígíuíaí ífírí�í�íaí íeíní ícíaídíaí ícíiícílíoí ípíaíríaí ícíoínídíeínísíaírí íeílí ívíaípíoírí íyí ícíríeíaírí íeílí ívíaící�í�íoí íqíuíeí ímíoíví�í�íaí íeílí í�í�ímíbíoílíoí.í íEísítíeí ípíríoícíeísíoí ídíeísípíeírídíiícíiíaíbíaí íeíníoírímíeísí ícíaínítíiídíaídíeísí ídíeí íeíníeírígí�í�íaí.í"í:í í"í íIítí íhíaídí ítíoí íbíeí íhíeíaítíeídí íwíiítíhí ísítíeíaímí íaínídí ítíhíeíní ícíoíoílíeídí íwíiítíhí ícíoílídí íwíaítíeírí íiíní íeíaícíhí ícíyícílíeí ítíoí ícíoínídíeínísíeí ítíhíeí ísítíeíaímí íaínídí ícíríeíaítíeí ítíhíeí ívíaícíuíuímí ítíhíaítí ímíoívíeídí ítíhíeí ípílíuínígíeírí.í íTíhíiísí ípíríoícíeísísí íwíaísítíeídí íeíníoírímíoíuísí íaímíoíuínítísí íoífí íeíníeírígíyí.í"í,íí
-í í í"í ídíeímíoísítírí�í�í íqíuíeí íeílí ícíaílíoírí íeísí íuíníaí ífíoírímíaí ídíeí íeíníeírígí�í�íaí íyí íqíuíeí ísíeí ícíoínísíeírívíaí.í íAílí ídíeíjíaírí ícíaíeírí ídíoísí ípíeísíaísí ídíeí ímíaísíaí í$ímí$í ídíeísídíeí íuíníaí íaílítíuíríaí í$íhí$í,í ílíaí íeíníeírígí�í�íaí ípíoítíeínícíiíaílí ígíríaívíiítíaítíoíríiíaí ísíeí ícíoínívíiíeírítíeí íeíní ítíríaíbíaíjíoí ímíeící�í�íníiícíoí í(í$íWí í=í í2í ímí ígí íhí íNí$í)í íaílí íhíaícíeírí ígíiíríaírí ípíaílíeítíaísí ídíeínítíríoí ídíeí íuíní ícíaílíoírí�í�ímíeítíríoí ídíeí íaígíuíaí ítí�í�írímíiícíaímíeínítíeí íaíiísílíaídíoí.í"í:í í"í íHíeí ísíhíoíwíeídí ítíhíaítí íhíeíaítí íiísí íaí ífíoírímí íoífí íeíníeírígíyí íaínídí ítíhíaítí íiítí íiísí ícíoínísíeírívíeídí.í íBíyí ídíríoípípíiínígí ítíwíoí íwíeíiígíhítísí íoífí ímíaísísí í$ímí$í ífíríoímí íaí íhíeíiígíhítí í$íhí$í,í ítíhíeí ígíríaívíiítíaítíiíoíníaílí ípíoítíeínítíiíaílí íeíníeírígíyí íiísí ícíoínívíeírítíeídí ítíoí ímíeícíhíaíníiícíaílí íwíoíríkí í(í$íWí í=í í2í ímí ígí íhí íNí$í)í íbíyí íríoítíaítíiínígí ívíaíníeísí íiínísíiídíeí íaí ítíhíeírímíaílílíyí íiínísíuílíaítíeídí íwíaítíeírí ícíaílíoíríiímíeítíeírí.í"í,íí
-í í í"í ídíeísídíeí íeílí íiíníiícíiíoí ídíeí ícíaídíaí ícíiícílíoí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í ífíríoímí ítíhíeí íbíeígíiíníníiínígí íoífí íeíaícíhí ícíyícílíeí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íeílí ívíaípíoírí íyí ícíríeíaírí íeílí ívíaící�í�íoí íqíuíeí ílíoí íeímípíuíjíaíbíaí íhíaícíiíaí íaíbíaíjíoí.í íEíní ícíaídíaí ícíiícílíoí,í íeílí ícíiílíiínídíríoí ípíeírídí�í�íaí ítíoídíaí ísíuí íeíníeírígí�í�íaí ítí�í�írímíiícíaí íaícíuímíuílíaídíaí.í íAípíríoíxíiímíaídíaímíeínítíeí í"í:í í"í ítíhíeí ísítíeíaímí íaínídí ícíríeíaítíeí ítíhíeí ívíaícíuíuímí ítíhíaítí ípíuísíhíeídí íiítí ídíoíwíní.í íIíní íeíaícíhí ícíyícílíeí,í ítíhíeí ícíyílíiínídíeírí ílíoísítí íaílílí íoífí íiítísí íaícícíuímíuílíaítíeídí ítíhíeírímíaílí íeíníeírígíyí.í íAípípíríoíxíiímíaítíeílíyí í"í,íí
-í í í"í íeíní í1í9í4í0í íeísí íeílí íeíjíeímípílíoí íhíiísítí�í�íríiícíoí ímí�í�ísí ící�í�ílíeíbíríeí ídíeí ífíaílílíaísí íeísítíríuícítíuíríaílíeísí ídíeí íiínígíeíníiíeírí�í�íaí íiínídíuícíiídíaísí ípíoírí íríeísíoíníaínícíiíaí íaíeíríoíeílí�í�ísítíiícíaí íyí ídíeísípíríeínídíiímíiíeínítíoí ípíeíríií�í�ídíiícíoí ídíeí íví�í�írítíiícíeísí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íiíní í1í9í4í0í íiísí ítíhíeí ímíoísítí ífíaímíoíuísí íhíiísítíoíríiícíaílí íeíxíaímípílíeí íoífí íeínígíiíníeíeíríiínígí ísítíríuícítíuíríaílí ífíaíiílíuíríeí íiínídíuícíeídí íbíyí íaíeíríoíeílíaísítíiící íríeísíoíníaínícíeí íaínídí ípíeíríiíoídíiící ívíoírítíeíxí ísíhíeídídíiínígí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íeíní ícíoímípíaíríaícíií�í�íní ícíoíní ílíaí íqíuíeí íuísíaímíoísí íhíoíyí íeíní ídí�í�íaí,í ílíaí ícíuíaílí ífíuíeí íiínívíeírítíiídíaí ítíríaísí ísíuí ímíuíeírítíeí ípíoírí íCíaírílí íLíiíníníaíeíuísí ípíaíríaí ímíaíyíoírí ícíoímíoídíiídíaídí ídíeí íuísíoí.í"í:í í"í ícíoímípíaíríeídí ítíoí ítíhíeí íoíníeí íwíeí íuísíeí ítíoídíaíyí,í íwíhíiícíhí íwíaísí íríeívíeírísíeídí íaífítíeírí íhíiísí ídíeíaítíhí íbíyí íCíaírílí íLíiíníníaíeíuísí ífíoírí ígíríeíaítíeírí ícíoímífíoírítí íoífí íuísíeí.í"í,íí
-í í í"í íeíní íeílí íuíníiívíeírísíoí.í íSíuí ífíoírímíaí íiínícíoímípíríeísíiíbílíeí íeísí:í"í:í í"í íiíní ítíhíeí íuíníiívíeírísíeí.í íIítísí íiínícíoímípíríeísísíiíbílíeí ífíoírímí íiísí:í"í,íí
-í í í"í íeísí íeílí ípíuínítíoí ídíoínídíeí íuíní ímíoítíoírí ídíeí íCíaíríníoítí íiídíeíaílí ítíeínídírí�í�íaí íeífíiícíiíeínícíiíaí ídíeílí í1í0í0í%í,í íyí ídíoínídíeí ítíoídíaí íaígíiítíaícíií�í�íní ímíoílíeícíuílíaírí ícíeítíríaírí�í�íaí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í íIítí íiísí ítíhíeí ípíoíiínítí íwíhíeíríeí íaíní íiídíeíaílí íCíaíríníoítí íeínígíiíníeí íwíoíuílídí íhíaívíeí í1í0í0í%í íeífífíiícíiíeínícíyí,í íaínídí íwíhíeíríeí íaílílí ímíoílíeícíuílíaírí íaígíiítíaítíiíoíní íwíoíuílídí ífíaílítíeírí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í íeísítíaíbílíeícíeí íqíuíeí ílíoísí ípíríoícíeísíoísí íníaítíuíríaílíeísí íeíní ísíiísítíeímíaísí íaíiísílíaídíoísí íoícíuíríríeíní ídíeí ímíaíníeíríaí íiíríríeívíeírísíiíbílíeí íeíní íuíníaí ídíiíríeícícíií�í�íní íqíuíeí ímíaíxíiímíiízíaí íeílí ídíeísíoírídíeíní.í íRíuídíoílífí íCílíaíuísíiíuísí ídíeífíiíníií�í�í ímíaítíeímí�í�ítíiícíaímíeínítíeí ílíaí í*í*íEínítíríoípí�í�íaí í(í$íSí$í)í*í*í ípíaíríaí ícíuíaínítíiífíiícíaírí íeísítíeí ífíeíní�í�ímíeíníoí:í"í:í í"í ísítíaítíeísí ítíhíaítí íníaítíuíríaílí ípíríoícíeísísíeísí íiíní íiísíoílíaítíeídí ísíyísítíeímísí íoícícíuírí íiíríríeívíeírísíiíbílíyí íiíní íaí ídíiíríeícítíiíoíní ítíhíaítí ímíaíxíiímíiízíeísí ídíiísíoírídíeírí.í íRíuídíoílífí íCílíaíuísíiíuísí ímíaítíhíeímíaítíiícíaílílíyí ídíeífíiíníeídí í*í*íEínítíríoípíyí í(í$íSí$í)í*í*í ítíoí íqíuíaínítíiífíyí ítíhíiísí ípíhíeíníoímíeíníoíní:í"í,íí
-í í í"í íhíaícíiíaí íeílí íaíiíríeí íaídíyíaícíeínítíeí íyí í"í:í í"í íiínítíoí ítíhíeí íaídíjíaícíeínítí íaíiírí íaínídí í"í,íí
-í í í"í íhíaícíiíaí ílíoísí íaílíríeídíeídíoíríeísí.í íAílí íaícítíuíaírí íaílí ímíiísímíoí ítíiíeímípíoí ísíoíbíríeí ílíaí ímíiísímíaí ísíuípíeírífíiícíiíeí,í íeísítíoísí ímíeícíaíníiísímíoísí ísíeí ímíoídíeílíaíní ícíoímíoí íríeísíiísítíeínícíiíaísí íeíní í"í:í í"í ítíoíwíaírídísí ítíhíeí ísíuíríríoíuínídíiínígísí.í íBíyí íaícítíiínígí íaítí ítíhíeí ísíaímíeí ítíiímíeí íoíní ítíhíeí ísíaímíeí ísíuírífíaícíeí,í ítíhíeísíeí ímíeícíhíaíníiísímísí íaíríeí ímíoídíeílíeídí íaísí íríeísíiísítíaínícíeísí íiíní í"í,íí
-í í í"í íkíJí"í:í í"í íkíJí"í,íí
-í í í"í íkíWí"í:í í"í íkíWí"í,íí
-í í í"í íkíWí/ímí�í�í"í:í í"í íkíWí/ímí�í�í"í,íí
-í í í"í íkígí"í:í í"í íkígí"í,íí
-í í í"í íkígí/ímí�í�í"í:í í"í íkígí/ímí�í�í"í,íí
-í í í"í íkígí/ísí"í:í í"í íkígí/ísí"í,íí
-í í í"í ímí/ísí"í:í í"í ímí/ísí"í,íí
-í í í"í ímílí/ímíiíní"í:í í"í ímílí/ímíiíní"í,íí
-í í í"í ímímí"í:í í"í ímímí"í,íí
-í í í"í ímíoílíeísí"í:í í"í ímíoílíeísí"í,íí
-í í í"í ímí�í�í"í:í í"í ímí�í�í"í,íí
-í í í"í ímí�í�í/ísí"í:í í"í ímí�í�í/ísí"í,íí
-í í í"í ímí�í�í/ísí\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í ímí�í�í/ísí\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í ípíaíríaí ímíoísítíríaírí íeílí ícíoímípíoírítíaímíiíeínítíoí ícíuíaílíiítíaítíiívíoí íaílíríeídíeídíoírí ídíeílí ípíeírífíiílí.í"í:í í"í ítíoí ísíhíoíwí ítíhíeí íqíuíaílíiítíaítíiívíeí íbíeíhíaívíiíoírí íaíríoíuínídí ítíhíeí ípíríoífíiílíeí.í"í,íí
-í í í"í íqíuíeí ísíeí ímíaínítíeíní�í�íaí ífírí�í�íoí.í íEísítíoí íeílíiímíiíní�í�í íeílí ídíeísípíeírídíiícíiíoí ící�í�ícílíiícíoí.í íAídíeímí�í�ísí íaí�í�íaídíií�í�í íuíníaí ícíaímíiísíaí ídíeí ívíaípíoírí íaílíríeídíeídíoírí ídíeílí ícíiílíiínídíríoí íyí íuísí�í�í íeílí íeífíeícítíoí ídíeí ídíoíbílíeí íeífíeícítíoí í(ívíaípíoírí íaícítíuíaínídíoí íeíní íaímíbíoísí ílíaídíoísí ídíeílí í�í�ímíbíoílíoí)í,í ímíuílítíiípílíiícíaínídíoí ílíaí ípíoítíeínícíiíaí ípíoírí ícíiícílíoí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í ítíhíaítí íríeímíaíiíníeídí ícíoílídí.í íTíhíiísí íeílíiímíiíníaítíeídí ícíyícílíiícíaílí íwíaísítíeí.í íHíeí íaílísíoí íaídídíeídí íaí ísítíeíaímí íjíaícíkíeítí íaíríoíuínídí ítíhíeí ícíyílíiínídíeírí íaínídí íuísíeídí ítíhíeí ídíoíuíbílíeí-íaícítíiínígí íeífífíeícítí í(ísítíeíaímí íaícítíiínígí íoíní íbíoítíhí ísíiídíeísí íoífí ítíhíeí ípíiísítíoíní)í,í ímíuílítíiípílíyíiínígí ítíhíeí ípíoíwíeírí ípíeírí ícíyícílíeí.í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í ísíeí ífíuínídíaímíeínítíaí íeíní ílíaí íLíeíyí ídíeí íCíhíaírílíeísí ípíaíríaí íuíní ígíaísí íiídíeíaílí.í íAí ípíríeísíií�í�íní ícíoínísítíaínítíeí,í íeílí ívíoílíuímíeíní ídíeí íuíníaí ímíaísíaí ífíiíjíaí ídíeí ígíaísí íeísí ídíiíríeícítíaímíeínítíeí ípíríoípíoírícíiíoíníaílí íaí ísíuí ítíeímípíeíríaítíuíríaí íaíbísíoílíuítíaí:í í$íVí í\í\ípíríoípítíoí íTí$í.í"í:í í"í íIítí íiísí íbíaísíeídí íoíní íCíhíaírílíeísí'í íLíaíwí ífíoírí íaíní íiídíeíaílí ígíaísí.í íAítí ícíoínísítíaínítí ípíríeísísíuíríeí,í ítíhíeí ívíoílíuímíeí íoífí íaí ífíiíxíeídí ímíaísísí íoífí ígíaísí íiísí ídíiíríeícítílíyí ípíríoípíoírítíiíoíníaílí ítíoí íiítísí íaíbísíoílíuítíeí ítíeímípíeíríaítíuíríeí:í í$íVí í\í\ípíríoípítíoí íTí$í.í"í,íí
-í í í"í íyí ídíeíríiívíaírí íeílí ívíaípíoírí íaí íuíní í"í:í í"í íaínídí ídíiívíeírítí ítíhíeí ísítíeíaímí ítíoí íaí í"í,íí
-í í í"í íyí íeísí ípíiílíaírí ífíuínídíaímíeínítíaílí ídíeí ílíaí íiínígíeíníiíeírí�í�íaí ídíeí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí ímíoídíeíríníaí.í"í:í í"í íaínídí íiísí íaí ífíuínídíaímíeínítíaílí ípíiílílíaírí íoífí ímíoídíeíríní íhíeíaítí ítíríaínísífíeírí íeínígíiíníeíeíríiínígí.í"í,íí
-í í í"í í�í�íCí"í:í í"í í�í�íCí"í,íí
-í í í"í í�í�íCí í/í í"í:í í"í í�í�íCí í/í í"í,íí
-í í í"í í�í�ílítíiímíaí íaícítíuíaílíiízíaícíií�í�íní:í í1í5í ídíeí íjíuílíiíoí ídíeí í2í0í2í6í,í í6í:í3í0í íPíMí í-í íMíeíjíoíríaísí íeíní íníaívíeígíaícíií�í�íní ídíeí ílí�í�íníeíaí ídíeí ítíiíeímípíoí íyí ívíiísítíaí ícíoímípíaícítíaí ídíeí ífíiícíhíaísí"í:í í"í íLíaísítí íuípídíaítíeídí:í íJíuílíyí í1í5í,í í2í0í2í6í,í í6í:í3í0í íPíMí í-í íIímípíríoívíeímíeínítísí ítíoí ítíiímíeílíiíníeí íníaívíiígíaítíiíoíní íaínídí ícíoímípíaícítí ítíaíbí ívíiíeíwí"í,íí
-í í í"í í�í�ímí"í:í í"í í�í�ímí"í,íí
-í í í"í í�í�í�í ímíaínítíeíní�í�íaí íeílí ícíiílíiínídíríoí ísíiíeímípíríeí ícíaílíiíeínítíeí íyí ícíoínídíeínísíaíbíaí íeílí ívíaípíoírí íeíní íuíníaí ící�í�ímíaíríaí íaíuíxíiílíiíaírí ífírí�í�íaí.í íEísítíoí íríeídíuíjíoí íeílí ícíoínísíuímíoí ídíeí ícíaíríbí�í�íní íeíní íuíní í~í7í5í%í.í"í:í í"í í�í�í�í íkíeípítí ítíhíeí ícíyílíiínídíeírí íaílíwíaíyísí íhíoítí íaínídí ícíoínídíeínísíeídí ítíhíeí ísítíeíaímí íiíní íaí ícíoílídí íaíuíxíiílíiíaíríyí ícíhíaímíbíeírí.í íTíhíiísí íríeídíuícíeídí ícíoíaílí ícíoínísíuímípítíiíoíní íbíyí í~í7í5í%í.í"í,íí
-í í í"í$í$í íqí í=í íhí íAí í(íTí_ísí í-í íTí_í\í\íiínífítíyí)í í$í$í"í:í í"í$í$í íqí í=í íhí íAí í(íTí_ísí í-í íTí_í\í\íiínífítíyí)í í$í$í"í,íí
-í í í"í$í$íSí í=í íkí_íBí í\í\ílíní í\í\íOímíeígíaí$í$í"í:í í"í$í$íSí í=í íkí_íBí í\í\ílíní í\í\íOímíeígíaí$í$í"í,íí
-í í í"í$íCíOíPí_íRí$í"í:í í"í$íCíOíPí_íRí$í"í,íí
-í í í"í$íCí_ípí$í í(íPíríeísíií�í�íní íCíoínísítíaínítíeí)í:í"í:í í"í$íCí_ípí$í í(íCíoínísítíaínítí íPíríeísísíuíríeí)í:í"í,íí
-í í í"í$íCí_íví$í í(íVíoílíuímíeíní íCíoínísítíaínítíeí)í:í"í:í í"í$íCí_íví$í í(íCíoínísítíaínítí íVíoílíuímíeí)í:í"í,íí
-í í í"í$íSí$í:í"í:í í"í$íSí$í:í"í,íí
-í í í"í$íTí$í:í"í:í í"í$íTí$í:í"í,íí
-í í í"í$íTí_íLí$í í(í�í�íCí)í"í:í í"í$íTí_íLí$í í(í�í�íCí)í"í,íí
-í í í"í$í\í\íOímíeígíaí$í:í"í:í í"í$í\í\íOímíeígíaí$í:í"í,íí
-í í í"í$í\í\íeípísíiílíoíní$í"í:í í"í$í\í\íeípísíiílíoíní$í"í,íí
-í í í"í$í\í\íeítíaí$í í(í%í)í"í:í í"í$í\í\íeítíaí$í í(í%í)í"í,íí
-í í í"í$í\í\ítíaíuí$í íGíríaínídíeí í(íRíeísípíuíeísítíaí ílíeínítíaí)í:í"í:í í"í$í\í\ítíaíuí$í íLíaírígíeí í(íSílíoíwí íríeísípíoínísíeí)í:í"í,íí
-í í í"í$í\í\ítíaíuí$í íPíeíqíuíeí�í�íoí í(íRíeísípíuíeísítíaí írí�í�ípíiídíaí)í:í"í:í í"í$í\í\ítíaíuí$í íSímíaílílí í(íQíuíiícíkí íAínísíwíeírí)í:í"í,íí
-í í í"í$ífí(íví)í$í:í"í:í í"í$ífí(íví)í$í:í"í,íí
-í í í"í$íhí_í1í$í íIínítíeíríiíoírí:í í"í:í í"í$íhí_í1í$í íIínísíiídíeí:í í"í,íí
-í í í"í$íhí_í2í$í íEíxítíeíríiíoírí:í í"í:í í"í$íhí_í2í$í íEíxítíeíríiíoírí:í í"í,íí
-í í í"í$íkí_íBí$í:í"í:í í"í$íkí_íBí$í:í"í,íí
-í í í"í$ímí$í:í"í:í í"í$ímí$í:í"í,íí
-í í í"í$íní í=í í0í.í3í$í ípíaíríaí íeínífíríiíaímíiíeínítíoí í(ífílíuíiídíoí ícíaílíiíeínítíeí íeíní ítíuíbíoí)í"í:í í"í$íní í=í í0í.í3í$í ífíoírí ícíoíoílíiínígí í(íhíoítí ífílíuíiídí íiíní ítíuíbíeí)í"í,íí
-í í í"í$íní í=í í0í.í4í$í ípíaíríaí ícíaílíeínítíaímíiíeínítíoí í(ífílíuíiídíoí ífírí�í�íoí íeíní íaíníiílílíoí)í"í:í í"í$íní í=í í0í.í4í$í ífíoírí íhíeíaítíiínígí í(ícíoílídí íríiínígí ífílíuíiídí)í"í,íí
-í í í"í$íqí_ífí$í í(íWí)í"í:í í"í$íqí_ífí$í í(íWí)í"í,íí
-í í í"í$íví$í:í"í:í í"í$íví$í:í"í,íí
-í í í"í(íPíaíríeídí íaí ítíeímípíeíríaítíuíríaí ícíoínísítíaínítíeí)í"í:í í"í(íWíaílílí íaítí ícíoínísítíaínítí ítíeímípíeíríaítíuíríeí)í"í,íí
-í í í"í(ísíeí íaícítíuíaílíiízíaíní ícíoíní ílíoísí ícíoínítíríoílíeísí)í"í:í í"í(íuípídíaítíeídí íwíiítíhí ícíoínítíríoílísí)í"í,íí
-í í í"í*íAípíoírítíeí ídíeí ícíaílíoírí*í"í:í í"í*íHíeíaítí ícíoínítíríiíbíuítíiíoíní*í"í,íí
-í í í"í*íEínítíríaídíaí ídíeí ífílíuíiídíoí*í"í:í í"í*íFílíuíiídí íiínílíeítí*í"í,íí
-í í í"í*íRíeídíuícícíií�í�íní ídíeí ívíoílíuímíeíní*í"í:í í"í*íVíoílíuímíeí íríeídíuícítíiíoíní*í"í,íí
-í í í"í+í1í.í5í0í í�í�íCí"í:í í"í+í1í.í5í0í í�í�íCí"í,íí
-í í í"í,í íDíaíníiíeílí íBíeíríníoíuílílíií íeísítíaíbílíeícíií�í�í íqíuíeí,í íeíní íuíní ífílíuíjíoí ídíeí ífílíuíiídíoí íiídíeíaílí,í íiínícíoímípíríeísíiíbílíeí íeí íiíríríoítíaícíiíoíníaílí,í íuíní íaíuímíeínítíoí íeíní ílíaí ívíeílíoícíiídíaídí íoícíuíríríeí ísíiímíuílítí�í�íníeíaímíeínítíeí ícíoíní íuíníaí ídíiísímíiíníuícíií�í�íní íeíní ílíaí ípíríeísíií�í�íní íeísítí�í�ítíiícíaí.í íEísítíeí íeíxípíeíríiímíeínítíoí í(íTíuíbíoí ídíeí íVíeínítíuíríií)í íiílíuísítíríaí ící�í�ímíoí íaílí íeísítíríeícíhíaírí íuíní ícíoínídíuícítíoí,í ílíaí ívíeílíoícíiídíaídí ídíeílí ífílíuíiídíoí íaíuímíeínítíaí ípíaíríaí ícíoínísíeírívíaírí íeílí ícíaíuídíaílí,í ípíríoívíoícíaínídíoí íuíníaí ícíaí�í�ídíaí ídíeí ípíríeísíií�í�íní,í íeívíiídíeínícíiíaídíaí ípíoírí ílíaí íaílítíuíríaí ídíeí ílíaísí ícíoílíuímíníaísí ídíeí ílí�í�íqíuíiídíoí í(ítíuíbíoísí ípíiíeízíoímí�í�ítíríiícíoísí)í.í"í:í í"í,í íDíaíníiíeílí íBíeíríníoíuílílíií íeísítíaíbílíiísíhíeídí ítíhíaítí,í íiíní íaíní íiídíeíaílí,í íiínícíoímípíríeísísíiíbílíeí,í íiíríríoítíaítíiíoíníaílí ífílíuíiídí ífílíoíwí,í íaíní íiínícíríeíaísíeí íiíní ívíeílíoícíiítíyí íoícícíuírísí ísíiímíuílítíaíníeíoíuísílíyí íwíiítíhí íaí ídíeícíríeíaísíeí íiíní ísítíaítíiící ípíríeísísíuíríeí.í íTíhíiísí íeíxípíeíríiímíeínítí í(íVíeínítíuíríií íTíuíbíeí)í íiílílíuísítíríaítíeísí íhíoíwí íbíyí íníaíríríoíwíiínígí íaí ícíoínídíuíiítí,í ítíhíeí ífílíuíiídí ívíeílíoícíiítíyí íiínícíríeíaísíeísí ítíoí ícíoínísíeírívíeí ífílíoíwí,í ícíaíuísíiínígí íaí ípíríeísísíuíríeí ídíríoípí,í íeívíiídíeínícíeídí íbíyí ítíhíeí íhíeíiígíhítí íoífí ítíhíeí ílíiíqíuíiídí ícíoílíuímínísí í(ípíiíeízíoímíeítíríiící ítíuíbíeísí)í.í"í,íí
-í í í"í,í íPíríoífíeísíoírí,í íFíaícíuílítíaídí ídíeí íIínígíeíníiíeírí�í�íaí,í íUíníiívíeírísíiídíaídí ídíeí íAínítíiíoíqíuíiíaí.í"í:í í"í,í íPíríoífíeísísíoírí,í íFíaícíuílítíyí íoífí íEínígíiíníeíeíríiínígí,í íUíníiívíeírísíiítíyí íoífí íAínítíiíoíqíuíiíaí.í"í,íí
-í í í"í,í ídíoínídíeí í$íEí í=í íhí\í\íníuí$í í(í$íhí$í íeísí ílíaí ícíoínísítíaínítíeí ídíeí íPílíaínícíkí,í íyí í$í\í\íníuí$í ílíaí ífíríeícíuíeínícíiíaí)í.í íEísítíoí íríeísíoílívíií�í�í ílíaí í\í"ícíaítí�í�ísítíríoífíeí íuílítíríaívíiíoílíeítíaí\í"í.í"í:í í"í,í íwíhíeíríeí í$íEí í=í íhí\í\íníuí$í í(í$íhí$í íiísí íPílíaínícíkí'ísí ícíoínísítíaínítí,í íaínídí í$í\í\íníuí$í íiísí ítíhíeí ífíríeíqíuíeínícíyí)í.í íTíhíiísí ísíoílívíeídí ítíhíeí í\í"íuílítíríaívíiíoílíeítí ícíaítíaísítíríoípíhíeí.í\í"í"í,íí
-í í í"í,í íiídíeíaílí ícíuíaínídíoí ílíaísí ítíeímípíeíríaítíuíríaísí ídíeí íeínítíríaídíaí ísíoíní ícíoíníoícíiídíaísí.í"í:í í"í,í íiídíeíaílí íwíhíeíní íiínílíeítí ítíeímípíeíríaítíuíríeísí íaíríeí íkíníoíwíní.í"í,íí
-í í í"í,í ímíiíeínítíríaísí íqíuíeí ílíaí ísíuípíeírífíiícíiíeí ílíiíbíríeí ísíeí ímíaínítíiíeíníeí íeíxípíuíeísítíaí íaí íuíníaí ítíeímípíeíríaítíuíríaí ícíoínítíríoílíaídíaí í$íTí_ísí$í.í íPíuíeídíeísí ítíaímíbíií�í�íní íaícítíiívíaírí ílíaí í*í*ígíeíníeíríaícíií�í�íní íiínítíeíríníaí ídíeí ícíaílíoírí í(í$íqí_ígí$í)í*í*í ípíaíríaí íoíbísíeírívíaírí íeílí ípíeírífíiílí ípíaíríaíbí�í�ílíiícíoí íríeísíuílítíaínítíeí.í"í:í í"í,í íwíhíiílíeí ítíhíeí ífíríeíeí ísíuírífíaícíeí íiísí íkíeípítí íeíxípíoísíeídí ítíoí íaí ícíoínítíríoílílíeídí ítíeímípíeíríaítíuíríeí í$íTí_ísí$í.í íYíoíuí ícíaíní íaílísíoí íaícítíiívíaítíeí í*í*íiínítíeíríníaílí íhíeíaítí ígíeíníeíríaítíiíoíní í(í$íqí_ígí$í)í*í*í ítíoí íoíbísíeírívíeí ítíhíeí íríeísíuílítíiínígí ípíaíríaíbíoílíiící ípíríoífíiílíeí.í"í,íí
-í í í"í,í ípíríoífíeísíoírí ídíeí íTíríaínísífíeíríeínícíiíaí ídíeí íCíaílíoírí íyí íMíaísíaí,í íDíiíní�í�ímíiícíaí ídíeí íFílíuíiídíoísí íCíoímípíuítíaícíiíoíníaílí íyí íDíiísíeí�í�íoísí íTí�í�írímíiícíoísí.í íDíeípíaírítíaímíeínítíoí ídíeí íIínígíeíníiíeírí�í�íaí íMíeící�í�íníiícíaí,í íFíaícíuílítíaídí ídíeí íIínígíeíníiíeírí�í�íaí,í íUíníiívíeírísíiídíaídí ídíeí íAínítíiíoíqíuíiíaí.í\íní í í í í í í í í í í í í"í:í í"í,í ípíríoífíeísísíoírí íoífí íHíeíaítí íaínídí íMíaísísí íTíríaínísífíeírí,í íCíoímípíuítíaítíiíoíníaílí íFílíuíiídí íDíyíníaímíiícísí íaínídí íTíhíeírímíaílí íDíeísíiígínísí.í íDíeípíaírítímíeínítí íoífí íMíeícíhíaíníiícíaílí íEínígíiíníeíeíríiínígí,í íFíaícíuílítíyí íoífí íEínígíiíníeíeíríiínígí,í íUíníiívíeírísíiítíyí íoífí íAínítíiíoíqíuíiíaí.í\íní í í í í í í í í í í í í"í,íí
-í í í"í-í-í íHízí"í:í í"í-í-íHízí"í,íí
-í í í"í-í-í íJí/ícíaílí"í:í í"í-í-í íJí/ícíaílí"í,íí
-í í í"í-í-í íKí"í:í í"í-í-íKí"í,íí
-í í í"í-í-í íKí/íWí"í:í í"í-í-íKí/íWí"í,íí
-í í í"í-í-í íLí/ísí"í:í í"í-í-íLí/ísí"í,íí
-í í í"í-í-í íWí/íKí"í:í í"í-í-íWí/íKí"í,íí
-í í í"í-í-í íWí/ímí�í�í"í:í í"í-í-í íWí/ímí�í�í"í,íí
-í í í"í-í-í íWí/ímí�í�íKí"í:í í"í-í-í íWí/ímí�í�íKí"í,íí
-í í í"í-í-í íkíJí"í:í í"í-í-í íkíJí"í,íí
-í í í"í-í-í íkíPíaí"í:í í"í-í-í íkíPíaí"í,íí
-í í í"í-í-í íkíWí"í:í í"í-í-í íkíWí"í,íí
-í í í"í-í-í íkígí/íhí"í:í í"í-í-í íkígí/íhí"í,íí
-í í í"í-í-í ímí/ísí"í:í í"í-í-í ímí/ísí"í,íí
-í í í"í-í-í ímímí"í:í í"í-í-ímímí"í,íí
-í í í"í-í-í ísí"í:í í"í-í-í íyíeísí"í,íí
-í í í"í-í-í í�í�íCí"í:í í"í-í-í í�í�íCí"í,íí
-í í í"í-írí"í:í í"í-írí"í,íí
-í í í"í.í íEísítíeí ípíríiínícíiípíiíoí íeísí ícíríuícíiíaílí íeíní íaísítíríoífí�í�ísíiícíaí,í íeílí ídíiísíeí�í�íoí ídíeí ícíaílíeínítíaídíoíríeísí íiínífíríaíríríoíjíoísí íyí ílíaí ísíeígíuíríiídíaídí íeíní íhíoíríníoísí íiínídíuísítíríiíaílíeísí.í"í:í í"í.í íTíhíiísí ípíríiínícíiípílíeí íiísí ícíríuícíiíaílí íiíní íaísítíríoípíhíyísíiícísí,í ítíhíeí ídíeísíiígíní íoífí íiínífíríaíríeídí íhíeíaítíeírísí,í íaínídí ísíaífíeítíyí íiíní íiínídíuísítíríiíaílí íoívíeínísí.í"í,íí
-í í í"í.í íKíeílívíiíní ídíeífíiíníií�í�í íeísítíaí ítíeímípíeíríaítíuíríaí ílí�í�ímíiítíeí ídíeí ímíoívíiímíiíeínítíoí ícíiíní�í�ítíiícíoí íníuílíoí ícíoímíoí íeílí í"í:í í"í.í íKíeílívíiíní ídíeífíiíníeídí ítíhíiísí ílíiímíiítíiínígí ítíeímípíeíríaítíuíríeí íoífí ízíeíríoí íkíiíníeítíiící ímíoítíiíoíní íaísí ítíhíeí í"í,íí
-í í í"í.í íLíaí íeísícíaílíaí íoíríiígíiíníaílí íeísítíaíbíaí í"í:í í"í.í íTíhíeí íoíríiígíiíníaílí ísícíaílíeí íwíaísí í"í,íí
-í í í"í0í íKí í=í í�í�í�í2í7í3í.í1í5í í�í�íCí"í:í í"í0í íKí í=í í�í�í�í2í7í3í.í1í5í í�í�íCí"í,íí
-í í í"í0í íkíJí/íKí"í:í í"í0í íkíJí/íKí"í,íí
-í í í"í0í ímí/ísí"í:í í"í0ímí/ísí"í,íí
-í í í"í0í.í0í íJí"í:í í"í0í.í0íJí"í,íí
-í í í"í0í.í0í íWí"í:í í"í0í.í0íWí"í,íí
-í í í"í0í.í0í íWí/ímí"í:í í"í0í.í0íWí/ímí"í,íí
-í í í"í0í.í0í íWí/ímí�í�í"í:í í"í0í.í0í íWí/ímí�í�í"í,íí
-í í í"í0í.í0í íWí/ímí�í�íKí"í:í í"í0í.í0í íWí/ímí�í�íKí"í,íí
-í í í"í0í.í0í ícíaílí"í:í í"í0í.í0í ícíaílí"í,íí
-í í í"í0í.í0í ímí/ísí"í:í í"í0í.í0ímí/ísí"í,íí
-í í í"í0í.í0í ísí"í:í í"í0í.í0ísí"í,íí
-í í í"í0í.í0í í�í�íCí"í:í í"í0í.í0í�í�íCí"í,íí
-í í í"í0í.í0í0í íKí/íWí"í:í í"í0í.í0í0íKí/íWí"í,íí
-í í í"í0í.í0í0í íLí"í:í í"í0í.í0í0íLí"í,íí
-í í í"í0í.í0í0í íWí"í:í í"í0í.í0í0íWí"í,íí
-í í í"í0í.í0í0í íWí/íKí"í:í í"í0í.í0í0í íWí/íKí"í,íí
-í í í"í0í.í0í0í íkíWí"í:í í"í0í.í0í0í íkíWí"í,íí
-í í í"í0í.í0í0í íkíWí/ímí�í�í"í:í í"í0í.í0í0í íkíWí/ímí�í�í"í,íí
-í í í"í0í.í0í0í0í íWí"í:í í"í0í.í0í0í0íWí"í,íí
-í í í"í0í.í0í0í0í í�í�íCí"í:í í"í0í.í0í0í0í�í�íCí"í,íí
-í í í"í0í.í0í0í0í0í ímí�í�íKí/íWí"í:í í"í0í.í0í0í0í0í ímí�í�íKí/íWí"í,íí
-í í í"í0í.í0í0í0í5í íKí/íWí"í:í í"í0í.í0í0í0í5íKí/íWí"í,íí
-í í í"í0í.í0í0íeí+í0í"í:í í"í0í.í0í0íeí+í0í"í,íí
-í í í"í0í.í0í5í íKí/íWí"í:í í"í0í.í0í5íKí/íWí"í,íí
-í í í"í0í.í3í3í7í íaítímí í�í�í�í íEívíeíríeísítí í8í,í8í4í9í ímí í(ípíuínítíoí ímí�í�ísí íaílítíoí)í í�í�í�í íeíbíuílílíiícíií�í�íní:í í7í0í.í0í í�í�íCí"í:í í"í0í.í3í3í7í íaítímí í�í�í�í íEívíeíríeísítí í8í,í8í4í9í ímí í(íhíiígíhíeísítí ípíoíiínítí)í í�í�í�í íbíoíiílíiínígí:í í7í0í.í0í í�í�íCí"í,íí
-í í í"í0í.í5í0í í�í�ímí"í:í í"í0í.í5í0í�í�ímí"í,íí
-í í í"í0í.í6í1í3í íaítímí í�í�í�í íAílítíiípílíaíníoí íTíiíbíeítíaíníoí í4í,í0í0í0í ímí í�í�í�í íeíbíuílílíiícíií�í�íní:í í8í6í.í0í í�í�íCí"í:í í"í0í.í6í1í3í íaítímí í�í�í�í íTíiíbíeítíaíní íPílíaítíeíaíuí í4í,í0í0í0í ímí í�í�í�í íbíoíiílíiínígí:í í8í6í.í0í í�í�íCí"í,íí
-í í í"í0í.í7í5í7í íaítímí í�í�í�í íBíoígíoítí�í�í í2í,í6í2í5í ímí í�í�í�í íeíbíuílílíiícíií�í�íní:í í9í2í.í0í í�í�íCí"í:í í"í0í.í7í5í7í íaítímí í�í�í�í íBíoígíoítí�í�í í2í,í6í2í5í ímí í�í�í�í íbíoíiílíiínígí:í í9í2í.í0í í�í�íCí"í,íí
-í í í"í0í.í7í7í5í íaítímí í�í�í�í íQíuíiítíoí í/í íCíiíuídíaídí ídíeí íMí�í�íxíiícíoí í~í2í,í2í4í0í ímí í�í�í�í íeíbíuílílíiícíií�í�íní:í í9í3í.í0í í�í�íCí"í:í í"í0í.í7í7í5í íaítímí í�í�í�í íQíuíiítíoí í/í íMíeíxíiícíoí íCíiítíyí í~í2í,í2í4í0í ímí í�í�í�í íbíoíiílíiínígí:í í9í3í.í0í í�í�íCí"í,íí
-í í í"í0í.í8í3í6í íaítímí í�í�í�í íMíeídíeílílí�í�íní í1í,í4í9í5í ímí í�í�í�í íeíbíuílílíiícíií�í�íní:í í9í4í.í5í í�í�íCí"í:í í"í0í.í8í3í6í íaítímí í�í�í�í íMíeídíeílílí�í�íní í1í,í4í9í5í ímí í�í�í�í íbíoíiílíiínígí:í í9í4í.í5í í�í�íCí"í,íí
-í í í"í1í íCíaípíaí"í:í í"í1í íLíaíyíeírí"í,íí
-í í í"í1í.í íAídímíiísíií�í�íní í[íDíiífíeíríeínítíeí]í"í:í í"í1í.í íAídímíiísísíiíoíní í[íDíiífífíeíríeínítí]í"í,íí
-í í í"í1í.í íCíaílícíuílíaírí ítíaísíaí ídíeí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí í(íqí)í"í:í í"í1í.í íCíaílícíuílíaítíeí íhíeíaítí ítíríaínísífíeírí íríaítíeí í(íqí)í"í,íí
-í í í"í1í.í íCíoímípíaíríaícíií�í�íní íaí íiígíuíaílí íríeílíaícíií�í�íní ídíeí ícíoímípíríeísíií�í�íní í(í$írí$í)í:í"í:í í"í1í.í íCíoímípíaíríiísíoíní ítíoí íeíqíuíaílí ícíoímípíríeísísíiíoíní íríaítíiíoí í(í$írí$í)í:í"í,íí
-í í í"í1í.í íCíoínísíeírívíaícíií�í�íní ídíeí ílíaí íEíníeírígí�í�íaí í(íEícíuíaícíií�í�íní ídíeí íBíeíríníoíuílílíií)í:í"í:í í"í1í.í íCíoínísíeírívíaítíiíoíní íoífí íEíníeírígíyí í(íBíeíríníoíuílílíií íEíqíuíaítíiíoíní)í:í"í,íí
-í í í"í1í.í íLíeíyí ídíeí íFíoíuíríiíeírí ídíeí ílíaí íCíoínídíuícícíií�í�íní í(í1í8í2í2í)í"í:í í"í1í.í íFíoíuíríiíeírí'ísí íLíaíwí íoífí íHíeíaítí íCíoínídíuícítíiíoíní í(í1í8í2í2í)í"í,íí
-í í í"í1í.í íRí�í�ígíiímíeíní íLíaímíiíníaírí í$í(íRíeí_ídí í<í í2í3í0í0í)í$í:í"í:í í"í1í.í íLíaímíiíníaírí íRíeígíiímíeí í$í(íRíeí_ídí í<í í2í3í0í0í)í$í:í"í,íí
-í í í"í1í.í0í0í0í íaítímí í�í�í�í íNíiívíeílí ídíeílí íMíaírí í�í�í�í íeíbíuílílíiícíií�í�íní:í í1í0í0í.í0í í�í�íCí"í:í í"í1í,í0í0í0í íaítímí í�í�í�í íSíeíaí íLíeívíeílí í�í�í�í íbíoíiílíiínígí:í í1í0í0í.í0í í�í�íCí"í,íí
-í í í"í1í.í0í5í1í íaítímí í�í�í�í íMíaírí íMíuíeírítíoí í�í�í�í4í3í0í ímí í(ípíuínítíoí ímí�í�ísí íbíaíjíoí)í í�í�í�í íeíbíuílílíiícíií�í�íní:í í1í0í1í.í4í í�í�íCí"í:í í"í1í,í0í5í1í íaítímí í�í�í�í íDíeíaídí íSíeíaí í�í�í�í4í3í0í ímí í(ílíoíwíeísítí ípíoíiínítí)í í�í�í�í íbíoíiílíiínígí:í í1í0í1í.í4í í�í�íCí"í,íí
-í í í"í1í.í5íeí-í5í"í:í í"í1í.í5íeí-í5í"í,íí
-í í í"í1í0í íCíaípíaísí"í:í í"í1í0í íLíaíyíeírísí"í,íí
-í í í"í1í0í ícíaípíaísí ípíeírísíoíníaílíiízíaíbílíeísí"í:í í"í1í0í ícíuísítíoímíiízíaíbílíeí ílíaíyíeírísí"í,íí
-í í í"í1í0í.í íCíoínícíeípítíoí ídíeí íCíaípíaí íLí�í�ímíiítíeí ídíeí íLíuídíwíiígí íPíríaínídítílí í(í1í9í0í4í)í"í:í í"í1í0í.í íLíuídíwíiígí íPíríaínídítílí'ísí íBíoíuínídíaíríyí íLíaíyíeírí íCíoínícíeípítí í(í1í9í0í4í)í"í,íí
-í í í"í1í0í0í íkímí/íhí í(í2í7í.í8í ímí/ísí,í íRíeí í=í í9í.í3í�í�í1í0í�í�í�í,í íMí í=í í0í.í0í8í)í"í:í í"í1í0í0í íkímí/íhí í(í2í7í.í8í ímí/ísí,í íRíeí í=í í9í.í3í�í�í1í0í�í�í�í,í íMí í=í í0í.í0í8í)í"í,íí
-í í í"í1í1í.í íAíníaílíoígí�í�íaísí ídíeí íTíríaínísípíoírítíeí íyí íDíeísíaíríríoílílíoí ídíeí íCíaípíaísí íLí�í�ímíiítíeí"í:í í"í1í1í.í íTíríaínísípíoírítí íAíníaílíoígíiíeísí íaínídí íBíoíuínídíaíríyí íLíaíyíeírí íDíeívíeílíoípímíeínítí"í,íí
-í í í"í1í2í.í íNí�í�ímíeíríoí ídíeí íNíuísísíeílítí:í íCíoínídíuícícíií�í�íní ívísí íCíoínívíeícícíií�í�íní"í:í í"í1í2í.í íNíuísísíeílítí íNíuímíbíeírí:í íCíoínídíuícítíiíoíní ívísí íCíoínívíeícítíiíoíní"í,íí
-í í í"í1í3í.í íCíoínívíeícícíií�í�íní íNíaítíuíríaílí ísíoíbíríeí íuíní íCíiílíiínídíríoí íHíoíríiízíoínítíaílí"í:í í"í1í3í.í íNíaítíuíríaílí íCíoínívíeícítíiíoíní íoíní íaí íHíoíríiízíoínítíaílí íCíyílíiínídíeírí"í,íí
-í í í"í1í4í.í íSíuípíeírífíiícíiíeísí íEíxítíeínídíiídíaísí í(íAílíeítíaísí ídíeí íEínífíríiíaímíiíeínítíoí)í"í:í í"í1í4í.í íEíxítíeínídíeídí íSíuírífíaícíeísí í(íCíoíoílíiínígí íFíiínísí)í"í,íí
-í í í"í1í4í.í0í0í ímí/ísí"í:í í"í1í4í.í0í0í ímí/ísí"í,íí
-í í í"í1í5í.í íCíoínídíuícícíií�í�íní íUíníiídíiímíeínísíiíoíníaílí ícíoíní íGíeíníeíríaícíií�í�íní íIínítíeíríníaí"í:í í"í1í5í.í íOíníeí-íDíiímíeínísíiíoíníaílí íCíoínídíuícítíiíoíní íwíiítíhí íIínítíeíríníaílí íGíeíníeíríaítíiíoíní"í,íí
-í í í"í1í5í0í0í0í íWí/ímí�í�íKí"í:í í"í1í5í0í0í0í íWí/ímí�í�íKí"í,íí
-í í í"í1í6í.í íCíoínídíuícícíií�í�íní íyí íCíoínívíeícícíií�í�íní íCíoímíbíiíníaídíaísí í(íFíríoínítíeíríaí íMíiíxítíaí)í"í:í í"í1í6í.í íCíoímíbíiíníeídí íCíoínídíuícítíiíoíní íaínídí íCíoínívíeícítíiíoíní í(íMíiíxíeídí íFíríoínítíiíeírí)í"í,íí
-í í í"í1í6í0í.í0í í�í�ímí"í:í í"í1í6í0í.í0í�í�ímí"í,íí
-í í í"í1í6í4í.í0í0í íkíWí"í:í í"í1í6í4í.í0í0í íkíWí"í,íí
-í í í"í1í7í.í íFíaícítíoírí ídíeí íFíoírímíaí íeíní íRíaídíiíaícíií�í�íní í(íLíeíyíeísí ídíeí íIínítíeírícíaímíbíiíoí íRíaídíiíaínítíeí)í"í:í í"í1í7í.í íFíoírímí íFíaícítíoírí íiíní íRíaídíiíaítíiíoíní í(íLíaíwísí íoífí íRíaídíiíaínítí íEíxícíhíaínígíeí)í"í,íí
-í í í"í1í8í.í íDíiísíiípíaídíoírí ídíeí íMíiícíríoícíaíníaílíeísí í(íEínífíríiíaímíiíeínítíoí ídíeí íMíiícíríoícíhíiípísí)í"í:í í"í1í8í.í íMíiícíríoícíhíaíníníeílí íHíeíaítísíiíníkí í(íMíiícíríoícíhíiípí íCíoíoílíiínígí)í"í,íí
-í í í"í1í9í.í íCíoínídíuícícíií�í�íní íeíní íPíaíríeídí íMíuílítíiícíaípíaí í(í3í íCíaípíaísí íeíní íSíeíríiíeí)í"í:í í"í1í9í.í íMíuílítíiílíaíyíeírí íWíaílílí íCíoínídíuícítíiíoíní í(í3í íLíaíyíeírísí íiíní íSíeíríiíeísí)í"í,íí
-í í í"í1í9í.í8í9í íWí/ímí�í�í"í:í í"í1í9í.í8í9í íWí/ímí�í�í"í,íí
-í í í"í1í�í�íIíníiícíiíaílí"í:í í"í1í�í�íIíníiítíiíaílí"í,íí
-í í í"í2í íCíaípíaísí"í:í í"í2í íLíaíyíeírísí"í,íí
-í í í"í2í.í íCíaílícíuílíaírí íTíeímípíeíríaítíuíríaí ídíeí ílíaí ípíaíríeídí í2í í(íTí�í�í�í)í"í:í í"í2í.í íCíaílícíuílíaítíeí íWíaílílí í2í íTíeímípíeíríaítíuíríeí í(íTí�í�í�í)í"í,íí
-í í í"í2í.í íCíoímípíaíríaícíií�í�íní íeíní ídíiísíeí�í�íoí íríeíaílí ípírí�í�ícítíiícíoí í(íDíiíeísíeílí í>í íOítítíoí)í:í"í:í í"í2í.í íCíoímípíaíríiísíoíní íiíní ípíríaícítíiícíaílí íríeíaílí ídíeísíiígíní í(íDíiíeísíeílí í>í íOítítíoí)í:í"í,íí
-í í í"í2í.í íCíoímípíríeísíií�í�íní í[íDíiífíeíríeínítíeí]í"í:í í"í2í.í íCíoímípíríeísísíiíoíní í[íDíiífífíeíríeínítí]í"í,íí
-í í í"í2í.í íCíoínísíeírívíaícíií�í�íní ídíeí ílíaí íMíaísíaí í(íEífíeícítíoí íVíeínítíuíríií)í:í"í:í í"í2í.í íCíoínísíeírívíaítíiíoíní íoífí íMíaísísí í(íVíeínítíuíríií íEífífíeícítí)í:í"í,íí
-í í í"í2í.í íLíeíyí ídíeí íRíaídíiíaícíií�í�íní ídíeí íMíaíxí íPílíaínícíkí í(í1í9í0í0í)í"í:í í"í2í.í íMíaíxí íPílíaínícíkí'ísí íRíaídíiíaítíiíoíní íLíaíwí í(í1í9í0í0í)í"í,íí
-í í í"í2í.í íRí�í�ígíiímíeíní ídíeí íTíríaínísíiícíií�í�íní í$í(í2í3í0í0í í\í\ílíeí íRíeí_ídí í<í í1í0í0í0í0í)í$í:í"í:í í"í2í.í íTíríaínísíiítíiíoíní íRíeígíiímíeí í$í(í2í3í0í0í í\í\ílíeí íRíeí_ídí í<í í1í0í0í0í0í)í$í:í"í,íí
-í í í"í2í0í.í íRíeísíiísítíeínícíiíaísí íTí�í�írímíiícíaísí íeíní íPíaíríaílíeílíoí í(íCíoínívíeícícíií�í�íní íyí íRíaídíiíaícíií�í�íní)í"í:í í"í2í0í.í íPíaíríaílílíeílí íTíhíeírímíaílí íRíeísíiísítíaínícíeísí í(íCíoínívíeícítíiíoíní íaínídí íRíaídíiíaítíiíoíní)í"í,íí
-í í í"í2í0í.í0í0í í�í�íCí"í:í í"í2í0í.í0í0í í�í�íCí"í,íí
-í í í"í2í0í.í0í2í í�í�íCí"í:í í"í2í0í.í0í2í í�í�íCí"í,íí
-í í í"í2í1í.í íPíaíríeídí íCíoímípíuíeísítíaí íyí íAíníaílíoígí�í�íaí ídíeí íRíeísíiísítíeínícíiíaísí íTí�í�írímíiícíaísí"í:í í"í2í1í.í íCíoímípíoísíiítíeí íWíaílílí íaínídí íTíhíeírímíaílí íRíeísíiísítíaínícíeí íAíníaílíoígíyí"í,íí
-í í í"í2í1í.í5í0í í�í�íCí"í:í í"í2í1í.í5í0í í�í�íCí"í,íí
-í í í"í2í2í.í íIínítíeírícíaímíbíiíaídíoírí ídíeí íCíaílíoírí ídíeí íDíoíbílíeí íTíuíbíoí"í:í í"í2í2í.í íDíoíuíbílíeí íTíuíbíeí íHíeíaítí íEíxícíhíaínígíeírí"í,íí
-í í í"í2í3í.í íCíaílílíeí ídíeí íVí�í�írítíiícíeísí ídíeí íVíoíní íKí�í�írímí�í�íní"í:í í"í2í3í.í íVíoíní íKí�í�írímí�í�íní íVíoírítíeíxí íSítíríeíeítí"í,íí
-í í í"í2í4í.í íCíuírívíaí ídíeí íNíuíkíiíyíaímíaí íyí íRíeígí�í�ímíeíníeísí ídíeí íEíbíuílílíiícíií�í�íní"í:í í"í2í4í.í íNíuíkíiíyíaímíaí íCíuírívíeí íaínídí íBíoíiílíiínígí íRíeígíiímíeísí"í,íí
-í í í"í2í5í.í íCíoínídíuícícíií�í�íní íTí�í�írímíiícíaí íTíríaínísíiítíoíríiíaí í(íHíeíiísílíeírí íyí íBíiíoítí)í"í:í í"í2í5í.í íTíríaínísíiíeínítí íTíhíeírímíaílí íCíoínídíuícítíiíoíní í(íHíeíiísílíeírí íaínídí íBíiíoítí)í"í,íí
-í í í"í2í5í.í0í í�í�íCí í(íMíoídíeíríníaí)í"í:í í"í2í5í.í0í í�í�íCí í(íMíoídíeíríní)í"í,íí
-í í í"í2í6í.í íPílíaícíaí íPílíaíníaí ícíoíní íSíuípíeírífíiícíiíeí íAíiísílíaídíaí í(íCíiírícíuíiítíoí íAídíiíaíbí�í�ítíiícíoí)í"í:í í"í2í6í.í íFílíaítí íPílíaítíeí íwíiítíhí íIínísíuílíaítíeídí íSíuírífíaícíeí í(íAídíiíaíbíaítíiící íCíiírícíuíiítí)í"í,íí
-í í í"í2í7í.í íCíoínídíuícícíií�í�íní íMíuílítíiícíaípíaí ícíoíní íCíoínídíiícíiíoíníeísí ídíeí íFíríoínítíeíríaí íGíeíníeíríaílíeísí"í:í í"í2í7í.í íMíuílítíiílíaíyíeírí íCíoínídíuícítíiíoíní íwíiítíhí íGíeíníeíríaílí íBíoíuínídíaíríyí íCíoínídíiítíiíoínísí"í,íí
-í í í"í2í7í0í.í0í í�í�íCí"í:í í"í2í7í0í.í0í í�í�íCí"í,íí
-í í í"í2í7í3í.í1í5í íKí"í:í í"í2í7í3í.í1í5íKí"í,íí
-í í í"í2í8í.í íEílí íMíoítíoírí ídíeí íCíaíríníoítí í�í�í�í íCíiícílíoí ídíeí íEífíiícíiíeínícíiíaí íMí�í�íxíiímíaí í(í1í8í2í4í)í"í:í í"í2í8í.í íTíhíeí íCíaíríníoítí íEínígíiíníeí í�í�í�í íMíaíxíiímíuímí íEífífíiícíiíeínícíyí íCíyícílíeí í(í1í8í2í4í)í"í,íí
-í í í"í2í8í2í.í5í í�í�íCí"í:í í"í2í8í2í.í5í�í�íCí"í,íí
-í í í"í2í8íbí.í íNíeíwícíoímíeíní ívísí.í íWíaítítí í�í�í�í íEílí íPíríoíbílíeímíaí ídíeílí íCíiícílíoí íTí�í�írímíiícíoí í(í1í7í1í2í ívísí.í í1í7í6í9í)í"í:í í"í2í8íbí.í íNíeíwícíoímíeíní ívísí.í íWíaítítí í�í�í�í íTíhíeí íPíríoíbílíeímí íoífí ítíhíeí íTíhíeírímíaílí íCíyícílíeí í(í1í7í1í2í ívísí.í í1í7í6í9í)í"í,íí
-í í í"í2í�í�íCíoímípíríiímíiídíoí"í:í í"í2í�í�íCíoímípíríeísísíeídí"í,íí
-í í í"í3í íCíaípíaísí"í:í í"í3í íLíaíyíeírísí"í,íí
-í í í"í3í.í íCíaínítíiídíaídí ídíeí íMíoívíiímíiíeínítíoí íyí íFíuíeírízíaí ídíeí íIímípíaícítíoí:í"í:í í"í3í.í íMíoímíeínítíuímí íoífí íMíoívíeímíeínítí íaínídí íIímípíaícítí íFíoírícíeí:í"í,íí
-í í í"í3í.í íCíoímíbíuísítíií�í�íní í[íDíiífíeíríeínítíeí]í"í:í í"í3í.í íCíoímíbíuísítíiíoíní í[íDíiífífíeíríeínítí]í"í,íí
-í í í"í3í.í íLíeíyí ídíeí ílíaí íIínívíeírísíaí ídíeílí íCíuíaídíríaídíoí í(íAítíeíníuíaícíií�í�íní ípíoírí íDíiísítíaínícíiíaí)í"í:í í"í3í.í íIínívíeírísíeí íSíqíuíaíríeí íLíaíwí í(íDíiísítíaínícíeí íAítítíeíníuíaítíiíoíní)í"í,íí
-í í í"í3í.í íRí�í�ígíiímíeíní íTíuíríbíuílíeínítíoí í$í(íRíeí_ídí í\í\ígíeí í1í0í0í0í0í)í$í:í"í:í í"í3í.í íTíuíríbíuílíeínítí íRíeígíiímíeí í$í(íRíeí_ídí í\í\ígíeí í1í0í0í0í0í)í$í:í"í,íí
-í í í"í3í/í4í ídíeílí ícíaílíoírí ígíeíníeíríaídíoí ísíeí íuísíaíbíaí íeíní íríeícíaílíeínítíaírí íeílí ícíiílíiínídíríoí"í:í í"í3í/í4í íoífí ítíhíeí íhíeíaítí ígíeíníeíríaítíeídí íwíaísí íuísíeídí ítíoí íríeíhíeíaítí ítíhíeí ícíyílíiínídíeírí"í,íí
-í í í"í3íbí.í íAínídíeírísí íCíeílísíiíuísí:í íCíaílíiíbíríaícíií�í�íní íTíeírímíoímí�í�ítíríiícíaí íyí ílíaí íEísícíaílíaí ídíeí íTíeímípíeíríaítíuíríaí í(í1í7í4í2í)í"í:í í"í3íbí.í íAínídíeírísí íCíeílísíiíuísí:í íTíhíeírímíoímíeítíríiící íCíaílíiíbíríaítíiíoíní íaínídí ítíhíeí íTíeímípíeíríaítíuíríeí íSícíaílíeí í(í1í7í4í2í)í"í,íí
-í í í"í3í�í�íCíoímíbíuísítíií�í�íní"í:í í"í3í íCíoímíbíuísítíiíoíní"í,íí
-í í í"í4í íCíaípíaísí"í:í í"í4í íLíaíyíeírísí"í,íí
-í í í"í4í.í íEíxípíeíríiímíeínítíoí ídíeí íEínífíríiíaímíiíeínítíoí ídíeí íNíeíwítíoíní í(í1í7í0í1í)í"í:í í"í4í.í íNíeíwítíoíní'ísí íCíoíoílíiínígí íEíxípíeíríiímíeínítí í(í1í7í0í1í)í"í,íí
-í í í"í4í.í íFíuíeírízíaí í(íIígíuíaílí ípíaíríaí íaímíbíoísí ícíiícílíoísí)í"í:í í"í4í.í íSítíríeínígítíhí í(íSíaímíeí ífíoírí íbíoítíhí ícíyícílíeísí)í"í,íí
-í í í"í4í3í.í1í0í íkíWí"í:í í"í4í3í.í1í0í íkíWí"í,íí
-í í í"í4í3í9í.í8í2í íkígí/ísí"í:í í"í4í3í9í.í8í2í íkígí/ísí"í,íí
-í í í"í4í5í.í2í í�í�íCí"í:í í"í4í5í.í2í�í�íCí"í,íí
-í í í"í4íbí.í íNíaívíiíeírí íyí íSítíoíkíeísí:í íEícíuíaícíiíoíníeísí ídíeílí íFílíuíjíoí íVíiísícíoísíoí íyí íPíeírífíiílí íAílíaírí í(í1í8í2í2í�í�í�í1í8í4í5í)í"í:í í"í4íbí.í íNíaívíiíeírí íaínídí íSítíoíkíeísí:í íVíiísícíoíuísí íFílíoíwí íaínídí íWíiínígí íPíríoífíiílíeí íEíqíuíaítíiíoínísí í(í1í8í2í2í�í�í�í1í8í4í5í)í"í,íí
-í í í"í4í�í�íEíxípíaínídíiídíoí"í:í í"í4í íEíxípíaínídíeídí"í,íí
-í í í"í5í íCíaípíaísí"í:í í"í5í íLíaíyíeírísí"í,íí
-í í í"í5í.í íEísícíaípíeí í(íIígíuíaílí ípíaíríaí íaímíbíoísí ícíiícílíoísí)í"í:í í"í5í.í íEíxíhíaíuísítí í(íSíaímíeí ífíoírí íbíoítíhí ícíyícílíeísí)í"í,íí
-í í í"í5í.í íEíxípíeíríiímíeínítíoí ídíeí íHíeírísícíhíeílí:í íDíeísícíuíbíríiímíiíeínítíoí ídíeílí íIínífíríaíríríoíjíoí í(í1í8í0í0í)í"í:í í"í5í.í íHíeírísícíhíeílí íEíxípíeíríiímíeínítí:í íDíiísícíoívíeíríyí íoífí íIínífíríaíríeídí í(í1í8í0í0í)í"í,íí
-í í í"í5í0í0í.í0í í�í�íCí"í:í í"í5í0í0í.í0í í�í�íCí"í,íí
-í í í"í6í íCíaípíaísí"í:í í"í6í íLíaíyíeírísí"í,íí
-í í í"í6í.í íEílí íEíqíuíiívíaílíeínítíeí íMíeící�í�íníiícíoí ídíeílí íCíaílíoírí í(íJíoíuílíeí,í í1í8í4í3í)í"í:í í"í6í.í íTíhíeí íMíeícíhíaíníiícíaílí íEíqíuíiívíaílíeínítí íoífí íHíeíaítí í(íJíoíuílíeí,í í1í8í4í3í)í"í,íí
-í í í"í6í.í1í6í íkíNí"í:í í"í6í.í1í6íkíNí"í,íí
-í í í"í6í4í.í1í6í íMíWí/ímí�í�í"í:í í"í6í4í.í1í6í íMíWí/ímí�í�í"í,íí
-í í í"í7í íCíaípíaísí"í:í í"í7í íLíaíyíeírísí"í,íí
-í í í"í7í.í íEísícíaílíaí íAíbísíoílíuítíaí íKíeílívíiíní íyí íCíeíríoí íAíbísíoílíuítíoí"í:í í"í7í.í íKíeílívíiíní íAíbísíoílíuítíeí íSícíaílíeí íaínídí íAíbísíoílíuítíeí íZíeíríoí"í,íí
-í í í"í8í íCíaípíaísí"í:í í"í8í íLíaíyíeírísí"í,íí
-í í í"í8í.í íRíuídíoílífí íCílíaíuísíiíuísí:í íEínítíríoípí�í�íaí íyí íSíeígíuínídíaí íLíeíyí ídíeí ílíaí íTíeírímíoídíiíní�í�ímíiícíaí í(í1í8í5í0í)í"í:í í"í8í.í íRíuídíoílífí íCílíaíuísíiíuísí:í íEínítíríoípíyí íaínídí íSíeícíoínídí íLíaíwí íoífí íTíhíeírímíoídíyíníaímíiícísí í(í1í8í5í0í)í"í,íí
-í í í"í9í íCíaípíaísí"í:í í"í9í íLíaíyíeírísí"í,íí
-í í í"í9í.í íCíaípíaícíiídíaídíeísí íCíaílíoírí�í�ífíiícíaísí í$íCí_ípí$í íyí í$íCí_íví$í í(íSíiígíníiífíiícíaídíoí íFí�í�ísíiícíoí)í"í:í í"í9í.í íHíeíaítí íCíaípíaícíiítíiíeísí í$íCí_ípí$í íaínídí í$íCí_íví$í í(íPíhíyísíiícíaílí íMíeíaíníiínígí)í"í,íí
-í í í"í9í.í íEíxípíeíríiímíeínítíoí ídíeí íOísíbíoíríníeí íRíeíyíníoílídísí í(í1í8í8í3í)í"í:í í"í9í.í íOísíbíoíríníeí íRíeíyíníoílídísí íeíxípíeíríiímíeínítí í(í1í8í8í3í)í"í,íí
-í í í"í:í í0í íKí íiíníaílícíaínízíaíbílíeí í(í3í�í�í íLíeíyí)í"í:í í"í:í í0í íKí íuíníaítítíaíiíníaíbílíeí í(í3írídí íLíaíwí)í"í,íí
-í í í"í:í íCíiícílíoí íríeívíeírísíiíbílíeí íiídíeíaílí"í:í í"í:í íIídíeíaílí íríeívíeírísíiíbílíeí ícíyícílíeí"í,íí
-í í í"í:í íEísícíaílíaí ítíeírímíoídíiíní�í�ímíiícíaí íaíbísíoílíuítíaí"í:í í"í:í íAíbísíoílíuítíeí ítíhíeírímíoídíyíníaímíiící ísícíaílíeí"í,íí
-í í í"í:í íRí�í�ícíoírídí:í í~í3í8í ípíiícíoíkíeílívíiíní í(íMíIíTí,í í2í0í0í3í)í"í:í í"í:í íRíeícíoírídí:í í~í3í8í ípíiícíoíkíeílívíiíní í(íMíIíTí,í í2í0í0í3í)í"í,íí
-í í í"í:í íeísí íiímípíoísíiíbílíeí íaílícíaínízíaírí íeílí ícíeíríoí íaíbísíoílíuítíoí ímíeídíiíaínítíeí íuíní íní�í�ímíeíríoí ífíiíníiítíoí ídíeí ípíríoícíeísíoísí,í ípíoíríqíuíeí íaí ímíeídíiídíaí íqíuíeí í$íTí_íCí í\í\ítíoí í0í$í:í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í:í í"í:í íiítí íiísí íiímípíoísísíiíbílíeí ítíoí íríeíaícíhí íaíbísíoílíuítíeí ízíeíríoí ítíhíríoíuígíhí íaí ífíiíníiítíeí íníuímíbíeírí íoífí ípíríoícíeísísíeísí,í íbíeícíaíuísíeí íaísí í$íTí_íCí í\í\ítíoí í0í$í:í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í í"í,íí
-í í í"í:í ílílíeívíaí í$íTí_íCí$í íaílí ímí�í�íníiímíoí íeíní íeílí ísílíiídíeírí íyí íoíbísíeírívíaí ící�í�ímíoí íeílí íCíOíPí"í:í í"í:í ísíeítí í$íTí_íCí$í ítíoí ímíiíníiímíuímí íiíní ítíhíeí ísílíiídíeírí íaínídí íwíaítícíhí íhíoíwí ítíhíeí íCíOíPí"í,íí
-í í í"íAícíeíiítíeí ídíeí íLíiíníaízíaí í(íhí í=í í3í0í0í íWí/ímí�í�íKí)í"í:í í"íLíiínísíeíeídí íOíiílí í(íhí í=í í3í0í0í íWí/ímí�í�íKí)í"í,íí
-í í í"íAídímíiísíií�í�íní"í:í í"íAídímíiísísíiíoíní"í,íí
-í í í"íAígíuíaí í(íLí�í�íqíuíiídíaí)í"í:í í"íWíaítíeírí í(íLíiíqíuíiídí)í"í,íí
-í í í"íAígíuíaí í(íhí í=í í1í0í0í0í íWí/ímí�í�íKí)í"í:í í"íWíaítíeírí í(íhí í=í í1í0í0í0í íWí/ímí�í�íKí)í"í,íí
-í í í"íAígíuíaí íLí�í�íqíuíiídíaí"í:í í"íLíiíqíuíiídí íWíaítíeírí"í,íí
-í í í"íAígíuíaí íaí í1í íaítímí í(íTí_ísíaítí í=í í1í0í0í í�í�íCí)í"í:í í"íWíaítíeírí íaítí í1í íaítímí í(íTí_ísíaítí í=í í1í0í0í í�í�íCí)í"í,íí
-í í í"íAíhíoíríríoí ídíeí ícíaíríbí�í�íní íWíaítítí:í"í:í í"íCíoíaílí íSíaívíiínígí íWíaítítí:í"í,íí
-í í í"íAíiíríeí í(íDíiíaítí�í�ímíiícíoí í-í íCípí/íCíví í=í í1í.í4í0í)í"í:í í"íAíiírí í(íDíiíaítíoímíiící í-í íCípí/íCíví í=í í1í.í4í0í)í"í,íí
-í í í"íAíiíríeí í(íGíaísí íRíeíaílí)í"í:í í"íAíiírí í(íRíeíaílí íGíaísí)í"í,íí
-í í í"íAíiíríeí íFíoírízíaídíoí í(íhí í=í í7í0í íWí/ímí�í�íKí)í"í:í í"íFíoírícíeídí íAíiírí í(íhí í=í í7í0í íWí/ímí�í�íKí)í"í,íí
-í í í"íAíiíríeí íQíuíiíeítíoí í(íhí í=í í1í5í íWí/ímí�í�íKí)í"í:í í"íSítíiílílí íAíiírí í(íhí í=í í1í5í íWí/ímí�í�íKí)í"í,íí
-í í í"íAíiísílíaídíaí"í:í í"íiísíoílíaítíeídí"í,íí
-í í í"íAíiísílíaídíaí:í"í:í í"íIísíoílíaítíeídí:í"í,íí
-í í í"íAílíeírítíaí ídíeí íFíaísíeí:í"í:í í"íPíhíaísíeí íAílíeírítí:í"í,íí
-í í í"íAílíeítíaísí í(íSíuípíeírífíiícíiíeísí íEíxítíeínídíiídíaísí)í"í:í í"íFíiínísí í(íEíxítíeínídíeídí íSíuírífíaícíeísí)í"í,íí
-í í í"íAílítíaí í(í2í0í0í�í�í1í0í0í í-í íFíiíníaí)í"í:í í"íHíiígíhí í(í2í0í0í�í�í1í0í0í í-í íFíiíníeí)í"í,íí
-í í í"íAílítíuíríaí ídíeí ícíaí�í�ídíaí í$í(íhí)í$í:í í"í:í í"íDíríoípí íhíeíiígíhítí í$í(íhí)í$í:í í"í,íí
-í í í"íAílítíuíríaí ídíeílí íTíaíníqíuíeí í(íHí)í:í í"í:í í"íTíaíníkí íHíeíiígíhítí í(íHí)í:í í"í,íí
-í í í"íAímíaíríiílílíoí"í:í í"íYíeílílíoíwí"í,íí
-í í í"íAímíaíríiílílíoí í(íVíiísíiíbílíeí)í"í:í í"íYíeílílíoíwí í(íVíiísíiíbílíeí)í"í,íí
-í í í"íAínícíhíoí ídíeí íCíaíníaílí í(í$íwí_ící$í)í:í í"í:í í"íCíhíaíníníeílí íWíiídítíhí í(í$íwí_ící$í)í:í í"í,íí
-í í í"íAínícíhíoí ídíeílí ípílíaítíoí í$íWí$í:í í"í:í í"íPílíaítíeí íwíiídítíhí í$íWí$í:í í"í,íí
-í í í"íAínídíeírísí íCíeílísíiíuísí ípíríoípíuísíoí íeíní í1í7í4í2í íuíníaí íeísícíaílíaí ídíeí ítíeímípíeíríaítíuíríaí ícíeínítí�í�ígíríaídíaí íbíaísíaídíaí íeíní ídíoísí ípíuínítíoísí ífíiíjíoísí ídíeílí íaígíuíaí íaí ípíríeísíií�í�íní íeísítí�í�ínídíaírí:í"í:í í"íAínídíeírísí íCíeílísíiíuísí ípíríoípíoísíeídí íiíní í1í7í4í2í íaí íCíeílísíiíuísí ítíeímípíeíríaítíuíríeí ísícíaílíeí íbíaísíeídí íoíní ítíwíoí ífíiíxíeídí ípíoíiínítísí íoífí íwíaítíeírí íaítí ísítíaínídíaírídí ípíríeísísíuíríeí:í"í,íí
-í í í"íAínídírí�í�ísí íCíoílíoíríaídíoí"í:í í"íAínídírí�í�ísí íCíoílíoíríaídíoí"í,íí
-í í í"íAíníiímíaícíií�í�íní ídíeí íPíaírítí�í�ícíuílíaísí íeíní íFílíuíjíoí í(íDíeísíaíríríoílílíoí ídíeí íCíaípíaí íLí�í�ímíiítíeí)í"í:í í"íAíníiímíaítíiíoíní íoífí íPíaírítíiícílíeísí íiíní íFílíoíwí í(íBíoíuínídíaíríyí íLíaíyíeírí íDíeívíeílíoípímíeínítí)í"í,íí
-í í í"íAíníiímíaícíií�í�íní ídíeí íPílíuímíaí íTí�í�írímíiícíaí í(íCíoíríríiíeínítíeísí ídíeí íFílíoítíaícíií�í�íní)í"í:í í"íTíhíeírímíaílí íPílíuímíeí íAíníiímíaítíiíoíní í(íFílíoíaítí íCíuíríríeínítísí)í"í,íí
-í í í"íAíníiímíaírí"í:í í"íEínícíoíuíríaígíeí"í,íí
-í í í"íAíní�í�ílíiísíiísí:í"í:í í"íAíníaílíyísíiísí:í"í,íí
-í í í"íAíní�í�ícídíoítíaísí íyí íAílíqíuíiímíiíaí"í:í í"íAíníeícídíoítíeísí íaínídí íAílícíhíeímíyí"í,íí
-í í í"íAípíaíríaítíoí ídíeí íJíoíuílíeí íyí íAígíiítíaícíií�í�íní ídíeí íPíaílíeítíaísí"í:í í"íJíoíuílíeí íAípípíaíríaítíuísí íaínídí íPíaídídílíeí íSítíiíríríiínígí"í,íí
-í í í"íAípíaíríaítíoí í�í�ípítíiícíoí íyí íTíeírímí�í�ímíeítíríoísí ídíeí íHíeírísícíhíeílí í(íMíuíeívíeí íeílí ítíeírímí�í�ímíeítíríoí íaícítíiívíoí ícíoíní íeílí ídíeísílíiízíaídíoírí)í"í:í í"íOípítíiícíaílí íAípípíaíríaítíuísí íaínídí íHíeírísícíhíeílí íTíhíeírímíoímíeítíeírísí í(íMíoívíeí ítíhíeí íaícítíiívíeí ítíhíeírímíoímíeítíeírí íwíiítíhí ítíhíeí ísílíiídíeírí)í"í,íí
-í í í"íAípílíiícíaícíiíoíníeísí"í:í í"íAípípílíiícíaítíiíoínísí"í,íí
-í í í"íAírígí�í�íní í(íAírí í-í íMíoíníoíaítí�í�ímíiícíoí í-í íCípí/íCíví í=í í1í.í6í7í)í"í:í í"íAírígíoíní í(íAírí í-í íMíoíníaítíoímíiící í-í íCípí/íCíví í=í í1í.í6í7í)í"í,íí
-í í í"íAíríríeígílíoí ídíeílí íFílíuíjíoí:í"í:í í"íFílíoíwí íAíríríaínígíeímíeínítí:í"í,íí
-í í í"íBíaíjíaí í(í6í0í�í�í3í0í í-í íCíoíaírísíeí)í"í:í í"íLíoíwí í(í6í0í�í�í3í0í í-í íCíoíaírísíeí)í"í,íí
-í í í"íBíaílíaínícíeí ídíeí íEíníeírígí�í�íaí í(í1í íkígí)í"í:í í"íEíníeírígíyí íBíaílíaínícíeí í(í1í íkígí)í"í,íí
-í í í"íBíaílíaínícíeí ídíeí íEíníeírígí�í�íaí íeíní ílíaí íSíuípíeírífíiícíiíeí íDíeíríeícíhíaí í(í$íTí_ísí$í)í"í:í í"íEíníeírígíyí íBíaílíaínícíeí íoíní ítíhíeí íRíiígíhítí íSíuírífíaícíeí í(í$íTí_ísí$í)í"í,íí
-í í í"íBíríaíyítíoíní í�í�í�í í3í5í�í�í�í4í5í%í"í:í í"íBíríaíyítíoíní í�í�í�í í3í5í�í�í�í4í5í%í"í,íí
-í í í"íCíOíPí íBíoímíbíaí ídíeí íCíaílíoírí:í í"í:í í"íCíOíPí íHíeíaítí íPíuímípí:í í"í,íí
-í í í"íCíOíPí íRíeífíríiígíeíríaídíoírí"í:í í"íCíOíPí íRíeífíríiígíeíríaítíoírí"í,íí
-í í í"íCíaíjíaí ídíeí íCílíaíuísíiíuísí í(íMíeízícílíaí íTí�í�írímíiícíaí íeí íIíríríeívíeírísíiíbíiílíiídíaídí)í"í:í í"íCílíaíuísíiíuísí íBíoíxí í(íTíhíeírímíaílí íMíiíxíiínígí íaínídí íIíríríeívíeírísíiíbíiílíiítíyí)í"í,íí
-í í í"íCíaílíiíbíríaícíií�í�íní ídíeí íCíeílísíiíuísí í(í1í7í4í2í)í"í:í í"íCíeílísíiíuísí íCíaílíiíbíríaítíiíoíní í(í1í7í4í2í)í"í,íí
-í í í"íCíaílíiíeínítíeí"í:í í"íHíoítí"í,íí
-í í í"íCíaílíoírí íAíbísíoíríbíiídíoí í$í(íQí_íHí)í$í:í í"í:í í"íHíeíaítí íAíbísíoíríbíeídí í$í(íQí_íHí)í$í:í í"í,íí
-í í í"íCíaílíoírí íDíeísípíeírídíiícíiíaídíoí"í:í í"íWíaísítíeídí íHíeíaítí"í,íí
-í í í"íCíaílíoírí íEísípíeící�í�ífíiícíoí í$í(ící_ípí)í$í:í í"í:í í"íSípíeícíiífíiící íHíeíaítí í$í(ící_ípí)í$í:í í"í,íí
-í í í"íCíaílíoírí íGíaíníaídíoí í(íFírí�í�íoí)í í$í(íQí_ící)í$í:í"í:í í"íHíeíaítí íGíaíiíníeídí í(íCíoílídí)í í$í(íQí_ící)í$í:í"í,íí
-í í í"íCíaílíoírí íPíeírídíiídíoí í(íCíaílíiíeínítíeí)í í$í(íQí_íhí)í$í:í"í:í í"íLíoísítí íHíeíaítí í(íHíoítí)í í$í(íQí_íhí)í$í:í"í,íí
-í í í"íCíaílíoírí íRíeícíhíaízíaídíoí"í:í í"íRíeíjíeícítíeídí íHíeíaítí"í,íí
-í í í"íCíaílíoírí íSíuímíiíníiísítíríaídíoí í(í$íQí_ípí$í)í:í"í:í í"íHíeíaítí íSíuípípílíiíeídí í(í$íQí_ípí$í)í:í"í,íí
-í í í"íCíaílíoírí íSíuímíiíníiísítíríaídíoí í(í$íQí_íví$í)í:í"í:í í"íHíeíaítí íSíuípípílíiíeídí í(í$íQí_íví$í)í:í"í,íí
-í í í"íCíaílíoírí íTíríaínísífíeíríiídíoí í$í(íQí)í$í"í:í í"íHíeíaítí íTíríaínísífíeírí í$í(íQí)í$í"í,íí
-í í í"íCíaílíoírí íeísípí.í í$í(ící_ípí)í$í:í"í:í í"íHíeíaítí íeísípí.í í$í(ící_ípí)í$í:í"í,íí
-í í í"íCíaílíoírí ígíeíníeíríaídíoí í(í$íQí$í)í:í"í:í í"íHíeíaítí ígíeíníeíríaítíeídí í(í$íQí$í)í:í"í,íí
-í í í"íCíaíníaílí íEíxítíeíríníoí í(íAíníiílílíoí í-í íFírí�í�íoí)í"í:í í"íEíxítíeíríníaílí íCíhíaíníníeílí í(íRíiínígí í-í íCíoílídí)í"í,íí
-í í í"íCíaíníaílí íIínítíeíríníoí í(íTíuíbíoí í-í íCíaílíiíeínítíeí)í"í:í í"íIínítíeíríníaílí íCíhíaíníníeílí í(íTíuíbíeí í-í íHíoítí)í"í,íí
-í í í"íCíaínítíiídíaídí ídíeí íGíaísí í$í(íní)í$í:í í"í:í í"íGíaísí íAímíoíuínítí í$í(íní)í$í:í í"í,íí
-í í í"íCíaípí.í íTí�í�írímíiícíaí í$í(íCí_ící)í$í:í"í:í í"íCíhíaípí.í íTíhíeírímíaílí í$í(íCí_ící)í$í:í"í,íí
-í í í"íCíaípí.í íTí�í�írímíiícíaí í$í(íCí_íhí)í$í:í"í:í í"íCíhíaípí.í íTíhíeírímíaílí í$í(íCí_íhí)í$í:í"í,íí
-í í í"íCíaípíaícíiídíaídíeísí íCíaílíoírí�í�ífíiícíaísí íCípí íyí íCíví í(í1í8í4í2í)í"í:í í"íHíeíaítí íCíaípíaícíiítíiíeísí íCípí íaínídí íCíví í(í1í8í4í2í)í"í,íí
-í í í"íCíaíríníoítí í1í8í2í4í"í:í í"íCíaíríníoítí í1í8í2í4í"í,íí
-í í í"íCíaísíqíuíeítíeí íCíiílí�í�ínídíríiícíoí í(íRíaídíiíaílí)í"í:í í"íCíyílíiínídíríiícíaílí íCíaípí í(íRíaídíiíaílí)í"í,íí
-í í í"íCíaísíqíuíeítíeí íCíiílí�í�ínídíríiícíoí:í"í:í í"íCíyílíiínídíríiícíaílí íCíaípí:í"í,íí
-í í í"íCíaísíqíuíeítíeí íEísífí�í�íríiícíoí í(íRíaídíiíaílí)í"í:í í"íSípíhíeíríiícíaílí íCíaípí í(íRíaídíiíaílí)í"í,íí
-í í í"íCíaísíqíuíeítíeí íEísífí�í�íríiícíoí:í"í:í í"íSípíhíeíríiícíaílí íCíaípí:í"í,íí
-í í í"íCíaíuídíaílí í(í$íQí$í)í:í"í:í í"íFílíoíwí íríaítíeí í(í$íQí$í)í:í"í,íí
-í í í"íCíaíuídíaílí í(í$íVí'í$í)í:í í"í:í í"íFílíoíwí íríaítíeí í(í$íVí'í$í)í:í í"í,íí
-í í í"íCíaíuídíaílí íMí�í�ísíiícíoí í(í�í�í�í)í:í"í:í í"íMíaísísí íFílíoíwí íRíaítíeí í(í�í�í�í)í:í"í,íí
-í í í"íCíeílísíiíuísí íMí.í"í:í í"íCíeílísíiíuísí íMí.í"í,íí
-í í í"íCíeílísíiíuísí íMíoídíeíríníaí í(íCíoínígíeílíaícíií�í�íní í0í�í�í,í íEíbíuílílíiícíií�í�íní í1í0í0í�í�í)í"í:í í"íMíoídíeíríní íCíeílísíiíuísí í(íFíríeíeízíiínígí í0í�í�í,í íBíoíiílíiínígí í1í0í0í�í�í)í"í,íí
-í í í"íCíeílísíiíuísí íOí.í"í:í í"íCíeílísíiíuísí íOí.í"í,íí
-í í í"íCíeílísíiíuísí íOíríiígíiíníaílí í(í1í7í4í2í)í í(íEíbíuílílíiícíií�í�íní í0í�í�í,í íCíoínígíeílíaícíií�í�íní í1í0í0í�í�í)í"í:í í"íCíeílísíiíuísí íOíríiígíiíníaílí í(í1í7í4í2í)í í(íBíoíiílíiínígí í0í�í�í,í íFíríeíeízíiínígí í1í0í0í�í�í)í"í,íí
-í í í"íCíhíuírícíhíiílílí íyí íCíhíuí"í:í í"íCíhíuírícíhíiílílí íaínídí íCíhíuí"í,íí
-í í í"íCíiícílíoí íOítítíoí í�í�í�í í4í0í�í�í�í5í0í%í"í:í í"íOítítíoí ícíyícílíeí í�í�í�í í4í0í�í�í�í5í0í%í"í,íí
-í í í"íCíiícílíoí ídíeí íCíaíríníoítí"í:í í"íCíaíríníoítí ícíyícílíeí"í,íí
-í í í"íCíiícílíoísí íOítítíoí ívísí.í íDíiíeísíeílí í(í1í8í7í6í-í1í8í9í2í)í"í:í í"íOítítíoí íCíyícílíeísí ívísí.í íDíiíeísíeílí í(í1í8í7í6í-í1í8í9í2í)í"í,íí
-í í í"íCíiíeínícíiíaísí íTí�í�írímíiícíaísí"í:í í"íTíhíeírímíaílí íSícíiíeínícíeísí"í,íí
-í í í"íCíiílíiínídíríoí íIínífíiíníiítíoí í(íDíií�í�ímíeítíríoí í=í í$í2íLí$í)í"í:í í"íIínífíiíníiítíeí íCíyílíiínídíeírí í(íDíiíaímíeítíeírí í=í í$í2íLí$í)í"í,íí
-í í í"íCíiílíiínídíríoí íLíaírígíoí"í:í í"íLíoínígí íCíyílíiínídíeírí"í,íí
-í í í"íCíiíní�í�ítíiícíaí í(í�í�í�í�íví�í�í)í"í:í í"íKíiíníeítíiícísí í(í�í�í�í�íví�í�í)í"í,íí
-í í í"íCíiírícíuíiítíoísí íTí�í�írímíiícíoísí"í:í í"íTíhíeírímíaílí íCíiírícíuíiítísí"í,íí
-í í í"íCílíaíuídíeí-íLíoíuíiísí íNíaívíiíeírí í(í1í8í2í2í)í íyí íGíeíoírígíeí íGíaíbíríiíeílí íSítíoíkíeísí í(í1í8í4í5í)í ífíoírímíuílíaíríoíní ílíaísí íeícíuíaícíiíoíníeísí ívíeícítíoíríiíaílíeísí íqíuíeí ígíoíbíiíeíríníaíní íeílí ímíoívíiímíiíeínítíoí ídíeí í"í:í í"íCílíaíuídíeí-íLíoíuíiísí íNíaívíiíeírí í(í1í8í2í2í)í íaínídí íGíeíoírígíeí íGíaíbíríiíeílí íSítíoíkíeísí í(í1í8í4í5í)í ífíoírímíuílíaítíeídí ítíhíeí ívíeícítíoírí íeíqíuíaítíiíoínísí ítíhíaítí ígíoívíeíríní ítíhíeí ímíoítíiíoíní íoífí í"í,íí
-í í í"íCíoíbíríeí í(íkí í=í í4í0í1í íWí/ímíKí)í"í:í í"íCíoípípíeírí í(íkí í=í í4í0í1í íWí/ímíKí)í"í,íí
-í í í"íCíoíbíríeí í(íkí í=í í4í0í1í íWí/ímí�í�íKí)í"í:í í"íCíoípípíeírí í(íkí í=í í4í0í1í íWí/ímí íKí)í"í,íí
-í í í"íCíoíeífí.í íAíríríaísítíríeí í(í$íCí_íDí$í)í:í"í:í í"íCíoíeífí.í íDíríaígí í(í$íCí_íDí$í)í:í"í,íí
-í í í"íCíoíeífí.í íCíoínívíeícícíií�í�íní í$í(íhí)í$í:í í"í:í í"íCíoíeífí.í í$í(íhí)í$í ícíoínívíeícítíiíoíní:í í"í,íí
-í í í"íCíoíeífí.í íCíoínívíeícícíií�í�íní í$í(íhí_íií)í$í:í"í:í í"íCíoíeífí.í í$í(íhí_íií)í$í ícíoínívíeícítíiíoíní:í"í,íí
-í í í"íCíoíeífí.í íCíoínívíeícícíií�í�íní í$í(íhí_íoí)í$í:í"í:í í"íCíoíeífí.í í$í(íhí_íoí)í$í ícíoínívíeícítíiíoíní:í"í,íí
-í í í"íCíoíeífí.í íCíoínívíeícícíií�í�íní í$íhí$í:í í"í:í í"íCíoíeífí.í í$íhí$í ícíoínívíeícítíiíoíní:í í"í,íí
-í í í"íCíoíeífí.í íCíoínívíeícícíií�í�íní í(íhí)í:í í"í:í í"íCíoíeífí.í íCíoínívíeícítíiíoíní í(íhí)í:í í"í,íí
-í í í"íCíoíeífí.í íCíoínívíeícícíií�í�íní íDíeírí.í í$í(íhí_í2í)í$í:í í"í:í í"íCíoíeífí.í íRíiígíhítí ícíoínívíeícítíiíoíní í$í(íhí_í2í)í$í:í í"í,íí
-í í í"íCíoíeífí.í íCíoínívíeícícíií�í�íní íIízíqí.í í$í(íhí_í1í)í$í:í í"í:í í"íCíoíeífí.í íLíeífítí íCíoínívíeícítíiíoíní í$í(íhí_í1í)í$í:í í"í,íí
-í í í"íCíoíeífí.í íSíuísítíeínítíaícíií�í�íní í(í$íCí_íLí$í)í:í"í:í í"íCíoíeífí.í íSíuísítíaíiíníaíbíiílíiítíyí í(í$íCí_íLí$í)í:í"í,íí
-í í í"íCíoíeífí.í ídíeí íAíríríaísítíríeí íeísítí.í í$í(íCí_ídí)í$í:í"í:í í"íCíoíeífí.í íDíríaígí íeísítí.í í$í(íCí_ídí)í$í:í"í,íí
-í í í"íCíoíeífí.í ídíeí íCíoínívíeícícíií�í�íní í$í(íhí)í$í:í í"í:í í"íCíoíeífí.í íCíoínívíeícítíiíoíní í$í(íhí)í$í:í í"í,íí
-í í í"íCíoíeífí.í ídíeí íTíríaínísífí.í ídíeí íCíaílíoírí í(íhí)í"í:í í"íCíoíeífí.í íoífí íTíríaínísífíeírí.í íHíeíaítí í(íhí)í"í,íí
-í í í"íCíoíeífífí.í ídíeí íCíoínívíeícícíií�í�íní í(í$íhí$í)í:í"í:í í"íCíoíeífífí.í íCíoínívíeícítíiíoíní í(í$íhí$í)í:í"í,íí
-í í í"íCíoíeífíiícíiíeínítíeí íCíoínívíeícítíiívíoí í$í(íhí)í$í:í"í:í í"íCíoínívíeícítíiívíeí íCíoíeífífíiícíiíeínítí í$í(íhí)í$í:í"í,íí
-í í í"íCíoíeífíiícíiíeínítíeí íGílíoíbíaílí í$í(íUíAí)í$í"í:í í"íGílíoíbíaílí íCíoíeífífíiícíiíeínítí í$í(íUíAí)í$í"í,íí
-í í í"íCíoíeífíiícíiíeínítíeí ílíoícíaílí í$íhí$í:í"í:í í"íLíoícíaílí ícíoíeífífíiícíiíeínítí í$íhí$í:í"í,íí
-í í í"íCíoílíoírí í/í íRíeígíií�í�íní ídíeílí íEísípíeícítíríoí:í"í:í í"íCíoílíoírí/íSípíeícítíríuímí íRíeígíiíoíní:í"í,íí
-í í í"íCíoímíbíiíníaídíoí í(íCíoíníví í+í íRíaídí)í"í:í í"íCíoímíbíiíníeídí í(íCíoíníví í+í íRíaídí)í"í,íí
-í í í"íCíoímíbíiíníaídíoí í(íCíoínívíeícícíií�í�íní í+í íRíaídíiíaícíií�í�íní)í:í"í:í í"íCíoímíbíiíníeídí í(íCíoínívíeícítíiíoíní í+í íRíaídíiíaítíiíoíní)í:í"í,íí
-í í í"íCíoímípíoírítíaímíiíeínítíoí ídíeílí íFílíuíjíoí:í"í:í í"íFílíoíwí íBíeíhíaívíiíoírí:í"í,íí
-í í í"íCíoímípíoírítíaímíiíeínítíoí:í"í:í í"íBíeíhíaívíiíoírí:í"í,íí
-í í í"íCíoínídí.í í+í íCíoíníví.í"í:í í"íCíoínídí.í í+í íCíoíníví.í"í,íí
-í í í"íCíoínídíiícíiíoíníeísí ídíeí íCíoínívíeícícíií�í�íní í(íFílíuíiídíoísí)í"í:í í"íCíoínívíeícítíiíoíní íCíoínídíiítíiíoínísí í(íFílíuíiídísí)í"í,íí
-í í í"íCíoínídíiícíií�í�íní"í:í í"íCíoínídíiítíiíoíní"í,íí
-í í í"íCíoínídíuícícíií�í�íní"í:í í"íCíoínídíuícítíiíoíní"í,íí
-í í í"íCíoínídíuícícíií�í�íní íTíríaínísíiítíoíríiíaí í(íHíeíiísílíeírí,í í1í9í4í7í)í"í:í í"íTíríaínísíiíeínítí íCíoínídíuícítíiíoíní í(íHíeíiísílíeírí,í í1í9í4í7í)í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí í$í(íkí)í$í:í"í:í í"íCíoínídíuícítíiívíiítíyí í$í(íkí)í$í:í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí í$í(íkí)í$í:í í"í:í í"íCíoínídíuícítíiívíiítíyí í$í(íkí)í$í:í í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí í$íkí_í1í$í:í í"í:í í"íCíoínídíuícítíiívíiítíyí í$íkí_í1í$í:í í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí í$íkí_í2í$í:í í"í:í í"íCíoínídíuícítíiívíiítíyí í$íkí_í2í$í:í í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí í$íkí_í3í$í:í í"í:í í"íCíoínídíuícítíiívíiítíyí í$íkí_í3í$í:í í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí íCíaípíaí í1í í$í(íkí_í1í)í$í:í í"í:í í"íCíoínídíuícítíiívíiítíyí íLíaíyíeírí í1í í$í(íkí_í1í)í$í:í í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí íCíaípíaí í2í í$í(íkí_í2í)í$í:í í"í:í í"íCíoínídíuícítíiívíiítíyí íLíaíyíeírí í2í í$í(íkí_í2í)í$í:í í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí íCíaípíaí í3í í$í(íkí_í3í)í$í:í í"í:í í"íCíoínídíuícítíiívíiítíyí íLíaíyíeírí í3í í$í(íkí_í3í)í$í:í í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí íFílíuíiídíoí í$í(íkí)í$í:í í"í:í í"íFílíuíiídí íCíoínídíuícítíiívíiítíyí í$í(íkí)í$í:í í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí íPíaíríeídí í$í(íkí)í$í:í í"í:í í"íWíaílílí íCíoínídíuícítíiívíiítíyí í$í(íkí)í$í:í í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí íSí�í�ílíiídíoí í$í(íkí)í$í:í í"í:í í"íSíoílíiídí íCíoínídíuícítíiívíiítíyí í$í(íkí)í$í:í í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí íTí�í�írímíiícíaí í(íkí)í:í í"í:í í"íTíhíeírímíaílí íCíoínídíuícítíiívíiítíyí í(íkí)í:í í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí ídíeílí íMíaítíeíríiíaílí í$í(íkí)í$í:í í"í:í í"íCíoínídíuícítíiívíiítíyí íoífí íMíaítíeíríiíaílí í$í(íkí)í$í:í í"í,íí
-í í í"íCíoínísítíaínítíeí ídíeí íTíiíeímípíoí í$í(í\í\ítíaíuí)í$í:í"í:í í"íTíiímíeí íCíoínísítíaínítí í$í(í\í\ítíaíuí)í$í:í"í,íí
-í í í"íCíoínísíuímíoí íCíaíríbí�í�íní"í:í í"íCíoíaílí íCíoínísíuímípítíiíoíní"í,íí
-í í í"íCíoínítíríaífílíuíjíoí í(íRíeícíoímíeínídíaídíoí)í"í:í í"íCíoíuínítíeírífílíoíwí í(íRíeícíoímímíeínídíeídí)í"í,íí
-í í í"íCíoínítíríoílíeísí íyí íRíeísíuílítíaídíoísí íAíeíríoídíiíní�í�ímíiícíoísí"í:í í"íAíeíríoídíyíníaímíiící íCíoínítíríoílísí íaínídí íRíeísíuílítísí"í,íí
-í í í"íCíoínívíeícícíií�í�íní"í:í í"íCíoínívíeícítíiíoíní"í,íí
-í í í"íCíoínívíeícícíií�í�íní íFíoírízíaídíaí í(íNíuísísíeílítí,í í1í9í1í5í)í"í:í í"íFíoírícíeídí íCíoínívíeícítíiíoíní í(íNíuísísíeílítí,í í1í9í1í5í)í"í,íí
-í í í"íCíoínívíeícícíií�í�íní íNíaítíuíríaílí"í:í í"íNíaítíuíríaílí íCíoínívíeícítíiíoíní"í,íí
-í í í"íCíoínívíeícícíií�í�íní íNíaítíuíríaílí í(íCíiílíiínídíríoí)í"í:í í"íNíaítíuíríaílí íCíoínívíeícítíiíoíní í(íCíyílíiínídíeírí)í"í,íí
-í í í"íCíoínívíeícícíií�í�íní:í"í:í í"íCíoínívíeícítíiíoíní:í"í,íí
-í í í"íCíríeícíiímíiíeínítíoí ídíeílí ípíeírífíiílí:í"í:í í"íPíríoífíiílíeí ígíríoíwítíhí:í"í,íí
-í í í"íCíuírívíaí ídíeí íNíuíkíiíyíaímíaí í(íEíbíuílílíiícíií�í�íní,í í1í9í3í4í)í"í:í í"íNíuíkíiíyíaímíaí íCíuírívíeí í(íBíoíiílíiínígí,í í1í9í3í4í)í"í,íí
-í í í"íCí�í�ílícíuílíoí íDíiífíeíríeínícíiíaílí íeí íIínítíeígíríaílí í(íLíaísí íFílíuíxíiíoíníeísí)í"í:í í"íDíiífífíeíríeínítíiíaílí íaínídí íIínítíeígíríaílí íCíaílícíuílíuísí í(íFílíuíxíiíoínísí)í"í,íí
-í í í"íCí�í�ílícíuílíoí íIínífíiíníiítíeísíiímíaílí"í:í í"íIínífíiíníiítíeísíiímíaílí íCíaílícíuílíuísí"í,íí
-í í í"íCí�í�ímíaíríaí ídíeí íFíaísíeí ídíeílí íAígíuíaí"í:í í"íWíaítíeírí íPíhíaísíeí íCíhíaímíbíeírí"í,íí
-í í í"íDíeínísíiídíaídí í$í(í\í\íríhíoí)í$í:í"í:í í"í$í(í\í\íríhíoí)í$í ídíeínísíiítíyí:í"í,íí
-í í í"íDíeínísíiídíaídí í$í(í\í\íríhíoí)í$í:í í"í:í í"í$í(í\í\íríhíoí)í$í ídíeínísíiítíyí:í í"í,íí
-í í í"íDíeísíaíríríoílílíoí íCíaípíaí íLí�í�ímíiítíeí"í:í í"íBíoíuínídíaíríyí íLíaíyíeírí íDíeívíeílíoípímíeínítí"í,íí
-í í í"íDíeísícíoímípíoísíiícíií�í�íní íPíríiísímí�í�ítíiícíaí í(í1í6í6í6í)í:í"í:í í"íPíríiísímíaítíiící íDíeícíoímípíoísíiítíiíoíní í(í1í6í6í6í)í:í"í,íí
-í í í"íDíeísígílíoísíeí íTí�í�írímíiícíoí íyí íCíuírívíaí ídíeí íEínítíríoípí�í�íaí"í:í í"íTíhíeírímíaílí íBíríeíaíkídíoíwíní íaínídí íEínítíríoípíyí íCíuírívíeí"í,íí
-í í í"íDíiíeísíeílí"í:í í"íDíiíeísíeílí"í,íí
-í í í"íDíiíeísíeílí:í"í:í í"íDíiíeísíeílí:í"í,íí
-í í í"íDíiífíeíríeínícíiíaí íMí�í�íxíiímíaí ídíeílí íBíaílíaínícíeí:í"í:í í"íMíaíxíiímíuímí íBíaílíaínícíeí íDíiífífíeíríeínícíeí:í"í,íí
-í í í"íDíiífíeíríeínícíiíaí íaílí íEíqíuíiílíiíbíríiíoí í(í�í�íTíeíqí)í"í:í í"íDíiífífíeíríeínícíeí ítíoí íEíqíuíiílíiíbíríiíuímí í(í�í�íTíeíqí)í"í,íí
-í í í"íDíiífíeíríeínícíiíaí ídíeí íEílíeívíaícíií�í�íní í$í(ízí_í1í í-í ízí_í2í)í$í:í í"í:í í"íEílíeívíaítíiíoíní íDíiífífíeíríeínícíeí í$í(ízí_í1í í-í ízí_í2í)í$í:í í"í,íí
-í í í"íDíiífíeíríeínícíiíaílí ídíeí íTíeímípíeíríaítíuíríaí í(í$í\í\íDíeílítíaí íTí$í)í:í"í:í í"íTíeímípíeíríaítíuíríeí íDíiífífíeíríeínítíiíaílí í(í$í\í\íDíeílítíaí íTí$í)í:í"í,íí
-í í í"íDíiífíuísíiívíiídíaídí íTí�í�írímíiícíaí í$í(í\í\íaílípíhíaí)í$í"í:í í"íTíhíeírímíaílí íDíiífífíuísíiívíiítíyí í$í(í\í\íaílípíhíaí)í$í"í,íí
-í í í"íDíiímíeínísíií�í�íní íCíaíríaícítíeírí�í�ísítíiícíaí í(íDí íoí í2íLí)í:í í"í:í í"íCíhíaíríaícítíeíríiísítíiící íDíiímíeínísíiíoíní í(íDí íoírí í2íLí)í:í í"í,íí
-í í í"íDíiíní�í�ímíiícíaí í(í�í�í�í�íví�í�í)í"í:í í"íDíyíníaímíiícísí í(í�í�í�í�íví�í�í)í"í,íí
-í í í"íDíiísíeí�í�íaídíoí ípíaíríaí ípíríoípí�í�ísíiítíoísí íeídíuícíaítíiívíoísí ípíoírí í"í:í í"íDíeísíiígíníeídí ífíoírí íeídíuícíaítíiíoíníaílí ípíuírípíoísíeísí íbíyí í"í,íí
-í í í"íDíiísíiípíaídíoírí ídíeí íMíiícíríoícíaíníaílíeísí í(í1í9í8í1í)í"í:í í"íMíiícíríoícíhíaíníníeílí íHíeíaítísíiíníkí í(í1í9í8í1í)í"í,íí
-í í í"íDíiísítíaínícíiíaí ídíeí ísíeípíaíríaícíií�í�íní í$íDí$í:í í"í:í í"íSíeípíaíríaítíiíoíní ídíiísítíaínícíeí í$íDí$í:í í"í,íí
-í í í"íDíiísítíaínícíiíaí ídíeílí íoíbíjíeítíiívíoí í$í(írí)í$í:í"í:í í"íTíaírígíeítí ídíiísítíaínícíeí í$í(írí)í$í:í"í,íí
-í í í"íDíiísítíaínícíiíaí ídíeísídíeí íeílí íbíoírídíeí ídíeí íaítíaíqíuíeí í$í(íxí)í$í:í í"í:í í"íDíiísítíaínícíeí ífíríoímí ílíeíaídíiínígí íeídígíeí í$í(íxí)í$í:í í"í,íí
-í í í"íDíiísítíríiíbíuícíií�í�íní ídíeí íEíníeírígí�í�íaí:í"í:í í"íPíoíwíeírí íDíiísítíríiíbíuítíiíoíní:í"í,íí
-í í í"íDíiítítíuísí-íBíoíeílítíeírí"í:í í"íDíiítítíuísí-íBíoíeílítíeírí"í,íí
-í í í"íDíií�í�ímí.í íIínítíeíríníoí í$í(íDí_íií)í$í:í í"í:í í"íIínítíeíríníaílí íDíiíaí.í í$í(íDí_íií)í$í:í í"í,íí
-í í í"íDíií�í�ímíeítíríoí íCíiílíiínídíríoí í$í(íDí)í$í:í í"í:í í"íCíyílíiínídíeírí íDíiíaímíeítíeírí í$í(íDí)í$í:í í"í,íí
-í í í"íDíií�í�ímíeítíríoí íEísítíríeícíhíaímíiíeínítíoí í$í(íDí_í2í)í$í:í í"í:í í"íTíaípíeírí íDíiíaímíeítíeírí í$í(íDí_í2í)í$í:í í"í,íí
-í í í"íDíií�í�ímíeítíríoí íGíaírígíaínítíaí íVíeínítíuíríií í(íDí2í)í:í í"í:í í"íVíeínítíuíríií íTíhíríoíaítí íDíiíaímíeítíeírí í(íDí2í)í:í í"í,íí
-í í í"íDíií�í�ímíeítíríoí íHíiídírí�í�íuílíiícíoí í$í(íDí_íhí)í$í:í í"í:í í"íHíyídíríaíuílíiící íDíiíaímíeítíeírí í$í(íDí_íhí)í$í:í í"í,íí
-í í í"íDíií�í�ímíeítíríoí íHíiídírí�í�íuílíiícíoí í(í$íDí_íhí$í)í:í"í:í í"íHíyídíríaíuílíiící íDíiíaímíeítíeírí í(í$íDí_íhí$í)í:í"í,íí
-í í í"íDíií�í�ímíeítíríoí íPíríiínícíiípíaílí í$í(íDí_í1í)í$í:í í"í:í í"íMíaíiíní íDíiíaímíeítíeírí í$í(íDí_í1í)í$í:í í"í,íí
-í í í"íDíií�í�ímíeítíríoí íTíuíbíeírí�í�íaí íPíríiínícíiípíaílí í(íDí1í)í:í í"í:í í"íMíaíiíní íPíiípíeí íDíiíaímíeítíeírí í(íDí1í)í:í í"í,íí
-í í í"íDíií�í�ímíeítíríoí ídíeí ílíaí íaílíeítíaí í$í(íDí)í$í:í í"í:í í"íFíiíní ídíiíaímíeítíeírí í$í(íDí)í$í:í í"í,íí
-í í í"íDíií�í�ímíeítíríoí ídíeílí íCíiílíiínídíríoí í$í(íDí)í$í:í í"í:í í"íCíyílíiínídíeírí íDíiíaímíeítíeírí í$í(íDí)í$í:í í"í,íí
-í í í"íDíií�í�íxíiídíoí ídíeí íCíaíríbíoíníoí í(íCíOí�í�í�í í-í íTíríiíaítí�í�ímíiícíoí í-í íCípí/íCíví í=í í1í.í2í9í)í"í:í í"íCíaíríbíoíní íDíiíoíxíiídíeí í(íCíOí�í�í�í í-í íTíríiíaítíoímíiící í-í íCípí/íCíví í=í í1í.í2í9í)í"í,íí
-í í í"íDíuídíaísí,í íiíníqíuíiíeítíuídíeísí íoí ícíoíríríeícícíiíoíníeísí:í"í:í í"íDíoíuíbítísí,í ícíoínícíeírínísí íoírí ícíoíríríeícítíiíoínísí:í"í,íí
-í í í"íDíuíríaínítíeí ílíaí ígíríaíní ípílíaígíaí ídíeí íLíoínídíríeísí í(í1í6í6í5í-í1í6í6í6í)í,í íNíeíwítíoíní ísíeí íríeífíuígíií�í�í íeíní ísíuí ígíríaíníjíaí ífíaímíiílíiíaírí íyí ídíeísíaíríríoílílí�í�í ídíeí ífíoírímíaí íiínídíeípíeínídíiíeínítíeí íeílí í*í*íCí�í�ílícíuílíoí íIínífíiíníiítíeísíiímíaílí*í*í í(íaílí íqíuíeí ílílíaímí�í�í í\í"ímí�í�ítíoídíoí ídíeí ílíaísí ífílíuíxíiíoíníeísí\í"í)í.í íEísítíeí ídíeísícíuíbíríiímíiíeínítíoí ílíeí ípíeírímíiítíií�í�í ífíoírímíuílíaírí ídíeíríiívíaídíaísí íeí íiínítíeígíríaílíeísí ípíaíríaí ícíaílícíuílíaírí ítíaísíaísí ídíeí ícíaímíbíiíoí íiínísítíaínítí�í�íníeíaísí íyí í�í�íríeíaísí íbíaíjíoí ícíuírívíaísí,í ísíeínítíaínídíoí ílíaí íbíaísíeí ímíaítíeímí�í�ítíiícíaí ípíaíríaí ítíoídíaí ílíaí ífí�í�ísíiícíaí íeí íiínígíeíníiíeírí�í�íaí ímíoídíeíríníaí.í"í:í í"íDíuíríiínígí ítíhíeí íGíríeíaítí íPílíaígíuíeí íoífí íLíoínídíoíní í(í1í6í6í5í-í1í6í6í6í)í,í íNíeíwítíoíní ítíoíoíkí íríeífíuígíeí íoíní íhíiísí ífíaímíiílíyí ífíaírímí íaínídí íiínídíeípíeínídíeínítílíyí ídíeívíeílíoípíeídí ítíhíeí í*í*íIínífíiíníiítíeísíiímíaílí íCíaílícíuílíuísí*í*í í(íwíhíiícíhí íhíeí ícíaílílíeídí ítíhíeí í\í"ímíeítíhíoídí íoífí ífílíuíxíiíoínísí\í"í)í.í íTíhíiísí ídíiísícíoívíeíríyí íaílílíoíwíeídí íhíiímí ítíoí ífíoírímíuílíaítíeí ídíeíríiívíaítíiívíeísí íaínídí íiínítíeígíríaílísí ítíoí ícíaílícíuílíaítíeí íiínísítíaínítíaíníeíoíuísí íríaítíeísí íoífí ícíhíaínígíeí íaínídí íaíríeíaísí íuínídíeírí ícíuírívíeísí,í ílíaíyíiínígí ítíhíeí ímíaítíhíeímíaítíiícíaílí ífíoíuínídíaítíiíoíní ífíoírí íaílílí íoífí ímíoídíeíríní ípíhíyísíiícísí íaínídí íeínígíiíníeíeíríiínígí.í"í,íí
-í í í"íEíbíuílílíiícíií�í�íní íNíuícílíeíaídíaí"í:í í"íNíuícílíeíaítíeídí íbíoíiílíiínígí"í,íí
-í í í"íEífíeícítíiívíiídíaídí í$í(í\í\íeípísíiílíoíní)í$í"í:í í"íEífífíeícítíiívíeíníeísísí í$í(í\í\íeípísíiílíoíní)í$í"í,íí
-í í í"íEífíeícítíoí íBíaílí�í�ísítíiícíoí ídíeí íFíoíníoíníeísí:í"í:í í"íBíaílílíiísítíiící íPíhíoíníoíní íEífífíeícítí:í"í,íí
-í í í"íEífíeícítíoí íGíeíoímí�í�ítíríiícíoí:í"í:í í"íGíeíoímíeítíríiící íEífífíeícítí:í"í,íí
-í í í"íEífíeícítíoísí íBíaílí�í�ísítíiícíoísí ídíeí íFíoíníoíníeísí í(íTíríaínísípíoírítíeí íaí íNíaíníoíeísícíaílíaí)í"í:í í"íBíaílílíiísítíiící íPíhíoíníoíní íEífífíeícítísí í(íNíaíníoísícíaílíeí íTíríaínísípíoírítí)í"í,íí
-í í í"íEífíiícíiíeínícíiíaí íCíaíríníoítí ílí�í�ímíiítíeí:í"í:í í"íLíiímíiítí íCíaíríníoítí íeífífíiícíiíeínícíyí:í"í,íí
-í í í"íEífíiícíiíeínícíiíaí íMí�í�íxíiímíaí"í:í í"íMíaíxíiímíuímí íEífífíiícíiíeínícíyí"í,íí
-í í í"íEífíiícíiíeínícíiíaí íTí�í�írímíiícíaí"í:í í"íTíhíeírímíaílí íEífífíiícíiíeínícíyí"í,íí
-í í í"íEífíiícíiíeínícíiíaí ídíeí íCíaíríníoítí ívísí.í íCíiícílíoísí íRíeíaílíeísí íTí�í�ípíiícíoísí"í:í í"íCíaíríníoítí íeífífíiícíiíeínícíyí ívísí.í íTíyípíiícíaílí íRíoíyíaílí íCíyícílíeísí"í,íí
-í í í"íEífíiícíiíeínícíiíaí í�í�í"í:í í"í�í�í íeífífíiícíiíeínícíyí"í,íí
-í í í"íEílí íAícíeíiítíeí ídíeí íLíiíníaízíaí:í"í:í í"íLíiínísíeíeídí íOíiílí:í"í,íí
-í í í"íEílí íAílíqíuíiímíiísítíaí íSíeícíríeítíoí:í"í:í í"íTíhíeí íSíeícíríeítí íAílícíhíeímíiísítí:í"í,íí
-í í í"íEílí íCíiícílíoí ídíeí íCíaíríníoítí íyí íeílí íDíeísícíuíbíríiímíiíeínítíoí ídíeílí íCíeíríoí íAíbísíoílíuítíoí"í:í í"íTíhíeí íCíaíríníoítí íCíyícílíeí íaínídí ítíhíeí íDíiísícíoívíeíríyí íoífí íAíbísíoílíuítíeí íZíeíríoí"í,íí
-í í í"íEílí íPíeíríríoí íDíiíaímíoínídí:í"í:í í"íDíiíaímíoínídí ítíhíeí íDíoígí:í"í,íí
-í í í"íEílí íeíxípíeíríiímíeínítíoí íhíiísítí�í�íríiícíoí ídíeí í"í:í í"íTíhíeí íhíiísítíoíríiícíaílí íeíxípíeíríiímíeínítí íoífí í"í,íí
-í í í"íEílí ímí�í�ítíoídíoí í$í\í\íeípísíiílíoíní$í-íNíTíUí ísíeí íbíaísíaí íeíní ílíaí ídíeífíiíníiícíií�í�íní ídíeí ílíaí íeífíeícítíiívíiídíaídí ídíeí ílíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí:í"í:í í"íTíhíeí í$í\í\íeípísíiílíoíní$í-íNíTíUí ímíeítíhíoídí íiísí íbíaísíeídí íoíní ítíhíeí ídíeífíiíníiítíiíoíní íoífí ítíhíeí íeífífíeícítíiívíeíníeísísí íoífí íhíeíaítí ítíríaínísífíeírí:í"í,íí
-í í í"íEílí ípíuínítíoí ídíeí íeíbíuílílíiícíií�í�íní ídíeílí íaígíuíaí í(ífíiíjíaídíoí íoíríiígíiíníaílímíeínítíeí íeíní í$í0í^í\í\ícíiírící$í)í"í:í í"íTíhíeí íbíoíiílíiínígí ípíoíiínítí íoífí íwíaítíeírí í(íoíríiígíiíníaílílíyí ísíeítí ítíoí í$í0í^í\í\ícíiírící$í)í"í,íí
-í í í"íEímíiísíiívíiídíaídí í$í\í\íeípísíiílíoíní$í:í í"í:í í"íEímíiísísíiívíiítíyí í$í\í\íeípísíiílíoíní$í:í í"í,íí
-í í í"íEíní í1í7í1í2í,í íTíhíoímíaísí íNíeíwícíoímíeíní ícíoínísítíríuíyí�í�í ílíaí ípíríiímíeíríaí ímí�í�íqíuíiíníaí ídíeí ívíaípíoírí ípírí�í�ícítíiícíaí.í íSíuí ífíaílílíoí ífíuínídíaímíeínítíaílí íeíríaí íqíuíeí íeílí í"í:í í"íIíní í1í7í1í2í,í íTíhíoímíaísí íNíeíwícíoímíeíní íbíuíiílítí ítíhíeí ífíiírísítí ípíríaícítíiícíaílí ísítíeíaímí íeínígíiíníeí.í íIítísí ífíuínídíaímíeínítíaílí ífílíaíwí íwíaísí ítíhíaítí ítíhíeí í"í,íí
-í í í"íEíní í1í7í6í5í,í íJíaímíeísí íWíaítítí íiídíeínítíiífíiící�í�í íeílí ípíríoíbílíeímíaí:í íeílí ícíiílíiínídíríoí ísíeí íeínícíoínítíríaíbíaí ísíiíeímípíríeí ídíeímíaísíiíaídíoí ífírí�í�íoí ípíaíríaí íeílí ívíaípíoírí íoí ídíeímíaísíiíaídíoí ícíaílíiíeínítíeí ípíaíríaí ílíaí ícíoínídíeínísíaícíií�í�íní.í íSíuí ísíoílíuícíií�í�íní í�í�í�í íeílí í"í:í í"íIíní í1í7í6í5í,í íJíaímíeísí íWíaítítí íiídíeínítíiífíiíeídí ítíhíeí ípíríoíbílíeímí:í ítíhíeí ícíyílíiínídíeírí íwíaísí íaílíwíaíyísí ítíoíoí ícíoílídí ífíoírí ísítíeíaímí íoírí ítíoíoí íhíoítí ífíoírí ícíoínídíeínísíaítíiíoíní.í íYíoíuírí ísíoílíuítíiíoíní í�í�í�í ítíhíeí í"í,íí
-í í í"íEíní í1í8í0í0í,í íSíiírí íWíiílílíiíaímí íHíeírísícíhíeílí íbíuísícíaíbíaí íuíníaí ímíaíníeíríaí ídíeí ífíiílítíríaírí ílíaí íiínítíeínísíaí ílíuízí ísíoílíaírí ípíaíríaí íoíbísíeírívíaícíiíoíníeísí íaísítíríoíní�í�ímíiícíaísí.í íAílí ípíaísíaírí ílíaí ílíuízí ípíoírí íuíní ípíríiísímíaí ípíaíríaí ísíeípíaíríaírílíaí íeíní ílíoísí ícíoílíoíríeísí ídíeílí íaírícíoí�í�íríiísí,í ícíoílíoící�í�í ítíeírímí�í�ímíeítíríoísí ícíoíní íbíuílíbíoísí íoísícíuíríeícíiídíoísí íeíní ícíaídíaí ícíoílíoírí.í íAílí ísíiítíuíaírí íuíní ítíeírímí�í�ímíeítíríoí ímí�í�ísí íaílílí�í�í ídíeílí ícíoílíoírí íríoíjíoí í(ídíoínídíeí íníoí íhíaíbí�í�íaí ílíuízí ívíiísíiíbílíeí)í,í ídíeísícíuíbíríií�í�í ípíaíríaí ísíuí ísíoírípíríeísíaí íqíuíeí ílíaí ítíeímípíeíríaítíuíríaí íaíuímíeínítíaíbíaí íaí�í�íní ímí�í�ísí,í íríeívíeílíaínídíoí ílíaí íeíxíiísítíeínícíiíaí ídíeí ílíaí íríaídíiíaícíií�í�íní íiínífíríaíríríoíjíaí,í íaí ílíaí íqíuíeí ílílíaímí�í�í í\í"íríaíyíoísí ícíaílíoírí�í�ífíiícíoísí\í"í.í"í:í í"íIíní í1í8í0í0í,í íSíiírí íWíiílílíiíaímí íHíeírísícíhíeílí íwíaísí ílíoíoíkíiínígí ífíoírí íaí íwíaíyí ítíoí ífíiílítíeírí íiínítíeínísíeí ísíuínílíiígíhítí ífíoírí íaísítíríoíníoímíiícíaílí íoíbísíeírívíaítíiíoínísí.í íPíaísísíiínígí ítíhíeí ílíiígíhítí ítíhíríoíuígíhí íaí ípíríiísímí ítíoí ísíeípíaíríaítíeí íiítí íiínítíoí ítíhíeí ícíoílíoírísí íoífí ítíhíeí íríaíiíníbíoíwí,í íhíeí ípílíaícíeídí ítíhíeírímíoímíeítíeírísí íwíiítíhí ídíaíríkíeíníeídí íbíuílíbísí íiíní íeíaícíhí ícíoílíoírí.í íBíyí ípílíaícíiínígí íaí ítíhíeírímíoímíeítíeírí íbíeíyíoínídí ítíhíeí ícíoílíoírí íríeídí í(íwíhíeíríeí ítíhíeíríeí íwíaísí íníoí ívíiísíiíbílíeí ílíiígíhítí)í,í íhíeí ídíiísícíoívíeíríeídí ítíoí íhíiísí ísíuírípíríiísíeí ítíhíaítí ítíhíeí ítíeímípíeíríaítíuíríeí íiínícíríeíaísíeídí íeívíeíní ímíoíríeí,í íríeívíeíaílíiínígí ítíhíeí íeíxíiísítíeínícíeí íoífí íiínífíríaíríeídí íríaídíiíaítíiíoíní,í íwíhíiícíhí íhíeí ícíaílílíeídí í\í"íhíeíaítí íríaíyísí.í\í"í"í,íí
-í í í"íEíní íeílí íeísítíuídíiíoí ídíeí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí íyí ímíaísíaí,í ílíaísí ícíaípíaísí ílí�í�ímíiítíeí ídíeí ívíeílíoícíiídíaídí í(í$í\í\ídíeílítíaí$í)í,í ítí�í�írímíiícíaí í(í$í\í\ídíeílítíaí_ítí$í)í íyí ídíeí ícíoínícíeínítíríaícíií�í�íní í(í$í\í\ídíeílítíaí_ící$í)í ídíeísícíríiíbíeíní ící�í�ímíoí ísíeí ídíeísíaíríríoílílíaíní ílíoísí ípíeírífíiílíeísí ídíeísídíeí ílíaí ípíaíríeídí.í"í:í í"íIíní ítíhíeí ísítíuídíyí íoífí íhíeíaítí íaínídí ímíaísísí ítíríaínísífíeírí,í ítíhíeí ívíeílíoícíiítíyí í(í$í\í\ídíeílítíaí$í)í,í ítíhíeírímíaílí í(í$í\í\ídíeílítíaí_ítí$í)í,í íaínídí ícíoínícíeínítíríaítíiíoíní í(í$í\í\ídíeílítíaí_ící$í)í íbíoíuínídíaíríyí ílíaíyíeírísí ídíeísícíríiíbíeí íhíoíwí ítíhíeí ípíríoífíiílíeísí ídíeívíeílíoípí ífíríoímí ítíhíeí íwíaílílí.í"í,íí
-í í í"íEíní íeísítíeí íeíjíeímípílíoí ícílí�í�ísíiícíoí ídíeí íuíníaí ípíaíríeídí ípílíaíníaí ícíoímípíuíeísítíaí ídíeí í3í ícíaípíaísí íeíxípíuíeísítíaí íaí ífílíuíiídíoísí íeíní ícíoínívíeícícíií�í�íní íaí íaímíbíoísí ílíaídíoísí,í íeílí ícíiírícíuíiítíoí ícíoínísíiísítíeí íeíní í5í íríeísíiísítíeínícíiíaísí íeíní ísíeíríiíeí.í íMíoídíiífíiícíaí ílíaísí ípíríoípíiíeídíaídíeísí ípíaíríaí ívíeírí ící�í�ímíoí íaífíeícítíaíní íeílí ípíeírífíiílí ídíeí ítíeímípíeíríaítíuíríaí íyí ílíaí íríeísíiísítíeínícíiíaí ítíoítíaílí.í í"í:í í"íIíní ítíhíiísí ícílíaísísíiící íeíxíaímípílíeí íoífí íaí í3í-ílíaíyíeírí ícíoímípíoísíiítíeí ífílíaítí íwíaílílí íeíxípíoísíeídí ítíoí ícíoínívíeícítíiínígí ífílíuíiídísí íoíní íbíoítíhí ísíiídíeísí,í ítíhíeí ícíiírícíuíiítí ícíoínísíiísítísí íoífí í5í íríeísíiísítíoírísí íiíní ísíeíríiíeísí.í íMíoídíiífíyí ítíhíeí ípíríoípíeírítíiíeísí ítíoí ísíeíeí íhíoíwí ítíhíeíyí íaífífíeícítí ítíhíeí ítíeímípíeíríaítíuíríeí ípíríoífíiílíeí íaínídí ítíoítíaílí íríeísíiísítíaínícíeí.í í"í,íí
-í í í"íEíní ílíaí ípírí�í�ícítíiícíaí íríeíaílí,í ílíoísí ímíoítíoíríeísí íOítítíoí ídíeí ígíaísíoílíiíníaí íeísítí�í�íní ílíiímíiítíaídíoísí íaí í$írí í\í\íaípípíríoíxí í8í-í1í1í$í ípíaíríaí íeívíiítíaírí ílíaí ídíeítíoíníaícíií�í�íní ípíríeímíaítíuíríaí í(ígíoílípíeítíeíoí)í.í íLíoísí ímíoítíoíríeísí íDíiíeísíeílí,í íaílí ícíoímípíríiímíiírí íaíiíríeí ípíuíríoí,í íoípíeíríaíní ícíoíní íríeílíaícíiíoíníeísí ídíeí ícíoímípíríeísíií�í�íní ímíuíyí ísíuípíeíríiíoíríeísí í(í$írí í\í\íaípípíríoíxí í1í6í-í2í2í$í)í.í íGíríaícíiíaísí íaí íeísítíeí íeíníoírímíeí íiínícíríeímíeínítíoí íeíní ílíaí ícíoímípíríeísíií�í�íní ífí�í�ísíiícíaí,í í*í*ílíoísí ímíoítíoíríeísí íDíiíeísíeílí íríeíaílíeísí íoíbítíiíeíníeíní íuíníaí íeífíiícíiíeínícíiíaí ísíuísítíaínícíiíaílímíeínítíeí ímíaíyíoírí*í*í.í"í:í í"íIíní íríeíaílí ípíríaícítíiícíeí,í ígíaísíoílíiíníeí íOítítíoí íeínígíiíníeísí íaíríeí ílíiímíiítíeídí ítíoí í$írí í\í\íaípípíríoíxí í8í-í1í1í$í ítíoí ípíríeívíeínítí ípíríeímíaítíuíríeí ídíeítíoíníaítíiíoíní í(íkíníoícíkí)í.í íDíiíeísíeílí íeínígíiíníeísí,í íwíhíeíní ícíoímípíríeísísíiínígí ípíuíríeí íaíiírí,í íoípíeíríaítíeí íwíiítíhí ímíuícíhí íhíiígíhíeírí ícíoímípíríeísísíiíoíní íríaítíiíoísí í(í$írí í\í\íaípípíríoíxí í1í6í-í2í2í$í)í.í íTíhíaíníkísí ítíoí ítíhíiísí íeíníoírímíoíuísí íiínícíríeíaísíeí íiíní ípíhíyísíiícíaílí ícíoímípíríeísísíiíoíní,í í*í*íríeíaílí íDíiíeísíeílí íeínígíiíníeísí íoíbítíaíiíní ísíuíbísítíaínítíiíaílílíyí ígíríeíaítíeírí íeífífíiícíiíeínícíyí*í*í.í"í,íí
-í í í"íEíní ípíríoíbílíeímíaísí íríeíaílíeísí ídíeí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí,í ílíaí ífíríoínítíeíríaí íeíxípíuíeísítíaí íaílí íeíxítíeíríiíoírí ísíuíeílíeí ípíeírídíeírí ícíaílíoírí ímíeídíiíaínítíeí ídíoísí ímíeícíaíníiísímíoísí ísíiímíuílítí�í�íníeíoísí íeí íiínídíeípíeínídíiíeínítíeísí:í í"í:í í"íIíní íríeíaílí íhíeíaítí ítíríaínísífíeírí ípíríoíbílíeímísí,í ítíhíeí íbíoíuínídíaíríyí íeíxípíoísíeídí ítíoí ítíhíeí íoíuítísíiídíeí íuísíuíaílílíyí ílíoísíeísí íhíeíaítí ítíhíríoíuígíhí ítíwíoí ísíiímíuílítíaíníeíoíuísí íaínídí íiínídíeípíeínídíeínítí ímíeícíhíaíníiísímísí:í í"í,íí
-í í í"íEíní ísíuí ílíiíbíríoí í"í:í í"íiíní íhíiísí íbíoíoíkí í"í,íí
-í í í"íEíní ísíuí íoíbíríaí í"í:í í"íIíní íhíiísí íwíoíríkí í"í,íí
-í í í"íEíní.í íIínítíeíríníaí íFíiíníaílí ídíeílí íaígíuíaí í(í$íUí_ífí$í)í:í"í:í í"íIíní.í íIínítíeíríníaílí íFíiíníaílí íwíaítíeírí í(í$íUí_ífí$í)í:í"í,íí
-í í í"íEíní.í íIínítíeíríníaí íIíníiícíiíaílí ídíeílí íaígíuíaí í(í$íUí_íií$í)í:í"í:í í"íIíní.í íIíníiítíiíaílí íiínítíeíríníaílí íwíaítíeírí í(í$íUí_íií$í)í:í"í,íí
-í í í"íEíníeírígí�í�íaí íPíoítíeínícíiíaílí ípíoírí ícíaí�í�ídíaí í(í$íEí_ípí$í)í:í"í:í í"íPíoítíeínítíiíaílí íEíníeírígíyí ípíeírí ífíaílílí í(í$íEí_ípí$í)í:í"í,íí
-í í í"íEínífíríiíaímíiíeínítíoí ídíeí íNíeíwítíoíní í(í1í7í0í1í)í"í:í í"íNíeíwítíoíní'ísí ícíoíoílíiínígí í(í1í7í0í1í)í"í,íí
-í í í"íEínítíríaídíaí í(í1í)í"í:í í"íEínítíríyí í(í1í)í"í,íí
-í í í"íEínítíríoípí�í�íaí íEísítíaídí�í�ísítíiícíaí:í"í:í í"íSítíaítíiísítíiícíaílí íEínítíríoípíyí:í"í,íí
-í í í"íEínítíríoípí�í�íaí íGíeíníeíríaídíaí:í í"í:í í"íGíeíníeíríaítíeídí íEínítíríoípíyí:í í"í,íí
-í í í"íEínítíríoípí�í�íaí íyí íSíeígíuínídíaí íLíeíyí í(íCílíaíuísíiíuísí,í í1í8í5í0í)í"í:í í"íEínítíríoípíyí íaínídí íSíeícíoínídí íLíaíwí í(íCílíaíuísíiíuísí,í í1í8í5í0í)í"í,íí
-í í í"íEíqíuíiívíaílíeínítíeí íhíaílílíaídíoí í(í$íJí$í)í:í"í:í í"íFíoíuínídí íeíqíuíiívíaílíeínítí í(í$íJí$í)í:í"í,íí
-í í í"íEísícíaílíaí íAícítíiívíaí:í"í:í í"íAícítíiívíeí íSícíaílíeí:í"í,íí
-í í í"íEísícíaílíaí íEísítíeílíaírí í(íxí1í,í0í0í0í)í"í:í í"íSítíaírí íSícíaílíeí í(íxí1í,í0í0í0í)í"í,íí
-í í í"íEísícíaílíaí íEíxítíríeímíaí í(íxí1í0í0í,í0í0í0í)í"í:í í"íEíxítíríeímíeí íSícíaílíeí í(íxí1í0í0í,í0í0í0í)í"í,íí
-í í í"íEísícíaílíaí íKíeílívíiíní í(íCíeíríoí íAíbísíoílíuítíoí,í í1í8í4í8í)í"í:í í"íKíeílívíiíní íSícíaílíeí í(íAíbísíoílíuítíeí íZíeíríoí,í í1í8í4í8í)í"í,íí
-í í í"íEísícíaílíaí íNíoírímíaílí í(íxí1í)í"í:í í"íNíoírímíaílí íSícíaílíeí í(íxí1í)í"í,íí
-í í í"íEísífíeíríaí"í:í í"íSípíhíeíríeí"í,íí
-í í í"íEísífíeíríaí í(íDíií�í�ímíeítíríoí í=í í$í2íLí$í)í"í:í í"íSípíhíeíríeí í(íDíiíaímíeítíeírí í=í í$í2íLí$í)í"í,íí
-í í í"íEísípíeící�í�ífíiícíaí"í:í í"íSípíeícíiífíiící"í,íí
-í í í"íEísípíeísíoírí í$í(íLí_ící)í$í:í í"í:í í"í$í(íLí_ící)í$í ítíhíiícíkíníeísísí:í í"í,íí
-í í í"íEísípíeísíoírí í$íLí_í1í$í:í í"í:í í"í$íLí_í1í$í ítíhíiícíkíníeísísí:í í"í,íí
-í í í"íEísípíeísíoírí í$íLí_í2í$í:í í"í:í í"í$íLí_í2í$í ítíhíiícíkíníeísísí:í í"í,íí
-í í í"íEísípíeísíoírí í$íLí_í3í$í:í í"í:í í"í$íLí_í3í$í ítíhíiícíkíníeísísí:í í"í,íí
-í í í"íEísípíeísíoírí í(íLí í=í írí"í:í í"íTíhíiícíkíníeísísí í(íLí í=í írí"í,íí
-í í í"íEísípíeísíoírí í(íLí)í:í í"í:í í"íTíhíiícíkíníeísísí í(íLí)í:í í"í,íí
-í í í"íEísípíeísíoírí íCíaípíaí í1í í$í(íLí_í1í)í$í:í í"í:í í"íLíaíyíeírí í1í íTíhíiícíkíníeísísí í$í(íLí_í1í)í$í:í í"í,íí
-í í í"íEísípíeísíoírí íCíaípíaí í2í í$í(íLí_í2í)í$í:í í"í:í í"íLíaíyíeírí í2í íTíhíiícíkíníeísísí í$í(íLí_í2í)í$í:í í"í,íí
-í í í"íEísípíeísíoírí íCíaípíaí í3í í$í(íLí_í3í)í$í:í í"í:í í"íLíaíyíeírí í3í íTíhíiícíkíníeísísí í$í(íLí_í3í)í$í:í í"í,íí
-í í í"íEísípíeísíoírí íCíaípíaí íMíaísíaí í$í(í\í\ídíeílítíaí_ící)í$í:í"í:í í"íLíaíyíeírí íTíhíiícíkíníeísísí íMíaísísí í$í(í\í\ídíeílítíaí_ící)í$í:í"í,íí
-í í í"íEísípíeísíoírí íCíaípíaí íTí�í�írímíiícíaí í$í(í\í\ídíeílítíaí_ítí)í$í:í"í:í í"íTíhíeírímíaílí íLíaíyíeírí íTíhíiícíkíníeísísí í$í(í\í\ídíeílítíaí_ítí)í$í:í"í,íí
-í í í"íEísípíeísíoírí íPíaíríeídí í$í(íLí)í$í:í í"í:í í"íWíaílílí íTíhíiícíkíníeísísí í$í(íLí)í$í:í í"í,íí
-í í í"íEísípíeísíoírí íPíaíríeídí í$í(ítí)í$í:í í"í:í í"íWíaílílí íTíhíiícíkíníeísísí í$í(ítí)í$í:í í"í,íí
-í í í"íEísípíeísíoírí íPílíaícíaí í$í(íLí)í$í:í í"í:í í"íPílíaítíeí íTíhíiícíkíníeísísí í$í(íLí)í$í:í í"í,íí
-í í í"íEísípíeísíoírí íTíoítíaílí í$í(íwí í=í í2íLí)í$í:í í"í:í í"íTíoítíaílí íTíhíiícíkíníeísísí í$í(íwí í=í í2íLí)í$í:í í"í,íí
-í í í"íEísíqíuíeímíaí ídíeí íCíoírítíeí"í:í í"íCíuítítíiínígí íSícíhíeímíeí"í,íí
-í í í"íEísítíaí íeíxípíríeísíií�í�íní ídíeímíoísítírí�í�í ímíaítíeímí�í�ítíiícíaímíeínítíeí ílíaísí í�í�íríbíiítíaísí íeílí�í�ípítíiícíaísí ídíeí ílíoísí ípílíaíníeítíaísí,í ílíaí íeíxípílíiícíaícíií�í�íní ídíeí ílíaísí ímíaíríeíaísí ípíoírí ílíaí íaítíríaícícíií�í�íní ísíoílíaírí íyí ílíuíníaírí,í íyí íeílí ícíoímípíoírítíaímíiíeínítíoí ídíeí ílíoísí ícíoímíeítíaísí,í ítíríaínísífíoírímíaínídíoí íeílí ípíaíríaídíiígímíaí ícíiíeínítí�í�ífíiícíoí ídíeí ílíaí íhíuímíaíníiídíaídí.í"í:í í"íTíhíiísí íeíxípíríeísísíiíoíní ímíaítíhíeímíaítíiícíaílílíyí ídíeímíoínísítíríaítíeídí ítíhíeí íeílílíiípítíiícíaílí íoíríbíiítísí íoífí ítíhíeí ípílíaíníeítísí,í ítíhíeí íeíxípílíaíníaítíiíoíní íoífí ítíiídíeísí íbíyí ísíoílíaírí íaínídí ílíuíníaírí íaítítíríaícítíiíoíní,í íaínídí ítíhíeí íbíeíhíaívíiíoírí íoífí ícíoímíeítísí,í ítíríaínísífíoírímíiínígí ítíhíeí ísícíiíeínítíiífíiící ípíaíríaídíiígímí íoífí íhíuímíaíníiítíyí.í"í,íí
-í í í"íEísítíaí ísíiímípílíeí íeícíuíaícíií�í�íní ídíiíoí íoíríiígíeíní íaílí íeísítíuídíiíoí ícíuíaínítíiítíaítíiívíoí ídíeí ílíaí í"í:í í"íTíhíiísí ísíiímípílíeí íeíqíuíaítíiíoíní ígíaívíeí íríiísíeí ítíoí ítíhíeí íqíuíaínítíiítíaítíiívíeí ísítíuídíyí íoífí ítíhíeí í"í,íí
-í í í"íEísítíaí ísíiímíuílíaícíií�í�íní íaícíoípílíaí ítíríeísí ícíoínícíeípítíoísí ífí�í�ísíiícíoísí ífíuínídíaímíeínítíaílíeísí ídíeí ílíaí ímíeící�í�íníiícíaí ídíeí ífílíuíiídíoísí:í"í:í í"íTíhíiísí ísíiímíuílíaítíiíoíní ícíoíuípílíeísí ítíhíríeíeí ífíuínídíaímíeínítíaílí ípíhíyísíiícíaílí ícíoínícíeípítísí íoífí ífílíuíiídí ímíeícíhíaíníiícísí:í"í,íí
-í í í"íEísítíaí ísíiímíuílíaícíií�í�íní íiínítíeíríaícítíiívíaí íiílíuísítíríaí íeílí ídíeísípíríeínídíiímíiíeínítíoí ípíeíríií�í�ídíiícíoí ídíeí íví�í�írítíiícíeísí íaílítíeíríníaínítíeísí ídíeítírí�í�ísí ídíeí íuíní ícíiílíiínídíríoí íeíní íuíní ífílíuíjíoí íuíníiífíoírímíeí,í ífíeíní�í�ímíeíníoí ícíaíríaícítíeíríiízíaídíoí ípíoírí íTíhíeíoídíoíríeí ívíoíní íKí�í�írímí�í�íní.í íLíaí ífíríeícíuíeínícíiíaí ídíeí ídíeísípíríeínídíiímíiíeínítíoí íyí ílíaí íeísítíaíbíiílíiídíaídí ídíeílí ífílíuíjíoí ídíeípíeínídíeíní ífíuíeírítíeímíeínítíeí ídíeílí íní�í�ímíeíríoí ídíeí íRíeíyíníoílídísí.í"í:í í"íTíhíiísí íiínítíeíríaícítíiívíeí ísíiímíuílíaítíiíoíní íiílílíuísítíríaítíeísí ítíhíeí ípíeíríiíoídíiící ísíhíeídídíiínígí íoífí íaílítíeíríníaítíiínígí ívíoírítíiícíeísí íbíeíhíiínídí íaí ícíyílíiínídíeírí íiíní íuíníiífíoírímí ífílíoíwí,í íaí ípíhíeíníoímíeíníoíní ícíhíaíríaícítíeíríiízíeídí íbíyí íTíhíeíoídíoíríeí ívíoíní íKí�í�írímí�í�íní.í íTíhíeí ísíhíeídídíiínígí ífíríeíqíuíeínícíyí íaínídí ífílíoíwí ísítíaíbíiílíiítíyí ídíeípíeínídí ísítíríoínígílíyí íoíní ítíhíeí íRíeíyíníoílídísí íníuímíbíeírí.í"í,íí
-í í í"íEísítíaí ísíiímíuílíaícíií�í�íní íiínítíeíríaícítíiívíaí ípíríeísíeínítíaí íeílí ícíaílíeínítíaímíiíeínítíoí íoí íeínífíríiíaímíiíeínítíoí ítíríaínísíiítíoíríiíoí íuíníiídíiímíeínísíiíoíníaílí ídíeí íuíní ísí�í�ílíiídíoí ígíeíoímí�í�ítíríiícíoí ísíuímíeírígíiídíoí íeíní íuíní ífílíuíiídíoí ícíoíní ícíoínívíeícícíií�í�íní.í íPíeírímíiítíeí íeísítíuídíiíaírí ílíaí ívíaílíiídíeízí ídíeílí ímí�í�ítíoídíoí ídíeí ícíaípíaícíiítíaínícíiíaí ígílíoíbíaílí í(íBíiíoítí í<í í0í.í1í)í íyí íeílí ísíuírígíiímíiíeínítíoí ídíeí ígíríaídíiíeínítíeísí ítí�í�írímíiícíoísí íeísípíaícíiíaílíeísí íuítíiílíiízíaínídíoí ímíoídíeílíoísí íníuímí�í�íríiícíoísí íeíní ídíiífíeíríeínícíiíaísí ífíiíníiítíaísí íeíní ítíiíeímípíoí íríeíaílí.í"í:í í"íTíhíiísí íiínítíeíríaícítíiívíeí ísíiímíuílíaítíiíoíní ípíríeísíeínítísí ítíhíeí íoíníeí-ídíiímíeínísíiíoíníaílí ítíríaínísíiíeínítí íhíeíaítíiínígí íoírí ícíoíoílíiínígí íoífí íaí ígíeíoímíeítíríiící ísíoílíiídí íiímímíeírísíeídí íiíní íaí ífílíuíiídí íwíiítíhí ícíoínívíeícítíiíoíní.í íIítí íaílílíoíwísí ísítíuídíyíiínígí ítíhíeí ívíaílíiídíiítíyí íoífí ítíhíeí ígílíoíbíaílí ícíaípíaícíiítíaínícíeí ímíeítíhíoídí í(íBíiíoítí í<í í0í.í1í)í íaínídí ítíhíeí íeímíeírígíeínícíeí íoífí ísípíaítíiíaílí ítíhíeírímíaílí ígíríaídíiíeínítísí íuísíiínígí íníuímíeíríiícíaílí ímíoídíeílísí íiíní ífíiíníiítíeí ídíiífífíeíríeínícíeísí íiíní íríeíaílí ítíiímíeí.í"í,íí
-í í í"íEísítíaí ísíiímíuílíaícíií�í�íní ímíoídíeílíaí ílíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí íuíníiídíiímíeínísíiíoíníaílí íeíní íuíníaí ípílíaícíaí ípílíaíníaí í(ípíaíríeídí)í ídíeí íeísípíeísíoírí í$íLí$í íyí ícíoínídíuícítíiívíiídíaídí í$íkí$í.í íUíníaí ídíeí ísíuísí ísíuípíeírífíiícíiíeísí íeísítí�í�í í"í:í í"íTíhíiísí ísíiímíuílíaítíiíoíní ímíoídíeílísí íoíníeí-ídíiímíeínísíiíoíníaílí íhíeíaítí ítíríaínísífíeírí íiíní íaí ífílíaítí ípílíaítíeí í(íwíaílílí)í íoífí ítíhíiícíkíníeísísí í$íLí$í íaínídí ícíoínídíuícítíiívíiítíyí í$íkí$í.í íOíníeí íoífí íiítísí ísíuírífíaícíeísí íiísí í"í,íí
-í í í"íEísítíaíbíiílíiídíaídí í(íRíeísíiídíuíaílí í$íLí_í2í$í)í:í"í:í í"íSítíaíbíiílíiítíyí í(íRíeísíiídíuíaílí í$íLí_í2í$í)í:í"í,íí
-í í í"íEísítíaídíoí"í:í í"íSítíaítíeí"í,íí
-í í í"íEísítíaídíoí íEísítíaícíiíoíníaíríiíoí"í:í í"íSítíeíaídíyí íSítíaítíeí"í,íí
-í í í"íEísítíeí ílíaíbíoíríaítíoíríiíoí íiínítíeíríaícítíiívíoí ímíoídíeílíaí ílíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí ípíoírí ícíoínídíuícícíií�í�íní íeíní íeísítíaídíoí íeísítíaíbílíeí íaí ítíríaíví�í�ísí ídíeí íuíníaí ípílíaícíaí ípílíaíníaí í(ípíaíríeídí)í ícíoímípíuíeísítíaí ídíeí íhíaísítíaí í"í:í í"íTíhíiísí íiínítíeíríaícítíiívíeí ílíaíbí ímíoídíeílísí ísítíeíaídíyí-ísítíaítíeí ícíoínídíuícítíiívíeí íhíeíaítí ítíríaínísífíeírí ítíhíríoíuígíhí íaí ífílíaítí ípílíaítíeí í(íwíaílílí)í ícíoímípíoísíeídí íoífí íuípí ítíoí í"í,íí
-í í í"íEísítíoí ídíeísíeínícíaídíeíní�í�í íuíníaí ídíiísípíuítíaí íhíiísítí�í�íríiícíaí ídíeí ípíríiíoíríiídíaídí ícíoíní íeílí ímíaítíeímí�í�ítíiícíoí íaílíeímí�í�íní íGíoítítífíríiíeídí íLíeíiíbíníiízí,í íqíuíiíeíní ídíeísíaíríríoílílí�í�í íuíní ící�í�ílícíuílíoí ísíiímíiílíaírí ícíoíní ílíaí íníoítíaícíií�í�íní ímíoídíeíríníaí í$í\í\íiínítí$í íyí í$ídí/ídíxí$í íqíuíeí íuísíaímíoísí íhíoíyí.í"í:í í"íTíhíiísí ítíríiígígíeíríeídí íaí íhíiísítíoíríiícíaílí ípíríiíoíríiítíyí ídíiísípíuítíeí íwíiítíhí íGíeírímíaíní ímíaítíhíeímíaítíiícíiíaíní íGíoítítífíríiíeídí íLíeíiíbíníiízí,í íwíhíoí ídíeívíeílíoípíeídí íaí ísíiímíiílíaírí ícíaílícíuílíuísí íwíiítíhí ítíhíeí ímíoídíeíríní í$í\í\íiínítí$í íaínídí í$ídí/ídíxí$í íníoítíaítíiíoíní ítíhíaítí íwíeí íuísíeí ítíoídíaíyí.í"í,íí
-í í í"íEísítí�í�ítíiícíaí í(íPí)í"í:í í"íSítíaítíiící í(íPí)í"í,íí
-í í í"íEítíaíníoílí íaí í1í íaítímí í(íTí_ísíaítí í=í í7í8í í�í�íCí)í"í:í í"íEítíhíaíníoílí íaítí í1í íaítímí í(íTí_ísíaítí í=í í7í8í í�í�íCí)í"í,íí
-í í í"íEítíaípíaí:í í"í:í í"íSítíaígíeí:í í"í,íí
-í í í"íEíxípíeíríiímíeínítíoí ídíeí íHíeírísícíhíeílí í(í1í8í0í0í)í"í:í í"íHíeírísícíhíeílí íeíxípíeíríiímíeínítí í(í1í8í0í0í)í"í,íí
-í í í"íEíxípíeíríiímíeínítíoí ídíeí íJíoíuílíeí í(í1í8í4í3í)í"í:í í"íJíoíuílíeí íeíxípíeíríiímíeínítí í(í1í8í4í3í)í"í,íí
-í í í"íEíxípíeíríiímíeínítíoí ídíeí íRíeíyíníoílídísí í(í1í8í8í3í)í"í:í í"íRíeíyíníoílídísí íeíxípíeíríiímíeínítí í(í1í8í8í3í)í"í,íí
-í í í"íEíxípílíoíríaí ílíoísí ídíeísícíuíbíríiímíiíeínítíoísí íyí ícíoínícíeípítíoísí ífíuínídíaímíeínítíaílíeísí íqíuíeí ídíiíeíríoíní ífíoírímíaí íaí íeísítíaí ídíiísícíiípílíiíníaí,í íaícíoímípíaí�í�íaídíoísí ídíeí ísíiímíuílíaícíiíoíníeísí íiínítíeíríaícítíiívíaísí íeíní ítíiíeímípíoí íríeíaílí.í"í:í í"íEíxípílíoíríeí ítíhíeí ífíuínídíaímíeínítíaílí ídíiísícíoívíeíríiíeísí íaínídí ícíoínícíeípítísí ítíhíaítí ísíhíaípíeídí ítíhíiísí ídíiísícíiípílíiíníeí,í íaícícíoímípíaíníiíeídí íbíyí íríeíaílí-ítíiímíeí íiínítíeíríaícítíiívíeí ísíiímíuílíaítíiíoínísí.í"í,íí
-í í í"íFíaícítíoírí ídíeí íFíoírímíaí"í:í í"íFíoírímí íFíaícítíoírí"í,íí
-í í í"íFíaícítíoírí ídíeí ímíeíjíoíríaí í(í�í�í)í:í"í:í í"íIímípíríoívíeímíeínítí ífíaícítíoírí í(í�í�í)í:í"í,íí
-í í í"íFíaíhíríeíníhíeíiítí"í:í í"íFíaíhíríeíníhíeíiítí"í,íí
-í í í"íFíaíhíríeíníhíeíiítí í(íCíoínígíeílíaícíií�í�íní í3í2í�í�í,í íEíbíuílílíiícíií�í�íní í2í1í2í�í�í)í"í:í í"íFíaíhíríeíníhíeíiítí í(íFíríeíeízíiínígí í3í2í�í�í,í íBíoíiílíiínígí í2í1í2í�í�í)í"í,íí
-í í í"íFílíuíiídíoí íEísípíaícíiíoí íAíníuílíaírí:í"í:í í"íAíníníuílíaírí íSípíaícíeí íFílíuíiídí:í"í,íí
-í í í"íFílíuíiídíoí íTíuíbíoí íIínítíeíríníoí:í"í:í í"íIíníníeírí íTíuíbíeí íFílíuíiídí:í"í,íí
-í í í"íFílíuíiídíoí ídíeí íTíríaíbíaíjíoí:í"í:í í"íWíoíríkíiínígí íFílíuíiídí:í"í,íí
-í í í"íFílíuíjíoí íAílíríeídíeídíoírí ídíeí íPíeírífíiílí íAílíaírí íNíAíCíAí í0í0í1í2í"í:í í"íFílíoíwí íAíríoíuínídí íWíiínígí íPíríoífíiílíeí íNíAíCíAí í0í0í1í2í"í,íí
-í í í"íFílíuíjíoí íCírí�í�ítíiícíoí ídíeí íCíaílíoírí í(íqí\í"ímíaíxí)í"í:í í"íCíríiítíiícíaílí íHíeíaítí íFílíoíwí í(íqí\í"ímíaíxí)í"í,íí
-í í í"íFílíuíjíoí íEísípíoínítí�í�íníeíoí ídíeí íCíaílíoírí:í"í:í í"íSípíoínítíaíníeíoíuísí íHíeíaítí íFílíoíwí:í"í,íí
-í í í"íFílíuíjíoí íNíaívíiíeírí-íSítíoíkíeísí í/í íPíeírífíiílí íAílíaírí í(í1í8í2í2í)í"í:í í"íNíaívíiíeírí-íSítíoíkíeísí íFílíoíwí í/í íWíiínígí íPíríoífíiílíeí í(í1í8í2í2í)í"í,íí
-í í í"íFílíuíjíoí íPíaíríaílíeílíoí"í:í í"íPíaíríaílílíeílí íFílíoíwí"í,íí
-í í í"íFílíuíjíoí ídíeí íCíaílíoírí í$í(íqí'í'í)í$í:í"í:í í"íHíeíaítí íFílíoíwí í$í(íqí'í'í)í$í:í"í,íí
-í í í"íFílíuíjíoí ídíeí íCíaílíoírí í(í$íqí$í)í"í:í í"íHíeíaítí íFílíoíwí í(í$íqí$í)í"í,íí
-í í í"íFílíuíjíoí ídíeí íCíaílíoírí í(íqí\í"í)í"í:í í"íHíeíaítí íFílíoíwí í(íqí\í"í)í"í,íí
-í í í"íFílíuíjíoí ídíeí íCíaílíoírí íEísípíeící�í�ífíiícíoí"í:í í"íSípíeícíiífíiící íHíeíaítí íFílíoíwí"í,íí
-í í í"íFílíuíjíoí ídíeí íCíaílíoírí íEísípíeící�í�ífíiícíoí:í"í:í í"íSípíeícíiífíiící íHíeíaítí íFílíoíwí:í"í,íí
-í í í"íFílíuíjíoí ídíeí íCíaílíoírí íRíeísíuílítíaínítíeí í$í(íqí'í'í)í$í:í"í:í í"íRíeísíuílítíiínígí íHíeíaítí íFílíoíwí í$í(íqí'í'í)í$í:í"í,íí
-í í í"íFílíuíjíoí íeíní íCíoínítíríaífílíuíjíoí:í"í:í í"íCíoíuínítíeírífílíoíwí íFílíoíwí:í"í,íí
-í í í"íFílíuíjíoí íeíní íPíaíríaílíeílíoí:í"í:í í"íPíaíríaílílíeílí íFílíoíwí:í"í,íí
-í í í"íFíríaícícíií�í�íní íPíeírídíiídíaí í(íQí/íQí0í)í"í:í í"íLíoísítí íFíríaícítíiíoíní í(íQí/íQí0í)í"í,íí
-í í í"íFíríeící.í íDíeísípíríeínídíiímíiíeínítíoí í$í(ífí)í$í:í"í:í í"íFíríeíqí.í íDíeítíaícíhímíeínítí í$í(ífí)í$í:í"í,íí
-í í í"íFíríoínítíeíríaí íIízíqíuíiíeírídíaí íyí íCíoínídíiícíiíoíníeísí ídíeílí íMíeídíiíoí"í:í í"íLíeífítí íBíoírídíeírí íaínídí íEínívíiíríoínímíeínítíaílí íCíoínídíiítíiíoínísí"í,íí
-í í í"íFíríoínítíeíríaísí íIínícíoímípíaítíiíbílíeísí:í"í:í í"íIínícíoímípíaítíiíbílíeí íBíoírídíeírísí:í"í,íí
-í í í"íFírí�í�íoí"í:í í"íCíoílídí"í,íí
-í í í"íFíuíeírízíaí ídíeí íIímípíaícítíoí í(íFí)í:í"í:í í"íIímípíaícítí íFíoírícíeí í(íFí)í:í"í,íí
-í í í"íGíaírígíaínítíaí í(í2í)í"í:í í"íTíhíríoíaítí í(í2í)í"í,íí
-í í í"íGíaírígíaínítíaí í(íDí"í:í í"íTíhíríoíaítí í(íDí"í,íí
-í í í"íGíeíní.í íCíaílíoírí íIínítíeíríníaí í$í(íqí_ígí)í$í:í í"í:í í"íIínítíeíríníaílí íHíeíaítí íGíeíní.í í$í(íqí_ígí)í$í:í í"í,íí
-í í í"íGíeíníeíríaícíií�í�íní íIínítíeíríníaí"í:í í"íIínítíeíríníaílí íGíeíníeíríaítíiíoíní"í,íí
-í í í"íGíeíoímíeítírí�í�íaí ídíeí íPílíaícíaísí íPíaíríaílíeílíaísí í(íIísíoímí�í�ítíríiícíaí í3íDí)í"í:í í"íPíaíríaílílíeílí íPílíaítíeí íGíeíoímíeítíríyí í(í3íDí íIísíoímíeítíríiící)í"í,íí
-í í í"íGíeíoímíeítírí�í�íaí:í"í:í í"íGíeíoímíeítíríyí:í"í,íí
-í í í"íGíníiíeílíiínísíkíií"í:í í"íGíníiíeílíiínísíkíií"í,íí
-í í í"íGíríaínídíeísí íAíní�í�ícídíoítíaísí ídíeílí íGíeíníiíoí"í:í í"íGíríeíaítí íAíníeícídíoítíeísí íoífí íGíeíníiíuísí"í,íí
-í í í"íGíríaívíiítíaícíií�í�íní íUíníiívíeírísíaílí"í:í í"íUíníiívíeírísíaílí íGíríaívíiítíaítíiíoíní"í,íí
-í í í"íGírí�í�ífíiícíaí í$íVí$í ívísí í$íTí$í í(íEíxítíríaípíoílíaícíií�í�íní íaílí íCíeíríoí íAíbísíoílíuítíoí)í"í:í í"íGíríaípíhí í$íVí$í ívísí í$íTí$í í(íEíxítíríaípíoílíaítíiíoíní ítíoí íAíbísíoílíuítíeí íZíeíríoí)í"í,íí
-í í í"íGírí�í�ífíiícíaí ídíeí íTíeímípíeíríaítíuíríaísí íaí ílíoí ílíaírígíoí ídíeílí íTíuíbíoí"í:í í"íTíeímípíeíríaítíuíríeí íGíríaípíhí íaílíoínígí ítíhíeí íTíuíbíeí"í,íí
-í í í"íGírí�í�ífíiícíaí ídíeí íTíríaíbíaíjíoí ívísí íTíeímípíeíríaítíuíríaí"í:í í"íWíoíríkí ívísí íTíeímípíeíríaítíuíríeí íGíríaípíhí"í,íí
-í í í"íGírí�í�ífíiícíaí íyí íCíoínítíríoílíeísí ídíeílí íLíaíbíoíríaítíoíríiíoí"í:í í"íLíaíbíoíríaítíoíríyí íCíhíaírítí íaínídí íCíoínítíríoílísí"í,íí
-í í í"íHíeílíiíoí í(íHíeí)í í-í í4í ígí/ímíoílí"í:í í"íHíeílíiíuímí í(íHíeí)í í-í í4í ígí/ímíoílí"í,íí
-í í í"íHíeílíiíoí í(íMíoíníoíaítí�í�ímíiícíoí í-í íCípí/íCíví í=í í1í.í6í6í)í"í:í í"íHíeílíiíuímí í(íMíoíníaítíoímíiící í-í íCípí/íCíví í=í í1í.í6í6í)í"í,íí
-í í í"íHíiídírí�í�ígíeíníoí í(íHí�í�í�í í-í íDíiíaítí�í�ímíiícíoí í-í íCípí/íCíví í=í í1í.í4í0í)í"í:í í"íHíyídíríoígíeíní í(íHí�í�í�í í-í íDíiíaítíoímíiící í-í íCípí/íCíví í=í í1í.í4í0í)í"í,íí
-í í í"íHíiísítíoíríiíaí"í:í í"íHíiísítíoíríyí"í,íí
-í í í"íHíiísítíoíríiíaí ídíeí ílíaísí"í:í í"íHíiísítíoíríyí íoífí ítíhíeí"í,íí
-í í í"íHíoíyí"í:í í"íTíoídíaíyí"í,íí
-í í í"íHíyídíríoídíyíníaímíiícíaí"í:í í"íHíyídíríoídíyíníaímíiícísí"í,íí
-í í í"íHí�í�íríoíeí ídíeí ílíaísí íCíiíeínícíiíaísí í|í íPíaídíríeí ídíeí ílíaí íMíeící�í�íníiícíaí íCílí�í�ísíiícíaí"í:í í"íSícíiíeínícíeí íHíeíríoí í|í íFíaítíhíeírí íoífí íCílíaísísíiícíaílí íMíeícíhíaíníiícísí"í,íí
-í í í"íIígíníiícíií�í�íní ípíoírí ícíhíiísípíaí í�í�í ímíeízícílíaí íhíoímíoígí�í�íníeíaí"í:í í"íSípíaíríkí íiígíníiítíiíoíní í�í�í íhíoímíoígíeíníeíoíuísí ímíiíxítíuíríeí"í,íí
-í í í"íIígíníiícíií�í�íní ípíoírí ícíoímípíríeísíií�í�íní í�í�í íiíníyíeícícíií�í�íní ídíiíríeícítíaí"í:í í"íCíoímípíríeísísíiíoíní íiígíníiítíiíoíní í�í�í ídíiíríeícítí íiíníjíeícítíiíoíní"í,íí
-í í í"íIígíuíaílí írí"í:í í"íEíqíuíaílí írí"í,íí
-í í í"íIímípíaícítíoí ídíeí ívíaíríiíaíbílíeísí:í"í:í í"íIímípíaícítí íoífí ívíaíríiíaíbílíeísí:í"í,íí
-í í í"íIímípíaícítíoí ífí�í�ísíiícíoí:í"í:í í"íPíhíyísíiícíaílí íiímípíaícítí:í"í,íí
-í í í"íIínícíríeímíeínítíoí íOíbíjíeítíiívíoí í$í(í\í\íDíeílítíaí íTí)í$í:í í"í:í í"íOíbíjíeícítíiívíeí íIínícíríeíaísíeí í$í(í\í\íDíeílítíaí íTí)í$í:í í"í,íí
-í í í"íIínífí.í íLíaírígíaí"í:í í"íLíoínígí íIínífíoírímíaítíiíoíní"í,íí
-í í í"íIínífíiíníiítíaímíeínítíeí íLíaírígíaí:í"í:í í"íIínífíiíníiítíeílíyí íLíoínígí:í"í,íí
-í í í"íIínífíríaíríríoíjíoí+í:í"í:í í"íIínífíríaíríeídí+í:í"í,íí
-í í í"íIíníiícíiíaírí íEínífíríiíaímíiíeínítíoí"í:í í"íSítíaírítí íCíoíoílíiínígí"í,íí
-í í í"íIínísítíríuícícíiíoíníeísí:í"í:í í"íIínísítíríuícítíiíoínísí:í"í,íí
-í í í"íIínítíeínísíiídíaídí íIínícíiídíeínítíeí í(í$íIí$í)í:í"í:í í"íIínícíiídíeínítí íIínítíeínísíiítíyí í(í$íIí$í)í:í"í,íí
-í í í"íIínítíeínísíiídíaídí íSíoílíaírí í$í(íIí)í$í:í í"í:í í"íSíoílíaírí íIínítíeínísíiítíyí í$í(íIí)í$í:í í"í,íí
-í í í"íIínítíeírícíaímíbíiíaídíoírí ídíeí íDíoíbílíeí íTíuíbíoí"í:í í"íDíoíuíbílíeí íTíuíbíeí íEíxícíhíaínígíeírí"í,íí
-í í í"íIínítíeírífíaísíeí"í:í í"íIínítíeírífíaícíeí"í,íí
-í í í"íIíríríaídíiíaínícíiíaí í$íGí$í:í í"í:í í"í$íGí$í íiíríríaídíiíaínícíeí:í í"í,íí
-í í í"íJíaímíeísí íCílíeíríkí íMíaíxíwíeílílí íyí íLíuídíwíiígí íBíoílítízímíaíníní ífíoírímíuílíaíríoíní ílíaí ídíiísítíríiíbíuícíií�í�íní íeísítíaídí�í�ísítíiícíaí ídíeí ílíaísí ívíeílíoícíiídíaídíeísí ídíeí ílíaísí ípíaírítí�í�ícíuílíaísí íeíní íuíní ígíaísí íiídíeíaílí.í íEísítíaí ífíuíeí ílíaí ípíríiímíeíríaí ílíeíyí íeísítíaídí�í�ísítíiícíaí íeíní ílíaí ífí�í�ísíiícíaí,í ídíeímíoísítíríaínídíoí íqíuíeí ílíaí ítíeímípíeíríaítíuíríaí ímíaícíríoísící�í�ípíiícíaí íníoí íeísí ímí�í�ísí íqíuíeí ílíaí ímíaíníiífíeísítíaícíií�í�íní ídíeílí ícíaíoísí ícíiíní�í�ítíiícíoí ímíiícíríoísící�í�ípíiícíoí ídíeí ílíoísí í�í�ítíoímíoísí.í"í:í í"íJíaímíeísí íCílíeíríkí íMíaíxíwíeílílí íaínídí íLíuídíwíiígí íBíoílítízímíaíníní ífíoírímíuílíaítíeídí ítíhíeí ísítíaítíiísítíiícíaílí ídíiísítíríiíbíuítíiíoíní íoífí ípíaírítíiícílíeí ívíeílíoícíiítíiíeísí íiíní íaíní íiídíeíaílí ígíaísí.í íTíhíiísí íwíaísí ítíhíeí ífíiírísítí ísítíaítíiísítíiícíaílí ílíaíwí íiíní ípíhíyísíiícísí,í ídíeímíoínísítíríaítíiínígí ítíhíaítí ímíaícíríoísícíoípíiící ítíeímípíeíríaítíuíríeí íiísí íníoítíhíiínígí ímíoíríeí ítíhíaíní ítíhíeí ímíaíníiífíeísítíaítíiíoíní íoífí ítíhíeí ímíiícíríoísícíoípíiící íkíiíníeítíiící ícíhíaíoísí íoífí íaítíoímísí.í"í,íí
-í í í"íJíaímíeísí íPíríeísícíoítítí íJíoíuílíeí í(í1í8í4í3í)í"í:í í"íJíaímíeísí íPíríeísícíoítítí íJíoíuílíeí í(í1í8í4í3í)í"í,íí
-í í í"íKíeílívíiíní"í:í í"íKíeílívíiíní"í,íí
-í í í"íKíeílívíiíní í(íAíbísíoílíuítíaí,í íCíoínígíeílíaícíií�í�íní í2í7í3í.í1í5í íKí)í"í:í í"íKíeílívíiíní í(íAíbísíoílíuítíeí,í íFíríeíeízíiínígí í2í7í3í.í1í5í íKí)í"í,íí
-í í í"íKíeílívíiíní í1í8í4í8í"í:í í"íKíeílívíiíní í1í8í4í8í"í,íí
-í í í"íLíAíMíIíNíAíRí"í:í í"íLíAíMíIíNíAíTíEí"í,íí
-í í í"íLíaí í"í:í í"íTíhíeí í"í,íí
-í í í"íLíaí íMíaínízíaíníaí:í"í:í í"íTíhíeí íAípípílíeí:í"í,íí
-í í í"íLíaí ícíoínídíuícícíií�í�íní ídíeí ícíaílíoírí íaí ítíríaíví�í�ísí ídíeí íuíní ímíeídíiíoí íeíní íeísítíaídíoí íeísítíaíbílíeí ípíuíeídíeí ísíeírí ímíoídíeílíaídíaí ímíaítíeímí�í�ítíiícíaímíeínítíeí íuítíiílíiízíaínídíoí ílíaí í"í:í í"íTíhíeí ícíoínídíuícítíiíoíní íoífí íhíeíaítí ítíhíríoíuígíhí íaí ímíeídíiíuímí íiíní íaí ísítíeíaídíyí ísítíaítíeí ícíaíní íbíeí ímíoídíeílíeídí ímíaítíhíeímíaítíiícíaílílíyí íuísíiínígí ítíhíeí í"í,íí
-í í í"íLíaí ícíoínívíeícícíií�í�íní íníaítíuíríaílí íoícíuíríríeí ídíeíbíiídíoí íaílí ímíoívíiímíiíeínítíoí ídíeí ífílíoítíaícíií�í�íní íoíríiígíiíníaídíoí ípíoírí ícíaímíbíiíoísí ídíeí ídíeínísíiídíaídí íeíní íuíní ífílíuíiídíoí íaí ícíaíuísíaí ídíeí ídíiífíeíríeínícíiíaísí ídíeí ítíeímípíeíríaítíuíríaí.í íPíaíríaí íuíní ícíiílíiínídíríoí íhíoíríiízíoínítíaílí ídíeí ídíií�í�ímíeítíríoí í$íDí$í,í ílíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí ísíeí íeísítíiímíaí ímíeídíiíaínítíeí ílíaí ícíoíríríeílíaícíií�í�íní ídíeí í"í:í í"íNíaítíuíríaílí ícíoínívíeícítíiíoíní íoícícíuírísí ídíuíeí ítíoí ítíhíeí íbíuíoíyíaínítí ímíoítíiíoíní ícíaíuísíeídí íbíyí ídíeínísíiítíyí ícíhíaínígíeísí íiíní íaí ífílíuíiídí ídíuíeí ítíoí ítíeímípíeíríaítíuíríeí ídíiífífíeíríeínícíeísí.í íFíoírí íaí íhíoíríiízíoínítíaílí ícíyílíiínídíeírí íoífí ídíiíaímíeítíeírí í$íDí$í,í ítíhíeí íhíeíaítí ítíríaínísífíeírí íiísí íeísítíiímíaítíeídí íbíyí ítíhíeí ícíoíríríeílíaítíiíoíní íoífí í"í,íí
-í í í"íLíaí íeísícíaílíaí íaíbísíoílíuítíaí ídíeí ítíeímípíeíríaítíuíríaí ípíríoípíuíeísítíaí ípíoírí í"í:í í"íTíhíeí íaíbísíoílíuítíeí ítíeímípíeíríaítíuíríeí ísícíaílíeí ípíríoípíoísíeídí íbíyí í"í,íí
-í í í"íLíaí íríeílíaícíií�í�íní íeínítíríeí ísíuísí íeísípíeísíoíríeísí íeísítí�í�í ídíeítíeírímíiíníaídíaí ípíoírí ílíoísí íní�í�ímíeíríoísí íaídíiímíeínísíiíoíníaílíeísí:í"í:í í"íTíhíeí íríeílíaítíiíoínísíhíiípí íbíeítíwíeíeíní ítíhíeíiírí ítíhíiícíkíníeísísíeísí íiísí ídíeítíeírímíiíníeídí íbíyí ítíhíeí ídíiímíeínísíiíoínílíeísísí íníuímíbíeírísí:í"í,íí
-í í í"íLíaídíoí íDíeíríeícíhíoí í(íIíníiícíiíaílí:í íFírí�í�íoí)í:í"í:í í"íRíiígíhítí íSíiídíeí í(íIíníiítíiíaílí:í íCíoílídí)í:í"í,íí
-í í í"íLíaídíoí íIízíqíuíiíeírídíoí í(íIíníiícíiíaílí:í íCíaílíiíeínítíeí)í:í"í:í í"íLíeífítí íSíiídíeí í(íIíníiítíiíaílí:í íHíoítí)í:í"í,íí
-í í í"íLíaímíiíníaírí"í:í í"íLíaímíiíníaítíeí"í,íí
-í í í"íLíaírígíoí ídíeílí ípílíaítíoí í$íLí$í:í í"í:í í"íPílíaítíeí ílíeínígítíhí í$íLí$í:í í"í,íí
-í í í"íLíaísí íTíríeísí íLíeíyíeísí ídíeílí íMíoívíiímíiíeínítíoí"í:í í"íTíhíeí íTíhíríeíeí íLíaíwísí íoífí íMíoítíiíoíní"í,íí
-í í í"íLíaísí íaílíeítíaísí ísíeí íuísíaíní ípíaíríaí íaíuímíeínítíaírí íeílí í�í�íríeíaí ídíeí ídíiísíiípíaícíií�í�íní ídíeí ícíaílíoírí.í íAíqíuí�í�í ívíeímíoísí íeílí ípíeírífíiílí ídíeí ítíeímípíeíríaítíuíríaí íaí ílíoí ílíaírígíoí ídíeí íuíníaí íaílíeítíaí ídíeí íaígíuíjíaí ícíiírícíuílíaírí ípíaíríaí ídíiísítíiínítíaísí ícíoínídíiícíiíoíníeísí íeíní ílíaí ípíuínítíaí:í"í:í í"íTíhíeí ífíiínísí íaíríeí íuísíeídí ítíoí íiínícíríeíaísíeí ítíhíeí íhíeíaítí ídíiísísíiípíaítíiíoíní íaíríeíaí.í íHíeíríeí íwíeí ísíeíeí ítíhíeí ítíeímípíeíríaítíuíríeí ípíríoífíiílíeí íaílíoínígí íaí ícíiírícíuílíaírí íníeíeídílíeí ífíiíní ífíoírí ídíiífífíeíríeínítí ítíiípí ícíoínídíiítíiíoínísí:í"í,íí
-í í í"íLíeíyí ídíeí íEínífíríiíaímíiíeínítíoí"í:í í"íCíoíoílíiínígí íLíaíwí"í,íí
-í í í"íLíeíyí ídíeí íEínífíríiíaímíiíeínítíoí ídíeí íNíeíwítíoíní"í:í í"íNíeíwítíoíní'ísí íLíaíwí íoífí íCíoíoílíiínígí"í,íí
-í í í"íLíeíyí ídíeí íFíoíuíríiíeírí í(íCíoínídíuícícíií�í�íní,í í1í8í2í2í)í"í:í í"íFíoíuíríiíeírí'ísí íLíaíwí í(íCíoínídíuícítíiíoíní,í í1í8í2í2í)í"í,íí
-í í í"íLíeíyí ídíeí íOíhímí"í:í í"íOíhímí'ísí íLíaíwí"í,íí
-í í í"íLíeíyí ídíeí íPílíaínícíkí í(íRíaídíiíaícíií�í�íní,í í1í9í0í0í)í"í:í í"íPílíaínícíkí'ísí íLíaíwí í(íRíaídíiíaítíiíoíní,í í1í9í0í0í)í"í,íí
-í í í"íLíeíyí ídíeí íSítíeífíaíní-íBíoílítízímíaíníní:í"í:í í"íSítíeífíaíní-íBíoílítízímíaíníní ílíaíwí:í"í,íí
-í í í"íLíeíyí ídíeí ílíaí íGíríaívíiítíaícíií�í�íní íUíníiívíeírísíaílí"í:í í"íLíaíwí íoífí íUíníiívíeírísíaílí íGíríaívíiítíaítíiíoíní"í,íí
-í í í"íLíeíyí ídíeí ílíaí íIínívíeírísíaí ídíeílí íCíuíaídíríaídíoí"í:í í"íIínívíeírísíeí íSíqíuíaíríeí íLíaíwí"í,íí
-í í í"íLíeíyíeísí ídíeílí íMíoívíiímíiíeínítíoí"í:í í"íLíaíwísí íoífí íMíoítíiíoíní"í,íí
-í í í"íLíoínígíiítíuídí í$í(íLí)í$í:í í"í:í í"íLíeínígítíhí í$í(íLí)í$í:í í"í,íí
-í í í"íLíoínígíiítíuídí ídíeí íOínídíaí íMí�í�íxíiímíaí í(í�í�í"í:í í"íMíaíxíiímíuímí íWíaívíeílíeínígítíhí í(í�í�í"í,íí
-í í í"íLíoínígíiítíuídí ídíeí ílíaí íaílíeítíaí í$í(íLí)í$í:í í"í:í í"íFíiíní ílíeínígítíhí í$í(íLí)í$í:í í"í,íí
-í í í"íLíoírídí íKíeílívíiíní í(í1í8í4í8í)í"í:í í"íLíoírídí íKíeílívíiíní í(í1í8í4í8í)í"í,íí
-í í í"íLíoísí íiínítíeírícíaímíbíiíaídíoíríeísí ídíeí ídíoíbílíeí ítíuíbíoí ícíoínísítíaíní ídíeí ídíoísí ítíuíbíoísí ícíoínící�í�ínítíríiícíoísí.í íUíní ífílíuíiídíoí ífílíuíyíeí ípíoírí íeílí ítíuíbíoí íiínítíeíríníoí ímíiíeínítíríaísí íqíuíeí íeílí íoítíríoí ífílíuíyíeí ípíoírí íeílí íeísípíaícíiíoí íaíníuílíaírí í(íeílí ícíaíníaílí íeíxítíeíríníoí)í.í íEísítíeí ísíiímíuílíaídíoírí ímíoídíeílíaí ílíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí ísíeínísíiíbílíeí í(ísíiíní ícíaímíbíiíoí ídíeí ífíaísíeí)í íuítíiílíiízíaínídíoí íeílí í"í:í í"íDíoíuíbílíeí ítíuíbíeí íeíxícíhíaínígíeírísí ícíoínísíiísítí íoífí ítíwíoí ícíoínícíeínítíríiící ítíuíbíeísí.í íOíníeí ífílíuíiídí ífílíoíwísí ítíhíríoíuígíhí ítíhíeí íiíníníeírí ítíuíbíeí íwíhíiílíeí ítíhíeí íoítíhíeírí ífílíoíwísí ítíhíríoíuígíhí ítíhíeí íaíníníuílíuísí í(ítíhíeí íoíuítíeírí ícíhíaíníníeílí)í.í íTíhíiísí ísíiímíuílíaítíoírí ímíoídíeílísí ísíeínísíiíbílíeí íhíeíaítí ítíríaínísífíeírí í(íwíiítíhíoíuítí ípíhíaísíeí ícíhíaínígíeí)í íuísíiínígí ítíhíeí í"í,íí
-í í í"íLí�í�ímíiítíeí íFí�í�ísíiícíoí íAílícíaínízíaídíoí í(íCíaívíiítíaícíií�í�íní)í:í"í:í í"íPíhíyísíiícíaílí íLíiímíiítí íRíeíaícíhíeídí í(íCíaívíiítíaítíiíoíní)í:í"í,íí
-í í í"íLí�í�ímíiítíeí ídíeí íAírímísítíríoínígí í(í~í1í9í íkímí)í:í"í:í í"íAírímísítíríoínígí ílíiímíiítí í(í~í1í9í íkímí)í:í"í,íí
-í í í"íLí�í�ímíiítíeísí íCírí�í�ítíiícíoísí:í"í:í í"íCíríiítíiícíaílí íLíiímíiítísí:í"í,íí
-í í í"íLí�í�íníeíaí ídíeí ítíiínítíaí ísíuíaívíeí íyí íríeícítíaí"í:í í"íSímíoíoítíhí íaínídí ísítíríaíiígíhítí íiíníkí ílíiíníeí"í,íí
-í í í"íMíOíMíEíNíTíOí íDíEíLí íCíIíCíLíOí"í:í í"íCíYíCíLíEí íTíIíMíEí"í,íí
-í í í"íMíaídíeíríaí í(íkí í=í í0í.í1í5í íWí/ímíKí)í"í:í í"íWíoíoídí í(íkí í=í í0í.í1í5í íWí/ímíKí)í"í,íí
-í í í"íMíaípíaí ídíeí íCíaílíoírí:í íPíríeísíií�í�íní"í:í í"íHíeíaítí íMíaípí:í íPíríeísísíuíríeí"í,íí
-í í í"íMíaípíaí ídíeí íCíaílíoírí:í íVíeílíoícíiídíaídí"í:í í"íHíeíaítí íMíaípí:í íSípíeíeídí"í,íí
-í í í"íMíaípíaí ídíeí íCíaílíoírí:í íVíoírítíiícíiídíaídí í(íRíoítíaícíií�í�íní)í"í:í í"íHíeíaítí íMíaípí:í íVíoírítíiícíiítíyí í(íRíoítíaítíiíoíní)í"í,íí
-í í í"íMíaísíaí ídíeí ícíaídíaí ípíeísíaí í$í(ímí)í$í:í í"í:í í"íMíaísísí íoífí íeíaícíhí íwíeíiígíhítí í$í(ímí)í$í:í í"í,íí
-í í í"íMíaítíeíríiíaílí ídíeílí íDíiísíiípíaídíoírí:í"í:í í"íHíeíaítísíiíníkí íMíaítíeíríiíaílí:í"í,íí
-í í í"íMíaítíeíríiíaílí:í"í:í í"íMíaítíeíríiíaílí:í"í,íí
-í í í"íMíeídíiíaí"í:í í"íAívíeíríaígíeí"í,íí
-í í í"íMíeídíiíaí í(í1í2í0í�í�í6í0í í-í íEísítí�í�ínídíaírí)í"í:í í"íMíeídíiíuímí í(í1í2í0í�í�í6í0í í-í íSítíaínídíaírídí)í"í,íí
-í í í"íMíeídíiíoí ídíeí íEínífíríiíaímíiíeínítíoí:í"í:í í"íCíoíoílíiínígí íMíeídíiíuímí:í"í,íí
-í í í"íMíiícíríoígíríaífí�í�íaí íRíeíaílí í(íSíEíMí)í"í:í í"íRíeíaílí íMíiícíríoígíríaípíhí í(íSíEíMí)í"í,íí
-í í í"íMíoídíoí"í:í í"íMíoídíeí"í,íí
-í í í"íMíoídíoí ídíeí íSíiímíuílíaícíií�í�íní:í"í:í í"íSíiímíuílíaítíiíoíní íMíoídíeí:í"í,íí
-í í í"íMíoídíoí ídíeí íVíiísíuíaílíiízíaícíií�í�íní:í"í:í í"íDíiísípílíaíyí íMíoídíeí:í"í,íí
-í í í"íMíoíníiítíoíríeíoí ídíeílí íSíiísítíeímíaí"í:í í"íSíyísítíeímí íMíoíníiítíoíríiínígí"í,íí
-í í í"íMíoítíoírí ídíeí íCíaíríníoítí í(í1í8í2í4í)í"í:í í"íCíaíríníoítí íeínígíiíníeí í(í1í8í2í4í)í"í,íí
-í í í"íMíoítíoíríeísí ídíeí íCíaílíoírí"í:í í"íHíeíaítí íEínígíiíníeísí"í,íí
-í í í"íMíuíyí íAílítíaí í(í3í0í0í�í�í1í5í0í í-í íDíeítíaílílíaídíaí)í"í:í í"íVíeíríyí íHíiígíhí í(í3í0í0í�í�í1í5í0í í-í íDíeítíaíiílíeídí)í"í,íí
-í í í"íMíuíyí íBíaíjíaí í(í4í0í�í�í2í0í í-í íEídíuícíaítíiívíaí)í"í:í í"íVíeíríyí íLíoíwí í(í4í0í�í�í2í0í í-í íEídíuícíaítíiíoíníaílí)í"í,íí
-í í í"íNí/íAí"í:í í"íNí/íAí"í,íí
-í í í"íNíTíUí"í:í í"íNíTíUí"í,íí
-í í í"íNíeírínísítí í1í9í0í6í"í:í í"íNíeírínísítí í1í9í0í6í"í,íí
-í í í"íNíeíwícíoímíeíní ívísí.í íWíaítítí í(í1í7í1í2í-í1í7í6í9í)í"í:í í"íNíeíwícíoímíeíní ívísí.í íWíaítítí í(í1í7í1í2í-í1í7í6í9í)í"í,íí
-í í í"íNíeíwítíoíní ípíoísítíuílí�í�í íqíuíeí ílíaí ítíaísíaí ídíeí ípí�í�írídíiídíaí ídíeí ícíaílíoírí ídíeí íuíní ícíuíeírípíoí íeísí ípíríoípíoírícíiíoíníaílí íaí ílíaí ídíiífíeíríeínícíiíaí ídíeí ítíeímípíeíríaítíuíríaí íeínítíríeí íeílí ícíuíeírípíoí íyí ísíuí íeínítíoíríníoí:í í$íqí í=í íhí íAí í(íTí_ísí í-í íTí_í\í\íiínífítíyí)í$í.í"í:í í"íNíeíwítíoíní ípíoísítíuílíaítíeídí ítíhíaítí ítíhíeí íríaítíeí íoífí íhíeíaítí ílíoísísí ífíríoímí íaí íbíoídíyí íiísí ípíríoípíoírítíiíoíníaílí ítíoí ítíhíeí ítíeímípíeíríaítíuíríeí ídíiífífíeíríeínícíeí íbíeítíwíeíeíní ítíhíeí íbíoídíyí íaínídí íiítísí ísíuíríríoíuínídíiínígísí:í í$íqí í=í íhí íAí í(íTí_ísí í-í íTí_í\í\íiínífítíyí)í$í.í"í,íí
-í í í"íNíeíwítíoíní íuíníiífíiící�í�í ílíaí ímíeící�í�íníiícíaí ícíeílíeísítíeí ídíeí íKíeípílíeírí ícíoíní ílíaí ícíaí�í�ídíaí ídíeí ílíoísí ícíuíeírípíoísí íeíní ílíaí íTíiíeíríríaí ípíoísítíuílíaínídíoí íqíuíeí ílíaí íaítíríaícícíií�í�íní ígíríaívíiítíaítíoíríiíaí íaícítí�í�íaí íiínísítíaínítí�í�íníeíaímíeínítíeí íaí ídíiísítíaínícíiíaí íaí ítíríaíví�í�ísí ídíeílí ívíaící�í�íoí:í"í:í í"íNíeíwítíoíní íuíníiífíiíeídí íKíeípílíeírí'ísí ícíeílíeísítíiíaílí ímíeícíhíaíníiícísí íwíiítíhí ítíhíeí ífíaílílí íoífí íbíoídíiíeísí íoíní íEíaírítíhí íbíyí ípíoísítíuílíaítíiínígí ítíhíaítí ígíríaívíiítíaítíiíoíníaílí íaítítíríaícítíiíoíní íaícítísí íiínísítíaínítíaíníeíoíuísílíyí íaítí íaí ídíiísítíaínícíeí ítíhíríoíuígíhí íaí ívíaícíuíuímí:í"í,íí
-í í í"íNíeí�í�íní í(íNíeí)í í-í í2í0í ígí/ímíoílí"í:í í"íNíeíoíní í(íNíeí)í í-í í2í0í ígí/ímíoílí"í,íí
-í í í"íNíiítírí�í�ígíeíníoí í(íNí�í�í�í í-í íDíiíaítí�í�ímíiícíoí í-í íCípí/íCíví í=í í1í.í4í0í)í"í:í í"íNíiítíríoígíeíní í(íNí�í�í�í í-í íDíiíaítíoímíiící í-í íCípí/íCíví í=í í1í.í4í0í)í"í,íí
-í í í"íNíiítírí�í�ígíeíníoí í(íNí�í�í�í)í í-í í2í8í ígí/ímíoílí"í:í í"íNíiítíríoígíeíní í(íNí�í�í�í)í í-í í2í8í ígí/ímíoílí"í,íí
-í í í"íNí�í�ímíeíríoí íPíríaínídítílí í$í(íPírí)í$í:í"í:í í"íPíríaínídítílí íníuímíbíeírí í$í(íPírí)í$í:í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íBíiíoítí í$í(íBíií)í$í:í"í:í í"íBíiíoítí íníuímíbíeírí í$í(íBíií)í$í:í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íBíiíoítí í(íBíií)í"í:í í"íBíiíoítí íníuímíbíeírí í(íBíií)í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íCíaípíaísí:í"í:í í"íNíuímíbíeírí íoífí íLíaíyíeírísí:í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íCíaí�í�ídíaísí í(í$íNí$í)í:í"í:í í"íNíuímíbíeírí íoífí íFíaílílísí í(í$íNí$í)í:í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íFíoíuíríiíeírí í(íFíoí)í"í:í í"íFíoíuíríiíeírí íníuímíbíeírí í(íFíoí)í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íLíeíwíiísí í$í(íLíeí í=í íSící/íPírí)í$í:í"í:í í"íLíeíwíiísí íníuímíbíeírí í$í(íLíeí í=í íSící/íPírí)í$í:í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íNíuísísíeílítí í$í(íNíuí)í$í:í"í:í í"íNíuísísíeílítí íníuímíbíeírí í$í(íNíuí)í$í:í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íNíuísísíeílítí í$í(íNíuí_íDí)í$í:í"í:í í"íNíuísísíeílítí íníuímíbíeírí í$í(íNíuí_íDí)í$í:í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íPíaírítí�í�ícíuílíaísí:í í"í:í í"íNíuímíbíeírí íoífí íPíaírítíiícílíeísí:í í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íPíríaínídítílí í$í(íPírí)í$í:í í"í:í í"íPíríaínídítílí íníuímíbíeírí í$í(íPírí)í$í:í í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íRíaíyílíeíiígíhí í$í(íRíaí_íDí)í$í:í"í:í í"íRíaíyílíeíiígíhí íníuímíbíeírí í$í(íRíaí_íDí)í$í:í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íRíeíyíníoílídísí í$í(íRíeí)í$í:í"í:í í"íRíeíyíníoílídísí íníuímíbíeírí í$í(íRíeí)í$í:í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íRíeíyíníoílídísí í$í(íRíeí_íií)í$í:í"í:í í"íRíeíyíníoílídísí íníuímíbíeírí í$í(íRíeí_íií)í$í:í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íRíeíyíníoílídísí í$í(íRíeí_íoí)í$í:í"í:í í"íRíeíyíníoílídísí íníuímíbíeírí í$í(íRíeí_íoí)í$í:í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íSícíhímíiídítí í$í(íSící)í$í:í í"í:í í"íSícíhímíiídítí íníuímíbíeírí í$í(íSící)í$í:í í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íSítíríoíuíhíaílí í$í(íSítí)í$í:í"í:í í"íSítíríoíuíhíaílí íníuímíbíeírí í$í(íSítí)í$í:í"í,íí
-í í í"íOíbísíeírívíaícíií�í�íní:í"í:í í"íOíbísíeírívíaítíiíoíní:í"í,íí
-í í í"íOípítíiícíkísí"í:í í"íOípítíiícíkísí"í,íí
-í í í"íOítítíoí"í:í í"íOítítíoí"í,íí
-í í í"íOítítíoí:í"í:í í"íOítítíoí:í"í,íí
-í í í"íOíxí�í�ígíeíníoí í(íOí�í�í�í í-í íDíiíaítí�í�ímíiícíoí í-í íCípí/íCíví í=í í1í.í4í0í)í"í:í í"íOíxíyígíeíní í(íOí�í�í�í í-í íDíiíaítíoímíiící í-í íCípí/íCíví í=í í1í.í4í0í)í"í,íí
-í í í"íOíxí�í�ígíeíníoí í(íOí�í�í�í)í í-í í3í2í ígí/ímíoílí"í:í í"íOíxíyígíeíní í(íOí�í�í�í)í í-í í3í2í ígí/ímíoílí"í,íí
-í í í"íPí í(íkíPíaí)í"í:í í"íPí í(íkíPíaí)í"í,íí
-í í í"íPí í=í ícítíeí"í:í í"íPí í=í ícítíeí"í,íí
-í í í"íPí:í"í:í í"íQí:í"í,íí
-í í í"íPíaíríeídí í1í í(íIínítíeíríníaí)í"í:í í"íWíaílílí í1í í(íIínítíeíríníaílí)í"í,íí
-í í í"íPíaíríeídí í2í í(íMíeídíiíaí)í"í:í í"íWíaílílí í2í í(íMíiídídílíeí)í"í,íí
-í í í"íPíaíríeídí í3í í(íEíxítíeíríníaí)í"í:í í"íWíaílílí í3í í(íEíxítíeíríníaílí)í"í,íí
-í í í"íPíaíríeídí íCíoímípíuíeísítíaí íyí íCíiírícíuíiítíoí íTí�í�írímíiícíoí"í:í í"íCíoímípíoísíiítíeí íWíaílílí íaínídí íTíhíeírímíaílí íCíiírícíuíiítí"í,íí
-í í í"íPíaíríeídí íCíoímípíuíeísítíaí íyí íCíiírícíuíiítíoí íTí�í�írímíiícíoí íEíqíuíiívíaílíeínítíeí"í:í í"íCíoímípíoísíiítíeí íWíaílílí íaínídí íEíqíuíiívíaílíeínítí íTíhíeírímíaílí íCíiírícíuíiítí"í,íí
-í í í"íPíaíríeídí íMíuílítíiícíaípíaí"í:í í"íMíuílítíiílíaíyíeírí íWíaílílí"í,íí
-í í í"íPíaíríeídí íMíuílítíiícíaípíaí íPíeírísíoíníaílíiízíaídíaí"í:í í"íCíuísítíoímí íMíuílítíiílíaíyíeírí íWíaílílí"í,íí
-í í í"íPíaíríeídí íPílíaíníaí í(í1íDí)í"í:í í"íFílíaítí íWíaílílí í(í1íDí)í"í,íí
-í í í"íPíaíríeídí íPílíaíníaí í(íEísípíeísíoírí í=í í$í2íLí$í)í"í:í í"íFílíaítí íWíaílílí í(íTíhíiícíkíníeísísí í=í í$í2íLí$í)í"í,íí
-í í í"íPíaíríeídí íPílíaíníaí:í"í:í í"íFílíaítí íWíaílílí:í"í,íí
-í í í"íPíaírítí�í�ícíuílíaísí íTíríaízíaídíoíríaísí í(íSítíríeíaímílíiíníeísí)í"í:í í"íTíríaícíeírí íPíaírítíiícílíeísí í(íSítíríeíaímílíiíníeísí)í"í,íí
-í í í"íPíaíuísíaírí"í:í í"íPíaíuísíeí"í,íí
-í í í"íPíaí�í�ísí:í"í:í í"íCíoíuínítíríyí:í"í,íí
-í í í"íPíeílí�í�ícíuílíaí íEísítíaíbílíeí"í:í í"íSítíaíbílíeí íFíiílímí"í,íí
-í í í"íPíeírífíiílí ídíeí íTíeímípíeíríaítíuíríaí íyí íCíiírícíuíiítíoí íEíqíuíiívíaílíeínítíeí íeíní íPíaíríaílíeílíoí"í:í í"íTíeímípíeíríaítíuíríeí íPíríoífíiílíeí íaínídí íPíaíríaílílíeílí íEíqíuíiívíaílíeínítí íCíiírícíuíiítí"í,íí
-í í í"íPíeíríiíoídíoí ídíeí íOísícíiílíaícíií�í�íní í$í(íTí)í$í:í"í:í í"íOísícíiílílíaítíiíoíní íPíeíríiíoídí í$í(íTí)í$í:í"í,íí
-í í í"íPíeírí�í�íoídíoí:í"í:í í"íPíeíríiíoídí:í"í,íí
-í í í"íPílíaícíaí íPílíaíníaí íAíiísílíaídíaí"í:í í"íIínísíuílíaítíeídí íFílíaítí íPílíaítíeí"í,íí
-í í í"íPílíaícíaí íPílíaíníaí íIínífíiíníiítíaí"í:í í"íIínífíiíníiítíeí íFílíaítí íPílíaítíeí"í,íí
-í í í"íPílíaínícíkí ípíoísítíuílí�í�í íqíuíeí ílíaí íeíníeírígí�í�íaí íeílíeícítíríoímíaígíní�í�ítíiícíaí ísíoílíoí ísíeí íeímíiítíeí íoí íaíbísíoíríbíeí íeíní ípíaíqíuíeítíeísí ídíiísícíríeítíoísí ílílíaímíaídíoísí í"í:í í"íPílíaínícíkí ípíoísítíuílíaítíeídí ítíhíaítí íeílíeícítíríoímíaígíníeítíiící íeíníeírígíyí íiísí íoínílíyí íeímíiítítíeídí íoírí íaíbísíoíríbíeídí íiíní ídíiísícíríeítíeí ípíaícíkíeítísí ícíaílílíeídí í"í,íí
-í í í"íPíoídíeírí íEímíiísíiívíoí íTíoítíaílí í(íEí í=í í�í�íTí"í:í í"íTíoítíaílí íEímíiísísíiívíeí íPíoíwíeírí í(íEí í=í í�í�íTí"í,íí
-í í í"íPíoísíiícíií�í�íní í$í(íxí)í$í"í:í í"íPíoísíiítíiíoíní í$í(íxí)í$í"í,íí
-í í í"íPíoísíiícíií�í�íní ídíeílí íTíeírímí�í�ímíeítíríoí í(íEísípíeícítíríoí)í:í í"í:í í"íTíhíeírímíoímíeítíeírí íPíoísíiítíiíoíní í(íSípíeícítíríuímí)í:í í"í,íí
-í í í"íPíoítíeínícíiíaí íMíeící�í�íníiícíaí í(íPí)í:í"í:í í"íMíeícíhíaíníiícíaílí íPíoíwíeírí í(íPí)í:í"í,íí
-í í í"íPíoítíeínícíiíaí ídíeí ílíaí íFíuíeínítíeí í$í(íPí)í$í:í"í:í í"íSíoíuírícíeí íPíoíwíeírí í$í(íPí)í$í:í"í,íí
-í í í"íPíoítíeínícíiíaí ídíeílí íCíhíiípí í(í$íQí$í)í:í í"í:í í"íCíhíiípí íPíoíwíeírí í(í$íQí$í)í:í í"í,íí
-í í í"íPíoítíeínícíiíaílí í(í�í�ígízí)í"í:í í"íPíoítíeínítíiíaílí í(í�í�ígízí)í"í,íí
-í í í"íPíríaínídítílí ídíeímíoísítírí�í�í íqíuíeí ípíaíríaí ífílíuíiídíoísí ícíoíní íbíaíjíaí ívíiísícíoísíiídíaídí í(íaílítíoísí íní�í�ímíeíríoísí ídíeí íRíeíyíníoílídísí)í,í ílíoísí íeífíeícítíoísí ívíiísícíoísíoísí ísíeí ílíiímíiítíaíní íaí íuíníaí ídíeílígíaídíaí ícíaípíaí ícíeírícíaíníaí íaí ílíaí ípíaíríeídí ísí�í�ílíiídíaí í(ícíaípíaí ílí�í�ímíiítíeí)í,í ípíeírímíiítíiíeínídíoí ísíiímípílíiífíiícíaírí ílíaísí ícíoímípílíeíjíaísí íeícíuíaícíiíoíníeísí ídíeí íNíaívíiíeírí-íSítíoíkíeísí.í"í:í í"íPíríaínídítílí ísíhíoíwíeídí ítíhíaítí ífíoírí ífílíuíiídísí íwíiítíhí ílíoíwí ívíiísícíoísíiítíyí í(íhíiígíhí íRíeíyíníoílídísí íníuímíbíeírísí)í,í ítíhíeí ívíiísícíoíuísí íeífífíeícítísí íaíríeí ílíiímíiítíeídí ítíoí íaí ítíhíiíní ílíaíyíeírí ícílíoísíeí ítíoí ítíhíeí ísíoílíiídí íwíaílílí í(íbíoíuínídíaíríyí ílíaíyíeírí)í,í íaílílíoíwíiínígí ítíhíeí ícíoímípílíeíxí íNíaívíiíeírí-íSítíoíkíeísí íeíqíuíaítíiíoínísí ítíoí íbíeí ísíiímípílíiífíiíeídí.í"í,íí
-í í í"íPíríeísíeínítíaídíaísí íeíní ílíoísí í"í:í í"íPíríeísíeínítíeídí íiíní ítíhíeí í"í,íí
-í í í"íPíríeísíií�í�íní"í:í í"íPíríeísísíuíríeí"í,íí
-í í í"íPíríeísíií�í�íní í$í(íPí)í$í:í í"í:í í"í$í(íPí)í$í ípíríeísísíuíríeí:í í"í,íí
-í í í"íPíríeísíií�í�íní í(í$í-í\í\íníaíbílíaí ípí$í)í:í"í:í í"íPíríeísísíuíríeí í(í$í-í\í\íníaíbílíaí ípí$í)í:í"í,íí
-í í í"íPíríeísíií�í�íní íAítímíoísífí�í�íríiícíaí:í"í:í í"íAítímíoísípíhíeíríiící íPíríeísísíuíríeí:í"í,íí
-í í í"íPíríeísíií�í�íní íCíoínísítíaínítíeí í(í$íCí_ípí$í)í:í"í:í í"íCíoínísítíaínítí íPíríeísísíuíríeí í(í$íCí_ípí$í)í:í"í,íí
-í í í"íPíríiímíeíríaí íLíeíyí í(íIíníeírícíiíaí)í:í"í:í í"íFíiírísítí íLíaíwí í(íIíníeírítíiíaí)í:í"í,íí
-í í í"íPíríiínícíiípíiíaí"í:í í"íPíríiínícíiípílíeí"í,íí
-í í í"íPíríiínícíiípíiíoí ídíeí íBíeíríníoíuílílíií í(í1í7í3í8í)í"í:í í"íBíeíríníoíuílílíií'ísí ípíríiínícíiípílíeí í(í1í7í3í8í)í"í,íí
-í í í"íPíríiínícíiípíiíoísí íFí�í�ísíiícíoísí íyí íEíxípíeíríiímíeínítíoísí íBíaísíeí"í:í í"íPíhíyísíiícíaílí íPíríiínícíiípílíeísí íaínídí íBíaísíiící íEíxípíeíríiímíeínítísí"í,íí
-í í í"íPíríoícíeísíoí íaí íPíríeísíií�í�íní íCíoínísítíaínítíeí:í"í:í í"íCíoínísítíaínítí íPíríeísísíuíríeí íPíríoícíeísísí:í"í,íí
-í í í"íPíríoícíeísíoí íaí íVíoílíuímíeíní íCíoínísítíaínítíeí:í"í:í í"íCíoínísítíaínítí íVíoílíuímíeí íPíríoícíeísísí:í"í,íí
-í í í"íPíríoífí.í íAínídírí�í�ísí íCíoílíoíríaídíoí"í:í í"íPíríoífí.í íAínídírí�í�ísí íCíoílíoíríaídíoí"í,íí
-í í í"íIínígí.í íMíeící�í�íníiícíoí,í íMí.í íSící.í íPíhí.í íDí.í íPíríoífíeísíoírí,í íFíaícíuílítíaídí ídíeí íIínígíeíníiíeírí�í�íaí,í íUíníiívíeírísíiídíaídí ídíeí íAínítíiíoíqíuíiíaí"í:í í"íMíeícíhíaíníiícíaílí íEínígí.í,í íMí.í íSící.í íPíhí.í íDí.í íPíríoífíeísísíoírí,í íFíaícíuílítíyí íoífí íEínígíiíníeíeíríiínígí,í íUíníiívíeírísíiítíyí íoífí íAínítíiíoíqíuíiíaí"í,íí
-í í í"íPíríoípíiíeídíaídí"í:í í"íPíríoípíeírítíyí"í,íí
-í í í"íPíríoípíiíeídíaídíeísí íCíaípíaí í1í í(íCíoínídíuícícíií�í�íní)í"í:í í"íPíríoípíeírítíiíeísí íLíaíyíeírí í1í í(íCíoínídíuícítíiíoíní)í"í,íí
-í í í"íPíríoípíiíeídíaídíeísí íCíaípíaí í2í í(íCíoínídíuícícíií�í�íní)í"í:í í"íLíaíyíeírí í2í íPíríoípíeírítíiíeísí í(íCíoínídíuícítíiíoíní)í"í,íí
-í í í"íPíríoípíiíeídíaídíeísí íCíaípíaí í3í í(íCíoínídíuícícíií�í�íní)í"í:í í"íPíríoípíeírítíiíeísí íLíaíyíeírí í3í í(íCíoínídíuícítíiíoíní)í"í,íí
-í í í"íPíríuí�í�íbíaílíoí"í:í í"ítíríyí íiítí"í,íí
-í í í"íPíuíbílíiícíaídíaí ídíeí ífíoírímíaí íaíní�í�íníiímíaí íeíní í1í7í0í1í,í ípíoísítíuílíaí íqíuíeí ílíaí ívíeílíoícíiídíaídí íaí ílíaí íqíuíeí íuíní ícíuíeírípíoí ípíiíeírídíeí ícíaílíoírí íeísí ídíiíríeícítíaímíeínítíeí ípíríoípíoírícíiíoíníaílí íaí ílíaí ídíiífíeíríeínícíiíaí ídíeí ítíeímípíeíríaítíuíríaí íeínítíríeí í�í�ílí íyí íeílí íeínítíoíríníoí.í íHíoíyí ísíeí íeísícíríiíbíeí ícíoímíoí:í"í:í í"íPíuíbílíiísíhíeídí íaíníoíníyímíoíuísílíyí íiíní í1í7í0í1í,í íiítí ípíoísítíuílíaítíeísí ítíhíaítí ítíhíeí íríaítíeí íaítí íwíhíiícíhí íaí íbíoídíyí ílíoísíeísí íhíeíaítí íiísí ídíiíríeícítílíyí ípíríoípíoírítíiíoíníaílí ítíoí ítíhíeí ítíeímípíeíríaítíuíríeí ídíiífífíeíríeínícíeí íbíeítíwíeíeíní íiítí íaínídí íiítísí ísíuíríríoíuínídíiínígísí.í íTíoídíaíyí íiítí íiísí íwíríiítítíeíní íaísí:í"í,íí
-í í í"íPíuínítíoí íTíríiípílíeí í(í~í3í5í íkímí)í:í"í:í í"íTíríiípílíeí íPíoíiínítí í(í~í3í5í íkímí)í:í"í,íí
-í í í"íPí�í�írídíiídíaí ídíeí íCíaílíoírí í(í$íqí'í$í)í:í"í:í í"íHíeíaítí íLíoísísí í(í$íqí'í$í)í:í"í,íí
-í í í"íRí í=í íCípí í-í íCíví"í:í í"íRí í=í íCípí í-í íCíví"í,íí
-í í í"íRíaídíiíaícíií�í�íní"í:í í"íRíaídíiíaítíiíoíní"í,íí
-í í í"íRíaídíiíaícíií�í�íní:í"í:í í"íRíaídíiíaítíiíoíní:í"í,íí
-í í í"íRíaídíiíoí íEíxítíeíríníoí í(írí�í�í�í)í:í í"í:í í"íEíxítíeíríníaílí íRíaídíiíuísí í(írí�í�í�í)í:í í"í,íí
-í í í"íRíaídíiíoí íIínítíeíríníoí í(írí�í�í�í)í:í í"í:í í"íIínítíeíríníaílí íRíaídíiíuísí í(írí�í�í�í)í:í í"í,íí
-í í í"íRíaíníkíiíníeí í�í�í�í í3í0í�í�í�í4í0í%í"í:í í"íRíaíníkíiíníeí í�í�í�í í3í0í�í�í�í4í0í%í"í,íí
-í í í"íRíaíyíoísí íGíaímímíaí í/í íXí:í"í:í í"íGíaímímíaí/íXí íRíaíyísí:í"í,íí
-í í í"íRíeíaílíeísí í(íDíiíeísíeílí í>í íOítítíoí)í"í:í í"íRíoíyíaílísí í(íDíiíeísíeílí í>í íOítítíoí)í"í,íí
-í í í"íRíeícítí�í�ínígíuílíoí ípíeírífíeícítíoí íeíní íTí-íSí.í í�í�íríeíaí ísíoímíbíríeíaídíaí í=í íTíríaíbíaíjíoí íníeítíoí í$íWí í=í í(íTí_íHí í-í íTí_íCí)í\í\í,í\í\íDíeílítíaí íSí$í.í íPíuínítíoí íaíníiímíaídíoí ísíiínícíríoíníiízíaídíoí ícíoíní íeílí ídíiíaígíríaímíaí íPí-íVí.í"í:í í"íPíeírífíeícítí íríeícítíaínígílíeí íiíní íTí-íSí.í íSíhíaídíeídí íaíríeíaí í=í íNíeítí íwíoíríkí í$íWí í=í í(íTí_íHí í-í íTí_íCí)í\í\í,í\í\íDíeílítíaí íSí$í.í íAíníiímíaítíeídí ípíoíiínítí ísíyínícíhíríoíníiízíeídí íwíiítíhí ítíhíeí íPí-íVí ídíiíaígíríaímí.í"í,íí
-í í í"íRíeífíríiígíeíríaínítíeí íRí-í1í3í4íaí í(íTí_ísíaítí í=í í-í2í6í í�í�íCí)í"í:í í"íRíeífíríiígíeíríaínítí íRí-í1í3í4íaí í(íTí_ísíaítí í=í í-í2í6í í�í�íCí)í"í,íí
-í í í"íRíeígíií�í�íní ídíeílí íEísípíeícítíríoí:í"í:í í"íSípíeícítíríuímí íRíeígíiíoíní:í"í,íí
-í í í"íRíeíiíníiícíiíaírí"í:í í"íRíeíbíoíoítí"í,íí
-í í í"íRíeílíaícíií�í�íní íEísípíeísíoíríeísí í$í(í\í\ídíeílítíaí_ítí í/í í\í\ídíeílítíaí_ící)í$í:í"í:í í"í$í(í\í\ídíeílítíaí_ítí í/í í\í\ídíeílítíaí_ící)í$í íTíhíiícíkíníeísísí íRíaítíiíoí:í"í,íí
-í í í"íRíeílíaícíií�í�íní ídíeí íMíaíyíeírí í(íGíaísí íIídíeíaílí)í:í"í:í í"íMíaíyíeírí'ísí íríeílíaítíiíoíní í(íIídíeíaílí íGíaísí)í:í"í,íí
-í í í"íRíeílíaícíií�í�íní ídíeí íSíuísítíeínítíaícíií�í�íní í(í$íCí_íLí/íCí_íDí$í)í:í"í:í í"íSíuípípíoírítí íRíaítíiíoí í(í$íCí_íLí/íCí_íDí$í)í:í"í,íí
-í í í"íRíeínídíiímíiíeínítíoí:í"í:í í"íPíeírífíoírímíaínícíeí:í"í,íí
-í í í"íRíeísíiísítíeínícíiíaí íTí�í�írímíiícíaí í(íRí"í:í í"íTíhíeírímíaílí íRíeísíiísítíaínícíeí í(íRí"í,íí
-í í í"íRíeísíiísítíeínícíiíaísí íeíní íPíaíríaílíeílíoí"í:í í"íPíaíríaílílíeílí íRíeísíiísítíoírísí"í,íí
-í í í"íRíeísíoílíuícíií�í�íní ídíeí íMíaílílíaí í(íGíríiídí)í:í"í:í í"íMíeísíhí íRíeísíoílíuítíiíoíní í(íGíríiídí)í:í"í,íí
-í í í"íRíeísítíríiícícíií�í�íní:í"í:í í"íRíeísítíríiícítíiíoíní:í"í,íí
-í í í"íRíeíyíníoílídísí ídíeísícíuíbíríií�í�í íqíuíeí ílíaí ítíríaínísíiícíií�í�íní ídíeí ífílíuíjíoí ílíaímíiíníaírí íaí ítíuíríbíuílíeínítíoí íeíní íuíníaí ítíuíbíeírí�í�íaí ídíeípíeínídíeí ídíeí íuíní ígíríuípíoí íaídíiímíeínísíiíoíníaílí í(íeílí íNí�í�ímíeíríoí ídíeí íRíeíyíníoílídísí,í í$íRíeí$í)í.í íSíií íeílí ífílíuíjíoí íeísí ílíeínítíoí íyí íoírídíeíníaídíoí,í íeílí ícíhíoíríríoí ídíeí ítíiínítíaí ípíeírímíaíníeícíeí íiínítíaícítíoí í(ílíaímíiíníaírí)í.í íAílí íiínícíríeímíeínítíaírí ílíaí ívíeílíoícíiídíaídí,í ílíaísí ípíeírítíuíríbíaícíiíoíníeísí ícíríeícíeíní íhíaísítíaí íqíuíeí ílíaí ítíiínítíaí ísíeí ímíeízícílíaí ípíoírí ícíoímípílíeítíoí ícíoíní íeílí ífílíuíiídíoí í(ítíuíríbíuílíeínítíoí)í.í"í:í í"íRíeíyíníoílídísí ídíiísícíoívíeíríeídí ítíhíaítí ítíhíeí ítíríaínísíiítíiíoíní ífíríoímí ílíaímíiíníaírí ítíoí ítíuíríbíuílíeínítí ífílíoíwí íiíní íaí ípíiípíeí ídíeípíeínídísí íoíní íaí ídíiímíeínísíiíoínílíeísísí ígíríoíuípí í(ítíhíeí íRíeíyíníoílídísí íNíuímíbíeírí,í í$íRíeí$í)í.í íIífí ítíhíeí ífílíoíwí íiísí ísílíoíwí íaínídí íoírídíeírílíyí,í ítíhíeí íiíníkí íjíeítí íríeímíaíiínísí íiínítíaícítí í(ílíaímíiíníaírí)í.í íAísí ítíhíeí ísípíeíeídí íiínícíríeíaísíeísí,í ítíhíeí ídíiísítíuíríbíaínícíeísí ígíríoíwí íuínítíiílí ítíhíeí íiíníkí íiísí ícíoímípílíeítíeílíyí ímíiíxíeídí íwíiítíhí ítíhíeí ífílíuíiídí í(ítíuíríbíuílíeínítí)í.í"í,íí
-í í í"íRíeíyíníoílídísí íeíní íbíoírídíeí ídíeí ísíaílíiídíaí í$í(íRíeí_íLí)í$í:í í"í:í í"íRíeíyíníoílídísí íaítí ítíríaíiílíiínígí íeídígíeí í$í(íRíeí_íLí)í$í:í í"í,íí
-í í í"íRí�í�ígíiímíeíní ídíeí íFílíuíjíoí:í"í:í í"íFílíoíwí íRíeígíiímíeí:í"í,íí
-í í í"íRí�í�ígíiímíeíní ídíeí ífílíuíjíoí:í"í:í í"íFílíoíwí íríeígíiímíeí:í"í,íí
-í í í"íSíaídíií íCíaíríníoítí ídíeímíoísítírí�í�í íeíní í1í8í2í4í íqíuíeí íníiínígí�í�íní ímíoítíoírí ítí�í�írímíiícíoí íqíuíeí íoípíeíríeí íeínítíríeí ídíoísí ítíeímípíeíríaítíuíríaísí ípíuíeídíeí ísíuípíeíríaírí ílíaí íeífíiícíiíeínícíiíaí ídíeílí í"í:í í"íSíaídíií íCíaíríníoítí ídíeímíoínísítíríaítíeídí íiíní í1í8í2í4í ítíhíaítí íníoí íhíeíaítí íeínígíiíníeí íoípíeíríaítíiínígí íbíeítíwíeíeíní ítíwíoí ítíeímípíeíríaítíuíríeísí ícíaíní íeíxícíeíeídí ítíhíeí íeífífíiícíiíeínícíyí íoífí ítíhíeí í"í,íí
-í í í"íSíeígíuínídíaí íLíeíyí í(íFíuíeírízíaí íyí íAícíeílíeíríaícíií�í�íní)í:í"í:í í"íSíeícíoínídí íLíaíwí í(íFíoírícíeí íaínídí íAícícíeílíeíríaítíiíoíní)í:í"í,íí
-í í í"íSíeígíuínídíaí íLíeíyí ídíeí ílíaí íTíeírímíoídíiíní�í�ímíiícíaí"í:í í"íSíeícíoínídí íLíaíwí íoífí íTíhíeírímíoídíyíníaímíiícísí"í,íí
-í í í"íSíií íaíjíuísítíaísí íaímíbíoísí íaí ílíaí ímíiísímíaí íríeílíaícíií�í�íní ídíeí ícíoímípíríeísíií�í�íní í(íeíjí.í í$írí=í1í2í$í íeíní íeílí ísíeílíeícítíoírí)í,í ívíeírí�í�ísí íqíuíeí í*í*íeílí ícíiícílíoí íOítítíoí íeísí ímí�í�ísí íeífíiícíiíeínítíeí*í*í.í íTíeírímíoídíiíní�í�ímíiícíaímíeínítíeí,í ílíaí íaídíiícíií�í�íní ídíeí ícíaílíoírí íaí ívíoílíuímíeíní ícíoínísítíaínítíeí íeísí ímí�í�ísí íeífíiícíiíeínítíeí íqíuíeí íaí ípíríeísíií�í�íní ícíoínísítíaínítíeí,í íyíaí íqíuíeí íaílícíaínízíaí ímíaíyíoíríeísí ípíiícíoísí ídíeí ítíeímípíeíríaítíuíríaí íyí ípíríeísíií�í�íní íiínísítíaínítí�í�íníeíoísí íaí ípíaírítíiírí ídíeílí ímíiísímíoí ícíaílíoírí íiíníyíeícítíaídíoí.í"í:í í"íIífí íyíoíuí ísíeítí íbíoítíhí ítíoí ítíhíeí ísíaímíeí ícíoímípíríeísísíiíoíní íríaítíiíoí í(íeí.ígí.í í$írí=í1í2í$í íiíní ítíhíeí ísíeílíeícítíoírí)í,í íyíoíuí íwíiílílí ísíeíeí ítíhíaítí í*í*ítíhíeí íOítítíoí ícíyícílíeí íiísí ímíoíríeí íeífífíiícíiíeínítí*í*í.í íTíhíeírímíoídíyíníaímíiícíaílílíyí,í ítíhíeí íaídídíiítíiíoíní íoífí íhíeíaítí íaítí ícíoínísítíaínítí ívíoílíuímíeí íiísí ímíoíríeí íeífífíiícíiíeínítí ítíhíaíní íaítí ícíoínísítíaínítí ípíríeísísíuíríeí,í ísíiínícíeí íiítí íaícíhíiíeívíeísí ígíríeíaítíeírí íiínísítíaínítíaíníeíoíuísí ítíeímípíeíríaítíuíríeí íaínídí ípíríeísísíuíríeí ípíeíaíkísí ífíríoímí ítíhíeí ísíaímíeí íiíníjíeícítíeídí íhíeíaítí.í"í,íí
-í í í"íSíií íeílí ífílíuíiídíoí íeísítí�í�í íeíní íríeípíoísíoí,í íeílí ícíaílíoírí ísíoílíoí ísíeí ítíríaínísímíiítíeí ípíoírí ícíoínídíuícícíií�í�íní íyí í$íNíuí í=í í1í$í.í íAí ímíeídíiídíaí íqíuíeí íaíuímíeínítíaí ílíaí ívíeílíoícíiídíaídí ídíeílí ífílíuíiídíoí,í ílíaí ícíoínívíeícícíií�í�íní ísíeí ívíuíeílívíeí ímí�í�ísí ídíoímíiíníaínítíeí,í íaíuímíeínítíaínídíoí íeílí ífílíuíjíoí ídíeí ícíaílíoírí íyí íhíaícíiíeínídíoí íqíuíeí í$íNíuí í>í í1í$í.í íEíní ílíaí ígírí�í�ífíiícíaí,í íuíní ímíaíyíoírí í$íNíuí$í ísíeí íríeífílíeíjíaí ícíoímíoí íuíní ígíríaídíiíeínítíeí ídíeí ítíeímípíeíríaítíuíríaí ímí�í�ísí íeímípíiíníaídíoí ícíeírícíaí ídíeí ílíaí ísíuípíeírífíiícíiíeí ícíaílíiíeínítíeí.í"í:í í"íIífí ítíhíeí ífílíuíiídí íiísí íaítí íríeísítí,í íhíeíaítí íiísí íoínílíyí ítíríaínísímíiítítíeídí íbíyí ícíoínídíuícítíiíoíní íaínídí í$íNíuí í=í í1í$í.í íAísí ífílíuíiídí ívíeílíoícíiítíyí íiínícíríeíaísíeísí,í ícíoínívíeícítíiíoíní íbíeícíoímíeísí ímíoíríeí ídíoímíiíníaínítí,í íiínícíríeíaísíiínígí íhíeíaítí ífílíoíwí íaínídí ícíaíuísíiínígí í$íNíuí í>í í1í$í.í íIíní ítíhíeí ípílíoítí,í íaí ílíaírígíeírí í$íNíuí$í íiísí íríeífílíeícítíeídí íaísí íaí ísítíeíeípíeírí ítíeímípíeíríaítíuíríeí ígíríaídíiíeínítí íníeíaírí ítíhíeí íhíoítí ísíuírífíaícíeí.í"í,íí
-í í í"íSíií ígíríaífíiícíaímíoísí íeílí ívíoílíuímíeíní íeíxípíeíríiímíeínítíaílí ídíeí íuíní ígíaísí ípíaíríaí ídíiísítíiínítíoísí ívíaílíoíríeísí ídíeí ítíeímípíeíríaítíuíríaí íyí íeíxítíríaípíoílíaímíoísí ílíaí ílí�í�íníeíaí ídíeí ítíeínídíeínícíiíaí íhíaícíiíaí íaítírí�í�ísí,í ídíeísícíuíbíríiímíoísí íqíuíeí íeílí ívíoílíuímíeíní ítíeí�í�íríiícíaímíeínítíeí ílílíeígíaí íaí ícíeíríoí íeíxíaícítíaímíeínítíeí íaí ílíaí ítíeímípíeíríaítíuíríaí ídíeí í"í:í í"íIífí íwíeí ípílíoítí ítíhíeí íeíxípíeíríiímíeínítíaílí ívíoílíuímíeí íoífí íaí ígíaísí ífíoírí ídíiífífíeíríeínítí ívíaílíuíeísí í�í�í�í�í�í�íoífí ítíeímípíeíríaítíuíríeí íaínídí íeíxítíríaípíoílíaítíeí ítíhíeí ítíríeínídí ílíiíníeí íbíaícíkíwíaírídísí,í íwíeí ídíiísícíoívíeírí ítíhíaítí ítíhíeí ívíoílíuímíeí ítíhíeíoíríeítíiícíaílílíyí íríeíaícíhíeísí ízíeíríoí íeíxíaícítílíyí íaítí ítíhíeí ítíeímípíeíríaítíuíríeí íoífí í"í,íí
-í í í"íSíiílíiícíiíoí í(íkí í=í í1í4í8í íWí/ímí�í�íKí)í"í:í í"íSíiílíiícíoíní í(íkí í=í í1í4í8í íWí/ímí íKí)í"í,íí
-í í í"íSíiímíuílíaícíií�í�íní ídíeí íPíiísítí�í�íní íNíeíuímí�í�ítíiícíoí íyí íCíiíní�í�ítíiícíaí íMíoílíeícíuílíaírí"í:í í"íPíníeíuímíaítíiící íPíiísítíoíní íSíiímíuílíaítíiíoíní íaínídí íMíoílíeícíuílíaírí íKíiíníeítíiícísí"í,íí
-í í í"íSíuímíaí í(íTíoítíaílí)í"í:í í"íSíuímí í(íTíoítíaílí)í"í,íí
-í í í"íTí í(íKí)í"í:í í"íTí(íKí)í"í,íí
-í í í"íTí:í"í:í í"íTí:í"í,íí
-í í í"íTíaícíoímíaí íNíaíríríoíwísí"í:í í"íTíaícíoímíaí íNíaíríríoíwísí"í,íí
-í í í"íTíaíníqíuíeí í(í1í)í"í:í í"íTíaíníkí í(í1í)í"í,íí
-í í í"íTíaíníqíuíeí í+í íVíeínítíuíríií í+í íPíeílítíoíní"í:í í"íTíaíníkí í+í íVíeínítíuíríií í+í íPíeílítíoíní"í,íí
-í í í"íTíaíníqíuíeí,í íTíuíbíoí ídíeí íVíeínítíuíríií íyí íTíuíríbíiíníaí íPíeílítíoíní"í:í í"íTíaíníkí,í íVíeínítíuíríií íTíuíbíeí íaínídí íPíeílítíoíní íTíuíríbíiíníeí"í,íí
-í í í"íTíaísíaí ídíeí íCíaílíoírí íIímípíuíeísítíaí í(íqí)í:í í"í:í í"íIímípíoísíeídí íHíeíaítí íRíaítíeí í(íqí)í:í í"í,íí
-í í í"íTíaísíaí ídíeí ítíríaínísífíeíríeínícíiíaí í(íqí)í:í"í:í í"íTíríaínísífíeírí íríaítíeí í(íqí)í:í"í,íí
-í í í"íTíeílíeísícíoípíiíoí íRíeífílíeícítíoírí í(í1í6í6í8í)í:í"í:í í"íRíeífílíeícítíoírí íTíeílíeísícíoípíeí í(í1í6í6í8í)í:í"í,íí
-í í í"íTíeímípí.í íAímíbíiíeínítíeí í$í(íTí_í\í\íiínífítíyí)í$í:í í"í:í í"íTíeímípí.í íEínívíiíríoínímíeínítí í$í(íTí_í\í\íiínífítíyí)í$í:í í"í,íí
-í í í"íTíeímípí.í íCíiílíiínídíríoí"í:í í"íTíeímípí.í íCíyílíiínídíeírí"í,íí
-í í í"íTíeímípí.í íCíoímíbí.í"í:í í"íTíeímípí.í íCíoímíbí.í"í,íí
-í í í"íTíeímípí.í íEínítíoíríníoí í$í(íTí_í\í\íiínífítíyí)í$í:í í"í:í í"íTíeímípí.í í$í(íTí_í\í\íiínífítíyí)í$í íeínívíiíríoínímíeínítí:í í"í,íí
-í í í"íTíeímípí.í íEísípíeícíiífíiícíaídíaí í(í$íTí_íLí$í)í:í"í:í í"íTíeímípí.í íSípíeícíiífíiíeídí í(í$íTí_íLí$í)í:í"í,íí
-í í í"íTíeímípí.í íFílíuíiídíoí í(íTíiínífí)í:í í"í:í í"íTíeímípí.í íFílíuíiídí í(íTíiínífí)í:í í"í,íí
-í í í"íTíeímípí.í íFílíuíiídíoí íEíxítíeíríiíoírí í$í(íTí_í\í\íiínífítíyí)í$í:í í"í:í í"íTíeímípí.í íEíxítíeíríiíoírí íFílíuíiídí í$í(íTí_í\í\íiínífítíyí)í$í:í í"í,íí
-í í í"íTíeímípí.í íIíníiícíiíaílí í(íTíií)í:í í"í:í í"íTíeímípí.í íIíníiítíiíaílí í(íTíií)í:í í"í,íí
-í í í"íTíeímípí.í íIíníiícíiíaílí íHíiíeíríríoí í$í(íTí_íií)í$í:í í"í:í í"íTíeímípí.í íIíníiítíiíaílí íIíríoíní í$í(íTí_íií)í$í:í í"í,íí
-í í í"íTíeímípí.í íIínítíeíríníaí íPíaíríeídí í$í(íTí_í1í)í$í:í í"í:í í"íTíeímípí.í íIínítíeíríníaílí íWíaílílí í$í(íTí_í1í)í$í:í í"í,íí
-í í í"íTíeímípí.í íIízíqíuíiíeírídíaí í$íTí_í1í$í:í í"í:í í"íTíeímípí.í íLíeífítí í$íTí_í1í$í:í í"í,íí
-í í í"íTíeímípí.í íLíiíbíríeí í$í(íTí_í\í\íiínífítíyí)í$í:í í"í:í í"íTíeímípí.í íFíríeíeí í$í(íTí_í\í\íiínífítíyí)í$í:í í"í,íí
-í í í"íTíeímípí.í íMíeídíiíaí í$í(íTí_ímí)í$í:í"í:í í"íTíeímípí.í íAívíeíríaígíeí í$í(íTí_ímí)í$í:í"í,íí
-í í í"íTíeímípí.í íPíaíríeídí í$í(íTí_ísí)í$í:í í"í:í í"íTíeímípí.í íWíaílílí í$í(íTí_ísí)í$í:í í"í,íí
-í í í"íTíeímípí.í íPíuínítíaí íEísípíeícíiífíiícíaídíaí í$í(íTí_íLí)í$í:í í"í:í í"íTíeímípí.í íSípíeícíiífíiíeídí íTíiípí í$í(íTí_íLí)í$í:í í"í,íí
-í í í"íTíeímípí.í íSíuípíeírífíiícíiíeí í(í$íTí_ísí$í)í"í:í í"íTíeímípí.í íSíuírífíaícíeí í(í$íTí_ísí$í)í"í,íí
-í í í"íTíeímípí.í íSíuípíeírífíiícíiíeí íLíiíbíríeí í$í(íTí_ísí)í$í:í í"í:í í"íTíeímípí.í íFíríeíeí íSíuírífíaícíeí í$í(íTí_ísí)í$í:í í"í,íí
-í í í"íTíeímípí.í ídíeí ílíaí íSíuípíeírífíiícíiíeí í(íTísí)í"í:í í"íTíeímípí.í íoífí ítíhíeí íSíuírífíaícíeí í(íTísí)í"í,íí
-í í í"íTíeímípí.í ídíeílí íCíeínítíríoí í(íTí0í)í"í:í í"íTíeímípí.í ífíríoímí ítíhíeí íCíeínítíeírí í(íTí0í)í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí"í:í í"íTíeímípíeíríaítíuíríeí"í,íí
-í í í"íTíeímípíeíríaítíuíríaí í$í(íTí)í$í:í í"í:í í"í$í(íTí)í$í ítíeímípíeíríaítíuíríeí:í í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí í(í$íTí_ící$í)í"í:í í"íTíeímípíeíríaítíuíríeí í(í$íTí_ící$í)í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí íAíbísíoílíuítíaí í(í$íTí_íKí$í)í"í:í í"íAíbísíoílíuítíeí íTíeímípíeíríaítíuíríeí í(í$íTí_íKí$í)í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí íAícítíuíaílí:í"í:í í"íCíuíríríeínítí íTíeímípíeíríaítíuíríeí:í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí íEísípíeícíiífíiícíaídíaí"í:í í"íSípíeícíiífíiíeídí íTíeímípíeíríaítíuíríeí"í,íí
-í í í"íTíeímípíeíríaítíuíríaí íEísípíeící�í�ífíiícíaí:í"í:í í"íSípíeícíiífíiící íTíeímípíeíríaítíuíríeí:í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí íFílíuíiídíoí í$í(íTí_í\í\íiínífítíyí)í$í:í í"í:í í"íFílíuíiídí íTíeímípíeíríaítíuíríeí í$í(íTí_í\í\íiínífítíyí)í$í:í í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí íFíuíeínítíeí íCíaílíiíeínítíeí í$í(íTí_íHí)í$í:í í"í:í í"íHíoítí íSíoíuírícíeí íTíeímípíeíríaítíuíríeí í$í(íTí_íHí)í$í:í í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí íFíuíeínítíeí íFírí�í�íaí í(íCíoínídíeínísíaídíoírí)í:í í"í:í í"íCíoílídí íSíoíuírícíeí íTíeímípíeíríaítíuíríeí í(íCíoínídíeínísíeírí)í:í í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí íSíuímíiídíeíríoí íFírí�í�íoí í$í(íTí_íCí)í$í:í í"í:í í"íCíoílídí íSíuímípí íTíeímípíeíríaítíuíríeí í$í(íTí_íCí)í$í:í í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí íSíuípíeírífíiícíiíeí í$í(íTí_ísí)í$í:í í"í:í í"íSíuírífíaícíeí íTíeímípíeíríaítíuíríeí í$í(íTí_ísí)í$í:í í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí íSíuípíeírífíiícíiíeí íDíeíríeícíhíaí í$í(íTí_í2í)í$í:í"í:í í"íRíiígíhítí íSíuírífíaícíeí íTíeímípíeíríaítíuíríeí í$í(íTí_í2í)í$í:í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí íTí"í:í í"íTíeímípíeíríaítíuíríeí íTí"í,íí
-í í í"íTíeímípíeíríaítíuíríaí ídíeí íEíxícíeísíoí í(í�í�íTíeí í=í íTísí í-í íTísíaítí)í:í í"í:í í"íEíxícíeísísí íTíeímípíeíríaítíuíríeí í(í�í�íTíeí í=í íTísí í-í íTísíaítí)í:í í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí ídíeí ílíaí íSíuípíeírífíiícíiíeí í(íTísí)í"í:í í"íSíuírífíaícíeí íTíeímípíeíríaítíuíríeí í(íTísí)í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí ídíeí ílíaí íbíaísíeí í$í(íTí_íbí)í$í:í í"í:í í"íBíaísíeí ítíeímípíeíríaítíuíríeí í$í(íTí_íbí)í$í:í í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí ídíeílí íAígíuíaí:í í"í:í í"íWíaítíeírí íTíeímípíeíríaítíuíríeí:í í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí ídíeílí íVíaípíoírí ídíeí íEínítíríaídíaí:í í"í:í í"íIínílíeítí íSítíeíaímí íTíeímípíeíríaítíuíríeí:í í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí:í í"í:í í"íTíeímípíeíríaítíuíríeí:í í"í,íí
-í í í"íTíeíoírí�í�íaí íCíiíní�í�ítíiícíaí í(íMíaíxíwíeílílí-íBíoílítízímíaíníní,í í1í8í6í0í)í"í:í í"íKíiíníeítíiící íTíhíeíoíríyí í(íMíaíxíwíeílílí-íBíoílítízímíaíníní,í í1í8í6í0í)í"í,íí
-í í í"íTíeíoírí�í�íaí íCíiíní�í�ítíiícíaí ídíeí ílíoísí íGíaísíeísí:í íDíiísítíríiíbíuícíií�í�íní ídíeí íMíaíxíwíeílílí-íBíoílítízímíaíníní í(í1í8í6í0í)í"í:í í"íKíiíníeítíiící íTíhíeíoíríyí íoífí íGíaísíeísí:í íMíaíxíwíeílílí-íBíoílítízímíaíníní íDíiísítíríiíbíuítíiíoíní í(í1í8í6í0í)í"í,íí
-í í í"íTíeíoírí�í�íaí ídíeí ílíaí íCíaípíaí íLí�í�ímíiítíeí í(íPíríaínídítílí,í í1í9í0í4í)í"í:í í"íBíoíuínídíaíríyí íLíaíyíeírí íTíhíeíoíríyí í(íPíríaínídítílí,í í1í9í0í4í)í"í,íí
-í í í"íTíeírícíeíríaí íLíeíyí í(íAícícíií�í�íní íyí íRíeíaícícíií�í�íní)í:í"í:í í"íTíhíiírídí íLíaíwí í(íAícítíiíoíní íaínídí íRíeíaícítíiíoíní)í:í"í,íí
-í í í"íTíeírícíeíríaí íLíeíyí ídíeí ílíaí íTíeírímíoídíiíní�í�ímíiícíaí"í:í í"íTíhíiírídí íLíaíwí íoífí íTíhíeírímíoídíyíníaímíiícísí"í,íí
-í í í"íTíeírímíoídíiíní�í�ímíiícíaí"í:í í"íTíhíeírímíoídíyíníaímíiícísí"í,íí
-í í í"íTíeírímí�í�ímíeítíríoí ídíeí íMíeírícíuíríiíoí"í:í í"íMíeírícíuíríyí íTíhíeírímíoímíeítíeírí"í,íí
-í í í"íTíiíeímípíoí íTíríaínísícíuíríríiídíoí"í:í í"íEílíaípísíeídí íTíiímíeí"í,íí
-í í í"íTíiíeímípíoí íTíríaínísícíuíríríiídíoí í(íSíiímíuílíaídíoí)í:í"í:í í"íEílíaípísíeídí íTíiímíeí í(íSíiímíuílíaítíeídí)í:í"í,íí
-í í í"íTíiíeímípíoí íTíríaínísícíuíríríiídíoí í(ítí)í"í:í í"íEílíaípísíeídí íTíiímíeí í(ítí)í"í,íí
-í í í"íTíiípíoí ídíeí íFíríoínítíeíríaí:í"í:í í"íBíoírídíeírí íTíyípíeí:í"í,íí
-í í í"íTíiípíoí ídíeí íGíaísí í(íMíaísíaí íMíoílíaírí)í:í"í:í í"íGíaísí íTíyípíeí í(íMíoílíaírí íMíaísísí)í:í"í,íí
-í í í"íTíiípíoí ídíeí íGíaísí:í"í:í í"íGíaísí íTíyípíeí:í"í,íí
-í í í"íTíoídíaísí ílíaísí íCíaítíeígíoírí�í�íaísí"í:í í"íAílílí íCíaítíeígíoíríiíeísí"í,íí
-í í í"íTíríaíbíaíjíoí íMíeící�í�íníiícíoí ítíoítíaílí í(í$íWí$í)í:í"í:í í"íTíoítíaílí íMíeícíhíaíníiícíaílí íWíoíríkí í(í$íWí$í)í:í"í,íí
-í í í"íTíríaíbíaíjíoí íNíeítíoí"í:í í"íNíeítí íWíoíríkí"í,íí
-í í í"íTíríaíbíaíjíoí íRíeíaílíiízíaídíoí í(í$íWí_ípí$í)í:í"í:í í"íWíoíríkí íDíoíníeí í(í$íWí_ípí$í)í:í"í,íí
-í í í"íTíríaínísíiícíií�í�íní"í:í í"íTíríaínísíiítíiíoíní"í,íí
-í í í"íTíríaínísíiítíoíríiíoí í(íDíiífíuísíií�í�íní)í"í:í í"íTíríaínísíiíeínítí í(íDíiífífíuísíiíoíní)í"í,íí
-í í í"íTíuíbíeírí�í�íaí í(íDí"í:í í"íPíiípíeí í(íDí"í,íí
-í í í"íTí�í�írímíiíníoí"í:í í"íTíeírímí"í,íí
-í í í"íTí�í�írímíiíníoí í(íkíPíaí)í"í:í í"íTíeírímí í(íkíPíaí)í"í,íí
-í í í"íUílítíríaívíiíoílíeítíaí:í"í:í í"íUílítíríaívíiíoílíeítí:í"í,íí
-í í í"íUíníaí ídíeí ílíaísí ícíoínísíeícíuíeínícíiíaísí ímí�í�ísí ípíríoífíuínídíaísí ídíeí ílíaí ítíeírímíoídíiíní�í�ímíiícíaí ícílí�í�ísíiícíaí í�í�í�í íLíoírídí íKíeílívíiíní,í í1í8í4í8í"í:í í"íOíníeí íoífí ítíhíeí ímíoísítí ípíríoífíoíuínídí ícíoínísíeíqíuíeínícíeísí íoífí ícílíaísísíiícíaílí ítíhíeírímíoídíyíníaímíiícísí í�í�í�í íLíoírídí íKíeílívíiíní,í í1í8í4í8í"í,íí
-í í í"íUíníiívíeírísíiídíaídí ídíeí íAínítíiíoíqíuíiíaí"í:í í"íUíníiívíeírísíiítíyí íoífí íAínítíiíoíqíuíiíaí"í,íí
-í í í"íUísíaírí íeísícíaílíaí ílíoígíaírí�í�ítímíiícíaí í(íEíjíeí íYí)í"í:í í"íUísíeí ílíoígíaíríiítíhímíiící ísícíaílíeí í(íYí íaíxíiísí)í"í,íí
-í í í"íVí í=í ícítíeí í(í$íWí=í0í$í)í"í:í í"íVí í=í ícítíeí í(í$íWí=í0í$í)í"í,íí
-í í í"íVí/íVí�í�í�í"í:í í"íVí/íVí�í�í�í"í,íí
-í í í"íVí:í"í:í í"íVí:í"í,íí
-í í í"íVíaílíoíríeísí íEíxítíríeímíoísí ídíeí ílíoísí íEísítíaídíoísí"í:í í"íEíxítíríeímíeí íVíaílíuíeísí í�í�í�í�í�í�íoífí íSítíaítíeísí"í,íí
-í í í"íVíaírí.í ídíeí íTíeímípíeíríaítíuíríaí í(í$í\í\íDíeílítíaí íTí$í)í:í"í:í í"íVíaírí.í íTíeímípíeíríaítíuíríeí í(í$í\í\íDíeílítíaí íTí$í)í:í"í,íí
-í í í"íVíaíríiíaíbílíeísí ídíeí ílíaí íEícíuíaícíií�í�íní:í"í:í í"íEíqíuíaítíiíoíní íVíaíríiíaíbílíeísí:í"í,íí
-í í í"íVíeílíoícíiídíaídí íMí�í�ísí íPíríoíbíaíbílíeí í(í$íví_ípí$í)í:í"í:í í"íMíoísítí íPíríoíbíaíbílíeí íSípíeíeídí í�í�í�í�í�í�í(í$íví_ípí$í)í:í"í,íí
-í í í"íVíeílíoícíiídíaídí íSíiímíuílíaícíií�í�íní:í í"í:í í"íSíiímíuílíaítíiíoíní íSípíeíeídí:í í"í,íí
-í í í"íVíeílíoícíiídíaídí íTí�í�írímíiícíaí:í í"í:í í"íTíhíeírímíaílí íSípíeíeídí:í í"í,íí
-í í í"íVíeílíoícíiídíaídí ídíeí íEínítíríaídíaí í$í(íví_í1í)í$í:í í"í:í í"íIínípíuítí íSípíeíeídí í�í�í�í�í�í�í$í(íví_í1í)í$í:í í"í,íí
-í í í"íVíeílíoícíiídíaídí ídíeí íSíaílíiídíaí í(íví"í:í í"íOíuítípíuítí íVíeílíoícíiítíyí í(íví"í,íí
-í í í"íVíeílíoícíiídíaídí ídíeílí íFílíuíiídíoí í$í(íVí)í$í:í í"í:í í"íFílíuíiídí íVíeílíoícíiítíyí í$í(íVí)í$í:í í"í,íí
-í í í"íVíeílíoícíiídíaídí ídíeílí íFílíuíiídíoí í$í(íuí)í$í:í í"í:í í"íFílíuíiídí íVíeílíoícíiítíyí í$í(íuí)í$í:í í"í,íí
-í í í"íVíeílíoícíiídíaídí ídíeílí íFílíuíjíoí í$í(íUí)í$í:í í"í:í í"íFílíoíwí íVíeílíoícíiítíyí í$í(íUí)í$í:í í"í,íí
-í í í"íVíeílíoícíiídíaídí ídíeílí íFílíuíjíoí:í í"í:í í"íFílíoíwí íSípíeíeídí:í í"í,íí
-í í í"íVíeílíoícíiídíaídí íeíní íeílí íCíuíeílílíoí í(í$íví_í2í$í)í:í"í:í í"íNíeícíkí íSípíeíeídí í�í�í�í�í�í�í(í$íví_í2í$í)í:í"í,íí
-í í í"íVíiídíríiíoí í(íkí í=í í1í.í4í íWí/ímíKí)í"í:í í"íGílíaísísí í(íkí í=í í1í.í4í íWí/ímíKí)í"í,íí
-í í í"íVíiísící.í ícíiíníeímí.í í$í(í\í\íníuí)í$í:í"í:í í"íVíiísící.í ícíiíníeímí.í í$í(í\í\íníuí)í$í:í"í,íí
-í í í"íVíiísícíoísíiídíaídí í$í(í\í\ímíuí)í$í:í"í:í í"íVíiísícíoísíiítíyí í$í(í\í\ímíuí)í$í:í"í,íí
-í í í"íVíiísícíoísíiídíaídí íCíiíníeímí�í�ítíiícíaí í$í(í\í\íníuí)í$í:í"í:í í"íKíiíníeímíaítíiící íVíiísícíoísíiítíyí í$í(í\í\íníuí)í$í:í"í,íí
-í í í"íVíiísícíoísíiídíaídí íCíiíníeímí�í�ítíiícíaí í$í(í\í\íníuí)í$í:í í"í:í í"íKíiíníeímíaítíiící íVíiísícíoísíiítíyí í$í(í\í\íníuí)í$í:í í"í,íí
-í í í"íVíiísíiíbílíeí í(íVíeírídíeí)í"í:í í"íVíiísíiíbílíeí í(íGíríeíeíní)í"í,íí
-í í í"íVíiísíiíbílíeí:í"í:í í"íVíiísíiíbílíeí:í"í,íí
-í í í"íVíiísíuíaílíiízíaícíií�í�íní ídíeílí íEíxípíeíríiímíeínítíoí í(íIíníyíeícícíií�í�íní ídíeí íTíiínítíaí)í"í:í í"íEíxípíeíríiímíeínítí íVíiísíuíaílíiízíaítíiíoíní í(íIíníkíjíeítí)í"í,íí
-í í í"íVíiísíuíaílíiízíaícíií�í�íní ídíeílí íFílíuíjíoí íyí íPíeírífíiílí íTí�í�írímíiícíoí í(íDíoíbílíeí íTíuíbíoí)í"í:í í"íVíiísíuíaílíiízíaítíiíoíní íoífí íFílíoíwí íaínídí íTíhíeírímíaílí íPíríoífíiílíeí í(íDíoíuíbílíeí íTíuíbíeí)í"í,íí
-í í í"íVíiísíuíaílíiízíaícíií�í�íní:í"í:í í"íDíiísípílíaíyí:í"í,íí
-í í í"íVíoílíuímíeíní í(íVí)í:í"í:í í"íVíoílíuímíeí í(íVí)í:í"í,íí
-í í í"íVíoílíuímíeíní íCíoínísítíaínítíeí í(í$íCí_íví$í)í:í"í:í í"íCíoínísítíaínítí íVíoílíuímíeí í(í$íCí_íví$í)í:í"í,íí
-í í í"íVíoílíuímíeíní íTíeí�í�íríiícíoí í(í$íVí$í)í"í:í í"íTíhíeíoíríeítíiícíaílí íVíoílíuímíeí í(í$íVí$í)í"í,íí
-í í í"íVí�í�írítíiícíeísí ídíeí íVíoíní íKí�í�írímí�í�íní í(í1í9í1í1í)í"í:í í"íVíoíní íKí�í�írímí�í�íní íVíoírítíiícíeísí í(í1í9í1í1í)í"í,íí
-í í í"íVí�í�í�í"í:í í"íVí�í�í�í"í,íí
-í í í"íWí í/í í�í�í"í:í í"íWí/í�í�í"í,íí
-í í í"íWí:í"í:í í"íWí:í"í,íí
-í í í"íWíiílíhíeílímí íNíuísísíeílítí ípíríoípíuísíoí íuísíaírí íeílí íaíní�í�ílíiísíiísí ídíiímíeínísíiíoíníaílí ípíaíríaí íeínítíeínídíeírí ílíaí ícíoínívíeícícíií�í�íní.í íEílí íní�í�ímíeíríoí ídíeí íNíuísísíeílítí í$í(íNíuí)í$í íríeílíaícíiíoíníaí ílíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí ípíoírí ícíoínívíeícícíií�í�íní íeíní íuíníaí ícíaípíaí ídíeí ífílíuíiídíoí íeíní ímíoívíiímíiíeínítíoí ícíoíní ílíaí ítíríaínísífíeíríeínícíiíaí ípíoírí ícíoínídíuícícíií�í�íní ípíuíríaí ísíií íeísíaí ímíiísímíaí ícíaípíaí íeísítíuívíiíeíríaí ícíoímípílíeítíaímíeínítíeí íeísítí�í�ítíiícíaí.í"í:í í"íWíiílíhíeílímí íNíuísísíeílítí ípíríoípíoísíeídí íuísíiínígí ídíiímíeínísíiíoíníaílí íaíníaílíyísíiísí ítíoí íuínídíeírísítíaínídí ícíoínívíeícítíiíoíní.í íTíhíeí íNíuísísíeílítí íníuímíbíeírí í$í(íNíuí)í$í íríeílíaítíeísí ítíhíeí íhíeíaítí ítíríaínísífíeírí íbíyí ícíoínívíeícítíiíoíní íiíní íaí ímíoívíiínígí ífílíuíiídí ílíaíyíeírí ítíoí ítíhíeí ítíríaínísífíeírí íbíyí ípíuíríeí ícíoínídíuícítíiíoíní íiífí ítíhíaítí ísíaímíeí ílíaíyíeírí íwíeíríeí ícíoímípílíeítíeílíyí ísítíaítíiící.í"í,íí
-í í í"íXíeíní�í�íní í(íXíeí)í í-í í1í3í1í ígí/ímíoílí"í:í í"íXíeíníoíní í(íXíeí)í í-í í1í3í1í ígí/ímíoílí"í,íí
-í í í"íaícítíuíaílí"í:í í"ícíuíríríeínítí"í,íí
-í í í"ícíaílíeínítíaíbíaí"í:í í"íwíaírímíeídí íuípí"í,íí
-í í í"ícíhíoíríríoí"í:í í"íjíeítí"í,íí
-í í í"ícíiílíiínídíríoí í�í�íníiícíoí"í:í í"ísíiínígílíeí ícíyílíiínídíeírí"í,íí
-í í í"ícíoímípílíeítíaímíeínítíeí íaíiísílíaídíaí í(ícíoínídíiícíií�í�íní íaídíiíaíbí�í�ítíiícíaí,í í$ídíTí/ídíxí í=í í0í$í)í"í:í í"ícíoímípílíeítíeílíyí íiísíoílíaítíeídí í(íaídíiíaíbíaítíiící ícíoínídíiítíiíoíní,í í$ídíTí/ídíxí í=í í0í$í)í"í,íí
-í í í"ícíoínídíeínísíaídíoírí ísíeípíaíríaídíoí"í:í í"ísíeípíaíríaítíeí ícíaípíaícíiítíoírí"í,íí
-í í í"ícíoínídíeínísíaírí"í:í í"ícíoínídíeínísíeí"í,íí
-í í í"ícíoínívíeícícíií�í�íní ítí�í�írímíiícíaí"í:í í"ítíhíeírímíaílí ícíoínívíeícítíiíoíní"í,íí
-í í í"ícíuíaínítíoísí"í:í í"íhíoíwí ímíaíníyí"í,íí
-í í í"íeílí ípíuínítíoí ídíeí ícíoínígíeílíaícíií�í�íní ídíeílí íaígíuíaí í(ífíiíjíaídíoí íoíríiígíiíníaílímíeínítíeí íeíní í$í1í0í0í^í\í\ícíiírící$í)í"í:í í"ítíhíeí ífíríeíeízíiínígí ípíoíiínítí íoífí íwíaítíeírí í(íoíríiígíiíníaílílíyí ísíeítí ítíoí í$í1í0í0í^í\í\ícíiírící$í)í"í,íí
-í í í"íeíxípíaínísíií�í�íní íiísíoítí�í�írímíiícíaí í�í�í�í íeíxípíaínísíií�í�íní íaídíiíaíbí�í�ítíiícíaí í�í�í�í ícíoímípíríeísíií�í�íní íiísíoítí�í�írímíiícíaí í�í�í�í ícíoímípíríeísíií�í�íní íaídíiíaíbí�í�ítíiícíaí"í:í í"íiísíoítíhíeírímíaílí íeíxípíaínísíiíoíní í�í�í�í íaídíiíaíbíaítíiící íeíxípíaínísíiíoíní í�í�í�í íiísíoítíhíeírímíaílí ícíoímípíríeísísíiíoíní í�í�í�í íaídíiíaíbíaítíiící ícíoímípíríeísísíiíoíní"í,íí
-í í í"ífíeílíiípíeí.ícíoílíoíríaídíoí@íuídíeíaí.íeídíuí.ícíoí"í:í í"ífíeílíiípíeí.ícíoílíoíríaídíoí@íuídíeíaí.íeídíuí.ícíoí"í,íí
-í í í"ífílíuíjíoí ípíoítíeínícíiíaílí ícíoíní ívíoírítíiícíiídíaídí íaí�í�íaídíiídíaí"í:í í"ípíoítíeínítíiíaílí ífílíoíwí íwíiítíhí íaídídíeídí ívíoírítíiícíiítíyí"í,íí
-í í í"íiínídíeípíeínídíiíeínítíeí ídíeí ícíuíaílíqíuíiíeírí ísíuísítíaínícíiíaí"í:í í"íiínídíeípíeínídíeínítí íoífí íaíníyí ísíuíbísítíaínícíeí"í,íí
-í í í"íiínívíeírítíiídíaí"í:í í"íiínívíeírítíeídí"í,íí
-í í í"íkíJí"í:í í"íkíJí"í,íí
-í í í"íkíPíaí"í:í í"íkíPíaí"í,íí
-í í í"ílí�í�ímíiítíeí ífíuínídíaímíeínítíaílí ídíeí ílíaí íníaítíuíríaílíeízíaí"í:í í"ífíuínídíaímíeínítíaílí ílíiímíiítí íoífí íníaítíuíríeí"í,íí
-í í í"ímíaíxí"í:í í"ímíaíxí"í,íí
-í í í"ímí�í�ítíoídíoí ídíeí ílíaí íEífíeícítíiívíiídíaídí-íNíTíUí í(í$í\í\íeípísíiílíoíní$í-íNíTíUí)í"í:í í"íEífífíeícítíiívíeíníeísísí-íNíTíUí ímíeítíhíoídí í(í$í\í\íeípísíiílíoíní$í-íNíTíUí)í"í,íí
-í í í"ípíaíríaílíeílíoí"í:í í"ípíaíríaílílíeílí"í,íí
-í í í"ípíiícíoí"í:í í"íbíeíaíkí"í,íí
-í í í"ísíiíeímípíríeí ícíaílíiíeínítíeí"í:í í"íaílíwíaíyísí íhíoítí"í,íí
-í í í"ítíeíoírí�í�íaí ídíeílí ícíaílí�í�íríiícíoí"í:í í"ícíaílíoíríiící ítíhíeíoíríyí"í,íí
-í í í"ítíoídíoí ífílíuíiídíoí ívíiísícíoísíoí"í:í í"íaílílí ívíiísícíoíuísí ífílíuíiídí"í,íí
-í í í"íuíníaí ícíuíaírítíaí ípíaírítíeí"í:í í"íaí íqíuíaírítíeírí"í,íí
-í í í"í�í�í í2í0í2í6í íHíiísítíoíríiíaí ídíeí ílíaísí íCíiíeínícíiíaísí íTí�í�írímíiícíaísí"í:í í"í�í�í í2í0í2í6í íHíiísítíoíríyí íoífí íTíhíeírímíaílí íSícíiíeínícíeísí"í,íí
-í í í"í�í�í�í�íOíhí,í íDíiíaímíoínídí,í íDíiíaímíoínídí,í ípíoícíoí ísíaíbíeísí íeílí ídíaí�í�íoí íqíuíeí íhíaísí íhíeícíhíoí!í�í�í"í:í í"í�í�í�íOíhí,í íDíiíaímíoínídí,í íDíiíaímíoínídí,í ílíiítítílíeí ídíoí íyíoíuí íkíníoíwí ítíhíeí ídíaímíaígíeí íyíoíuí íhíaívíeí ídíoíníeí!í�í�í�í"í,íí
-í í í"í�í�íCí"í:í í"í�í�íCí"í,íí
-í í í"í�í�íPíoírí íqíuí�í�í ícíoímípíaíríaímíoísí íeísítíoísí ídíoísí ícíiícílíoísí?í"í:í í"íWíhíyí ídíoí íwíeí ícíoímípíaíríeí ítíhíeísíeí ítíwíoí ícíyícílíeísí?í"í,íí
-í í í"í�í�íqíuí�í�í ítíeímípíeíríaítíuíríaí í$íTí_íCí$í íhíaírí�í�íaí íqíuíeí í$í\í\íeítíaí í=í í1í$í í(íeífíiícíiíeínícíiíaí ídíeílí í1í0í0í%í)í?í"í:í í"íWíhíaítí ítíeímípíeíríaítíuíríeí íwíoíuílídí í$íTí_íCí$í ímíaíkíeí í$í\í\íeítíaí í=í í1í$í í(í1í0í0í%í íeífífíiícíiíeínícíyí)í?í"í,íí
-í í í"í�í�ínígíuílíoí ídíeí íAítíaíqíuíeí í$í(í\í\íaílípíhíaí)í$í:í í"í:í í"íAínígílíeí íoífí íAítítíaícíkí í$í(í\í\íaílípíhíaí)í$í:í í"í,íí
-í í í"í�í�íríeíaí íEíxítíeíríníaí í(íAí"í:í í"íEíxítíeíríníaílí íAíríeíaí í(íAí"í,íí
-í í í"í�í�íríeíaí íIínítíeíríníaí í(íAí"í:í í"íIínítíeíríníaílí íAíríeíaí í(íAí"í,íí
-í í í"í�í�íríeíaí ítíríaínísívíeírísíaílí í(íAí)í:í í"í:í í"íCíríoísísí-ísíeícítíiíoíníaílí íaíríeíaí í(íAí)í:í í"í,íí
-í í í"í�í�ípítíiícíaí íyí íLíuízí"í:í í"íOípítíiícísí íaínídí íLíiígíhítí"í,íí
-í í í"í�í�ípítíiícíaí íyí ílíaí íDíeísícíoímípíoísíiícíií�í�íní ídíeí ílíaí íLíuízí"í:í í"íOípítíiícísí íaínídí ítíhíeí íDíeícíoímípíoísíiítíiíoíní íoífí íLíiígíhítí"í,íí
-í í í"í�í�íníiícíaímíeínítíeí ídíeí ísíuísí ítíeímípíeíríaítíuíríaísí"í:í í"íoínílíyí ífíríoímí ítíhíeíiírí ítíeímípíeíríaítíuíríeísí"í,íí
-í í í"í�í�í�í�í�í�í íCíiícílíoí íDíiíeísíeílí í�í�í�í�í�í�í"í:í í"í�í�í�í�í�í�í íDíiíeísíeílí íCíyícílíeí í�í�í�í�í�í�í"í,íí
-í í í"í�í�í�í�í�í�í íCíiícílíoí íOítítíoí í�í�í�í�í�í�í"í:í í"í�í�í�í�í�í�íOítítíoí íCíyícílíeí�í�í�í�í�í�í"í,íí
-í í í"í�í�í�í íLíaí ífí�í�írímíuílíaí ídíeí íCíaíríníoítí í(í1í8í2í4í)í"í:í í"í�í�í�í íCíaíríníoítí'ísí ífíoírímíuílíaí í(í1í8í2í4í)í"í,íí
-í í í"í�í�í�í íLíaí ípíríeígíuínítíaí ídíeí íKíeílívíiíní í(í1í8í4í8í)í"í:í í"í�í�í�í íKíeílívíiíní'ísí íQíuíeísítíiíoíní í(í1í8í4í8í)í"í,íí
-í í í"í�í�í�í íLíaí íeísícíaílíaí íaíbísíoílíuítíaí í(íKíeílívíiíní,í í1í8í4í8í)í"í:í í"í�í�í�í íTíhíeí íaíbísíoílíuítíeí ísícíaílíeí í(íKíeílívíiíní,í í1í8í4í8í)í"í,íí
-í í í"í�í�í�í íLíaí íTíeírícíeíríaí íLíeíyí:í íeílí í0í íKí íeísí íiíníaílícíaínízíaíbílíeí"í:í í"í�í�í�í íTíhíeí íTíhíiírídí íLíaíwí:í í0í íKí íiísí íuíníaítítíaíiíníaíbílíeí"í,íí
-í í í"í�í�í�í íTíeílíeímíeítírí�í�íaí íDíiíeísíeílí"í:í í"í�í�í�í íDíiíeísíeílí íTíeílíeímíeítíríyí"í,íí
-í í í"í�í�í�í íTíeílíeímíeítírí�í�íaí íOítítíoí"í:í í"í�í�í�í íOítítíoí íTíeílíeímíeítíríyí"í,íí
-í í í"í�í�í�í�í�í�í íLíaí íSíoílíuícíií�í�íní ídíeí íWíaítítí"í:í í"í�í�í�í�í�í�í íWíaítítí'ísí íSíoílíuítíiíoíní"í,íí
-í í í"í�í�í�í�í�í�í íLí�í�ímíiítíeí íFí�í�ísíiícíoí íAílícíaínízíaídíoí:í"í:í í"í�í�í�í�í�í�í íPíhíyísíiícíaílí íLíiímíiítí íRíeíaícíhíeídí:í"í,íí
-í í í"í�í�í�í íVíeílí.í"í:í í"í�í�í�í íVíeílí.í"í,íí
-í í í"í�í�í�í íPíríoícíeísíoí íiídí�í�ínítíiícíoí"í:í í"í�í�í�í íIídíeínítíiícíaílí ípíríoícíeísísí"í,íí
-í í í"í�í�í�í�í�í�í�í íCíoíníeíxíií�í�íní ícíoíní ílíaí íTíeírímíoídíiíní�í�ímíiícíaí"í:í í"í�í�í�í�í�í�í�í íCíoíníníeícítíiíoíní íwíiítíhí íTíhíeírímíoídíyíníaímíiícísí"í,íí
-í í í"í�í�í�í�í íEílí íPíríoíbílíeímíaí ídíeí íNíeíwícíoímíeíní"í:í í"í�í�í�í�í íNíeíwícíoímíeíní'ísí íPíríoíbílíeímí"í,íí
-íí
-í í í"íLíeíyí ídíeí íFíoíuíríiíeírí ídíeí ílíaí íCíoínídíuícícíií�í�íní í(í1í8í2í2í)í"í:í í"íFíoíuíríiíeírí'ísí íLíaíwí íoífí íHíeíaítí íCíoínídíuícítíiíoíní í(í1í8í2í2í)í"í,íí
-í í í"íLíaí ítíaísíaí ídíeí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí ítíoítíaílí í(í$íqí$í íeíní í$í\í\ítíeíxítí{íWí}í$í)í íaí ítíríaíví�í�ísí ídíeí íuíní ímíeídíiíoí ísí�í�ílíiídíoí íeísítíaícíiíoíníaíríiíoí íeísítí�í�í ídíaídíaí ípíoírí ílíaí ídíiífíeíríeínícíiíaí ídíeí ítíeímípíeíríaítíuíríaísí íyí ísíuí íríeísípíeícítíiívíaí íríeísíiísítíeínícíiíaí ítí�í�írímíiícíaí í(í$íRí_ítí$í)í:í í$íqí í=í í\í\ífíríaící{íTí_í1í í-í íTí_í2í}í{íRí_ítí}í$í"í:í í"íTíhíeí ítíoítíaílí íhíeíaítí ítíríaínísífíeírí íríaítíeí í(í$íqí$í íiíní í$í\í\ítíeíxítí{íWí}í$í)í ítíhíríoíuígíhí íaí ísítíaítíiíoíníaíríyí ísíoílíiídí ímíeídíiíuímí íiísí ígíiívíeíní íbíyí ítíhíeí ítíeímípíeíríaítíuíríeí ídíiífífíeíríeínícíeí íaínídí íiítísí íríeísípíeícítíiívíeí ítíhíeírímíaílí íríeísíiísítíaínícíeí í(í$íRí_ítí$í)í:í í$íqí í=í í\í\ífíríaící{íTí_í1í í-í íTí_í2í}í{íRí_ítí}í$í"í,íí
-í í í"í\í[í íTí(íxí)í í=í íTí_í1í í-í í(íTí_í1í í-í íTí_í2í)í í\í\ífíríaící{íxí}í{íLí}í í\í]í"í:í í"í\í[í íTí(íxí)í í=í íTí_í1í í-í í(íTí_í1í í-í íTí_í2í)í í\í\ífíríaící{íxí}í{íLí}í í\í]í"í,íí
-í í í"í(íIízíqíuíiíeírídíaí/íIínítíeíríníaí)í:í"í:í í"í(íLíeífítí/íIíníníeírí)í:í"í,íí
-í í í"í(íDíeíríeícíhíaí/íEíxítíeíríníaí)í:í"í:í í"í(íRíiígíhítí/íOíuítíeírí)í:í"í,íí
-í í í"íTíaísíaí ídíeí íCíaílíoírí íIímípíuíeísítíaí í(íqí)í:í"í:í í"íIímípíoísíeídí íHíeíaítí íRíaítíeí í(íqí)í:í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí íTí�í�írímíiícíaí í(íkí)í:í"í:í í"íTíhíeírímíaílí íCíoínídíuícítíiívíiítíyí í(íkí)í:í"í,íí
-í í í"íWí/í(ímí�í�íKí)í"í:í í"íWí/í(ímí�í�íKí)í"í,íí
-í í í"íRíaídíiíoí íIínítíeíríníoí í(írí�í�í�í)í:í"í:í í"íIínítíeíríníaílí íRíaídíiíuísí í(írí�í�í�í)í:í"í,íí
-í í í"íEísípíeísíoírí í(íLí)í:í"í:í í"íTíhíiícíkíníeísísí í(íLí)í:í"í,íí
-í í í"íRíaídíiíoí íEíxítíeíríníoí í(írí�í�í�í)í:í"í:í í"íEíxítíeíríníaílí íRíaídíiíuísí í(írí�í�í�í)í:í"í,íí
-í í í"í�í�íríeíaí ítíríaínísívíeírísíaílí í(íAí)í:í"í:í í"íCíríoísísí-ísíeícítíiíoíníaílí íaíríeíaí í(íAí)í:í"í,íí
-í í í"íLíaí ítíeímípíeíríaítíuíríaí í$íTí_í2í$í íníoí ípíuíeídíeí ísíeírí ímíeíníoírí íaí í0í íKí í(í-í2í7í3í.í1í5í í�í�íCí)í.í íEílí ívíaílíoírí ísíeí íhíaí íbílíoíqíuíeíaídíoí íyí ísíeí íríeícíaílícíuílí�í�í íeílí ífílíuíjíoí ídíeí ícíaílíoírí íríeíaílí.í"í:í í"íTíhíeí ítíeímípíeíríaítíuíríeí í$íTí_í2í$í ícíaíníníoítí íbíeí ílíeísísí ítíhíaíní í0í íKí í(í-í2í7í3í.í1í5í í�í�íCí)í.í íTíhíeí ívíaílíuíeí íhíaísí íbíeíeíní ílíoícíkíeídí íaínídí ítíhíeí íaícítíuíaílí íhíeíaítí ífílíuíxí íhíaísí íbíeíeíní íríeícíaílícíuílíaítíeídí.í"í,íí
-í í í"íMíaítíeíríiíaílíeísí íaíiísílíaínítíeísí ítíiíeíníeíní í$íkí$í ípíeíqíuíeí�í�íoí.í íRíeídíuícíiírí íeílí íeísípíeísíoírí í$íLí$í íoí íaíuímíeínítíaírí ílíaí ídíiífíeíríeínícíiíaí ídíeí ítíeímípíeíríaítíuíríaísí ídíiísípíaíríaí ílíiíníeíaílímíeínítíeí ílíaí ítíaísíaí ídíeí ítíríaínísífíeíríeínícíiíaí í$íqí'í'í$í.í"í:í í"íIínísíuílíaítíiínígí ímíaítíeíríiíaílísí íhíaívíeí ísímíaílílí í$íkí$í.í íRíeídíuícíiínígí ítíhíeí ítíhíiícíkíníeísísí í$íLí$í íoírí íiínícíríeíaísíiínígí ítíhíeí ítíeímípíeíríaítíuíríeí ídíiífífíeíríeínícíeí ílíiíníeíaírílíyí ítíríiígígíeírísí ítíhíeí ítíríaínísífíeírí íríaítíeí í$íqí'í'í$í.í"í,íí
-í í í"íPílíaínícíkí ípíoísítíuílí�í�í íqíuíeí ílíaí íeíníeírígí�í�íaí íeílíeícítíríoímíaígíní�í�ítíiícíaí ísíoílíoí ísíeí íeímíiítíeí íoí íaíbísíoíríbíeí íeíní ípíaíqíuíeítíeísí ídíiísícíríeítíoísí ílílíaímíaídíoísí"í:í í"íPílíaínícíkí ípíoísítíuílíaítíeídí ítíhíaítí íeílíeícítíríoímíaígíníeítíiící íeíníeírígíyí íiísí íoínílíyí íeímíiítítíeídí íoírí íaíbísíoíríbíeídí íiíní ídíiísícíríeítíeí ípíaícíkíeítísí ícíaílílíeídí"í,íí
-í í í"í,í ídíoínídíeí í$íEí í=í íhí\íníuí$í í(í$íhí$í íeísí ílíaí ícíoínísítíaínítíeí ídíeí íPílíaínícíkí,í íyí í$í\íníuí$í ílíaí ífíríeícíuíeínícíiíaí)í.í íEísítíoí íríeísíoílívíií�í�í ílíaí í\í"ícíaítí�í�ísítíríoífíeí íuílítíríaívíiíoílíeítíaí\í"í.í"í:í í"í,í íwíhíeíríeí í$íEí í=í íhí\íníuí$í í(í$íhí$í íiísí íPílíaínícíkí'ísí ícíoínísítíaínítí,í íaínídí í$í\íníuí$í ítíhíeí ífíríeíqíuíeínícíyí)í.í íTíhíiísí ísíoílívíeídí ítíhíeí í\í"íuílítíríaívíiíoílíeítí ícíaítíaísítíríoípíhíeí.í\í"í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí:í"í:í í"íTíeímípíeíríaítíuíríeí:í"í,íí
-í í í"íEílí ípíoídíeírí íeímíiísíiívíoí ítíoítíaílí íeísí ípíríoípíoírícíiíoíníaílí íaí ílíaí ícíuíaírítíaí ípíoítíeínícíiíaí ídíeí ílíaí ítíeímípíeíríaítíuíríaí íaíbísíoílíuítíaí:í í$íEí í=í í\ísíiígímíaí íTí^í4í$í,í ídíoínídíeí í$í\ísíiígímíaí í=í í5í.í6í7í í\ítíiímíeísí í1í0í^í{í-í8í}í í\í\ítíeíxítí{í íWí}í/í(í\í\ítíeíxítí{ímí}í^í2í\í\ítíeíxítí{íKí}í^í4í)í$í.í í�í�íOíbísíeírívíaí ící�í�ímíoí ísíeí ídíiísípíaíríaí ílíaí íeíníeírígí�í�íaí íaílí íaíuímíeínítíaírí í$íTí$í!í"í:í í"íTíhíeí ítíoítíaílí íeímíiísísíiívíeí ípíoíwíeírí íiísí ípíríoípíoírítíiíoíníaílí ítíoí ítíhíeí ífíoíuírítíhí ípíoíwíeírí íoífí ítíhíeí íaíbísíoílíuítíeí ítíeímípíeíríaítíuíríeí:í í$íEí í=í í\ísíiígímíaí íTí^í4í$í,í íwíhíeíríeí í$í\ísíiígímíaí í=í í5í.í6í7í í\ítíiímíeísí í1í0í^í{í-í8í}í í\í\ítíeíxítí{í íWí}í/í(í\í\ítíeíxítí{ímí}í^í2í\í\ítíeíxítí{íKí}í^í4í)í$í.í íWíaítícíhí ítíhíeí íeíníeírígíyí ísíkíyíríoícíkíeítí íaísí í$íTí$í íiínícíríeíaísíeísí!í"í,íí
-í í í"íLíaí ípíríoíbíaíbíiílíiídíaídí ídíeí íeínícíoínítíríaírí íuíníaí ípíaírítí�í�ícíuílíaí ícíoíní ívíeílíoícíiídíaídí í$íví$í íeísí:í í$í$í ífí(íví)í í=í í4í\ípíií í\í\ílíeífítí(í\í\ífíríaící{ímí}í{í2í\ípíií íkí_íBí íTí}í\í\íríiígíhítí)í^í{í3í/í2í}í íví^í2í íeí^í{í-í\í\ífíríaící{ímí íví^í2í}í{í2í íkí_íBí íTí}í}í í$í$í"í:í í"íTíhíeí ípíríoíbíaíbíiílíiítíyí íoífí ífíiínídíiínígí íaí ípíaírítíiícílíeí íwíiítíhí ísípíeíeídí í$íví$í íiísí:í í$í$í ífí(íví)í í=í í4í\ípíií í\í\ílíeífítí(í\í\ífíríaící{ímí}í{í2í\ípíií íkí_íBí íTí}í\í\íríiígíhítí)í^í{í3í/í2í}í íví^í2í íeí^í{í-í\í\ífíríaící{ímí íví^í2í}í{í2í íkí_íBí íTí}í}í í$í$í"í,íí
-í í í"íVíeílíoícíiídíaídí íMíeídíiíaí í(í$í\íbíaírí{íví}í$í)í:í"í:í í"íAívíeíríaígíeí íSípíeíeídí í(í$í\íbíaírí{íví}í$í)í:í"í,íí
-í í í"íVíeílíoícíiídíaídí íCíuíaídírí�í�ítíiícíaí íMíeídíiíaí í(í$íví_í{írímísí}í$í)í:í"í:í í"íMíeíaíní íSíqíuíaíríeí íVíeílíoícíiítíyí í(í$íví_í{írímísí}í$í)í:í"í,íí
-í í í"íFí�í�íjíaítíeí ící�í�ímíoí íaílí ícíaílíeínítíaírí íeílí ígíaísí,í ílíaí ícíaímípíaíníaí ísíeí íaípílíaíníaí íyí ísíeí ídíeísípílíaízíaí íhíaícíiíaí ílíaí ídíeíríeícíhíaí í(í�í�ítíoímíoísí ímí�í�ísí írí�í�ípíiídíoísí)í.í íSíií ícíaímíbíiíaísí íaí íuíní ígíaísí ímí�í�ísí ípíeísíaídíoí í(ícíoímíoí íeílí íXíeíní�í�íní)í,í ílíoísí í�í�ítíoímíoísí ísíeí ímíuíeívíeíní ímíuícíhíoí ímí�í�ísí ílíeínítíoí íaí ílíaí ímíiísímíaí ítíeímípíeíríaítíuíríaí.í"í:í í"íNíoítíiícíeí íhíoíwí íwíhíeíní ítíhíeí ígíaísí íiísí íhíeíaítíeídí,í ítíhíeí íbíeílílí ífílíaítítíeínísí íoíuítí íaínídí ímíoívíeísí ítíoí ítíhíeí íríiígíhítí í(ífíaísítíeírí íaítíoímísí)í.í íIífí íyíoíuí ísíwíiítícíhí ítíoí íaí íhíeíaívíiíeírí ígíaísí í(ílíiíkíeí íXíeíníoíní)í,í ítíhíeí íaítíoímísí ímíoívíeí ímíuícíhí ísílíoíwíeírí íaítí ítíhíeí ísíaímíeí ítíeímípíeíríaítíuíríeí.í"í,íí
-í í í"íDíeínísíiídíaídí ídíeí íPíríoíbíaíbíiílíiídíaídí í(ífíríaícícíií�í�íní ídíeí í�í�ítíoímíoísí íqíuíeí ívíiíaíjíaíní íaí ílíaí ívíeílíoícíiídíaídí í$íví$í)í.í"í:í í"íPíríoíbíaíbíiílíiítíyí íDíeínísíiítíyí í(ífíríaícítíiíoíní íoífí íaítíoímísí ítíríaívíeílíiínígí íaítí ísípíeíeídí í$íví$í)í.í"í,íí
-í í í"íVíeílíoícíiídíaídí ídíeí ílíaí ípíaírítí�í�ícíuílíaí í(ímí/ísí)í.í"í:í í"íPíaírítíiícílíeí ísípíeíeídí í(ímí/ísí)í.í"í,íí
-í í í"íMíaísíaí ídíeí íuíníaí ísíoílíaí ímíoílí�í�ícíuílíaí í(íkígí)í.í"í:í í"íMíaísísí íoífí íaí ísíiínígílíeí ímíoílíeícíuílíeí í(íkígí)í.í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí íaíbísíoílíuítíaí í(íKí)í.í"í:í í"íAíbísíoílíuítíeí ítíeímípíeíríaítíuíríeí í(íKí)í.í"í,íí
-í í í"íCíoínísítíaínítíeí ídíeí íBíoílítízímíaíníní í(í$í1í.í3í8í í\ítíiímíeísí í1í0í^í{í-í2í3í}í$í íJí/íKí)í,í íeílí ípíuíeínítíeí íeínítíríeí ílíaí ítíeímípíeíríaítíuíríaí ímíaícíríoísící�í�ípíiícíaí íyí ílíaí íeíníeírígí�í�íaí ícíiíní�í�ítíiícíaí ímíiícíríoísící�í�ípíiícíaí.í"í:í í"íBíoílítízímíaíníní ícíoínísítíaínítí í(í$í1í.í3í8í í\ítíiímíeísí í1í0í^í{í-í2í3í}í$í íJí/íKí)í,í ítíhíeí íbíríiídígíeí íbíeítíwíeíeíní ímíaícíríoísícíoípíiící ítíeímípíeíríaítíuíríeí íaínídí ímíiícíríoísícíoípíiící íkíiíníeítíiící íeíníeírígíyí.í"í,íí
-í í í"íLíeíyí ídíeí ílíaí íIínívíeírísíaí ídíeílí íCíuíaídíríaídíoí í(íAítíeíníuíaícíií�í�íní ípíoírí íDíiísítíaínícíiíaí)í"í:í í"íIínívíeírísíeí íSíqíuíaíríeí íLíaíwí í(íDíiísítíaínícíeí íAítítíeíníuíaítíiíoíní)í"í,íí
-í í í"íEíní íeílí ívíaící�í�íoí,í ílíaí íríaídíiíaícíií�í�íní ítí�í�írímíiícíaí íeímíiítíiídíaí ípíoírí íuíníaí ífíuíeínítíeí ípíuínítíuíaílí íeísífí�í�íríiícíaí ísíeí íeísípíaírícíeí íeíní ítíoídíaísí ídíiíríeícícíiíoíníeísí.í íLíaí íiínítíeínísíiídíaídí ídíeí íríaídíiíaícíií�í�íní íiínícíiídíeínítíeí í$íIí$í ídíeícíaíeí ícíoíní íeílí ícíuíaídíríaídíoí ídíeí ílíaí ídíiísítíaínícíiíaí í$írí$í.í íLíaí ífí�í�írímíuílíaí íeísí:í í$í$íIí í=í í\í\ífíríaící{íPí}í{í4í í\ípíií írí^í2í}í$í$í ídíoínídíeí í$íPí$í íeísí ílíaí ípíoítíeínícíiíaí ítí�í�írímíiícíaí ítíoítíaílí ídíeí ílíaí ífíuíeínítíeí.í"í:í í"íIíní íaí ívíaícíuíuímí,í ítíhíeírímíaílí íríaídíiíaítíiíoíní íeímíiítítíeídí íbíyí íaí ísípíhíeíríiícíaílí ípíoíiínítí ísíoíuírícíeí ísípíríeíaídísí íiíní íaílílí ídíiíríeícítíiíoínísí.í íTíhíeí íiínícíiídíeínítí íríaídíiíaítíiíoíní íiínítíeínísíiítíyí í$íIí$í ídíeícíaíyísí íwíiítíhí ítíhíeí ísíqíuíaíríeí íoífí ítíhíeí ídíiísítíaínícíeí í$írí$í.í íTíhíeí ífíoírímíuílíaí íiísí:í í$í$íIí í=í í\í\ífíríaící{íPí}í{í4í í\ípíií írí^í2í}í$í$í íwíhíeíríeí í$íPí$í íiísí ítíhíeí ítíoítíaílí ítíhíeírímíaílí ípíoíwíeírí íoífí ítíhíeí ísíoíuírícíeí.í"í,íí
-í í í"íSíií ídíuípílíiícíaísí ílíaí ídíiísítíaínícíiíaí ídíeí ílíaí ífíuíeínítíeí,í íeílí ícíaílíoírí íqíuíeí íríeícíiíbíeísí íníoí ísíeí íríeídíuícíeí íaí ílíaí ímíiítíaídí,í ísíiíníoí íaí"í:í í"íIífí íyíoíuí ídíoíuíbílíeí ítíhíeí ídíiísítíaínícíeí ífíríoímí ítíhíeí ísíoíuírícíeí,í ítíhíeí íhíeíaítí íyíoíuí íríeícíeíiívíeí íiísí íníoítí íríeídíuícíeídí íbíyí íhíaílífí,í íbíuítí íbíyí"í,íí
-í í í"íSíuípíeírífíiícíiíeísí íEíxítíeínídíiídíaísí í(íAílíeítíaísí)í"í:í í"íEíxítíeínídíeídí íSíuírífíaícíeísí í(íFíiínísí)í"í,íí
-í í í"íLíaísí íaílíeítíaísí ísíeí íuísíaíní ípíaíríaí íaíuímíeínítíaírí íeílí í�í�íríeíaí ídíeí ídíiísíiípíaícíií�í�íní ídíeí ícíaílíoírí.í íAíqíuí�í�í ívíeímíoísí íeílí ípíeírífíiílí ídíeí ítíeímípíeíríaítíuíríaí íaí ílíoí ílíaírígíoí ídíeí íuíníaí íaílíeítíaí ípíaíríaí ídíiísítíiínítíaísí ícíoínídíiícíiíoíníeísí íeíní ílíaí ípíuínítíaí.í íJíuíeígíuíeí ícíoíní ílíoísí ípíaírí�í�ímíeítíríoísí ípíaíríaí íeínítíeínídíeírí ímíeíjíoírí íeílí ífíeíní�í�ímíeíníoí.í íNíoítíeí íqíuíeí ílíaísí íeícíuíaícíiíoíníeísí ítíaímíbíií�í�íní íaípílíiícíaíní íaí íoítíríaísí ífíoírímíaísí ídíeí íaílíeítíaísí,í ícíoímíoí ílíaísí íríeícítíaínígíuílíaíríeísí:í"í:í í"íTíhíeí ífíiínísí íaíríeí íuísíeídí ítíoí íiínícíríeíaísíeí ítíhíeí íhíeíaítí ídíiísísíiípíaítíiíoíní íaíríeíaí.í íHíeíríeí íwíeí ísíeíeí ítíhíeí ítíeímípíeíríaítíuíríeí ípíríoífíiílíeí íaílíoínígí íaí ífíiíní ífíoírí ídíiífífíeíríeínítí ícíoínídíiítíiíoínísí íaítí ítíhíeí ítíiípí.í íPílíaíyí íwíiítíhí ítíhíeí ípíaíríaímíeítíeírísí ítíoí íbíeítítíeírí íuínídíeírísítíaínídí ítíhíeí ípíhíeíníoímíeíníoíní.í íNíoítíeí ítíhíaítí ítíhíeí íeíqíuíaítíiíoínísí íaílísíoí íaípípílíyí ítíoí íoítíhíeírí ífíiíní ísíhíaípíeísí,í ísíuícíhí íaísí íríeícítíaínígíuílíaírí íoíníeísí:í"í,íí
-í í í"íDíiísítíríiíbíuícíií�í�íní ídíeí íTíeímípíeíríaítíuíríaí í$í\í\ílíeífítí(í í\í\ífíríaící{íTí(íxí)í í-í íTí_í\í\íiínífítíyí}í{íTí_íbí í-í íTí_í\í\íiínífítíyí}í í\í\íríiígíhítí)í$í"í:í í"íTíeímípíeíríaítíuíríeí íDíiísítíríiíbíuítíiíoíní í$í\í\ílíeífítí(í í\í\ífíríaící{íTí(íxí)í í-í íTí_í\í\íiínífítíyí}í{íTí_íbí í-í íTí_í\í\íiínífítíyí}í í\í\íríiígíhítí)í$í"í,íí
-í í í"íLíoínígíiítíuídí íCíoíríríeígíiídíaí í(í$íLí_ící$í)í:í"í:í í"íCíoíríríeícítíeídí íLíeínígítíhí í(í$íLí_ící$í)í:í"í,íí
-í í í"íTíaísíaí ídíeí íTíríaínísífíeíríeínícíiíaí ídíeí íCíaílíoírí í(í$íqí_ífí$í)í"í:í í"íHíeíaítí íTíríaínísífíeírí íRíaítíeí í(í$íqí_ífí$í)í"í,íí
-í í í"íEívíaílíuíaídíaí íeíní ílíaí íbíaísíeí í(í$íxí=í0í$í)í ícíoíní ílíaí íLíeíyí ídíeí íFíoíuíríiíeírí:í í$íqí_ífí í=í í-íkí íAí_ící í\í\ílíeífítí.í í\í\ífíríaící{ídíTí}í{ídíxí}í í\í\íríiígíhítí|í_í{íxí=í0í}í$í.í íSíiíeínídíoí í$íMí í=í í\í\ísíqírítí{íhíPíkíAí_ící}í(íTí_íbí í-í íTí_í\í\íiínífítíyí)í$í:í"í:í í"íEívíaílíuíaítíeídí íaítí ítíhíeí íbíaísíeí í(í$íxí=í0í$í)í íwíiítíhí íFíoíuíríiíeírí'ísí íLíaíwí:í í$íqí_ífí í=í í-íkí íAí_ící í\í\ílíeífítí.í í\í\ífíríaící{ídíTí}í{ídíxí}í í\í\íríiígíhítí|í_í{íxí=í0í}í$í.í íBíeíiínígí í$íMí í=í í\í\ísíqírítí{íhíPíkíAí_ící}í(íTí_íbí í-í íTí_í\í\íiínífítíyí)í$í:í"í,íí
-í í í"ídíoínídíeí í$ímí í=í í\í\ísíqírítí{íhíPí/íkíAí_ící}í$í,í í$í\í\ítíhíeítíaí_íbí í=í íTí_íbí í-í íTí_í\í\íiínífítíyí$í,í í$í\í\ítíhíeítíaí_íLí í=í íTí_íLí í-í íTí_í\í\íiínífítíyí$í íyí í$íLí_ící í=í íLí í+í íAí_ící/íPí$í.í"í:í í"íwíhíeíríeí í$ímí í=í í\í\ísíqírítí{íhíPí/íkíAí_ící}í$í,í í$í\í\ítíhíeítíaí_íbí í=í íTí_íbí í-í íTí_í\í\íiínífítíyí$í,í í$í\í\ítíhíeítíaí_íLí í=í íTí_íLí í-í íTí_í\í\íiínífítíyí$í íaínídí í$íLí_ící í=í íLí í+í íAí_ící/íPí$í.í"í,íí
-í í í"í1í)í íPíuínítíaí íaíiísílíaídíaí,í í2í)í íPíuínítíaí ícíoíní ícíoínívíeícícíií�í�íní,í í3í)í íTíeímípí.í íeísípíeícíiífíiícíaídíaí í(í$íTí_íLí$í)í,í í4í)í íIínífíiíníiítíaímíeínítíeí ílíaírígíaí"í:í í"í1í)í íIínísíuílíaítíeídí ítíiípí,í í2í)í íCíoínívíeícítíiíoíní ítíiípí,í í3í)í íTíeímípí.í ísípíeícíiífíiíeídí í(í$íTí_íLí$í)í,í í4í)í íIínífíiíníiítíeílíyí ílíoínígí"í,íí
-í í í"íTíeímípíeíríaítíuíríaí ídíeí ílíaí íbíaísíeí í$í(íTí_íbí)í$í:í"í:í í"íBíaísíeí ítíeímípíeíríaítíuíríeí í$í(íTí_íbí)í$í:í"í,íí
-í í í"íPíeírífíiílí ídíeí ílíaí íAílíeítíaí:í"í:í í"íFíiíní íPíríoífíiílíeí:í"í,íí
-í í í"íCíiílí�í�ínídíríiícíaí í(íCíiírícíuílíaírí)í"í:í í"íCíyílíiínídíríiícíaílí í(íCíiírícíuílíaírí)í"í,íí
-í í í"íRíeícítíaínígíuílíaírí"í:í í"íRíeícítíaínígíuílíaírí"í,íí
-í í í"íDíií�í�ímíeítíríoí ídíeí ílíaí íaílíeítíaí í$í(íDí)í$í:í"í:í í"íFíiíní ídíiíaímíeítíeírí í$í(íDí)í$í:í"í,íí
-í í í"íAínícíhíoí ídíeí ílíaí íaílíeítíaí í$í(íwí)í$í:í"í:í í"íFíiíní íWíiídítíhí í$í(íwí)í$í:í"í,íí
-í í í"íEísípíeísíoírí ídíeí ílíaí íaílíeítíaí í$í(ítí)í$í:í"í:í í"íFíiíní ítíhíiícíkíníeísísí í$í(ítí)í$í:í"í,íí
-í í í"íLíoínígíiítíuídí ídíeí ílíaí íaílíeítíaí í$í(íLí)í$í:í"í:í í"íFíiíní ílíeínígítíhí í$í(íLí)í$í:í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí ídíeílí íMíaítíeíríiíaílí í$í(íkí)í$í:í"í:í í"íCíoínídíuícítíiívíiítíyí íoífí íMíaítíeíríiíaílí í$í(íkí)í$í:í"í,íí
-í í í"íWí/ímíKí"í:í í"íWí/ímíKí"í,íí
-í í í"íCíoíeífí.í ídíeí íCíoínívíeícícíií�í�íní í$í(íhí)í$í:í"í:í í"íCíoíeífí.í íCíoínívíeícítíiíoíní í$í(íhí)í$í:í"í,íí
-í í í"íWí/ímí�í�íKí"í:í í"íWí/ímí�í�íKí"í,íí
-í í í"íTíeímípí.í íAímíbíiíeínítíeí í$í(íTí_í\í\íiínífítíyí)í$í:í"í:í í"íTíeímípí.í íEínívíiíríoínímíeínítí í$í(íTí_í\í\íiínífítíyí)í$í:í"í,íí
-í í í"íTíeímípí.í íPíuínítíaí íEísípíeícíiífíiícíaídíaí í$í(íTí_íLí)í$í:í"í:í í"íTíeímípí.í íSípíeícíiífíiíeídí íTíiípí í$í(íTí_íLí)í$í:í"í,íí
-í í í"íPíoísíiícíií�í�íní í$íxí$í í(ícímí)í:í"í:í í"í$íxí$í ípíoísíiítíiíoíní í(ícímí)í:í"í,íí
-í í í"íLíoínígí.í íCíoíríríeígíiídíaí"í:í í"íLíoínígí.í íCíoíríríeícítíeídí"í,íí
-í í í"í�í�íríeíaí ítíríaínísívíeírísíaílí í(í$íAí_ící$í)í:í"í:í í"íCíríoísísí-ísíeícítíiíoíníaílí íaíríeíaí í(í$íAí_ící$í)í:í"í,íí
-í í í"íPíaírí�í�ímíeítíríoí ídíeí íaílíeítíaí í(í$ímí$í)í:í"í:í í"íFíiíní ípíaíríaímíeítíeírí í(í$ímí$í)í:í"í,íí
-í í í"ímí�í�í�í�í�í"í:í í"ímí�í�í�í�í�í"í,íí
-í í í"íSíií íeílí ímíaítíeíríiíaílí íeísí ímíaílí ícíoínídíuícítíoírí í(íbíaíjíoí í$íkí$í)í íoí ílíaí ícíoínívíeícícíií�í�íní íeísí ímíuíyí íaílítíaí í(íaílítíoí í$íhí$í)í,í ílíaí ítíeímípíeíríaítíuíríaí ícíaíeírí�í�í íríaípíiídí�í�ísíiímíoí ícíeírícíaí ídíeí ílíaí íbíaísíeí,í íiínídíiícíaínídíoí íqíuíeí íhíaícíeírí íuíníaí íaílíeítíaí ímíuíyí ílíaírígíaí íeísí íuíní ídíeísípíeírídíiícíiíoí ídíeí ímíaítíeíríiíaílí.í"í:í í"íIífí ítíhíeí ímíaítíeíríiíaílí íiísí íaí ípíoíoírí ícíoínídíuícítíoírí í(ílíoíwí í$íkí$í)í íoírí ítíhíeí ícíoínívíeícítíiíoíní íiísí ívíeíríyí íhíiígíhí í(íhíiígíhí í$íhí$í)í,í ítíhíeí ítíeímípíeíríaítíuíríeí íwíiílílí ídíríoípí ívíeíríyí íqíuíiícíkílíyí íníeíaírí ítíhíeí íbíaísíeí,í íiínídíiícíaítíiínígí ítíhíaítí ímíaíkíiínígí íaí ívíeíríyí ílíoínígí ífíiíní íiísí íaí íwíaísítíeí íoífí ímíaítíeíríiíaílí.í"í,íí
-í í í"íPíaírí�í�ímíeítíríoí í$ímí$í:í"í:í í"íPíaíríaímíeítíeírí í$ímí$í:í"í,íí
-í í í"íRíeípíríeísíeínítíaí ílíaí íríeílíaícíií�í�íní íeínítíríeí ílíaí ídíiísíiípíaícíií�í�íní ícíoínívíeícítíiívíaí íyí ílíaí ícíoínídíuícícíií�í�íní íiínítíeíríníaí í(í$ímí í=í í\í\ísíqírítí{íhíPí/íkíAí_ící}í$í)í.í íVíaílíoíríeísí íaílítíoísí ídíeí í$ímí$í íiínídíiícíaíní íuíníaí írí�í�ípíiídíaí ícíaí�í�ídíaí ídíeí ítíeímípíeíríaítíuíríaí íaí ílíoí ílíaírígíoí ídíeí ílíaí íaílíeítíaí,í ímíiíeínítíríaísí íqíuíeí ívíaílíoíríeísí íbíaíjíoísí í(íbíuíeíníoísí ícíoínídíuícítíoíríeísí íoí íbíaíjíaí ícíoínívíeícícíií�í�íní)í ípíeírímíiítíeíní íqíuíeí íeílí ícíaílíoírí ívíiíaíjíeí ímí�í�ísí ílíeíjíoísí.í íSíuí íiínívíeírísíoí í(í$í1í/ímí$í)í íeísí ílíaí"í:í í"íIítí íríeípíríeísíeínítísí ítíhíeí íríeílíaítíiíoínísíhíiípí íbíeítíwíeíeíní ícíoínívíeícítíiívíeí ídíiísísíiípíaítíiíoíní íaínídí íiínítíeíríníaílí ícíoínídíuícítíiíoíní í(í$ímí í=í í\í\ísíqírítí{íhíPí/íkíAí_ící}í$í)í.í íHíiígíhí ívíaílíuíeísí í�í�í�í�í�í�íoífí í$ímí$í íiínídíiícíaítíeí íaí íríaípíiídí ítíeímípíeíríaítíuíríeí ídíríoípí íaílíoínígí ítíhíeí ífíiíní,í íwíhíiílíeí ílíoíwí ívíaílíuíeísí í�í�í�í�í�í�í(ígíoíoídí ícíoínídíuícítíoírísí íoírí ílíoíwí ícíoínívíeícítíiíoíní)í íaílílíoíwí íhíeíaítí ítíoí ítíríaívíeílí ífíaírítíhíeírí.í íIítísí íiínívíeírísíeí í(í$í1í/ímí$í)í íiísí ítíhíeí"í,íí
-í í í"ílíoínígíiítíuídí ícíaíríaícítíeírí�í�ísítíiícíaí"í:í í"ícíhíaíríaícítíeíríiísítíiící ílíeínígítíhí"í,íí
-í í í"í,í íqíuíeí íiínídíiícíaí íaípíríoíxíiímíaídíaímíeínítíeí íhíaísítíaí ídí�í�ínídíeí ílíaí íaílíeítíaí íeísí íríeíaílímíeínítíeí íeífíeícítíiívíaí ípíaíríaí ídíiísíiípíaírí ícíaílíoírí.í"í:í í"í,í íwíhíiícíhí íiínídíiícíaítíeísí íaípípíríoíxíiímíaítíeílíyí íhíoíwí ífíaírí ítíhíeí ífíiíní íiísí íaícítíuíaílílíyí íeífífíeícítíiívíeí íiíní ídíiísísíiípíaítíiínígí íhíeíaítí.í"í,íí
-í í í"íRíeíyíníoílídísí íeíní íbíoírídíeí ídíeí ísíaílíiídíaí í$í(íRíeí_íLí)í$í:í"í:í í"íRíeíyíníoílídísí íaítí ítíríaíiílíiínígí íeídígíeí í$í(íRíeí_íLí)í$í:í"í,íí
-í í í"íDíiísítíaínícíiíaí ídíeísídíeí íeílí íbíoírídíeí ídíeí íaítíaíqíuíeí í$í(íxí)í$í:í"í:í í"íDíiísítíaínícíeí ífíríoímí ílíeíaídíiínígí íeídígíeí í$í(íxí)í$í:í"í,íí
-í í í"íAí ímíaíyíoírí íRíeíyíníoílídísí íoí ímíeíníoírí ídíiísítíaínícíiíaí í$íxí$í,í ílíaí ícíaípíaí ílí�í�ímíiítíeí íeísí ímí�í�ísí ídíeílígíaídíaí íyí íeílí ígíríaídíiíeínítíeí ídíeí ívíeílíoícíiídíaídí íeíní ílíaí ípíaíríeídí í(í$íyí=í0í$í)í íeísí ímíaíyíoírí,í ílíoí íqíuíeí íaíuímíeínítíaí ílíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí ípíoírí ícíoínívíeícícíií�í�íní.í"í:í í"íAítí íhíiígíhíeírí íRíeíyíníoílídísí íoírí ísíhíoírítíeírí ídíiísítíaínícíeí í$íxí$í,í ítíhíeí íbíoíuínídíaíríyí ílíaíyíeírí íiísí ítíhíiíníníeírí íaínídí ítíhíeí ívíeílíoícíiítíyí ígíríaídíiíeínítí íiíní ítíhíeí íwíaílílí í(í$íyí=í0í$í)í íiísí ígíríeíaítíeírí,í íwíhíiícíhí íiínícíríeíaísíeísí íhíeíaítí ítíríaínísífíeírí íbíyí ícíoínívíeícítíiíoíní.í"í,íí
-í í í"íCíoínídíuícícíií�í�íní íUíníiídíiímíeínísíiíoíníaílí ícíoíní íGíeíníeíríaícíií�í�íní íIínítíeíríníaí"í:í í"íOíníeí-íDíiímíeínísíiíoíníaílí íDíríiívíiínígí íwíiítíhí íIínítíeíríníaílí íGíeíníeíríaítíiíoíní"í,íí
-í í í"íAíní�í�ílíiísíiísí ídíeí íuíníaí ípíaíríeídí ípílíaíníaí ídíeí íeísípíeísíoírí í$íwí í=í í2íLí$í,í ícíoíní ígíeíníeíríaícíií�í�íní ívíoílíuímí�í�ítíríiícíaí íuíníiífíoírímíeí ídíeí ícíaílíoírí í$í(í\ídíoítí{íqí}í)í$í íyí íeínífíríiíaímíiíeínítíoí ísíiímí�í�ítíríiícíoí ípíoírí ícíoínívíeícícíií�í�íní íeíní ísíuísí ísíuípíeírífíiícíiíeísí.í"í:í í"íAíníaílíyísíiísí íoífí íaí ífílíaítí íwíaílílí íoífí ítíhíiícíkíníeísísí í$íwí í=í í2íLí$í,í íwíiítíhí íuíníiífíoírímí ívíoílíuímíeítíríiící ígíeíníeíríaítíiíoíní íoífí íhíeíaítí í$í(í\ídíoítí{íqí}í)í$í íaínídí ísíyímímíeítíríiícíaílí ícíoíoílíiínígí íbíyí ícíoínívíeícítíiíoíní íoíní íiítísí ísíuírífíaícíeísí.í"í,íí
-í í í"íGíeíníeíríaícíií�í�íní í$í(í\ídíoítí{íqí}í)í$í:í"í:í í"íGíeíníeíríaítíiíoíní í$í(í\ídíoítí{íqí}í)í$í:í"í,íí
-í í í"íkíWí/ímí�í�í"í:í í"íkíWí/ímí�í�í"í,íí
-í í í"íCíoíeífí.í íCíoínívíeícícíií�í�íní í$í(íhí)í$í:í"í:í í"íCíoíeífí.í íCíoínívíeícítíiíoíní í$í(íhí)í$í:í"í,íí
-í í í"íEísípíeísíoírí íTíoítíaílí í$í(íwí í=í í2íLí)í$í:í"í:í í"íTíoítíaílí íTíhíiícíkíníeísísí í$í(íwí í=í í2íLí)í$í:í"í,íí
-í í í"íTíeímípí.í íSíuípíeírífíiícíiíeí í(í$íTí_í{ísí,í\í\ítíeíxítí{ípílíaíníaí}í}í$í)í:í"í:í í"íTíeímípí.í íSíuírífíaícíeí í(í$íTí_í{ísí,í\í\ítíeíxítí{ífílíaítí}í}í$í)í:í"í,íí
-í í í"íTíeímípí.í íMí�í�íxíiímíaí í(íCíeínítíríoí)í í(í$íTí_í{í0í,í\í\ítíeíxítí{ípílíaíníaí}í}í$í)í:í"í:í í"íTíeímípí.í íMíaíxíiímíuímí í(íCíeínítíeírí)í í(í$íTí_í{í0í,í\í\ítíeíxítí{ífílíaítí}í}í$í)í:í"í,íí
-í í í"íTíeímípí.í íSíuípíeírífíiícíiíeí í(í$íTí_í{ísí,í\í\ítíeíxítí{ícíiílí}í}í$í)í:í"í:í í"íTíeímípí.í íSíuírífíaícíeí í(í$íTí_í{ísí,í\í\ítíeíxítí{ícíiílí}í}í$í)í:í"í,íí
-í í í"íTíeímípí.í íMí�í�íxíiímíaí í(íCíeínítíríoí)í í(í$íTí_í{í0í,í\í\ítíeíxítí{ícíiílí}í}í$í)í:í"í:í í"íTíeímípí.í íMíaíxíiímíuímí í(íCíeínítíeírí)í í(í$íTí_í{í0í,í\í\ítíeíxítí{ícíiílí}í}í$í)í:í"í,íí
-í í í"íTíeímípí.í íSíuípíeírífíiícíiíeí í(í$íTí_í{ísí,í\í\ítíeíxítí{íeísífí}í}í$í)í:í"í:í í"íTíeímípí.í íSíuírífíaícíeí í(í$íTí_í{ísí,í\í\ítíeíxítí{íeísífí}í}í$í)í:í"í,íí
-í í í"íTíeímípí.í íMí�í�íxíiímíaí í(íCíeínítíríoí)í í(í$íTí_í{í0í,í\í\ítíeíxítí{íeísífí}í}í$í)í:í"í:í í"íTíeímípí.í íMíaíxíiímíuímí í(íCíeínítíeírí)í í(í$íTí_í{í0í,í\í\ítíeíxítí{íeísífí}í}í$í)í:í"í,íí
-í í í"íTíoídíoí íeílí ícíaílíoírí ígíeíníeíríaídíoí íeíní íeílí ícíeínítíríoí ídíeíbíeí ísíeírí ítíríaínísípíoírítíaídíoí íhíaísítíaí ílíaí ísíuípíeírífíiícíiíeí ípíoírí ícíoínídíuícícíií�í�íní,í íyí ídíeí íaíhí�í�í íaílí íaímíbíiíeínítíeí ípíoírí ícíoínívíeícícíií�í�íní.í íMíaítíeíríiíaílíeísí ípíoícíoí ícíoínídíuícítíoíríeísí ígíeíníeíríaírí�í�íní íuíní ípíiícíoí íaílítí�í�ísíiímíoí ídíeí í$íTí_í{ímíaíxí}í$í íiínítíeíríníoí.í"í:í í"íAílílí ítíhíeí íhíeíaítí ígíeíníeíríaítíeídí íiíní ítíhíeí ícíeínítíeírí ímíuísítí íbíeí ítíríaínísípíoírítíeídí ítíoí ítíhíeí ísíuírífíaícíeí íbíyí ícíoínídíuícítíiíoíní,í íaínídí ífíríoímí ítíhíeíríeí ítíoí ítíhíeí íeínívíiíríoínímíeínítí íbíyí ícíoínívíeícítíiíoíní.í íPíoíoírílíyí ícíoínídíuícítíiívíeí ímíaítíeíríiíaílísí íwíiílílí ígíeíníeíríaítíeí íaí ívíeíríyí íhíiígíhí ípíeíaíkí íoífí íiínítíeíríníaílí í$íTí_í{ímíaíxí}í$í.í"í,íí
-í í í"íAíní�í�ílíiísíiísí ídíeí ílíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí ípíoírí ícíoínídíuícícíií�í�íní íeísítíaícíiíoíníaíríiíaí íuíníiídíiímíeínísíiíoíníaílí íaí ítíríaíví�í�ísí ídíeí íuíníaí ípíaíríeídí ícíoímípíuíeísítíaí ídíeí ítíríeísí ícíaípíaísí ícíoíní ídíiísítíiínítíaísí ícíoínídíuícítíiívíiídíaídíeísí ítí�í�írímíiícíaísí í$íkí_í1í,í íkí_í2í,í íkí_í3í$í íyí íeísípíeísíoíríeísí í$íLí_í1í,í íLí_í2í,í íLí_í3í$í.í íLíaísí ífíríoínítíeíríaísí íeíxítíeíríníaísí íeísítí�í�íní íeíxípíuíeísítíaísí íaí ífílíuíiídíoísí íaí ítíeímípíeíríaítíuíríaísí í$íTí_í{í\í\íiínífítíyí,í í1í}í$í íyí í$íTí_í{í\í\íiínífítíyí,í í2í}í$í ícíoíní ícíoíeífíiícíiíeínítíeísí ídíeí ícíoínívíeícícíií�í�íní í$íhí_í1í$í íyí í$íhí_í2í$í.í"í:í í"íAíníaílíyísíiísí íoífí íhíeíaítí ítíríaínísífíeírí íbíyí íoíníeí-ídíiímíeínísíiíoíníaílí ísítíaítíiíoíníaíríyí ícíoínídíuícítíiíoíní ítíhíríoíuígíhí íaí íwíaílílí ícíoímípíoísíeídí íoífí ítíhíríeíeí ílíaíyíeírísí íwíiítíhí ídíiífífíeíríeínítí ítíhíeírímíaílí ícíoínídíuícítíiívíiítíiíeísí í$íkí_í1í,í íkí_í2í,í íkí_í3í$í íaínídí ítíhíiícíkíníeísísíeísí í$íLí_í1í,í íLí_í2í,í íLí_í3í$í.í íTíhíeí íeíxítíeíríníaílí íbíoíuínídíaíríiíeísí íaíríeí íeíxípíoísíeídí ítíoí ífílíuíiídísí íaítí ítíeímípíeíríaítíuíríeísí í$íTí_í{í\í\íiínífítíyí,í í1í}í$í íaínídí í$íTí_í{í\í\íiínífítíyí,í í2í}í$í íwíiítíhí ícíoínívíeícítíiíoíní ícíoíeífífíiícíiíeínítísí í$íhí_í1í$í íaínídí í$íhí_í2í$í.í"í,íí
-í í í"íLíaí íríeísíiísítíeínícíiíaí ítí�í�írímíiícíaí ítíoítíaílí íeísí ílíaí ísíuímíaí íeíní ísíeíríiíeí:í í$í$í íRí'í'í_í{í\í\ítíeíxítí{ítíoítí}í}í í=í í\í\ífíríaící{í1í}í{íhí_í1í}í í+í í\í\ífíríaící{íLí_í1í}í{íkí_í1í}í í+í í\í\ífíríaící{íLí_í2í}í{íkí_í2í}í í+í í\í\ífíríaící{íLí_í3í}í{íkí_í3í}í í+í í\í\ífíríaící{í1í}í{íhí_í2í}í í$í$í"í:í í"íTíhíeí ítíoítíaílí ítíhíeírímíaílí íríeísíiísítíaínícíeí íiísí ítíhíeí ísíeíríiíeísí ísíuímí:í í$í$í íRí'í'í_í{í\í\ítíeíxítí{ítíoítí}í}í í=í í\í\ífíríaící{í1í}í{íhí_í1í}í í+í í\í\ífíríaící{íLí_í1í}í{íkí_í1í}í í+í í\í\ífíríaící{íLí_í2í}í{íkí_í2í}í í+í í\í\ífíríaící{íLí_í3í}í{íkí_í3í}í í+í í\í\ífíríaící{í1í}í{íhí_í2í}í í$í$í"í,íí
-í í í"íEílí ífílíuíjíoí ídíeí ícíaílíoírí ícíoínísítíaínítíeí íeísí:í í$í$í íqí'í'í í=í í\í\ífíríaící{íTí_í{í\í\íiínífítíyí,í í1í}í í-í íTí_í{í\í\íiínífítíyí,í í2í}í}í{íRí'í'í_í{í\í\ítíeíxítí{ítíoítí}í}í}í í$í$í"í:í í"íTíhíeí ícíoínísítíaínítí íhíeíaítí ífílíuíxí íiísí:í í$í$í íqí'í'í í=í í\í\ífíríaící{íTí_í{í\í\íiínífítíyí,í í1í}í í-í íTí_í{í\í\íiínífítíyí,í í2í}í}í{íRí'í'í_í{í\í\ítíeíxítí{ítíoítí}í}í}í í$í$í"í,íí
-í í í"íTíeímípí.í íAímíbíiíeínítíeí íIízíqí.í í$í(íTí_í{í\í\íiínífítíyí,í í1í}í)í$í:í"í:í í"íTíeímípí.í íLíeífítí íEínívíiíríoínímíeínítí í$í(íTí_í{í\í\íiínífítíyí,í í1í}í)í$í:í"í,íí
-í í í"íCíoíeífí.í íCíoínívíeícícíií�í�íní íIízíqí.í í$í(íhí_í1í)í$í:í"í:í í"íCíoíeífí.í íLíeífítí íCíoínívíeícítíiíoíní í$í(íhí_í1í)í$í:í"í,íí
-í í í"íEísípíeísíoírí íCíaípíaí í1í í$í(íLí_í1í)í$í:í"í:í í"íLíaíyíeírí í1í íTíhíiícíkíníeísísí í$í(íLí_í1í)í$í:í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí íCíaípíaí í1í í$í(íkí_í1í)í$í:í"í:í í"íCíoínídíuícítíiívíiítíyí íLíaíyíeírí í1í í$í(íkí_í1í)í$í:í"í,íí
-í í í"íEísípíeísíoírí íCíaípíaí í2í í$í(íLí_í2í)í$í:í"í:í í"íLíaíyíeírí í2í íTíhíiícíkíníeísísí í$í(íLí_í2í)í$í:í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí íCíaípíaí í2í í$í(íkí_í2í)í$í:í"í:í í"íLíaíyíeírí í2í íCíoínídíuícítíiívíiítíyí í$í(íkí_í2í)í$í:í"í,íí
-í í í"íEísípíeísíoírí íCíaípíaí í3í í$í(íLí_í3í)í$í:í"í:í í"íLíaíyíeírí í3í íTíhíiícíkíníeísísí í$í(íLí_í3í)í$í:í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí íCíaípíaí í3í í$í(íkí_í3í)í$í:í"í:í í"íLíaíyíeírí í3í íCíoínídíuícítíiívíiítíyí í$í(íkí_í3í)í$í:í"í,íí
-í í í"íTíeímípí.í íAímíbíiíeínítíeí íDíeírí.í í$í(íTí_í{í\í\íiínífítíyí,í í2í}í)í$í:í"í:í í"íTíeímípí.í íEínívíiíríoínímíeínítí íRíiígíhítí.í í$í(íTí_í{í\í\íiínífítíyí,í í2í}í)í$í:í"í,íí
-í í í"íCíoíeífí.í íCíoínívíeícícíií�í�íní íDíeírí.í í$í(íhí_í2í)í$í:í"í:í í"íCíoíeífí.í íRíiígíhítí ícíoínívíeícítíiíoíní í$í(íhí_í2í)í$í:í"í,íí
-í í í"íRíeísíiísítíeínícíiíaí íTíoítíaílí í$í(íRí'í'í_í{í\í\ítíeíxítí{ítíoítí}í}í)í$í:í"í:í í"íTíoítíaílí íRíeísíiísítíaínícíeí í$í(íRí'í'í_í{í\í\ítíeíxítí{ítíoítí}í}í)í$í:í"í,íí
-í í í"í�í�í�í íCíoíníví.í íIízíqíuíiíeírídíaí í$í(íRí'í'í_í{í\í\ítíeíxítí{ícíoíníví,í1í}í}í)í$í:í"í:í í"í�í�í�í íCíoíníví.í íLíeífítí í$í(íRí'í'í_í{í\í\ítíeíxítí{ícíoíníví,í1í}í}í)í$í:í"í,íí
-í í í"í�í�í�í íCíoínídíuícícíií�í�íní íCíaípíaí í1í í$í(íRí'í'í_í{í\í\ítíeíxítí{ícíoínídí,í1í}í}í)í$í:í"í:í í"í�í�í�í íCíoínídíuícítíiíoíní íLíaíyíeírí í1í í$í(íRí'í'í_í{í\í\ítíeíxítí{ícíoínídí,í1í}í}í)í$í:í"í,íí
-í í í"í�í�í�í íCíoínídíuícícíií�í�íní íCíaípíaí í2í í$í(íRí'í'í_í{í\í\ítíeíxítí{ícíoínídí,í2í}í}í)í$í:í"í:í í"í�í�í�í íLíaíyíeírí í2í íCíoínídíuícítíiíoíní í$í(íRí'í'í_í{í\í\ítíeíxítí{ícíoínídí,í2í}í}í)í$í:í"í,íí
-í í í"í�í�í�í íCíoínídíuícícíií�í�íní íCíaípíaí í3í í$í(íRí'í'í_í{í\í\ítíeíxítí{ícíoínídí,í3í}í}í)í$í:í"í:í í"í�í�í�í íLíaíyíeírí í3í íCíoínídíuícítíiíoíní í$í(íRí'í'í_í{í\í\ítíeíxítí{ícíoínídí,í3í}í}í)í$í:í"í,íí
-í í í"í�í�í�í íCíoíníví.í íDíeíríeícíhíaí í$í(íRí'í'í_í{í\í\ítíeíxítí{ícíoíníví,í2í}í}í)í$í:í"í:í í"í�í�í�í íCíoíníví.í íRíiígíhítí í$í(íRí'í'í_í{í\í\ítíeíxítí{ícíoíníví,í2í}í}í)í$í:í"í,íí
-í í í"íTíeímípí.í íSíuípíeírífíiícíiíeí íIízíqí.í í$í(íTí_í{ísí,í í1í}í)í$í:í"í:í í"íTíeímípí.í íLíeífítí íSíuírífíaícíeí í$í(íTí_í{ísí,í í1í}í)í$í:í"í,íí
-í í í"íTíeímípí.í íIínítíeírífíaízí í1í-í2í í$í(íTí_í{í\í\ítíeíxítí{íiínítí}í,í í1í}í)í$í:í"í:í í"íTíeímípí.í íIínítíeírífíaícíeí í1í-í2í í$í(íTí_í{í\í\ítíeíxítí{íiínítí}í,í í1í}í)í$í:í"í,íí
-í í í"íTíeímípí.í íIínítíeírífíaízí í2í-í3í í$í(íTí_í{í\í\ítíeíxítí{íiínítí}í,í í2í}í)í$í:í"í:í í"íTíeímípí.í íIínítíeírífíaícíeí í2í-í3í í$í(íTí_í{í\í\ítíeíxítí{íiínítí}í,í í2í}í)í$í:í"í,íí
-í í í"íTíeímípí.í íSíuípíeírífíiícíiíeí íDíeírí.í í$í(íTí_í{ísí,í í2í}í)í$í:í"í:í í"íTíeímípí.í íRíiígíhítí íSíuírífíaícíeí í$í(íTí_í{ísí,í í2í}í)í$í:í"í,íí
-í í í"íCíoínídíuícícíií�í�íní íyí íCíoínívíeícícíií�í�íní íCíoímíbíiíníaídíaísí í(íFíríoínítíeíríaí íMíiíxítíaí)í"í:í í"íCíoímíbíiíníeídí íCíoínídíuícítíiíoíní íaínídí íCíoínívíeícítíiíoíní í(íMíiíxíeídí íFíríoínítíiíeírí)í"í,íí
-í í í"íEíní ípíríoíbílíeímíaísí íríeíaílíeísí,í íuíníaí ípíaíríeídí ísí�í�ílíiídíaí ítíríaínísífíiíeíríeí ícíaílíoírí íaí íuíní ífílíuíiídíoí ícíiírícíuínídíaínítíeí.í íLíaí íríeísíiísítíeínícíiíaí ítí�í�írímíiícíaí ítíoítíaílí íeísí ílíaí ísíuímíaí ídíeí ílíaísí íríeísíiísítíeínícíiíaísí íeíní ísíeíríiíeí:í í$íRí_í{ítíoítíaílí}í í=í íRí_í{ícíoínídí}í í+í íRí_í{ícíoíníví}í í=í í\í\ífíríaící{íLí}í{íkí}í í+í í\í\ífíríaící{í1í}í{íhí}í$í.í"í:í í"íIíní íríeíaílí ípíríoíbílíeímísí,í íaí ísíoílíiídí íwíaílílí ítíríaínísífíeírísí íhíeíaítí ítíoí íaí ísíuíríríoíuínídíiínígí ífílíuíiídí.í íTíhíeí ítíoítíaílí ítíhíeírímíaílí íríeísíiísítíaínícíeí íiísí ítíhíeí ísíuímí íoífí ítíhíeí ísíeíríiíeísí íríeísíiísítíaínícíeísí:í í$íRí_í{ítíoítíaílí}í í=í íRí_í{ícíoínídí}í í+í íRí_í{ícíoíníví}í í=í í\í\ífíríaící{íLí}í{íkí}í í+í í\í\ífíríaící{í1í}í{íhí}í$í.í"í,íí
-í í í"íEílí ífílíuíjíoí ídíeí ícíaílíoírí íeísí ícíoínísítíaínítíeí íaí ítíríaíví�í�ísí ídíeí íaímíbíaísí ícíaípíaísí:í í$íqí'í'í í=í í\í\ífíríaící{íTí_í1í í-í íTí_í\í\íiínífítíyí}í{íRí_í{ítíoítíaílí}í}í$í.í íCíoíníoícíiídíoí í$íqí'í'í$í,í ílíaí ítíeímípíeíríaítíuíríaí íeíní ílíaí ísíuípíeírífíiícíiíeí íeíxítíeíríiíoírí ísíeí ícíaílícíuílíaí ícíoímíoí í$íTí_í2í í=í íTí_í\í\íiínífítíyí í+í í\í\ífíríaící{íqí'í'í}í{íhí}í$í.í"í:í í"íTíhíeí íhíeíaítí ífílíoíwí íiísí ícíoínísítíaínítí ítíhíríoíuígíhí íbíoítíhí ílíaíyíeírísí:í í$íqí'í'í í=í í\í\ífíríaící{íTí_í1í í-í íTí_í\í\íiínífítíyí}í{íRí_í{ítíoítíaílí}í}í$í.í íKíníoíwíiínígí í$íqí'í'í$í,í ítíhíeí ítíeímípíeíríaítíuíríeí íaítí ítíhíeí íoíuítíeírí ísíuírífíaícíeí íiísí ícíaílícíuílíaítíeídí íaísí í$íTí_í2í í=í íTí_í\í\íiínífítíyí í+í í\í\ífíríaící{íqí'í'í}í{íhí}í$í.í"í,íí
-í í í"íTíeímípí.í íIínítíeíríníaí íPíaíríeídí í$í(íTí_í1í)í$í:í"í:í í"íTíeímípí.í íIínítíeíríníaílí íWíaílílí í$í(íTí_í1í)í$í:í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí íPíaíríeídí í$í(íkí)í$í:í"í:í í"íWíaílílí íCíoínídíuícítíiívíiítíyí í$í(íkí)í$í:í"í,íí
-í í í"íEísípíeísíoírí íPíaíríeídí í$í(íLí)í$í:í"í:í í"íWíaílílí íTíhíiícíkíníeísísí í$í(íLí)í$í:í"í,íí
-í í í"íTíeímípí.í íFílíuíiídíoí íEíxítíeíríiíoírí í$í(íTí_í\í\íiínífítíyí)í$í:í"í:í í"íTíeímípí.í íOíuítíeírí íFílíuíiídí í$í(íTí_í\í\íiínífítíyí)í$í:í"í,íí
-í í í"íRíeísíiísítíeínícíiíaí íCíoínídíuícícíií�í�íní í$í(íRí'í'í_í{í\í\ítíeíxítí{ícíoínídí}í}í)í$í:í"í:í í"íCíoínídíuícítíiíoíní íRíeísíiísítíaínícíeí í$í(íRí'í'í_í{í\í\ítíeíxítí{ícíoínídí}í}í)í$í:í"í,íí
-í í í"íRíeísíiísítíeínícíiíaí íCíoínívíeícícíií�í�íní í$í(íRí'í'í_í{í\í\ítíeíxítí{ícíoíníví}í}í)í$í:í"í:í í"íCíoínívíeícítíiíoíní íRíeísíiísítíaínícíeí í$í(íRí'í'í_í{í\í\ítíeíxítí{ícíoíníví}í}í)í$í:í"í,íí
-í í í"íEíxípíeíríiímíeínítíoí ídíeí íEínífíríiíaímíiíeínítíoí ídíeí íNíeíwítíoíní í(í1í7í0í1í)í"í:í í"íNíeíwítíoíní'ísí íCíoíoílíiínígí íEíxípíeíríiímíeínítí í(í1í7í0í1í)í"í,íí
-í í í"íNíeíwítíoíní ípíoísítíuílí�í�í íqíuíeí ílíaí ítíaísíaí ídíeí ípí�í�írídíiídíaí ídíeí ícíaílíoírí ídíeí íuíní ícíuíeírípíoí íeísí ípíríoípíoírícíiíoíníaílí íaí ílíaí ídíiífíeíríeínícíiíaí ídíeí ítíeímípíeíríaítíuíríaí íeínítíríeí íeílí ícíuíeírípíoí íyí ísíuí íeínítíoíríníoí:í í$íqí í=í íhí íAí í(íTí_ísí í-í íTí_í\í\íiínífítíyí)í$í.í"í:í í"íNíeíwítíoíní ípíoísítíuílíaítíeídí ítíhíaítí ítíhíeí íríaítíeí íoífí íhíeíaítí ílíoísísí ífíríoímí íaí íbíoídíyí íiísí ípíríoípíoírítíiíoíníaílí ítíoí ítíhíeí ítíeímípíeíríaítíuíríeí ídíiífífíeíríeínícíeí íbíeítíwíeíeíní ítíhíeí íbíoídíyí íaínídí íiítísí ísíuíríríoíuínídíiínígísí:í í$íqí í=í íhí íAí í(íTí_ísí í-í íTí_í\í\íiínífítíyí)í$í.í"í,íí
-í í í"íEíní íeílí íeísítíaídíoí ítíríaínísíiítíoíríiíoí í(íaísíuímíiíeínídíoí ícíoínídíuícícíií�í�íní íiínítíeíríníaí írí�í�ípíiídíaí)í,í ílíaí ítíeímípíeíríaítíuíríaí ídíeícíaíeí íeíxípíoíníeínícíiíaílímíeínítíeí:í í$í$í íTí(ítí)í í=í íTí_í\í\íiínífítíyí í+í í(íTí_íií í-í íTí_í\í\íiínífítíyí)íeí^í{í-ítí/í\í\ítíaíuí}í í$í$í"í:í í"íIíní ítíhíeí ítíríaínísíiíeínítí ísítíaítíeí í(íaísísíuímíiínígí ífíaísítí íiínítíeíríníaílí ícíoínídíuícítíiíoíní)í,í ítíhíeí ítíeímípíeíríaítíuíríeí ídíeícíaíyísí íeíxípíoíníeínítíiíaílílíyí:í í$í$í íTí(ítí)í í=í íTí_í\í\íiínífítíyí í+í í(íTí_íií í-í íTí_í\í\íiínífítíyí)íeí^í{í-ítí/í\í\ítíaíuí}í í$í$í"í,íí
-í í í"íDíoínídíeí ílíaí ícíoínísítíaínítíeí ídíeí ítíiíeímípíoí ítí�í�írímíiícíaí í$í\í\ítíaíuí$í ísíeí ícíaílícíuílíaí ícíoímíoí:í í$í$í í\í\ítíaíuí í=í í\í\ífíríaící{í\í\íríhíoí íVí ící_ípí}í{íhí íAí_ísí}í í$í$í íAíqíuí�í�í í$í\í\íríhíoí$í íeísí ílíaí ídíeínísíiídíaídí,í í$íVí$í íeílí ívíoílíuímíeíní,í í$ící_ípí$í íeílí ícíaílíoírí íeísípíeící�í�ífíiícíoí,í í$íhí$í íeílí ícíoíeífíiícíiíeínítíeí ídíeí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí íyí í$íAí_ísí$í íeílí í�í�íríeíaí ísíuípíeírífíiícíiíaílí ídíeílí ícíiílíiínídíríoí.í"í:í í"íWíhíeíríeí ítíhíeí ítíhíeírímíaílí ítíiímíeí ícíoínísítíaínítí í$í\í\ítíaíuí$í íiísí ícíaílícíuílíaítíeídí íaísí:í í$í$í í\í\ítíaíuí í=í í\í\ífíríaící{í\í\íríhíoí íVí ící_ípí}í{íhí íAí_ísí}í í$í$í íHíeíríeí í$í\í\íríhíoí$í íiísí ítíhíeí ídíeínísíiítíyí,í í$íVí$í ítíhíeí ívíoílíuímíeí,í í$ící_ípí$í ítíhíeí ísípíeícíiífíiící íhíeíaítí,í í$íhí$í ítíhíeí íhíeíaítí ítíríaínísífíeírí ícíoíeífífíiícíiíeínítí íaínídí í$íAí_ísí$í ítíhíeí ísíuírífíaícíeí íaíríeíaí íoífí ítíhíeí ícíyílíiínídíeírí.í"í,íí
-í í í"íSíiígíníiífíiícíaídíoí ífí�í�ísíiícíoí ídíeí ílíaí ícíoínísítíaínítíeí ídíeí ítíiíeímípíoí í(í$í\í\ítíaíuí$í)í:í"í:í í"íPíhíyísíiícíaílí ímíeíaíníiínígí íoífí ítíhíeí ítíiímíeí ícíoínísítíaínítí í(í$í\í\ítíaíuí$í)í:í"í,íí
-í í í"íEílí ícíuíeírípíoí ísíeí íeínífírí�í�íaí íoí ícíaílíiíeínítíaí ívíeílíoízímíeínítíeí.í íOícíuíríríeí ícíoíní íbíaíjíaí íiíníeírícíiíaí ítí�í�írímíiícíaí í(ímíaísíaí ípíeíqíuíeí�í�íaí íoí íbíaíjíoí í$ící_ípí$í)í íoí íuíníaí íaílítíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí í(ícíoíeífíiícíiíeínítíeí í$íhí$í íaílítíoí,í ícíoímíoí íeíní íaígíuíaí,í íoí ígíríaíní í�í�íríeíaí ísíuípíeírífíiícíiíaílí íeíxípíuíeísítíaí)í.í"í:í í"íTíhíeí íbíoídíyí ícíoíoílísí íoírí íhíeíaítísí íuípí íqíuíiícíkílíyí.í íIítí íoícícíuírísí íwíiítíhí ílíoíwí ítíhíeírímíaílí íiíníeírítíiíaí í(ísímíaílílí ímíaísísí íoírí ílíoíwí í$ící_ípí$í)í íoírí íhíiígíhí íhíeíaítí ítíríaínísífíeírí í(íhíiígíhí í$íhí$í ícíoíeífífíiícíiíeínítí,í íaísí íiíní íwíaítíeírí,í íoírí ílíaírígíeí íeíxípíoísíeídí ísíuírífíaícíeí íaíríeíaí)í.í"í,íí
-í í í"íEílí ícíuíeírípíoí ísíeí íríeísíiísítíeí íaí ícíaímíbíiíaírí ísíuí ítíeímípíeíríaítíuíríaí.í íOícíuíríríeí ícíoíní íaílítíaí íiíníeírícíiíaí ítí�í�írímíiícíaí í(ícíuíeírípíoí ímíuíyí ímíaísíiívíoí íoí íaílítíoí í$ící_ípí$í)í íoí íbíaíjíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí í(ícíoíeífíiícíiíeínítíeí í$íhí$í íbíaíjíoí,í ícíoímíoí íeíní íaíiíríeí íqíuíiíeítíoí)í.í"í:í í"íTíhíeí íbíoídíyí íríeísíiísítísí ícíhíaínígíiínígí íiítísí ítíeímípíeíríaítíuíríeí.í íIítí íoícícíuírísí íwíiítíhí íhíiígíhí ítíhíeírímíaílí íiíníeírítíiíaí í(ívíeíríyí ímíaísísíiívíeí íbíoídíyí íoírí íhíiígíhí í$ící_ípí$í)í íoírí ílíoíwí íhíeíaítí ítíríaínísífíeírí í(ílíoíwí ícíoíeífífíiícíiíeínítí í$íhí$í,í íaísí íiíní ísítíiílílí íaíiírí)í.í"í,íí
-í í í"íSíeílíeícícíiíoíníaí íuíní ímíeídíiíoí ípíaíríaí ímíoídíiífíiícíaírí íeílí ícíoíeífíiícíiíeínítíeí ídíeí ícíoínívíeícícíií�í�íní í$íhí$í íyí íoíbísíeírívíaí ící�í�ímíoí íuíní íbílíoíqíuíeí ídíeí íhíiíeíríríoí íaílí íríoíjíoí ívíiívíoí í(í$í5í0í0í^í\ícíiírící\í\ítíeíxítí{íCí}í$í)í ísíeí íeínífírí�í�íaí íeíní ítíiíeímípíoí íríeíaílí.í"í:í í"íSíeílíeícítí íaí ímíeíaínísí ítíoí ímíoídíiífíyí ítíhíeí ícíoínívíeícítíiíoíní ícíoíeífífíiícíiíeínítí í$íhí$í íaínídí íwíaítícíhí íaí íríeídí-íhíoítí íbílíoícíkí íoífí íiíríoíní í(í$í5í0í0í^í\ícíiírící\í\ítíeíxítí{íCí}í$í)í ícíoíoílí íiíní íríeíaílí ítíiímíeí.í"í,íí
-í í í"íTíeímípí.í íIíníiícíiíaílí íHíiíeíríríoí í$í(íTí_íií)í$í:í"í:í í"íTíeímípí.í íIíníiítíiíaílí íIíríoíní í$í(íTí_íií)í$í:í"í,íí
-í í í"íTíeímípí.í íEínítíoíríníoí í$í(íTí_í\í\íiínífítíyí)í$í:í"í:í í"íTíeímípí.í íEínívíiíríoínímíeínítí í$í(íTí_í\í\íiínífítíyí)í$í:í"í,íí
-í í í"íDíií�í�ímíeítíríoí íCíiílíiínídíríoí í$í(íDí)í$í:í"í:í í"íCíyílíiínídíeírí íDíiíaímíeítíeírí í$í(íDí)í$í:í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí íSí�í�ílíiídíoí í$í(íkí)í$í:í"í:í í"íSíoílíiídí íCíoínídíuícítíiívíiítíyí í$í(íkí)í$í:í"í,íí
-í í í"íDíeínísíiídíaídí í$í(í\í\íríhíoí)í$í:í"í:í í"íDíeínísíiítíyí í$í(í\í\íríhíoí)í$í:í"í,íí
-í í í"íkígí/ímí�í�í"í:í í"íkígí/ímí�í�í"í,íí
-í í í"íCíaílíoírí íEísípíeící�í�ífíiícíoí í$í(ící_ípí)í$í:í"í:í í"íSípíeícíiífíiící íHíeíaítí í$í(ící_ípí)í$í:í"í,íí
-í í í"íJí/íkígí�í�íKí"í:í í"íJí/íkígí�í�íKí"í,íí
-í í í"íCíoínísítíaínítíeí ídíeí íTíiíeímípíoí í$í(í\í\ítíaíuí)í$í:í"í:í í"íTíiímíeí íCíoínísítíaínítí í$í(í\í\ítíaíuí)í$í:í"í,íí
-í í í"íEíní ísíuí íoíbíríaí"í:í í"íIíní íhíiísí íwíoíríkí"í,íí
-í í í"íTíuíbíoí ídíeí íVíeínítíuíríií"í:í í"íVíeínítíuíríií ítíuíbíeí"í,íí
-í í í"íPíaírí�í�ímíeítíríoísí ídíeílí íFílíuíiídíoí í(íAígíuíaí)í"í:í í"íFílíuíiídí íPíaíríaímíeítíeírísí í(íWíaítíeírí)í"í,íí
-í í í"íVíeílíoícíiídíaídí ídíeí íEínítíríaídíaí í$í(íví_í1í)í$í:í"í:í í"íIínípíuítí íVíeílíoícíiítíyí í$í(íví_í1í)í$í:í"í,íí
-í í í"ímí/ísí"í:í í"ímí/ísí"í,íí
-í í í"íDíií�í�ímíeítíríoí íPíríiínícíiípíaílí í$í(íDí_í1í)í$í:í"í:í í"íMíaíiíní íDíiíaímíeítíeírí í$í(íDí_í1í)í$í:í"í,íí
-í í í"íDíií�í�ímíeítíríoí íEísítíríeícíhíaímíiíeínítíoí í$í(íDí_í2í)í$í:í"í:í í"íNíaíríríoíwíiínígí íDíiíaímíeítíeírí í$í(íDí_í2í)í$í:í"í,íí
-í í í"íDíiífíeíríeínícíiíaí ídíeí íEílíeívíaícíií�í�íní í$í(ízí_í1í í-í ízí_í2í)í$í:í"í:í í"íEílíeívíaítíiíoíní íDíiífífíeíríeínícíeí í$í(ízí_í1í í-í ízí_í2í)í$í:í"í,íí
-í í í"íMíeídíiícíiíoíníeísí í(íCíoínítíiíníuíiídíaídí íyí íBíeíríníoíuílílíií)í"í:í í"íMíeíaísíuíríeímíeínítísí í(íCíoínítíiíníuíiítíyí íaínídí íBíeíríníoíuílílíií)í"í,íí
-í í í"íLíaí ípíríeísíií�í�íní íeísítí�í�ítíiícíaí íaíbísíoílíuítíaí ítíeí�í�íríiícíaí íhíaí íaílícíaínízíaídíoí íeílí ílí�í�ímíiítíeí ífí�í�ísíiícíoí ídíeí í$í0í\í\ítíeíxítí{í íkíPíaí}í$í.í íPíoírí ímí�í�ísí íqíuíeí ísíeí íaíuímíeínítíeí ílíaí ívíeílíoícíiídíaídí ídíeílí ífílíuíiídíoí íoí ísíeí íeísítíríeícíhíeí íeílí ícíuíeílílíoí,í ílíaí ípíríeísíií�í�íní íníoí ípíuíeídíeí ísíeírí íiínífíeíríiíoírí íaílí ívíaící�í�íoí íaíbísíoílíuítíoí.í íEíní ílíaí ípírí�í�ícítíiícíaí,í íeílí íaígíuíaí íeíxípíeíríiímíeínítíaí ícíaívíiítíaícíií�í�íní ívíiíoílíeínítíaí.í"í:í í"íTíhíeí ítíhíeíoíríeítíiícíaílí íaíbísíoílíuítíeí ísítíaítíiící ípíríeísísíuíríeí íhíaísí íríeíaícíhíeídí ítíhíeí ípíhíyísíiícíaílí ílíiímíiítí íoífí í$í0í\í\ítíeíxítí{í íkíPíaí}í$í.í íNíoí ímíaítítíeírí íhíoíwí ímíuícíhí ítíhíeí ífílíuíiídí ívíeílíoícíiítíyí íiísí íiínícíríeíaísíeídí íoírí ítíhíeí íníeícíkí íiísí íníaíríríoíwíeídí,í ítíhíeí ípíríeísísíuíríeí ícíaíníníoítí íbíeí ílíoíwíeírí ítíhíaíní íaíbísíoílíuítíeí ívíaícíuíuímí.í íIíní ípíríaícítíiícíeí,í íwíaítíeírí íuínídíeírígíoíeísí ívíiíoílíeínítí ícíaívíiítíaítíiíoíní.í"í,íí
-í í í"íAí ímíeíníoírí í$íDí_í2í$í,í ílíaí ívíeílíoícíiídíaídí í$íví_í2í$í íaíuímíeínítíaí ícíuíaídírí�í�ítíiícíaímíeínítíeí íyí ílíaí ípíríeísíií�í�íní ísíeí ídíeísípílíoímíaí.í íSíií ílíaí ípíríeísíií�í�íní ícíaíyíeíríaí ípíoírí ídíeíbíaíjíoí ídíeí ílíaí ípíríeísíií�í�íní ídíeí ívíaípíoírí,í íeílí ílí�í�íqíuíiídíoí íhíeírívíiírí�í�íaí ílíoícíaílímíeínítíeí í(ícíaívíiítíaícíií�í�íní)í.í"í:í í"íTíhíeí ílíoíwíeírí í$íDí_í2í$í,í ítíhíeí ívíeílíoícíiítíyí í$íví_í2í$í íiínícíríeíaísíeísí íqíuíaídíríaítíiícíaílílíyí íaínídí ítíhíeí ípíríeísísíuíríeí ípílíuímímíeítísí.í íIífí ítíhíeí ípíríeísísíuíríeí ífíeílílí íbíeílíoíwí ítíhíeí ívíaípíoírí ípíríeísísíuíríeí,í ítíhíeí ílíiíqíuíiídí íwíoíuílídí íbíoíiílí ílíoícíaílílíyí í(ícíaívíiítíaítíiíoíní)í.í"í,íí
-í í í"íEílí íaígíuíaí íaí íuíníaí íaílítíuíríaí ídíeí ícíaírígíaí í$íHí$í ídíeísícíaírígíaí íaí ílíaí íaítímí�í�ísífíeíríaí íaí ítíríaíví�í�ísí ídíeí ílíaí íbíoíqíuíiílílíaí í(íníoízízílíeí)í ícíoínívíiírítíiíeínídíoí ítíoídíaí ílíaí íeíníeírígí�í�íaí ípíoítíeínícíiíaílí íeíní ícíiíní�í�ítíiícíaí:í"í:í í"íTíhíeí íwíaítíeírí íaítí íaí íhíeíaídí íhíeíiígíhítí í$íHí$í ídíiísícíhíaírígíeísí íiínítíoí ítíhíeí íaítímíoísípíhíeíríeí ítíhíríoíuígíhí ítíhíeí íníoízízílíeí,í ícíoínívíeírítíiínígí íaílílí ípíoítíeínítíiíaílí íeíníeírígíyí íiínítíoí íkíiíníeítíiící íeíníeírígíyí:í"í,íí
-í í í"íAí ítíríaíví�í�ísí ídíeílí ítíuíbíoí íríeídíuícítíoírí ídíeí ídíií�í�ímíeítíríoí í$íDí_í1í$í íaí ílíaí ígíaírígíaínítíaí í$íDí_í2í$í,í ílíaí ívíeílíoícíiídíaídí ídíeílí ífílíuíiídíoí ícíaímíbíiíaí íiínívíeírísíaímíeínítíeí ípíríoípíoírícíiíoíníaílí íaí ílíaí ísíeícícíií�í�íní ítíríaínísívíeírísíaílí,í ípíríoívíoícíaínídíoí íqíuíeí ílíaí ívíeílíoícíiídíaídí ímí�í�íxíiímíaí íyí ílíaí ímíeíníoírí ípíríeísíií�í�íní íoícíuíríríaíní íeíní íeílí ípíuínítíoí ídíeí ímíeíníoírí ídíií�í�ímíeítíríoí.í íEílí ícíaíuídíaílí ívíoílíuímí�í�ítíríiícíoí ítíoítíaílí íeísí í$íQí í=í íAí_í2í íví_í{ícíhíoíríríoí}í$í.í"í:í í"íTíhíríoíuígíhí ítíhíeí ídíiíaímíeítíeírí íríeídíuícíiínígí ítíuíbíeí í$íDí_í1í$í ítíoí ítíhíeí ítíhíríoíaítí í$íDí_í2í$í,í ítíhíeí ífílíuíiídí ívíeílíoícíiítíyí ícíhíaínígíeísí íiínívíeírísíeílíyí ípíríoípíoírítíiíoíníaílí ítíoí ítíhíeí ícíríoísísí ísíeícítíiíoíní,í ícíaíuísíiínígí ítíhíeí ímíaíxíiímíuímí ívíeílíoícíiítíyí íaínídí ílíoíwíeísítí ípíríeísísíuíríeí ítíoí íoícícíuírí íaítí ítíhíeí ípíoíiínítí íoífí ísímíaílílíeísítí ídíiíaímíeítíeírí.í íTíhíeí ítíoítíaílí ívíoílíuímíeítíríiící ífílíoíwí íríaítíeí íiísí í$íQí í=í íAí_í2í íví_í{íjíeítí}í$í.í"í,íí
-í í í"íAílí íiímípíaícítíaírí ítíaínígíeínícíiíaílímíeínítíeí ílíaísí ícíuícíhíaíríaísí ídíeí ílíaí ítíuíríbíiíníaí íPíeílítíoíní,í íeílí ícíaíuídíaílí ímí�í�ísíiícíoí í(í$í\ídíoítí{ímí}í í=í í\í\íríhíoí íQí$í)í íeíjíeírícíeí íuíníaí ífíuíeírízíaí ídíeí íeímípíuíjíeí ísíoíbíríeí íeílí íríoídíeítíeí ídíaídíaí ípíoírí:í"í:í í"íWíhíeíní ítíhíeí íPíeílítíoíní ítíuíríbíiíníeí ísípíoíoínísí ítíaínígíeínítíiíaílílíyí íiímípíaícítí,í ítíhíeí ímíaísísí ífílíoíwí íríaítíeí í(í$í\ídíoítí{ímí}í í=í í\í\íríhíoí íQí$í)í íeíxíeírítísí íaí ítíhíríuísítí ífíoírícíeí íoíní ítíhíeí íiímípíeílílíeírí ígíiívíeíní íbíyí:í"í,íí
-í í í"íLíaí ípíoítíeínícíiíaí ímíeící�í�íníiícíaí ímí�í�íxíiímíaí íaípíríoívíeícíhíaíbílíeí ídíeílí ícíhíoíríríoí ídíeí íaígíuíaí íeísí:í"í:í í"íTíhíeí ímíaíxíiímíuímí íuísíaíbílíeí ímíeícíhíaíníiícíaílí ípíoíwíeírí íoífí ítíhíeí íwíaítíeírí íjíeítí íiísí:í"í,íí
-í í í"íVíiísítíaí ídíeí ílíaí íPílíaínítíaí íHíiídírí�í�íuílíiícíaí"í:í í"íVíiíeíwí íoífí ítíhíeí íHíyídíríaíuílíiící íPílíaínítí"í,íí
-í í í"íPíaírí�í�ímíeítíríoísí íFí�í�ísíiícíoísí"í:í í"íPíhíyísíiícíaílí íPíaíríaímíeítíeírísí"í,íí
-í í í"íAílítíuíríaí ídíeílí íTíaíníqíuíeí í(íHí)í:í"í:í í"íTíaíníkí íHíeíiígíhítí í(íHí)í:í"í,íí
-í í í"íDíií�í�ímíeítíríoí íTíuíbíeírí�í�íaí íPíríiínícíiípíaílí í(íDí1í)í:í"í:í í"íMíaíiíní íPíiípíeí íDíiíaímíeítíeírí í(íDí1í)í:í"í,íí
-í í í"íDíií�í�ímíeítíríoí íGíaírígíaínítíaí íVíeínítíuíríií í(íDí2í)í:í"í:í í"íVíeínítíuíríií íTíhíríoíaítí íDíiíaímíeítíeírí í(íDí2í)í:í"í,íí
-í í í"íRíeínídíiímíiíeínítíoí íyí íPíríeísíiíoíníeísí"í:í í"íPíeírífíoírímíaínícíeí íaínídí íPíríeísísíuíríeísí"í,íí
-í í í"íBíaílíaínícíeí ídíeí íEíníeírígí�í�íaí ídíeí íBíeíríníoíuílílíií í(íkíPíaí)í"í:í í"íBíeíríníoíuílílíií íEíníeírígíyí íBíaílíaínícíeí í(íkíPíaí)í"í,íí
-í í í"íAínídíeírísí íCíeílísíiíuísí:í íCíaílíiíbíríaícíií�í�íní íTíeírímíoímí�í�ítíríiícíaí íyí ílíaí íEísícíaílíaí ídíeí íTíeímípíeíríaítíuíríaí í(í1í7í4í2í)í"í:í í"íAínídíeírísí íCíeílísíiíuísí:í íTíhíeírímíoímíeítíríiící íCíaílíiíbíríaítíiíoíní íaínídí ítíhíeí íTíeímípíeíríaítíuíríeí íSícíaílíeí í(í1í7í4í2í)í"í,íí
-í í í"íEílí ípíuínítíoí ídíeí íeíbíuílílíiícíií�í�íní ídíeílí íaígíuíaí í(ífíiíjíaídíoí íoíríiígíiíníaílímíeínítíeí íeíní í$í0í^í\ícíiírící$í)í"í:í í"íTíhíeí íbíoíiílíiínígí ípíoíiínítí íoífí íwíaítíeírí í(íoíríiígíiíníaílílíyí ísíeítí íaítí í$í0í^í\ícíiírící$í)í"í,íí
-í í í"íeílí ípíuínítíoí ídíeí ícíoínígíeílíaícíií�í�íní ídíeílí íaígíuíaí í(ífíiíjíaídíoí íoíríiígíiíníaílímíeínítíeí íeíní í$í1í0í0í^í\ícíiírící$í)í"í:í í"ítíhíeí ífíríeíeízíiínígí ípíoíiínítí íoífí íwíaítíeírí í(íoíríiígíiíníaílílíyí ísíeítí íaítí í$í1í0í0í^í\ícíiírící$í)í"í,íí
-í í í"í.í íLíaí íeísícíaílíaí íoíríiígíiíníaílí íeísítíaíbíaí"í:í í"í.í íTíhíeí íoíríiígíiíníaílí ísícíaílíeí íwíaísí"í,íí
-í í í"íeíní ícíoímípíaíríaícíií�í�íní ícíoíní ílíaí íqíuíeí íuísíaímíoísí íhíoíyí íeíní ídí�í�íaí,í ílíaí ícíuíaílí ífíuíeí íiínívíeírítíiídíaí ítíríaísí ísíuí ímíuíeírítíeí ípíoírí íCíaírílí íLíiíníníaíeíuísí ípíaíríaí ímíaíyíoírí ícíoímíoídíiídíaídí ídíeí íuísíoí.í"í:í í"ícíoímípíaíríeídí ítíoí ítíhíeí íoíníeí íwíeí íuísíeí ítíoídíaíyí,í íwíhíiícíhí íwíaísí íríeívíeírísíeídí íaífítíeírí íhíiísí ídíeíaítíhí íbíyí íCíaírílí íLíiíníníaíeíuísí ífíoírí ígíríeíaítíeírí ícíoímífíoírítí íoífí íuísíeí.í"í,íí
-í í í"íEífíeícítíoí ídíeí ílíaí íPíríeísíií�í�íní íAítímíoísífí�í�íríiícíaí:í"í:í í"íEífífíeícítí íoífí íAítímíoísípíhíeíríiící íPíríeísísíuíríeí:í"í,íí
-í í í"íCíeílísíiíuísí ídíeísícíuíbíríií�í�í íqíuíeí íeílí ípíuínítíoí ídíeí ícíoínígíeílíaícíií�í�íní íaípíeíníaísí ícíaímíbíiíaí ícíoíní ílíaí ípíríeísíií�í�íní,í ípíeíríoí íeílí ípíuínítíoí ídíeí íeíbíuílílíiícíií�í�íní ídíeílí íaígíuíaí íeísí íaílítíaímíeínítíeí ídíeípíeínídíiíeínítíeí ídíeí ílíaí ípíríeísíií�í�íní íaítímíoísífí�í�íríiícíaí íeíxítíeíríníaí.í íPíoírí íeíjíeímípílíoí,í íeíní íMíeídíeílílí�í�íní í(íaílítíiítíuídí í1í5í0í0ímí)í íeílí íaígíuíaí íhíiíeírívíeí íaí íaípíríoíxíiímíaídíaímíeínítíeí í$í9í2í^í\ícíiírící\í\ítíeíxítí{íCí}í$í,í íyí íeíní íBíoígíoítí�í�í í(íaílítíiítíuídí í2í6í0í0ímí)í íaí í$í8í6í^í\ícíiírící\í\ítíeíxítí{íCí}í$í.í"í:í í"íCíeílísíiíuísí ídíiísícíoívíeíríeídí ítíhíaítí ítíhíeí ífíríeíeízíiínígí ípíoíiínítí íbíaíríeílíyí ícíhíaínígíeísí íwíiítíhí ípíríeísísíuíríeí,í íbíuítí ítíhíeí íbíoíiílíiínígí ípíoíiínítí íoífí íwíaítíeírí íiísí íhíiígíhílíyí ídíeípíeínídíeínítí íoíní ítíhíeí íeíxítíeíríníaílí íaítímíoísípíhíeíríiící ípíríeísísíuíríeí.í íFíoírí íeíxíaímípílíeí,í íiíní íMíeídíeílílí�í�íní í(íaílítíiítíuídíeí í1í5í0í0ímí)í íwíaítíeírí íbíoíiílísí íaítí íaípípíríoíxíiímíaítíeílíyí í$í9í2í^í\ícíiírící\í\ítíeíxítí{íCí}í$í,í íaínídí íiíní íBíoígíoítí�í�í í(íaílítíiítíuídíeí í2í6í0í0ímí)í íaítí í$í8í6í^í\ícíiírící\í\ítíeíxítí{íCí}í$í.í"í,íí
-í í í"íEísítíaídíoí:í"í:í í"íSítíaítíuísí:í"í,íí
-í í í"íLíeícítíuíríaí:í"í:í í"íRíeíaídíiínígí:í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí ídíeílí íAígíuíaí:í"í:í í"íWíaítíeírí íTíeímípíeíríaítíuíríeí:í"í,íí
-í í í"íTíaíbílíaí íCíoímípíaíríaítíiívíaí ídíeí íEísícíaílíaísí"í:í í"íCíoímípíaíríaítíiívíeí íTíaíbílíeí íoífí íSícíaílíeísí"í,íí
-í í í"íEícíuíaícíií�í�íní ídíeí íCíoínívíeírísíií�í�íní íAícítíiívíaí"í:í í"íAícítíiívíeí íCíoínívíeírísíiíoíní íEíqíuíaítíiíoíní"í,íí
-í í í"íCíeíríoí íAíbísíoílíuítíoí"í:í í"íAíbísíoílíuítíeí íZíeíríoí"í,íí
-í í í"íCíoínígíeílíaícíií�í�íní íHí�í�í�íOí"í:í í"íHí�í�í�íOí íFíríeíeízíiínígí"í,íí
-í í í"íTíeímípí.í íCíoírípíoíríaílí"í:í í"íTíeímípí.í íCíoírípíoíríaílí"í,íí
-í í í"íEíbíuílílíiícíií�í�íní íHí�í�í�íOí"í:í í"íBíoíiílíiínígí íHí�í�í�íOí"í,íí
-í í í"íVíeírí íCíuírívíaí ídíeí íEíbíuílílíiícíií�í�íní í(í0í íaí í1í2í0í íkímí)í"í:í í"íSíeíeí íBíoíiílíiínígí íCíuírívíeí í(í0í ítíoí í1í2í0í íkímí)í"í,íí
-í í í"íEíbíuílílíiícíií�í�íní ídíeílí íAígíuíaí íhíaísítíaí íeílí íLí�í�ímíiítíeí ídíeí ílíaí íAítímí�í�ísífíeíríaí í(í1í2í0í íkímí)í"í:í í"íBíoíiílíiínígí íoífí íWíaítíeírí íuípí ítíoí ítíhíeí íLíiímíiítí íoífí ítíhíeí íAítímíoísípíhíeíríeí í(í1í2í0í íkímí)í"í,íí
-í í í"íAí í0í.í0í6í1í íaítímí,í íeílí íaígíuíaí íhíiíeírívíeí íaí í3í7í í�í�íCí í(ítíeímípíeíríaítíuíríaí ícíoírípíoíríaílí)í.í íSíiíní íuíní ítíríaíjíeí ípíríeísíuíríiízíaídíoí,í ílíaí ísíaílíiívíaí íyí ílí�í�ígíríiímíaísí íhíeírívíiírí�í�íaíní íeísípíoínítí�í�íníeíaímíeínítíeí.í"í:í í"íAítí í0í.í0í6í1í íaítímí,í íwíaítíeírí íbíoíiílísí íaítí í3í7í�í�íCí í(íbíoídíyí ítíeímípíeíríaítíuíríeí)í.í íWíiítíhíoíuítí íaí ípíríeísísíuíríeí ísíuíiítí,í ísíaílíiívíaí íaínídí ítíeíaírísí íwíoíuílídí íbíoíiílí ísípíoínítíaíníeíoíuísílíyí.í"í,íí
-í í í"íAí í0í.í0í0í6í íaítímí í(í6í1í1í íPíaí)í,í íeílí íaígíuíaí íníoí ípíuíeídíeí íeíxíiísítíiírí íeíní íeísítíaídíoí ílí�í�íqíuíiídíoí,í ísíiíní íiímípíoírítíaírí ílíaí ítíeímípíeíríaítíuíríaí.í íPíoírí íeínícíiímíaí ídíeí íeísítíaí íaílítíiítíuídí í(ízíoíníaí ígíríiísí)í,í íeílí íaígíuíaí ísíoílíoí ípíuíeídíeí íeíxíiísítíiírí ícíoímíoí íhíiíeílíoí ísí�í�ílíiídíoí íoí ívíaípíoírí ídíeí íaígíuíaí í(ísíuíbílíiímíaícíií�í�íní)í.í"í:í í"íAítí í0í.í0í0í6í íaítímí í(í6í1í1í íPíaí)í,í íwíaítíeírí ícíaíníníoítí íeíxíiísítí íiíní íaí ílíiíqíuíiídí ísítíaítíeí,í íríeígíaírídílíeísísí íoífí ítíeímípíeíríaítíuíríeí.í íAíbíoívíeí ítíhíiísí íaílítíiítíuídíeí í(ígíríaíyí ízíoíníeí)í,í íwíaítíeírí ícíaíní íoínílíyí íeíxíiísítí íaísí ísíoílíiídí íiícíeí íoírí íwíaítíeírí ívíaípíoírí í(ísíuíbílíiímíaítíiíoíní)í.í"í,íí
-í í í"íNíaívíiíeírí íyí íSítíoíkíeísí:í íEícíuíaícíiíoíníeísí ídíeílí íFílíuíjíoí íVíiísícíoísíoí íyí íPíeírífíiílí íAílíaírí í(í1í8í2í2í�í�í�í1í8í4í5í)í"í:í í"íNíaívíiíeírí íaínídí íSítíoíkíeísí:í íVíiísícíoíuísí íFílíoíwí íaínídí íWíiínígí íPíríoífíiílíeí íEíqíuíaítíiíoínísí í(í1í8í2í2í�í�í�í1í8í4í5í)í"í,íí
-í í í"íCílíaíuídíeí-íLíoíuíiísí íNíaívíiíeírí í(í1í8í2í2í)í íyí íGíeíoírígíeí íGíaíbíríiíeílí íSítíoíkíeísí í(í1í8í4í5í)í ífíoírímíuílíaíríoíní ílíaísí íeícíuíaícíiíoíníeísí ívíeícítíoíríiíaílíeísí íqíuíeí ígíoíbíiíeíríníaíní íeílí ímíoívíiímíiíeínítíoí ídíeí"í:í í"íCílíaíuídíeí-íLíoíuíiísí íNíaívíiíeírí í(í1í8í2í2í)í íaínídí íGíeíoírígíeí íGíaíbíríiíeílí íSítíoíkíeísí í(í1í8í4í5í)í ífíoírímíuílíaítíeídí ítíhíeí ívíeícítíoírí íeíqíuíaítíiíoínísí ítíhíaítí ígíoívíeíríní ítíhíeí ímíoítíiíoíní íoífí"í,íí
-í í í"íeíní íeílí íuíníiívíeírísíoí.í íSíuí ífíoírímíaí íiínícíoímípíríeísíiíbílíeí íeísí:í"í:í í"íiíní ítíhíeí íuíníiívíeírísíeí.í íIítísí íiínícíoímípíríeísísíiíbílíeí ífíoírímí íiísí:í"í,íí
-í í í"íIíníeírícíiíaí í(í$í\í\íríhíoí(í\ípíaírítíiíaílí\ímíaítíhíbífí{íuí}í/í\ípíaírítíiíaílí ítí í+í í\ímíaítíhíbífí{íuí}í\í\ícídíoítí\íníaíbílíaí\ímíaítíhíbífí{íuí}í)í$í)í:í"í:í í"íIíníeírítíiíaí í(í$í\í\íríhíoí(í\ípíaírítíiíaílí\ímíaítíhíbífí{íuí}í/í\ípíaírítíiíaílí ítí í+í í\ímíaítíhíbífí{íuí}í\í\ícídíoítí\íníaíbílíaí\ímíaítíhíbífí{íuí}í)í$í)í:í"í,íí
-í í í"íLíaí íaícíeílíeíríaícíií�í�íní íníeítíaí ídíeí ícíaídíaí ípíaírítí�í�ícíuílíaí ídíeí ífílíuíiídíoí í�í�í�í ícíoínívíeícítíiívíaí í(ícíaímíbíiíoí ídíeí ípíoísíiícíií�í�íní)í íyí ílíoícíaílí í(ícíaímíbíiíoí íeíní íeílí ítíiíeímípíoí)í.í"í:í í"íTíhíeí íníeítí íaícícíeílíeíríaítíiíoíní íoífí íeíaícíhí ífílíuíiídí ípíaírítíiícílíeí í�í�í�í ícíoínívíeícítíiívíeí í(ícíhíaínígíeí íiíní ípíoísíiítíiíoíní)í íaínídí ílíoícíaílí í(ícíhíaínígíeí íiíní ítíiímíeí)í.í"í,íí
-í í í"íPíríeísíií�í�íní í(í$í-í\íníaíbílíaí ípí$í)í:í"í:í í"íPíríeísísíuíríeí í(í$í-í\íníaíbílíaí ípí$í)í:í"í,íí
-í í í"íEílí ígíríaídíiíeínítíeí ídíeí ípíríeísíií�í�íní íqíuíeí íiímípíuílísíaí íeílí ífílíuíjíoí ídíeí ízíoíníaísí ídíeí íaílítíaí íaí íbíaíjíaí ípíríeísíií�í�íní í(ígíeíníeíríaí ísíuísítíeínítíaícíií�í�íní íeíní ípíeírífíiílíeísí íaílíaíríeísí)í.í"í:í í"íTíhíeí ípíríeísísíuíríeí ígíríaídíiíeínítí ítíhíaítí ídíríiívíeísí ítíhíeí ífílíoíwí ífíríoímí íhíiígíhí ítíoí ílíoíwí ípíríeísísíuíríeí ízíoíníeísí í(ígíeíníeíríaítíeísí ílíiífítí íoíní íaíiírífíoíiílísí)í.í"í,íí
-í í í"íVíiísícíoísíiídíaídí í(í$í\ímíuí\íníaíbílíaí^í2í\ímíaítíhíbífí{íuí}í$í)í:í"í:í í"íVíiísícíoísíiítíyí í(í$í\ímíuí\íníaíbílíaí^í2í\ímíaítíhíbífí{íuí}í$í)í:í"í,íí
-í í í"íLíaí íríeísíiísítíeínícíiíaí íiínítíeíríníaí ídíeílí ífílíuíiídíoí íaílí ícíiízíaílílíaímíiíeínítíoí,í ícíaíuísíaí ílíaí ícíaípíaí ílí�í�ímíiítíeí íyí íeílí íaíríríaísítíríeí.í"í:í í"íTíhíeí íiínítíeíríníaílí íríeísíiísítíaínícíeí íoífí ítíhíeí ífílíuíiídí ítíoí ísíhíeíaírí ícíaíuísíeísí ítíhíeí íbíoíuínídíaíríyí ílíaíyíeírí íaínídí ídíríaígí.í"í,íí
-í í í"íGíríaívíeídíaídí í(í$í\í\íríhíoí\ímíaítíhíbífí{ígí}í$í)í:í"í:í í"íGíríaívíiítíyí í(í$í\í\íríhíoí\ímíaítíhíbífí{ígí}í$í)í:í"í,íí
-í í í"íFíuíeírízíaísí ídíeí ícíuíeírípíoí ícíoímíoí ílíaí ígíríaívíeídíaídí íoí ílíaísí ímíaígíní�í�ítíiícíaísí.í"í:í í"íBíoídíyí ífíoírícíeísí ísíuícíhí íaísí ígíríaívíiítíyí íoírí ímíaígíníeítíiící ífíoírícíeísí.í"í,íí
-í í í"íLíaí ísíiímíuílíaícíií�í�íní íuísíaí"í:í í"íTíhíeí ísíiímíuílíaítíiíoíní íuísíeísí"í,íí
-í í í"ípíaíríaí ímíoísítíríaírí íeílí ícíoímípíoírítíaímíiíeínítíoí ícíuíaílíiítíaítíiívíoí íaílíríeídíeídíoírí ídíeílí ípíeírífíiílí.í"í:í í"ítíoí ísíhíoíwí ítíhíeí íqíuíaílíiítíaítíiívíeí íbíeíhíaívíiíoírí íaíríoíuínídí ítíhíeí ípíríoífíiílíeí.í"í,íí
-í í í"íRíeíiíníiícíiíaírí íPíaírítí�í�ícíuílíaísí"í:í í"íRíeísíeítí íPíaírítíiícílíeísí"í,íí
-í í í"í�í�ínígíuílíoí ídíeí íAítíaíqíuíeí í$í(í\íaílípíhíaí)í$í:í"í:í í"íAínígílíeí íoífí íAítítíaícíkí í$í(í\íaílípíhíaí)í$í:í"í,íí
-í í í"íVíeílíoícíiídíaídí ídíeílí íFílíuíjíoí:í"í:í í"íFílíoíwí íSípíeíeídí:í"í,íí
-í í í"íEíxípíeíríiímíeínítíoí ídíeí íHíeírísícíhíeílí:í íDíeísícíuíbíríiímíiíeínítíoí ídíeílí íIínífíríaíríríoíjíoí í(í1í8í0í0í)í"í:í í"íHíeírísícíhíeílí íEíxípíeíríiímíeínítí:í íDíiísícíoívíeíríyí íoífí íIínífíríaíríeídí í(í1í8í0í0í)í"í,íí
-í í í"íPíoísíiícíií�í�íní ídíeílí íTíeírímí�í�ímíeítíríoí í(íEísípíeícítíríoí)í:í"í:í í"íTíhíeírímíoímíeítíeírí íPíoísíiítíiíoíní í(íSípíeícítíríuímí)í:í"í,íí
-í í í"íIínítíeínísíiídíaídí íSíoílíaírí í$í(íIí)í$í:í"í:í í"íSíoílíaírí íIínítíeínísíiítíyí í$í(íIí)í$í:í"í,íí
-í í í"íWí/ímí�í�í"í:í í"íWí/ímí�í�í"í,íí
-í í í"íTíeímípí.í íAímíbíiíeínítíeí í$í(íTí_í{íaímíbí}í)í$í:í"í:í í"íTíeímípí.í íEínívíiíríoínímíeínítí í$í(íTí_í{íaímíbí}í)í$í:í"í,íí
-í í í"íTíeírímí�í�ímíeítíríoí íAícítíiívíoí í(í$íTí_í{íaícítí}í$í)í:í"í:í í"íAícítíiívíeí íTíhíeírímíoímíeítíeírí í(í$íTí_í{íaícítí}í$í)í:í"í,íí
-í í í"íCíoínítíríoílí í1í í-í íSíoímíbíríaí í(í$íTí_í{ící1í}í$í)í:í"í:í í"íCíoínítíríoílí í1í í-í íSíhíaídíoíwí í(í$íTí_í{ící1í}í$í)í:í"í,íí
-í í í"íCíoínítíríoílí í2í í-í íSíoímíbíríaí í(í$íTí_í{ící2í}í$í)í:í"í:í í"íCíoínítíríoílí í2í í-í íSíhíaídíoíwí í(í$íTí_í{ící2í}í$í)í:í"í,íí
-í í í"íDíiífíeíríeínícíiíaílí ídíeí íTíeímípíeíríaítíuíríaí í(í$í\íDíeílítíaí íTí$í)í:í"í:í í"íTíeímípíeíríaítíuíríeí íDíiífífíeíríeínítíiíaílí í(í$í\íDíeílítíaí íTí$í)í:í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íNíuísísíeílítí:í íCíoínídíuícícíií�í�íní ívísí íCíoínívíeícícíií�í�íní"í:í í"íNíuísísíeílítí íNíuímíbíeírí:í íCíoínídíuícítíiíoíní ívísí íCíoínívíeícítíiíoíní"í,íí
-í í í"íFí�í�ísíiícíaímíeínítíeí:í í$í$í íNíuí í=í í\í\ífíríaící{íqí_í{ícíoíníví}í}í{íqí_í{ícíoínídí}í}í í=í í\í\ífíríaící{íhí íLí_ící}í{íkí}í í$í$í"í:í í"íPíhíyísíiícíaílílíyí:í í$í$í íNíuí í=í í\í\ífíríaící{íqí_í{ícíoíníví}í}í{íqí_í{ícíoínídí}í}í í=í í\í\ífíríaící{íhí íLí_ící}í{íkí}í í$í$í"í,íí
-í í í"íVíeílíoícíiídíaídí ídíeílí íFílíuíiídíoí í$í(íuí)í$í:í"í:í í"íFílíuíiídí íVíeílíoícíiítíyí í$í(íuí)í$í:í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí íFílíuíiídíoí í$í(íkí)í$í:í"í:í í"íFílíuíiídí íCíoínídíuícítíiívíiítíyí í$í(íkí)í$í:í"í,íí
-í í í"íEísípíeísíoírí í$í(íLí_ící)í$í:í"í:í í"íTíhíiícíkíníeísísí í$í(íLí_ící)í$í:í"í,íí
-í í í"íTíeímípí.í íPíaíríeídí í$í(íTí_ísí)í$í:í"í:í í"íTíeímípí.í íWíaílílí í$í(íTí_ísí)í$í:í"í,íí
-í í í"íTíeímípí.í íLíiíbíríeí í$í(íTí_í\í\íiínífítíyí)í$í:í"í:í í"íTíeímípí.í íFíríeíeí í$í(íTí_í\í\íiínífítíyí)í$í:í"í,íí
-í í í"íCíaílíoírí ípíoírí íCíoínídíuícícíií�í�íní íPíuíríaí í$í(íqí_í{ícíoínídí}í)í$í:í"í:í í"íHíeíaítí íbíyí íPíuíríeí íCíoínídíuícítíiíoíní í$í(íqí_í{ícíoínídí}í)í$í:í"í,íí
-í í í"íCíaílíoírí ípíoírí íCíoínívíeícícíií�í�íní í$í(íqí_í{ícíoíníví}í)í$í:í"í:í í"íHíeíaítí íbíyí íCíoínívíeícítíiíoíní í$í(íqí_í{ícíoíníví}í)í$í:í"í,íí
-í í í"íAíníaílíoígí�í�íaísí ídíeí íTíríaínísípíoírítíeí íyí íDíeísíaíríríoílílíoí ídíeí íCíaípíaísí íLí�í�ímíiítíeí"í:í í"íTíríaínísípíoírítí íAíníaílíoígíiíeísí íaínídí íBíoíuínídíaíríyí íLíaíyíeírí íDíeívíeílíoípímíeínítí"í,íí
-í í í"íEíní íeílí íeísítíuídíiíoí ídíeí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí íyí ímíaísíaí,í ílíaísí ícíaípíaísí ílí�í�ímíiítíeí ídíeí ívíeílíoícíiídíaídí í(í$í\ídíeílítíaí$í)í,í ítí�í�írímíiícíaí í(í$í\ídíeílítíaí_ítí$í)í íyí ídíeí ícíoínícíeínítíríaícíií�í�íní í(í$í\ídíeílítíaí_ící$í)í ídíeísícíríiíbíeíní ící�í�ímíoí ísíeí ídíeísíaíríríoílílíaíní ílíoísí ípíeírífíiílíeísí ídíeísídíeí ílíaí ípíaíríeídí.í"í:í í"íIíní ítíhíeí íhíeíaítí íaínídí ímíaísísí ítíríaínísífíeírí ísítíuídíyí,í ítíhíeí ívíeílíoícíiítíyí í(í$í\ídíeílítíaí$í)í,í ítíhíeírímíaílí í(í$í\ídíeílítíaí_ítí$í)í,í íaínídí ícíoínícíeínítíríaítíiíoíní í(í$í\ídíeílítíaí_ící$í)í íbíoíuínídíaíríyí ílíaíyíeírísí ídíeísícíríiíbíeí íhíoíwí ítíhíeí ípíríoífíiílíeísí ídíeívíeílíoípí ífíríoímí ítíhíeí íwíaílílí.í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íPíríaínídítílí í(í$íPírí í=í í\í\ífíríaící{í\íníuí}í{í\íaílípíhíaí}í$í)í:í"í:í í"íPíríaínídítílí íníuímíbíeírí í(í$íPírí í=í í\í\ífíríaící{í\íníuí}í{í\íaílípíhíaí}í$í)í:í"í,íí
-í í í"íRíeílíaícíiíoíníaí ílíaí ídíiífíuísíií�í�íní ídíeí ímíoímíeínítíoí íyí ícíaílíoírí.í í$í\ídíeílítíaí í/í í\ídíeílítíaí_ítí í\í\íaípípíríoíxí íPírí^í{í1í/í3í}í$í íoí í$í\ídíeílítíaí_ítí í/í í\ídíeílítíaí í\í\íaípípíríoíxí íPírí^í{í-í1í/í3í}í$í.í"í:í í"íRíeílíaítíeísí ítíhíeí ídíiífífíuísíiíoíní íoífí ímíoímíeínítíuímí íaínídí íhíeíaítí.í í$í\ídíeílítíaí í/í í\ídíeílítíaí_ítí í\í\íaípípíríoíxí íPírí^í{í1í/í3í}í$í íoírí í$í\ídíeílítíaí_ítí í/í í\ídíeílítíaí í\í\íaípípíríoíxí íPírí^í{í-í1í/í3í}í$í.í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íSícíhímíiídítí í(í$íSící í=í í\í\ífíríaící{í\íníuí}í{íDí_í{íAíBí}í}í$í)í:í"í:í í"íSícíhímíiídítí íníuímíbíeírí í(í$íSící í=í í\í\ífíríaící{í\íníuí}í{íDí_í{íAíBí}í}í$í)í:í"í,íí
-í í í"íRíeílíaícíiíoíníaí ílíaí ídíiífíuísíií�í�íní ídíeí ímíoímíeínítíoí íyí ímíaísíaí.í í$í\ídíeílítíaí í/í í\ídíeílítíaí_ící í\í\íaípípíríoíxí íSící^í{í1í/í3í}í$í íoí í$í\ídíeílítíaí_ící í/í í\ídíeílítíaí í\í\íaípípíríoíxí íSící^í{í-í1í/í3í}í$í.í"í:í í"íRíeílíaítíeísí ítíhíeí ídíiífífíuísíiíoíní íoífí ímíoímíeínítíuímí íaínídí ímíaísísí.í í$í\ídíeílítíaí í/í í\ídíeílítíaí_ící í\í\íaípípíríoíxí íSící^í{í1í/í3í}í$í íoírí í$í\ídíeílítíaí_ící í/í í\ídíeílítíaí í\í\íaípípíríoíxí íSící^í{í-í1í/í3í}í$í.í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íLíeíwíiísí í(í$íLíeí í=í í\í\ífíríaící{í\íaílípíhíaí}í{íDí_í{íAíBí}í}í í=í í\í\ífíríaící{íSící}í{íPírí}í$í)í:í"í:í í"íLíeíwíiísí íníuímíbíeírí í(í$íLíeí í=í í\í\ífíríaící{í\íaílípíhíaí}í{íDí_í{íAíBí}í}í í=í í\í\ífíríaící{íSící}í{íPírí}í$í)í:í"í,íí
-í í í"íRíeílíaícíiíoíníaí ílíaí ídíiífíuísíií�í�íní ídíeí ícíaílíoírí íyí ímíaísíaí.í í$í\ídíeílítíaí_ítí í/í í\ídíeílítíaí_ící í\í\íaípípíríoíxí íLíeí^í{í1í/í3í}í$í íoí í$í\ídíeílítíaí_ící í/í í\ídíeílítíaí_ítí í\í\íaípípíríoíxí íLíeí^í{í-í1í/í3í}í$í.í"í:í í"íRíeílíaítíeísí ítíhíeí ídíiífífíuísíiíoíní íoífí íhíeíaítí íaínídí ímíaísísí.í í$í\ídíeílítíaí_ítí í/í í\ídíeílítíaí_ící í\í\íaípípíríoíxí íLíeí^í{í1í/í3í}í$í íoírí í$í\ídíeílítíaí_ící í/í í\ídíeílítíaí_ítí í\í\íaípípíríoíxí íLíeí^í{í-í1í/í3í}í$í.í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íPíríaínídítílí í$í(íPírí)í$í:í"í:í í"íPíríaínídítílí íníuímíbíeírí í$í(íPírí)í$í:í"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íSícíhímíiídítí í$í(íSící)í$í:í"í:í í"íSícíhímíiídítí íníuímíbíeírí í$í(íSící)í$í:í"í,íí
-í í í"íEísípíeísíoírí íCíaípíaí íTí�í�írímíiícíaí í$í(í\ídíeílítíaí_ítí)í$í:í"í:í í"íTíhíeírímíaílí íLíaíyíeírí íTíhíiícíkíníeísísí í$í(í\ídíeílítíaí_ítí)í$í:í"í,íí
-í í í"íEísípíeísíoírí íCíaípíaí íMíaísíaí í$í(í\ídíeílítíaí_ící)í$í:í"í:í í"íLíaíyíeírí íTíhíiícíkíníeísísí íMíaísísí í$í(í\ídíeílítíaí_ící)í$í:í"í,íí
-í í í"íRíeílíaícíií�í�íní íEísípíeísíoíríeísí í$í(í\ídíeílítíaí_ítí í/í í\ídíeílítíaí_ící)í$í:í"í:í í"íTíhíiícíkíníeísísí íríaítíiíoí í$í(í\ídíeílítíaí_ítí í/í í\ídíeílítíaí_ící)í$í:í"í,íí
-í í í"íEíxípíeíríiímíeínítíoí ídíeí íOísíbíoíríníeí íRíeíyíníoílídísí í(í1í8í8í3í)í"í:í í"íOísíbíoíríníeí íRíeíyíníoílídísí íeíxípíeíríiímíeínítí í(í1í8í8í3í)í"í,íí
-í í í"íVíeílíoícíiídíaídí ídíeílí íFílíuíiídíoí í$í(íVí)í$í:í"í:í í"íFílíuíiídí íVíeílíoícíiítíyí í$í(íVí)í$í:í"í,íí
-í í í"íDíií�í�ímíeítíríoí íHíiídírí�í�íuílíiícíoí í$í(íDí_íhí)í$í:í"í:í í"íHíyídíríaíuílíiící íDíiíaímíeítíeírí í$í(íDí_íhí)í$í:í"í,íí
-í í í"íVíiísícíoísíiídíaídí íCíiíníeímí�í�ítíiícíaí í$í(í\íníuí)í$í:í"í:í í"íKíiíníeímíaítíiící íVíiísícíoísíiítíyí í$í(í\íníuí)í$í:í"í,íí
-í í í"ímí�í�í/ísí"í:í í"ímí�í�í/ísí"í,íí
-í í í"í�í�í�í í$íRíeí"í:í í"í�í�í�í í$íRíeí"í,íí
-í í í"í2í3í0í0í$í:í íFílíuíjíoí íLíaímíiíníaírí í(íeísítíaíbílíeí)í"í:í í"í$í2í3í0í0í:í íLíaímíiíníaírí íFílíoíwí í(ísítíaíbílíeí)í"í,íí
-í í í"í�í�í�í í$í2í3í0í0í í\ílíeí íRíeí í\ílíeí í4í0í0í0í$í:í íTíríaínísíiícíií�í�íní í(íoísícíiílíaínítíeí)í"í:í í"í�í�í�í í$í2í3í0í0í í\ílíeí íRíeí í\ílíeí í4í0í0í0í$í:í íTíríaínísíiítíiíoíní í(íoísícíiílílíaítíiínígí)í"í,íí
-í í í"í�í�í�í í$íRíeí í>í í4í0í0í0í$í:í íFílíuíjíoí íTíuíríbíuílíeínítíoí í(ímíeízícílíaídíoí ícíoímípílíeítíoí)í"í:í í"í�í�í�í í$íRíeí í>í í4í0í0í0í$í:í íTíuíríbíuílíeínítí íFílíoíwí í(ícíoímípílíeítíeí ímíiíxíiínígí)í"í,íí
-í í í"íCíoínívíeícícíií�í�íní íNíaítíuíríaílí ísíoíbíríeí íuíní íCíiílíiínídíríoí íHíoíríiízíoínítíaílí"í:í í"íNíaítíuíríaílí íCíoínívíeícítíiíoíní íoíní íaí íHíoíríiízíoínítíaílí íCíyílíiínídíeírí"í,íí
-í í í"íLíaí ícíoínívíeícícíií�í�íní íníaítíuíríaílí íoícíuíríríeí ídíeíbíiídíoí íaílí ímíoívíiímíiíeínítíoí ídíeí ífílíoítíaícíií�í�íní íoíríiígíiíníaídíoí ípíoírí ícíaímíbíiíoísí ídíeí ídíeínísíiídíaídí íeíní íuíní ífílíuíiídíoí íaí ícíaíuísíaí ídíeí ídíiífíeíríeínícíiíaísí ídíeí ítíeímípíeíríaítíuíríaí.í íPíaíríaí íuíní ícíiílíiínídíríoí íhíoíríiízíoínítíaílí ídíeí ídíií�í�ímíeítíríoí í$íDí$í,í ílíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí ísíeí íeísítíiímíaí ímíeídíiíaínítíeí ílíaí ícíoíríríeílíaícíií�í�íní ídíeí"í:í í"íNíaítíuíríaílí ícíoínívíeícítíiíoíní íoícícíuírísí ídíuíeí ítíoí ítíhíeí íbíuíoíyíaínítí ímíoítíiíoíní ícíaíuísíeídí íbíyí ídíeínísíiítíyí ícíhíaínígíeísí íiíní íaí ífílíuíiídí ídíuíeí ítíoí ítíeímípíeíríaítíuíríeí ídíiífífíeíríeínícíeísí.í íFíoírí íaí íhíoíríiízíoínítíaílí ícíyílíiínídíeírí íoífí ídíiíaímíeítíeírí í$íDí$í,í ítíhíeí íhíeíaítí ítíríaínísífíeírí íiísí íeísítíiímíaítíeídí íbíyí ítíhíeí ícíoíríríeílíaítíiíoíní íoífí"í,íí
-í í í"íTíeímípíeíríaítíuíríaí íSíuípíeírífíiícíiíeí í$í(íTí_ísí)í$í:í"í:í í"íSíuírífíaícíeí íTíeímípíeíríaítíuíríeí í$í(íTí_ísí)í$í:í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí íFílíuíiídíoí í$í(íTí_í\í\íiínífítíyí)í$í:í"í:í í"íFílíuíiídí íTíeímípíeíríaítíuíríeí í$í(íTí_í\í\íiínífítíyí)í$í:í"í,íí
-í í í"í�í�í�í í$íTí_ísí í>í íTí_í\í\íiínífítíyí$í:í íEílí ífílíuíiídíoí ísíeí ícíaílíiíeínítíaí,í ísíeí ívíuíeílívíeí ímíeíníoísí ídíeínísíoí íyí í*í*íaísícíiíeínídíeí*í*í,í ícíríeíaínídíoí íuíníaí ípílíuímíaí ítí�í�írímíiícíaí íhíaícíiíaí íaíríríiíbíaí.í"í:í í"í�í�í�í í$íTí_ísí í>í íTí_í\í\íiínífítíyí$í:í íTíhíeí ífílíuíiídí íhíeíaítísí íuípí,í íbíeícíoímíeísí ílíeísísí ídíeínísíeí,í íaínídí í*í*íríiísíeísí*í*í,í ícíríeíaítíiínígí íaíní íuípíwíaírídí ítíhíeírímíaílí ípílíuímíeí.í"í,íí
-í í í"í�í�í�í í$íTí_ísí"í:í í"í�í�í�í í$íTí_ísí"í,íí
-í í í"íTí_í\í\íiínífítíyí$í:í íEílí ífílíuíiídíoí ísíeí íeínífírí�í�íaí,í ísíeí ívíuíeílívíeí ímí�í�ísí ídíeínísíoí íyí í*í*ídíeísícíiíeínídíeí*í*í,í ícíríeíaínídíoí íuíníaí ípílíuímíaí ítí�í�írímíiícíaí íhíaícíiíaí íaíbíaíjíoí.í"í:í í"íTí_í\í\íiínífítíyí$í:í íTíhíeí ífílíuíiídí ícíoíoílísí,í íbíeícíoímíeísí ídíeínísíeírí,í íaínídí í*í*ídíeísícíeínídísí*í*í,í ícíríeíaítíiínígí íaí ídíoíwíníwíaírídí ítíhíeírímíaílí ípílíuímíeí.í"í,íí
-í í í"í�í�í�í í$í\íDíeílítíaí íTí í=í í0í$í:í íNíoí íhíaíyí ícíoíríríiíeínítíeísí ídíeí ífílíoítíaícíií�í�íní.í"í:í í"í�í�í�í í$í\íDíeílítíaí íTí í=í í0í$í:í íTíhíeíríeí íaíríeí íníoí ífílíoíaítí ícíuíríríeínítísí.í"í,íí
-í í í"íPíaíríeídí íCíoímípíuíeísítíaí íyí íAíníaílíoígí�í�íaí ídíeí íRíeísíiísítíeínícíiíaísí íTí�í�írímíiícíaísí"í:í í"íCíoímípíoísíiítíeí íWíaílílí íaínídí íTíhíeírímíaílí íRíeísíiísítíaínícíeí íAíníaílíoígíyí"í,íí
-í í í"íLíaí ícíoínídíuícícíií�í�íní ídíeí ícíaílíoírí íaí ítíríaíví�í�ísí ídíeí íuíní ímíeídíiíoí íeíní íeísítíaídíoí íeísítíaíbílíeí ípíuíeídíeí ísíeírí ímíoídíeílíaídíaí ímíaítíeímí�í�ítíiícíaímíeínítíeí íuítíiílíiízíaínídíoí ílíaí"í:í í"íTíhíeí ícíoínídíuícítíiíoíní íoífí íhíeíaítí ítíhíríoíuígíhí íaí ímíeídíiíuímí íiíní íaí ísítíeíaídíyí ísítíaítíeí ícíaíní íbíeí ímíoídíeílíeídí ímíaítíhíeímíaítíiícíaílílíyí íuísíiínígí ítíhíeí"í,íí
-í í í"í(í$íIí í=í í\íDíeílítíaí íVí í/í íRí$í)í.í íEíní ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí,í ílíaí ícíoíríríiíeínítíeí íeísí ílíaí ítíaísíaí ídíeí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí í(í$íqí$í)í,í íeílí ípíoítíeínícíiíaílí íeísí ílíaí ídíiífíeíríeínícíiíaí ídíeí ítíeímípíeíríaítíuíríaísí í(í$í\íDíeílítíaí íTí$í)í,í íyí ílíaí íríeísíiísítíeínícíiíaí íaílí ífílíuíjíoí ísíeí ílílíaímíaí"í:í í"í(í$íIí í=í í\íDíeílítíaí íVí í/í íRí$í)í.í íIíní íhíeíaítí ítíríaínísífíeírí,í ítíhíeí ícíuíríríeínítí íiísí ítíhíeí íhíeíaítí ítíríaínísífíeírí íríaítíeí í(í$íqí$í)í,í ítíhíeí ípíoítíeínítíiíaílí íiísí ítíhíeí ítíeímípíeíríaítíuíríeí ídíiífífíeíríeínícíeí í(í$í\íDíeílítíaí íTí$í)í,í íaínídí ítíhíeí íríeísíiísítíaínícíeí ítíoí ífílíoíwí íiísí ícíaílílíeídí"í,íí
-í í í"íRíeísíiísítíeínícíiíaí íTí�í�írímíiícíaí í(í$íRí_í{ítíhí}í$í)í"í:í í"íTíhíeírímíaílí íRíeísíiísítíaínícíeí í(í$íRí_í{ítíhí}í$í)í"í,íí
-í í í"íEíní íeísítíeí íeíjíeímípílíoí ícílí�í�ísíiícíoí ídíeí íuíníaí ípíaíríeídí ípílíaíníaí ícíoímípíuíeísítíaí ídíeí í3í ícíaípíaísí íeíxípíuíeísítíaí íaí ífílíuíiídíoísí íeíní ícíoínívíeícícíií�í�íní íaí íaímíbíoísí ílíaídíoísí,í íeílí ícíiírícíuíiítíoí ícíoínísíiísítíeí íeíní í5í íríeísíiísítíeínícíiíaísí íeíní ísíeíríiíeí.í íMíoídíiífíiícíaí ílíaísí ípíríoípíiíeídíaídíeísí ípíaíríaí ívíeírí ící�í�ímíoí íaífíeícítíaíní íeílí ípíeírífíiílí ídíeí ítíeímípíeíríaítíuíríaí íyí ílíaí íríeísíiísítíeínícíiíaí ítíoítíaílí.í"í:í í"íIíní ítíhíiísí ícílíaísísíiící íeíxíaímípílíeí íoífí íaí í3í-ílíaíyíeírí ícíoímípíoísíiítíeí ífílíaítí íwíaílílí íeíxípíoísíeídí ítíoí ícíoínívíeícítíiínígí ífílíuíiídísí íoíní íbíoítíhí ísíiídíeísí,í ítíhíeí ícíiírícíuíiítí ícíoínísíiísítísí íoífí í5í íríeísíiísítíoírísí íiíní ísíeíríiíeísí.í íMíoídíiífíyí ítíhíeí ípíríoípíeírítíiíeísí ítíoí ísíeíeí íhíoíwí ítíhíeíyí íaífífíeícítí ítíhíeí ítíeímípíeíríaítíuíríeí ípíríoífíiílíeí íaínídí ítíoítíaílí íríeísíiísítíaínícíeí.í"í,íí
-í í í"í(í�í�íríeíaí ítíríaínísívíeírísíaílí í$íAí í=í í1í í\í\ítíeíxítí{í ímí}í^í2í$í íaísíuímíiídíaí)í"í:í í"í(íAísísíuímíeídí ícíríoísísí-ísíeícítíiíoíníaílí íaíríeíaí í$íAí í=í í1í í\í\ítíeíxítí{í ímí}í^í2í$í)í"í,íí
-í í í"íRíeísíiísítíeínícíiíaí íTíoítíaílí í(í$íRí_í{ítíoítí}í$í)í"í:í í"íTíoítíaílí íRíeísíiísítíaínícíeí í(í$íRí_í{ítíoítí}í$í)í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí í$íkí_í1í$í:í"í:í í"íCíoínídíuícítíiívíiítíyí í$íkí_í1í$í:í"í,íí
-í í í"íWí/ímí�í�íKí"í:í í"íWí/ímí�í�íKí"í,íí
-í í í"íEísípíeísíoírí í$íLí_í1í$í:í"í:í í"íTíhíiícíkíníeísísí í$íLí_í1í$í:í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí í$íkí_í2í$í:í"í:í í"íCíoínídíuícítíiívíiítíyí í$íkí_í2í$í:í"í,íí
-í í í"íEísípíeísíoírí í$íLí_í2í$í:í"í:í í"íTíhíiícíkíníeísísí í$íLí_í2í$í:í"í,íí
-í í í"íCíoínídíuícítíiívíiídíaídí í$íkí_í3í$í:í"í:í í"íCíoínídíuícítíiívíiítíyí í$íkí_í3í$í:í"í,íí
-í í í"íEísípíeísíoírí í$íLí_í3í$í:í"í:í í"íTíhíiícíkíníeísísí í$íLí_í3í$í:í"í,íí
-í í í"íFíaícítíoírí ídíeí íFíoírímíaí íeíní íRíaídíiíaícíií�í�íní í(íLíeíyíeísí ídíeí íIínítíeírícíaímíbíiíoí íRíaídíiíaínítíeí)í"í:í í"íFíoírímí íFíaícítíoírí íiíní íRíaídíiíaítíiíoíní í(íRíaídíiíaínítí íEíxícíhíaínígíeí íLíaíwísí)í"í,íí
-í í í"íEílí ífíaícítíoírí ídíeí ífíoírímíaí í(í$íFí_í{í1í2í}í$í)í íríeípíríeísíeínítíaí ílíaí ífíríaícícíií�í�íní ídíeí íríaídíiíaícíií�í�íní íqíuíeí,í ípíaírítíiíeínídíoí ídíiífíuísíaímíeínítíeí ídíeí ílíaí ísíuípíeírífíiícíiíeí í1í,í íiínícíiídíeí ídíiíríeícítíaímíeínítíeí ísíoíbíríeí ílíaí ísíuípíeírífíiícíiíeí í2í.í íPíaíríaí ídíoísí íríeícítí�í�ínígíuílíoísí ípíaíríaílíeílíoísí íiídí�í�ínítíiícíoísí íaílíiíníeíaídíoísí ídíeí íaínícíhíoí í$íWí$í íyí ílíoínígíiítíuídí í$íLí$í,í ísíeípíaíríaídíoísí ípíoírí íuíníaí ídíiísítíaínícíiíaí í$íDí$í:í"í:í í"íTíhíeí ísíhíaípíeí ífíaícítíoírí í(í$íFí_í{í1í2í}í$í)í íríeípíríeísíeínítísí ítíhíeí ífíríaícítíiíoíní íoífí íríaídíiíaítíiíoíní ítíhíaítí,í ísítíaírítíiínígí ídíiífífíuísíeílíyí ífíríoímí ísíuírífíaícíeí í1í,í ífíaílílísí ídíiíríeícítílíyí íoíní ísíuírífíaícíeí í2í.í íFíoírí ítíwíoí íiídíeínítíiícíaílí ípíaíríaílílíeílí íríeícítíaínígílíeísí íaílíiígíníeídí íwíiítíhí íwíiídítíhí í$íWí$í íaínídí ílíeínígítíhí í$íLí$í,í ísíeípíaíríaítíeídí íbíyí íaí ídíiísítíaínícíeí í$íDí$í:í"í,íí
-í í í"íFíaícítíoírí ídíeí íFíoírímíaí í(í$íFí_í{í1í2í}í$í)í"í:í í"íFíoírímí íFíaícítíoírí í(í$íFí_í{í1í2í}í$í)í"í,íí
-í í í"íPí�í�írídíiídíaí íaílí íEínítíoíríníoí í(í$í1í í-í íFí_í{í1í2í}í$í)í"í:í í"íLíoísísí ítíoí ítíhíeí íEínívíiíríoínímíeínítí í(í$í1í í-í íFí_í{í1í2í}í$í)í"í,íí
-í í í"íAínícíhíoí ídíeílí ípílíaítíoí í$íWí$í:í"í:í í"íPílíaítíeí íwíiídítíhí í$íWí$í:í"í,íí
-í í í"íLíaírígíoí ídíeílí ípílíaítíoí í$íLí$í:í"í:í í"íPílíaítíeí ílíeínígítíhí í$íLí$í:í"í,íí
-í í í"íDíiísítíaínícíiíaí ídíeí ísíeípíaíríaícíií�í�íní í$íDí$í:í"í:í í"íSíeípíaíríaítíiíoíní ídíiísítíaínícíeí í$íDí$í:í"í,íí
-í í í"íDíiísíiípíaídíoírí ídíeí íMíiícíríoícíaíníaílíeísí í(íEínífíríiíaímíiíeínítíoí ídíeí íMíiícíríoícíhíiípísí)í"í:í í"íMíiícíríoícíhíaíníníeílí íHíeíaítísíiíníkí í(íMíiícíríoícíhíiípí íCíoíoílíiínígí)í"í,íí
-í í í"íEílí íeínífíríiíaímíiíeínítíoí ímíoídíeíríníoí ídíeí ímíiícíríoípíríoícíeísíaídíoíríeísí ídíeí íaílítíaí ídíeínísíiídíaídí ítí�í�írímíiícíaí í(íeíjí.í ísíeírívíiídíoíríeísí ídíeí íIíAí)í íeímípílíeíaí í*í*íbílíoíqíuíeísí ícíoíní ímíiícíríoícíaíníaílíeísí ídíeí ísíiílíiícíiíoí íoí ícíoíbíríeí*í*í.í íAílí íríeídíuícíiírí íeílí ídíií�í�ímíeítíríoí íhíiídírí�í�íuílíiícíoí í(í$íDí_íhí$í)í ídíeílí ícíaíníaílí íaí íníiívíeílí ímíiícíríoímí�í�ítíríiícíoí í(í$í5í0í-í4í0í0í\í í\ímíuí\í\ítíeíxítí{ímí}í$í)í,í íeílí ícíoíeífíiícíiíeínítíeí ídíeí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí ípíoírí ícíoínívíeícícíií�í�íní í(í$íhí í=í íNíuí í\í\ícídíoítí íkí_ífí í/í íDí_íhí$í)í ísíeí ímíuílítíiípílíiícíaí íhíaísítíaí ísíuípíeíríaírí í$í2í0í,í0í0í0í\í í\í\ítíeíxítí{íWí/ímí}í^í2í\í\ítíeíxítí{íKí}í$í.í"í:í í"íMíoídíeíríní ícíoíoílíiínígí íoífí íhíiígíhí ítíhíeírímíaílí ídíeínísíiítíyí ímíiícíríoípíríoícíeísísíoírísí í(íeí.ígí.í íAíIí ísíeírívíeírísí)í íuísíeísí í*í*íbílíoícíkísí íwíiítíhí ísíiílíiícíoíní íoírí ícíoípípíeírí ímíiícíríoícíhíaíníníeílísí*í*í.í íBíyí íríeídíuícíiínígí ítíhíeí íhíyídíríaíuílíiící ídíiíaímíeítíeírí í(í$íDí_íhí$í)í íoífí ítíhíeí ícíhíaíníníeílí ítíoí ítíhíeí ímíiícíríoímíeítíeírí ílíeívíeílí í(í$í5í0í-í4í0í0í\í í\ímíuí\í\ítíeíxítí{ímí}í$í)í,í ítíhíeí ícíoínívíeícítíiíoíní íhíeíaítí ítíríaínísífíeírí ícíoíeífífíiícíiíeínítí í(í$íhí í=í íNíuí í\í\ícídíoítí íkí_ífí í/í íDí_íhí$í)í íiísí ímíuílítíiípílíiíeídí ítíoí íeíxícíeíeídí í$í2í0í,í0í0í0í\í í\í\ítíeíxítí{íWí/ímí}í^í2í\í\ítíeíxítí{íKí}í$í.í"í,íí
-í í í"íAí íeísícíaílíaísí íníaíníoímí�í�ítíríiícíaísí,í íeílí ígíríoísíoírí ídíeí ílíaí ípíaíríeídí ídíeí ísíiílíiícíiíoí íeísí ímíeíníoírí íqíuíeí íeílí ícíaímíiíníoí ílíiíbíríeí ímíeídíiíoí ídíeí ílíoísí ífíoíníoíníeísí í(í$í\í\íaípípíríoíxí í3í0í0í\í\ítíeíxítí{í ínímí}í$í)í.í íLíoísí ífíoíníoíníeísí íríeíbíoítíaíní ícíoínítíríaí ílíaísí ífíríoínítíeíríaísí í(ídíiísípíeírísíií�í�íní ídíeí ífíríoínítíeíríaí)í,í íríeídíuícíiíeínídíoí ílíaí ícíoínídíuícítíiívíiídíaídí ítí�í�írímíiícíaí íeífíeícítíiívíaí ídíeílí ísíiílíiícíiíoí ípíoírí ídíeíbíaíjíoí ídíeí ísíuí ívíaílíoírí ímíaícíríoísící�í�ípíiícíoí.í íEísítíoí íeílíeívíaí ílíaí ítíeímípíeíríaítíuíríaí ídíeílí ícíhíiípí.í"í:í í"íAítí íníaíníoímíeítíeírí ísícíaílíeísí,í ítíhíeí ítíhíiícíkíníeísísí íoífí ítíhíeí ísíiílíiícíoíní íwíaílílí íiísí ílíeísísí ítíhíaíní ítíhíeí ímíeíaíní ífíríeíeí ípíaítíhí íoífí ípíhíoíníoínísí í(í$í\í\íaípípíríoíxí í3í0í0í\í\ítíeíxítí{í ínímí}í$í)í.í íPíhíoíníoínísí íbíoíuínícíeí íoífífí ítíhíeí íbíoíuínídíaíríiíeísí í(íbíoíuínídíaíríyí ísícíaítítíeíríiínígí)í,í íríeídíuícíiínígí ítíhíeí íeífífíeícítíiívíeí ítíhíeírímíaílí ícíoínídíuícítíiívíiítíyí íoífí ísíiílíiícíoíní íbíeílíoíwí íiítísí ímíaícíríoísícíoípíiící ívíaílíuíeí.í íTíhíiísí íríaíiísíeísí ítíhíeí ítíeímípíeíríaítíuíríeí íoífí ítíhíeí ícíhíiípí.í"í,íí
-í í í"íPíoítíeínícíiíaí ídíeílí íCíhíiípí í(í$íQí$í)í:í"í:í í"íCíhíiípí íPíoíwíeírí í(í$íQí$í)í:í"í,íí
-í í í"íAínícíhíoí ídíeí íCíaíníaílí í(í$íwí_ící$í)í:í"í:í í"íCíhíaíníníeílí íWíiídítíhí í(í$íwí_ící$í)í:í"í,íí
-í í í"íCíaíuídíaílí í(í$íVí'í$í)í:í"í:í í"íFílíoíwí íríaítíeí í(í$íVí'í$í)í:í"í,íí
-í í í"ímílí/ímíiíní"í:í í"ímílí/ímíiíní"í,íí
-í í í"íRíeísíiísítíeínícíiíaí ídíeí íFíríoínítíeíríaí í(í$íRí_í{ímíiícíríoí}í$í)í:í"í:í í"íBíoíuínídíaíríyí íRíeísíiísítíaínícíeí í(í$íRí_í{ímíiícíríoí}í$í)í:í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí íMíaíxí íCíhíiípí í(í$íTí_í{ímíaíxí}í$í)í:í"í:í í"íMíaíxí íCíhíiípí íTíeímípíeíríaítíuíríeí í(í$íTí_í{ímíaíxí}í$í)í:í"í,íí
-í í í"íRíeísíiísítíeínícíiíaísí íTí�í�írímíiícíaísí íeíní íPíaíríaílíeílíoí í(íCíoínívíeícícíií�í�íní íyí íRíaídíiíaícíií�í�íní)í"í:í í"íPíaíríaílílíeílí íTíhíeírímíaílí íRíeísíiísítíaínícíeísí í(íCíoínívíeícítíiíoíní íaínídí íRíaídíiíaítíiíoíní)í"í,íí
-í í í"íEíní ípíríoíbílíeímíaísí íríeíaílíeísí ídíeí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí,í ílíaí ífíríoínítíeíríaí íeíxípíuíeísítíaí íaílí íeíxítíeíríiíoírí ísíuíeílíeí ípíeírídíeírí ícíaílíoírí ímíeídíiíaínítíeí ídíoísí ímíeícíaíníiísímíoísí ísíiímíuílítí�í�íníeíoísí íeí íiínídíeípíeínídíiíeínítíeísí:í"í:í í"íIíní íríeíaílí íhíeíaítí ítíríaínísífíeírí ípíríoíbílíeímísí,í ítíhíeí íbíoíuínídíaíríyí íeíxípíoísíeídí ítíoí ítíhíeí íoíuítísíiídíeí íuísíuíaílílíyí ílíoísíeísí íhíeíaítí ítíhíríoíuígíhí ítíwíoí ísíiímíuílítíaíníeíoíuísí íaínídí íiínídíeípíeínídíeínítí ímíeícíhíaíníiísímísí:í"í,íí
-í í í"íhíaícíiíaí íeílí íaíiíríeí íaídíyíaícíeínítíeí íyí"í:í í"íiínítíoí ítíhíeí íaídíjíaícíeínítí íaíiírí íaínídí"í,íí
-í í í"íhíaícíiíaí ílíoísí íaílíríeídíeídíoíríeísí.í íAílí íaícítíuíaírí íaílí ímíiísímíoí ítíiíeímípíoí ísíoíbíríeí ílíaí ímíiísímíaí ísíuípíeírífíiícíiíeí,í íeísítíoísí ímíeícíaíníiísímíoísí ísíeí ímíoídíeílíaíní ícíoímíoí íríeísíiísítíeínícíiíaísí íeíní"í:í í"ítíoíwíaírídísí ítíhíeí ísíuíríríoíuínídíiínígísí.í íBíyí íaícítíiínígí íaítí ítíhíeí ísíaímíeí ítíiímíeí íoíní ítíhíeí ísíaímíeí ísíuírífíaícíeí,í ítíhíeísíeí ímíeícíhíaíníiísímísí íaíríeí ímíoídíeílíeídí íaísí íríeísíiísítíaínícíeísí íiíní"í,íí
-í í í"íTíeímípí.í íIízíqíuíiíeírídíaí í$íTí_í1í$í:í"í:í í"íTíeímípí.í íLíeífítí í$íTí_í1í$í:í"í,íí
-í í í"íTíeímípí.í íAílíríeídíeídíoíríeísí í$íTí_í{ísíuírírí}í$í:í"í:í í"íTíeímípí.í íSíuíríríoíuínídíiínígísí í$íTí_í{ísíuírírí}í$í:í"í,íí
-í í í"íCíoíeífí.í íCíoínívíeícícíií�í�íní í$íhí$í:í"í:í í"íCíoíeífí.í íCíoínívíeícítíiíoíní í$íhí$í:í"í,íí
-í í í"íEímíiísíiívíiídíaídí í$í\íeípísíiílíoíní$í:í"í:í í"íEímíiísísíiívíiítíyí í$í\íeípísíiílíoíní$í:í"í,íí
-í í í"íAíbísíoírítíiívíiídíaídí í$í\íaílípíhíaí_í{íaíbísí}í$í:í"í:í í"íAíbísíoírípítíiívíiítíyí í$í\íaílípíhíaí_í{íaíbísí}í$í:í"í,íí
-í í í"íIíríríaídíiíaínícíiíaí í$íGí$í:í"í:í í"íIíríríaídíiíaínícíeí í$íGí$í:í"í,íí
-í í í"íRíeísíiísítíeínícíiíaí íCíoínídíuícícíií�í�íní í(í$íRí_í{ícíoínídí}í$í)í"í:í í"íCíoínídíuícítíiíoíní íRíeísíiísítíaínícíeí í(í$íRí_í{ícíoínídí}í$í)í"í,íí
-í í í"íRíeísíiísítíeínícíiíaí íCíoínívíeícícíií�í�íní í(í$íRí_í{ícíoíníví}í$í)í"í:í í"íCíoínívíeícítíiíoíní íRíeísíiísítíaínícíeí í(í$íRí_í{ícíoíníví}í$í)í"í,íí
-í í í"íRíeísíiísítíeínícíiíaí íRíaídíiíaícíií�í�íní í(í$íRí_í{íríaídí}í$í)í"í:í í"íRíaídíiíaítíiíoíní íRíeísíiísítíaínícíeí í(í$íRí_í{íríaídí}í$í)í"í,íí
-í í í"íRíeísíiísítí.í íEíqíuíiívíaílíeínítíeí í(í$íRí_í{íeíqí,ípíaírí}í$í)í"í:í í"íRíeísíiísítí.í íEíqíuíiívíaílíeínítí í(í$íRí_í{íeíqí,ípíaírí}í$í)í"í,íí
-í í í"íTíaísíaí íCíoínídíuícícíií�í�íní í(í$íqí_í{ícíoínídí}í$í)í"í:í í"íCíoínídíuícítíiíoíní íRíaítíeí í(í$íqí_í{ícíoínídí}í$í)í"í,íí
-í í í"íCíoínídíuícícíií�í�íní í(í$íqí_í{ícíoínídí}í$í)í"í:í í"íCíoínídíuícítíiíoíní í(í$íqí_í{ícíoínídí}í$í)í"í,íí
-í í í"íAíbísíoírícíií�í�íní íSíoílíaírí í(í$íqí_í{ísíoílí}í$í)í"í:í í"íSíoílíaírí íAíbísíoírípítíiíoíní í(í$íqí_í{ísíoílí}í$í)í"í,íí
-í í í"íCíoínívíeícícíií�í�íní í(í$íqí_í{ícíoíníví}í$í)í"í:í í"íCíoínívíeícítíiíoíní í(í$íqí_í{ícíoíníví}í$í)í"í,íí
-í í í"íRíaídíiíaícíií�í�íní íEímíiísíií�í�íní í(í$íqí_í{íríaídí}í$í)í"í:í í"íRíaídíiíaítíiíoíní íEímíiísísíiíoíní í(í$íqí_í{íríaídí}í$í)í"í,íí
-í í í"íEísícíaílíaí íAíbísíoílíuítíaí íKíeílívíiíní íyí íCíeíríoí íAíbísíoílíuítíoí"í:í í"íKíeílívíiíní íAíbísíoílíuítíeí íSícíaílíeí íaínídí íAíbísíoílíuítíeí íZíeíríoí"í,íí
-í í í"íLíaí íeísícíaílíaí íaíbísíoílíuítíaí ídíeí ítíeímípíeíríaítíuíríaí ípíríoípíuíeísítíaí ípíoírí"í:í í"íTíhíeí íaíbísíoílíuítíeí ítíeímípíeíríaítíuíríeí ísícíaílíeí ípíríoípíoísíeídí íbíyí"í,íí
-í í í"ísíeí ífíuínídíaímíeínítíaí íeíní ílíaí íLíeíyí ídíeí íCíhíaírílíeísí ípíaíríaí íuíní ígíaísí íiídíeíaílí.í íAí ípíríeísíií�í�íní ícíoínísítíaínítíeí,í íeílí ívíoílíuímíeíní ídíeí íuíníaí ímíaísíaí ífíiíjíaí ídíeí ígíaísí íeísí ídíiíríeícítíaímíeínítíeí ípíríoípíoírícíiíoíníaílí íaí ísíuí ítíeímípíeíríaítíuíríaí íaíbísíoílíuítíaí:í í$íVí í\ípíríoípítíoí íTí$í.í"í:í í"íIítí íiísí íbíaísíeídí íoíní íCíhíaírílíeísí'í íLíaíwí ífíoírí íaíní íiídíeíaílí ígíaísí.í íAítí ícíoínísítíaínítí ípíríeísísíuíríeí,í ítíhíeí ívíoílíuímíeí íoífí íaí ífíiíxíeídí ímíaísísí íoífí ígíaísí íiísí ídíiíríeícítílíyí ípíríoípíoírítíiíoíníaílí ítíoí íiítísí íaíbísíoílíuítíeí ítíeímípíeíríaítíuíríeí:í í$íVí í\ípíríoípítíoí íTí$í.í"í,íí
-í í í"íSíií ígíríaífíiícíaímíoísí íeílí ívíoílíuímíeíní íeíxípíeíríiímíeínítíaílí ídíeí íuíní ígíaísí ípíaíríaí ídíiísítíiínítíoísí ívíaílíoíríeísí ídíeí ítíeímípíeíríaítíuíríaí íyí íeíxítíríaípíoílíaímíoísí ílíaí ílí�í�íníeíaí ídíeí ítíeínídíeínícíiíaí íhíaícíiíaí íaítírí�í�ísí,í ídíeísícíuíbíríiímíoísí íqíuíeí íeílí ívíoílíuímíeíní ítíeí�í�íríiícíaímíeínítíeí ílílíeígíaí íaí ícíeíríoí íeíxíaícítíaímíeínítíeí íaí ílíaí ítíeímípíeíríaítíuíríaí ídíeí"í:í í"íIífí íwíeí ípílíoítí ítíhíeí íeíxípíeíríiímíeínítíaílí ívíoílíuímíeí íoífí íaí ígíaísí ífíoírí ídíiífífíeíríeínítí ívíaílíuíeísí íoífí ítíeímípíeíríaítíuíríeí íaínídí íeíxítíríaípíoílíaítíeí ítíhíeí ítíríeínídí ílíiíníeí íbíaícíkíwíaírídísí,í íwíeí ídíiísícíoívíeírí ítíhíaítí ítíhíeí ívíoílíuímíeí ítíhíeíoíríeítíiícíaílílíyí íríeíaícíhíeísí ízíeíríoí íeíxíaícítílíyí íaítí ítíhíeí ítíeímípíeíríaítíuíríeí íoífí"í,íí
-í í í"í.í íKíeílívíiíní ídíeífíiíníií�í�í íeísítíaí ítíeímípíeíríaítíuíríaí ílí�í�ímíiítíeí ídíeí ímíoívíiímíiíeínítíoí ícíiíní�í�ítíiícíoí íníuílíoí ícíoímíoí íeílí"í:í í"í.í íKíeílívíiíní ídíeífíiíníeídí ítíhíiísí ílíiímíiítíiínígí ítíeímípíeíríaítíuíríeí íoífí ízíeíríoí íkíiíníeítíiící ímíoítíiíoíní íaísí ítíhíeí"í,íí
-í í í"íCíeíríoí íAíbísíoílíuítíoí í(í$í0í\í\ítíeíxítí{í íKí}í$í)í"í:í í"íAíbísíoílíuítíeí íZíeíríoí í(í$í0í\í\ítíeíxítí{í íKí}í$í)í"í,íí
-í í í"íVíeílíoícíiídíaídí íPíaírítí�í�ícíuílíaísí í(í$íví_í{írímísí}í$í)í"í:í í"íPíaírítíiícílíeí íVíeílíoícíiítíyí í(í$íví_í{írímísí}í$í)í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí í$í(íTí)í$í:í"í:í í"íTíeímípíeíríaítíuíríeí í$í(íTí)í$í:í"í,íí
-í í í"í�í�íCí í/í"í:í í"í�í�íCí í/í"í,íí
-í í í"íPíríeísíií�í�íní í$í(íPí)í$í:í"í:í í"íPíríeísísíuíríeí í$í(íPí)í$í:í"í,íí
-í í í"íaítímí"í:í í"íaítímí"í,íí
-í í í"íCíaínítíiídíaídí ídíeí íGíaísí í$í(íní)í$í:í"í:í í"íAímíoíuínítí íoífí íGíaísí í$í(íní)í$í:í"í,íí
-í í í"ímíoílíeísí"í:í í"ímíoílíeísí"í,íí
-í í í"íRíuídíoílífí íCílíaíuísíiíuísí:í íEínítíríoípí�í�íaí íyí íSíeígíuínídíaí íLíeíyí ídíeí ílíaí íTíeírímíoídíiíní�í�ímíiícíaí í(í1í8í5í0í)í"í:í í"íRíuídíoílífí íCílíaíuísíiíuísí:í íEínítíríoípíyí íaínídí íSíeícíoínídí íLíaíwí íoífí íTíhíeírímíoídíyíníaímíiícísí í(í1í8í5í0í)í"í,íí
-í í í"íeísítíaíbílíeícíeí íqíuíeí ílíoísí ípíríoícíeísíoísí íníaítíuíríaílíeísí íeíní ísíiísítíeímíaísí íaíiísílíaídíoísí íoícíuíríríeíní ídíeí ímíaíníeíríaí íiíríríeívíeírísíiíbílíeí íeíní íuíníaí ídíiíríeícícíií�í�íní íqíuíeí ímíaíxíiímíiízíaí íeílí ídíeísíoírídíeíní.í íRíuídíoílífí íCílíaíuísíiíuísí ídíeífíiíníií�í�í ímíaítíeímí�í�ítíiícíaímíeínítíeí ílíaí í*í*íEínítíríoípí�í�íaí í(í$íSí$í)í*í*í ípíaíríaí ícíuíaínítíiífíiícíaírí íeísítíeí ífíeíní�í�ímíeíníoí:í"í:í í"ísítíaítíeísí ítíhíaítí íníaítíuíríaílí ípíríoícíeísísíeísí íiíní íiísíoílíaítíeídí ísíyísítíeímísí íoícícíuírí íiíríríeívíeírísíiíbílíyí íiíní íaí ídíiíríeícítíiíoíní ítíhíaítí ímíaíxíiímíiízíeísí ídíiísíoírídíeírí.í íRíuídíoílífí íCílíaíuísíiíuísí ímíaítíhíeímíaítíiícíaílílíyí ídíeífíiíníeídí í*í*íEínítíríoípíyí í(í$íSí$í)í*í*í ítíoí íqíuíaínítíiífíyí ítíhíiísí ípíhíeíníoímíeíníoíní:í"í,íí
-í í í"íEílí ícíaílíoírí ífílíuíyíeí íníaítíuíríaílímíeínítíeí ídíeísídíeí íuíní ícíuíeírípíoí ícíaílíiíeínítíeí í(íaílítíaí íeíníeírígí�í�íaí ícíiíní�í�ítíiícíaí ímíoílíeícíuílíaírí)í íhíaícíiíaí íuíníoí ífírí�í�íoí í(íbíaíjíaí íeíníeírígí�í�íaí ícíiíní�í�ítíiícíaí)í,í íhíaísítíaí ílíoígíríaírí íeílí íeíqíuíiílíiíbíríiíoí ítí�í�írímíiícíoí.í íEílí ípíríoícíeísíoí íiínívíeírísíoí íeísí ítíeírímíoídíiíní�í�ímíiícíaímíeínítíeí íiímípíoísíiíbílíeí ídíeí ímíaíníeíríaí íeísípíoínítí�í�íníeíaí.í"í:í í"íHíeíaítí ífílíoíwísí íníaítíuíríaílílíyí ífíríoímí íaí íhíoítí íbíoídíyí í(íhíiígíhí ímíoílíeícíuílíaírí íkíiíníeítíiící íeíníeírígíyí)í ítíoí íaí ícíoílídí íoíníeí í(ílíoíwí íkíiíníeítíiící íeíníeírígíyí)í,í íuínítíiílí ítíhíeírímíaílí íeíqíuíiílíiíbíríiíuímí íiísí íaícíhíiíeívíeídí.í íTíhíeí íríeívíeírísíeí ípíríoícíeísísí íiísí ítíhíeírímíoídíyíníaímíiícíaílílíyí íiímípíoísísíiíbílíeí ísípíoínítíaíníeíoíuísílíyí.í"í,íí
-í í í"íAí íníiívíeílí íeísítíaídí�í�ísítíiícíoí ímíoílíeícíuílíaírí í(ídíeísíaíríríoílílíaídíoí ípíoírí íBíoílítízímíaíníní)í,í ílíaí íeínítíríoípí�í�íaí ísíeí ídíeífíiíníeí ícíoímíoí:í"í:í í"íAítí ítíhíeí ímíoílíeícíuílíaírí ísítíaítíiísítíiícíaílí ílíeívíeílí í(ídíeívíeílíoípíeídí íbíyí íBíoílítízímíaíníní)í,í íeínítíríoípíyí íiísí ídíeífíiíníeídí íaísí:í"í,íí
-í í í"íDíoínídíeí:í"í:í í"íWíhíeíríeí:í"í,íí
-í í í"íEínítíríoípí�í�íaí í(ímíeídíiídíaí ídíeí ídíeísíoírídíeíní íoí íiíríríeívíeírísíiíbíiílíiídíaídí ídíeílí ísíiísítíeímíaí)í.í"í:í í"íEínítíríoípíyí í(ímíeíaísíuíríeí íoífí ídíiísíoírídíeírí íoírí íiíríríeívíeírísíiíbíiílíiítíyí íoífí ítíhíeí ísíyísítíeímí)í.í"í,íí
-í í í"íCíoínísítíaínítíeí ídíeí íBíoílítízímíaíníní í(í$í1í.í3í8í í\ítíiímíeísí í1í0í^í{í-í2í3í}í í\í\ítíeíxítí{í íJí/íKí}í$í)í,í ífíaícítíoírí íqíuíeí íeísícíaílíaí ílíaí íeíníeírígí�í�íaí ímíiícíríoísící�í�ípíiícíaí íaí ítíeímípíeíríaítíuíríaí ímíaícíríoísící�í�ípíiícíaí.í"í:í í"íBíoílítízímíaíníní ícíoínísítíaínítí í(í$í1í.í3í8í í\ítíiímíeísí í1í0í^í{í-í2í3í}í í\í\ítíeíxítí{í íJí/íKí}í$í)í,í ífíaícítíoírí ítíhíaítí ísícíaílíeísí ímíiícíríoísícíoípíiící íeíníeírígíyí ítíoí ímíaícíríoísícíoípíiící ítíeímípíeíríaítíuíríeí.í"í,íí
-í í í"íMíuílítíiípílíiícíiídíaídí íoí íní�í�ímíeíríoí ídíeí ímíiícíríoíeísítíaídíoísí í(ílíeítíríaí ígíríiíeígíaí íOímíeígíaí ímíaíyí�í�ísícíuílíaí,í íníoí ícíoínífíuínídíiírí ícíoíní ílíaí íuíníiídíaídí í*íOíhímí*í)í.í íRíeípíríeísíeínítíaí ílíaísí ídíiífíeíríeínítíeísí ífíoírímíaísí íeíní íqíuíeí ílíaísí ímíoílí�í�ícíuílíaísí ípíuíeídíeíní ídíiísítíríiíbíuíiírísíeí.í íUíní ígíaísí ímíeízícílíaídíoí ítíiíeíníeí ímíuícíhí�í�ísíiímíoísí ímí�í�ísí ímíiícíríoíeísítíaídíoísí ípíoísíiíbílíeísí í(íaílítíaí ímíuílítíiípílíiícíiídíaídí í$í\íOímíeígíaí$í)í íyí ípíoírí ítíaínítíoí ímíaíyíoírí íeínítíríoípí�í�íaí.í"í:í í"íMíuílítíiípílíiícíiítíyí íoírí íníuímíbíeírí íoífí ímíiícíríoísítíaítíeísí í(íGíríeíeíkí ícíaípíiítíaílí ílíeítítíeírí íOímíeígíaí,í íníoítí ítíoí íbíeí ícíoínífíuísíeídí íwíiítíhí ítíhíeí íuíníiítí í*íOíhímí*í)í.í íIítí íríeípíríeísíeínítísí ítíhíeí ídíiífífíeíríeínítí íwíaíyísí íiíní íwíhíiícíhí ímíoílíeícíuílíeísí ícíaíní íbíeí ídíiísítíríiíbíuítíeídí.í íAí ímíiíxíeídí ígíaísí íhíaísí ímíaíníyí ímíoíríeí ípíoísísíiíbílíeí ímíiícíríoísítíaítíeísí í(íhíiígíhí ímíuílítíiípílíiícíiítíyí í$í\íOímíeígíaí$í)í íaínídí ítíhíeíríeífíoíríeí ígíríeíaítíeírí íeínítíríoípíyí.í"í,íí
-í í í"íRíeímíoívíeírí íTíaíbíiíqíuíeí"í:í í"íRíeímíoívíeí íSíeípítíuímí"í,íí
-í í í"íRíeísítíaíuíríaírí í/í íSíeípíaíríaírí"í:í í"íRíeísítíoíríeí/íDíeítíaícíhí"í,íí
-í í í"íNí�í�ímíeíríoí ídíeí íPíaírítí�í�ícíuílíaísí:í"í:í í"íNíuímíbíeírí íoífí íPíaírítíiícílíeísí:í"í,íí
-í í í"íVíeílíoícíiídíaídí íTí�í�írímíiícíaí:í"í:í í"íTíhíeírímíaílí íSípíeíeídí:í"í,íí
-í í í"íEínítíríoípí�í�íaí íNíoírímíaílíiízíaídíaí í(í$íSí/íSí_í{ímíaíxí}í$í)í:í"í:í í"íNíoírímíaílíiízíeídí íEínítíríoípíyí í(í$íSí/íSí_í{ímíaíxí}í$í)í:í"í,íí
-í í í"íCíaípíaícíiídíaídíeísí íCíaílíoírí�í�ífíiícíaísí í$íCí_ípí$í íyí í$íCí_íví$í í(íSíiígíníiífíiícíaídíoí íFí�í�ísíiícíoí)í"í:í í"íHíeíaítí íCíaípíaícíiítíiíeísí í$íCí_ípí$í íaínídí í$íCí_íví$í í(íPíhíyísíiícíaílí íMíeíaíníiínígí)í"í,íí
-í í í"íLíaí ícíaípíaícíiídíaídí ícíaílíoírí�í�ífíiícíaí íeísípíeící�í�ífíiícíaí íiínídíiícíaí ílíaí ícíaínítíiídíaídí ídíeí ícíaílíoírí íníeícíeísíaíríiíaí ípíaíríaí íeílíeívíaírí íeíní í$í1í\í\ítíeíxítí{í íKí}í$í ílíaí ítíeímípíeíríaítíuíríaí ídíeí í$í1í\í\ítíeíxítí{í íkígí}í$í ídíeí ísíuísítíaínícíiíaí.í íPíaíríaí ílíoísí ígíaísíeísí,í íeísítíeí ívíaílíoírí ídíeípíeínídíeí ídíeílí ícíaímíiíníoí ítíeírímíoídíiíní�í�ímíiícíoí:í"í:í í"íTíhíeí ísípíeícíiífíiící íhíeíaítí ícíaípíaícíiítíyí íiínídíiícíaítíeísí ítíhíeí íaímíoíuínítí íoífí íhíeíaítí íníeícíeísísíaíríyí ítíoí íríaíiísíeí ítíhíeí ítíeímípíeíríaítíuíríeí íoífí í$í1í\í\ítíeíxítí{í íkígí}í$í íoífí ísíuíbísítíaínícíeí íbíyí í$í1í\í\ítíeíxítí{í íKí}í$í.í íFíoírí ígíaísíeísí,í ítíhíiísí ívíaílíuíeí ídíeípíeínídísí íoíní ítíhíeí ítíhíeírímíoídíyíníaímíiící ípíaítíhí:í"í,íí
-í í í"íEílí íríeícíiípíiíeínítíeí íeísítí�í�í írí�í�ígíiídíoí íyí ícíeíríríaídíoí.í íTíoídíoí íeílí ícíaílíoírí ísíeí ícíoínívíiíeírítíeí íeíní íeíníeírígí�í�íaí íiínítíeíríníaí í(í$íQí_íví í=í í\íDíeílítíaí íUí$í)í,í íaíuímíeínítíaínídíoí ílíaí ívíeílíoícíiídíaídí ímíoílíeícíuílíaírí.í íNíoí íhíaíyí íeíxípíaínísíií�í�íní íníií ítíríaíbíaíjíoí í(í$íWí í=í í0í$í)í.í"í:í í"íTíhíeí ícíoínítíaíiíníeírí íiísí íríiígíiídí íaínídí ícílíoísíeídí.í íAílílí íhíeíaítí íiísí ícíoínívíeírítíeídí íiínítíoí íiínítíeíríníaílí íeíníeírígíyí í(í$íQí_íví í=í í\íDíeílítíaí íUí$í)í,í íiínícíríeíaísíiínígí ímíoílíeícíuílíaírí ísípíeíeídí.í íTíhíeíríeí íiísí íníoí íeíxípíaínísíiíoíní íoírí íwíoíríkí í(í$íWí í=í í0í$í)í.í"í,íí
-í í í"íEílí ípíiísítí�í�íní íeísí ílíiíbíríeí ídíeí ímíoívíeírísíeí.í íAílí ícíaílíeínítíaírísíeí,í íeílí ígíaísí ísíeí íeíxípíaínídíeí íríeíaílíiízíaínídíoí ítíríaíbíaíjíoí ímíeící�í�íníiícíoí ícíoínítíríaí ílíaí ípíríeísíií�í�íní íaítímíoísífí�í�íríiícíaí í(í$íWí í=í íPí í\íDíeílítíaí íVí$í)í.í íEílí ícíaílíoírí íiíníyíeícítíaídíoí ídíeíbíeí ícíuíbíríiírí ítíaínítíoí ílíaí íeíníeírígí�í�íaí íiínítíeíríníaí ícíoímíoí íeílí ítíríaíbíaíjíoí í(í$íQí_ípí í=í í\íDíeílítíaí íUí í+í íWí$í)í.í íPíoírí íeílílíoí,í ísíiíeímípíríeí í$íCí_ípí í>í íCí_íví$í.í"í:í í"íTíhíeí ípíiísítíoíní íiísí ífíríeíeí ítíoí ímíoívíeí.í íWíhíeíní íhíeíaítíeídí,í ítíhíeí ígíaísí íeíxípíaínídísí ídíoíiínígí ímíeícíhíaíníiícíaílí íwíoíríkí íaígíaíiínísítí ítíhíeí íaítímíoísípíhíeíríiící ípíríeísísíuíríeí í(í$íWí í=í íPí í\íDíeílítíaí íVí$í)í.í íTíhíeí íiíníjíeícítíeídí íhíeíaítí ímíuísítí ícíoívíeírí íbíoítíhí ítíhíeí íiínítíeíríníaílí íeíníeírígíyí íaínídí ítíhíeí íwíoíríkí í(í$íQí_ípí í=í í\íDíeílítíaí íUí í+í íWí$í)í.í íTíhíeíríeífíoíríeí,í íaílíwíaíyísí í$íCí_ípí í>í íCí_íví$í.í"í,íí
-í í í"íIínícíríeímíeínítíoí íOíbíjíeítíiívíoí í$í(í\íDíeílítíaí íTí)í$í:í"í:í í"íTíaírígíeítí íIínícíríeímíeínítí í$í(í\íDíeílítíaí íTí)í$í:í"í,íí
-í í í"íIíníiícíiíaírí íCíaílíeínítíaímíiíeínítíoí"í:í í"íSítíaírítí íWíaírímí-íuípí"í,íí
-í í í"íEílí íEíqíuíiívíaílíeínítíeí íMíeící�í�íníiícíoí ídíeílí íCíaílíoírí í(íJíoíuílíeí,í í1í8í4í3í)í"í:í í"íTíhíeí íMíeícíhíaíníiícíaílí íEíqíuíiívíaílíeínítí íoífí íHíeíaítí í(íJíoíuílíeí,í í1í8í4í3í)í"í,íí
-í í í"íEílí íeíxípíeíríiímíeínítíoí íhíiísítí�í�íríiícíoí ídíeí"í:í í"íTíhíeí íhíiísítíoíríiícíaílí íeíxípíeíríiímíeínítí íoífí"í,íí
-í í í"ídíeímíoísítírí�í�í íqíuíeí íeílí ícíaílíoírí íeísí íuíníaí ífíoírímíaí ídíeí íeíníeírígí�í�íaí íyí íqíuíeí ísíeí ícíoínísíeírívíaí.í íAílí ídíeíjíaírí ícíaíeírí ídíoísí ípíeísíaísí ídíeí ímíaísíaí í$ímí$í ídíeísídíeí íuíníaí íaílítíuíríaí í$íhí$í,í ílíaí íeíníeírígí�í�íaí ípíoítíeínícíiíaílí ígíríaívíiítíaítíoíríiíaí ísíeí ícíoínívíiíeírítíeí íeíní ítíríaíbíaíjíoí ímíeící�í�íníiícíoí í(í$íWí í=í í2í ímí ígí íhí íNí$í)í íaílí íhíaícíeírí ígíiíríaírí ípíaílíeítíaísí ídíeínítíríoí ídíeí íuíní ícíaílíoírí�í�ímíeítíríoí ídíeí íaígíuíaí ítí�í�írímíiícíaímíeínítíeí íaíiísílíaídíoí.í"í:í í"íHíeí ísíhíoíwíeídí ítíhíaítí íhíeíaítí íiísí íaí ífíoírímí íoífí íeíníeírígíyí íaínídí ítíhíaítí íiítí íiísí ícíoínísíeírívíeídí.í íBíyí ídíríoípípíiínígí ítíwíoí íwíeíiígíhítísí íoífí ímíaísísí í$ímí$í ífíríoímí íaí íhíeíiígíhítí í$íhí$í,í ítíhíeí ígíríaívíiítíaítíiíoíníaílí ípíoítíeínítíiíaílí íeíníeírígíyí íiísí ícíoínívíeírítíeídí ítíoí ímíeícíhíaíníiícíaílí íwíoíríkí í(í$íWí í=í í2í ímí ígí íhí íNí$í)í íbíyí íríoítíaítíiínígí ípíaídídílíeísí íiínísíiídíeí íaí ítíhíeírímíaílílíyí íiínísíuílíaítíeídí íwíaítíeírí ícíaílíoíríiímíeítíeírí.í"í,íí
-í í í"íDíeíbíiídíoí íaí ílíaí ífíríiícícíií�í�íní ívíiísícíoísíaí ídíeílí íaígíuíaí,í íeísítíeí ítíríaíbíaíjíoí ísíeí ídíiísíiípíaí íeíní ícíaílíoírí í(í$íQí$í)í,í íeílíeívíaínídíoí ílíaí ítíeímípíeíríaítíuíríaí ídíeílí íaígíuíaí í(í$í\íDíeílítíaí íTí$í)í.í íJíoíuílíeí ídíeítíeírímíiíní�í�í íqíuíeí ílíaí íríeílíaícíií�í�íní íeínítíríeí íeílí ítíríaíbíaíjíoí íeíní íJíoíuílíeísí íyí íeílí ícíaílíoírí íeíní ícíaílíoírí�í�íaísí íeísí íuíníaí ícíoínísítíaínítíeí íuíníiívíeírísíaílí:í í$íJí í=í í\í\ífíríaící{íWí}í{íQí}í í\í\íaípípíríoíxí í4í.í1í8í4í í\í\ítíeíxítí{í íJí/ícíaílí}í$í.í"í:í í"íDíuíeí ítíoí ítíhíeí ívíiísícíoíuísí ífíríiícítíiíoíní íoífí íwíaítíeírí,í ítíhíiísí íwíoíríkí íiísí ídíiísísíiípíaítíeídí íiínítíoí íhíeíaítí í(í$íQí$í)í,í íríaíiísíiínígí ítíhíeí ítíeímípíeíríaítíuíríeí íoífí ítíhíeí íwíaítíeírí í(í$í\íDíeílítíaí íTí$í)í.í íJíoíuílíeí ídíeítíeírímíiíníeídí ítíhíaítí ítíhíeí íríeílíaítíiíoínísíhíiípí íbíeítíwíeíeíní íwíoíríkí íiíní íJíoíuílíeísí íaínídí íhíeíaítí íiíní ícíaílíoíríiíeísí íiísí íaí íuíníiívíeírísíaílí ícíoínísítíaínítí:í í$íJí í=í í\í\ífíríaící{íWí}í{íQí}í í\í\íaípípíríoíxí í4í.í1í8í4í í\í\ítíeíxítí{í íJí/ícíaílí}í$í.í"í,íí
-í í í"íSíoílítíaírí íPíeísíaísí"í:í í"íDíríoípí íWíeíiígíhítísí"í,íí
-í í í"íSíuíbíiírí íPíeísíaísí í(íRíeíbíoíbíiíníaírí)í"í:í í"íRíaíiísíeí íWíeíiígíhítísí í(íRíeíwíiínídí)í"í,íí
-í í í"íLíiímípíiíaírí íEíxípíeíríiímíeínítíoí"í:í í"íCílíeíaírí íEíxípíeíríiímíeínítí"í,íí
-í í í"íMíaísíaí ídíeí ícíaídíaí ípíeísíaí í$í(ímí)í$í:í"í:í í"íMíaísísí íoífí íeíaícíhí íwíeíiígíhítí í$í(ímí)í$í:í"í,íí
-í í í"íAílítíuíríaí ídíeí ícíaí�í�ídíaí í$í(íhí)í$í:í"í:í í"íDíríoípí íhíeíiígíhítí í$í(íhí)í$í:í"í,íí
-í í í"íMíaísíaí ídíeílí íaígíuíaí í$í(íMí_í{íaígíuíaí}í)í$í:í"í:í í"íMíaísísí íoífí íwíaítíeírí í$í(íMí_í{íwíaítíeírí}í)í$í:í"í,íí
-í í í"íVíaírí.í ídíeí íTíeímípíeíríaítíuíríaí í(í$í\íDíeílítíaí íTí$í)í:í"í:í í"íVíaírí.í íTíeímípíeíríaítíuíríeí í(í$í\íDíeílítíaí íTí$í)í:í"í,íí
-í í í"íCíaímíbíiíoí íEíní.í íIínítíeíríníaí í(í$í\íDíeílítíaí íUí_í{íaígíuíaí}í$í)í:í"í:í í"íCíhíaínígíeí íIíní.í íIínítíeíríníaílí í(í$í\íDíeílítíaí íUí_í{íwíaítíeírí}í$í)í:í"í,íí
-í í í"íIínítíeírícíaímíbíiíaídíoírí ídíeí íCíaílíoírí ídíeí íDíoíbílíeí íTíuíbíoí"í:í í"íDíoíuíbílíeí íTíuíbíeí íHíeíaítí íEíxícíhíaínígíeírí"í,íí
-í í í"íLíoísí íiínítíeírícíaímíbíiíaídíoíríeísí ídíeí ídíoíbílíeí ítíuíbíoí ícíoínísítíaíní ídíeí ídíoísí ítíuíbíoísí ícíoínící�í�ínítíríiícíoísí.í íUíní ífílíuíiídíoí ífílíuíyíeí ípíoírí íeílí ítíuíbíoí íiínítíeíríníoí ímíiíeínítíríaísí íqíuíeí íeílí íoítíríoí ífílíuíyíeí ípíoírí íeílí íeísípíaícíiíoí íaíníuílíaírí í(íeílí ícíaíníaílí íeíxítíeíríníoí)í.í íEísítíeí ísíiímíuílíaídíoírí ímíoídíeílíaí ílíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí ísíeínísíiíbílíeí í(ísíiíní ícíaímíbíiíoí ídíeí ífíaísíeí)í íuítíiílíiízíaínídíoí íeílí"í:í í"íDíoíuíbílíeí ítíuíbíeí íeíxícíhíaínígíeírísí ícíoínísíiísítí íoífí ítíwíoí ícíoínícíeínítíríiící ítíuíbíeísí.í íOíníeí ífílíuíiídí ífílíoíwísí ítíhíríoíuígíhí ítíhíeí íiíníníeírí ítíuíbíeí íwíhíiílíeí ítíhíeí íoítíhíeírí ífílíoíwísí ítíhíríoíuígíhí ítíhíeí íaíníníuílíuísí í(ítíhíeí íoíuítíeírí ícíhíaíníníeílí)í.í íTíhíiísí ísíiímíuílíaítíoírí ímíoídíeílísí ísíeínísíiíbílíeí íhíeíaítí ítíríaínísífíeírí í(íwíiítíhíoíuítí ípíhíaísíeí ícíhíaínígíeí)í íuísíiínígí ítíhíeí"í,íí
-í í í"ímí�í�ítíoídíoí ídíeí ílíaí íEífíeícítíiívíiídíaídí-íNíTíUí í(í$í\íeípísíiílíoíní$í-íNíTíUí)í"í:í í"íEífífíeícítíiívíeíníeísísí-íNíTíUí ímíeítíhíoídí í(í$í\íeípísíiílíoíní$í-íNíTíUí)í"í,íí
-í í í"íEílí ímí�í�ítíoídíoí í$í\íeípísíiílíoíní$í-íNíTíUí ísíeí íbíaísíaí íeíní ílíaí ídíeífíiíníiícíií�í�íní ídíeí ílíaí íeífíeícítíiívíiídíaídí ídíeí ílíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí:í"í:í í"íTíhíeí í$í\íeípísíiílíoíní$í-íNíTíUí ímíeítíhíoídí íiísí íbíaísíeídí íoíní ítíhíeí ídíeífíiíníiítíiíoíní íoífí ítíhíeí íeífífíeícítíiívíeíníeísísí íoífí íhíeíaítí ítíríaínísífíeírí:í"í,íí
-í í í"ídíoínídíeí ílíaí ítíríaínísífíeíríeínícíiíaí ímí�í�íxíiímíaí ípíoísíiíbílíeí ídíeí ícíaílíoírí íeísí:í í$í$í íqí_í{ímíaíxí}í í=í íCí_í{ímíiíní}í í(íTí_í{íhí,íiíní}í í-í íTí_í{ící,íiíní}í)í í$í$í íyí í$íCí_í{ímíiíní}í í=í í\ímíiíní(íCí_íhí,í íCí_ící)í$í íeísí ílíaí ímíeíníoírí ícíaípíaícíiítíaínícíiíaí ítí�í�írímíiícíaí í(í$í\ídíoítí{ímí}í ící_ípí$í)í.í íPíaíríaí ílíaísí ícíoínífíiígíuíríaícíiíoíníeísí ídíeí ífílíuíjíoí:í"í:í í"íwíhíeíríeí ítíhíeí ímíaíxíiímíuímí ípíoísísíiíbílíeí íhíeíaítí ítíríaínísífíeírí íiísí:í í$í$í íqí_í{ímíaíxí}í í=í íCí_í{ímíiíní}í í(íTí_í{íhí,íiíní}í í-í íTí_í{ící,íiíní}í)í í$í$í íaínídí í$íCí_í{ímíiíní}í í=í í\ímíiíní(íCí_íhí,í íCí_ící)í$í íiísí ítíhíeí ísímíaílílíeísítí ítíhíeírímíaílí ícíaípíaícíiítíaínícíeí í(í$í\ídíoítí{ímí}í ící_ípí$í)í.í íFíoírí ífílíoíwí ísíeítítíiínígísí:í"í,íí
-í í í"ídíoínídíeí í$íNíTíUí í=í í\í\ífíríaící{íUí íAí}í{íCí_í{ímíiíní}í}í$í í(íNí�í�ímíeíríoí ídíeí íUíníiídíaídíeísí ídíeí íTíríaínísífíeíríeínícíiíaí)í íyí í$íCí_írí í=í í\í\ífíríaící{íCí_í{ímíiíní}í}í{íCí_í{ímíaíxí}í}í$í íeísí ílíaí íríeílíaícíií�í�íní ídíeí ícíaípíaícíiítíaínícíiíaísí.í íEílí ícíoíeífíiícíiíeínítíeí ígílíoíbíaílí í$íUí$í ísíeí ícíaílícíuílíaí íaí ípíaírítíiírí ídíeí ílíaísí íríeísíiísítíeínícíiíaísí ítí�í�írímíiícíaísí ídíeí ícíoínívíeícícíií�í�íní íyí ícíoínídíuícícíií�í�íní íaí ítíríaíví�í�ísí ídíeí ílíaí ípíaíríeídí íiínítíeíríníaí ídíeílí ítíuíbíoí:í"í:í í"íwíhíeíríeí í$íNíTíUí í=í í\í\ífíríaící{íUí íAí}í{íCí_í{ímíiíní}í}í$í í(íNíuímíbíeírí íoífí íTíríaínísífíeírí íUíníiítísí)í íaínídí í$íCí_írí í=í í\í\ífíríaící{íCí_í{ímíiíní}í}í{íCí_í{ímíaíxí}í}í$í íiísí ítíhíeí ícíaípíaícíiítíaínícíeí íríaítíiíoí.í íTíhíeí ígílíoíbíaílí ícíoíeífífíiícíiíeínítí í$íUí$í íiísí ícíaílícíuílíaítíeídí ífíríoímí ítíhíeí ítíhíeírímíaílí íríeísíiísítíaínícíeísí íoífí ícíoínívíeícítíiíoíní íaínídí ícíoínídíuícítíiíoíní ítíhíríoíuígíhí ítíhíeí íiínítíeíríníaílí íwíaílílí íoífí ítíhíeí ítíuíbíeí:í"í,íí
-í í í"íEífíeícítíiívíiídíaídí í$í(í\íeípísíiílíoíní)í$í"í:í í"íEífífíeícítíiívíeíníeísísí í$í(í\íeípísíiílíoíní)í$í"í,íí
-í í í"íPíaírí�í�ímíeítíríoísí ídíeí íTíríaínísífíeíríeínícíiíaí íyí íFílíuíiídíoí"í:í í"íTíríaínísífíeírí íaínídí íFílíuíiídí íPíaíríaímíeítíeírísí"í,íí
-í í í"íDíií�í�ímí.í íHíiídírí�í�íuílíiícíoí í$í(íDí_í{íhí,íií}í)í$í:í"í:í í"íHíyídíríaíuílíiící íDíiíaímíeítíeírí í$í(íDí_í{íhí,íií}í)í$í:í"í,íí
-í í í"íDíií�í�ímí.í íHíiídírí�í�íuílíiícíoí í$í(íDí_í{íhí,íoí}í)í$í:í"í:í í"íHíyídíríaíuílíiící íDíiíaímíeítíeírí í$í(íDí_í{íhí,íoí}í)í$í:í"í,íí
-í í í"íDíiífíeíríeínícíiíaí ídíeí íTíeímípí.í íMíeídíiíaí íLíoígíaírí�í�ítímíiícíaí í$í(í\íDíeílítíaí íTí_í{íMíLí}í)í$í:í"í:í í"íTíeímípí íDíiífífíeíríeínícíeí íLíoígíaíríiítíhímíiící íMíeíaíní í$í(í\íDíeílítíaí íTí_í{íMíLí}í)í$í:í"í,íí
-í í í"íCíiírícíuíiítíoí ídíeí íRíeísíiísítíeínícíiíaísí íTí�í�írímíiícíaísí"í:í í"íTíhíeírímíaílí íRíeísíiísítíaínícíeí íCíiírícíuíiítí"í,íí
-í í í"íRíeísíiísítíeínícíiíaí íCíoíníví.í íIínítíeíríníaí í$í(íRí_í{ícíoíníví,íií}í)í$í:í"í:í í"íRíeísíiísítíaínícíeí íCíoíníví.í íIínítíeíríníaílí í$í(íRí_í{ícíoíníví,íií}í)í$í:í"í,íí
-í í í"íRíeísíiísítíeínícíiíaí íCíoínídí.í íPíaíríeídí í$í(íRí_í{ícíoínídí,íwí}í)í$í:í"í:í í"íRíeísíiísítíaínícíeí íCíoínídí.í íWíaílílí í$í(íRí_í{ícíoínídí,íwí}í)í$í:í"í,íí
-í í í"íRíeísíiísítíeínícíiíaí íCíoíníví.í íEíxítíeíríníaí í$í(íRí_í{ícíoíníví,íoí}í)í$í:í"í:í í"íRíeísíiísítíaínícíeí íCíoíníví.í íEíxítíeíríníaílí í$í(íRí_í{ícíoíníví,íoí}í)í$í:í"í,íí
-í í í"íRíeísíiísítíeínícíiíaí íTí�í�írímíiícíaí íTíoítíaílí í$í(íRí_í{ítíoítí}í)í$í:í"í:í í"íTíoítíaílí íTíhíeírímíaílí íRíeísíiísítíaínícíeí í$í(íRí_í{ítíoítí}í)í$í:í"í,íí
-í í í"íVíeíríiífíiícíaícíií�í�íní ídíeílí íBíaílíaínícíeí ídíeí íEíníeírígí�í�íaí"í:í í"íEíníeírígíyí íBíaílíaínícíeí íVíeíríiífíiícíaítíiíoíní"í,íí
-í í í"íCíaílíoírí ípíoírí íCíiírícíuíiítíoí í$í(í\íDíeílítíaí íTí_í{íMíLí}í í/í íRí_í{ítíoítí}í)í$í:í"í:í í"íHíeíaítí ípíeírí íCíiírícíuíiítí í$í(í\íDíeílítíaí íTí_í{íMíLí}í í/í íRí_í{ítíoítí}í)í$í:í"í,íí
-í í í"íLíoínígíiítíuídí í$í(íLí)í$í:í"í:í í"íLíeínígítíhí í$í(íLí)í$í:í"í,íí
-í í í"íDíií�í�ímí.í íIínítíeíríníoí í$í(íDí_íií)í$í:í"í:í í"íIínítíeíríníaílí íDíiíaí.í í$í(íDí_íií)í$í:í"í,íí
-í í í"íEísípíeísíoírí íPíaíríeídí í$í(ítí)í$í:í"í:í í"íWíaílílí íTíhíiícíkíníeísísí í$í(ítí)í$í:í"í,íí
-í í í"íDíií�í�ímí.í íEíxítíeíríníoí í$í(íDí_í{íeíxítí}í)í$í:í"í:í í"íEíxítíeíríníaílí íDíiíaí.í í$í(íDí_í{íeíxítí}í)í$í:í"í,íí
-í í í"íTíeímípí.í íEínítíríaídíaí íCíaílíiíeínítíeí í$í(íTí_í{íhí,íiíní}í)í$í:í"í:í í"íTíeímípí.í íHíoítí íIínípíuítí í$í(íTí_í{íhí,íiíní}í)í$í:í"í,íí
-í í í"íTíeímípí.í íEínítíríaídíaí íFírí�í�íoí í$í(íTí_í{ící,íiíní}í)í$í:í"í:í í"íTíeímípí.í íCíoílídí íIínípíuítí í$í(íTí_í{ící,íiíní}í)í$í:í"í,íí
-í í í"íMíaísíaí íFílíuíjíoí íCíaílíiíeínítíeí í$í(í\ídíoítí{ímí}í_íhí)í$í:í"í:í í"íHíoítí íFílíoíwí íMíaísísí í$í(í\ídíoítí{ímí}í_íhí)í$í:í"í,íí
-í í í"íkígí/ísí"í:í í"íkígí/ísí"í,íí
-í í í"íMíaísíaí íFílíuíjíoí íFírí�í�íoí í$í(í\ídíoítí{ímí}í_ící)í$í:í"í:í í"íCíoílídí íFílíoíwí íMíaísísí í$í(í\ídíoítí{ímí}í_ící)í$í:í"í,íí
-í í í"íTíeímípíeíríaítíuíríaísí ídíeí íSíaílíiídíaí íRíeísíuílítíaínítíeísí"í:í í"íRíeísíuílítíiínígí íOíuítílíeítí íTíeímípíeíríaítíuíríeísí"í,íí
-í í í"íFílíuíiídíoí íCíaílíiíeínítíeí ídíeí íSíaílíiídíaí í$í(íTí_í{íhí,íoíuítí}í)í$í:í"í:í í"íOíuítílíeítí íHíoítí íFílíuíiídí í$í(íTí_í{íhí,íoíuítí}í)í$í:í"í,íí
-í í í"íFílíuíiídíoí íFírí�í�íoí ídíeí íSíaílíiídíaí í$í(íTí_í{ící,íoíuítí}í)í$í:í"í:í í"íOíuítílíeítí íCíoílídí íFílíuíiídí í$í(íTí_í{ící,íoíuítí}í)í$í:í"í,íí
-í í í"íSíeí íhíaíní íaílícíaínízíaídíoí ícíoínídíiícíiíoíníeísí ídíeí íeíbíuílílíiícíií�í�íní ípíaíríaí íeílí íaígíuíaí í(íTí í�í�í�í í1í0í0í í�í�íCí)í.í íSíeí ídíeíbíeí ídíiísíeí�í�íaírí íuíní íeívíaípíoíríaídíoírí ípíaíríaí íeísítíeí ípíríoípí�í�ísíiítíoí.í"í:í í"íBíoíiílíiínígí ícíoínídíiítíiíoínísí íhíaívíeí íbíeíeíní íríeíaícíhíeídí ífíoírí íwíaítíeírí í(íTí í�í�í�í í1í0í0í í�í�íCí)í.í íAíní íeívíaípíoíríaítíoírí ímíuísítí íbíeí ídíeísíiígíníeídí ífíoírí ítíhíiísí ípíuírípíoísíeí.í"í,íí
-í í í"íPíríoípíiíeídíaídíeísí íTíeírímíoífí�í�ísíiícíaísí íPíríoímíeídíiíoí"í:í í"íAívíeíríaígíeí íTíhíeírímíoípíhíyísíiícíaílí íPíríoípíeírítíiíeísí"í,íí
-í í í"íJí/íkígíKí"í:í í"íJí/íkígíKí"í,íí
-í í í"íVíiísícíoísíiídíaídí í$í(í\ímíuí)í$í:í"í:í í"íVíiísícíoísíiítíyí í$í(í\ímíuí)í$í:í"í,íí
-í í í"íPíaí�í�ísí"í:í í"íPíaí�í�ísí"í,íí
-í í í"íVíiísící.í ícíiíníeímí.í í$í(í\íníuí)í$í:í"í:í í"íVíiísící.í ícíiíníeímí.í í$í(í\íníuí)í$í:í"í,íí
-í í í"íCíoíríríeílíaícíiíoíníeísí ídíeí íCíoínívíeícícíií�í�íní"í:í í"íCíoínívíeícítíiíoíní íCíoíríríeílíaítíiíoínísí"í,íí
-í í í"í1í.í íRí�í�ígíiímíeíní íLíaímíiíníaírí í$í(íRíeí_ídí"í:í í"í1í.í íLíaímíiíníaírí íRíeígíiímíeí í$í(íRíeí_ídí"í,íí
-í í í"í2í.í íRí�í�ígíiímíeíní ídíeí íTíríaínísíiícíií�í�íní í$í(í2í3í0í0í í\ílíeí íRíeí_ídí"í:í í"í2í.í íTíríaínísíiítíiíoíní íRíeígíiímíeí í$í(í2í3í0í0í í\ílíeí íRíeí_ídí"í,íí
-í í í"íCíoíríríeílíaícíií�í�íní ídíeí"í:í í"íCíoíríríeílíaítíiíoíní íoífí"í,íí
-í í í"ídíoínídíeí í$ífí í=í í(í0í.í7í9í\ílíní(íRíeí_ídí)í í-í í1í.í6í4í)í^í{í-í2í}í$í í(íPíeítíuíkíhíoíví)í.í"í:í í"íwíhíeíríeí í$ífí í=í í(í0í.í7í9í\ílíní(íRíeí_ídí)í í-í í1í.í6í4í)í^í{í-í2í}í$í í(íPíeítíuíkíhíoíví)í.í"í,íí
-í í í"í3í.í íRí�í�ígíiímíeíní íTíuíríbíuílíeínítíoí í$í(íRíeí_ídí í\ígíeí í1í0í0í0í0í)í$í:í"í:í í"í3í.í íTíuíríbíuílíeínítí íRíeígíiímíeí í$í(íRíeí_ídí í\ígíeí í1í0í0í0í0í)í$í:í"í,íí
-í í í"íRíeíqíuíiísíiítíoísí:í í$íRíeí_ídí í\ígíeí í1í0í0í0í0í$í,í í$íLí/íDí_íhí í\ígíeí í1í0í$í,í íyí í$í0í.í6í í\ílíeí íPírí í\ílíeí í1í6í0í$í.í íEíxípíoíníeínítíeí:í"í:í í"íRíeíqíuíiíríeímíeínítísí:í í$íRíeí_ídí í\ígíeí í1í0í0í0í0í$í,í í$íLí/íDí_íhí í\ígíeí í1í0í$í,í íaínídí í$í0í.í6í í\ílíeí íPírí í\ílíeí í1í6í0í$í.í íEíxípíoíníeínítí:í"í,íí
-í í í"íCíaílílíeí ídíeí íVí�í�írítíiícíeísí ídíeí íVíoíní íKí�í�írímí�í�íní"í:í í"íVíoíní íKí�í�írímí�í�íní íVíoírítíeíxí íSítíríeíeítí"í,íí
-í í í"íCíaímípíoí ídíeí íFílíuíjíoí íeí íIínídíuícícíií�í�íní ídíeí íVíoírítíiícíiídíaídí"í:í í"íFílíoíwí íFíiíeílídí íaínídí íVíoírítíiícíiítíyí íIínídíuícítíiíoíní"í,íí
-í í í"íSíeínítíiídíoí íHíoíríaíríiíoí í(í-í)í"í:í í"íCílíoícíkíwíiísíeí í(í-í)í"í,íí
-í í í"íSíeínítíiídíoí íAínítíiíhíoíríaíríiíoí í(í+í)í"í:í í"íCíoíuínítíeírícílíoícíkíwíiísíeí í(í+í)í"í,íí
-í í í"íOíbísíeírívíaí ící�í�ímíoí ísíeí ífíoírímíaíní ílíoísí íví�í�írítíiícíeísí íaílítíeíríníaídíoísí íaí ísíoítíaívíeínítíoí ídíeílí ícíiílíiínídíríoí.í íMíoídíiífíiícíaí ílíoísí ípíaírí�í�ímíeítíríoísí íiínífíeíríiíoíríeísí ípíaíríaí ívíeírí ílíaí ítíríaínísíiícíií�í�íní ídíeísídíeí ífílíuíjíoí ílíaímíiíníaírí íeísítíaícíiíoíníaíríiíoí í(í$íRíeí"í:í í"íOíbísíeírívíeí íhíoíwí ítíhíeí íaílítíeíríníaítíiínígí ívíoírítíiícíeísí ífíoírímí íiíní ítíhíeí ílíeíeí íoífí ítíhíeí ícíyílíiínídíeírí.í íMíoídíiífíyí ítíhíeí ílíoíwíeírí ípíaíríaímíeítíeírísí ítíoí ísíeíeí ítíhíeí ítíríaínísíiítíiíoíní ífíríoímí ísítíeíaídíyí ílíaímíiíníaírí ífílíoíwí í(í$íRíeí"í,íí
-í í í"í4í7í$í)í íhíaísítíaí írí�í�ígíiímíeíní ípílíeíníaímíeínítíeí íoísícíiílíaítíoíríiíoí.í"í:í í"í4í7í$í)í íuípí ítíoí ífíuílílíyí íoísícíiílílíaítíoíríyí íríeígíiímíeí.í"í,íí
-í í í"íPíaírí�í�ímíeítíríoísí ídíeí íCíoínítíríoílí"í:í í"íCíoínítíríoílí íPíaíríaímíeítíeírísí"í,íí
-í í í"íVíeílíoícíiídíaídí ídíeílí íFílíuíjíoí í$í(íUí)í$í:í"í:í í"íFílíoíwí íVíeílíoícíiítíyí í$í(íUí)í$í:í"í,íí
-í í í"íDíií�í�ímíeítíríoí ídíeílí íCíiílíiínídíríoí í$í(íDí)í$í:í"í:í í"íCíyílíiínídíeírí íDíiíaímíeítíeírí í$í(íDí)í$í:í"í,íí
-í í í"íRíeísíuílítíaídíoísí ídíeí ílíaí íSíiímíuílíaícíií�í�íní"í:í í"íSíiímíuílíaítíiíoíní íRíeísíuílítísí"í,íí
-í í í"íCíoínítíeíxítíoí ídíeí íIínígíeíníiíeírí�í�íaí:í íTíaícíoímíaí íNíaíríríoíwísí í(í1í9í4í0í)í"í:í í"íEínígíiíníeíeíríiínígí íCíoínítíeíxítí:í íTíaícíoímíaí íNíaíríríoíwísí í(í1í9í4í0í)í"í,íí
-í í í"íEílí ícíoílíaípísíoí ícíaítíaísítírí�í�ífíiícíoí ídíeílí ípíuíeínítíeí íoíríiígíiíníaílí ídíeí"í:í í"íTíhíeí ícíaítíaísítíríoípíhíiící ícíoílílíaípísíeí íoífí ítíhíeí íoíríiígíiíníaílí íbíríiídígíeí"í,íí
-í í í"íeíní í1í9í4í0í íeísí íeílí íeíjíeímípílíoí íhíiísítí�í�íríiícíoí ímí�í�ísí ící�í�ílíeíbíríeí ídíeí ífíaílílíaísí íeísítíríuícítíuíríaílíeísí ídíeí íiínígíeíníiíeírí�í�íaí íiínídíuícíiídíaísí ípíoírí íríeísíoíníaínícíiíaí íaíeíríoíeílí�í�ísítíiícíaí íyí ídíeísípíríeínídíiímíiíeínítíoí ípíeíríií�í�ídíiícíoí ídíeí íví�í�írítíiícíeísí.í"í:í í"íiíní í1í9í4í0í íiísí ítíhíeí ímíoísítí ífíaímíoíuísí íhíiísítíoíríiícíaílí íeíxíaímípílíeí íoífí íeínígíiíníeíeíríiínígí ísítíríuícítíuíríaílí ífíaíiílíuíríeí íiínídíuícíeídí íbíyí íaíeíríoíeílíaísítíiící íríeísíoíníaínícíeí íaínídí ípíeíríiíoídíiící ívíoírítíeíxí ísíhíeídídíiínígí.í"í,íí
-í í í"íAí ívíeílíoícíiídíaídíeísí ídíeí ívíiíeínítíoí ícírí�í�ítíiícíaísí,í ílíaí ífíríeícíuíeínícíiíaí ídíeí ídíeísípíríeínídíiímíiíeínítíoí ídíeí íví�í�írítíiícíeísí ídíeí íVíoíní íKí�í�írímí�í�íní í(í$ífí í=í íSítí í\í\ícídíoítí íUí í/í íDí$í)í ígíeíníeírí�í�í ífíuíeírízíaísí ídíeí ísíuísítíeínítíaícíií�í�íní íaílítíeíríníaínítíeísí íqíuíeí ícíoíiínícíiídíiíeíríoíní ídíeí ífíoírímíaí íeíxíaícítíaí ícíoíní ílíaí ífíríeícíuíeínícíiíaí íníaítíuíríaílí ídíeí ítíoírísíií�í�íní ídíeí ílíaí ívíiígíaí ídíeílí ípíuíeínítíeí.í íEísítíoí ícíaíuísí�í�í íoísícíiílíaícíiíoíníeísí ídíeísítíríuícítíiívíaísí ímíaísíiívíaísí íaíuítíoíeíxícíiítíaídíaísí ípíoírí íríeísíoíníaínícíiíaí,í íqíuíeí ítíeírímíiíníaíríoíní ípíoírí ífíríaícítíuíríaírí ílíoísí ícíaíbílíeísí ídíeí ísíoípíoírítíeí ídíeí íaícíeíríoí íyí ícíoílíaípísíaírí ílíaí íeísítíríuícítíuíríaí ídíeí ílíaí ícíuíbíiíeírítíaí.í"í:í í"íAítí ícíríiítíiícíaílí íwíiínídí ísípíeíeídísí,í ítíhíeí íVíoíní íKí�í�írímí�í�íní ívíoírítíeíxí ísíhíeídídíiínígí ífíríeíqíuíeínícíyí í(í$ífí í=í íSítí í\í\ícídíoítí íUí í/í íDí$í)í ígíeíníeíríaítíeídí íaílítíeíríníaítíiínígí ílíiífítí ífíoírícíeísí ítíhíaítí íeíxíaícítílíyí ímíaítícíhíeídí ítíhíeí íníaítíuíríaílí ítíwíiísítíiínígí ífíríeíqíuíeínícíyí íoífí ítíhíeí íbíríiídígíeí ígíiírídíeírí.í íTíhíiísí ícíaíuísíeídí ímíaísísíiívíeí ídíeísítíríuícítíiívíeí ísíeílífí-íeíxícíiítíeídí íríeísíoíníaínícíeí íoísícíiílílíaítíiíoínísí,í íwíhíiícíhí íuílítíiímíaítíeílíyí ífíríaícítíuíríeídí ítíhíeí ísítíeíeílí ísíuípípíoírítí ícíaíbílíeísí íaínídí ícíoílílíaípísíeídí ítíhíeí ídíeícíkí ísítíríuícítíuíríeí.í"í,íí
-í í í"íCíuírívíaí ídíeí íNíuíkíiíyíaímíaí íyí íRíeígí�í�ímíeíníeísí ídíeí íEíbíuílílíiícíií�í�íní"í:í í"íNíuíkíiíyíaímíaí íCíuírívíeí íaínídí íBíoíiílíiínígí íRíeígíiímíeísí"í,íí
-í í í"íEísítíaí ísíiímíuílíaícíií�í�íní íiínítíeíríaícítíiívíaí ípíríeísíeínítíaí ílíaí ící�í�ílíeíbíríeí ícíuírívíaí ídíeí íeíbíuílílíiícíií�í�íní ídíeí íSíhíiíríoí íNíuíkíiíyíaímíaí í(í1í9í3í4í)í,í íqíuíeí ícíaíríaícítíeíríiízíaí ílíaí ídíeínísíiídíaídí ídíeí ífílíuíjíoí ídíeí ícíaílíoírí í(í$íqí'í'í$í)í ítíríaínísífíeíríiídíoí íaí íuíní ílí�í�íqíuíiídíoí íaí ísíaítíuíríaícíií�í�íní íeíní ífíuínícíií�í�íní ídíeí ílíaí ítíeímípíeíríaítíuíríaí ídíeí íeíxícíeísíoí ídíeí ílíaí ísíuípíeírífíiícíiíeí ícíaílíeífíaícítíoíríaí í(í$í\íDíeílítíaí íTí_íeí í=í íTí_ísí í-í íTí_í{ísíaítí}í$í)í.í"í:í í"íTíhíiísí íiínítíeíríaícítíiívíeí ísíiímíuílíaítíiíoíní ípíríeísíeínítísí ítíhíeí ífíaímíoíuísí íbíoíiílíiínígí ícíuírívíeí íoífí íSíhíiíríoí íNíuíkíiíyíaímíaí í(í1í9í3í4í)í,í íwíhíiícíhí ícíhíaíríaícítíeíríiízíeísí ítíhíeí íhíeíaítí ífílíuíxí ídíeínísíiítíyí í(í$íqí'í'í$í)í ítíríaínísífíeíríríeídí ítíoí íaí ílíiíqíuíiídí íaítí ísíaítíuíríaítíiíoíní íaísí íaí ífíuínícítíiíoíní íoífí ítíhíeí íeíxícíeísísí ítíeímípíeíríaítíuíríeí íoífí ítíhíeí íhíeíaítíiínígí ísíuírífíaícíeí í(í$í\íDíeílítíaí íTí_íeí í=í íTí_ísí í-í íTí_í{ísíaítí}í$í)í.í"í,íí
-í í í"íVíiísíuíaílíiízíaícíií�í�íní ídíeí íRíeígí�í�ímíeíníeísí ídíeí íEíbíuílílíiícíií�í�íní"í:í í"íVíiísíuíaílíiízíaítíiíoíní íoífí íBíoíiílíiínígí íRíeígíiímíeísí"í,íí
-í í í"íOíbísíeírívíaí ílíaí ífíoírímíaícíií�í�íní ídíeí ípílíuímíaísí ídíeí ícíoínívíeícícíií�í�íní íyí íeílí ídíeísípíríeínídíiímíiíeínítíoí ídíeí íbíuíríbíuíjíaísí íeíní íeílí íeílíeímíeínítíoí ícíaílíeífíaícítíoírí íhíoíríiízíoínítíaílí.í"í:í í"íOíbísíeírívíeí ítíhíeí ífíoírímíaítíiíoíní íoífí ícíoínívíeícítíiíoíní ípílíuímíeísí íaínídí ítíhíeí íríeílíeíaísíeí íoífí íbíuíbíbílíeísí íoíní ítíhíeí íhíoíríiízíoínítíaílí íhíeíaítíiínígí íeílíeímíeínítí.í"í,íí
-í í í"íCíuírívíaí ídíeí íNíuíkíiíyíaímíaí í(íLíoígí-íLíoígí)í"í:í í"íNíuíkíiíyíaímíaí ícíuírívíeí í(íLíoígí-íLíoígí)í"í,íí
-í í í"íEílí ípíuínítíoí íníaíríaíníjíaí ísíeí�í�íaílíaí íeílí íeísítíaídíoí ítí�í�írímíiícíoí íaícítíuíaílí ísíoíbíríeí ílíaí ícíuírívíaí ícíaíríaícítíeírí�í�ísítíiícíaí ídíeílí ífílíuíiídíoí ísíeílíeícícíiíoíníaídíoí.í"í:í í"íTíhíeí íoíríaínígíeí ípíoíiínítí íiínídíiícíaítíeísí ítíhíeí ícíuíríríeínítí ítíhíeírímíaílí ísítíaítíeí íoíní ítíhíeí ícíhíaíríaícítíeíríiísítíiící ícíuírívíeí íoífí ítíhíeí ísíeílíeícítíeídí ífílíuíiídí.í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí ídíeí íEíxícíeísíoí í(í�í�íTíeí í=í íTísí í-í íTísíaítí)í:í"í:í í"íEíxícíeísísí íTíeímípíeíríaítíuíríeí í(í�í�íTíeí í=í íTísí í-í íTísíaítí)í:í"í,íí
-í í í"íEílí í\í"íPíuínítíoí ídíeí íQíuíeímíaídíoí\í"í í(íBíuíríníoíuítí)í íeí íIíníeísítíaíbíiílíiídíaídí:í"í:í í"íTíhíeí í\í"íBíuíríní íPíoíiínítí\í"í í(íBíuíríníoíuítí)í íaínídí íIínísítíaíbíiílíiítíyí:í"í,íí
-í í í"íAílí ísíuípíeíríaírí íeílí ífílíuíjíoí ícírí�í�ítíiícíoí í(íCíHíFí)í,í ílíaí ísíuípíeírífíiícíiíeí íníoí ípíuíeídíeí ísíoísítíeíníeírí ílíaí íeíbíuílílíiícíií�í�íní íníuícílíeíaídíaí íyí ílíaí ítíeímípíeíríaítíuíríaí ísíaílítíaí ídíeí ígíoílípíeí íaí ílíaí íríaímíaí ídíeí ípíeílí�í�ícíuílíaí ípíaíríaí ídíiísíiípíaírí ílíaí ímíiísímíaí ípíoítíeínícíiíaí.í íEísítíeí íiínícíríeímíeínítíoí íríeípíeínítíiíníoí ídíeí ítíeímípíeíríaítíuíríaí ípíuíeídíeí ífíuínídíiírí íeílí ímíeítíaílí ídíeílí ícíaílíeínítíaídíoírí í(í*í*íbíuíríníoíuítí*í*í)í.í"í:í í"íUípíoíní íeíxícíeíeídíiínígí ítíhíeí ícíríiítíiícíaílí ífílíuíxí í(íCíHíFí)í,í ítíhíeí ísíuírífíaícíeí ícíaíníníoítí ísíuísítíaíiíní íníuícílíeíaítíeí íbíoíiílíiínígí íaínídí ítíhíeí ítíeímípíeíríaítíuíríeí ísíuídídíeínílíyí íjíuímípísí ítíoí ítíhíeí ífíiílímí íbíríaínícíhí ítíoí ídíiísísíiípíaítíeí ítíhíeí ísíaímíeí ípíoíwíeírí.í íTíhíiísí ísíuídídíeíní íiínícíríeíaísíeí íiíní ítíeímípíeíríaítíuíríeí ícíaíní ímíeílítí ítíhíeí ímíeítíaílí íoífí ítíhíeí íhíeíaítíeírí í(í*í*íbíuíríníoíuítí*í*í)í.í"í,íí
-í í í"íCíoínídíuícícíií�í�íní íTí�í�írímíiícíaí íTíríaínísíiítíoíríiíaí í(íHíeíiísílíeírí íyí íBíiíoítí)í"í:í í"íTíríaínísíiíeínítí íTíhíeírímíaílí íCíoínídíuícítíiíoíní í(íHíeíiísílíeírí íaínídí íBíiíoítí)í"í,íí
-í í í"íDíiísítíríiíbíuícíií�í�íní ídíeí íTíeímípíeíríaítíuíríaí í(íMíaípíaí ídíeí íCíaílíoírí í2íDí)í"í:í í"íTíeímípíeíríaítíuíríeí íDíiísítíríiíbíuítíiíoíní í(í2íDí íHíeíaítí íMíaípí)í"í,íí
-í í í"íEívíoílíuícíií�í�íní ídíeí íTíeímípíeíríaítíuíríaí ívísí íTíiíeímípíoí"í:í í"íEívíoílíuítíiíoíní íoífí íTíeímípíeíríaítíuíríeí ívísí íTíiímíeí"í,íí
-í í í"íCíoíeífí.í íCíoínívíeícícíií�í�íní í(íhí)í:í"í:í í"íCíoíeífí.í íCíoínívíeícítíiíoíní í(íhí)í:í"í,íí
-í í í"íDíiímíeínísíií�í�íní íCíaíríaícítíeírí�í�ísítíiícíaí í(íDí íoí í2íLí)í:í"í:í í"íCíhíaíríaícítíeíríiísítíiící íDíiímíeínísíiíoíní í(íDí íoírí í2íLí)í:í"í,íí
-í í í"íTíeímípí.í íIíníiícíiíaílí í(íTíií)í:í"í:í í"íTíeímípí.í íIíníiítíiíaílí í(íTíií)í:í"í,íí
-í í í"íTíeímípí.í íFílíuíiídíoí í(íTíiínífí)í:í"í:í í"íTíeímípí.í íFílíuíiídí í(íTíiínífí)í:í"í,íí
-í í í"íVíeílíoícíiídíaídí íSíiímíuílíaícíií�í�íní:í"í:í í"íSíiímíuílíaítíiíoíní íSípíeíeídí:í"í,íí
-í í í"íIíníiícíiíaírí"í:í í"íSítíaírítí"í,íí
-í í í"íIínítíeírípíríeítíaícíií�í�íní íFí�í�ísíiícíaí:í"í:í í"íPíhíyísíiícíaílí íIínítíeírípíríeítíaítíiíoíní:í"í,íí
-í í í"íSíií í$íBíií í<í í0í.í1í$í,í ílíaí íríeísíiísítíeínícíiíaí íiínítíeíríníaí ídíeílí ísí�í�ílíiídíoí íeísí ídíeísípíríeícíiíaíbílíeí.í íLíaí ítíeímípíeíríaítíuíríaí íeísí íuíníiífíoírímíeí íeísípíaícíiíaílímíeínítíeí íyí íeílí íeínífíríiíaímíiíeínítíoí íeísí ípíuíríaímíeínítíeí íeíxípíoíníeínícíiíaílí.í íSíií í$íBíií í>í í0í.í1í$í,í íaípíaíríeícíeíní ígíríaídíiíeínítíeísí ítí�í�írímíiícíoísí íiímípíoírítíaínítíeísí,í íyí ílíaí ísíuípíeírífíiícíiíeí ísíeí íeínífírí�í�íaí ímíuícíhíoí ímí�í�ísí írí�í�ípíiídíoí íqíuíeí íeílí íní�í�ícílíeíoí íiínítíeíríníoí.í"í:í í"íIífí í$íBíií í<í í0í.í1í$í,í ítíhíeí íiínítíeíríníaílí íríeísíiísítíaínícíeí íoífí ítíhíeí ísíoílíiídí íiísí íníeígílíiígíiíbílíeí.í íTíhíeí ítíeímípíeíríaítíuíríeí íiísí ísípíaítíiíaílílíyí íuíníiífíoírímí íaínídí ítíhíeí ícíoíoílíiínígí íiísí ípíuíríeílíyí íeíxípíoíníeínítíiíaílí.í íIífí í$íBíií í>í í0í.í1í$í,í ísíiígíníiífíiícíaínítí ítíhíeírímíaílí ígíríaídíiíeínítísí íaípípíeíaírí,í íaínídí ítíhíeí ísíuírífíaícíeí ícíoíoílísí ímíuícíhí ífíaísítíeírí ítíhíaíní ítíhíeí íiíníníeírí ícíoíríeí.í"í,íí
-í í í"íPílíaícíaí íPílíaíníaí ícíoíní íSíuípíeírífíiícíiíeí íAíiísílíaídíaí í(íCíiírícíuíiítíoí íAídíiíaíbí�í�ítíiícíoí)í"í:í í"íFílíaítí íPílíaítíeí íwíiítíhí íIínísíuílíaítíeídí íSíuírífíaícíeí í(íAídíiíaíbíaítíiící íCíiírícíuíiítí)í"í,íí
-í í í"íEísítíaí ísíiímíuílíaícíií�í�íní ímíoídíeílíaí ílíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí íuíníiídíiímíeínísíiíoíníaílí íeíní íuíníaí ípílíaícíaí ípílíaíníaí í(ípíaíríeídí)í ídíeí íeísípíeísíoírí í$íLí$í íyí ícíoínídíuícítíiívíiídíaídí í$íkí$í.í íUíníaí ídíeí ísíuísí ísíuípíeírífíiícíiíeísí íeísítí�í�í"í:í í"íTíhíiísí ísíiímíuílíaítíiíoíní ímíoídíeílísí íoíníeí-ídíiímíeínísíiíoíníaílí íhíeíaítí ítíríaínísífíeírí íiíní íaí ífílíaítí ípílíaítíeí í(íwíaílílí)í íoífí ítíhíiícíkíníeísísí í$íLí$í íaínídí ícíoínídíuícítíiívíiítíyí í$íkí$í.í íOíníeí íoífí íiítísí ísíuírífíaícíeísí íiísí"í,íí
-í í í"íLíaí íeícíuíaícíií�í�íní ídíiífíeíríeínícíiíaílí ígíoíbíeíríníaínítíeí ípíaíríaí ílíaí ícíoínídíuícícíií�í�íní íuíníiídíiímíeínísíiíoíníaílí ícíoíní ígíeíníeíríaícíií�í�íní íeísí:í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í$í$í í\í\ífíríaící{í\ípíaírítíiíaílí^í2í íTí}í{í\ípíaírítíiíaílí íxí^í2í}í í+í í\í\ífíríaící{íqí_ígí}í{íkí}í í=í í\í\ífíríaící{í1í}í{í\íaílípíhíaí}í í\í\ífíríaící{í\ípíaírítíiíaílí íTí}í{í\ípíaírítíiíaílí ítí}í í$í$í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í íBíaíjíoí íeísítíaídíoí íeísítíaícíiíoíníaíríiíoí ícíoíní íuíníaí ísíuípíeírífíiícíiíeí íaíiísílíaídíaí íeíní í$íxí í=í í0í$í íyí ísíuípíeírífíiícíiíeí ílíiíbíríeí íeíní í$íxí í=í íLí$í íaí ítíeímípíeíríaítíuíríaí í$íTí_ísí$í,í ílíaí ísíoílíuícíií�í�íní íaíníaílí�í�ítíiícíaí íeísí:í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í$í$í íTí(íxí)í í=í íTí_ísí í+í í\í\ífíríaící{íqí_ígí íLí^í2í}í{í2íkí}í í\í\ílíeífítí[í í1í í-í í\í\ílíeífítí(í\í\ífíríaící{íxí}í{íLí}í\í\íríiígíhítí)í^í2í í\í\íríiígíhítí]í í$í$í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í íSíií íníoí íhíaíyí ígíeíníeíríaícíií�í�íní í(í$íqí_ígí í=í í0í$í)í,í íeíní íeísítíaídíoí íeísítíaíbílíeí ítíoídíaí ílíaí ípílíaícíaí íaílícíaínízíaí íuíníiífíoírímíeímíeínítíeí ílíaí ítíeímípíeíríaítíuíríaí ídíeí ílíaí ísíuípíeírífíiícíiíeí ílíiíbíríeí:í í$íTí(íxí)í í=í íTí_ísí$í.í"í:í í"íTíhíeí ígíoívíeíríníiínígí ídíiífífíeíríeínítíiíaílí íeíqíuíaítíiíoíní ífíoírí íoíníeí-ídíiímíeínísíiíoíníaílí ícíoínídíuícítíiíoíní íwíiítíhí ígíeíníeíríaítíiíoíní íiísí:í"í,íí
-í í í"íAíníiímíaícíií�í�íní íTí�í�írímíiícíaí ídíeí ílíaí íPílíaícíaí"í:í í"íTíhíeírímíaílí íPílíaítíeí íAíníiímíaítíiíoíní"í,íí
-í í í"íPíeírífíiílí ídíeí íTíeímípíeíríaítíuíríaí í$íTí(íxí)í$í"í:í í"íTíeímípíeíríaítíuíríeí íPíríoífíiílíeí í$íTí(íxí)í$í"í,íí
-í í í"íTíeímípí.í íSíuípíeírífíiícíiíeí íLíiíbíríeí í$í(íTí_ísí)í$í:í"í:í í"íTíeímípí.í íFíríeíeí íSíuírífíaícíeí í$í(íTí_ísí)í$í:í"í,íí
-í í í"íGíeíní.í íCíaílíoírí íIínítíeíríníaí í$í(íqí_ígí)í$í:í"í:í í"íIínítíeíríníaílí íHíeíaítí íGíeíníeíríaítíiíoíní í$í(íqí_ígí)í$í:í"í,íí
-í í í"íEísípíeísíoírí íPílíaícíaí í$í(íLí)í$í:í"í:í í"íPílíaítíeí íTíhíiícíkíníeísísí í$í(íLí)í$í:í"í,íí
-í í í"íSíiímíuílíaírí"í:í í"íSíiímíuílíaítíeí"í,íí
-í í í"íTíeímípí.í íSíuípíeírífíiícíiíeí íAíiísílíaídíaí í$í(íTí_í{íiínísíuílíaítíeídí}í)í$í"í:í í"íTíeímípí.í íIínísíuílíaítíeídí íSíuírífíaícíeí í$í(íTí_í{íiínísíuílíaítíeídí}í)í$í"í,íí
-í í í"íFílíuíjíoí íCíaílíoírí íSíuípíeírífíiícíiíeí íLíiíbíríeí í$í(íqí'í'í_í{ífíríeíeí}í)í$í"í:í í"íFíríeíeí íSíuírífíaícíeí íHíeíaítí íFílíoíwí í$í(íqí'í'í_í{ífíríeíeí}í)í$í"í,íí
-í í í"íDíiífíuísíiívíiídíaídí íTí�í�írímíiícíaí í$í(í\íaílípíhíaí)í$í"í:í í"íTíhíeírímíaílí íDíiífífíuísíiívíiítíyí í$í(í\íaílípíhíaí)í$í"í,íí
-í í í"íEísítíeí ílíaíbíoíríaítíoíríiíoí íiínítíeíríaícítíiívíoí ímíoídíeílíaí ílíaí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí ípíoírí ícíoínídíuícícíií�í�íní íeíní íeísítíaídíoí íeísítíaíbílíeí íaí ítíríaíví�í�ísí ídíeí íuíníaí ípílíaícíaí ípílíaíníaí í(ípíaíríeídí)í ícíoímípíuíeísítíaí ídíeí íhíaísítíaí"í:í í"íTíhíiísí íiínítíeíríaícítíiívíeí ílíaíbí ímíoídíeílísí ísítíeíaídíyí-ísítíaítíeí ícíoínídíuícítíiívíeí íhíeíaítí ítíríaínísífíeírí ítíhíríoíuígíhí íaí ífílíaítí ípílíaítíeí í(íwíaílílí)í ícíoímípíoísíeídí íoífí íuípí ítíoí"í,íí
-í í í"í.í íEílí íuísíuíaíríiíoí ípíuíeídíeí ídíeífíiíníiírí íeílí íeísípíeísíoírí í$í(íLí_íií)í$í íyí ílíaí ícíoínídíuícítíiívíiídíaídí ítí�í�írímíiícíaí í$í(íkí_íií)í$í ídíeí ícíaídíaí ícíaípíaí,í íaísí�í�í ícíoímíoí ísíeílíeícícíiíoíníaírí ílíiíbíríeímíeínítíeí íeílí ítíiípíoí ídíeí ícíoínídíiícíií�í�íní ídíeí ífíríoínítíeíríaí íeíní ílíoísí íeíxítíríeímíoísí íiízíqíuíiíeírídíoí í$í(íxí í=í í0í)í$í íyí ídíeíríeícíhíoí í$í(íxí í=í íLí_í{ítíoítí}í)í$í.í"í:í í"í.í íTíhíeí íuísíeírí ícíaíní ídíeífíiíníeí ítíhíeí ítíhíiícíkíníeísísí í$í(íLí_íií)í$í íaínídí ítíhíeí ítíhíeírímíaílí ícíoínídíuícítíiívíiítíyí í$í(íkí_íií)í$í íoífí íeíaícíhí ílíaíyíeírí,í íaísí íwíeílílí íaísí ífíríeíeílíyí ísíeílíeícítí ítíhíeí ítíyípíeí íoífí íbíoíuínídíaíríyí ícíoínídíiítíiíoíní íaítí ítíhíeí ílíeífítí íeínídísí í$í(íxí í=í í0í)í$í íaínídí íríiígíhítí í$í(íxí í=í íLí_í{ítíoítí}í)í$í.í"í,íí
-í í í"íEílí ífílíuíjíoí ídíeí ícíaílíoírí íeíní íeísítíaídíoí íeísítíaíbílíeí íaí ítíríaíví�í�ísí ídíeí ílíaísí ícíaípíaísí íeísítí�í�í ídíaídíoí ípíoírí:í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í$í$í íqí'í'í í=í í\í\ífíríaící{íTí_í0í í-í íTí_íNí}í{íRí_í{íwíaílílí}í}í í\íqíuíaídí í,í í\íqíuíaídí íRí_í{íwíaílílí}í í=í í\ísíuímí_í{íií=í1í}í^íNí í\í\ífíríaící{íLí_íií}í{íkí_íií}í í$í$í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í íLíaísí ícíoínídíiícíiíoíníeísí ídíeí ífíríoínítíeíríaí ísíeílíeícícíiíoíníaíbílíeísí íiínícílíuíyíeíní:í"í:í í"íTíhíeí ísítíeíaídíyí ísítíaítíeí íhíeíaítí ífílíuíxí ítíhíríoíuígíhí ítíhíeí ílíaíyíeírísí íiísí ígíiívíeíní íbíyí:í"í,íí
-í í í"íUíní íríeísíoílívíeídíoírí íníuímí�í�íríiícíoí íiítíeíríaítíiívíoí ícíaílícíuílíaí íeíní ítíiíeímípíoí íríeíaílí íeílí ífílíuíjíoí ídíeí ícíaílíoírí íyí ílíaísí ítíeímípíeíríaítíuíríaísí íríeísíuílítíaínítíeísí íeíní ícíaídíaí íiínítíeírífíaísíeí.í"í:í í"íAíní íiítíeíríaítíiívíeí íníuímíeíríiícíaílí ísíoílívíeírí ícíaílícíuílíaítíeísí ítíhíeí íhíeíaítí ífílíuíxí íaínídí íríeísíuílítíiínígí ítíeímípíeíríaítíuíríeísí íaítí íeíaícíhí íiínítíeírífíaícíeí íiíní íríeíaílí ítíiímíeí.í"í,íí
-í í í"íEísíqíuíeímíaí íTí�í�írímíiícíoí íyí íFílíuíjíoí ídíeí íCíaílíoírí"í:í í"íTíhíeírímíaílí íSícíhíeímíeí íaínídí íHíeíaítí íFílíoíwí"í,íí
-í í í"íFíríoínítíeíríaí íIízíqíuíiíeírídíaí í$í(íxí í=í í0í)í$í"í:í í"íLíeífítí íBíoírídíeírí í$í(íxí í=í í0í)í$í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí í$í(íTí_í{íLí}í)í$í:í"í:í í"íTíeímípíeíríaítíuíríeí í$í(íTí_í{íLí}í)í$í:í"í,íí
-í í í"íCíoíeífífí.í íCíoínívíeícícíií�í�íní í$í(íhí_í{íLí}í)í$í:í"í:í í"íCíoíeífífí.í íCíoínívíeícítíiíoíní í$í(íhí_í{íLí}í)í$í:í"í,íí
-í í í"íTíeímípí.í íFílíuíiídíoí í$í(íTí_í{í\í\íiínífítíyí,í íLí}í)í$í:í"í:í í"íTíeímípí.í íFílíuíiídí í$í(íTí_í{í\í\íiínífítíyí,í íLí}í)í$í:í"í,íí
-í í í"íEímíiísíiívíiídíaídí í$í(í\íeípísíiílíoíní_í{íLí}í)í$í:í"í:í í"íEímíiísísíiívíiítíyí í$í(í\íeípísíiílíoíní_í{íLí}í)í$í:í"í,íí
-í í í"íTíeímípí.í íAílíríeídíeídíoíríeísí í$í(íTí_í{ísíuírí,í íLí}í)í$í:í"í:í í"íTíeímípí.í íSíuíríríoíuínídíiínígísí í$í(íTí_í{ísíuírí,í íLí}í)í$í:í"í,íí
-í í í"íFílíuíjíoí ídíeí íCíaílíoírí í$í(íqí'í'í_í{íLí}í)í$í:í"í:í í"íHíeíaítí íFílíoíwí í$í(íqí'í'í_í{íLí}í)í$í:í"í,íí
-í í í"íFíríoínítíeíríaí íDíeíríeícíhíaí í$í(íxí í=í íLí_í{ítíoítí}í)í$í"í:í í"íRíiígíhítí íBíoírídíeírí í$í(íxí í=í íLí_í{ítíoítí}í)í$í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí í$í(íTí_í{íRí}í)í$í:í"í:í í"íTíeímípíeíríaítíuíríeí í$í(íTí_í{íRí}í)í$í:í"í,íí
-í í í"íCíoíeífífí.í íCíoínívíeícícíií�í�íní í$í(íhí_í{íRí}í)í$í:í"í:í í"íCíoíeífífí.í íCíoínívíeícítíiíoíní í$í(íhí_í{íRí}í)í$í:í"í,íí
-í í í"íTíeímípí.í íFílíuíiídíoí í$í(íTí_í{í\í\íiínífítíyí,í íRí}í)í$í:í"í:í í"íTíeímípí.í íFílíuíiídí í$í(íTí_í{í\í\íiínífítíyí,í íRí}í)í$í:í"í,íí
-í í í"íEímíiísíiívíiídíaídí í$í(í\íeípísíiílíoíní_í{íRí}í)í$í:í"í:í í"íEímíiísísíiívíiítíyí í$í(í\íeípísíiílíoíní_í{íRí}í)í$í:í"í,íí
-í í í"íTíeímípí.í íAílíríeídíeídíoíríeísí í$í(íTí_í{ísíuírí,í íRí}í)í$í:í"í:í í"íTíeímípí.í íSíuíríríoíuínídíiínígísí í$í(íTí_í{ísíuírí,í íRí}í)í$í:í"í,íí
-í í í"íFílíuíjíoí ídíeí íCíaílíoírí í$í(íqí'í'í_í{íRí}í)í$í:í"í:í í"íHíeíaítí íFílíoíwí í$í(íqí'í'í_í{íRí}í)í$í:í"í,íí
-í í í"íCíoínífíiígíuíríaícíií�í�íní ídíeí ílíaísí íCíaípíaísí ídíeí ílíaí íPíaíríeídí"í:í í"íWíaílílí íLíaíyíeírí íCíoínífíiígíuíríaítíiíoíní"í,íí
-í í í"íMí�í�ítíríiícíaísí íGílíoíbíaílíeísí"í:í í"íGílíoíbíaílí íMíeítíríiícísí"í,íí
-í í í"íRíeísíiísítíeínícíiíaí íCíoínídíuícícíií�í�íní íTíoítíaílí í$í(íRí_í{ícíoínídí}í)í$í:í"í:í í"íTíoítíaílí íCíoínídíuícítíiíoíní íRíeísíiísítíaínícíeí í$í(íRí_í{ícíoínídí}í)í$í:í"í,íí
-í í í"íRíeísíiísítíeínícíiíaí íTíoítíaílí ídíeílí íCíiírícíuíiítíoí í$í(íRí_í{ítíoítí}í)í$í:í"í:í í"íTíoítíaílí íCíiírícíuíiítí íRíeísíiísítíaínícíeí í$í(íRí_í{ítíoítí}í)í$í:í"í,íí
-í í í"íFílíuíjíoísí ídíeí ícíaílíoírí íoípíuíeísítíoísí íníoí íbíaílíaínícíeíaídíoísí.í íNíoí íeíxíiísítíeí íeísítíaídíoí íeísítíaícíiíoíníaíríiíoí.í"í:í í"íOípípíoísíiínígí íuíníbíaílíaínícíeídí íhíeíaítí ífílíoíwísí.í íTíhíeíríeí íiísí íníoí ísítíeíaídíyí ísítíaítíeí.í"í,íí
-í í í"íTíeímípíeíríaítíuíríaísí íeíní íIínítíeírífíaísíeísí"í:í í"íTíeímípíeíríaítíuíríeísí íaítí íIínítíeírífíaícíeísí"í,íí
-í í í"íEílí íMíoítíoírí ídíeí íCíaíríníoítí í�í�í�í íCíiícílíoí ídíeí íEífíiícíiíeínícíiíaí íMí�í�íxíiímíaí í(í1í8í2í4í)í"í:í í"íTíhíeí íCíaíríníoítí íEínígíiíníeí í�í�í�í íMíaíxíiímíuímí íEífífíiícíiíeínícíyí íCíyícílíeí í(í1í8í2í4í)í"í,íí
-í í í"íSíaídíií íCíaíríníoítí ídíeímíoísítírí�í�í íeíní í1í8í2í4í íqíuíeí íníiínígí�í�íní ímíoítíoírí ítí�í�írímíiícíoí íqíuíeí íoípíeíríeí íeínítíríeí ídíoísí ítíeímípíeíríaítíuíríaísí ípíuíeídíeí ísíuípíeíríaírí ílíaí íeífíiícíiíeínícíiíaí ídíeílí"í:í í"íSíaídíií íCíaíríníoítí ídíeímíoínísítíríaítíeídí íiíní í1í8í2í4í ítíhíaítí íníoí íhíeíaítí íeínígíiíníeí íoípíeíríaítíiínígí íbíeítíwíeíeíní ítíwíoí ítíeímípíeíríaítíuíríeísí ícíaíní íeíxícíeíeídí ítíhíeí íeífífíiícíiíeínícíyí íoífí ítíhíeí"í,íí
-í í í"í.í íLíaí íeífíiícíiíeínícíiíaí ímí�í�íxíiímíaí ídíeípíeínídíeí íeíxícílíuísíiívíaímíeínítíeí ídíeí ílíaísí ítíeímípíeíríaítíuíríaísí íaíbísíoílíuítíaísí ídíeílí íríeísíeírívíoíríiíoí ícíaílíiíeínítíeí í(í$íTí_íHí$í)í íyí íeílí íríeísíeírívíoíríiíoí ífírí�í�íoí í(í$íTí_íCí$í)í:í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í í$í$í í\íeítíaí_í{íCíaíríníoítí}í í=í í1í í-í í\í\ífíríaící{íTí_íCí}í{íTí_íHí}í í$í$í\íní í í í í í í í í í í í í í í í í í í í í í í í í í í í íEílí ícíiícílíoí ícíoínísítíaí ídíeí ícíuíaítíríoí ípíríoícíeísíoísí íríeívíeírísíiíbílíeísí:í"í:í í"í.í íTíhíeí ímíaíxíiímíuímí íeífífíiícíiíeínícíyí ídíeípíeínídísí íeíxícílíuísíiívíeílíyí íoíní ítíhíeí íaíbísíoílíuítíeí ítíeímípíeíríaítíuíríeísí íoífí ítíhíeí íhíoítí íríeísíeírívíoíiírí í(í$íTí_íHí$í)í íaínídí ítíhíeí ícíoílídí íríeísíeírívíoíiírí í(í$íTí_íCí$í)í:í"í,íí
-í í í"íDíiíaígíríaímíaí íPí-íVí ídíeílí íCíiícílíoí ídíeí íCíaíríníoítí"í:í í"íPí-íVí íDíiíaígíríaímí íoífí ítíhíeí íCíaíríníoítí íCíyícílíeí"í,íí
-í í í"íIísíoítí�í�írímíiícíaí íaí�í�í�íbí í(íTí"í:í í"íIísíoítíhíeírímíaílí íaí�í�í�íbí í(íTí"í,íí
-í í í"íAídíiíaíbí�í�ítíiícíaí íbí�í�í�ící"í:í í"íAídíiíaíbíaítíiící íbí�í�í�ící"í,íí
-í í í"íIísíoítí�í�írímíiícíaí ící�í�í�ídí í(íTí"í:í í"íIísíoítíhíeírímíaílí ící�í�í�ídí í(íTí"í,íí
-í í í"íAídíiíaíbí�í�ítíiícíaí ídí�í�í�íaí"í:í í"íAídíiíaíbíaítíiící ídí�í�í�íaí"í,íí
-í í í"íDíiíaígíríaímíaí íTí-íSí í(íTíeímípíeíríaítíuíríaí�í�í�íEínítíríoípí�í�íaí)í"í:í í"íTí-íSí íDíiíaígíríaímí í(íTíeímípíeíríaítíuíríeí�í�í�íEínítíríoípíyí)í"í,íí
-í í í"íRíeícítí�í�ínígíuílíoí ípíeírífíeícítíoí íeíní íTí-íSí.í í�í�íríeíaí ísíoímíbíríeíaídíaí í=í íTíríaíbíaíjíoí íníeítíoí í$íWí í=í í(íTí_íHí í-í íTí_íCí)í\í,í\íDíeílítíaí íSí$í.í íPíuínítíoí íaíníiímíaídíoí ísíiínícíríoíníiízíaídíoí ícíoíní íeílí ídíiíaígíríaímíaí íPí-íVí.í"í:í í"íPíeírífíeícítí íríeícítíaínígílíeí íiíní íTí-íSí.í íSíhíaídíeídí íaíríeíaí í=í íNíeítí íwíoíríkí í$íWí í=í í(íTí_íHí í-í íTí_íCí)í\í,í\íDíeílítíaí íSí$í.í íAíníiímíaítíeídí ípíoíiínítí ísíyínícíhíríoíníiízíeídí íwíiítíhí ítíhíeí íPí-íVí ídíiíaígíríaímí.í"í,íí
-í í í"íEísíqíuíeímíaí ídíeílí íMíoítíoírí íTí�í�írímíiícíoí"í:í í"íTíhíeírímíaílí íEínígíiíníeí íDíiíaígíríaímí"í,íí
-í í í"íPíaírí�í�ímíeítíríoísí ídíeílí íCíiícílíoí"í:í í"íCíyícílíeí íPíaíríaímíeítíeírísí"í,íí
-í í í"íTíeímípíeíríaítíuíríaí íFíuíeínítíeí íCíaílíiíeínítíeí í$í(íTí_íHí)í$í:í"í:í í"íHíoítí íSíoíuírícíeí íTíeímípíeíríaítíuíríeí í$í(íTí_íHí)í$í:í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí íSíuímíiídíeíríoí íFírí�í�íoí í$í(íTí_íCí)í$í:í"í:í í"íCíoílídí íSíuímípí íTíeímípíeíríaítíuíríeí í$í(íTí_íCí)í$í:í"í,íí
-í í í"íCíaílíoírí íAíbísíoíríbíiídíoí í$í(íQí_íHí)í$í:í"í:í í"íHíeíaítí íAíbísíoíríbíeídí í$í(íQí_íHí)í$í:í"í,íí
-í í í"íEílí ísíiísítíeímíaí ígíaíríaínítíiízíaí í$íTí_íCí"í:í í"íTíhíeí ísíyísítíeímí ígíuíaíríaínítíeíeísí í$íTí_íCí"í,íí
-í í í"íTí_íHí$í íaíuítíoímí�í�ítíiícíaímíeínítíeí.í íLíaí íeífíiícíiíeínícíiíaí ísíoílíoí ípíuíeídíeí íaílícíaínízíaírí íeílí í1í0í0í%í ísíií í$íTí_íCí í=í í0í\í,íKí$í,í ílíoí ícíuíaílí íeísí íiímípíoísíiíbílíeí ípíoírí ílíaí íTíeírícíeíríaí íLíeíyí ídíeí ílíaí íTíeírímíoídíiíní�í�ímíiícíaí.í"í:í í"íTí_íHí$í íaíuítíoímíaítíiícíaílílíyí.í íTíhíeí íeífífíiícíiíeínícíyí ícíaíní íoínílíyí íríeíaícíhí í1í0í0í%í íiífí í$íTí_íCí í=í í0í\í,íKí$í,í íwíhíiícíhí íiísí íiímípíoísísíiíbílíeí íbíyí ítíhíeí íTíhíiírídí íLíaíwí íoífí íTíhíeírímíoídíyíníaímíiícísí.í"í,íí
-í í í"íRíeísíuílítíaídíoísí ídíeílí íCíiícílíoí"í:í í"íCíyícílíeí íRíeísíuílítísí"í,íí
-í í í"íCíOíPí íBíoímíbíaí ídíeí íCíaílíoírí:í"í:í í"íCíOíPí íHíeíaítí íPíuímípí:í"í,íí
-í í í"íEínítíríoípí�í�íaí íGíeíníeíríaídíaí:í"í:í í"íGíeíníeíríaítíeídí íEínítíríoípíyí:í"í,íí
-í í í"íCíaíríníoítí ídíeímíoísítírí�í�í íqíuíeí ílíaí íeífíiícíiíeínícíiíaí ímí�í�íxíiímíaí ídíeí ícíuíaílíqíuíiíeírí ímíoítíoírí ítí�í�írímíiícíoí íqíuíeí íoípíeíríaí íeínítíríeí ídíoísí ífíuíeínítíeísí ídíeípíeínídíeí"í:í í"íCíaíríníoítí ísíhíoíwíeídí ítíhíaítí ítíhíeí ímíaíxíiímíuímí íeífífíiícíiíeínícíyí íoífí íaíníyí íhíeíaítí íeínígíiíníeí íoípíeíríaítíiínígí íbíeítíwíeíeíní ítíwíoí ísíoíuírícíeísí ídíeípíeínídísí"í,íí
-í í í"íCíuíríiíoísíaímíeínítíeí,í íCíaíríníoítí ídíeíríiíví�í�í íeísítíoí íuísíaínídíoí ílíaí"í:í í"íIínítíeíríeísítíiínígílíyí,í íCíaíríníoítí ídíeíríiívíeídí ítíhíiísí íuísíiínígí ítíhíeí"í,íí
-í í í"í(íiínícíoíríríeícítíaí)í,í ípíeíríoí ílíaí ícíoínícílíuísíií�í�íní ífíuíeí ípíeírífíeícítíaímíeínítíeí íví�í�ílíiídíaí.í"í:í í"í(íiínícíoíríríeícítí)í,í íbíuítí ítíhíeí ícíoínícílíuísíiíoíní íwíaísí ípíeírífíeícítílíyí ívíaílíiídí.í"í,íí
-í í í"íWíiílílíiíaímí íTíhíoímísíoíní í(íLíoírídí íKíeílívíiíní)í ísíeí ípíríeígíuínítí�í�í:í"í:í í"íWíiílílíiíaímí íTíhíoímísíoíní í(íLíoírídí íKíeílívíiíní)í íwíoínídíeíríeídí:í"í,íí
-í í í"í�í�íqíuí�í�í ítíeímípíeíríaítíuíríaí í$íTí_íCí$í íhíaírí�í�íaí íqíuíeí í$í\íeítíaí í=í í1í$í í(íeífíiícíiíeínícíiíaí ídíeílí í1í0í0í%í)í?í"í:í í"íWíhíaítí ítíeímípíeíríaítíuíríeí í$íTí_íCí$í íwíoíuílídí ímíaíkíeí í$í\íeítíaí í=í í1í$í í(í1í0í0í%í íeífífíiícíiíeínícíyí)í?í"í,íí
-í í í"íDíeísípíeíjíaínídíoí ídíeí ílíaí ífí�í�írímíuílíaí ídíeí íCíaíríníoítí:í"í:í í"íSíoílívíiínígí ífíoírí íCíaíríníoítí'ísí ífíoírímíuílíaí:í"í,íí
-í í í"íEílí í�í�íníiícíoí ívíaílíoírí íqíuíeí ílíoígíríaírí�í�íaí íeífíiícíiíeínícíiíaí ípíeírífíeícítíaí íeísí í$íTí_íCí í=í í0í$í.í íEísítíeí ícíeíríoí íníoí íeísí íuíníaí ícíoínívíeínícíií�í�íní íaíríbíiítíríaíríiíaí:í íeísí íuíní"í:í í"íTíhíeí íoínílíyí ívíaílíuíeí ítíhíaítí íwíoíuílídí íaícíhíiíeívíeí ípíeírífíeícítí íeífífíiícíiíeínícíyí íiísí í$íTí_íCí í=í í0í$í.í íTíhíiísí ízíeíríoí íiísí íníoítí íaíní íaíríbíiítíríaíríyí ícíoínívíeínítíiíoíní:í íiítí íiísí íaí"í,íí
-í í í"íKíeílívíiíní ípíríoípíuísíoí íuíníaí íeísícíaílíaí ídíeí ítíeímípíeíríaítíuíríaí íbíaísíaídíaí íeíní íeílí íríeínídíiímíiíeínítíoí ídíeí ímíoítíoíríeísí ídíeí íCíaíríníoítí,í"í:í í"íKíeílívíiíní ípíríoípíoísíeídí íaí ítíeímípíeíríaítíuíríeí ísícíaílíeí íbíaísíeídí íoíní ítíhíeí ípíeírífíoírímíaínícíeí íoífí íCíaíríníoítí íeínígíiíníeísí,í"í,íí
-í í í"í(íaí ídíiífíeíríeínícíiíaí ídíeí ílíaísí íeísícíaílíaísí íCíeílísíiíuísí íoí íFíaíhíríeíníhíeíiítí,í íbíaísíaídíaísí íeíní íeílí ícíoímípíoírítíaímíiíeínítíoí ídíeílí íaígíuíaí íoí ídíeílí ímíeírícíuíríiíoí)í.í"í:í í"í(íuínílíiíkíeí ítíhíeí íCíeílísíiíuísí íoírí íFíaíhíríeíníhíeíiítí ísícíaílíeísí,í íbíaísíeídí íoíní ítíhíeí íbíeíhíaívíiíoírí íoífí íwíaítíeírí íoírí ímíeírícíuíríyí)í.í"í,íí
-í í í"íeísí íeílí ípíuínítíoí ídíoínídíeí íuíní ímíoítíoírí ídíeí íCíaíríníoítí íiídíeíaílí ítíeínídírí�í�íaí íeífíiícíiíeínícíiíaí ídíeílí í1í0í0í%í,í íyí ídíoínídíeí ítíoídíaí íaígíiítíaícíií�í�íní ímíoílíeícíuílíaírí ícíeítíríaírí�í�íaí.í"í:í í"íIítí íiísí ítíhíeí ípíoíiínítí íwíhíeíríeí íaíní íiídíeíaílí íCíaíríníoítí íeínígíiíníeí íwíoíuílídí íhíaívíeí í1í0í0í%í íeífífíiícíiíeínícíyí,í íaínídí íwíhíeíríeí íaílílí ímíoílíeícíuílíaírí íaígíiítíaítíiíoíní íwíoíuílídí ífíaílítíeírí.í"í,íí
-í í í"íNíeírínísítí í(í1í9í0í6í)í íyí íPílíaínícíkí ícíoímípílíeímíeínítíaíríoíní íeísítíoí ícíoíní ílíaí"í:í í"íNíeírínísítí í(í1í9í0í6í)í íaínídí íPílíaínícíkí ícíoímípílíeímíeínítíeídí ítíhíiísí íwíiítíhí ítíhíeí"í,íí
-í í í"í:í íeísí íiímípíoísíiíbílíeí íaílícíaínízíaírí íeílí ícíeíríoí íaíbísíoílíuítíoí ímíeídíiíaínítíeí íuíní íní�í�ímíeíríoí ífíiíníiítíoí ídíeí ípíríoícíeísíoísí,í ípíoíríqíuíeí íaí ímíeídíiídíaí íqíuíeí í$íTí_íCí í\ítíoí í0í$í:í"í:í í"í:í íiítí íiísí íiímípíoísísíiíbílíeí ítíoí íríeíaícíhí íaíbísíoílíuítíeí ízíeíríoí ítíhíríoíuígíhí íaí ífíiíníiítíeí íníuímíbíeírí íoífí ípíríoícíeísísíeísí,í íbíeícíaíuísíeí íaísí í$íTí_íCí í\ítíoí í0í$í:í"í,íí
-í í í"íSíeí íníeícíeísíiítíaírí�í�íaí íuíní íríeífíríiígíeíríaídíoírí íiínífíiíníiítíaímíeínítíeí íiíníeífíiícíiíeínítíeí ípíaíríaí íeíxítíríaíeírí íeílí í�í�ílítíiímíoí íbíiítí ídíeí ícíaílíoírí.í"í:í í"íIítí íwíoíuílídí ítíaíkíeí íaíní íiínífíiíníiítíeílíyí íiíníeífífíiícíiíeínítí íríeífíríiígíeíríaítíoírí ítíoí íeíxítíríaícítí ítíhíeí ílíaísítí íbíiítí íoífí íhíeíaítí.í"í,íí
-í í í"í:í ílílíeívíaí í$íTí_íCí$í íaílí ímí�í�íníiímíoí íeíní íeílí ísílíiídíeírí íyí íoíbísíeírívíaí ící�í�ímíoí íeílí íCíOíPí"í:í í"í:í ítíaíkíeí í$íTí_íCí$í ítíoí ítíhíeí ímíiíníiímíuímí íiíní ítíhíeí ísílíiídíeírí íaínídí íwíaítícíhí íhíoíwí ítíhíeí íCíOíPí"í,íí
-í í í"ícíaíeí íaí í0í ímíiíeínítíríaísí í$í\íeítíaí í\ítíoí í1í0í0í\í%í$í.í"í:í í"ídíríoípísí ítíoí í0í íaísí í$í\íeítíaí í\ítíoí í1í0í0í\í%í$í.í"í,íí
-í í í"í:í íCíiícílíoí íríeívíeírísíiíbílíeí íiídíeíaílí"í:í í"í:í íIídíeíaílí íríeívíeírísíiíbílíeí ícíyícílíeí"í,íí
-í í í"í:í íEísícíaílíaí ítíeírímíoídíiíní�í�ímíiícíaí íaíbísíoílíuítíaí"í:í í"í:í íAíbísíoílíuítíeí ítíhíeírímíoídíyíníaímíiící ísícíaílíeí"í,íí
-í í í"í:í í0í íKí íiíníaílícíaínízíaíbílíeí í(í3í�í�í íLíeíyí)í"í:í í"í:í í0í íKí íuíníaítítíaíiíníaíbílíeí í(í3írídí íLíaíwí)í"í,íí
-í í í"í:í íRí�í�ícíoírídí:í í~í3í8í ípíiícíoíkíeílívíiíní í(íMíIíTí,í í2í0í0í3í)í"í:í í"í:í íRíeícíoírídí:í í~í3í8í ípíiícíoíkíeílívíiíní í(íMíIíTí,í í2í0í0í3í)í"í,íí
-í í í"íNíeíwícíoímíeíní ívísí.í íWíaítítí í�í�í�í íEílí íPíríoíbílíeímíaí ídíeílí íCíiícílíoí íTí�í�írímíiícíoí í(í1í7í1í2í ívísí.í í1í7í6í9í)í"í:í í"íNíeíwícíoímíeíní ívísí.í íWíaítítí í�í�í�í íTíhíeí íPíríoíbílíeímí íoífí ítíhíeí íTíhíeírímíaílí íCíyícílíeí í(í1í7í1í2í ívísí.í í1í7í6í9í)í"í,íí
-í í í"íEíní í1í7í1í2í,í íTíhíoímíaísí íNíeíwícíoímíeíní ícíoínísítíríuíyí�í�í ílíaí ípíríiímíeíríaí ímí�í�íqíuíiíníaí ídíeí ívíaípíoírí ípírí�í�ícítíiícíaí.í íSíuí ífíaílílíoí ífíuínídíaímíeínítíaílí íeíríaí íqíuíeí íeílí"í:í í"íIíní í1í7í1í2í,í íTíhíoímíaísí íNíeíwícíoímíeíní íbíuíiílítí ítíhíeí ífíiírísítí ípíríaícítíiícíaílí ísítíeíaímí íeínígíiíníeí.í íIítísí ífíuínídíaímíeínítíaílí ífílíaíwí íwíaísí ítíhíaítí ítíhíeí"í,íí
-í í í"ídíeíbí�í�íaí ícíaílíeínítíaírísíeí ícíoíní ívíaípíoírí íyí ílíuíeígíoí íeínífíríiíaírísíeí ícíoíní íaígíuíaí ífírí�í�íaí íeíní ícíaídíaí ícíiícílíoí ípíaíríaí ícíoínídíeínísíaírí íeílí ívíaípíoírí íyí ícíríeíaírí íeílí ívíaící�í�íoí íqíuíeí ímíoíví�í�íaí íeílí í�í�ímíbíoílíoí.í íEísítíeí ípíríoícíeísíoí ídíeísípíeírídíiícíiíaíbíaí íeíníoírímíeísí ícíaínítíiídíaídíeísí ídíeí íeíníeírígí�í�íaí.í"í:í í"íIítí íhíaídí ítíoí íbíeí íhíeíaítíeídí íwíiítíhí ísítíeíaímí íaínídí ítíhíeíní ícíoíoílíeídí íwíiítíhí ícíoílídí íwíaítíeírí íiíní íeíaícíhí ícíyícílíeí ítíoí ícíoínídíeínísíeí ítíhíeí ísítíeíaímí íaínídí ícíríeíaítíeí ítíhíeí ívíaícíuíuímí ítíhíaítí ímíoívíeídí ítíhíeí ípílíuínígíeírí.í íTíhíiísí ípíríoícíeísísí íwíaísítíeídí íeíníoírímíoíuísí íaímíoíuínítísí íoífí íeíníeírígíyí.í"í,íí
-í í í"íEíní í1í7í6í5í,í íJíaímíeísí íWíaítítí íiídíeínítíiífíiící�í�í íeílí ípíríoíbílíeímíaí:í íeílí ícíiílíiínídíríoí ísíeí íeínícíoínítíríaíbíaí ísíiíeímípíríeí ídíeímíaísíiíaídíoí ífírí�í�íoí ípíaíríaí íeílí ívíaípíoírí íoí ídíeímíaísíiíaídíoí ícíaílíiíeínítíeí ípíaíríaí ílíaí ícíoínídíeínísíaícíií�í�íní.í íSíuí ísíoílíuícíií�í�íní í�í�í�í íeílí"í:í í"íIíní í1í7í6í5í,í íJíaímíeísí íWíaítítí íiídíeínítíiífíiíeídí ítíhíeí ípíríoíbílíeímí:í ítíhíeí ícíyílíiínídíeírí íwíaísí íaílíwíaíyísí ítíoíoí ícíoílídí ífíoírí ísítíeíaímí íoírí ítíoíoí íhíoítí ífíoírí ícíoínídíeínísíaítíiíoíní.í íYíoíuírí ísíoílíuítíiíoíní í�í�í�í ítíhíeí"í,íí
-í í í"í�í�í�í ímíaínítíeíní�í�íaí íeílí ícíiílíiínídíríoí ísíiíeímípíríeí ícíaílíiíeínítíeí íyí ícíoínídíeínísíaíbíaí íeílí ívíaípíoírí íeíní íuíníaí ící�í�ímíaíríaí íaíuíxíiílíiíaírí ífírí�í�íaí.í íEísítíoí íríeídíuíjíoí íeílí ícíoínísíuímíoí ídíeí ícíaíríbí�í�íní íeíní íuíní í~í7í5í%í.í"í:í í"í�í�í�í íkíeípítí ítíhíeí ícíyílíiínídíeírí íaílíwíaíyísí íhíoítí íaínídí ícíoínídíeínísíeídí ítíhíeí ísítíeíaímí íiíní íaí ícíoílídí íaíuíxíiílíiíaíríyí ícíhíaímíbíeírí.í íTíhíiísí íríeídíuícíeídí ícíoíaílí ícíoínísíuímípítíiíoíní íbíyí í~í7í5í%í.í"í,íí
-í í í"íMí�í�íqíuíiíníaí ídíeí íNíeíwícíoímíeíní í(í1í7í1í2í)í í�í�í�í íCíiílíiínídíríoí í�í�íníiícíoí"í:í í"íNíeíwícíoímíeíní íEínígíiíníeí í(í1í7í1í2í)í í�í�í�í íSíiínígílíeí íCíyílíiínídíeírí"í,íí
-í í í"íMí�í�íqíuíiíníaí ídíeí íWíaítítí í(í1í7í6í9í)í í�í�í�í íCíoínídíeínísíaídíoírí íSíeípíaíríaídíoí"í:í í"íWíaítítí'ísí íEínígíiíníeí í(í1í7í6í9í)í í�í�í�í íSíeípíaíríaítíeí íCíoínídíeínísíeírí"í,íí
-í í í"íHíiísítíoíríiíaílí ídíeí íTíeímípíeíríaítíuíríaí ídíeílí íCíiílíiínídíríoí ípíoírí íCíiícílíoí"í:í í"íCíyílíiínídíeírí íTíeímípíeíríaítíuíríeí íHíiísítíoíríyí íbíyí íCíyícílíeí"í,íí
-í í í"íPíaírí�í�ímíeítíríoísí ídíeí ílíaí íSíiímíuílíaícíií�í�íní"í:í í"íSíiímíuílíaítíiíoíní íPíaíríaímíeítíeírísí"í,íí
-í í í"íTíeímípíeíríaítíuíríaí ídíeílí íVíaípíoírí ídíeí íEínítíríaídíaí:í"í:í í"íIínílíeítí íSítíeíaímí íTíeímípíeíríaítíuíríeí:í"í,íí
-í í í"íTíeímípíeíríaítíuíríaí íFíuíeínítíeí íFírí�í�íaí í(íCíoínídíeínísíaídíoírí)í:í"í:í í"íCíoílídí íSíoíuírícíeí íTíeímípíeíríaítíuíríeí í(íCíoínídíeínísíeírí)í:í"í,íí
-í í í"íCíoímípíaíríaícíií�í�íní ídíiíríeícítíaí"í:í í"íDíiíríeícítí ícíoímípíaíríiísíoíní"í,íí
-í í í"íEílí ícíiílíiínídíríoí ísíeí"í:í í"íTíhíeí ícíyílíiínídíeírí íiísí"í,íí
-í í í"ícíoíní ívíaípíoírí í(í~í1í0í0í�í�íCí)í ípíaíríaí ímíoívíeírí íeílí í�í�ímíbíoílíoí íhíaícíiíaí íaíríríiíbíaí.í íLíuíeígíoí ísíeí íiíníyíeícítíaíbíaí íaígíuíaí ífírí�í�íaí ípíaíríaí"í:í í"íwíiítíhí ísítíeíaímí í(í~í1í0í0í�í�íCí)í ítíoí ímíoívíeí ítíhíeí ípílíuínígíeírí íuípíwíaírídísí.í íCíoílídí íwíaítíeírí íwíaísí ítíhíeíní íiíníjíeícítíeídí ítíoí"í,íí
-í í í"íeílí ívíaípíoírí íyí ícíríeíaírí íeílí ívíaící�í�íoí íqíuíeí ílíoí íeímípíuíjíaíbíaí íhíaícíiíaí íaíbíaíjíoí.í íEíní ícíaídíaí ícíiícílíoí,í íeílí ícíiílíiínídíríoí ípíeírídí�í�íaí ítíoídíaí ísíuí íeíníeírígí�í�íaí ítí�í�írímíiícíaí íaícíuímíuílíaídíaí.í íAípíríoíxíiímíaídíaímíeínítíeí"í:í í"ítíhíeí ísítíeíaímí íaínídí ícíríeíaítíeí ítíhíeí ívíaícíuíuímí ítíhíaítí ípíuísíhíeídí íiítí ídíoíwíní.í íIíní íeíaícíhí ícíyícílíeí,í ítíhíeí ícíyílíiínídíeírí ílíoísítí íaílílí íoífí íiítísí íaícícíuímíuílíaítíeídí ítíhíeírímíaílí íeíníeírígíyí.í íAípípíríoíxíiímíaítíeílíyí"í,íí
-í í í"ídíeísídíeí íeílí íiíníiícíiíoí ídíeí ícíaídíaí ícíiícílíoí.í"í:í í"ífíríoímí ítíhíeí íbíeígíiíníníiínígí íoífí íeíaícíhí ícíyícílíeí.í"í,íí
-í í í"íWíaítítí ípíríoípíuísíoí ímíaínítíeíníeírí íeílí ícíiílíiínídíríoí ípíríiínícíiípíaílí"í:í í"íWíaítítí ípíríoípíoísíeídí íkíeíeípíiínígí ítíhíeí ímíaíiíní ícíyílíiínídíeírí"í,íí
-í í í"íyí ídíeíríiívíaírí íeílí ívíaípíoírí íaí íuíní"í:í í"íaínídí ídíiívíeírítí ítíhíeí ísítíeíaímí ítíoí íaí"í,íí
-í í í"íqíuíeí ísíeí ímíaínítíeíní�í�íaí ífírí�í�íoí.í íEísítíoí íeílíiímíiíní�í�í íeílí ídíeísípíeírídíiícíiíoí ící�í�ícílíiícíoí.í íAídíeímí�í�ísí íaí�í�íaídíií�í�í íuíníaí ícíaímíiísíaí ídíeí ívíaípíoírí íaílíríeídíeídíoírí ídíeílí ícíiílíiínídíríoí íyí íuísí�í�í íeílí íeífíeícítíoí ídíeí ídíoíbílíeí íeífíeícítíoí í(ívíaípíoírí íaícítíuíaínídíoí íeíní íaímíbíoísí ílíaídíoísí ídíeílí í�í�ímíbíoílíoí)í,í ímíuílítíiípílíiícíaínídíoí ílíaí ípíoítíeínícíiíaí ípíoírí ícíiícílíoí.í"í:í í"ítíhíaítí íríeímíaíiíníeídí ícíoílídí.í íTíhíiísí íeílíiímíiíníaítíeídí ícíyícílíiícíaílí íwíaísítíeí.í íHíeí íaílísíoí íaídídíeídí íaí ísítíeíaímí íjíaícíkíeítí íaíríoíuínídí ítíhíeí ícíyílíiínídíeírí íaínídí íuísíeídí ítíhíeí ídíoíuíbílíeí-íaícítíiínígí íeífífíeícítí í(ísítíeíaímí íaícítíiínígí íoíní íbíoítíhí ísíiídíeísí íoífí ítíhíeí ípíiísítíoíní)í,í ímíuílítíiípílíyíiínígí ítíhíeí ípíoíwíeírí ípíeírí ícíyícílíeí.í"í,íí
-í í í"íEílí ítíríaíbíaíjíoí ídíeí íWíaítítí ífíuíeí ípíuíríaímíeínítíeí íeímípí�í�íríiícíoí.í íSíoílíoí ídí�í�ícíaídíaísí ídíeísípíuí�í�ísí íCíaíríníoítí í(í1í8í2í4í)í ífíoírímíaílíiízíaírí�í�íaí ímíaítíeímí�í�ítíiícíaímíeínítíeí íqíuíeí ílíaí íeífíiícíiíeínícíiíaí ímí�í�íxíiímíaí íeínítíríeí íuíníaí ífíuíeínítíeí ícíaílíiíeínítíeí í$íTí_íHí$í íyí ífírí�í�íaí í$íTí_íCí$í íeísí í$í\íeítíaí í=í í1í í-í íTí_íCí/íTí_íHí$í.í íLíaí ímí�í�íqíuíiíníaí ídíeí íWíaítítí ísíeí íaícíeírící�í�í ímíuícíhíoí ímí�í�ísí íaí íeísíeí ílí�í�ímíiítíeí íaílí ímíiíníiímíiízíaírí ílíaísí ípí�í�írídíiídíaísí ípíoírí ícíaílíeínítíaímíiíeínítíoí/íeínífíríiíaímíiíeínítíoí ící�í�ícílíiícíoí ídíeílí ícíiílíiínídíríoí.í"í:í í"íWíaítítí'ísí íwíoíríkí íwíaísí ípíuíríeílíyí íeímípíiíríiícíaílí.í íOínílíyí ídíeícíaídíeísí ílíaítíeírí íCíaíríníoítí í(í1í8í2í4í)í íwíoíuílídí ímíaítíhíeímíaítíiícíaílílíyí ífíoírímíaílíiízíeí ítíhíaítí ítíhíeí ímíaíxíiímíuímí íeífífíiícíiíeínícíyí íbíeítíwíeíeíní íaí íhíoítí ísíoíuírícíeí í$íTí_íHí$í íaínídí íaí ícíoílídí ísíoíuírícíeí í$íTí_íCí$í íiísí í$í\íeítíaí í=í í1í í-í íTí_íCí/íTí_íHí$í.í íWíaítítí'ísí ímíaícíhíiíníeí ícíaímíeí ímíuícíhí ícílíoísíeírí ítíoí ítíhíaítí ílíiímíiítí íbíyí ímíiíníiímíiízíiínígí ícíyícílíiícíaílí íhíeíaítíiínígí/ícíoíoílíiínígí ílíoísísíeísí íoífí ítíhíeí ícíyílíiínídíeírí.í"í,íí
-í í í"íEítíaípíaí:í"í:í í"íSítíaígíeí:í"í,íí
-í í í"íPíaírí�í�ímíeítíríoísí"í:í í"íPíaíríaímíeítíeírísí"í,íí
-í í í"íDíiíaígíríaímíaí íPí-íVí"í:í í"íPí-íVí ídíiíaígíríaímí"í,íí
-í í í"íDíiíaígíríaímíaí íTí-íSí"í:í í"íTí-íSí ídíiíaígíríaímí"í,íí
-í í í"íMíoítíoírí íOítítíoí í(íGíaísíoílíiíníaí)í"í:í í"íOítítíoí íEínígíiíníeí í(íGíaísíoílíiíníeí)í"í,íí
-í í í"íMíoítíoírí íDíiíeísíeílí í(íGíaísí�í�ílíeíoí)í"í:í í"íDíiíeísíeílí íEínígíiíníeí í(íDíiíeísíeílí)í"í,íí
-í í í"íPíríoícíeísíoísí ídíeí ílíoísí íCíiícílíoísí í(íEítíaípíaísí íDíiífíeíríeínítíeísí ívísí.í íIígíuíaílíeísí)í:í"í:í í"íCíyícílíeí íPíríoícíeísísíeísí í(íDíiífífíeíríeínítí ívísí.í íSíaímíeí íSítíaígíeísí)í:í"í,íí
-í í í"íAídímíiísíií�í�íní íaí ípíríeísíií�í�íní ícíoínísítíaínítíeí í(íríeíníoívíaícíií�í�íní ídíeí ílíaí ímíeízícílíaí íaíiíríeí/ícíoímíbíuísítíiíbílíeí)í.í"í:í í"íAídímíiísísíiíoíní íaítí ícíoínísítíaínítí ípíríeísísíuíríeí í(íríeíníeíwíaílí íoífí ítíhíeí íaíiírí/ífíuíeílí ímíiíxítíuíríeí)í.í"í,íí
-í í í"íLíaí íví�í�ílívíuílíaí ísíeí íaíbíríeí.í íEínítíríaí í�í�íníiícíaímíeínítíeí íaíiíríeí ípíuíríoí íaílí ícíiílíiínídíríoí.í"í:í í"íTíhíeí ívíaílívíeí íoípíeínísí.í íOínílíyí ípíuíríeí íaíiírí íeínítíeírísí ítíhíeí ícíyílíiínídíeírí.í"í,íí
-í í í"íCíoímípíríeísíií�í�íní ídíeí ílíaí ímíeízícílíaí íaíiíríeí/ícíoímíbíuísítíiíbílíeí ídíeí ífíoírímíaí íiísíoíeínítírí�í�ípíiícíaí.í"í:í í"íCíoímípíríeísísíiíoíní íoífí ítíhíeí íaíiírí/ífíuíeílí ímíiíxítíuíríeí íiísíeínítíríoípíiícíaílílíyí.í"í,íí
-í í í"íEílí ípíiísítí�í�íní ísíuíbíeí íyí ícíoímípíríiímíeí íeílí íaíiíríeí.í íEílíeívíaí ípíríeísíií�í�íní íyí ítíeímípíeíríaítíuíríaí ípíoírí íeínícíiímíaí ídíeílí ípíuínítíoí ídíeí íaíuítíoíiígíníiícíií�í�íní.í"í:í í"íTíhíeí ípíiísítíoíní íríiísíeísí íaínídí ícíoímípíríeísísíeísí ítíhíeí íaíiírí.í íRíaíiísíeísí ípíríeísísíuíríeí íaínídí ítíeímípíeíríaítíuíríeí íaíbíoívíeí ítíhíeí íaíuítíoíiígíníiítíiíoíní ípíoíiínítí.í"í,íí
-í í í"íAípíoírítíeí ídíeí ícíaílíoírí íaí ívíoílíuímíeíní ícíoínísítíaínítíeí ípíoírí ícíhíiísípíaí.í íLíaí ípíríeísíií�í�íní ísíeí íeílíeívíaí írí�í�ípíiídíaímíeínítíeí íaínítíeísí ídíeílí ítíiíeímípíoí í�í�ítíiílí.í"í:í í"íHíeíaítí íiínípíuítí íaítí ícíoínísítíaínítí ívíoílíuímíeí íbíyí ísípíaíríkí.í íTíhíeí ípíríeísísíuíríeí íríiísíeísí íríaípíiídílíyí íbíeífíoíríeí ítíhíeí íuísíeífíuílí ítíiímíeí.í"í,íí
-í í í"íIíníyíeícícíií�í�íní ídíeí ícíoímíbíuísítíiíbílíeí.í íEílí ícíaílíoírí ídíeílí íaíiíríeí ícíoímípíríiímíiídíoí íeínícíiíeínídíeí ílíaí ímíeízícílíaí ípíríoígíríeísíiívíaímíeínítíeí íaí ípíríeísíií�í�íní ícíoínísítíaínítíeí.í"í:í í"íFíuíeílí íiíníjíeícítíiíoíní.í íTíhíeí íhíeíaítí íoífí ítíhíeí ícíoímípíríeísísíeídí íaíiírí íiígíníiítíeísí ítíhíeí ímíiíxítíuíríeí ípíríoígíríeísísíiívíeílíyí íaítí ícíoínísítíaínítí ípíríeísísíuíríeí.í"í,íí
-í í í"íEíxípíaínísíií�í�íní íiísíoíeínítírí�í�ípíiícíaí íoí ípíaírítíeí í�í�ítíiílí ídíeílí ícíiícílíoí íqíuíeí íeínítíríeígíaí ítíríaíbíaíjíoí íaílí ícíiígí�í�íeí�í�íaílí íaí ímíeídíiídíaí íqíuíeí ílíoísí ígíaísíeísí íqíuíeímíaídíoísí ísíeí íeíxípíaínídíeíní íyí íeímípíuíjíaíní íeílí ípíiísítí�í�íní.í"í:í í"íIísíeínítíríoípíiící íeíxípíaínísíiíoíní íoírí íuísíeífíuílí ípíaírítí íoífí ítíhíeí ícíyícílíeí ítíhíaítí ídíeílíiívíeírísí íwíoíríkí ítíoí ítíhíeí ícíríaíníkísíhíaífítí íaísí ítíhíeí íbíuíríníeídí ígíaísíeísí íeíxípíaínídí íaínídí ípíuísíhí ítíhíeí ípíiísítíoíní.í"í,íí
-í í í"íCíeísíií�í�íní ídíeí ícíaílíoírí íríeísíiídíuíaílí íaílí íaímíbíiíeínítíeí íaí ívíoílíuímíeíní ícíoínísítíaínítíeí íyí ípíoísítíeíríiíoírí íeíxípíuílísíií�í�íní ídíeí ílíoísí ígíaísíeísí íqíuíeímíaídíoísí ídíeí ílíaí ící�í�ímíaíríaí ípíoírí íeílí ícíoínídíuícítíoí ídíeí íeísícíaípíeí.í"í:í í"íTíríaínísífíeírí íoífí íríeísíiídíuíaílí íhíeíaítí ítíoí ítíhíeí íeínívíiíríoínímíeínítí íaítí íaí ícíoínísítíaínítí ívíoílíuímíeí íaínídí ísíuíbísíeíqíuíeínítí íeíxípíuílísíiíoíní íoífí ítíhíeí íbíuíríníeídí ígíaísíeísí ífíríoímí ítíhíeí ícíhíaímíbíeírí ítíhíríoíuígíhí ítíhíeí íeíxíhíaíuísítí ídíuícítí.í"í,íí
-í í í"íEíní ílíaí ípírí�í�ícítíiícíaí íríeíaílí,í ílíoísí ímíoítíoíríeísí íOítítíoí ídíeí ígíaísíoílíiíníaí íeísítí�í�íní ílíiímíiítíaídíoísí íaí í$írí í\í\íaípípíríoíxí í8í-í1í1í$í ípíaíríaí íeívíiítíaírí ílíaí ídíeítíoíníaícíií�í�íní ípíríeímíaítíuíríaí í(ígíoílípíeítíeíoí)í.í íLíoísí ímíoítíoíríeísí íDíiíeísíeílí,í íaílí ícíoímípíríiímíiírí íaíiíríeí ípíuíríoí,í íoípíeíríaíní ícíoíní íríeílíaícíiíoíníeísí ídíeí ícíoímípíríeísíií�í�íní ímíuíyí ísíuípíeíríiíoíríeísí í(í$írí í\í\íaípípíríoíxí í1í6í-í2í2í$í)í.í íGíríaícíiíaísí íaí íeísítíeí íeíníoírímíeí íiínícíríeímíeínítíoí íeíní ílíaí ícíoímípíríeísíií�í�íní ífí�í�ísíiícíaí,í í*í*ílíoísí ímíoítíoíríeísí íDíiíeísíeílí íríeíaílíeísí íoíbítíiíeíníeíní íuíníaí íeífíiícíiíeínícíiíaí ísíuísítíaínícíiíaílímíeínítíeí ímíaíyíoírí*í*í.í"í:í í"íIíní íríeíaílí ípíríaícítíiícíeí,í ígíaísíoílíiíníeí íOítítíoí íeínígíiíníeísí íaíríeí ílíiímíiítíeídí ítíoí í$írí í\í\íaípípíríoíxí í8í-í1í1í$í ítíoí íaívíoíiídí ípíríeímíaítíuíríeí ídíeítíoíníaítíiíoíní í(íkíníoícíkí)í.í íDíiíeísíeílí íeínígíiíníeísí,í íwíhíeíní ícíoímípíríeísísíiínígí ípíuíríeí íaíiírí,í íoípíeíríaítíeí íwíiítíhí ímíuícíhí íhíiígíhíeírí ícíoímípíríeísísíiíoíní íríaítíiíoísí í(í$írí í\í\íaípípíríoíxí í1í6í-í2í2í$í)í.í íTíhíaíníkísí ítíoí ítíhíiísí íeíníoírímíoíuísí íiínícíríeíaísíeí íiíní ípíhíyísíiícíaílí ícíoímípíríeísísíiíoíní,í í*í*íríeíaílí íDíiíeísíeílí íeínígíiíníeísí íoíbítíaíiíní ísíuíbísítíaínítíiíaílílíyí ígíríeíaítíeírí íeífífíiícíiíeínícíyí*í*í.í"í,íí
-í í í"íDíiísíeí�í�íaídíoí ípíaíríaí ípíríoípí�í�ísíiítíoísí íeídíuícíaítíiívíoísí ípíoírí"í:í í"íDíeísíiígíníeídí ífíoírí íeídíuícíaítíiíoíníaílí ípíuírípíoísíeísí íbíyí"í,íí
-í í í"í,í íIínígí.í íMíeící�í�íníiícíoí,í íMí.í íSící.í íPíhí.í íDí.í íPíríoífíeísíoírí,í íFíaícíuílítíaídí ídíeí íIínígíeíníiíeírí�í�íaí,í íUíníiívíeírísíiídíaídí ídíeí íAínítíiíoíqíuíiíaí.í"í:í í"í,í íMíeícíhíaíníiícíaílí íEínígíiíníeíeírí,í íMí.í íSící.í íPíhí.í íDí.í íPíríoífíeísísíoírí,í íFíaícíuílítíyí íoífí íEínígíiíníeíeíríiínígí,í íUíníiívíeírísíiítíyí íoífí íAínítíiíoíqíuíiíaí.í"í,íí
-í í í"íeí-ímíaíiílí:í"í:í í"íeímíaíiílí:í"í,íí
-í í í"í�í�ílítíiímíaí íaícítíuíaílíiízíaícíií�í�íní:í í1í7í ídíeí íjíuílíiíoí ídíeí í2í0í2í6í,í í1í:í3í1í íPíMí í-í íSíiímíuílíaídíoírí ídíeí íDíoíbílíeí íTíuíbíoí íríeípíaíríaídíoí,í íníuíeívíoísí ímíoídíeílíoísí ídíeí íAílíeítíaísí í(ílíoínígíiítíuídí ícíoíríríeígíiídíaí íyí íaílíeítíaí íríeícítíaínígíuílíaírí)í íyí ícíoíríríeícícíiíoíníeísí ídíeí íiínítíeírífíaízí"í:í í"íLíaísítí íuípídíaítíeí:í íJíuílíyí í1í7í,í í2í0í2í6í,í í1í:í3í1í íPíMí í-í íTíwíiíní íTíuíbíeí íSíiímíuílíaítíoírí ífíiíxíeídí,í íníeíwí íFíiíní ímíoídíeílísí í(ícíoíríríeícítíeídí ílíeínígítíhí íaínídí íríeícítíaínígíuílíaírí ífíiíní)í íaínídí íiínítíeírífíaícíeí ífíiíxíeísí"í,íí
-í í í"íSíiírí íIísíaíaící íNíeíwítíoíní í(í1í6í4í2í í-í í1í7í2í7í)í"í:í í"íSíiírí íIísíaíaící íNíeíwítíoíní í(í1í6í4í2í í-í í1í7í2í7í)í"í,íí
-í í í"íEísítíaí ísíiímípílíeí íeícíuíaícíií�í�íní ídíiíoí íoíríiígíeíní íaílí íeísítíuídíiíoí ícíuíaínítíiítíaítíiívíoí ídíeí ílíaí"í:í í"íTíhíiísí ísíiímípílíeí íeíqíuíaítíiíoíní ígíaívíeí íríiísíeí ítíoí ítíhíeí íqíuíaínítíiítíaítíiívíeí ísítíuídíyí íoífí ítíhíeí"í,íí
-í í í"íyí íeísí ípíiílíaírí ífíuínídíaímíeínítíaílí ídíeí ílíaí íiínígíeíníiíeírí�í�íaí ídíeí ítíríaínísífíeíríeínícíiíaí ídíeí ícíaílíoírí ímíoídíeíríníaí.í"í:í í"íaínídí íiísí íaí ífíuínídíaímíeínítíaílí ípíiílílíaírí íoífí ímíoídíeíríní íhíeíaítí ítíríaínísífíeírí íeínígíiíníeíeíríiínígí.í"í,íí
-í í í"íEísítíoí ídíeísíeínícíaídíeíní�í�í íuíníaí ídíiísípíuítíaí íhíiísítí�í�íríiícíaí ídíeí ípíríiíoíríiídíaídí ícíoíní íeílí ímíaítíeímí�í�ítíiícíoí íaílíeímí�í�íní íGíoítítífíríiíeídí íLíeíiíbíníiízí,í íqíuíiíeíní ídíeísíaíríríoílílí�í�í íuíní ící�í�ílícíuílíoí ísíiímíiílíaírí ícíoíní ílíaí íníoítíaícíií�í�íní ímíoídíeíríníaí í$í\íiínítí$í íyí í$ídí/ídíxí$í íqíuíeí íuísíaímíoísí íhíoíyí.í"í:í í"íTíhíiísí ítíríiígígíeíríeídí íaí íhíiísítíoíríiícíaílí ípíríiíoíríiítíyí ídíiísípíuítíeí íwíiítíhí íGíeírímíaíní ímíaítíhíeímíaítíiícíiíaíní íGíoítítífíríiíeídí íLíeíiíbíníiízí,í íwíhíoí ídíeívíeílíoípíeídí íaí ísíiímíiílíaírí ícíaílícíuílíuísí íwíiítíhí ítíhíeí ímíoídíeíríní í$í\íiínítí$í íaínídí í$ídí/ídíxí$í íníoítíaítíiíoíní ítíhíaítí íwíeí íuísíeí ítíoídíaíyí.í"í,íí
-í í í"íPíríeísíeínítíaídíaísí íeíní ílíoísí"í:í í"íPíríeísíeínítíeídí íiíní ítíhíeí"í,íí
-í í í"í(í1í6í8í7í)í,í ídíeísícíríiíbíeíní ílíaí íríeílíaícíií�í�íní íeínítíríeí ílíaísí ífíuíeírízíaísí íqíuíeí íaícítí�í�íaíní ísíoíbíríeí íuíní ícíuíeírípíoí íyí íeílí ímíoívíiímíiíeínítíoí ídíeí íeísítíeí:í"í:í í"í(í1í6í8í7í)í,í ídíeísícíríiíbíeí ítíhíeí íríeílíaítíiíoínísíhíiípí íbíeítíwíeíeíní ítíhíeí ífíoírícíeísí íaícítíiínígí íoíní íaí íbíoídíyí íaínídí íiítísí ímíoívíeímíeínítí:í"í,íí
-í í í"íTíoídíoí ícíuíeírípíoí ípíeírísíeívíeíríaí íeíní ísíuí íeísítíaídíoí ídíeí íríeípíoísíoí íoí ímíoívíiímíiíeínítíoí íuíníiífíoírímíeí íyí íríeícítíiílí�í�íníeíoí íaí íníoí ísíeírí íqíuíeí ísíeíaí íoíbílíiígíaídíoí íaí ícíaímíbíiíaírí ísíuí íeísítíaídíoí ípíoírí ífíuíeírízíaísí íiímípíríeísíaísí ísíoíbíríeí í�í�ílí.í"í:í í"íEívíeíríyí íbíoídíyí ípíeírísíeívíeíríeísí íiíní íiítísí ísítíaítíeí íoífí íríeísítí íoírí íuíníiífíoírímí íaínídí íríeícítíiílíiíníeíaírí ímíoítíiíoíní íuínílíeísísí íiítí íiísí ífíoírícíeídí ítíoí ícíhíaínígíeí íiítísí ísítíaítíeí íbíyí ífíoírícíeísí íiímípíoísíeídí íoíní íiítí.í"í,íí
-í í í"íEílí ícíaímíbíiíoí ídíeí ímíoívíiímíiíeínítíoí í(ímíoímíeínítíoí ílíiíníeíaílí í$ípí$í)í íeísí ípíríoípíoírícíiíoíníaílí íaí ílíaí ífíuíeírízíaí ímíoítíríiízí íiímípíríeísíaí íyí íoícíuíríríeí ísíeígí�í�íní ílíaí ílí�í�íníeíaí íríeícítíaí íaí ílíoí ílíaírígíoí ídíeí ílíaí ícíuíaílí íaíqíuíeílílíaí ífíuíeírízíaí ísíeí íiímípíríiímíeí:í\íní í í í í í í í í í í í í í í í í í í í í í í í í$í$í íFí í=í ímí íaí í\íqíuíaídí í\í\ítíeíxítí{íoí íeíní ísíuí ífíoírímíaí ídíiífíeíríeínícíiíaílí ígíeíníeíríaílí}í í\íqíuíaídí íFí í=í í\í\ífíríaící{ídípí}í{ídítí}í í=í í\í\ífíríaící{ídí(ímíví)í}í{ídítí}í í$í$í"í:í í"íTíhíeí ícíhíaínígíeí íiíní ímíoítíiíoíní í(ílíiíníeíaírí ímíoímíeínítíuímí í$ípí$í)í íiísí ípíríoípíoírítíiíoíníaílí ítíoí ítíhíeí ídíríiívíiínígí ífíoírícíeí ípíríiínítíeídí íaínídí íoícícíuírísí íaílíoínígí ítíhíeí ísítíríaíiígíhítí ílíiíníeí íaílíoínígí íwíhíiícíhí ítíhíaítí ífíoírícíeí íiísí ípíríiínítíeídí:í"í,íí
-í í í"íCíoíní ítíoídíaí íaícícíií�í�íní íoícíuíríríeí ísíiíeímípíríeí íuíníaí íríeíaícícíií�í�íní íiígíuíaílí íyí ícíoínítíríaíríiíaí;í ílíaísí íaícícíiíoíníeísí ímíuítíuíaísí ídíeí ídíoísí ícíuíeírípíoísí ísíiíeímípíríeí ísíoíní íiígíuíaílíeísí íyí ídíiíríiígíiídíaísí íeíní ísíeínítíiídíoísí íoípíuíeísítíoísí.í"í:í í"íWíiítíhí íeívíeíríyí íaícítíiíoíní ítíhíeíríeí íaílíwíaíyísí íoícícíuírísí íaíní íeíqíuíaílí íaínídí íoípípíoísíiítíeí íríeíaícítíiíoíní;í íTíhíeí ímíuítíuíaílí íaícítíiíoínísí íoífí ítíwíoí íbíoídíiíeísí íaíríeí íaílíwíaíyísí íeíqíuíaílí íaínídí ídíiíríeícítíeídí íiíní íoípípíoísíiítíeí ídíiíríeícítíiíoínísí.í"í,íí
-í í í"íEíní ísíuí ílíiíbíríoí"í:í í"íiíní íhíiísí íbíoíoíkí"í,íí
-í í í"í(í1í7í0í4í)í,í íNíeíwítíoíní íríeívíoílíuícíiíoíní�í�í ílíaí ícíoímípíríeínísíií�í�íní ídíeí ílíaí ílíuízí íyí íeílí ícíoílíoírí:í"í:í í"í(í1í7í0í4í)í,í íNíeíwítíoíní íríeívíoílíuítíiíoíníiízíeídí ítíhíeí íuínídíeírísítíaínídíiínígí íoífí ílíiígíhítí íaínídí ícíoílíoírí:í"í,íí
-í í í"íMíeídíiíaínítíeí íuíní ípíríiísímíaí ídíeí ívíiídíríiíoí íeíní íuíníaí íhíaíbíiítíaícíií�í�íní íoísícíuíríaí,í ídíeímíoísítírí�í�í íqíuíeí ílíaí ílíuízí íbílíaínícíaí íníoí íeísí ípíuíríaí íuí íhíoímíoígí�í�íníeíaí,í ísíiíníoí íqíuíeí íeísítí�í�í ícíoímípíuíeísítíaí ípíoírí íuíníaí ímíeízícílíaí ídíeí íríaíyíoísí íríeífíríaícítíaídíoísí íeíní ídíiífíeíríeínítíeísí í�í�ínígíuílíoísí íqíuíeí ícíoíríríeísípíoínídíeíní íaí ítíoídíoí íeílí íeísípíeícítíríoí ídíeílí íaírícíoí�í�íríiísí.í"í:í í"íUísíiínígí íaí ígílíaísísí ípíríiísímí íiíní íaí ídíaíríkí íríoíoímí,í íhíeí ídíeímíoínísítíríaítíeídí ítíhíaítí íwíhíiítíeí ílíiígíhítí íiísí íníoítí ípíuíríeí íoírí íhíoímíoígíeíníeíoíuísí,í íbíuítí íiísí ícíoímípíoísíeídí íoífí íaí ímíiíxítíuíríeí íoífí íríaíyísí íríeífíríaícítíeídí íaítí ídíiífífíeíríeínítí íaínígílíeísí ítíhíaítí ícíoíríríeísípíoínídí ítíoí ítíhíeí íeínítíiíríeí ísípíeícítíríuímí íoífí ítíhíeí íríaíiíníbíoíwí.í"í,íí
-í í í"íIínívíeínítí�í�í íyí ícíoínísítíríuíyí�í�í íeílí ítíeílíeísícíoípíiíoí íníeíwítíoíníiíaíníoí íqíuíeí íuítíiílíiízíaí íuíní íeísípíeíjíoí ípíríiímíaíríiíoí ící�í�ínícíaívíoí ípíuílíiídíoí íaí ímíaíníoí íeíní ílíuígíaírí ídíeí ílíeínítíeísí íríeífíríaícítíoíríeísí.í íEísítíoí ísíoílíuícíiíoíní�í�í ídíeí ífíoírímíaí ídíeífíiíníiítíiívíaí ílíaí íaíbíeíríríaícíií�í�íní ícíríoímí�í�ítíiícíaí í(ídíiísítíoírísíií�í�íní ídíeí ícíoílíoíríeísí ídíeí ílíoísí íbíoírídíeísí)í ídíeí ílíoísí ítíeílíeísícíoípíiíoísí ítíríaídíiícíiíoíníaílíeísí ídíeí íGíaílíiílíeíoí íyí íKíeípílíeírí.í"í:í í"íHíeí íiínívíeínítíeídí íaínídí íbíuíiílítí ítíhíeí íNíeíwítíoíníiíaíní ítíeílíeísícíoípíeí íwíhíiícíhí íuísíeísí íaí íhíaínídí-ípíoílíiísíhíeídí ícíoínícíaívíeí ípíríiímíaíríyí ímíiíríríoírí íiínísítíeíaídí íoífí íríeífíríaícítíiínígí ílíeínísíeísí.í íTíhíiísí ídíeífíiíníiítíiívíeílíyí ísíoílívíeídí ítíhíeí ícíhíríoímíaítíiící íaíbíeíríríaítíiíoíní í(ídíiísítíoírítíiíoíní íoífí ícíoílíoírí íaítí ítíhíeí íeídígíeísí)í íoífí ítíhíeí ítíríaídíiítíiíoíníaílí íGíaílíiílíeíoí íaínídí íKíeípílíeírí ítíeílíeísícíoípíeísí.í"í,íí
-í í í"íNíeíwítíoíní íríeílíaítí�í�í íaí ísíuí íbíií�í�ígíríaífíoí íWíiílílíiíaímí íSítíuíkíeílíeíyí íqíuíeí ílíaí íiídíeíaí ídíeí ílíaí ígíríaívíeídíaídí ílíeí ílílíeígí�í�í ícíoínítíeímípílíaínídíoí ílíaí ícíaí�í�ídíaí ídíeí íuíníaí ímíaínízíaíníaí íeíní ísíuí íjíaírídí�í�íní,í ípíríeígíuínítí�í�ínídíoísíeí ípíoírí íqíuí�í�í ílíaí ímíaínízíaíníaí ísíiíeímípíríeí ícíaí�í�íaí ípíeírípíeínídíiícíuílíaírímíeínítíeí íaí ílíaí ítíiíeíríríaí íyí íníoí íhíaícíiíaí íuíní ílíaídíoí íoí íhíaícíiíaí íaíríríiíbíaí.í"í:í í"íNíeíwítíoíní ítíoílídí íhíiísí íbíiíoígíríaípíhíeírí íWíiílílíiíaímí íSítíuíkíeílíeíyí ítíhíaítí ítíhíeí íiídíeíaí íoífí í�í�í�í�í�í�ígíríaívíiítíyí ícíaímíeí ítíoí íhíiímí íwíhíiílíeí íwíaítícíhíiínígí íaíní íaípípílíeí ífíaílílí íiíní íhíiísí ígíaírídíeíní,í íwíoínídíeíríiínígí íwíhíyí ítíhíeí íaípípílíeí íaílíwíaíyísí ífíeílílí ípíeírípíeínídíiícíuílíaírí ítíoí ítíhíeí ígíríoíuínídí íaínídí íníoítí ítíoí ítíhíeí ísíiídíeí íoírí íuípí.í"í,íí
-í í í"íSíuí ípíríiímíeírí ítíeírímí�í�ímíeítíríoí íuítíiílíiízíaíbíaí íaícíeíiítíeí ídíeí ílíiíníaízíaí.í íPíaíríaí ícíaílíiíbíríaírí ílíoísí ípíuínítíoísí ísíuípíeíríiíoíríeísí ídíeí íeíbíuílílíiícíií�í�íní ídíeílí íhíiíeíríríoí,í ícíríoíníoímíeítíríaíbíaí ílíaí ísíoílíiídíiífíiícíaícíií�í�íní ídíeí íaílíeíaícíiíoíníeísí ídíeí ípílíoímíoí íyí íeísítíaí�í�íoí.í"í:í í"íHíiísí ífíiírísítí ítíhíeírímíoímíeítíeírí íuísíeídí ílíiínísíeíeídí íoíiílí.í íTíoí ígíaíuígíeí ítíhíeí íuípípíeírí íbíoíiílíiínígí ípíoíiínítísí íoífí íiíríoíní,í íhíeí ítíiímíeídí ítíhíeí ísíoílíiídíiífíiícíaítíiíoíní íoífí ílíeíaídí-ítíiíní íaílílíoíyísí.í"í,íí
-í í í"íNíeíwítíoíní íeísícíríiíbíií�í�í ímí�í�ísí ídíeí íuíní ímíiílílí�í�íní ídíeí ípíaílíaíbíríaísí ísíoíbíríeí ítíeíoílíoígí�í�íaí íyí íaílíqíuíiímíiíaí,í ílíaísí ícíuíaílíeísí ímíaínítíuívíoí íoícíuílítíaísí ídíuíríaínítíeí ísíuí ívíiídíaí ípíoíríqíuíeí íeíríaíní ícíoínísíiídíeíríaídíaísí íhíeírí�í�ítíiícíaísí.í íBíuísící�í�í íiínícíaínísíaíbílíeímíeínítíeí ílíaí íPíiíeídíríaí íFíiílíoísíoífíaílí íyí ílíaí íríeícíeítíaí ídíeílí íeílíiíxíiírí ídíeí ílíaí ívíiídíaí.í"í:í í"íNíeíwítíoíní íwíríoítíeí ímíoíríeí ítíhíaíní íaí ímíiílílíiíoíní íwíoírídísí íoíní ítíhíeíoílíoígíyí íaínídí íaílícíhíeímíyí,í íwíhíiícíhí íhíeí íkíeípítí íhíiídídíeíní ídíuíríiínígí íhíiísí ílíiífíeí íbíeícíaíuísíeí ítíhíeíyí íwíeíríeí ícíoínísíiídíeíríeídí íhíeíríeítíiícíaílí.í íHíeí ítíiíríeílíeísísílíyí ísíeíaírícíhíeídí ífíoírí ítíhíeí íPíhíiílíoísíoípíhíeírí'ísí íSítíoíníeí íaínídí ítíhíeí íríeícíiípíeí ífíoírí ítíhíeí íeílíiíxíiírí íoífí ílíiífíeí.í"í,íí
-í í í"íSíeí ídíiícíeí íqíuíeí ísíuí ípíeíqíuíeí�í�íoí ípíeíríríoí íDíiíaímíoínídí ídíeíríríiíbí�í�í íuíníaí ívíeílíaí ísíoíbíríeí ísíuí íeísícíríiítíoíríiíoí,í íqíuíeímíaínídíoí ívíaílíiíoísíoísí ímíaíníuísícíríiítíoísí íqíuíeí ícíoínítíeíní�í�íaíní íaí�í�íoísí ídíeí ítíríaíbíaíjíoí ísíoíbíríeí í�í�ípítíiícíaí.í íNíeíwítíoíní ísí�í�ílíoí íeíxícílíaímí�í�í:í"í:í í"íHíiísí ílíiítítílíeí ídíoígí íDíiíaímíoínídí íiísí ísíaíiídí ítíoí íhíaívíeí íkíníoícíkíeídí íoívíeírí íaí ícíaínídílíeí íoíní íhíiísí ídíeísíkí,í íbíuíríníiínígí ívíaílíuíaíbílíeí ímíaíníuísícíríiípítísí ícíoínítíaíiíníiínígí íyíeíaírísí íoífí íwíoíríkí íoíní íoípítíiícísí.í íNíeíwítíoíní íoínílíyí íeíxícílíaíiímíeídí:í"í,íí
-í í í"íLíaíbíoíríaítíoíríiíoí ídíeí íRíaídíiíaícíií�í�íní íeíní íPílíaícíaí íPílíaíníaí"í:í í"íFílíaítí íPílíaítíeí íRíaídíiíaítíiíoíní íLíaíbí"í,íí
-í í í"íLíaírígíoí í(íLí1í)í"í:í í"íLíeínígítíhí í(íLí1í)í"í,íí
-í í í"íAínícíhíoí í(íLí2í)í"í:í í"íWíiídítíhí í(íLí2í)í"í,íí
-í
-í í í"íPíaínítíaílílíaí íCíoímípílíeítíaí"í:í í"íFíuílílí íSícíríeíeíní"í,í
-í í í"íCíeíríríaírí ípíaínítíaílílíaí ícíoímípílíeítíaí"í:í í"íCílíoísíeí ífíuílílí ísícíríeíeíní"í,í
-í í í"íSíaílíiírí ídíeí ípíaínítíaílílíaí ícíoímípílíeítíaí"í:í í"íEíxíiítí ífíuílílí ísícíríeíeíní"í,í
-í í í"íAíbíríiírí ílíaíbíoíríaítíoíríiíoí íeíní ípíaínítíaílílíaí ícíoímípílíeítíaí"í:í í"íOípíeíní ílíaíbí íiíní ífíuílílí ísícíríeíeíní"í,í
-í í í"íCíeíríríaírí ílíaíbíoíríaítíoíríiíoí íeíní ípíaínítíaílílíaí ícíoímípílíeítíaí"í:í í"íCílíoísíeí ílíaíbí ífíuílílí ísícíríeíeíní"í,í
-í í í"íAímípílíiíaírí íeílí ílíaíbíoíríaítíoíríiíoí íaí ípíaínítíaílílíaí ícíoímípílíeítíaí"í:í í"íEíxípíaínídí ítíhíeí ílíaíbí ítíoí ífíuílílí ísícíríeíeíní"í,í
-í í í"íCíeíríríaírí íyí ívíoílívíeírí íaí ílíaí ívíiísítíaí íníoírímíaílí"í:í í"íCílíoísíeí íaínídí íríeítíuíríní ítíoí íníoírímíaílí ívíiíeíwí"í,í
-í í í"íLíaíbíoíríaítíoíríiíoí íaíbíiíeírítíoí íeíní ípíaínítíaílílíaí ícíoímípílíeítíaí.í íPíríeísíiíoíníaí íEísícíaípíeí ípíaíríaí ísíaílíiírí.í"í:í í"íLíaíbí íoípíeíníeídí íiíní ífíuílílí ísícíríeíeíní.í íPíríeísísí íEísícíaípíeí ítíoí íeíxíiítí.í"í,í
-í í í"íLíaíbíoíríaítíoíríiíoí ícíeíríríaídíoí.í íVíoílívíiíeínídíoí íaí ílíaí ívíiísítíaí ípíríiínícíiípíaílí.í"í:í í"íLíaíbí ícílíoísíeídí.í íRíeítíuíríníiínígí ítíoí ímíaíiíní ívíiíeíwí.í"í,í
-í}í;íí
+window.uiTranslations = {
+  "Muro de Comentarios": "Comment Wall",
+  "Ver Detalles": "View Details",
+  "Elige tu Avatar de Científico": "Choose your Scientist Avatar",
+  "Crear Cuenta": "Create Account",
+  "Iniciar Sesión": "Sign In",
+  "Cerrar Sesión": "Sign Out",
+  "Publicar": "Post",
+  "Escribe un comentario en el muro": "Write a comment on the wall",
+  "Usuario": "User",
+  "Administrador": "Administrator",
+  "Registrarse": "Register",
+  "Acceder": "Login",
+  "\n                                            $$Nu_d = 3.66$$\n                                            ": "\n                                            $$Nu_d = 3.66$$\n                                            ",
+  "\n                                            Correlación de ": "\n                                            Correlation of ",
+  "\n                                            Requisitos: $Re_d \\ge 10000$, $L/D_h \\ge 10$, y $0.6 \\le Pr \\le 160$. Exponente:\n                                            ": "\n                                            Requirements: $Re_d \\ge 10000$, $L/D_h \\ge 10$, and $0.6 \\le Pr \\le 160$. Exponent:\n                                            ",
+  "\n                                            Si $Bi < 0.1$, la resistencia interna del sólido es despreciable. La temperatura es uniforme espacialmente y el enfriamiento es puramente exponencial. Si $Bi > 0.1$, aparecen gradientes térmicos importantes, y la superficie se enfría mucho más rápido que el núcleo interno.\n                                        ": "\n                                            If $Bi < 0.1$, the internal resistance of the solid is negligible. The temperature is spatially uniform and the cooling is purely exponential. If $Bi > 0.1$, significant thermal gradients appear, and the surface cools much faster than the inner core.\n                                        ",
+  "\n                                         Al superar el flujo crítico (CHF), la superficie no puede sostener la ebullición nucleada y la temperatura salta de golpe a la rama de película para disipar la misma potencia. Este incremento repentino de temperatura puede fundir el metal del calentador (**burnout**).\n                                     ": "\n                                         Upon exceeding the critical flux (CHF), the surface cannot sustain nucleate boiling and the temperature suddenly jumps to the film branch to dissipate the same power. This sudden increase in temperature can melt the metal of the heater (**burnout**).\n                                     ",
+  "\n                                        $$ T(K) = T(°C) + 273.15 $$\n                                    ": "\n                                        $$ T(K) = T(°C) + 273.15 $$\n                                    ",
+  "\n                                        A velocidades de viento críticas, la frecuencia de desprendimiento de vórtices de Von Kármán ($f = St \\cdot U / D$) generó fuerzas de sustentación alternantes que coincidieron de forma exacta con la frecuencia natural de torsión de la viga del puente. Esto causó oscilaciones destructivas masivas autoexcitadas por resonancia, que terminaron por fracturar los cables de soporte de acero y colapsar la estructura de la cubierta.\n                                    ": "\n                                        At critical wind speeds, the Von Kármán vortex shedding frequency ($f = St \\cdot U / D$) generated alternating lift forces that exactly matched the natural twisting frequency of the bridge girder. This caused massive destructive self-excited resonance oscillations, which ultimately fractured the steel support cables and collapsed the deck structure.\n                                    ",
+  "\n                                        Carnot demostró que la eficiencia máxima de cualquier motor térmico que opera entre dos fuentes depende ": "\n                                        Carnot showed that the maximum efficiency of any heat engine operating between two sources depends ",
+  "\n                                        Cesión de calor residual al ambiente a volumen constante y posterior expulsión de los gases quemados de la cámara por el conducto de escape.\n                                    ": "\n                                        Transfer of residual heat to the environment at a constant volume and subsequent expulsion of the burned gases from the chamber through the exhaust duct.\n                                    ",
+  "\n                                        Curiosamente, Carnot derivó esto usando la ": "\n                                        Interestingly, Carnot derived this using the ",
+  "\n                                        El ": "\n                                        He ",
+  "\n                                        El colapso catastrófico del puente original de ": "\n                                        The catastrophic collapse of the original bridge ",
+  "\n                                        El único valor que lograría eficiencia perfecta es $T_C = 0$. Este cero no es una convención arbitraria: es un ": "\n                                        The only value that would achieve perfect efficiency is $T_C = 0$. This zero is not an arbitrary convention: it is a ",
+  "\n                                        Estado: ": "\n                                        State: ",
+  "\n                                        Expansión isoentrópica o parte útil del ciclo que entrega trabajo al cigüeñal a medida que los gases quemados se expanden y empujan el pistón.\n                                    ": "\n                                        Isentropic expansion or useful part of the cycle that delivers work to the crankshaft as the burned gases expand and push the piston.\n                                    ",
+  "\n                                        Kelvin propuso una escala de temperatura basada en el rendimiento de motores de Carnot, ": "\n                                        Kelvin proposed a temperature scale based on the performance of Carnot engines, ",
+  "\n                                        Lectura: ": "\n                                        Reading: ",
+  "\n                                        Nernst (1906) y Planck complementaron esto con la ": "\n                                        Nernst (1906) and Planck complemented this with the ",
+  "\n                                        Se necesitaría un refrigerador infinitamente ineficiente para extraer el último bit de calor. ": "\n                                        It would take an infinitely inefficient refrigerator to extract the last bit of heat. ",
+  "\n                                        William Thomson (Lord Kelvin) se preguntó: ": "\n                                        William Thomson (Lord Kelvin) wondered: ",
+  "\n                                    Donde:\n                                    ": "\n                                    Where:\n                                    ",
+  "\n                                    El cilindro se ": "\n                                    The cylinder is ",
+  "\n                                    El trabajo de Watt fue puramente empírico. Solo décadas después Carnot (1824) formalizaría matemáticamente que la eficiencia máxima entre una fuente caliente $T_H$ y fría $T_C$ es $\\eta = 1 - T_C/T_H$. La máquina de Watt se acercó mucho más a ese límite al minimizar las pérdidas por calentamiento/enfriamiento cíclico del cilindro.\n                                ": "\n                                    Watt's work was purely empirical. Only decades later Carnot (1824) would mathematically formalize that the maximum efficiency between a hot source $T_H$ and a cold source $T_C$ is $\\eta = 1 - T_C/T_H$. Watt's machine came much closer to that limit by minimizing cyclical heating/cooling losses of the cylinder.\n                                ",
+  "\n                                    La potencia mecánica máxima aprovechable del chorro de agua es:\n                                    ": "\n                                    The maximum usable mechanical power of the water jet is:\n                                    ",
+  "\n                                    Watt propuso mantener el cilindro principal ": "\n                                    Watt proposed keeping the main cylinder ",
+  "\n                                    • $2300 \\le Re \\le 4000$: Transición (oscilante)": "\n                                    • $2300 \\le Re \\le 4000$: Transition (oscillating)",
+  "\n                                    • $Re < 2300$: Flujo Laminar (estable)": "\n                                    • $Re < 2300$: Laminar Flow (stable)",
+  "\n                                    • $Re > 4000$: Flujo Turbulento (mezclado completo)": "\n                                    • $Re > 4000$: Turbulent Flow (full mixing)",
+  "\n                                    • $T_s < T_\\infty$: El fluido se enfría, se vuelve más denso y **desciende**, creando una pluma térmica hacia abajo.": "\n                                    • $T_s < T_\\infty$: The fluid cools, becomes denser, and **descends**, creating a downward thermal plume.",
+  "\n                                    • $T_s > T_\\infty$: El fluido se calienta, se vuelve menos denso y **asciende**, creando una pluma térmica hacia arriba.": "\n                                    • $T_s > T_\\infty$: The fluid heats up, becomes less dense, and **rises**, creating an upward thermal plume.",
+  "\n                                    • $\\Delta T = 0$: No hay corrientes de flotación.": "\n                                    • $\\Delta T = 0$: There are no float currents.",
+  "\n                            Un resolvedor numérico iterativo calcula en tiempo real el flujo de calor y las temperaturas resultantes en cada interfase.": "\n                            An iterative numerical solver calculates the heat flux and resulting temperatures at each interface in real time.",
+  "\n        e-mail: ": "\n        e-mail: ",
+  " $q'' = h (T_\\infty - T)$": " $q'' = h (T_\\infty - T)$",
+  " ($I = \\Delta V / R$). En transferencia de calor, la corriente es la tasa de transferencia de calor ($q$), el potencial es la diferencia de temperaturas ($\\Delta T$), y la resistencia al flujo se llama ": " ($I = \\Delta V / R$). In heat transfer, the current is the rate of heat transfer ($q$), the potential is the temperature difference ($\\Delta T$), and the resistance to flow is called ",
+  " (1687), describen la relación entre las fuerzas que actúan sobre un cuerpo y el movimiento de este:": " (1687), describe the relationship between the forces acting on a body and its movement:",
+  " (1704), Newton revolucionó la comprensión de la luz y el color:": " (1704), Newton revolutionized the understanding of light and color:",
+  " (Derecha/Externa):": " (Right/Outer):",
+  " (Izquierda/Interna):": " (Left/Inner):",
+  " (a diferencia de las escalas Celsius o Fahrenheit, basadas en el comportamiento del agua o del mercurio).\n                                    ": " (unlike the Celsius or Fahrenheit scales, based on the behavior of water or mercury).\n                                    ",
+  " (incorrecta), pero la conclusión fue perfectamente válida.\n                                    ": " (incorrect), but the conclusion was perfectly valid.\n                                    ",
+  " A 0.006 atm (611 Pa), el agua no puede existir en estado líquido, sin importar la temperatura. Por encima de esta altitud (zona gris), el agua solo puede existir como hielo sólido o vapor de agua (sublimación).": " At 0.006 atm (611 Pa), water cannot exist in a liquid state, regardless of temperature. Above this altitude (gray zone), water can only exist as solid ice or water vapor (sublimation).",
+  " A 0.061 atm, el agua hierve a 37 °C (temperatura corporal). Sin un traje presurizado, la saliva y lágrimas hervirían espontáneamente.": " At 0.061 atm, water boils at 37°C (body temperature). Without a pressure suit, saliva and tears would boil spontaneously.",
+  " A mayor Reynolds o menor distancia $x$, la capa límite es más delgada y el gradiente de velocidad en la pared ($y=0$) es mayor, lo que aumenta la transferencia de calor por convección.": " At higher Reynolds or shorter distance $x$, the boundary layer is thinner and the velocity gradient across the wall ($y=0$) is larger, which increases convective heat transfer.",
+  " A menor $D_2$, la velocidad $v_2$ aumenta cuadráticamente y la presión se desploma. Si la presión cayera por debajo de la presión de vapor, el líquido herviría localmente (cavitación).\n                                        ": " At lower $D_2$, the velocity $v_2$ increases quadratically and the pressure drops. If the pressure fell below the vapor pressure, the liquid would boil locally (cavitation).\n                                        ",
+  " A nivel estadístico molecular (desarrollado por Boltzmann), la entropía se define como:\n                                    ": " At the molecular statistical level (developed by Boltzmann), entropy is defined as:\n                                    ",
+  " Adiabática b→c": " Adiabatic b→c",
+  " Adiabática d→a": " Adiabatic d→a",
+  " Admisión a presión constante (renovación de la mezcla aire/combustible).\n                                    ": " Admission at constant pressure (renewal of the air/fuel mixture).\n                                    ",
+  " Animación Térmica de la Placa": " Thermal Plate Animation",
+  " Aporte de calor a volumen constante por chispa. La presión se eleva rápidamente antes del tiempo útil.\n                                        ": " Heat input at constant volume by spark. The pressure rises rapidly before the useful time.\n                                        ",
+  " Balance de Energía de Bernoulli (kPa)": " Bernoulli Energy Balance (kPa)",
+  " Campo de Flujo e Inducción de Vorticidad": " Flow Field and Vorticity Induction",
+  " Cero Absoluto": " Absolute Zero",
+  " Circuito de Resistencias Térmicas": " Thermal Resistance Circuit",
+  " Comparación directa": " Direct comparison",
+  " Compresión de la mezcla aire/combustible de forma isoentrópica.\n                                        ": " Compression of the air/fuel mixture isentropically.\n                                        ",
+  " Con toda acción ocurre siempre una reacción igual y contraria; las acciones mutuas de dos cuerpos siempre son iguales y dirigidas en sentidos opuestos.": " With every action there always occurs an equal and opposite reaction; The mutual actions of two bodies are always equal and directed in opposite directions.",
+  " Configuración de las Capas de la Pared": " Wall Layer Configuration",
+  " Congelación H₂O": " H₂O Freezing",
+  " Contacto / Soporte\n        ": " Contact / Support\n        ",
+  " Contexto de Ingeniería: Tacoma Narrows (1940)": " Engineering Context: Tacoma Narrows (1940)",
+  " Correlaciones de Convección": " Convection Correlations",
+  " Curva de Nukiyama (Log-Log)": " Nukiyama curve (Log-Log)",
+  " Densidad de Probabilidad (fracción de átomos que viajan a la velocidad $v$).": " Probability Density (fraction of atoms traveling at speed $v$).",
+  " Desarrollado por ": " Developed by ",
+  " Despejando de la fórmula de Carnot:\n                                    ": " Solving for Carnot's formula:\n                                    ",
+  " Diagrama P-V": " P-V diagram",
+  " Diagrama P-V del Ciclo de Carnot": " P-V Diagram of the Carnot Cycle",
+  " Diagrama T-S": " T-S diagram",
+  " Diagrama T-S (Temperatura–Entropía)": " T-S Diagram (Temperature–Entropy)",
+  " Diesel": " Diesel",
+  " Distribución de Temperatura (Mapa de Calor 2D)": " Temperature Distribution (2D Heat Map)",
+  " Ebullición H₂O": " Boiling H₂O",
+  " Ebullición del Agua hasta el Límite de la Atmósfera (120 km)": " Boiling of Water up to the Limit of the Atmosphere (120 km)",
+  " Ecuación de Conversión Activa": " Active Conversion Equation",
+  " Efecto de la Presión Atmosférica:": " Effect of Atmospheric Pressure:",
+  " El \"Punto de Quemado\" (Burnout) e Inestabilidad:": " The \"Burn Point\" (Burnout) and Instability:",
+  " El agua a una altura de carga $H$ descarga a la atmósfera a través de la boquilla (nozzle) convirtiendo toda la energía potencial en cinética: \n                                    ": " The water at a loading height $H$ discharges into the atmosphere through the nozzle, converting all potential energy into kinetic energy: \n                                    ",
+  " El calor fluye naturalmente desde un cuerpo caliente (alta energía cinética molecular) hacia uno frío (baja energía cinética), hasta lograr el equilibrio térmico. El proceso inverso es termodinámicamente imposible de manera espontánea.": " Heat flows naturally from a hot body (high molecular kinetic energy) to a cold one (low kinetic energy), until thermal equilibrium is achieved. The reverse process is thermodynamically impossible spontaneously.",
+  " El cuerpo se enfría o calienta velozmente. Ocurre con baja inercia térmica (masa pequeña o bajo $c_p$) o una alta transferencia de calor (coeficiente $h$ alto, como en agua, o gran área superficial expuesta).": " The body cools or heats up quickly. It occurs with low thermal inertia (small mass or low $c_p$) or high heat transfer (high $h$ coefficient, as in water, or large exposed surface area).",
+  " El cuerpo se resiste a cambiar su temperatura. Ocurre con alta inercia térmica (cuerpo muy masivo o alto $c_p$) o baja transferencia de calor (coeficiente $h$ bajo, como en aire quieto).": " The body resists changing its temperature. It occurs with high thermal inertia (very massive body or high $c_p$) or low heat transfer (low $h$ coefficient, as in still air).",
+  " El gradiente de presión que impulsa el flujo de zonas de alta a baja presión (genera sustentación en perfiles alares).": " The pressure gradient that drives the flow from high to low pressure zones (generates lift on airfoils).",
+  " El pistón es libre de moverse. Al calentarse, el gas se expande realizando trabajo mecánico contra la presión atmosférica ($W = P \\Delta V$). El calor inyectado debe cubrir tanto la energía interna como el trabajo ($Q_p = \\Delta U + W$). Por ello, siempre $C_p > C_v$.": " The piston is free to move. When heated, the gas expands doing mechanical work against atmospheric pressure ($W = P \\Delta V$). The injected heat must cover both the internal energy and the work ($Q_p = \\Delta U + W$). Therefore, always $C_p > C_v$.",
+  " El pistón sube y comprime el aire. Eleva presión y temperatura por encima del punto de autoignición.\n                                        ": " The piston rises and compresses the air. Raises pressure and temperature above the autoignition point.\n                                        ",
+  " El punto naranja señala el estado térmico actual sobre la curva característica del fluido seleccionado.\n                                ": " The orange point indicates the current thermal state on the characteristic curve of the selected fluid.\n                                ",
+  " El recipiente está rígido y cerrado. Todo el calor se convierte en energía interna ($Q_v = \\Delta U$), aumentando la velocidad molecular. No hay expansión ni trabajo ($W = 0$).": " The container is rigid and closed. All heat is converted into internal energy ($Q_v = \\Delta U$), increasing molecular speed. There is no expansion or work ($W = 0$).",
+  " El sistema garantiza $T_C < T_H$ automáticamente. La eficiencia solo puede alcanzar el 100% si $T_C = 0\\,K$, lo cual es imposible por la Tercera Ley de la Termodinámica.\n                                ": " The system guarantees $T_C < T_H$ automatically. Efficiency can only reach 100% if $T_C = 0\\,K$, which is impossible by the Third Law of Thermodynamics.\n                                ",
+  " Entropía (medida de desorden o irreversibilidad del sistema).": " Entropy (measure of disorder or irreversibility of the system).",
+  " Esquema Térmico y Flujo de Calor": " Thermal Scheme and Heat Flow",
+  " Esquema del Motor Térmico": " Thermal Engine Diagram",
+  " Evolución de Temperatura vs Tiempo": " Evolution of Temperature vs Time",
+  " Explora la evolución cronológica de la transferencia de calor y la termodinámica. Filtra y busca los aportes de los científicos que sentaron las bases de la física moderna.": " Explore the chronological evolution of heat transfer and thermodynamics. Filter and search for the contributions of the scientists who laid the foundations of modern physics.",
+  " Flujos de calor opuestos no balanceados. No existe estado estacionario.": " Opposing unbalanced heat flows. There is no steady state.",
+  " Frontera Izquierda $(x = 0)$": " Left Border $(x = 0)$",
+  " Fuerzas de cuerpo como la gravedad o las magnéticas.": " Body forces such as gravity or magnetic forces.",
+  " Fíjate cómo al calentar el gas, la campana se aplana y se desplaza hacia la derecha (átomos más rápidos). Si cambias a un gas más pesado (como el Xenón), los átomos se mueven mucho más lento a la misma temperatura.": " Notice how when the gas is heated, the bell flattens out and moves to the right (faster atoms). If you switch to a heavier gas (like Xenon), the atoms move much slower at the same temperature.",
+  " Historial de Temperatura del Cilindro por Ciclo": " Cylinder Temperature History by Cycle",
+  " Hitos Históricos": " Historical Milestones",
+  " Iniciar": " Start",
+  " Iniciar Calentamiento\n                                    ": " Start Warm-up\n                                    ",
+  " Interactúa con experimentos virtuales y herramientas numéricas en tiempo real. Ajusta variables físicas para observar de manera práctica las leyes de conducción, convección y radiación.": " Interact with virtual experiments and numerical tools in real time. Adjust physical variables to practically observe the laws of conduction, convection and radiation.",
+  " Interpretación Física:": " Physical Interpretation:",
+  " Inventó y construyó el telescopio newtoniano que utiliza un espejo primario cóncavo pulido a mano en lugar de lentes refractores. Esto solucionó de forma definitiva la aberración cromática (distorsión de colores de los bordes) de los telescopios tradicionales de Galileo y Kepler.": " He invented and built the Newtonian telescope which uses a hand-polished concave primary mirror instead of refracting lenses. This definitively solved the chromatic aberration (distortion of color at the edges) of the traditional Galileo and Kepler telescopes.",
+  " Inyección de combustible. El calor del aire comprimido enciende la mezcla progresivamente a presión constante.\n                                        ": " Fuel injection. The heat of the compressed air ignites the mixture progressively at constant pressure.\n                                        ",
+  " Isotérmica a→b (T": " Isothermal a→b (T",
+  " Isotérmica c→d (T": " Isothermal c→d (T",
+  " J/kgK": " J/kgK",
+  " J/kg·K": " J/kg·K",
+  " La aceleración neta de cada partícula de fluido — convectiva (cambio de posición) y local (cambio en el tiempo).": " The net acceleration of each fluid particle — convective (change in position) and local (change in time).",
+  " La resistencia interna del fluido al cizallamiento, causa la capa límite y el arrastre.": " The internal resistance of the fluid to shear causes the boundary layer and drag.",
+  " La simulación usa ": " The simulation uses ",
+  " La temperatura $T_2$ no puede ser menor a 0 K (-273.15 °C). El valor se ha bloqueado y se recalculó el flujo de calor real.\n                                    ": " The $T_2$ temperature cannot be lower than 0 K (-273.15 °C). The value has been locked and the actual heat flux has been recalculated.\n                                    ",
+  " La válvula se abre. Entra únicamente aire puro al cilindro.\n                                    ": " The valve opens. Only pure air enters the cylinder.\n                                    ",
+  " Laboratorio de Simulaciones": " Simulations Laboratory",
+  " Limpiar Experimento": " Clear Experiment",
+  " Masa de una sola molécula (kg).": " Mass of a single molecule (kg).",
+  " Materiales aislantes tienen $k$ pequeño. Reducir el espesor $L$ o aumentar la diferencia de temperaturas dispara linealmente la tasa de transferencia $q''$.": " Insulating materials have small $k$. Reducing the $L$ thickness or increasing the temperature difference linearly triggers the $q''$ transfer rate.",
+  " Mediante un prisma de vidrio en una habitación oscura, demostró que la luz blanca no es pura u homogénea, sino que está compuesta por una mezcla de rayos refractados en diferentes ángulos que corresponden a todo el espectro del arcoíris.": " Using a glass prism in a dark room, he demonstrated that white light is not pure or homogeneous, but is composed of a mixture of rays refracted at different angles that correspond to the entire spectrum of the rainbow.",
+  " Mediciones (Continuidad y Bernoulli)": " Measurements (Continuity and Bernoulli)",
+  " Motor Diesel (Gasóleo)\n                                    ": " Diesel Engine (Diesel)\n                                    ",
+  " Motor Otto (Gasolina)\n                                    ": " Otto Engine (Gasoline)\n                                    ",
+  " Multiplicidad o número de microestados (letra griega Omega mayúscula, no confundir con la unidad *Ohm*). Representa las diferentes formas en que las moléculas pueden distribuirse. Un gas mezclado tiene muchísimos más microestados posibles (alta multiplicidad $\\Omega$) y por tanto mayor entropía.": " Multiplicity or number of microstates (Greek capital letter Omega, not to be confused with the unit *Ohm*). It represents the different ways in which molecules can be distributed. A mixed gas has many more possible microstates (high multiplicity $\\Omega$) and therefore greater entropy.",
+  " Máquina de Newcomen (1712) — Cilindro Único": " Newcomen Engine (1712) — Single Cylinder",
+  " Máquina de Watt (1769) — Condensador Separado": " Watt's Engine (1769) — Separate Condenser",
+  " Métricas Globales": " Global Metrics",
+  " Newton escribió más de un millón de palabras sobre teología y alquimia, las cuales mantuvo ocultas durante su vida porque eran consideradas heréticas. Buscó incansablemente la Piedra Filosofal y la receta del elixir de la vida.": " Newton wrote more than a million words on theology and alchemy, which he kept hidden during his life because they were considered heretical. He tirelessly searched for the Philosopher's Stone and the recipe for the elixir of life.",
+  " Newton relató a su biógrafo William Stukeley que la idea de la gravedad le llegó contemplando la caída de una manzana en su jardín, preguntándose por qué la manzana siempre caía perpendicularmente a la tierra y no hacia un lado o hacia arriba.": " Newton told his biographer William Stukeley that the idea of ​​gravity came to him while watching an apple fall in his garden, wondering why the apple always fell perpendicular to the ground and not to the side or up.",
+  " Observa cómo se forman los vórtices alternados a sotavento del cilindro. Modifica los parámetros inferiores para ver la transición desde flujo laminar estacionario ($Re < 47$) hasta régimen plenamente oscilatorio.\n                                ": " Observe how the alternating vortices form in the lee of the cylinder. Modify the lower parameters to see the transition from steady laminar flow ($Re < 47$) to fully oscillatory regime.\n                                ",
+  " Observa la formación de plumas de convección y el desprendimiento de burbujas en el elemento calefactor horizontal.\n                                ": " Observe the formation of convection plumes and the release of bubbles on the horizontal heating element.\n                                ",
+  " Otto": " Otto",
+  " Parámetros\n                            ": " Parameters\n                            ",
+  " Parámetros Físicos": " Physical Parameters",
+  " Parámetros de Control": " Control Parameters",
+  " Parámetros de Transferencia y Fluido": " Transfer and Fluid Parameters",
+  " Parámetros de la Simulación": " Simulation Parameters",
+  " Parámetros del Ciclo": " Cycle Parameters",
+  " Parámetros del Fluido (Agua)": " Fluid Parameters (Water)",
+  " Pausar": " Pause",
+  " Pa·s": " Pa·s",
+  " Perfil de Temperatura $T(x)$": " Temperature Profile $T(x)$",
+  " Procesos de los Ciclos (Etapas Diferentes vs. Iguales):\n                            ": " Cycle Processes (Different vs. Same Stages):\n                            ",
+  " Propiedades Termofísicas Promedio": " Average Thermophysical Properties",
+  " Reiniciar": " Reboot",
+  " Reiniciar Partículas": " Reset Particles",
+  " Remover Tabique": " Remove Septum",
+  " Rendimiento y Presiones": " Performance and Pressures",
+  " Restaurar / Separar": " Restore/Detach",
+  " Resultados de la Simulación": " Simulation Results",
+  " Resultados del Ciclo": " Cycle Results",
+  " Se dice que su pequeño perro Diamond derribó una vela sobre su escritorio, quemando valiosos manuscritos que contenían años de trabajo sobre óptica. Newton sólo exclamó: ": " His little dog Diamond is said to have knocked over a candle on his desk, burning valuable manuscripts containing years of work on optics. Newton only exclaimed: ",
+  " Se han alcanzado condiciones de ebullición para el agua (T ≥ 100 °C). Se debe diseñar un evaporador para este propósito.\n                                    ": " Boiling conditions have been reached for water (T ≥ 100 °C). An evaporator must be designed for this purpose.\n                                    ",
+  " Sentido Antihorario (+)": " Counterclockwise (+)",
+  " Sentido Horario (-)": " Clockwise (-)",
+  " Si duplicas la distancia de la fuente, el calor que recibes no se reduce a la mitad, sino a ": " If you double the distance from the source, the heat you receive is not reduced by half, but by ",
+  " Si el material es mal conductor (bajo $k$) o la convección es muy alta (alto $h$), la temperatura caerá rapidísimo cerca de la base, indicando que hacer una aleta muy larga es un desperdicio de material.": " If the material is a poor conductor (low $k$) or the convection is very high (high $h$), the temperature will drop very quickly near the base, indicating that making a very long fin is a waste of material.",
+  " Significado físico de la constante de tiempo ($\\tau$):": " Physical meaning of time constant ($\\tau$):",
+  " Simular": " Simulate",
+  " Sir Isaac Newton (1642 - 1727)": " Sir Isaac Newton (1642 - 1727)",
+  " Soltar Pesas": " Drop Weights",
+  " Su primer termómetro utilizaba aceite de linaza. Para calibrar los puntos superiores de ebullición del hierro, cronometraba la solidificación de aleaciones de plomo y estaño.": " His first thermometer used linseed oil. To gauge the upper boiling points of iron, he timed the solidification of lead-tin alloys.",
+  " Subir Pesas (Rebobinar)": " Raise Weights (Rewind)",
+  " Tabla Comparativa de Escalas": " Comparative Table of Scales",
+  " Temp. Corporal": " Temp. Bodily",
+  " Temperatura absoluta (K).": " Absolute temperature (K).",
+  " Temperaturas de Salida Resultantes": " Resulting Outlet Temperatures",
+  " Temperaturas en Interfases": " Temperatures at Interfaces",
+  " Todo cuerpo persevera en su estado de reposo o movimiento uniforme y rectilíneo a no ser que sea obligado a cambiar su estado por fuerzas impresas sobre él.": " Every body perseveres in its state of rest or uniform and rectilinear motion unless it is forced to change its state by forces imposed on it.",
+  " Tubo de Venturi": " Venturi tube",
+  " Velocidad de la partícula (m/s).": " Particle speed (m/s).",
+  " Ver Curva de Ebullición (0 a 120 km)": " See Boiling Curve (0 to 120 km)",
+  " Verificación del Balance de Energía": " Energy Balance Verification",
+  " Vista de la Planta Hidráulica": " View of the Hydraulic Plant",
+  " Visualización de Regímenes de Ebullición": " Visualization of Boiling Regimes",
+  " W/(m·K)": " W/(m·K)",
+  " W/mK": " W/mK",
+  " W/m²": " W/m²",
+  " W/m²K": " W/m²K",
+  " W/m·K": " W/m·K",
+  " atm": " atm",
+  " cae a 0 mientras $\\eta \\to 100\\%$.\n                                    ": " drops to 0 while $\\eta \\to 100\\%$.\n                                    ",
+  " cm": " cm",
+  " con vapor (~100°C) para mover el émbolo hacia arriba. Luego se inyectaba agua fría para ": " with steam (~100°C) to move the plunger upwards. Cold water was then injected to ",
+  " debía calentarse con vapor y luego enfriarse con agua fría en cada ciclo para condensar el vapor y crear el vacío que movía el émbolo. Este proceso desperdiciaba enormes cantidades de energía.": " It had to be heated with steam and then cooled with cold water in each cycle to condense the steam and create the vacuum that moved the plunger. This process wasted enormous amounts of energy.",
+  " demostró que el calor es una forma de energía y que se conserva. Al dejar caer dos pesas de masa $m$ desde una altura $h$, la energía potencial gravitatoria se convierte en trabajo mecánico ($W = 2 m g h N$) al hacer girar paletas dentro de un calorímetro de agua térmicamente aislado.": " He showed that heat is a form of energy and that it is conserved. By dropping two weights of mass $m$ from a height $h$, the gravitational potential energy is converted to mechanical work ($W = 2 m g h N$) by rotating vanes inside a thermally insulated water calorimeter.",
+  " desde el inicio de cada ciclo.\n                                ": " from the beginning of each cycle.\n                                ",
+  " el vapor y crear el vacío que lo empujaba hacia abajo. En cada ciclo, el cilindro perdía toda su energía térmica acumulada. Aproximadamente ": " the steam and create the vacuum that pushed it down. In each cycle, the cylinder lost all of its accumulated thermal energy. Approximately ",
+  " en 1940 es el ejemplo histórico más célebre de fallas estructurales de ingeniería inducidas por resonancia aeroelástica y desprendimiento periódico de vórtices.\n                                        ": " in 1940 is the most famous historical example of engineering structural failure induced by aeroelastic resonance and periodic vortex shedding.\n                                        ",
+  " en comparación con la que usamos hoy en día, la cual fue invertida tras su muerte por Carl Linnaeus para mayor comodidad de uso.": " compared to the one we use today, which was reversed after his death by Carl Linnaeus for greater comfort of use.",
+  " en el universo. Su forma incompresible es:": " in the universe. Its incompressible form is:",
+  " es el punto donde un motor de Carnot ideal tendría eficiencia del 100%, y donde toda agitación molecular cetraría.\n                                    ": " It is the point where an ideal Carnot engine would have 100% efficiency, and where all molecular agitation would falter.\n                                    ",
+  " establece que los procesos naturales en sistemas aislados ocurren de manera irreversible en una dirección que maximiza el desorden. Rudolf Clausius definió matemáticamente la **Entropía ($S$)** para cuantificar este fenómeno:": " states that natural processes in isolated systems occur irreversibly in a direction that maximizes disorder. Rudolf Clausius mathematically defined **Entropy ($S$)** to quantify this phenomenon:",
+  " hacia el aire adyacente y ": " into the adjacent air and ",
+  " hacia los alrededores. Al actuar al mismo tiempo sobre la misma superficie, estos mecanismos se modelan como resistencias en ": " towards the surroundings. By acting at the same time on the same surface, these mechanisms are modeled as resistances in ",
+  " kJ": " kJ",
+  " kW": " kW",
+  " kW/m³": " kW/m³",
+  " kg": " kg",
+  " kg/m³": " kg/m³",
+  " kg/s": " kg/s",
+  " m/s": " m/s",
+  " ml/min": " ml/min",
+  " mm": " mm",
+  " moles": " moles",
+  " m²": " m²",
+  " m²/s": " m²/s",
+  " m²/s\n                                    ": " m²/s\n                                    ",
+  " para mostrar el comportamiento cualitativo alrededor del perfil.": " to show the qualitative behavior around the profile.",
+  " que se mantenía frío. Esto eliminó el desperdicio cíclico. Además añadió una camisa de vapor alrededor del cilindro y usó el efecto de doble efecto (vapor actuando en ambos lados del émbolo), multiplicando la potencia por ciclo.\n                                ": " that remained cold. This eliminated cyclical waste. He also added a steam jacket around the cylinder and used the double-acting effect (steam acting on both sides of the piston), multiplying the power per cycle.\n                                ",
+  " se fundamenta en la Ley de Charles para un gas ideal. A presión constante, el volumen de una masa fija de gas es directamente proporcional a su temperatura absoluta: $V \\propto T$.": " It is based on Charles' Law for an ideal gas. At constant pressure, the volume of a fixed mass of gas is directly proportional to its absolute temperature: $V \\propto T$.",
+  " y derivar el vapor a un ": " and divert the steam to a ",
+  " y es pilar fundamental de la ingeniería de transferencia de calor moderna.": " and is a fundamental pillar of modern heat transfer engineering.",
+  " °C": " °C",
+  " °C / ": " °C / ",
+  " Última actualización: 15 de julio de 2026, 6:30 PM - Mejoras en navegación de línea de tiempo y vista compacta de fichas": " Last updated: July 15, 2026, 6:30 PM - Improvements to timeline navigation and compact tab view",
+  " μm": " μm",
+  " — mantenía el cilindro siempre caliente y condensaba el vapor en una cámara auxiliar fría. Esto redujo el consumo de carbón en un ~75%.": " — kept the cylinder always hot and condensed the steam in a cold auxiliary chamber. This reduced coal consumption by ~75%.",
+  "$$ q = h A (T_s - T_\\infty) $$": "$$ q = h A (T_s - T_\\infty) $$",
+  "$$S = k_B \\ln \\Omega$$": "$$S = k_B \\ln \\Omega$$",
+  "$COP_R$": "$COP_R$",
+  "$C_p$ (Presión Constante):": "$C_p$ (Constant Pressure):",
+  "$C_v$ (Volumen Constante):": "$C_v$ (Constant Volume):",
+  "$S$:": "$S$:",
+  "$T$:": "$T$:",
+  "$T_L$ (°C)": "$T_L$ (°C)",
+  "$\\Omega$:": "$\\Omega$:",
+  "$\\epsilon$": "$\\epsilon$",
+  "$\\eta$ (%)": "$\\eta$ (%)",
+  "$\\tau$ Grande (Respuesta lenta):": "$\\tau$ Large (Slow response):",
+  "$\\tau$ Pequeño (Respuesta rápida):": "$\\tau$ Small (Quick Answer):",
+  "$f(v)$:": "$f(v)$:",
+  "$h_1$ Interior: ": "$h_1$ Inside: ",
+  "$h_2$ Exterior: ": "$h_2$ Exterior: ",
+  "$k_B$:": "$k_B$:",
+  "$m$:": "$m$:",
+  "$n = 0.3$ para enfriamiento (fluido caliente en tubo)": "$n = 0.3$ for cooling (hot fluid in tube)",
+  "$n = 0.4$ para calentamiento (fluido frío en anillo)": "$n = 0.4$ for heating (cold ring fluid)",
+  "$q_f$ (W)": "$q_f$ (W)",
+  "$v$:": "$v$:",
+  "(Pared a temperatura constante)": "(Wall at constant temperature)",
+  "(se actualizan con los controles)": "(updated with controls)",
+  "*Aporte de calor*": "*Heat contribution*",
+  "*Entrada de fluido*": "*Fluid inlet*",
+  "*Reducción de volumen*": "*Volume reduction*",
+  "+1.50 °C": "+1.50 °C",
+  ", Daniel Bernoulli estableció que, en un flujo de fluido ideal, incompresible e irrotacional, un aumento en la velocidad ocurre simultáneamente con una disminución en la presión estática. Este experimento (Tubo de Venturi) ilustra cómo al estrechar un conducto, la velocidad del fluido aumenta para conservar el caudal, provocando una caída de presión, evidenciada por la altura de las columnas de líquido (tubos piezométricos).": ", Daniel Bernoulli established that, in an ideal, incompressible, irrotational fluid flow, an increase in velocity occurs simultaneously with a decrease in static pressure. This experiment (Venturi Tube) illustrates how by narrowing a conduit, the fluid velocity increases to conserve flow, causing a pressure drop, evidenced by the height of the liquid columns (piezometric tubes).",
+  ", Profesor, Facultad de Ingeniería, Universidad de Antioquia.": ", Professor, Faculty of Engineering, University of Antioquia.",
+  ", donde $E = h\\nu$ ($h$ es la constante de Planck, y $\\nu$ la frecuencia). Esto resolvió la \"catástrofe ultravioleta\".": ", where $E = h\\nu$ ($h$ is Planck's constant, and $\\nu$ is the frequency). This solved the \"ultraviolet catastrophe.\"",
+  ", ideal cuando las temperaturas de entrada son conocidas.": ", ideal when inlet temperatures are known.",
+  ", mientras que la superficie libre se mantiene expuesta a una temperatura controlada $T_s$. Puedes también activar la **generación interna de calor ($q_g$)** para observar el perfil parabólico resultante.": ", while the free surface is kept exposed to a controlled temperature $T_s$. You can also activate **internal heat generation ($q_g$)** to observe the resulting parabolic profile.",
+  ", profesor de Transferencia de Calor y Masa, Dinámica de Fluidos Computacional y Diseños Térmicos. Departamento de Ingeniería Mecánica, Facultad de Ingeniería, Universidad de Antioquia.\n            ": ", professor of Heat and Mass Transfer, Computational Fluid Dynamics and Thermal Designs. Department of Mechanical Engineering, Faculty of Engineering, University of Antioquia.\n            ",
+  "-- Hz": "--Hz",
+  "-- J/cal": "-- J/cal",
+  "-- K": "--K",
+  "-- K/W": "--K/W",
+  "-- L/s": "--L/s",
+  "-- W/K": "--W/K",
+  "-- W/m²": "-- W/m²",
+  "-- W/m²K": "-- W/m²K",
+  "-- kJ": "-- kJ",
+  "-- kPa": "-- kPa",
+  "-- kW": "-- kW",
+  "-- kg/h": "-- kg/h",
+  "-- m/s": "-- m/s",
+  "-- mm": "--mm",
+  "-- s": "-- yes",
+  "-- °C": "-- °C",
+  "-r": "-r",
+  ". Este principio es crucial en astrofísica, el diseño de calentadores infrarrojos y la seguridad en hornos industriales.": ". This principle is crucial in astrophysics, the design of infrared heaters, and safety in industrial ovens.",
+  ". Kelvin definió esta temperatura límite de movimiento cinético nulo como el ": ". Kelvin defined this limiting temperature of zero kinetic motion as the ",
+  ". La escala original estaba ": ". The original scale was ",
+  "0 K = −273.15 °C": "0 K = −273.15 °C",
+  "0 kJ/K": "0 kJ/K",
+  "0 m/s": "0m/s",
+  "0.0 J": "0.0J",
+  "0.0 W": "0.0W",
+  "0.0 W/m": "0.0W/m",
+  "0.0 W/m²": "0.0 W/m²",
+  "0.0 W/m²K": "0.0 W/m²K",
+  "0.0 cal": "0.0 cal",
+  "0.0 m/s": "0.0m/s",
+  "0.0 s": "0.0s",
+  "0.0 °C": "0.0°C",
+  "0.00 K/W": "0.00K/W",
+  "0.00 L": "0.00L",
+  "0.00 W": "0.00W",
+  "0.00 W/K": "0.00 W/K",
+  "0.00 kW": "0.00 kW",
+  "0.00 kW/m²": "0.00 kW/m²",
+  "0.000 W": "0.000W",
+  "0.000 °C": "0.000°C",
+  "0.0000 m²K/W": "0.0000 m²K/W",
+  "0.0005 K/W": "0.0005K/W",
+  "0.00e+0": "0.00e+0",
+  "0.05 K/W": "0.05K/W",
+  "0.337 atm — Everest 8,849 m (punto más alto) → ebullición: 70.0 °C": "0.337 atm — Everest 8,849 m (highest point) → boiling: 70.0 °C",
+  "0.50 µm": "0.50µm",
+  "0.613 atm — Altiplano Tibetano 4,000 m → ebullición: 86.0 °C": "0.613 atm — Tibetan Plateau 4,000 m → boiling: 86.0 °C",
+  "0.757 atm — Bogotá 2,625 m → ebullición: 92.0 °C": "0.757 atm — Bogotá 2,625 m → boiling: 92.0 °C",
+  "0.775 atm — Quito / Ciudad de México ~2,240 m → ebullición: 93.0 °C": "0.775 atm — Quito / Mexico City ~2,240 m → boiling: 93.0 °C",
+  "0.836 atm — Medellín 1,495 m → ebullición: 94.5 °C": "0.836 atm — Medellín 1,495 m → boiling: 94.5 °C",
+  "1 Capa": "1 Layer",
+  "1. Admisión [Diferente]": "1. Admission [Different]",
+  "1. Calcular tasa de transferencia de calor (q)": "1. Calculate heat transfer rate (q)",
+  "1. Comparación a igual relación de compresión ($r$):": "1. Comparison to equal compression ratio ($r$):",
+  "1. Conservación de la Energía (Ecuación de Bernoulli):": "1. Conservation of Energy (Bernoulli Equation):",
+  "1. Ley de Fourier de la Conducción (1822)": "1. Fourier's Law of Heat Conduction (1822)",
+  "1. Régimen Laminar $(Re_d < 2300)$:": "1. Laminar Regime $(Re_d < 2300)$:",
+  "1.000 atm — Nivel del Mar → ebullición: 100.0 °C": "1,000 atm — Sea Level → boiling: 100.0 °C",
+  "1.051 atm — Mar Muerto −430 m (punto más bajo) → ebullición: 101.4 °C": "1,051 atm — Dead Sea −430 m (lowest point) → boiling: 101.4 °C",
+  "1.5e-5": "1.5e-5",
+  "10 Capas": "10 Layers",
+  "10 capas personalizables": "10 customizable layers",
+  "10. Concepto de Capa Límite de Ludwig Prandtl (1904)": "10. Ludwig Prandtl's Boundary Layer Concept (1904)",
+  "100 km/h (27.8 m/s, Re = 9.3×10⁵, M = 0.08)": "100 km/h (27.8 m/s, Re = 9.3×10⁵, M = 0.08)",
+  "11. Analogías de Transporte y Desarrollo de Capas Límite": "11. Transport Analogies and Boundary Layer Development",
+  "12. Número de Nusselt: Conducción vs Convección": "12. Nusselt Number: Conduction vs Convection",
+  "13. Convección Natural sobre un Cilindro Horizontal": "13. Natural Convection on a Horizontal Cylinder",
+  "14. Superficies Extendidas (Aletas de Enfriamiento)": "14. Extended Surfaces (Cooling Fins)",
+  "14.00 m/s": "14.00 m/s",
+  "15. Conducción Unidimensional con Generación Interna": "15. One-Dimensional Conduction with Internal Generation",
+  "15000 W/m²K": "15000 W/m²K",
+  "16. Conducción y Convección Combinadas (Frontera Mixta)": "16. Combined Conduction and Convection (Mixed Frontier)",
+  "160.0 μm": "160.0μm",
+  "164.00 kW": "164.00 kW",
+  "17. Factor de Forma en Radiación (Leyes de Intercambio Radiante)": "17. Form Factor in Radiation (Laws of Radiant Exchange)",
+  "18. Disipador de Microcanales (Enfriamiento de Microchips)": "18. Microchannel Heatsink (Microchip Cooling)",
+  "19. Conducción en Pared Multicapa (3 Capas en Serie)": "19. Multilayer Wall Conduction (3 Layers in Series)",
+  "19.89 W/m²": "19.89 W/m²",
+  "1·Inicial": "1·Initial",
+  "2 Capas": "2 Layers",
+  "2. Calcular Temperatura de la pared 2 (T₂)": "2. Calculate Wall 2 Temperature (T₂)",
+  "2. Comparación en diseño real práctico (Diesel > Otto):": "2. Comparison in practical real design (Diesel > Otto):",
+  "2. Compresión [Diferente]": "2. Compression [Different]",
+  "2. Conservación de la Masa (Efecto Venturi):": "2. Conservation of Mass (Venturi Effect):",
+  "2. Ley de Radiación de Max Planck (1900)": "2. Max Planck's Radiation Law (1900)",
+  "2. Régimen de Transición $(2300 \\le Re_d < 10000)$:": "2. Transition Regime $(2300 \\le Re_d < 10000)$:",
+  "20. Resistencias Térmicas en Paralelo (Convección y Radiación)": "20. Parallel Thermal Resistances (Convection and Radiation)",
+  "20.00 °C": "20.00 °C",
+  "20.02 °C": "20.02 °C",
+  "21. Pared Compuesta y Analogía de Resistencias Térmicas": "21. Composite Wall and Thermal Resistance Analogy",
+  "21.50 °C": "21.50 °C",
+  "22. Intercambiador de Calor de Doble Tubo": "22. Double Tube Heat Exchanger",
+  "23. Calle de Vórtices de Von Kármán": "23. Von Kármán Vortex Street",
+  "24. Curva de Nukiyama y Regímenes de Ebullición": "24. Nukiyama Curve and Boiling Regimes",
+  "25. Conducción Térmica Transitoria (Heisler y Biot)": "25. Transient Thermal Conduction (Heisler and Biot)",
+  "25.0 °C (Moderna)": "25.0 °C (Modern)",
+  "26. Placa Plana con Superficie Aislada (Circuito Adiabático)": "26. Flat Plate with Insulated Surface (Adiabatic Circuit)",
+  "27. Conducción Multicapa con Condiciones de Frontera Generales": "27. Multilayer Conduction with General Boundary Conditions",
+  "270.0 °C": "270.0 °C",
+  "273.15 K": "273.15K",
+  "28. El Motor de Carnot — Ciclo de Eficiencia Máxima (1824)": "28. The Carnot Engine — Maximum Efficiency Cycle (1824)",
+  "282.5 °C": "282.5°C",
+  "28b. Newcomen vs. Watt — El Problema del Ciclo Térmico (1712 vs. 1769)": "28b. Newcomen vs. Watt — The Problem of the Thermal Cycle (1712 vs. 1769)",
+  "2·Comprimido": "2·Compressed",
+  "3 Capas": "3 Layers",
+  "3. Cantidad de Movimiento y Fuerza de Impacto:": "3. Momentum of Movement and Impact Force:",
+  "3. Combustión [Diferente]": "3. Combustion [Different]",
+  "3. Ley de la Inversa del Cuadrado (Atenuación por Distancia)": "3. Inverse Square Law (Distance Attenuation)",
+  "3. Régimen Turbulento $(Re_d \\ge 10000)$:": "3. Turbulent Regime $(Re_d \\ge 10000)$:",
+  "3/4 del calor generado se usaba en recalentar el cilindro": "3/4 of the heat generated was used to reheat the cylinder",
+  "3b. Anders Celsius: Calibración Termométrica y la Escala de Temperatura (1742)": "3b. Anders Celsius: Thermometric Calibration and the Temperature Scale (1742)",
+  "3·Combustión": "3 Combustion",
+  "4 Capas": "4 Layers",
+  "4. Experimento de Enfriamiento de Newton (1701)": "4. Newton's Cooling Experiment (1701)",
+  "4. Fuerza (Igual para ambos ciclos)": "4. Strength (Same for both cycles)",
+  "43.10 kW": "43.10 kW",
+  "439.82 kg/s": "439.82 kg/s",
+  "45.2 °C": "45.2°C",
+  "4b. Navier y Stokes: Ecuaciones del Flujo Viscoso y Perfil Alar (1822–1845)": "4b. Navier and Stokes: Viscous Flow and Wing Profile Equations (1822–1845)",
+  "4·Expandido": "4 Expanded",
+  "5 Capas": "5 Layers",
+  "5. Escape (Igual para ambos ciclos)": "5. Exhaust (Same for both cycles)",
+  "5. Experimento de Herschel: Descubrimiento del Infrarrojo (1800)": "5. Herschel Experiment: Discovery of Infrared (1800)",
+  "500.0 °C": "500.0 °C",
+  "6 Capas": "6 Layers",
+  "6. El Equivalente Mecánico del Calor (Joule, 1843)": "6. The Mechanical Equivalent of Heat (Joule, 1843)",
+  "6.16 kN": "6.16kN",
+  "64.16 MW/m²": "64.16 MW/m²",
+  "7 Capas": "7 Layers",
+  "7. Escala Absoluta Kelvin y Cero Absoluto": "7. Kelvin Absolute Scale and Absolute Zero",
+  "8 Capas": "8 Layers",
+  "8. Rudolf Clausius: Entropía y Segunda Ley de la Termodinámica (1850)": "8. Rudolf Clausius: Entropy and Second Law of Thermodynamics (1850)",
+  "9 Capas": "9 Layers",
+  "9. Capacidades Caloríficas $C_p$ y $C_v$ (Significado Físico)": "9. Heat Capacities $C_p$ and $C_v$ (Physical Meaning)",
+  "9. Experimento de Osborne Reynolds (1883)": "9. Osborne Reynolds experiment (1883)",
+  ": 0 K inalcanzable (3ª Ley)": ": 0 K unattainable (3rd Law)",
+  ": Ciclo reversible ideal": ": Ideal reversible cycle",
+  ": Escala termodinámica absoluta": ": Absolute thermodynamic scale",
+  ": Récord: ~38 picokelvin (MIT, 2003)": ": Record: ~38 picokelvin (MIT, 2003)",
+  ": es imposible alcanzar el cero absoluto mediante un número finito de procesos, porque a medida que $T_C \\to 0$:\n                                    ": ": it is impossible to reach absolute zero through a finite number of processes, because as $T_C \\to 0$:\n                                    ",
+  ": lleva $T_C$ al mínimo en el slider y observa cómo el COP": ": set $T_C$ to minimum in the slider and watch how the COP",
+  "Aceite de Linaza (h = 300 W/m²K)": "Linseed Oil (h = 300 W/m²K)",
+  "Admisión": "Admission",
+  "Agua (Líquida)": "Water (Liquid)",
+  "Agua (h = 1000 W/m²K)": "Water (h = 1000 W/m²K)",
+  "Agua Líquida": "Liquid Water",
+  "Agua a 1 atm (T_sat = 100 °C)": "Water at 1 atm (T_sat = 100 °C)",
+  "Ahorro de carbón Watt:": "Coal Saving Watt:",
+  "Aire (Diatómico - Cp/Cv = 1.40)": "Air (Diatomic - Cp/Cv = 1.40)",
+  "Aire (Gas Real)": "Air (Real Gas)",
+  "Aire Forzado (h = 70 W/m²K)": "Forced Air (h = 70 W/m²K)",
+  "Aire Quieto (h = 15 W/m²K)": "Still Air (h = 15 W/m²K)",
+  "Aislada": "isolated",
+  "Aislada:": "Isolated:",
+  "Alerta de Fase:": "Phase Alert:",
+  "Aletas (Superficies Extendidas)": "Fins (Extended Surfaces)",
+  "Alta (200×100 - Fina)": "High (200×100 - Fine)",
+  "Altura de caída $(h)$: ": "Drop height $(h)$: ",
+  "Altura del Tanque (H): ": "Tank Height (H): ",
+  "Amarillo": "Yellow",
+  "Amarillo (Visible)": "Yellow (Visible)",
+  "Ancho de Canal ($w_c$): ": "Channel Width ($w_c$): ",
+  "Ancho del plato $W$: ": "Plate width $W$: ",
+  "Anders Celsius propuso en 1742 una escala de temperatura centígrada basada en dos puntos fijos del agua a presión estándar:": "Anders Celsius proposed in 1742 a Celsius temperature scale based on two fixed points of water at standard pressure:",
+  "Andrés Colorado": "Andrés Colorado",
+  "Animación de Partículas en Flujo (Desarrollo de Capa Límite)": "Animation of Particles in Flow (Boundary Layer Development)",
+  "Animación de Pluma Térmica (Corrientes de Flotación)": "Thermal Plume Animation (Float Currents)",
+  "Animar": "Encourage",
+  "Análisis:": "Analysis:",
+  "Anécdotas y Alquimia": "Anecdotes and Alchemy",
+  "Aparato de Joule y Agitación de Paletas": "Joule Apparatus and Paddle Stirring",
+  "Aparato Óptico y Termómetros de Herschel (Mueve el termómetro activo con el deslizador)": "Optical Apparatus and Herschel Thermometers (Move the active thermometer with the slider)",
+  "Aplicaciones": "Applications",
+  "Argón (Ar - Monoatómico - Cp/Cv = 1.67)": "Argon (Ar - Monatomic - Cp/Cv = 1.67)",
+  "Arreglo del Flujo:": "Flow Arrangement:",
+  "Baja (60×30 - Coarse)": "Low (60×30 - Coarse)",
+  "Balance de Energía (1 kg)": "Energy Balance (1 kg)",
+  "Balance de Energía en la Superficie Derecha ($T_s$)": "Energy Balance on the Right Surface ($T_s$)",
+  "Brayton ≈ 35–45%": "Brayton ≈ 35–45%",
+  "COP Bomba de Calor: ": "COP Heat Pump: ",
+  "COP Refrigerador": "COP Refrigerator",
+  "Caja de Clausius (Mezcla Térmica e Irreversibilidad)": "Clausius Box (Thermal Mixing and Irreversibility)",
+  "Calibración de Celsius (1742)": "Celsius Calibration (1742)",
+  "Caliente": "Hot",
+  "Calor Absorbido $(Q_H)$: ": "Heat Absorbed $(Q_H)$: ",
+  "Calor Desperdiciado": "Wasted Heat",
+  "Calor Específico $(c_p)$: ": "Specific Heat $(c_p)$: ",
+  "Calor Ganado (Frío) $(Q_c)$:": "Heat Gained (Cold) $(Q_c)$:",
+  "Calor Perdido (Caliente) $(Q_h)$:": "Lost Heat (Hot) $(Q_h)$:",
+  "Calor Rechazado": "Rejected Heat",
+  "Calor Suministrado ($Q_p$):": "Heat Supplied ($Q_p$):",
+  "Calor Suministrado ($Q_v$):": "Heat Supplied ($Q_v$):",
+  "Calor Transferido $(Q)$": "Heat Transfer $(Q)$",
+  "Calor esp. $(c_p)$:": "Heat esp. $(c_p)$:",
+  "Calor generado ($Q$):": "Heat generated ($Q$):",
+  "Canal Externo (Anillo - Frío)": "External Channel (Ring - Cold)",
+  "Canal Interno (Tubo - Caliente)": "Internal Channel (Tube - Hot)",
+  "Cantidad de Gas $(n)$: ": "Gas Amount $(n)$: ",
+  "Cap. Térmica $(C_c)$:": "Chap. Thermal $(C_c)$:",
+  "Cap. Térmica $(C_h)$:": "Chap. Thermal $(C_h)$:",
+  "Capacidades Caloríficas Cp y Cv (1842)": "Heat Capacities Cp and Cv (1842)",
+  "Carnot 1824": "Carnot 1824",
+  "Casquete Cilíndrico (Radial)": "Cylindrical Cap (Radial)",
+  "Casquete Cilíndrico:": "Cylindrical Cap:",
+  "Casquete Esférico (Radial)": "Spherical Cap (Radial)",
+  "Casquete Esférico:": "Spherical Cap:",
+  "Caudal ($Q$):": "Flow rate ($Q$):",
+  "Caudal ($V'$): ": "Flow rate ($V'$): ",
+  "Caudal Másico (ṁ):": "Mass Flow Rate (ṁ):",
+  "Celsius M.": "Celsius M.",
+  "Celsius Moderna (Congelación 0°, Ebullición 100°)": "Modern Celsius (Freezing 0°, Boiling 100°)",
+  "Celsius O.": "Celsius O.",
+  "Celsius Original (1742) (Ebullición 0°, Congelación 100°)": "Celsius Original (1742) (Boiling 0°, Freezing 100°)",
+  "Churchill y Chu": "Churchill and Chu",
+  "Ciclo Otto ≈ 40–50%": "Otto cycle ≈ 40–50%",
+  "Ciclo de Carnot": "Carnot cycle",
+  "Ciclos Otto vs. Diesel (1876-1892)": "Otto Cycles vs. Diesel (1876-1892)",
+  "Ciencias Térmicas": "Thermal Sciences",
+  "Cilindro Infinito (Diámetro = $2L$)": "Infinite Cylinder (Diameter = $2L$)",
+  "Cilindro Largo": "Long Cylinder",
+  "Cinética (½ρv²)": "Kinetics (½ρv²)",
+  "Circuitos Térmicos": "Thermal Circuits",
+  "Claude-Louis Navier (1822) y George Gabriel Stokes (1845) formularon las ecuaciones vectoriales que gobiernan el movimiento de ": "Claude-Louis Navier (1822) and George Gabriel Stokes (1845) formulated the vector equations that govern the motion of ",
+  "Cobre (k = 401 W/mK)": "Copper (k = 401 W/mK)",
+  "Cobre (k = 401 W/m·K)": "Copper (k = 401 W/m K)",
+  "Coef. Arrastre ($C_D$):": "Coef. Drag ($C_D$):",
+  "Coef. Convección $(h)$: ": "Coef. $(h)$ convection: ",
+  "Coef. Convección $(h_i)$:": "Coef. $(h_i)$ convection:",
+  "Coef. Convección $(h_o)$:": "Coef. $(h_o)$ convection:",
+  "Coef. Convección $h$: ": "Coef. $h$ convection: ",
+  "Coef. Convección (h): ": "Coef. Convection (h): ",
+  "Coef. Convección Der. $(h_2)$: ": "Coef. Right convection $(h_2)$: ",
+  "Coef. Convección Izq. $(h_1)$: ": "Coef. Left Convection $(h_1)$: ",
+  "Coef. Sustentación ($C_L$):": "Coef. Sustainability ($C_L$):",
+  "Coef. de Arrastre est. $(C_d)$:": "Coef. Drag est. $(C_d)$:",
+  "Coef. de Convección $(h)$: ": "Coef. Convection $(h)$: ",
+  "Coef. de Transf. de Calor (h)": "Coef. of Transfer. Heat (h)",
+  "Coeff. de Convección ($h$):": "Coeff. Convection ($h$):",
+  "Coeficiente Convectivo $(h)$:": "Convective Coefficient $(h)$:",
+  "Coeficiente Global $(UA)$": "Global Coefficient $(UA)$",
+  "Coeficiente local $h$:": "Local coefficient $h$:",
+  "Color / Región del Espectro:": "Color/Spectrum Region:",
+  "Combinado (Conv + Rad)": "Combined (Conv + Rad)",
+  "Combinado (Convección + Radiación):": "Combined (Convection + Radiation):",
+  "Comportamiento del Flujo:": "Flow Behavior:",
+  "Comportamiento:": "Behavior:",
+  "Cond. + Conv.": "Cond. + Conv.",
+  "Condiciones de Convección (Fluidos)": "Convection Conditions (Fluids)",
+  "Condición": "Condition",
+  "Conducción": "Conduction",
+  "Conducción Transitoria (Heisler, 1947)": "Transient Conduction (Heisler, 1947)",
+  "Conductividad $(k)$:": "Conductivity $(k)$:",
+  "Conductividad $(k)$: ": "Conductivity $(k)$: ",
+  "Conductividad $k_1$: ": "Conductivity $k_1$: ",
+  "Conductividad $k_2$: ": "Conductivity $k_2$: ",
+  "Conductividad $k_3$: ": "Conductivity $k_3$: ",
+  "Conductividad Capa 1 $(k_1)$: ": "Conductivity Layer 1 $(k_1)$: ",
+  "Conductividad Capa 2 $(k_2)$: ": "Conductivity Layer 2 $(k_2)$: ",
+  "Conductividad Capa 3 $(k_3)$: ": "Conductivity Layer 3 $(k_3)$: ",
+  "Conductividad Fluido $(k)$: ": "Fluid Conductivity $(k)$: ",
+  "Conductividad Pared $(k)$: ": "Wall Conductivity $(k)$: ",
+  "Conductividad Sólido $(k)$: ": "Solid Conductivity $(k)$: ",
+  "Conductividad Térmica (k): ": "Thermal Conductivity (k): ",
+  "Conductividad del Material $(k)$: ": "Conductivity of Material $(k)$: ",
+  "Constante de Tiempo $(\\tau)$:": "Time Constant $(\\tau)$:",
+  "Consumo Carbón": "Coal Consumption",
+  "Contraflujo (Recomendado)": "Counterflow (Recommended)",
+  "Controles y Resultados Aerodinámicos": "Aerodynamic Controls and Results",
+  "Convección": "Convection",
+  "Convección Forzada (Nusselt, 1915)": "Forced Convection (Nusselt, 1915)",
+  "Convección Natural": "Natural Convection",
+  "Convección Natural (Cilindro)": "Natural Convection (Cylinder)",
+  "Convección:": "Convection:",
+  "Crecimiento del perfil:": "Profile growth:",
+  "Curva de Nukiyama (Ebullición, 1934)": "Nukiyama Curve (Boiling, 1934)",
+  "Cálculo Diferencial e Integral (Las Fluxiones)": "Differential and Integral Calculus (Fluxions)",
+  "Cálculo Infinitesimal": "Infinitesimal Calculus",
+  "Cámara de Fase del Agua": "Water Phase Chamber",
+  "Densidad $(\\rho)$:": "$(\\rho)$ density:",
+  "Densidad $(\\rho)$: ": "$(\\rho)$ density: ",
+  "Desarrollo Capa Límite": "Boundary Layer Development",
+  "Descomposición Prismática (1666):": "Prismatic Decomposition (1666):",
+  "Desglose Térmico y Curva de Entropía": "Thermal Breakdown and Entropy Curve",
+  "Diesel": "Diesel",
+  "Diesel:": "Diesel:",
+  "Diferencia Máxima del Balance:": "Maximum Balance Difference:",
+  "Diferencia al Equilibrio (ΔTeq)": "Difference to Equilibrium (ΔTeq)",
+  "Diferencia de Elevación $(z_1 - z_2)$: ": "Elevation Difference $(z_1 - z_2)$: ",
+  "Diferencial de Temperatura ($\\Delta T$):": "Temperature Differential ($\\Delta T$):",
+  "Difusividad Térmica $(\\alpha)$": "Thermal Diffusivity $(\\alpha)$",
+  "Dimensión Característica (D o 2L): ": "Characteristic Dimension (D or 2L): ",
+  "Dinámica (½ρv²)": "Dynamics (½ρv²)",
+  "Diseñado para propósitos educativos por ": "Designed for educational purposes by ",
+  "Disipador de Microcanales (1981)": "Microchannel Heatsink (1981)",
+  "Distancia de separación $D$: ": "Separation distance $D$: ",
+  "Distancia del objetivo $(r)$:": "Target distance $(r)$:",
+  "Distancia desde el borde de ataque $(x)$: ": "Distance from leading edge $(x)$: ",
+  "Distribución de Energía:": "Power Distribution:",
+  "Dittus-Boelter": "Dittus-Boelter",
+  "Diám. Interno $(D_i)$: ": "Internal Dia. $(D_i)$: ",
+  "Diámetro Cilindro $(D)$: ": "Cylinder Diameter $(D)$: ",
+  "Diámetro Estrechamiento $(D_2)$: ": "Taper Diameter $(D_2)$: ",
+  "Diámetro Garganta Venturi (D2): ": "Venturi Throat Diameter (D2): ",
+  "Diámetro Hidráulico $(D_h)$: ": "Hydraulic Diameter $(D_h)$: ",
+  "Diámetro Hidráulico ($D_h$):": "Hydraulic Diameter ($D_h$):",
+  "Diámetro Principal $(D_1)$: ": "Main Diameter $(D_1)$: ",
+  "Diámetro Tubería Principal (D1): ": "Main Pipe Diameter (D1): ",
+  "Diámetro de la aleta $(D)$: ": "Fin diameter $(D)$: ",
+  "Diámetro del Cilindro $(D)$: ": "Cylinder Diameter $(D)$: ",
+  "Dióxido de Carbono (CO₂ - Triatómico - Cp/Cv = 1.29)": "Carbon Dioxide (CO₂ - Triatomic - Cp/Cv = 1.29)",
+  "Dudas, inquietudes o correcciones:": "Doubts, concerns or corrections:",
+  "Durante la gran plaga de Londres (1665-1666), Newton se refugió en su granja familiar y desarrolló de forma independiente el **Cálculo Infinitesimal** (al que llamó \"método de las fluxiones\"). Este descubrimiento le permitió formular derivadas e integrales para calcular tasas de cambio instantáneas y áreas bajo curvas, sentando la base matemática para toda la física e ingeniería moderna.": "During the Great Plague of London (1665-1666), Newton took refuge on his family farm and independently developed the **Infinitesimal Calculus** (which he called the \"method of fluxions\"). This discovery allowed him to formulate derivatives and integrals to calculate instantaneous rates of change and areas under curves, laying the mathematical foundation for all of modern physics and engineering.",
+  "Ebullición Nucleada": "Nucleated boiling",
+  "Efectividad $(\\epsilon)$": "Effectiveness $(\\epsilon)$",
+  "Efecto Balístico de Fonones:": "Ballistic Phonon Effect:",
+  "Efecto Geométrico:": "Geometric Effect:",
+  "Efectos Balísticos de Fonones (Transporte a Nanoescala)": "Ballistic Phonon Effects (Nanoscale Transport)",
+  "Eficiencia Carnot límite:": "Limit Carnot efficiency:",
+  "Eficiencia Máxima": "Maximum Efficiency",
+  "Eficiencia Térmica": "Thermal Efficiency",
+  "Eficiencia de Carnot vs. Ciclos Reales Típicos": "Carnot efficiency vs. Typical Royal Cycles",
+  "Eficiencia η": "η efficiency",
+  "El Aceite de Linaza:": "Linseed Oil:",
+  "El Alquimista Secreto:": "The Secret Alchemist:",
+  "El Ciclo de Carnot y el Descubrimiento del Cero Absoluto": "The Carnot Cycle and the Discovery of Absolute Zero",
+  "El Perro Diamond:": "Diamond the Dog:",
+  "El experimento histórico de ": "The historical experiment of ",
+  "El método $\\epsilon$-NTU se basa en la definición de la efectividad de la transferencia de calor:": "The $\\epsilon$-NTU method is based on the definition of the effectiveness of heat transfer:",
+  "El punto de ebullición del agua (fijado originalmente en $0^\\circ$)": "The boiling point of water (originally set to $0^\\circ$)",
+  "Emisividad $\\epsilon$: ": "Emissivity $\\epsilon$: ",
+  "En 1712, Thomas Newcomen construyó la primera máquina de vapor práctica. Su fallo fundamental era que el ": "In 1712, Thomas Newcomen built the first practical steam engine. Its fundamental flaw was that the ",
+  "En 1765, James Watt identificó el problema: el cilindro se encontraba siempre demasiado frío para el vapor o demasiado caliente para la condensación. Su solución — el ": "In 1765, James Watt identified the problem: the cylinder was always too cold for steam or too hot for condensation. Your solution — the ",
+  "En 1800, Sir William Herschel buscaba una manera de filtrar la intensa luz solar para observaciones astronómicas. Al pasar la luz por un prisma para separarla en los colores del arcoíris, colocó termómetros con bulbos oscurecidos en cada color. Al situar un termómetro más allá del color rojo (donde no había luz visible), descubrió para su sorpresa que la temperatura aumentaba aún más, revelando la existencia de la radiación infrarroja, a la que llamó \"rayos caloríficos\".": "In 1800, Sir William Herschel was looking for a way to filter intense sunlight for astronomical observations. Passing the light through a prism to separate it into the colors of the rainbow, he placed thermometers with darkened bulbs in each color. By placing a thermometer beyond the color red (where there was no visible light), he discovered to his surprise that the temperature increased even more, revealing the existence of infrared radiation, which he called \"heat rays.\"",
+  "En el estudio de transferencia de calor y masa, las capas límite de velocidad ($\\delta$), térmica ($\\delta_t$) y de concentración ($\\delta_c$) describen cómo se desarrollan los perfiles desde la pared.": "In the study of heat and mass transfer, the velocity ($\\delta$), thermal ($\\delta_t$), and concentration ($\\delta_c$) boundary layers describe how the profiles develop from the wall.",
+  "En este ejemplo clásico de una pared plana compuesta de 3 capas expuesta a fluidos en convección a ambos lados, el circuito consiste en 5 resistencias en serie. Modifica las propiedades para ver cómo afectan el perfil de temperatura y la resistencia total. ": "In this classic example of a 3-layer composite flat wall exposed to convecting fluids on both sides, the circuit consists of 5 resistors in series. Modify the properties to see how they affect the temperature profile and total resistance. ",
+  "En la práctica real, los motores Otto de gasolina están limitados a $r \\approx 8-11$ para evitar la detonación prematura (golpeteo). Los motores Diesel, al comprimir aire puro, operan con relaciones de compresión muy superiores ($r \\approx 16-22$). Gracias a este enorme incremento en la compresión física, **los motores Diesel reales obtienen una eficiencia sustancialmente mayor**.": "In real practice, gasoline Otto engines are limited to $r \\approx 8-11$ to prevent premature detonation (knock). Diesel engines, when compressing pure air, operate with much higher compression ratios ($r \\approx 16-22$). Thanks to this enormous increase in physical compression, **real Diesel engines obtain substantially greater efficiency**.",
+  "En problemas reales de transferencia de calor, la frontera expuesta al exterior suele perder calor mediante dos mecanismos simultáneos e independientes: ": "In real heat transfer problems, the boundary exposed to the outside usually loses heat through two simultaneous and independent mechanisms: ",
+  "En su libro ": "in his book ",
+  "En su obra ": "In his work ",
+  "En. Interna Final del agua ($U_f$):": "In. Internal Final water ($U_f$):",
+  "En. Interna Inicial del agua ($U_i$):": "In. Initial internal water ($U_i$):",
+  "Energía Potencial por caída ($E_p$):": "Potential Energy per fall ($E_p$):",
+  "Enfriamiento de Newton (1701)": "Newton's cooling (1701)",
+  "Entrada (1)": "Entry (1)",
+  "Entropía Estadística:": "Statistical Entropy:",
+  "Entropía Generada: ": "Generated Entropy: ",
+  "Entropía y Segunda Ley (Clausius, 1850)": "Entropy and Second Law (Clausius, 1850)",
+  "Equivalente hallado ($J$):": "Found equivalent ($J$):",
+  "Escala Activa:": "Active Scale:",
+  "Escala Estelar (x1,000)": "Star Scale (x1,000)",
+  "Escala Extrema (x100,000)": "Extreme Scale (x100,000)",
+  "Escala Kelvin (Cero Absoluto, 1848)": "Kelvin Scale (Absolute Zero, 1848)",
+  "Escala Normal (x1)": "Normal Scale (x1)",
+  "Esfera": "Sphere",
+  "Esfera (Diámetro = $2L$)": "Sphere (Diameter = $2L$)",
+  "Específica": "Specific",
+  "Espesor $(L_c)$: ": "$(L_c)$ thickness: ",
+  "Espesor $L_1$: ": "$L_1$ thickness: ",
+  "Espesor $L_2$: ": "$L_2$ thickness: ",
+  "Espesor $L_3$: ": "$L_3$ thickness: ",
+  "Espesor (L = r": "Thickness (L = r",
+  "Espesor (L): ": "Thickness (L): ",
+  "Espesor Capa 1 $(L_1)$: ": "Layer 1 Thickness $(L_1)$: ",
+  "Espesor Capa 2 $(L_2)$: ": "Layer 2 Thickness $(L_2)$: ",
+  "Espesor Capa 3 $(L_3)$: ": "Layer 3 Thickness $(L_3)$: ",
+  "Espesor Capa Masa $(\\delta_c)$:": "Layer Thickness Mass $(\\delta_c)$:",
+  "Espesor Capa Térmica $(\\delta_t)$:": "Thermal Layer Thickness $(\\delta_t)$:",
+  "Espesor Pared $(L)$: ": "Wall Thickness $(L)$: ",
+  "Espesor Pared $(t)$: ": "Wall Thickness $(t)$: ",
+  "Espesor Placa $(L)$: ": "Plate Thickness $(L)$: ",
+  "Espesor Total $(w = 2L)$: ": "Total Thickness $(w = 2L)$: ",
+  "Esquema de Corte": "Cutting Scheme",
+  "Esta expresión demostró matemáticamente las órbitas elípticas de los planetas, la explicación de las mareas por la atracción solar y lunar, y el comportamiento de los cometas, transformando el paradigma científico de la humanidad.": "This expression mathematically demonstrated the elliptical orbits of the planets, the explanation of tides by solar and lunar attraction, and the behavior of comets, transforming the scientific paradigm of humanity.",
+  "Esta simple ecuación dio origen al estudio cuantitativo de la ": "This simple equation gave rise to the quantitative study of the ",
+  "Esta simulación acopla tres conceptos físicos fundamentales de la mecánica de fluidos:": "This simulation couples three fundamental physical concepts of fluid mechanics:",
+  "Esta simulación interactiva ilustra el desprendimiento periódico de vórtices alternantes detrás de un cilindro en un flujo uniforme, fenómeno caracterizado por Theodore von Kármán. La frecuencia de desprendimiento y la estabilidad del flujo dependen fuertemente del número de Reynolds.": "This interactive simulation illustrates the periodic shedding of alternating vortices behind a cylinder in uniform flow, a phenomenon characterized by Theodore von Kármán. The shedding frequency and flow stability depend strongly on the Reynolds number.",
+  "Esta simulación interactiva presenta el calentamiento o enfriamiento transitorio unidimensional de un sólido geométrico sumergido en un fluido con convección. Permite estudiar la validez del método de capacitancia global (Biot < 0.1) y el surgimiento de gradientes térmicos espaciales utilizando modelos numéricos en diferencias finitas en tiempo real.": "This interactive simulation presents the one-dimensional transient heating or cooling of a geometric solid immersed in a fluid with convection. It allows studying the validity of the global capacitance method (Biot < 0.1) and the emergence of spatial thermal gradients using numerical models in finite differences in real time.",
+  "Esta simulación modela la transferencia de calor unidimensional en una placa plana (pared) de espesor $L$ y conductividad $k$. Una de sus superficies está ": "This simulation models one-dimensional heat transfer in a flat plate (wall) of thickness $L$ and conductivity $k$. One of its surfaces is ",
+  "Estabilidad (Residual $L_2$):": "Stability (Residual $L_2$):",
+  "Estado": "State",
+  "Estado Estacionario": "Steady State",
+  "Este laboratorio interactivo modela la transferencia de calor por conducción en estado estable a través de una placa plana (pared) compuesta de hasta ": "This interactive lab models steady-state conductive heat transfer through a flat plate (wall) composed of up to ",
+  "Esto desencadenó una disputa histórica de prioridad con el matemático alemán Gottfried Leibniz, quien desarrolló un cálculo similar con la notación moderna $\\int$ y $d/dx$ que usamos hoy.": "This triggered a historical priority dispute with German mathematician Gottfried Leibniz, who developed a similar calculus with the modern $\\int$ and $d/dx$ notation that we use today.",
+  "Estática (P)": "Static (P)",
+  "Etanol a 1 atm (T_sat = 78 °C)": "Ethanol at 1 atm (T_sat = 78 °C)",
+  "Etapa: ": "Stage: ",
+  "Experimento de Herschel (1800)": "Herschel experiment (1800)",
+  "Experimento de Joule (1843)": "Joule experiment (1843)",
+  "Experimento de Reynolds (1883)": "Reynolds experiment (1883)",
+  "Explora los descubrimientos y conceptos fundamentales que dieron forma a esta disciplina, acompañados de simulaciones interactivas en tiempo real.": "Explore the fundamental discoveries and concepts that shaped this discipline, accompanied by real-time interactive simulations.",
+  "Factor de Forma": "Form Factor",
+  "Factor de mejora (η):": "Improvement factor (η):",
+  "Fahrenheit": "Fahrenheit",
+  "Fahrenheit (Congelación 32°, Ebullición 212°)": "Fahrenheit (Freezing 32°, Boiling 212°)",
+  "Fluido Espacio Anular:": "Annular Space Fluid:",
+  "Fluido Tubo Interno:": "Inner Tube Fluid:",
+  "Fluido de Trabajo:": "Working Fluid:",
+  "Flujo Alrededor de Perfil Alar NACA 0012": "Flow Around Wing Profile NACA 0012",
+  "Flujo Crítico de Calor (q\"max)": "Critical Heat Flow (q\"max)",
+  "Flujo Espontáneo de Calor:": "Spontaneous Heat Flow:",
+  "Flujo Navier-Stokes / Perfil Alar (1822)": "Navier-Stokes Flow / Wing Profile (1822)",
+  "Flujo Paralelo": "Parallel Flow",
+  "Flujo de Calor $(q'')$:": "Heat Flow $(q'')$:",
+  "Flujo de Calor ($q$)": "Heat Flow ($q$)",
+  "Flujo de Calor (q\")": "Heat Flow (q\")",
+  "Flujo de Calor Específico": "Specific Heat Flow",
+  "Flujo de Calor Específico:": "Specific Heat Flow:",
+  "Flujo de Calor Resultante $(q'')$:": "Resulting Heat Flow $(q'')$:",
+  "Flujo en Contraflujo:": "Counterflow Flow:",
+  "Flujo en Paralelo:": "Parallel Flow:",
+  "Fracción Perdida (Q/Q0)": "Lost Fraction (Q/Q0)",
+  "Frec. Desprendimiento $(f)$:": "Freq. Detachment $(f)$:",
+  "Frontera Izquierda y Condiciones del Medio": "Left Border and Environmental Conditions",
+  "Fronteras Incompatibles:": "Incompatible Borders:",
+  "Frío": "Cold",
+  "Fuerza de Impacto (F):": "Impact Force (F):",
+  "Garganta (2)": "Throat (2)",
+  "Garganta (D": "Throat (D",
+  "Gen. Calor Interna $(q_g)$: ": "Internal Heat Gen. $(q_g)$: ",
+  "Generación Interna": "Internal Generation",
+  "Geometría de Placas Paralelas (Isométrica 3D)": "Parallel Plate Geometry (3D Isometric)",
+  "Geometría:": "Geometry:",
+  "Gnielinski": "Gnielinski",
+  "Grandes Anécdotas del Genio": "Great Anecdotes of Genius",
+  "Gravitación Universal": "Universal Gravitation",
+  "Gráfica $V$ vs $T$ (Extrapolación al Cero Absoluto)": "Graph $V$ vs $T$ (Extrapolation to Absolute Zero)",
+  "Gráfica de Temperaturas a lo largo del Tubo": "Temperature Graph along the Tube",
+  "Gráfica de Trabajo vs Temperatura": "Work vs Temperature Graph",
+  "Gráfica y Controles del Laboratorio": "Laboratory Chart and Controls",
+  "Helio (He) - 4 g/mol": "Helium (He) - 4 g/mol",
+  "Helio (Monoatómico - Cp/Cv = 1.66)": "Helium (Monatomic - Cp/Cv = 1.66)",
+  "Hidrógeno (H₂ - Diatómico - Cp/Cv = 1.40)": "Hydrogen (H₂ - Diatomic - Cp/Cv = 1.40)",
+  "Historia": "History",
+  "Historia de las": "History of the",
+  "Hoy": "Today",
+  "Hydrodynamica": "Hydrodynamics",
+  "Héroe de las Ciencias | Padre de la Mecánica Clásica": "Science Hero | Father of Classical Mechanics",
+  "Ignición por chispa · mezcla homogénea": "Spark ignition · homogeneous mixture",
+  "Ignición por compresión · inyección directa": "Compression ignition · direct injection",
+  "Igual r": "Equal r",
+  "Impacto de variables:": "Impact of variables:",
+  "Impacto físico:": "Physical impact:",
+  "Incremento Objetivo $(\\Delta T)$: ": "Objective Increase $(\\Delta T)$: ",
+  "Inf. Larga": "Long Information",
+  "Infinitamente Larga:": "Infinitely Long:",
+  "Infrarrojo+:": "Infrared+:",
+  "Iniciar Enfriamiento": "Start Cooling",
+  "Instrucciones:": "Instructions:",
+  "Intensidad Incidente ($I$):": "Incident Intensity ($I$):",
+  "Intensidad Solar $(I)$: ": "Solar Intensity $(I)$: ",
+  "Intercambiador de Doble Tubo": "Double Tube Exchanger",
+  "Interfase": "Interface",
+  "Irradiancia $G$: ": "$G$ irradiance: ",
+  "James Clerk Maxwell y Ludwig Boltzmann formularon la distribución estadística de las velocidades de las partículas en un gas ideal. Esta fue la primera ley estadística en la física, demostrando que la temperatura macroscópica no es más que la manifestación del caos cinético microscópico de los átomos.": "James Clerk Maxwell and Ludwig Boltzmann formulated the statistical distribution of particle velocities in an ideal gas. This was the first statistical law in physics, demonstrating that macroscopic temperature is nothing more than the manifestation of the microscopic kinetic chaos of atoms.",
+  "James Prescott Joule (1843)": "James Prescott Joule (1843)",
+  "Kelvin": "Kelvin",
+  "Kelvin (Absoluta, Congelación 273.15 K)": "Kelvin (Absolute, Freezing 273.15 K)",
+  "Kelvin 1848": "Kelvin 1848",
+  "LAMINAR": "LAMINATE",
+  "La ": "The ",
+  "La Manzana:": "The Apple:",
+  "La conducción de calor a través de un medio en estado estable puede ser modelada matemáticamente utilizando la ": "The conduction of heat through a medium in a steady state can be modeled mathematically using the ",
+  "La convección natural ocurre debido al movimiento de flotación originado por cambios de densidad en un fluido a causa de diferencias de temperatura. Para un cilindro horizontal de diámetro $D$, la transferencia de calor se estima mediante la correlación de ": "Natural convection occurs due to the buoyant motion caused by density changes in a fluid due to temperature differences. For a horizontal cylinder of diameter $D$, the heat transfer is estimated by the correlation of ",
+  "La escala absoluta de temperatura propuesta por ": "The absolute temperature scale proposed by ",
+  "La relación entre sus espesores está determinada por los números adimensionales:": "The relationship between their thicknesses is determined by the dimensionless numbers:",
+  "Lado Derecho (Inicial: Frío):": "Right Side (Initial: Cold):",
+  "Lado Izquierdo (Inicial: Caliente):": "Left Side (Initial: Hot):",
+  "Laminar": "Laminate",
+  "Largo del plato $L$: ": "Plate length $L$: ",
+  "Las Tres Leyes del Movimiento": "The Three Laws of Motion",
+  "Las aletas se usan para aumentar el área de disipación de calor. Aquí vemos el perfil de temperatura a lo largo de una aleta de aguja circular para distintas condiciones en la punta:": "The fins are used to increase the heat dissipation area. Here we see the temperature profile along a circular needle fin for different tip conditions:",
+  "Ley de Enfriamiento": "Cooling Law",
+  "Ley de Enfriamiento de Newton": "Newton's Law of Cooling",
+  "Ley de Fourier (Conducción, 1822)": "Fourier's Law (Conduction, 1822)",
+  "Ley de Ohm": "Ohm's Law",
+  "Ley de Planck (Radiación, 1900)": "Planck's Law (Radiation, 1900)",
+  "Ley de Stefan-Boltzmann:": "Stefan-Boltzmann law:",
+  "Ley de la Gravitación Universal": "Law of Universal Gravitation",
+  "Ley de la Inversa del Cuadrado": "Inverse Square Law",
+  "Leyes del Movimiento": "Laws of Motion",
+  "Longitud $(L)$: ": "Length $(L)$: ",
+  "Longitud de Onda Máxima (λ": "Maximum Wavelength (λ",
+  "Longitud de la aleta $(L)$: ": "Fin length $(L)$: ",
+  "Lord Kelvin (1848)": "Lord Kelvin (1848)",
+  "Los intercambiadores de doble tubo constan de dos tubos concéntricos. Un fluido fluye por el tubo interno mientras que el otro fluye por el espacio anular (el canal externo). Este simulador modela la transferencia de calor sensible (sin cambio de fase) utilizando el ": "Double tube exchangers consist of two concentric tubes. One fluid flows through the inner tube while the other flows through the annulus (the outer channel). This simulator models sensible heat transfer (without phase change) using the ",
+  "Límite Físico Alcanzado (Cavitación):": "Physical Limit Reached (Cavitation):",
+  "Límite de Armstrong (~19 km):": "Armstrong limit (~19 km):",
+  "Límites Críticos:": "Critical Limits:",
+  "Línea de tinta suave y recta": "Smooth and straight ink line",
+  "MOMENTO DEL CICLO": "CYCLE TIME",
+  "Madera (k = 0.15 W/mK)": "Wood (k = 0.15 W/mK)",
+  "Mapa de Calor: Presión": "Heat Map: Pressure",
+  "Mapa de Calor: Velocidad": "Heat Map: Speed",
+  "Mapa de Calor: Vorticidad (Rotación)": "Heat Map: Vorticity (Rotation)",
+  "Masa de cada pesa $(m)$: ": "Mass of each weight $(m)$: ",
+  "Material Apoyo Clases 1-4": "Support Material Lectures 1-4",
+  "Material del Disipador:": "Heatsink Material:",
+  "Material:": "Material:",
+  "Media": "Average",
+  "Media (120×60 - Estándar)": "Medium (120×60 - Standard)",
+  "Medio de Enfriamiento:": "Cooling Medium:",
+  "Micrografía Real (SEM)": "Real Micrograph (SEM)",
+  "Modo": "Mode",
+  "Modo de Simulación:": "Simulation Mode:",
+  "Modo de Visualización:": "Display Mode:",
+  "Monitoreo del Sistema": "System Monitoring",
+  "Motor de Carnot (1824)": "Carnot engine (1824)",
+  "Motores de Calor": "Heat Engines",
+  "Muy Alta (300×150 - Detallada)": "Very High (300×150 - Detailed)",
+  "Muy Baja (40×20 - Educativa)": "Very Low (40×20 - Educational)",
+  "N/A": "N/A",
+  "NTU": "NTU",
+  "Nernst 1906": "Nernst 1906",
+  "Newcomen vs. Watt (1712-1769)": "Newcomen vs. Watt (1712-1769)",
+  "Newton postuló que la tasa de pérdida de calor de un cuerpo es proporcional a la diferencia de temperatura entre el cuerpo y su entorno: $q = h A (T_s - T_\\infty)$.": "Newton postulated that the rate of heat loss from a body is proportional to the temperature difference between the body and its surroundings: $q = h A (T_s - T_\\infty)$.",
+  "Newton unificó la mecánica celeste de Kepler con la caída de los cuerpos en la Tierra postulando que la atracción gravitatoria actúa instantáneamente a distancia a través del vacío:": "Newton unified Kepler's celestial mechanics with the fall of bodies on Earth by postulating that gravitational attraction acts instantaneously at a distance through a vacuum:",
+  "Neón (Ne) - 20 g/mol": "Neon (Ne) - 20 g/mol",
+  "Nitrógeno (N₂ - Diatómico - Cp/Cv = 1.40)": "Nitrogen (N₂ - Diatomic - Cp/Cv = 1.40)",
+  "Nitrógeno (N₂) - 28 g/mol": "Nitrogen (N₂) - 28 g/mol",
+  "Número Prandtl $(Pr)$:": "Prandtl number $(Pr)$:",
+  "Número de Biot $(Bi)$:": "Biot number $(Bi)$:",
+  "Número de Biot (Bi)": "Biot number (Bi)",
+  "Número de Capas:": "Number of Layers:",
+  "Número de Caídas ($N$):": "Number of Falls ($N$):",
+  "Número de Fourier (Fo)": "Fourier number (Fo)",
+  "Número de Lewis $(Le = Sc/Pr)$:": "Lewis number $(Le = Sc/Pr)$:",
+  "Número de Nusselt $(Nu)$:": "Nusselt number $(Nu)$:",
+  "Número de Nusselt $(Nu_D)$:": "Nusselt number $(Nu_D)$:",
+  "Número de Partículas: ": "Number of Particles: ",
+  "Número de Prandtl $(Pr)$: ": "Prandtl number $(Pr)$: ",
+  "Número de Rayleigh $(Ra_D)$:": "Rayleigh number $(Ra_D)$:",
+  "Número de Reynolds $(Re)$:": "Reynolds number $(Re)$:",
+  "Número de Reynolds $(Re_i)$:": "Reynolds number $(Re_i)$:",
+  "Número de Reynolds $(Re_o)$:": "Reynolds number $(Re_o)$:",
+  "Número de Schmidt $(Sc)$: ": "Schmidt number $(Sc)$: ",
+  "Número de Strouhal $(St)$:": "Strouhal number $(St)$:",
+  "Observación:": "Observation:",
+  "Opticks": "Opticks",
+  "Otto": "Otto",
+  "Otto:": "Otto:",
+  "Oxígeno (O₂ - Diatómico - Cp/Cv = 1.40)": "Oxygen (O₂ - Diatomic - Cp/Cv = 1.40)",
+  "Oxígeno (O₂) - 32 g/mol": "Oxygen (O₂) - 32 g/mol",
+  "P (kPa)": "P (kPa)",
+  "P = cte": "P = cte",
+  "P:": "Q:",
+  "Pared 1 (Interna)": "Wall 1 (Internal)",
+  "Pared 2 (Media)": "Wall 2 (Middle)",
+  "Pared 3 (Externa)": "Wall 3 (External)",
+  "Pared Compuesta y Circuito Térmico": "Composite Wall and Thermal Circuit",
+  "Pared Compuesta y Circuito Térmico Equivalente": "Composite Wall and Equivalent Thermal Circuit",
+  "Pared Multicapa": "Multilayer Wall",
+  "Pared Multicapa Personalizada": "Custom Multilayer Wall",
+  "Pared Plana (1D)": "Flat Wall (1D)",
+  "Pared Plana (Espesor = $2L$)": "Flat Wall (Thickness = $2L$)",
+  "Pared Plana:": "Flat Wall:",
+  "Partículas Trazadoras (Streamlines)": "Tracer Particles (Streamlines)",
+  "Pausar": "Pause",
+  "País:": "Country:",
+  "Película Estable": "Stable Film",
+  "Perfil de Temperatura y Circuito Equivalente en Paralelo": "Temperature Profile and Parallel Equivalent Circuit",
+  "Periodo de Oscilación $(T)$:": "Oscillation Period $(T)$:",
+  "Período:": "Period:",
+  "Placa Plana Aislada": "Insulated Flat Plate",
+  "Placa Plana Infinita": "Infinite Flat Plate",
+  "Planck postuló que la energía electromagnética solo se emite o absorbe en paquetes discretos llamados ": "Planck postulated that electromagnetic energy is only emitted or absorbed in discrete packets called ",
+  "Poder Emisivo Total (E = σT": "Total Emissive Power (E = σT",
+  "Posición $(x)$": "Position $(x)$",
+  "Posición del Termómetro (Espectro): ": "Thermometer Position (Spectrum): ",
+  "Potencia Mecánica (P):": "Mechanical Power (P):",
+  "Potencia de la Fuente $(P)$:": "Source Power $(P)$:",
+  "Potencia del Chip ($Q$): ": "Chip Power ($Q$): ",
+  "Potencial (ρgz)": "Potential (ρgz)",
+  "Prandtl demostró que para fluidos con baja viscosidad (altos números de Reynolds), los efectos viscosos se limitan a una delgada capa cercana a la pared sólida (capa límite), permitiendo simplificar las complejas ecuaciones de Navier-Stokes.": "Prandtl showed that for fluids with low viscosity (high Reynolds numbers), the viscous effects are limited to a thin layer close to the solid wall (boundary layer), allowing the complex Navier-Stokes equations to be simplified.",
+  "Presentadas en los ": "Presented in the ",
+  "Presión": "Pressure",
+  "Presión $(P)$: ": "$(P)$ pressure: ",
+  "Presión ($-\\nabla p$):": "Pressure ($-\\nabla p$):",
+  "Presión Atmosférica:": "Atmospheric Pressure:",
+  "Presión Constante ($C_p$):": "Constant Pressure ($C_p$):",
+  "Primera Ley (Inercia):": "First Law (Inertia):",
+  "Principia": "Principle",
+  "Principio de Bernoulli (1738)": "Bernoulli's principle (1738)",
+  "Principios Físicos y Experimentos Base": "Physical Principles and Basic Experiments",
+  "Proceso a Presión Constante:": "Constant Pressure Process:",
+  "Proceso a Volumen Constante:": "Constant Volume Process:",
+  "Prof. Andrés Colorado": "Prof. Andrés Colorado",
+  "Ing. Mecánico, M. Sc. Ph. D. Profesor, Facultad de Ingeniería, Universidad de Antioquia": "Mechanical Eng., M. Sc. Ph. D. Professor, Faculty of Engineering, University of Antioquia",
+  "Propiedad": "Property",
+  "Propiedades Capa 1 (Conducción)": "Properties Layer 1 (Conduction)",
+  "Propiedades Capa 2 (Conducción)": "Layer 2 Properties (Conduction)",
+  "Propiedades Capa 3 (Conducción)": "Properties Layer 3 (Conduction)",
+  "Pruébalo": "try it",
+  "Publicada de forma anónima en 1701, postula que la velocidad a la que un cuerpo pierde calor es directamente proporcional a la diferencia de temperatura entre él y el entorno. Hoy se escribe como:": "Published anonymously in 1701, it postulates that the rate at which a body loses heat is directly proportional to the temperature difference between it and its surroundings. Today it is written as:",
+  "Punto Triple (~35 km):": "Triple Point (~35 km):",
+  "Pérdida de Calor ($q'$):": "Heat Loss ($q'$):",
+  "R = Cp - Cv": "R = Cp - Cv",
+  "Radiación": "Radiation",
+  "Radiación:": "Radiation:",
+  "Radio Externo (r₂): ": "External Radius (r₂): ",
+  "Radio Interno (r₁): ": "Internal Radius (r₁): ",
+  "Rankine ≈ 30–40%": "Rankine ≈ 30–40%",
+  "Rayos Gamma / X:": "Gamma/X Rays:",
+  "Reales (Diesel > Otto)": "Royals (Diesel > Otto)",
+  "Rectángulo perfecto en T-S. Área sombreada = Trabajo neto $W = (T_H - T_C)\\,\\Delta S$. Punto animado sincronizado con el diagrama P-V.": "Perfect rectangle in T-S. Shaded area = Net work $W = (T_H - T_C)\\,\\Delta S$. Animated point synchronized with the P-V diagram.",
+  "Refrigerante R-134a (T_sat = -26 °C)": "Refrigerant R-134a (T_sat = -26 °C)",
+  "Región del Espectro:": "Spectrum Region:",
+  "Reiniciar": "Reboot",
+  "Relación Espesores $(\\delta_t / \\delta_c)$:": "$(\\delta_t / \\delta_c)$ Thickness Ratio:",
+  "Relación de Mayer (Gas Ideal):": "Mayer's relation (Ideal Gas):",
+  "Relación de Sustentación ($C_L/C_D$):": "Support Ratio ($C_L/C_D$):",
+  "Rendimiento:": "Performance:",
+  "Resistencia Térmica (R": "Thermal Resistance (R",
+  "Resistencias en Paralelo": "Parallel Resistors",
+  "Resolución de Malla (Grid):": "Mesh Resolution (Grid):",
+  "Restricción:": "Restriction:",
+  "Reynolds descubrió que la transición de flujo laminar a turbulento en una tubería depende de un grupo adimensional (el Número de Reynolds, $Re$). Si el flujo es lento y ordenado, el chorro de tinta permanece intacto (laminar). Al incrementar la velocidad, las perturbaciones crecen hasta que la tinta se mezcla por completo con el fluido (turbulento).": "Reynolds discovered that the transition from laminar to turbulent flow in a pipe depends on a dimensionless group (the Reynolds Number, $Re$). If the flow is slow and orderly, the ink jet remains intact (laminar). As the speed increases, the disturbances grow until the ink is completely mixed with the fluid (turbulent).",
+  "Reynolds en borde de salida $(Re_L)$: ": "Reynolds at trailing edge $(Re_L)$: ",
+  "Régimen de Flujo:": "Flow Regime:",
+  "Régimen de flujo:": "Flow regime:",
+  "Sadi Carnot demostró en 1824 que ningún motor térmico que opere entre dos temperaturas puede superar la eficiencia del ": "Sadi Carnot demonstrated in 1824 that no heat engine operating between two temperatures can exceed the efficiency of the ",
+  "Segunda Ley (Fuerza y Aceleración):": "Second Law (Force and Acceleration):",
+  "Segunda Ley de la Termodinámica": "Second Law of Thermodynamics",
+  "Si ajustas ambos a la misma relación de compresión (ej. $r=12$ en el selector), verás que **el ciclo Otto es más eficiente**. Termodinámicamente, la adición de calor a volumen constante es más eficiente que a presión constante, ya que alcanza mayores picos de temperatura y presión instantáneos a partir del mismo calor inyectado.": "If you set both to the same compression ratio (e.g. $r=12$ in the selector), you will see that **the Otto cycle is more efficient**. Thermodynamically, the addition of heat at constant volume is more efficient than at constant pressure, since it achieves greater instantaneous temperature and pressure peaks from the same injected heat.",
+  "Si el fluido está en reposo, el calor solo se transmite por conducción y $Nu = 1$. A medida que aumenta la velocidad del fluido, la convección se vuelve más dominante, aumentando el flujo de calor y haciendo que $Nu > 1$. En la gráfica, un mayor $Nu$ se refleja como un gradiente de temperatura más empinado cerca de la superficie caliente.": "If the fluid is at rest, heat is only transmitted by conduction and $Nu = 1$. As fluid velocity increases, convection becomes more dominant, increasing heat flow and causing $Nu > 1$. In the plot, a larger $Nu$ is reflected as a steeper temperature gradient near the hot surface.",
+  "Si graficamos el volumen experimental de un gas para distintos valores de temperatura y extrapolamos la línea de tendencia hacia atrás, descubrimos que el volumen teóricamente llega a cero exactamente a la temperatura de ": "If we plot the experimental volume of a gas for different values ​​of temperature and extrapolate the trend line backwards, we discover that the volume theoretically reaches zero exactly at the temperature of ",
+  "Silicio (k = 148 W/m·K)": "Silicon (k = 148 W/m K)",
+  "Simulación de Pistón Neumático y Cinética Molecular": "Pneumatic Piston Simulation and Molecular Kinetics",
+  "Suma (Total)": "Sum (Total)",
+  "T (K)": "T(K)",
+  "T:": "T:",
+  "Tacoma Narrows": "Tacoma Narrows",
+  "Tanque (1)": "Tank (1)",
+  "Tanque + Venturi + Pelton": "Tank + Venturi + Pelton",
+  "Tanque, Tubo de Venturi y Turbina Pelton": "Tank, Venturi Tube and Pelton Turbine",
+  "Tasa de Calor Impuesta (q): ": "Imposed Heat Rate (q): ",
+  "Tasa de transferencia (q):": "Transfer rate (q):",
+  "Telescopio Reflector (1668):": "Reflector Telescope (1668):",
+  "Temp. Ambiente $(T_\\infty)$: ": "Temp. Environment $(T_\\infty)$: ",
+  "Temp. Cilindro": "Temp. Cylinder",
+  "Temp. Comb.": "Temp. Comb.",
+  "Temp. Entorno $(T_\\infty)$: ": "Temp. $(T_\\infty)$ environment: ",
+  "Temp. Especificada ($T_L$):": "Temp. Specified ($T_L$):",
+  "Temp. Fluido (Tinf): ": "Temp. Fluid (Tinf): ",
+  "Temp. Fluido Exterior $(T_\\infty)$: ": "Temp. Exterior Fluid $(T_\\infty)$: ",
+  "Temp. Inicial (Ti): ": "Temp. Initial (Ti): ",
+  "Temp. Inicial Hierro $(T_i)$: ": "Temp. Initial Iron $(T_i)$: ",
+  "Temp. Interna Pared $(T_1)$: ": "Temp. Internal Wall $(T_1)$: ",
+  "Temp. Izquierda $T_1$: ": "Temp. Left $T_1$: ",
+  "Temp. Libre $(T_\\infty)$: ": "Temp. Free $(T_\\infty)$: ",
+  "Temp. Media $(T_m)$:": "Temp. Average $(T_m)$:",
+  "Temp. Pared $(T_s)$: ": "Temp. Wall $(T_s)$: ",
+  "Temp. Punta Especificada $(T_L)$: ": "Temp. Specified Tip $(T_L)$: ",
+  "Temp. Superficie ($T_s$)": "Temp. Surface ($T_s$)",
+  "Temp. Superficie Libre $(T_s)$: ": "Temp. Free Surface $(T_s)$: ",
+  "Temp. de la Superficie (Ts)": "Temp. of the Surface (Ts)",
+  "Temp. del Centro (T0)": "Temp. from the Center (T0)",
+  "Temperatura": "Temperature",
+  "Temperatura $(T)$: ": "$(T)$ temperature: ",
+  "Temperatura ($T_c$)": "Temperature ($T_c$)",
+  "Temperatura Absoluta ($T_K$)": "Absolute Temperature ($T_K$)",
+  "Temperatura Actual:": "Current Temperature:",
+  "Temperatura Especificada": "Specified Temperature",
+  "Temperatura Específica:": "Specific Temperature:",
+  "Temperatura Fluido $(T_\\infty)$: ": "Fluid Temperature $(T_\\infty)$: ",
+  "Temperatura Fuente Caliente $(T_H)$: ": "Hot Source Temperature $(T_H)$: ",
+  "Temperatura Fuente Fría (Condensador): ": "Cold Source Temperature (Condenser): ",
+  "Temperatura Sumidero Frío $(T_C)$: ": "Cold Sump Temperature $(T_C)$: ",
+  "Temperatura Superficie $(T_s)$: ": "Surface Temperature $(T_s)$: ",
+  "Temperatura Superficie Derecha $(T_2)$:": "Right Surface Temperature $(T_2)$:",
+  "Temperatura T": "Temperature T",
+  "Temperatura de Exceso (ΔTe = Ts - Tsat): ": "Excess Temperature (ΔTe = Ts - Tsat): ",
+  "Temperatura de la Superficie (Ts)": "Surface Temperature (Ts)",
+  "Temperatura de la base $(T_b)$: ": "Base temperature $(T_b)$: ",
+  "Temperatura del Agua: ": "Water Temperature: ",
+  "Temperatura del Vapor de Entrada: ": "Inlet Steam Temperature: ",
+  "Temperatura: ": "Temperature: ",
+  "Teoría Cinética (Maxwell-Boltzmann, 1860)": "Kinetic Theory (Maxwell-Boltzmann, 1860)",
+  "Teoría Cinética de los Gases: Distribución de Maxwell-Boltzmann (1860)": "Kinetic Theory of Gases: Maxwell-Boltzmann Distribution (1860)",
+  "Teoría de la Capa Límite (Prandtl, 1904)": "Boundary Layer Theory (Prandtl, 1904)",
+  "Tercera Ley (Acción y Reacción):": "Third Law (Action and Reaction):",
+  "Tercera Ley de la Termodinámica": "Third Law of Thermodynamics",
+  "Termodinámica": "Thermodynamics",
+  "Termómetro de Mercurio": "Mercury Thermometer",
+  "Tiempo Transcurrido": "Elapsed Time",
+  "Tiempo Transcurrido (Simulado):": "Elapsed Time (Simulated):",
+  "Tiempo Transcurrido (t)": "Elapsed Time (t)",
+  "Tipo de Frontera:": "Border Type:",
+  "Tipo de Gas (Masa Molar):": "Gas Type (Molar Mass):",
+  "Tipo de Gas:": "Gas Type:",
+  "Todas las Categorías": "All Categories",
+  "Trabajo Mecánico total ($W$):": "Total Mechanical Work ($W$):",
+  "Trabajo Neto": "Net Work",
+  "Trabajo Realizado ($W_p$):": "Work Done ($W_p$):",
+  "Transición": "Transition",
+  "Transitorio (Difusión)": "Transient (Diffusion)",
+  "Tubería (D": "Pipe (D",
+  "Término": "Term",
+  "Término (kPa)": "Term (kPa)",
+  "Ultravioleta:": "Ultraviolet:",
+  "Una de las consecuencias más profundas de la termodinámica clásica — Lord Kelvin, 1848": "One of the most profound consequences of classical thermodynamics — Lord Kelvin, 1848",
+  "Universidad de Antioquia": "University of Antioquia",
+  "Usar escala logarítmica (Eje Y)": "Use logarithmic scale (Y axis)",
+  "V = cte ($W=0$)": "V = cte ($W=0$)",
+  "V/V₁": "V/V₁",
+  "V:": "V:",
+  "Valores Extremos de los Estados": "Extreme Values ​​of States",
+  "Var. de Temperatura ($\\Delta T$):": "Var. Temperature ($\\Delta T$):",
+  "Variables de la Ecuación:": "Equation Variables:",
+  "Velocidad Más Probable ($v_p$):": "Most Probable Speed ​​($v_p$):",
+  "Velocidad Simulación: ": "Simulation Speed: ",
+  "Velocidad Térmica: ": "Thermal Speed: ",
+  "Velocidad de Entrada $(v_1)$: ": "Input Speed ​​$(v_1)$: ",
+  "Velocidad de Salida (v": "Output Velocity (v",
+  "Velocidad del Fluido $(V)$: ": "Fluid Velocity $(V)$: ",
+  "Velocidad del Fluido $(u)$: ": "Fluid Velocity $(u)$: ",
+  "Velocidad del Flujo $(U)$: ": "Flow Velocity $(U)$: ",
+  "Velocidad del Flujo: ": "Flow Speed: ",
+  "Velocidad en el Cuello ($v_2$):": "Neck Speed ​​($v_2$):",
+  "Vidrio (k = 1.4 W/mK)": "Glass (k = 1.4 W/mK)",
+  "Visc. cinem. $(\\nu)$:": "Visc. cinem. $(\\nu)$:",
+  "Viscosidad $(\\mu)$:": "Viscosity $(\\mu)$:",
+  "Viscosidad Cinemática $(\\nu)$:": "Kinematic Viscosity $(\\nu)$:",
+  "Viscosidad Cinemática $(\\nu)$: ": "Kinematic Viscosity $(\\nu)$: ",
+  "Visible (Verde)": "Visible (Green)",
+  "Visible:": "Visible:",
+  "Visualización del Experimento (Inyección de Tinta)": "Experiment Visualization (Inkjet)",
+  "Visualización del Flujo y Perfil Térmico (Doble Tubo)": "Visualization of Flow and Thermal Profile (Double Tube)",
+  "Visualización:": "Display:",
+  "Volumen (V):": "Volume (V):",
+  "Volumen Constante ($C_v$):": "Constant Volume ($C_v$):",
+  "Volumen Teórico ($V$)": "Theoretical Volume ($V$)",
+  "Vórtices de Von Kármán (1911)": "Von Kármán Vortices (1911)",
+  "V₁": "V₁",
+  "W / η": "W/η",
+  "W:": "W:",
+  "Wilhelm Nusselt propuso usar el análisis dimensional para entender la convección. El número de Nusselt $(Nu)$ relaciona la transferencia de calor por convección en una capa de fluido en movimiento con la transferencia por conducción pura si esa misma capa estuviera completamente estática.": "Wilhelm Nusselt proposed using dimensional analysis to understand convection. The Nusselt number $(Nu)$ relates the heat transfer by convection in a moving fluid layer to the transfer by pure conduction if that same layer were completely static.",
+  "Xenón (Xe) - 131 g/mol": "Xenon (Xe) - 131 g/mol",
+  "actual": "current",
+  "calentaba": "warmed up",
+  "chorro": "jet",
+  "cilindro único": "single cylinder",
+  "completamente aislada (condición adiabática, $dT/dx = 0$)": "completely isolated (adiabatic condition, $dT/dx = 0$)",
+  "condensador separado": "separate capacitor",
+  "condensar": "condense",
+  "convección térmica": "thermal convection",
+  "cuantos": "how many",
+  "el punto de congelación del agua (fijado originalmente en $100^\\circ$)": "the freezing point of water (originally set to $100^\\circ$)",
+  "expansión isotérmica → expansión adiabática → compresión isotérmica → compresión adiabática": "isothermal expansion → adiabatic expansion → isothermal compression → adiabatic compression",
+  "felipe.colorado@udea.edu.co": "felipe.colorado@udea.edu.co",
+  "flujo potencial con vorticidad añadida": "potential flow with added vorticity",
+  "independiente de cualquier sustancia": "independent of any substance",
+  "invertida": "inverted",
+  "kJ": "kJ",
+  "kPa": "kPa",
+  "límite fundamental de la naturaleza": "fundamental limit of nature",
+  "max": "max",
+  "método de la Efectividad-NTU ($\\epsilon$-NTU)": "Effectiveness-NTU method ($\\epsilon$-NTU)",
+  "paralelo": "parallel",
+  "pico": "beak",
+  "siempre caliente": "always hot",
+  "teoría del calórico": "caloric theory",
+  "todo fluido viscoso": "all viscous fluid",
+  "una cuarta parte": "a quarter",
+  "© 2026 Historia de las Ciencias Térmicas": "© 2026 History of Thermal Sciences",
+  "«¡Oh, Diamond, Diamond, poco sabes el daño que has hecho!»": "“Oh, Diamond, Diamond, little do you know the damage you have done!”",
+  "°C": "°C",
+  "¿Por qué comparamos estos dos ciclos?": "Why do we compare these two cycles?",
+  "¿qué temperatura $T_C$ haría que $\\eta = 1$ (eficiencia del 100%)?": "What temperature would $T_C$ make $\\eta = 1$ (100% efficiency)?",
+  "Ángulo de Ataque $(\\alpha)$: ": "Angle of Attack $(\\alpha)$: ",
+  "Área Externa (A": "External Area (A",
+  "Área Interna (A": "Internal Area (A",
+  "Área transversal (A): ": "Cross-sectional area (A): ",
+  "Óptica y Luz": "Optics and Light",
+  "Óptica y la Descomposición de la Luz": "Optics and the Decomposition of Light",
+  "únicamente de sus temperaturas": "only from their temperatures",
+  "—— Ciclo Diesel ——": "—— Diesel Cycle ——",
+  "—— Ciclo Otto ——": "——Otto Cycle——",
+  "① La fórmula de Carnot (1824)": "① Carnot's formula (1824)",
+  "② La pregunta de Kelvin (1848)": "② Kelvin's Question (1848)",
+  "③ La escala absoluta (Kelvin, 1848)": "③ The absolute scale (Kelvin, 1848)",
+  "④ La Tercera Ley: el 0 K es inalcanzable": "④ The Third Law: 0 K is unattainable",
+  "■ Telemetría Diesel": "■ Diesel Telemetry",
+  "■ Telemetría Otto": "■ Otto Telemetry",
+  "⚙️ La Solución de Watt": "⚙️ Watt's Solution",
+  "⚠️ Límite Físico Alcanzado:": "⚠️ Physical Limit Reached:",
+  "⚡ Vel.": "⚡ Vel.",
+  "✓ Proceso idéntico": "✓ Identical process",
+  "🌡️ Conexión con la Termodinámica": "🌡️ Connection with Thermodynamics",
+  "🔥 El Problema de Newcomen": "🔥 Newcomen's Problem",
+
+  "Ley de Fourier de la Conducción (1822)": "Fourier's Law of Heat Conduction (1822)",
+  "La tasa de transferencia de calor total ($q$ en $\\text{W}$) a través de un medio sólido estacionario está dada por la diferencia de temperaturas y su respectiva resistencia térmica ($R_t$): $q = \\frac{T_1 - T_2}{R_t}$": "The total heat transfer rate ($q$ in $\\text{W}$) through a stationary solid medium is given by the temperature difference and its respective thermal resistance ($R_t$): $q = \\frac{T_1 - T_2}{R_t}$",
+  "\[ T(x) = T_1 - (T_1 - T_2) \\frac{x}{L} \]": "\[ T(x) = T_1 - (T_1 - T_2) \\frac{x}{L} \]",
+  "(Izquierda/Interna):": "(Left/Inner):",
+  "(Derecha/Externa):": "(Right/Outer):",
+  "Tasa de Calor Impuesta (q):": "Imposed Heat Rate (q):",
+  "Conductividad Térmica (k):": "Thermal Conductivity (k):",
+  "W/(m·K)": "W/(m·K)",
+  "Radio Interno (r₁):": "Internal Radius (r₁):",
+  "Espesor (L):": "Thickness (L):",
+  "Radio Externo (r₂):": "External Radius (r₂):",
+  "Área transversal (A):": "Cross-sectional area (A):",
+  "La temperatura $T_2$ no puede ser menor a 0 K (-273.15 °C). El valor se ha bloqueado y se recalculó el flujo de calor real.": "The temperature $T_2$ cannot be less than 0 K (-273.15 °C). The value has been locked and the actual heat flux has been recalculated.",
+  "Materiales aislantes tienen $k$ pequeño. Reducir el espesor $L$ o aumentar la diferencia de temperaturas dispara linealmente la tasa de transferencia $q''$.": "Insulating materials have small $k$. Reducing the thickness $L$ or increasing the temperature difference linearly triggers the transfer rate $q''$.",
+  "Planck postuló que la energía electromagnética solo se emite o absorbe en paquetes discretos llamados": "Planck postulated that electromagnetic energy is only emitted or absorbed in discrete packets called",
+  ", donde $E = h\nu$ ($h$ es la constante de Planck, y $\nu$ la frecuencia). Esto resolvió la \"catástrofe ultravioleta\".": ", where $E = h\nu$ ($h$ is Planck's constant, and $\nu$ the frequency). This solved the \"ultraviolet catastrophe.\"",
+  "Temperatura:": "Temperature:",
+  "El poder emisivo total es proporcional a la cuarta potencia de la temperatura absoluta: $E = \sigma T^4$, donde $\sigma = 5.67 \times 10^{-8} \\text{ W}/(\\text{m}^2\\text{K}^4)$. ¡Observa cómo se dispara la energía al aumentar $T$!": "The total emissive power is proportional to the fourth power of the absolute temperature: $E = \sigma T^4$, where $\sigma = 5.67 \times 10^{-8} \\text{ W}/(\\text{m}^2\\text{K}^4)$. Watch the energy skyrocket as $T$ increases!",
+  "La probabilidad de encontrar una partícula con velocidad $v$ es: $$ f(v) = 4\pi \\left(\\frac{m}{2\pi k_B T}\\right)^{3/2} v^2 e^{-\\frac{m v^2}{2 k_B T}} $$": "The probability of finding a particle with speed $v$ is: $$ f(v) = 4\pi \\left(\\frac{m}{2\pi k_B T}\\right)^{3/2} v^2 e^{-\\frac{m v^2}{2 k_B T}} $$",
+  "Velocidad Media ($\bar{v}$):": "Average Speed ($\bar{v}$):",
+  "Velocidad Cuadrática Media ($v_{rms}$):": "Mean Square Velocity ($v_{rms}$):",
+  "Fíjate cómo al calentar el gas, la campana se aplana y se desplaza hacia la derecha (átomos más rápidos). Si cambias a un gas más pesado (como el Xenón), los átomos se mueven mucho más lento a la misma temperatura.": "Notice how when the gas is heated, the bell flattens out and moves to the right (faster atoms). If you switch to a heavier gas (like Xenon), the atoms move much slower at the same temperature.",
+  "Densidad de Probabilidad (fracción de átomos que viajan a la velocidad $v$).": "Probability Density (fraction of atoms traveling at speed $v$).",
+  "Velocidad de la partícula (m/s).": "Particle speed (m/s).",
+  "Masa de una sola molécula (kg).": "Mass of a single molecule (kg).",
+  "Temperatura absoluta (K).": "Absolute temperature (K).",
+  "Constante de Boltzmann ($1.38 \times 10^{-23}$ J/K), el puente entre la temperatura macroscópica y la energía cinética microscópica.": "Boltzmann constant ($1.38 \times 10^{-23}$ J/K), the bridge between macroscopic temperature and microscopic kinetic energy.",
+  "Ley de la Inversa del Cuadrado (Atenuación por Distancia)": "Inverse Square Law (Distance Attenuation)",
+  "En el vacío, la radiación térmica emitida por una fuente puntual esférica se esparce en todas direcciones. La intensidad de radiación incidente $I$ decae con el cuadrado de la distancia $r$. La fórmula es: $$I = \\frac{P}{4 \pi r^2}$$ donde $P$ es la potencia térmica total de la fuente.": "In a vacuum, thermal radiation emitted by a spherical point source spreads in all directions. The incident radiation intensity $I$ decays with the square of the distance $r$. The formula is: $$I = \\frac{P}{4 \pi r^2}$$ where $P$ is the total thermal power of the source.",
+  "Si duplicas la distancia de la fuente, el calor que recibes no se reduce a la mitad, sino a": "If you double the distance from the source, the heat you receive is not reduced by half, but by",
+  "Superficies Extendidas (Aletas)": "Extended Surfaces (Fins)",
+  "Las aletas se usan para aumentar el área de disipación de calor. Aquí vemos el perfil de temperatura a lo largo de una aleta para distintas condiciones en la punta. Juegue con los parámetros para entender mejor el fenómeno. Note que las ecuaciones también aplican a otras formas de aletas, como las rectangulares:": "The fins are used to increase the heat dissipation area. Here we see the temperature profile along a fin for different conditions at the tip. Play with the parameters to better understand the phenomenon. Note that the equations also apply to other fin shapes, such as rectangular ones:",
+  "Distribución de Temperatura $\\left( \\frac{T(x) - T_\\infty}{T_b - T_\\infty} \\right)$": "Temperature Distribution $\\left( \\frac{T(x) - T_\\infty}{T_b - T_\\infty} \\right)$",
+  "Longitud Corregida ($L_c$):": "Corrected Length ($L_c$):",
+  "Tasa de Transferencia de Calor ($q_f$)": "Heat Transfer Rate ($q_f$)",
+  "Evaluada en la base ($x=0$) con la Ley de Fourier: $q_f = -k A_c \\left. \\frac{dT}{dx} \\right|_{x=0}$. Siendo $M = \\sqrt{hPkA_c}(T_b - T_\\infty)$:": "Evaluated at the base ($x=0$) with Fourier's Law: $q_f = -k A_c \\left. \\frac{dT}{dx} \\right|_{x=0}$. Being $M = \\sqrt{hPkA_c}(T_b - T_\\infty)$:",
+  "donde $m = \\sqrt{hP/kA_c}$, $\\theta_b = T_b - T_\\infty$, $\\theta_L = T_L - T_\\infty$ y $L_c = L + A_c/P$.": "where $m = \\sqrt{hP/kA_c}$, $\\theta_b = T_b - T_\\infty$, $\\theta_L = T_L - T_\\infty$ and $L_c = L + A_c/P$.",
+  "1) Punta aislada, 2) Punta con convección, 3) Temp. especificada ($T_L$), 4) Infinitamente larga": "1) Insulated tip, 2) Convection tip, 3) Temp. specified ($T_L$), 4) Infinitely long",
+  "Temperatura de la base $(T_b)$:": "Base temperature $(T_b)$:",
+  "Perfil de la Aleta:": "Fin Profile:",
+  "Cilíndrica (Circular)": "Cylindrical (Circular)",
+  "Rectangular": "Rectangular",
+  "Diámetro de la aleta $(D)$:": "Fin diameter $(D)$:",
+  "Ancho de la aleta $(w)$:": "Fin Width $(w)$:",
+  "Espesor de la aleta $(t)$:": "Fin thickness $(t)$:",
+  "Longitud de la aleta $(L)$:": "Fin length $(L)$:",
+  "Conductividad del Material $(k)$:": "Conductivity of Material $(k)$:",
+  "W/mK": "W/mK",
+  "Coef. de Convección $(h)$:": "Coef. Convection $(h)$:",
+  "W/m²K": "W/m²K",
+  "Temp. Ambiente $(T_\\infty)$:": "Temp. Environment $(T_\\infty)$:",
+  "Temp. Punta Especificada $(T_L)$:": "Temp. Specified Tip $(T_L)$:",
+  "Posición $x$ (cm):": "$x$ position (cm):",
+  "Long. Corregida": "Long. Corrected",
+  "Área transversal ($A_c$):": "Cross-sectional area ($A_c$):",
+  "Parámetro de aleta ($m$):": "Fin parameter ($m$):",
+  "m⁻¹": "m⁻¹",
+  "Si el material es mal conductor (bajo $k$) o la convección es muy alta (alto $h$), la temperatura caerá rapidísimo cerca de la base, indicando que hacer una aleta muy larga es un desperdicio de material.": "If the material is a poor conductor (low $k$) or the convection is very high (high $h$), the temperature will drop very quickly near the base, indicating that making a very long fin is a waste of material.",
+  "Parámetro $m$:": "Parameter $m$:",
+  "Representa la relación entre la disipación convectiva y la conducción interna ($m = \\sqrt{hP/kA_c}$). Valores altos de $m$ indican una rápida caída de temperatura a lo largo de la aleta, mientras que valores bajos (buenos conductores o baja convección) permiten que el calor viaje más lejos. Su inverso ($1/m$) es la": "It represents the relationship between convective dissipation and internal conduction ($m = \\sqrt{hP/kA_c}$). High values ​​of $m$ indicate a rapid temperature drop along the fin, while low values ​​(good conductors or low convection) allow heat to travel farther. Its inverse ($1/m$) is the",
+  "longitud característica": "characteristic length",
+  ", que indica aproximadamente hasta dónde la aleta es realmente efectiva para disipar calor.": ", which indicates approximately how far the fin is actually effective in dissipating heat.",
+  "Reynolds en borde de salida $(Re_L)$:": "Reynolds at trailing edge $(Re_L)$:",
+  "Distancia desde el borde de ataque $(x)$:": "Distance from leading edge $(x)$:",
+  "A mayor Reynolds o menor distancia $x$, la capa límite es más delgada y el gradiente de velocidad en la pared ($y=0$) es mayor, lo que aumenta la transferencia de calor por convección.": "At higher Reynolds or shorter distance $x$, the boundary layer is thinner and the velocity gradient in the wall ($y=0$) is greater, which increases heat transfer by convection.",
+  "Conducción Unidimensional con Generación Interna": "One-Dimensional Driving with Internal Generation",
+  "Análisis de una pared plana de espesor $w = 2L$, con generación volumétrica uniforme de calor $(\dot{q})$ y enfriamiento simétrico por convección en sus superficies.": "Analysis of a flat wall of thickness $w = 2L$, with uniform volumetric generation of heat $(\dot{q})$ and symmetrical cooling by convection on its surfaces.",
+  "Generación $(\dot{q})$:": "Generation $(\dot{q})$:",
+  "kW/m³": "kW/m³",
+  "Coef. Convección $(h)$:": "Coef. Convection $(h)$:",
+  "Espesor Total $(w = 2L)$:": "Total Thickness $(w = 2L)$:",
+  "Temp. Superficie ($T_{s,\\text{plana}}$):": "Temp. Surface ($T_{s,\\text{flat}}$):",
+  "Temp. Máxima (Centro) ($T_{0,\\text{plana}}$):": "Temp. Maximum (Center) ($T_{0,\\text{flat}}$):",
+  "Temp. Superficie ($T_{s,\\text{cil}}$):": "Temp. Surface ($T_{s,\\text{cil}}$):",
+  "Temp. Máxima (Centro) ($T_{0,\\text{cil}}$):": "Temp. Maximum (Center) ($T_{0,\\text{cil}}$):",
+  "Temp. Superficie ($T_{s,\\text{esf}}$):": "Temp. Surface ($T_{s,\\text{esf}}$):",
+  "Temp. Máxima (Centro) ($T_{0,\\text{esf}}$):": "Temp. Maximum (Center) ($T_{0,\\text{esf}}$):",
+  "Todo el calor generado en el centro debe ser transportado hasta la superficie por conducción, y de ahí al ambiente por convección. Materiales poco conductores generarán un pico altísimo de $T_{max}$ interno.": "All the heat generated in the center must be transported to the surface by conduction, and from there to the environment by convection. Poorly conductive materials will generate a very high peak of internal $T_{max}$.",
+  "Análisis de la transferencia de calor por conducción estacionaria unidimensional a través de una pared compuesta de tres capas con distintas conductividades térmicas $k_1, k_2, k_3$ y espesores $L_1, L_2, L_3$. Las fronteras externas están expuestas a fluidos a temperaturas $T_{\\infty, 1}$ y $T_{\\infty, 2}$ con coeficientes de convección $h_1$ y $h_2$.": "Analysis of heat transfer by one-dimensional stationary conduction through a wall composed of three layers with different thermal conductivities $k_1, k_2, k_3$ and thicknesses $L_1, L_2, L_3$. The external boundaries are exposed to fluids at temperatures $T_{\\infty, 1}$ and $T_{\\infty, 2}$ with convection coefficients $h_1$ and $h_2$.",
+  "La resistencia térmica total es la suma en serie: $$ R''_{\\text{tot}} = \\frac{1}{h_1} + \\frac{L_1}{k_1} + \\frac{L_2}{k_2} + \\frac{L_3}{k_3} + \\frac{1}{h_2} $$": "The total thermal resistance is the series sum: $$ R''_{\\text{tot}} = \\frac{1}{h_1} + \\frac{L_1}{k_1} + \\frac{L_2}{k_2} + \\frac{L_3}{k_3} + \\frac{1}{h_2} $$",
+  "El flujo de calor constante es: $$ q'' = \\frac{T_{\\infty, 1} - T_{\\infty, 2}}{R''_{\\text{tot}}} $$": "The constant heat flux is: $$ q'' = \\frac{T_{\\infty, 1} - T_{\\infty, 2}}{R''_{\\text{tot}}} $$",
+  "Temp. Ambiente Izq. $(T_{\\infty, 1})$:": "Temp. Left Environment $(T_{\\infty, 1})$:",
+  "Coef. Convección Izq. $(h_1)$:": "Coef. Left Convection $(h_1)$:",
+  "Espesor Capa 1 $(L_1)$:": "Layer 1 Thickness $(L_1)$:",
+  "Conductividad Capa 1 $(k_1)$:": "Conductivity Layer 1 $(k_1)$:",
+  "Espesor Capa 2 $(L_2)$:": "Layer 2 Thickness $(L_2)$:",
+  "Conductividad Capa 2 $(k_2)$:": "Layer 2 Conductivity $(k_2)$:",
+  "Espesor Capa 3 $(L_3)$:": "Layer 3 Thickness $(L_3)$:",
+  "Conductividad Capa 3 $(k_3)$:": "Layer 3 Conductivity $(k_3)$:",
+  "Temp. Ambiente Der. $(T_{\\infty, 2})$:": "Temp. Environment Right. $(T_{\\infty, 2})$:",
+  "Coef. Convección Der. $(h_2)$:": "Coef. Right convection $(h_2)$:",
+  "Resistencia Total $(R''_{\\text{tot}})$:": "Total Resistance $(R''_{\\text{tot}})$:",
+  "• Conv. Izquierda $(R''_{\\text{conv,1}})$:": "• Conv. Left $(R''_{\\text{conv,1}})$:",
+  "• Conducción Capa 1 $(R''_{\\text{cond,1}})$:": "• Conduction Layer 1 $(R''_{\\text{cond,1}})$:",
+  "• Conducción Capa 2 $(R''_{\\text{cond,2}})$:": "• Layer 2 Conduction $(R''_{\\text{cond,2}})$:",
+  "• Conducción Capa 3 $(R''_{\\text{cond,3}})$:": "• Layer 3 Conduction $(R''_{\\text{cond,3}})$:",
+  "• Conv. Derecha $(R''_{\\text{conv,2}})$:": "• Conv. Right $(R''_{\\text{conv,2}})$:",
+  "Temp. Superficie Izq. $(T_{s, 1})$:": "Temp. Left Surface $(T_{s, 1})$:",
+  "Temp. Interfaz 1-2 $(T_{\\text{int}, 1})$:": "Temp. Interface 1-2 $(T_{\\text{int}, 1})$:",
+  "Temp. Interfaz 2-3 $(T_{\\text{int}, 2})$:": "Temp. Interface 2-3 $(T_{\\text{int}, 2})$:",
+  "Temp. Superficie Der. $(T_{s, 2})$:": "Temp. Right Surface $(T_{s, 2})$:",
+  "Conducción y Convección Combinadas (Frontera Mixta)": "Combined Conduction and Convection (Mixed Frontier)",
+  "En problemas reales, una pared sólida transfiere calor a un fluido circundante. La resistencia térmica total es la suma de las resistencias en serie: $R_{total} = R_{cond} + R_{conv} = \\frac{L}{k} + \\frac{1}{h}$.": "In real problems, a solid wall transfers heat to a surrounding fluid. The total thermal resistance is the sum of the series resistances: $R_{total} = R_{cond} + R_{conv} = \\frac{L}{k} + \\frac{1}{h}$.",
+  "El flujo de calor es constante a través de ambas capas: $q'' = \\frac{T_1 - T_\\infty}{R_{total}}$. Conocido $q''$, la temperatura en la superficie exterior se calcula como $T_2 = T_\\infty + \\frac{q''}{h}$.": "The heat flow is constant through both layers: $q'' = \\frac{T_1 - T_\\infty}{R_{total}}$. Knowing $q''$, the temperature at the outer surface is calculated as $T_2 = T_\\infty + \\frac{q''}{h}$.",
+  "Temp. Interna Pared $(T_1)$:": "Temp. Internal Wall $(T_1)$:",
+  "Conductividad Pared $(k)$:": "Wall Conductivity $(k)$:",
+  "Espesor Pared $(L)$:": "Wall Thickness $(L)$:",
+  "Temp. Fluido Exterior $(T_\\infty)$:": "Temp. Outer Fluid $(T_\\infty)$:",
+  "Resistencia Conducción $(R''_{\\text{cond}})$:": "Conduction Resistance $(R''_{\\text{cond}})$:",
+  "Resistencia Convección $(R''_{\\text{conv}})$:": "Convection Resistance $(R''_{\\text{conv}})$:",
+  "Experimento de Enfriamiento de Newton (1701)": "Newton's Cooling Experiment (1701)",
+  "Newton postuló que la tasa de pérdida de calor de un cuerpo es proporcional a la diferencia de temperatura entre el cuerpo y su entorno: $q = h A (T_s - T_\\infty)$.": "Newton postulated that the rate of heat loss from a body is proportional to the temperature difference between the body and its surroundings: $q = h A (T_s - T_\\infty)$.",
+  "En el estado transitorio (asumiendo conducción interna rápida), la temperatura decae exponencialmente: $$ T(t) = T_\\infty + (T_i - T_\\infty)e^{-t/\\tau} $$": "In the transient state (assuming fast internal conduction), the temperature decays exponentially: $$ T(t) = T_\\infty + (T_i - T_\\infty)e^{-t/\\tau} $$",
+  "Donde la constante de tiempo térmica $\\tau$ se calcula como: $$ \\tau = \\frac{\\rho V c_p}{h A_s} $$ Aquí $\\rho$ es la densidad, $V$ el volumen, $c_p$ el calor específico, $h$ el coeficiente de transferencia de calor y $A_s$ el área superficial del cilindro.": "Where the thermal time constant $\\tau$ is calculated as: $$ \\tau = \\frac{\\rho V c_p}{h A_s} $$ Here $\\rho$ is the density, $V$ the volume, $c_p$ the specific heat, $h$ the heat transfer coefficient and $A_s$ the surface area of the cylinder.",
+  "Significado físico de la constante de tiempo ($\\tau$):": "Physical meaning of the time constant ($\\tau$):",
+  "El cuerpo se enfría o calienta velozmente. Ocurre con baja inercia térmica (masa pequeña o bajo $c_p$) o una alta transferencia de calor (coeficiente $h$ alto, como en agua, o gran área superficial expuesta).": "The body cools or heats up quickly. It occurs with low thermal inertia (small mass or low $c_p$) or high heat transfer (high $h$ coefficient, as in water, or large exposed surface area).",
+  "El cuerpo se resiste a cambiar su temperatura. Ocurre con alta inercia térmica (cuerpo muy masivo o alto $c_p$) o baja transferencia de calor (coeficiente $h$ bajo, como en aire quieto).": "The body resists changing its temperature. It occurs with high thermal inertia (very massive body or high $c_p$) or low heat transfer (low coefficient $h$, as in still air).",
+  "Selecciona un medio para modificar el coeficiente de convección $h$ y observa cómo un bloque de hierro al rojo vivo ($500^\circ\\text{C}$) se enfría en tiempo real.": "Select a means to modify the convection coefficient $h$ and watch a red-hot block of iron ($500^\circ\\text{C}$) cool in real time.",
+  "Temp. Inicial Hierro $(T_i)$:": "Temp. Initial Iron $(T_i)$:",
+  "Temp. Entorno $(T_\\infty)$:": "Temp. Environment $(T_\\infty)$:",
+  "Diámetro Cilindro $(D)$:": "Cylinder Diameter $(D)$:",
+  "Conductividad Sólido $(k)$:": "Solid Conductivity $(k)$:",
+  "Densidad $(\\rho)$:": "Density $(\\rho)$:",
+  "kg/m³": "kg/m³",
+  "Calor Específico $(c_p)$:": "Specific Heat $(c_p)$:",
+  "J/kg·K": "J/kg·K",
+  "Constante de Tiempo $(\\tau)$:": "Time Constant $(\\tau)$:",
+  "En su obra": "In his work",
+  "Tubo de Venturi": "Venturi tube",
+  "Parámetros del Fluido (Agua)": "Fluid Parameters (Water)",
+  "Velocidad de Entrada $(v_1)$:": "Input Velocity $(v_1)$:",
+  "m/s": "m/s",
+  "Diámetro Principal $(D_1)$:": "Main Diameter $(D_1)$:",
+  "Diámetro Estrechamiento $(D_2)$:": "Narrowing Diameter $(D_2)$:",
+  "Diferencia de Elevación $(z_1 - z_2)$:": "Elevation Difference $(z_1 - z_2)$:",
+  "Mediciones (Continuidad y Bernoulli)": "Measurements (Continuity and Bernoulli)",
+  "La presión estática absoluta teórica ha alcanzado el límite físico de $0\\text{ kPa}$. Por más que se aumente la velocidad del fluido o se estreche el cuello, la presión no puede ser inferior al vacío absoluto. En la práctica, el agua experimenta cavitación violenta.": "The theoretical absolute static pressure has reached the physical limit of $0\\text{ kPa}$. No matter how much the fluid velocity is increased or the neck is narrowed, the pressure cannot be lower than absolute vacuum. In practice, water undergoes violent cavitation.",
+  "A menor $D_2$, la velocidad $v_2$ aumenta cuadráticamente y la presión se desploma. Si la presión cayera por debajo de la presión de vapor, el líquido herviría localmente (cavitación).": "The lower $D_2$, the velocity $v_2$ increases quadratically and the pressure plummets. If the pressure fell below the vapor pressure, the liquid would boil locally (cavitation).",
+  "El agua a una altura de carga $H$ descarga a la atmósfera a través de la boquilla (nozzle) convirtiendo toda la energía potencial en cinética:": "The water at a head height $H$ discharges into the atmosphere through the nozzle, converting all potential energy into kinetic energy:",
+  "A través del tubo reductor de diámetro $D_1$ a la garganta $D_2$, la velocidad del fluido cambia inversamente proporcional a la sección transversal, provocando que la velocidad máxima y la menor presión ocurran en el punto de menor diámetro. El caudal volumétrico total es $Q = A_2 v_{chorro}$.": "Through the diameter reducing tube $D_1$ to the throat $D_2$, the fluid velocity changes inversely proportional to the cross section, causing the maximum velocity and lowest pressure to occur at the point of smallest diameter. The total volumetric flow rate is $Q = A_2 v_{jet}$.",
+  "Al impactar tangencialmente las cucharas de la turbina Pelton, el caudal másico ($\dot{m} = \\rho Q$) ejerce una fuerza de empuje sobre el rodete dada por:": "When the Pelton turbine spoons tangentially impact, the mass flow rate ($\dot{m} = \\rho Q$) exerts a thrust force on the impeller given by:",
+  "La potencia mecánica máxima aprovechable del chorro de agua es:": "The maximum usable mechanical power of the water jet is:",
+  "Vista de la Planta Hidráulica": "View of the Hydraulic Plant",
+  "Parámetros Físicos": "Physical Parameters",
+  "Altura del Tanque (H):": "Tank Height (H):",
+  "Diámetro Tubería Principal (D1):": "Main Pipe Diameter (D1):",
+  "Diámetro Garganta Venturi (D2):": "Venturi Throat Diameter (D2):",
+  "Rendimiento y Presiones": "Performance and Pressures",
+  "Balance de Energía de Bernoulli (kPa)": "Bernoulli Energy Balance (kPa)",
+  "Anders Celsius: Calibración Termométrica y la Escala de Temperatura (1742)": "Anders Celsius: Thermometric Calibration and the Temperature Scale (1742)",
+  "El punto de ebullición del agua (fijado originalmente en $0^\circ$)": "The boiling point of water (originally set at $0^\circ$)",
+  "el punto de congelación del agua (fijado originalmente en $100^\circ$)": "the freezing point of water (originally set at $100^\circ$)",
+  ". La escala original estaba": ". The original scale was",
+  "en comparación con la que usamos hoy en día, la cual fue invertida tras su muerte por Carl Linnaeus para mayor comodidad de uso.": "compared to the one we use today, which was reversed after his death by Carl Linnaeus for greater comfort of use.",
+  "Efecto de la Presión Atmosférica:": "Effect of Atmospheric Pressure:",
+  "Celsius descubrió que el punto de congelación apenas cambia con la presión, pero el punto de ebullición del agua es altamente dependiente de la presión atmosférica externa. Por ejemplo, en Medellín (altitud 1500m) el agua hierve a aproximadamente $92^\circ\\text{C}$, y en Bogotá (altitud 2600m) a $86^\circ\\text{C}$.": "Celsius discovered that the freezing point barely changes with pressure, but the boiling point of water is highly dependent on the external atmospheric pressure. For example, in Medellín (altitude 1500m) water boils at approximately $92^\circ\\text{C}$, and in Bogotá (altitude 2600m) at $86^\circ\\text{C}$.",
+  "Estado:": "Status:",
+  "Lectura:": "Reading:",
+  "Temperatura del Agua:": "Water Temperature:",
+  "Tabla Comparativa de Escalas": "Comparative Table of Scales",
+  "Ecuación de Conversión Activa": "Active Conversion Equation",
+  "Cero Absoluto": "Absolute Zero",
+  "Congelación H₂O": "H₂O Freezing",
+  "Temp. Corporal": "Temp. Corporal",
+  "Ebullición H₂O": "Boiling H₂O",
+  "Ver Curva de Ebullición (0 a 120 km)": "See Boiling Curve (0 to 120 km)",
+  "Ebullición del Agua hasta el Límite de la Atmósfera (120 km)": "Boiling of Water up to the Limit of the Atmosphere (120 km)",
+  "A 0.061 atm, el agua hierve a 37 °C (temperatura corporal). Sin un traje presurizado, la saliva y lágrimas hervirían espontáneamente.": "At 0.061 atm, water boils at 37°C (body temperature). Without a pressure suit, saliva and tears would boil spontaneously.",
+  "A 0.006 atm (611 Pa), el agua no puede existir en estado líquido, sin importar la temperatura. Por encima de esta altitud (zona gris), el agua solo puede existir como hielo sólido o vapor de agua (sublimación).": "At 0.006 atm (611 Pa), water cannot exist in a liquid state, regardless of temperature. Above this altitude (gray zone), water can only exist as solid ice or water vapor (sublimation).",
+  "Navier y Stokes: Ecuaciones del Flujo Viscoso y Perfil Alar (1822–1845)": "Navier and Stokes: Viscous Flow and Wing Profile Equations (1822–1845)",
+  "Claude-Louis Navier (1822) y George Gabriel Stokes (1845) formularon las ecuaciones vectoriales que gobiernan el movimiento de": "Claude-Louis Navier (1822) and George Gabriel Stokes (1845) formulated the vector equations that govern the motion of",
+  "en el universo. Su forma incompresible es:": "in the universe. Its incompressible form is:",
+  "Inercia ($\\rho(\partial\mathbf{u}/\partial t + \mathbf{u}\\cdot\nabla\mathbf{u})$):": "Inertia ($\\rho(\partial\mathbf{u}/\partial t + \mathbf{u}\\cdot\nabla\mathbf{u})$):",
+  "La aceleración neta de cada partícula de fluido — convectiva (cambio de posición) y local (cambio en el tiempo).": "The net acceleration of each fluid particle — convective (change in position) and local (change in time).",
+  "Presión ($-\nabla p$):": "Pressure ($-\nabla p$):",
+  "El gradiente de presión que impulsa el flujo de zonas de alta a baja presión (genera sustentación en perfiles alares).": "The pressure gradient that drives the flow from high to low pressure zones (generates lift on airfoils).",
+  "Viscosidad ($\mu\nabla^2\mathbf{u}$):": "Viscosity ($\mu\nabla^2\mathbf{u}$):",
+  "La resistencia interna del fluido al cizallamiento, causa la capa límite y el arrastre.": "The internal resistance of the fluid to shear causes the boundary layer and drag.",
+  "Gravedad ($\\rho\mathbf{g}$):": "Gravity ($\\rho\mathbf{g}$):",
+  "Fuerzas de cuerpo como la gravedad o las magnéticas.": "Body forces such as gravity or magnetic forces.",
+  "La simulación usa": "The simulation uses",
+  "para mostrar el comportamiento cualitativo alrededor del perfil.": "to show the qualitative behavior around the profile.",
+  "Reiniciar Partículas": "Reset Particles",
+  "Ángulo de Ataque $(\alpha)$:": "Angle of Attack $(\alpha)$:",
+  "Velocidad del Flujo:": "Flow Speed:",
+  "Experimento de Herschel: Descubrimiento del Infrarrojo (1800)": "Herschel Experiment: Discovery of Infrared (1800)",
+  "Posición del Termómetro (Espectro):": "Thermometer Position (Spectrum):",
+  "Intensidad Solar $(I)$:": "Solar Intensity $(I)$:",
+  "W/m²": "W/m²",
+  "Temp. Ambiente $(T_{amb})$:": "Temp. Environment $(T_{amb})$:",
+  "Termómetro Activo ($T_{act}$):": "Active Thermometer ($T_{act}$):",
+  "Control 1 - Sombra ($T_{c1}$):": "Control 1 - Shadow ($T_{c1}$):",
+  "Control 2 - Sombra ($T_{c2}$):": "Control 2 - Shadow ($T_{c2}$):",
+  "Diferencial de Temperatura ($\Delta T$):": "Temperature Differential ($\Delta T$):",
+  "Número de Nusselt: Conducción vs Convección": "Nusselt Number: Conduction vs Convection",
+  "Físicamente: $$ Nu = \\frac{q_{conv}}{q_{cond}} = \\frac{h L_c}{k} $$": "Physically: $$ Nu = \\frac{q_{conv}}{q_{cond}} = \\frac{h L_c}{k} $$",
+  "Velocidad del Fluido $(u)$:": "Fluid Velocity $(u)$:",
+  "Conductividad Fluido $(k)$:": "Fluid Conductivity $(k)$:",
+  "Espesor $(L_c)$:": "Thickness $(L_c)$:",
+  "Temp. Pared $(T_s)$:": "Temp. Wall $(T_s)$:",
+  "Temp. Libre $(T_\\infty)$:": "Temp. Free $(T_\\infty)$:",
+  "Calor por Conducción Pura $(q_{cond})$:": "Heat by Pure Conduction $(q_{cond})$:",
+  "Calor por Convección $(q_{conv})$:": "Heat by Convection $(q_{conv})$:",
+  "Analogías de Transporte y Desarrollo de Capas Límite": "Transport Analogies and Boundary Layer Development",
+  "En el estudio de transferencia de calor y masa, las capas límite de velocidad ($\delta$), térmica ($\delta_t$) y de concentración ($\delta_c$) describen cómo se desarrollan los perfiles desde la pared.": "In the heat and mass transfer study, the velocity ($\delta$), thermal ($\delta_t$), and concentration ($\delta_c$) boundary layers describe how the profiles develop from the wall.",
+  "Número de Prandtl ($Pr = \\frac{\nu}{\alpha}$):": "Prandtl number ($Pr = \\frac{\nu}{\alpha}$):",
+  "Relaciona la difusión de momento y calor. $\delta / \delta_t \\approx Pr^{1/3}$ o $\delta_t / \delta \\approx Pr^{-1/3}$.": "Relates the diffusion of momentum and heat. $\delta / \delta_t \\approx Pr^{1/3}$ or $\delta_t / \delta \\approx Pr^{-1/3}$.",
+  "Número de Schmidt ($Sc = \\frac{\nu}{D_{AB}}$):": "Schmidt number ($Sc = \\frac{\nu}{D_{AB}}$):",
+  "Relaciona la difusión de momento y masa. $\delta / \delta_c \\approx Sc^{1/3}$ o $\delta_c / \delta \\approx Sc^{-1/3}$.": "Relates the diffusion of momentum and mass. $\delta / \delta_c \\approx Sc^{1/3}$ or $\delta_c / \delta \\approx Sc^{-1/3}$.",
+  "Número de Lewis ($Le = \\frac{\alpha}{D_{AB}} = \\frac{Sc}{Pr}$):": "Lewis number ($Le = \\frac{\alpha}{D_{AB}} = \\frac{Sc}{Pr}$):",
+  "Relaciona la difusión de calor y masa. $\delta_t / \delta_c \\approx Le^{1/3}$ o $\delta_c / \delta_t \\approx Le^{-1/3}$.": "Relates the diffusion of heat and mass. $\delta_t / \delta_c \\approx Le^{1/3}$ or $\delta_c / \delta_t \\approx Le^{-1/3}$.",
+  "Número de Prandtl $(Pr)$:": "Prandtl number $(Pr)$:",
+  "Número de Schmidt $(Sc)$:": "Schmidt number $(Sc)$:",
+  "Espesor Capa Térmica $(\delta_t)$:": "Thermal Layer Thickness $(\delta_t)$:",
+  "Espesor Capa Masa $(\delta_c)$:": "Layer Thickness Mass $(\delta_c)$:",
+  "Relación Espesores $(\delta_t / \delta_c)$:": "Thickness ratio $(\delta_t / \delta_c)$:",
+  "Experimento de Osborne Reynolds (1883)": "Osborne Reynolds experiment (1883)",
+  "Velocidad del Fluido $(V)$:": "Fluid Velocity $(V)$:",
+  "Diámetro Hidráulico $(D_h)$:": "Hydraulic Diameter $(D_h)$:",
+  "Viscosidad Cinemática $(\nu)$:": "Kinematic Viscosity $(\nu)$:",
+  "m²/s": "m²/s",
+  "• $Re": "• $Re",
+  "2300$: Flujo Laminar (estable)": "$2300: Laminar Flow (stable)",
+  "• $2300 \le Re \le 4000$: Transición (oscilante)": "• $2300 \le Re \le 4000$: Transition (oscillating)",
+  "• $Re > 4000$: Flujo Turbulento (mezclado completo)": "• $Re > 4000$: Turbulent Flow (complete mixing)",
+  "Convección Natural sobre un Cilindro Horizontal": "Natural Convection on a Horizontal Cylinder",
+  "La convección natural ocurre debido al movimiento de flotación originado por cambios de densidad en un fluido a causa de diferencias de temperatura. Para un cilindro horizontal de diámetro $D$, la transferencia de calor se estima mediante la correlación de": "Natural convection occurs due to the buoyant motion caused by density changes in a fluid due to temperature differences. For a horizontal cylinder of diameter $D$, the heat transfer is estimated by the correlation of",
+  "Temperatura Superficie $(T_s)$:": "Surface Temperature $(T_s)$:",
+  "Temperatura Fluido $(T_\\infty)$:": "Fluid Temperature $(T_\\infty)$:",
+  "• $T_s > T_\\infty$: El fluido se calienta, se vuelve menos denso y **asciende**, creando una pluma térmica hacia arriba.": "• $T_s > T_\\infty$: The fluid heats up, becomes less dense, and **rises**, creating an upward thermal plume.",
+  "• $T_s": "• $T_s",
+  "T_\\infty$: El fluido se enfría, se vuelve más denso y **desciende**, creando una pluma térmica hacia abajo.": "T_\\infty$: The fluid cools, becomes denser, and **descends**, creating a downward thermal plume.",
+  "• $\Delta T = 0$: No hay corrientes de flotación.": "• $\Delta T = 0$: There are no float currents.",
+  "Pared Compuesta y Analogía de Resistencias Térmicas": "Composite Wall and Thermal Resistance Analogy",
+  "La conducción de calor a través de un medio en estado estable puede ser modelada matemáticamente utilizando la": "The conduction of heat through a medium in a steady state can be modeled mathematically using the",
+  "($I = \Delta V / R$). En transferencia de calor, la corriente es la tasa de transferencia de calor ($q$), el potencial es la diferencia de temperaturas ($\Delta T$), y la resistencia al flujo se llama": "($I = \Delta V / R$). In heat transfer, the current is the heat transfer rate ($q$), the potential is the temperature difference ($\Delta T$), and the resistance to flow is called",
+  "Resistencia Térmica ($R_{th}$)": "Thermal Resistance ($R_{th}$)",
+  "En este ejemplo clásico de una pared plana compuesta de 3 capas expuesta a fluidos en convección a ambos lados, el circuito consiste en 5 resistencias en serie. Modifica las propiedades para ver cómo afectan el perfil de temperatura y la resistencia total.": "In this classic example of a 3-layer composite flat wall exposed to convecting fluids on both sides, the circuit consists of 5 resistors in series. Modify the properties to see how they affect the temperature profile and total resistance.",
+  "(Área transversal $A = 1 \\text{ m}^2$ asumida)": "(Assumed cross-sectional area $A = 1 \\text{ m}^2$)",
+  "Resistencia Total ($R_{tot}$)": "Total Resistance ($R_{tot}$)",
+  "Conductividad $k_1$:": "Conductivity $k_1$:",
+  "W/m·K": "W/m·K",
+  "Espesor $L_1$:": "Thickness $L_1$:",
+  "Conductividad $k_2$:": "Conductivity $k_2$:",
+  "Espesor $L_2$:": "Thickness $L_2$:",
+  "Conductividad $k_3$:": "Conductivity $k_3$:",
+  "Espesor $L_3$:": "Thickness $L_3$:",
+  "Factor de Forma en Radiación (Leyes de Intercambio Radiante)": "Form Factor in Radiation (Radiant Exchange Laws)",
+  "El factor de forma ($F_{12}$) representa la fracción de radiación que, partiendo difusamente de la superficie 1, incide directamente sobre la superficie 2. Para dos rectángulos paralelos idénticos alineados de ancho $W$ y longitud $L$, separados por una distancia $D$:": "The shape factor ($F_{12}$) represents the fraction of radiation that, starting diffusely from surface 1, falls directly on surface 2. For two identical parallel rectangles aligned with width $W$ and length $L$, separated by a distance $D$:",
+  "Factor de Forma ($F_{12}$)": "Form Factor ($F_{12}$)",
+  "Pérdida al Entorno ($1 - F_{12}$)": "Loss to the Environment ($1 - F_{12}$)",
+  "Ancho del plato $W$:": "Plate width $W$:",
+  "Largo del plato $L$:": "Plate length $L$:",
+  "Distancia de separación $D$:": "Separation distance $D$:",
+  "Disipador de Microcanales (Enfriamiento de Microchips)": "Microchannel Heatsink (Microchip Cooling)",
+  "El enfriamiento moderno de microprocesadores de alta densidad térmica (ej. servidores de IA) emplea **bloques con microcanales de silicio o cobre**. Al reducir el diámetro hidráulico ($D_h$) del canal a nivel micrométrico ($50-400\ \mu\\text{m}$), el coeficiente de transferencia de calor por convección ($h = Nu \\cdot k_f / D_h$) se multiplica hasta superar $20,000\ \\text{W/m}^2\\text{K}$.": "Modern cooling of high thermal density microprocessors (e.g. AI servers) uses **blocks with silicon or copper microchannels**. By reducing the hydraulic diameter ($D_h$) of the channel to the micrometer level ($50-400\ \mu\\text{m}$), the convection heat transfer coefficient ($h = Nu \\cdot k_f / D_h$) is multiplied to exceed $20,000\ \\text{W/m}^2\\text{K}$.",
+  "A escalas nanométricas, el grosor de la pared de silicio es menor que el camino libre medio de los fonones ($\\approx 300\\text{ nm}$). Los fonones rebotan contra las fronteras (dispersión de frontera), reduciendo la conductividad térmica efectiva del silicio por debajo de su valor macroscópico. Esto eleva la temperatura del chip.": "At nanometer scales, the thickness of the silicon wall is less than the mean free path of phonons ($\\approx 300\\text{ nm}$). Phonons bounce off the boundaries (boundary scattering), reducing the effective thermal conductivity of silicon below its macroscopic value. This raises the temperature of the chip.",
+  "Potencia del Chip ($Q$):": "Chip Power ($Q$):",
+  "Ancho de Canal ($w_c$):": "Channel Width ($w_c$):",
+  "Caudal ($V'$):": "Flow rate ($V'$):",
+  "ml/min": "ml/min",
+  "Resistencia de Frontera ($R_{micro}$):": "Boundary Resistance ($R_{micro}$):",
+  "Temperatura Max Chip ($T_{max}$):": "Max Chip Temperature ($T_{max}$):",
+  "Resistencias Térmicas en Paralelo (Convección y Radiación)": "Parallel Thermal Resistances (Convection and Radiation)",
+  "En problemas reales de transferencia de calor, la frontera expuesta al exterior suele perder calor mediante dos mecanismos simultáneos e independientes:": "In real heat transfer problems, the boundary exposed to the outside usually loses heat through two simultaneous and independent mechanisms:",
+  "hacia el aire adyacente y": "into the adjacent air and",
+  "hacia los alrededores. Al actuar al mismo tiempo sobre la misma superficie, estos mecanismos se modelan como resistencias en": "towards the surroundings. By acting at the same time on the same surface, these mechanisms are modeled as resistances in",
+  "Temp. Izquierda $T_1$:": "Temp. Left $T_1$:",
+  "Temp. Alrededores $T_{surr}$:": "Temp. Surroundings $T_{surr}$:",
+  "Coef. Convección $h$:": "Coef. Convection $h$:",
+  "Emisividad $\epsilon$:": "Emissivity $\epsilon$:",
+  "Absortividad $\alpha_{abs}$:": "Absorptivity $\alpha_{abs}$:",
+  "Irradiancia $G$:": "Irradiance $G$:",
+  "Resistencia Conducción ($R_{cond}$)": "Conduction Resistance ($R_{cond}$)",
+  "Resistencia Convección ($R_{conv}$)": "Convection Resistance ($R_{conv}$)",
+  "Resistencia Radiación ($R_{rad}$)": "Radiation Resistance ($R_{rad}$)",
+  "Resist. Equivalente ($R_{eq,par}$)": "Resist. Equivalent ($R_{eq,par}$)",
+  "Tasa Conducción ($q_{cond}$)": "Conduction Rate ($q_{cond}$)",
+  "Conducción ($q_{cond}$)": "Conduction ($q_{cond}$)",
+  "Absorción Solar ($q_{sol}$)": "Solar Absorption ($q_{sol}$)",
+  "Convección ($q_{conv}$)": "Convection ($q_{conv}$)",
+  "Radiación Emisión ($q_{rad}$)": "Radiation Emission ($q_{rad}$)",
+  "Escala Absoluta Kelvin y Cero Absoluto": "Kelvin Absolute Scale and Absolute Zero",
+  "La escala absoluta de temperatura propuesta por": "The absolute temperature scale proposed by",
+  "se fundamenta en la Ley de Charles para un gas ideal. A presión constante, el volumen de una masa fija de gas es directamente proporcional a su temperatura absoluta: $V \propto T$.": "It is based on Charles' Law for an ideal gas. At constant pressure, the volume of a fixed mass of gas is directly proportional to its absolute temperature: $V \propto T$.",
+  "Si graficamos el volumen experimental de un gas para distintos valores de temperatura y extrapolamos la línea de tendencia hacia atrás, descubrimos que el volumen teóricamente llega a cero exactamente a la temperatura de": "If we plot the experimental volume of a gas for different values of temperature and extrapolate the trend line backwards, we discover that the volume theoretically reaches zero exactly at the temperature of",
+  ". Kelvin definió esta temperatura límite de movimiento cinético nulo como el": ". Kelvin defined this limiting temperature of zero kinetic motion as the",
+  "Cero Absoluto ($0\\text{ K}$)": "Absolute Zero ($0\\text{ K}$)",
+  "Velocidad Partículas ($v_{rms}$)": "Particle Velocity ($v_{rms}$)",
+  "Temperatura $(T)$:": "Temperature $(T)$:",
+  "°C /": "°C /",
+  "Presión $(P)$:": "Pressure $(P)$:",
+  "atm": "atm",
+  "Cantidad de Gas $(n)$:": "Amount of Gas $(n)$:",
+  "moles": "moles",
+  "Rudolf Clausius: Entropía y Segunda Ley de la Termodinámica (1850)": "Rudolf Clausius: Entropy and Second Law of Thermodynamics (1850)",
+  "establece que los procesos naturales en sistemas aislados ocurren de manera irreversible en una dirección que maximiza el desorden. Rudolf Clausius definió matemáticamente la **Entropía ($S$)** para cuantificar este fenómeno:": "states that natural processes in isolated systems occur irreversibly in a direction that maximizes disorder. Rudolf Clausius mathematically defined **Entropy ($S$)** to quantify this phenomenon:",
+  "El calor fluye naturalmente desde un cuerpo caliente (alta energía cinética molecular) hacia uno frío (baja energía cinética), hasta lograr el equilibrio térmico. El proceso inverso es termodinámicamente imposible de manera espontánea.": "Heat flows naturally from a hot body (high molecular kinetic energy) to a cold one (low kinetic energy), until thermal equilibrium is achieved. The reverse process is thermodynamically impossible spontaneously.",
+  "A nivel estadístico molecular (desarrollado por Boltzmann), la entropía se define como:": "At the molecular statistical level (developed by Boltzmann), entropy is defined as:",
+  "Donde:": "Where:",
+  "Entropía (medida de desorden o irreversibilidad del sistema).": "Entropy (measure of disorder or irreversibility of the system).",
+  "Constante de Boltzmann ($1.38 \times 10^{-23} \\text{ J/K}$), factor que escala la energía microscópica a temperatura macroscópica.": "Boltzmann constant ($1.38 \times 10^{-23} \\text{ J/K}$), factor that scales microscopic energy to macroscopic temperature.",
+  "Multiplicidad o número de microestados (letra griega Omega mayúscula, no confundir con la unidad *Ohm*). Representa las diferentes formas en que las moléculas pueden distribuirse. Un gas mezclado tiene muchísimos más microestados posibles (alta multiplicidad $\Omega$) y por tanto mayor entropía.": "Multiplicity or number of microstates (Greek capital letter Omega, not to be confused with the unit *Ohm*). It represents the different ways in which molecules can be distributed. A mixed gas has many more possible microstates (high multiplicity $\Omega$) and therefore greater entropy.",
+  "Remover Tabique": "Remove Septum",
+  "Restaurar / Separar": "Restore/Detach",
+  "Número de Partículas:": "Number of Particles:",
+  "Velocidad Térmica:": "Thermal Speed:",
+  "Entropía Normalizada ($S/S_{max}$):": "Normalized Entropy ($S/S_{max}$):",
+  "Capacidades Caloríficas $C_p$ y $C_v$ (Significado Físico)": "Heat Capacities $C_p$ and $C_v$ (Physical Meaning)",
+  "La capacidad calorífica específica indica la cantidad de calor necesaria para elevar en $1\\text{ K}$ la temperatura de $1\\text{ kg}$ de sustancia. Para los gases, este valor depende del camino termodinámico:": "The specific heat capacity indicates the amount of heat necessary to raise the temperature of $1\\text{ kg}$ of substance by $1\\text{ K}$. For gases, this value depends on the thermodynamic path:",
+  "El recipiente está rígido y cerrado. Todo el calor se convierte en energía interna ($Q_v = \Delta U$), aumentando la velocidad molecular. No hay expansión ni trabajo ($W = 0$).": "The container is rigid and closed. All heat is converted into internal energy ($Q_v = \Delta U$), increasing molecular speed. There is no expansion or work ($W = 0$).",
+  "El pistón es libre de moverse. Al calentarse, el gas se expande realizando trabajo mecánico contra la presión atmosférica ($W = P \Delta V$). El calor inyectado debe cubrir tanto la energía interna como el trabajo ($Q_p = \Delta U + W$). Por ello, siempre $C_p > C_v$.": "The piston is free to move. When heated, the gas expands doing mechanical work against the atmospheric pressure ($W = P \Delta V$). The injected heat must cover both the internal energy and the work ($Q_p = \Delta U + W$). Therefore, always $C_p > C_v$.",
+  "Incremento Objetivo $(\Delta T)$:": "Target Increment $(\Delta T)$:",
+  "Iniciar Calentamiento": "Start Warm-up",
+  "El Equivalente Mecánico del Calor (Joule, 1843)": "The Mechanical Equivalent of Heat (Joule, 1843)",
+  "El experimento histórico de": "The historical experiment of",
+  "demostró que el calor es una forma de energía y que se conserva. Al dejar caer dos pesas de masa $m$ desde una altura $h$, la energía potencial gravitatoria se convierte en trabajo mecánico ($W = 2 m g h N$) al hacer girar paletas dentro de un calorímetro de agua térmicamente aislado.": "He showed that heat is a form of energy and that it is conserved. By dropping two weights of mass $m$ from a height $h$, the gravitational potential energy is converted to mechanical work ($W = 2 m g h N$) by rotating paddles inside a thermally insulated water calorimeter.",
+  "Debido a la fricción viscosa del agua, este trabajo se disipa en calor ($Q$), elevando la temperatura del agua ($\Delta T$). Joule determinó que la relación entre el trabajo en Joules y el calor en calorías es una constante universal: $J = \\frac{W}{Q} \\approx 4.184 \\text{ J/cal}$.": "Due to the viscous friction of water, this work is dissipated into heat ($Q$), raising the temperature of the water ($\Delta T$). Joule determined that the relationship between work in Joules and heat in calories is a universal constant: $J = \\frac{W}{Q} \\approx 4.184 \\text{ J/cal}$.",
+  "Soltar Pesas": "Drop Weights",
+  "Subir Pesas (Rebobinar)": "Raise Weights (Rewind)",
+  "Limpiar Experimento": "Clear Experiment",
+  "Masa de cada pesa $(m)$:": "Mass of each weight $(m)$:",
+  "Altura de caída $(h)$:": "Drop height $(h)$:",
+  "Masa del agua $(M_{agua})$:": "Mass of water $(M_{water})$:",
+  "Var. de Temperatura ($\Delta T$):": "Var. Temperature ($\Delta T$):",
+  "Cambio En. Interna ($\Delta U_{agua}$):": "Change In. Internal ($\Delta U_{water}$):",
+  "Intercambiador de Calor de Doble Tubo": "Double Tube Heat Exchanger",
+  "Los intercambiadores de doble tubo constan de dos tubos concéntricos. Un fluido fluye por el tubo interno mientras que el otro fluye por el espacio anular (el canal externo). Este simulador modela la transferencia de calor sensible (sin cambio de fase) utilizando el": "Double tube exchangers consist of two concentric tubes. One fluid flows through the inner tube while the other flows through the annulus (the outer channel). This simulator models sensible heat transfer (without phase change) using the",
+  "método de la Efectividad-NTU ($\epsilon$-NTU)": "Effectiveness-NTU method ($\epsilon$-NTU)",
+  "El método $\epsilon$-NTU se basa en la definición de la efectividad de la transferencia de calor:": "The $\epsilon$-NTU method is based on the definition of the effectiveness of heat transfer:",
+  "donde la transferencia máxima posible de calor es: $$ q_{max} = C_{min} (T_{h,in} - T_{c,in}) $$ y $C_{min} = \min(C_h, C_c)$ es la menor capacitancia térmica ($\dot{m} c_p$). Para las configuraciones de flujo:": "where the maximum possible heat transfer is: $$ q_{max} = C_{min} (T_{h,in} - T_{c,in}) $$ and $C_{min} = \min(C_h, C_c)$ is the smallest thermal capacitance ($\dot{m} c_p$). For flow settings:",
+  "donde $NTU = \\frac{U A}{C_{min}}$ (Número de Unidades de Transferencia) y $C_r = \\frac{C_{min}}{C_{max}}$ es la relación de capacitancias. El coeficiente global $U$ se calcula a partir de las resistencias térmicas de convección y conducción a través de la pared interna del tubo:": "where $NTU = \\frac{U A}{C_{min}}$ (Number of Transfer Units) and $C_r = \\frac{C_{min}}{C_{max}}$ is the capacitance ratio. The global coefficient $U$ is calculated from the thermal resistances of convection and conduction through the internal wall of the tube:",
+  "Efectividad $(\epsilon)$": "Effectiveness $(\epsilon)$",
+  "Parámetros de Transferencia y Fluido": "Transfer and Fluid Parameters",
+  "Diám. Hidráulico $(D_{h,i})$:": "Hydraulic Diameter $(D_{h,i})$:",
+  "Diám. Hidráulico $(D_{h,o})$:": "Hydraulic Diameter $(D_{h,o})$:",
+  "Diferencia de Temp. Media Logarítmica $(\Delta T_{ML})$:": "Temp Difference Logarithmic Mean $(\Delta T_{ML})$:",
+  "Circuito de Resistencias Térmicas": "Thermal Resistance Circuit",
+  "Resistencia Conv. Interna $(R_{conv,i})$:": "Resistance Conv. Internal $(R_{conv,i})$:",
+  "Resistencia Cond. Pared $(R_{cond,w})$:": "Resistance Cond. Wall $(R_{cond,w})$:",
+  "Resistencia Conv. Externa $(R_{conv,o})$:": "Resistance Conv. External $(R_{conv,o})$:",
+  "Resistencia Térmica Total $(R_{tot})$:": "Total Thermal Resistance $(R_{tot})$:",
+  "Verificación del Balance de Energía": "Energy Balance Verification",
+  "Calor por Circuito $(\Delta T_{ML} / R_{tot})$:": "Heat per Circuit $(\Delta T_{ML} / R_{tot})$:",
+  "Longitud $(L)$:": "Length $(L)$:",
+  "Diám. Interno $(D_i)$:": "Internal Dia. $(D_i)$:",
+  "Espesor Pared $(t)$:": "Wall Thickness $(t)$:",
+  "Diám. Externo $(D_{ext})$:": "External Dia. $(D_{ext})$:",
+  "Temp. Entrada Caliente $(T_{h,in})$:": "Temp. Hot Input $(T_{h,in})$:",
+  "Temp. Entrada Frío $(T_{c,in})$:": "Temp. Cold Input $(T_{c,in})$:",
+  "Masa Flujo Caliente $(\dot{m}_h)$:": "Hot Flow Mass $(\dot{m}_h)$:",
+  "kg/s": "kg/s",
+  "Masa Flujo Frío $(\dot{m}_c)$:": "Cold Flow Mass $(\dot{m}_c)$:",
+  "Temperaturas de Salida Resultantes": "Resulting Outlet Temperatures",
+  "Fluido Caliente de Salida $(T_{h,out})$:": "Outlet Hot Fluid $(T_{h,out})$:",
+  "Fluido Frío de Salida $(T_{c,out})$:": "Outlet Cold Fluid $(T_{c,out})$:",
+  "Se han alcanzado condiciones de ebullición para el agua (T ≥ 100 °C). Se debe diseñar un evaporador para este propósito.": "Boiling conditions have been reached for water (T ≥ 100 °C). An evaporator must be designed for this purpose.",
+  "Propiedades Termofísicas Promedio": "Average Thermophysical Properties",
+  "J/kgK": "J/kgK",
+  "Viscosidad $(\mu)$:": "Viscosity $(\mu)$:",
+  "Pa·s": "Pa·s",
+  "Visc. cinem. $(\nu)$:": "Visc. cinem. $(\nu)$:",
+  "Correlaciones de Convección": "Convection Correlations",
+  "1. Régimen Laminar $(Re_d": "1. Laminar Regime $(Re_d",
+  "2. Régimen de Transición $(2300 \le Re_d": "2. Transition Regime $(2300 \le Re_d",
+  "Correlación de": "Correlation of",
+  "donde $f = (0.79\ln(Re_d) - 1.64)^{-2}$ (Petukhov).": "where $f = (0.79\ln(Re_d) - 1.64)^{-2}$ (Petukhov).",
+  "3. Régimen Turbulento $(Re_d \ge 10000)$:": "3. Turbulent Regime $(Re_d \ge 10000)$:",
+  "Requisitos: $Re_d \ge 10000$, $L/D_h \ge 10$, y $0.6 \le Pr \le 160$. Exponente:": "Requirements: $Re_d \ge 10000$, $L/D_h \ge 10$, and $0.6 \le Pr \le 160$. Exponent:",
+  "Calle de Vórtices de Von Kármán": "Von Kármán Vortex Street",
+  "Campo de Flujo e Inducción de Vorticidad": "Flow Field and Vorticity Induction",
+  "Sentido Horario (-)": "Clockwise (-)",
+  "Sentido Antihorario (+)": "Counterclockwise (+)",
+  "Observa cómo se forman los vórtices alternados a sotavento del cilindro. Modifica los parámetros inferiores para ver la transición desde flujo laminar estacionario ($Re": "Observe how the alternating vortices form in the lee of the cylinder. Modify the lower parameters to see the transition from steady laminar flow ($Re",
+  "47$) hasta régimen plenamente oscilatorio.": "47$) up to fully oscillatory regime.",
+  "Parámetros de Control": "Control Parameters",
+  "Velocidad del Flujo $(U)$:": "Flow Velocity $(U)$:",
+  "Diámetro del Cilindro $(D)$:": "Cylinder Diameter $(D)$:",
+  "Resultados de la Simulación": "Simulation Results",
+  "Contexto de Ingeniería: Tacoma Narrows (1940)": "Engineering Context: Tacoma Narrows (1940)",
+  "El colapso catastrófico del puente original de": "The catastrophic collapse of the original bridge",
+  "en 1940 es el ejemplo histórico más célebre de fallas estructurales de ingeniería inducidas por resonancia aeroelástica y desprendimiento periódico de vórtices.": "in 1940 is the most famous historical example of engineering structural failure induced by aeroelastic resonance and periodic vortex shedding.",
+  "A velocidades de viento críticas, la frecuencia de desprendimiento de vórtices de Von Kármán ($f = St \\cdot U / D$) generó fuerzas de sustentación alternantes que coincidieron de forma exacta con la frecuencia natural de torsión de la viga del puente. Esto causó oscilaciones destructivas masivas autoexcitadas por resonancia, que terminaron por fracturar los cables de soporte de acero y colapsar la estructura de la cubierta.": "At critical wind speeds, the Von Kármán vortex shedding frequency ($f = St \\cdot U / D$) generated alternating lift forces that exactly matched the natural twisting frequency of the bridge girder. This caused massive destructive self-excited resonance oscillations, which ultimately fractured the steel support cables and collapsed the deck structure.",
+  "Curva de Nukiyama y Regímenes de Ebullición": "Nukiyama Curve and Boiling Regimes",
+  "Esta simulación interactiva presenta la célebre curva de ebullición de Shiro Nukiyama (1934), que caracteriza la densidad de flujo de calor ($q''$) transferido a un líquido a saturación en función de la temperatura de exceso de la superficie calefactora ($\Delta T_e = T_s - T_{sat}$).": "This interactive simulation presents the famous boiling curve of Shiro Nukiyama (1934), which characterizes the heat flux density ($q''$) transferred to a liquid at saturation as a function of the excess temperature of the heating surface ($\Delta T_e = T_s - T_{sat}$).",
+  "Visualización de Regímenes de Ebullición": "Visualization of Boiling Regimes",
+  "Observa la formación de plumas de convección y el desprendimiento de burbujas en el elemento calefactor horizontal.": "Observe the formation of convection plumes and the release of bubbles on the horizontal heating element.",
+  "Curva de Nukiyama (Log-Log)": "Nukiyama curve (Log-Log)",
+  "El punto naranja señala el estado térmico actual sobre la curva característica del fluido seleccionado.": "The orange point indicates the current thermal state on the characteristic curve of the selected fluid.",
+  "Temperatura de Exceso (ΔTe = Ts - Tsat):": "Excess Temperature (ΔTe = Ts - Tsat):",
+  "El \"Punto de Quemado\" (Burnout) e Inestabilidad:": "The \"Burn Point\" (Burnout) and Instability:",
+  "Al superar el flujo crítico (CHF), la superficie no puede sostener la ebullición nucleada y la temperatura salta de golpe a la rama de película para disipar la misma potencia. Este incremento repentino de temperatura puede fundir el metal del calentador (**burnout**).": "Upon exceeding the critical flux (CHF), the surface cannot sustain nucleate boiling and the temperature suddenly jumps to the film branch to dissipate the same power. This sudden increase in temperature can melt the metal of the heater (**burnout**).",
+  "Conducción Térmica Transitoria (Heisler y Biot)": "Transient Thermal Conduction (Heisler and Biot)",
+  "Distribución de Temperatura (Mapa de Calor 2D)": "Temperature Distribution (2D Heat Map)",
+  "Evolución de Temperatura vs Tiempo": "Evolution of Temperature vs Time",
+  "Coef. Convección (h):": "Coef. Convection (h):",
+  "Dimensión Característica (D o 2L):": "Characteristic Dimension (D or 2L):",
+  "Temp. Inicial (Ti):": "Temp. Initial (Ti):",
+  "Temp. Fluido (Tinf):": "Temp. Fluid (Tinf):",
+  "Velocidad Simulación:": "Simulation Speed:",
+  "Iniciar": "Start",
+  "Interpretación Física:": "Physical Interpretation:",
+  "Si $Bi < 0.1$, la resistencia interna del sólido es despreciable. La temperatura es uniforme espacialmente y el enfriamiento es puramente exponencial. Si $Bi > 0.1$, aparecen gradientes térmicos importantes, y la superficie se enfría mucho más rápido que el núcleo interno.": "If $Bi < 0.1$, the internal resistance of the solid is negligible. The temperature is spatially uniform and the cooling is purely exponential. If $Bi > 0.1$, significant thermal gradients appear, and the surface cools much faster than the inner core.",
+  "Placa Plana con Superficie Aislada (Circuito Adiabático)": "Flat Plate with Insulated Surface (Adiabatic Circuit)",
+  "Esta simulación modela la transferencia de calor unidimensional en una placa plana (pared) de espesor $L$ y conductividad $k$. Una de sus superficies está": "This simulation models one-dimensional heat transfer in a flat plate (wall) of thickness $L$ and conductivity $k$. One of its surfaces is",
+  "La ecuación diferencial gobernante para la conducción unidimensional con generación es:\n                            $$ \\frac{\partial^2 T}{\partial x^2} + \\frac{q_g}{k} = \\frac{1}{\alpha} \\frac{\partial T}{\partial t} $$\n                            Bajo estado estacionario con una superficie aislada en $x = 0$ y superficie libre en $x = L$ a temperatura $T_s$, la solución analítica es:\n                            $$ T(x) = T_s + \\frac{q_g L^2}{2k} \\left[ 1 - \\left(\\frac{x}{L}\\right)^2 \\right] $$\n                            Si no hay generación ($q_g = 0$), en estado estable toda la placa alcanza uniformemente la temperatura de la superficie libre: $T(x) = T_s$.": "The governing differential equation for one-dimensional conduction with generation is:",
+  "Animación Térmica de la Placa": "Thermal Plate Animation",
+  "Perfil de Temperatura $T(x)$": "Temperature Profile $T(x)$",
+  "Temp. Superficie Libre $(T_s)$:": "Temp. Free Surface $(T_s)$:",
+  "Gen. Calor Interna $(q_g)$:": "Internal Heat Generation $(q_g)$:",
+  "Espesor Placa $(L)$:": "Plate Thickness $(L)$:",
+  "Simular": "Simulate",
+  "Temp. Superficie Aislada $(T_{insulated})$": "Temp. Insulated Surface $(T_{insulated})$",
+  "Flujo Calor Superficie Libre $(q''_{free})$": "Free Surface Heat Flow $(q''_{free})$",
+  "Difusividad Térmica $(\alpha)$": "Thermal Diffusivity $(\alpha)$",
+  "Este laboratorio interactivo modela la transferencia de calor por conducción en estado estable a través de una placa plana (pared) compuesta de hasta": "This interactive lab models steady-state conductive heat transfer through a flat plate (wall) composed of up to",
+  ". El usuario puede definir el espesor $(L_i)$ y la conductividad térmica $(k_i)$ de cada capa, así como seleccionar libremente el tipo de condición de frontera en los extremos izquierdo $(x = 0)$ y derecho $(x = L_{tot})$.": ". The user can define the thickness $(L_i)$ and the thermal conductivity $(k_i)$ of each layer, as well as freely select the type of boundary condition at the left ends $(x = 0)$ and right $(x = L_{tot})$.",
+  "El flujo de calor en estado estable a través de las capas está dado por:\n                            $$ q'' = \\frac{T_0 - T_N}{R_{wall}} \quad , \quad R_{wall} = \sum_{i=1}^N \\frac{L_i}{k_i} $$\n                            Las condiciones de frontera seleccionables incluyen:": "The steady state heat flux through the layers is given by:",
+  "Un resolvedor numérico iterativo calcula en tiempo real el flujo de calor y las temperaturas resultantes en cada interfase.": "An iterative numerical solver calculates the heat flux and resulting temperatures at each interface in real time.",
+  "Esquema Térmico y Flujo de Calor": "Thermal Scheme and Heat Flow",
+  "Frontera Izquierda $(x = 0)$": "Left Border $(x = 0)$",
+  "Temperatura $(T_{L})$:": "Temperature $(T_{L})$:",
+  "Coeff. Convección $(h_{L})$:": "Coeff. Convection $(h_{L})$:",
+  "Temp. Fluido $(T_{\\infty, L})$:": "Temp. Fluid $(T_{\\infty, L})$:",
+  "Emisividad $(\epsilon_{L})$:": "Emissivity $(\epsilon_{L})$:",
+  "Temp. Alrededores $(T_{sur, L})$:": "Temp. Surroundings $(T_{sur, L})$:",
+  "Flujo de Calor $(q''_{L})$:": "Heat Flow $(q''_{L})$:",
+  "Frontera Derecha $(x = L_{tot})$": "Right Border $(x = L_{tot})$",
+  "Temperatura $(T_{R})$:": "Temperature $(T_{R})$:",
+  "Coeff. Convección $(h_{R})$:": "Coeff. Convection $(h_{R})$:",
+  "Temp. Fluido $(T_{\\infty, R})$:": "Temp. Fluid $(T_{\\infty, R})$:",
+  "Emisividad $(\epsilon_{R})$:": "Emissivity $(\epsilon_{R})$:",
+  "Temp. Alrededores $(T_{sur, R})$:": "Temp. Surroundings $(T_{sur, R})$:",
+  "Flujo de Calor $(q''_{R})$:": "Heat Flow $(q''_{R})$:",
+  "Configuración de las Capas de la Pared": "Wall Layer Configuration",
+  "Métricas Globales": "Global Metrics",
+  "Resistencia Conducción Total $(R_{cond})$:": "Total Conduction Resistance $(R_{cond})$:",
+  "Resistencia Total del Circuito $(R_{tot})$:": "Total Circuit Resistance $(R_{tot})$:",
+  "Flujos de calor opuestos no balanceados. No existe estado estacionario.": "Opposing unbalanced heat flows. There is no steady state.",
+  "Temperaturas en Interfases": "Temperatures at Interfaces",
+  "El Motor de Carnot — Ciclo de Eficiencia Máxima (1824)": "The Carnot Engine — Maximum Efficiency Cycle (1824)",
+  "Sadi Carnot demostró en 1824 que ningún motor térmico que opere entre dos temperaturas puede superar la eficiencia del": "Sadi Carnot demonstrated in 1824 that no heat engine operating between two temperatures can exceed the efficiency of the",
+  ". La eficiencia máxima depende exclusivamente de las temperaturas absolutas del reservorio caliente ($T_H$) y el reservorio frío ($T_C$):\n                            $$ \eta_{Carnot} = 1 - \\frac{T_C}{T_H} $$\n                            El ciclo consta de cuatro procesos reversibles:": ". The maximum efficiency depends exclusively on the absolute temperatures of the hot reservoir ($T_H$) and the cold reservoir ($T_C$):",
+  "Diagrama P-V del Ciclo de Carnot": "P-V Diagram of the Carnot Cycle",
+  "Isotérmica a→b (T": "Isothermal a→b (T",
+  "Adiabática b→c": "Adiabatic b→c",
+  "Isotérmica c→d (T": "Isothermal c→d (T",
+  "Adiabática d→a": "Adiabatic d→a",
+  "Diagrama T-S (Temperatura–Entropía)": "T-S Diagram (Temperature–Entropy)",
+  "Rectángulo perfecto en T-S. Área sombreada = Trabajo neto $W = (T_H - T_C)\,\Delta S$. Punto animado sincronizado con el diagrama P-V.": "Perfect rectangle in T-S. Shaded area = Net work $W = (T_H - T_C)\,\Delta S$. Animated point synchronized with the P-V diagram.",
+  "Esquema del Motor Térmico": "Thermal Engine Diagram",
+  "Parámetros del Ciclo": "Cycle Parameters",
+  "Temperatura Fuente Caliente $(T_H)$:": "Hot Source Temperature $(T_H)$:",
+  "Temperatura Sumidero Frío $(T_C)$:": "Cold Sump Temperature $(T_C)$:",
+  "Calor Absorbido $(Q_H)$:": "Heat Absorbed $(Q_H)$:",
+  "El sistema garantiza $T_C": "The system guarantees $T_C",
+  "T_H$ automáticamente. La eficiencia solo puede alcanzar el 100% si $T_C = 0\,K$, lo cual es imposible por la Tercera Ley de la Termodinámica.": "T_H$ automatically. The efficiency can only reach 100% if $T_C = 0\,K$, which is impossible by the Third Law of Thermodynamics.",
+  "Resultados del Ciclo": "Cycle Results",
+  "COP Bomba de Calor:": "COP Heat Pump:",
+  "Entropía Generada:": "Generated Entropy:",
+  "Carnot demostró que la eficiencia máxima de cualquier motor térmico que opera entre dos fuentes depende": "Carnot showed that the maximum efficiency of any heat engine operating between two sources depends",
+  "Curiosamente, Carnot derivó esto usando la": "Interestingly, Carnot derived this using the",
+  "(incorrecta), pero la conclusión fue perfectamente válida.": "(incorrect), but the conclusion was perfectly valid.",
+  "William Thomson (Lord Kelvin) se preguntó:": "William Thomson (Lord Kelvin) wondered:",
+  "¿qué temperatura $T_C$ haría que $\eta = 1$ (eficiencia del 100%)?": "What temperature $T_C$ would make $\eta = 1$ (100% efficiency)?",
+  "Despejando de la fórmula de Carnot:": "Solving for Carnot's formula:",
+  "El único valor que lograría eficiencia perfecta es $T_C = 0$. Este cero no es una convención arbitraria: es un": "The only value that would achieve perfect efficiency is $T_C = 0$. This zero is not an arbitrary convention: it is a",
+  "Kelvin propuso una escala de temperatura basada en el rendimiento de motores de Carnot,": "Kelvin proposed a temperature scale based on the performance of Carnot engines,",
+  "(a diferencia de las escalas Celsius o Fahrenheit, basadas en el comportamiento del agua o del mercurio).": "(unlike the Celsius or Fahrenheit scales, based on the behavior of water or mercury).",
+  "es el punto donde un motor de Carnot ideal tendría eficiencia del 100%, y donde toda agitación molecular cetraría.": "It is the point where an ideal Carnot engine would have 100% efficiency, and where all molecular agitation would falter.",
+  "Nernst (1906) y Planck complementaron esto con la": "Nernst (1906) and Planck complemented this with the",
+  ": es imposible alcanzar el cero absoluto mediante un número finito de procesos, porque a medida que $T_C \to 0$:": ": it is impossible to reach absolute zero through a finite number of processes, because as $T_C \to 0$:",
+  "Se necesitaría un refrigerador infinitamente ineficiente para extraer el último bit de calor.": "It would take an infinitely inefficient refrigerator to extract the last bit of heat.",
+  ": lleva $T_C$ al mínimo en el slider y observa cómo el COP": ": take $T_C$ to the minimum in the slider and watch how the COP",
+  "cae a 0 mientras $\eta \to 100\%$.": "drops to 0 as $\eta \to 100\%$.",
+  ": Ciclo reversible ideal": ": Ideal reversible cycle",
+  ": Escala termodinámica absoluta": ": Absolute thermodynamic scale",
+  ": 0 K inalcanzable (3ª Ley)": ": 0 K unattainable (3rd Law)",
+  ": Récord: ~38 picokelvin (MIT, 2003)": ": Record: ~38 picokelvin (MIT, 2003)",
+  "Newcomen vs. Watt — El Problema del Ciclo Térmico (1712 vs. 1769)": "Newcomen vs. Watt — The Problem of the Thermal Cycle (1712 vs. 1769)",
+  "En 1712, Thomas Newcomen construyó la primera máquina de vapor práctica. Su fallo fundamental era que el": "In 1712, Thomas Newcomen built the first practical steam engine. Its fundamental flaw was that the",
+  "debía calentarse con vapor y luego enfriarse con agua fría en cada ciclo para condensar el vapor y crear el vacío que movía el émbolo. Este proceso desperdiciaba enormes cantidades de energía.": "It had to be heated with steam and then cooled with cold water in each cycle to condense the steam and create the vacuum that moved the plunger. This process wasted enormous amounts of energy.",
+  "En 1765, James Watt identificó el problema: el cilindro se encontraba siempre demasiado frío para el vapor o demasiado caliente para la condensación. Su solución — el": "In 1765, James Watt identified the problem: the cylinder was always too cold for steam or too hot for condensation. Your solution — the",
+  "— mantenía el cilindro siempre caliente y condensaba el vapor en una cámara auxiliar fría. Esto redujo el consumo de carbón en un ~75%.": "— kept the cylinder always hot and condensed the steam in a cold auxiliary chamber. This reduced coal consumption by ~75%.",
+  "Máquina de Newcomen (1712) — Cilindro Único": "Newcomen Engine (1712) — Single Cylinder",
+  "Máquina de Watt (1769) — Condensador Separado": "Watt's Engine (1769) — Separate Condenser",
+  "Historial de Temperatura del Cilindro por Ciclo": "Cylinder Temperature History by Cycle",
+  "Parámetros de la Simulación": "Simulation Parameters",
+  "Temperatura del Vapor de Entrada:": "Inlet Steam Temperature:",
+  "Temperatura Fuente Fría (Condensador):": "Cold Source Temperature (Condenser):",
+  "Comparación directa": "Direct comparison",
+  "El cilindro se": "The cylinder is",
+  "con vapor (~100°C) para mover el émbolo hacia arriba. Luego se inyectaba agua fría para": "with steam (~100°C) to move the plunger upwards. Cold water was then injected to",
+  "el vapor y crear el vacío que lo empujaba hacia abajo. En cada ciclo, el cilindro perdía toda su energía térmica acumulada. Aproximadamente": "the steam and create the vacuum that pushed it down. In each cycle, the cylinder lost all of its accumulated thermal energy. Approximately",
+  "desde el inicio de cada ciclo.": "from the beginning of each cycle.",
+  "Watt propuso mantener el cilindro principal": "Watt proposed keeping the main cylinder",
+  "y derivar el vapor a un": "and divert the steam to a",
+  "que se mantenía frío. Esto eliminó el desperdicio cíclico. Además añadió una camisa de vapor alrededor del cilindro y usó el efecto de doble efecto (vapor actuando en ambos lados del émbolo), multiplicando la potencia por ciclo.": "that remained cold. This eliminated cyclical waste. He also added a steam jacket around the cylinder and used the double-acting effect (steam acting on both sides of the piston), multiplying the power per cycle.",
+  "El trabajo de Watt fue puramente empírico. Solo décadas después Carnot (1824) formalizaría matemáticamente que la eficiencia máxima entre una fuente caliente $T_H$ y fría $T_C$ es $\eta = 1 - T_C/T_H$. La máquina de Watt se acercó mucho más a ese límite al minimizar las pérdidas por calentamiento/enfriamiento cíclico del cilindro.": "Watt's work was purely empirical. Only decades later Carnot (1824) would mathematically formalize that the maximum efficiency between a hot source $T_H$ and a cold source $T_C$ is $\eta = 1 - T_C/T_H$. Watt's machine came much closer to that limit by minimizing cyclical heating/cooling losses of the cylinder.",
+  "Etapa:": "Stage:",
+  "Parámetros": "Parameters",
+  "Diagrama P-V": "P-V diagram",
+  "Diagrama T-S": "T-S diagram",
+  "Motor Otto (Gasolina)": "Otto Engine (Gasoline)",
+  "Motor Diesel (Gasóleo)": "Diesel Engine (Diesel)",
+  "Procesos de los Ciclos (Etapas Diferentes vs. Iguales):": "Cycle Processes (Different vs. Same Stages):",
+  "Admisión a presión constante (renovación de la mezcla aire/combustible).": "Admission at constant pressure (renewal of the air/fuel mixture).",
+  "La válvula se abre. Entra únicamente aire puro al cilindro.": "The valve opens. Only pure air enters the cylinder.",
+  "Compresión de la mezcla aire/combustible de forma isoentrópica.": "Compression of the air/fuel mixture isentropically.",
+  "El pistón sube y comprime el aire. Eleva presión y temperatura por encima del punto de autoignición.": "The piston rises and compresses the air. Raises pressure and temperature above the autoignition point.",
+  "Aporte de calor a volumen constante por chispa. La presión se eleva rápidamente antes del tiempo útil.": "Heat input at constant volume by spark. The pressure rises rapidly before the useful time.",
+  "Inyección de combustible. El calor del aire comprimido enciende la mezcla progresivamente a presión constante.": "Fuel injection. The heat of the compressed air ignites the mixture progressively at constant pressure.",
+  "Expansión isoentrópica o parte útil del ciclo que entrega trabajo al cigüeñal a medida que los gases quemados se expanden y empujan el pistón.": "Isentropic expansion or useful part of the cycle that delivers work to the crankshaft as the burned gases expand and push the piston.",
+  "Cesión de calor residual al ambiente a volumen constante y posterior expulsión de los gases quemados de la cámara por el conducto de escape.": "Transfer of residual heat to the environment at a constant volume and subsequent expulsion of the burned gases from the chamber through the exhaust duct.",
+  "En la práctica real, los motores Otto de gasolina están limitados a $r \\approx 8-11$ para evitar la detonación prematura (golpeteo). Los motores Diesel, al comprimir aire puro, operan con relaciones de compresión muy superiores ($r \\approx 16-22$). Gracias a este enorme incremento en la compresión física, **los motores Diesel reales obtienen una eficiencia sustancialmente mayor**.": "In real practice, gasoline Otto engines are limited to $r \\approx 8-11$ to avoid premature detonation (knock). Diesel engines, when compressing pure air, operate with much higher compression ratios ($r \\approx 16-22$). Thanks to this enormous increase in physical compression, **real Diesel engines obtain substantially greater efficiency**.",
+  "Diseñado para propósitos educativos por": "Designed for educational purposes by",
+  ", Ing. Mecánico, M. Sc. Ph. D. Profesor, Facultad de Ingeniería, Universidad de Antioquia.": ", Mechanical Engineer, M. Sc. Ph. D. Professor, Faculty of Engineering, University of Antioquia.",
+  "e-mail:": "email:",
+  "Última actualización: 17 de julio de 2026, 1:31 PM - Simulador de Doble Tubo reparado, nuevos modelos de Aletas (longitud corregida y aleta rectangular) y correcciones de interfaz": "Last update: July 17, 2026, 1:31 PM - Twin Tube Simulator fixed, new Fin models (corrected length and rectangular fin) and interface fixes",
+  "Sir Isaac Newton (1642 - 1727)": "Sir Isaac Newton (1642 - 1727)",
+  "Esta simple ecuación dio origen al estudio cuantitativo de la": "This simple equation gave rise to the quantitative study of the",
+  "y es pilar fundamental de la ingeniería de transferencia de calor moderna.": "and is a fundamental pillar of modern heat transfer engineering.",
+  "Esto desencadenó una disputa histórica de prioridad con el matemático alemán Gottfried Leibniz, quien desarrolló un cálculo similar con la notación moderna $\int$ y $d/dx$ que usamos hoy.": "This triggered a historical priority dispute with German mathematician Gottfried Leibniz, who developed a similar calculus with the modern $\int$ and $d/dx$ notation that we use today.",
+  "Presentadas en los": "Presented in the",
+  "(1687), describen la relación entre las fuerzas que actúan sobre un cuerpo y el movimiento de este:": "(1687), describe the relationship between the forces acting on a body and its movement:",
+  "Todo cuerpo persevera en su estado de reposo o movimiento uniforme y rectilíneo a no ser que sea obligado a cambiar su estado por fuerzas impresas sobre él.": "Every body perseveres in its state of rest or uniform and rectilinear motion unless it is forced to change its state by forces imposed on it.",
+  "El cambio de movimiento (momento lineal $p$) es proporcional a la fuerza motriz impresa y ocurre según la línea recta a lo largo de la cual aquella fuerza se imprime:\n                        $$ F = m a \quad \\text{o en su forma diferencial general} \quad F = \\frac{dp}{dt} = \\frac{d(mv)}{dt} $$": "The change in motion (linear momentum $p$) is proportional to the driving force printed and occurs along the straight line along which that force is printed:",
+  "Con toda acción ocurre siempre una reacción igual y contraria; las acciones mutuas de dos cuerpos siempre son iguales y dirigidas en sentidos opuestos.": "With every action there always occurs an equal and opposite reaction; The mutual actions of two bodies are always equal and directed in opposite directions.",
+  "En su libro": "in his book",
+  "(1704), Newton revolucionó la comprensión de la luz y el color:": "(1704), Newton revolutionized the understanding of light and color:",
+  "Mediante un prisma de vidrio en una habitación oscura, demostró que la luz blanca no es pura u homogénea, sino que está compuesta por una mezcla de rayos refractados en diferentes ángulos que corresponden a todo el espectro del arcoíris.": "Using a glass prism in a dark room, he demonstrated that white light is not pure or homogeneous, but is composed of a mixture of rays refracted at different angles that correspond to the entire spectrum of the rainbow.",
+  "Inventó y construyó el telescopio newtoniano que utiliza un espejo primario cóncavo pulido a mano en lugar de lentes refractores. Esto solucionó de forma definitiva la aberración cromática (distorsión de colores de los bordes) de los telescopios tradicionales de Galileo y Kepler.": "He invented and built the Newtonian telescope which uses a hand-polished concave primary mirror instead of refracting lenses. This definitively solved the chromatic aberration (distortion of color at the edges) of the traditional Galileo and Kepler telescopes.",
+  "Newton relató a su biógrafo William Stukeley que la idea de la gravedad le llegó contemplando la caída de una manzana en su jardín, preguntándose por qué la manzana siempre caía perpendicularmente a la tierra y no hacia un lado o hacia arriba.": "Newton told his biographer William Stukeley that the idea of ​​gravity came to him while watching an apple fall in his garden, wondering why the apple always fell perpendicular to the ground and not to the side or up.",
+  "Su primer termómetro utilizaba aceite de linaza. Para calibrar los puntos superiores de ebullición del hierro, cronometraba la solidificación de aleaciones de plomo y estaño.": "His first thermometer used linseed oil. To gauge the upper boiling points of iron, he timed the solidification of lead-tin alloys.",
+  "Newton escribió más de un millón de palabras sobre teología y alquimia, las cuales mantuvo ocultas durante su vida porque eran consideradas heréticas. Buscó incansablemente la Piedra Filosofal y la receta del elixir de la vida.": "Newton wrote more than a million words on theology and alchemy, which he kept hidden during his life because they were considered heretical. He tirelessly searched for the Philosopher's Stone and the recipe for the elixir of life.",
+  "Se dice que su pequeño perro Diamond derribó una vela sobre su escritorio, quemando valiosos manuscritos que contenían años de trabajo sobre óptica. Newton sólo exclamó:": "His little dog Diamond is said to have knocked over a candle on his desk, burning valuable manuscripts containing years of work on optics. Newton only exclaimed:",
+  "Laboratorio de Radiación en Placa Plana": "Flat Plate Radiation Lab",
+  "Largo (L1)": "Length (L1)",
+  "Ancho (L2)": "Width (L2)",
+
+  "Pantalla Completa": "Full Screen",
+  "Cerrar pantalla completa": "Close full screen",
+  "Salir de pantalla completa": "Exit full screen",
+  "Abrir laboratorio en pantalla completa": "Open lab in full screen",
+  "Cerrar laboratorio en pantalla completa": "Close lab full screen",
+  "Ampliar el laboratorio a pantalla completa": "Expand the lab to full screen",
+  "Cerrar y volver a la vista normal": "Close and return to normal view",
+  "Laboratorio abierto en pantalla completa. Presiona Escape para salir.": "Lab opened in full screen. Press Escape to exit.",
+  "Laboratorio cerrado. Volviendo a la vista principal.": "Lab closed. Returning to main view.",
+};
