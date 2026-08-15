@@ -1189,13 +1189,26 @@ function fetchRealUserCount() {
     if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length > 0) {
         try {
             const db = firebase.database();
-            db.ref("users").on("value", (snapshot) => {
-                const count = snapshot.numChildren();
-                const displayCount = Math.max(1, count);
-                if (userCountText) {
-                    userCountText.textContent = displayCount.toLocaleString();
+            // 2026-08-15 (seguridad): antes esta función leía el nodo "/users"
+            // completo para contar usuarios, lo cual requería que "/users"
+            // fuera legible públicamente y por eso exponía el email y la
+            // contraseña de todos los usuarios registrados a cualquier
+            // visitante. Ahora lee un contador público separado que no
+            // contiene datos personales ("/stats/userCount"). Ese contador
+            // se actualiza fuera del cliente (Admin SDK / Cloud Function) —
+            // ver firebase/MIGRATION_PLAN.md, sección 5, y
+            // firebase/scripts/syncUserCount.js.
+            db.ref("stats/userCount").on("value", (snapshot) => {
+                const count = snapshot.val();
+                if (typeof count === "number") {
+                    const displayCount = Math.max(1, count);
+                    if (userCountText) {
+                        userCountText.textContent = displayCount.toLocaleString();
+                    }
+                    localStorage.setItem("gatekeeper_registered_count_real", displayCount);
                 }
-                localStorage.setItem("gatekeeper_registered_count_real", displayCount);
+            }, (error) => {
+                console.warn("No se pudo leer stats/userCount (contador de usuarios):", error.message);
             });
         } catch (e) {
             console.error("Error al obtener recuento de usuarios reales de Firebase:", e);
@@ -20937,28 +20950,51 @@ function initInternalBLSimulation() {
                             }
                             return;
                         }
-                        console.warn("Registro en Firebase Auth omitido/falló:", authErr);
+                        // 2026-08-15 (seguridad): ya no se permite crear una cuenta
+                        // "solo en RTDB" sin pasar por Firebase Auth (ver
+                        // firebase/MIGRATION_PLAN.md). Si el registro en Firebase
+                        // Auth falla por cualquier otro motivo, se informa al
+                        // usuario en vez de intentar un registro alternativo
+                        // inseguro que además las reglas nuevas rechazarían.
+                        console.error("Registro en Firebase Auth falló:", authErr);
+                        if (errorMsg) {
+                            errorMsg.textContent = window.currentLanguage === 'en' ? "Could not create your account. Please try again." : "No se pudo crear tu cuenta. Inténtalo de nuevo.";
+                            errorMsg.style.display = "block";
+                        }
+                        return;
                     }
                 }
 
-                const isEmailAdmin = email === "felipe.colorado@udea.edu.co";
+                if (!firebaseUser) {
+                    if (errorMsg) {
+                        errorMsg.textContent = window.currentLanguage === 'en' ? "Cloud registration is not available right now." : "El registro en la nube no está disponible en este momento.";
+                        errorMsg.style.display = "block";
+                    }
+                    return;
+                }
+
+                // 2026-08-15 (seguridad): ya no se guarda la contraseña en la
+                // base de datos (antes se guardaba en texto plano en el campo
+                // "password" — bloqueado ahora por las reglas de Realtime
+                // Database). El rol inicial siempre es "Estudiante": promover a
+                // "Administrador" requiere el custom claim admin (ver
+                // firebase/scripts/setAdminClaim.js) y luego un cambio de rol
+                // hecho por una cuenta con ese claim; ya no se auto-asigna aquí
+                // por email, porque cualquiera podía leer esa condición en el
+                // código fuente.
                 const newUser = {
-                    id: firebaseUser ? firebaseUser.uid : Date.now(),
+                    id: firebaseUser.uid,
                     name: name,
                     email: email,
-                    password: password,
                     avatar: selectedAvatar,
-                    role: isEmailAdmin ? "Administrador" : "Estudiante"
+                    role: "Estudiante"
                 };
 
                 if (db) {
                     await db.ref("users/" + userKey).set(newUser);
                 }
-
-                if (!firebaseUser) {
-                    currentUser = { id: newUser.id, name: newUser.name, email: newUser.email, avatar: newUser.avatar, role: newUser.role };
-                    showLoggedInState();
-                }
+                // onAuthStateChanged (ver handleAuthStateUser) ya se encarga de
+                // actualizar currentUser y la interfaz tras un registro exitoso.
             } catch (e) {
                 console.error("Firebase register error:", e);
                 if (errorMsg) {
@@ -20974,32 +21010,31 @@ function initInternalBLSimulation() {
             if (!email || !password) return;
             if (errorMsg) errorMsg.style.display = "none";
 
-            const userKey = email.replace(/\./g, "_at_");
-
             try {
                 if (typeof firebase !== 'undefined' && firebase.auth) {
                     try {
                         await firebase.auth().signInWithEmailAndPassword(email, password);
                         return;
                     } catch (authErr) {
-                        console.warn("Inicio en Firebase Auth omitido/falló, verificando BD nube:", authErr.code);
-                    }
-                }
-
-                if (db) {
-                    const snapshot = await db.ref("users/" + userKey).once("value");
-                    const user = snapshot.val();
-
-                    if (!user || user.password !== password) {
+                        // 2026-08-15 (seguridad): se eliminó el respaldo que
+                        // comparaba contraseñas en texto plano directamente
+                        // contra Realtime Database (ver
+                        // firebase/MIGRATION_PLAN.md). Las reglas nuevas ya no
+                        // permiten esa lectura sin sesión de Firebase Auth, así
+                        // que si el inicio de sesión falla, se informa al
+                        // usuario en vez de intentar ese camino inseguro.
+                        console.warn("Inicio en Firebase Auth falló:", authErr.code);
                         if (errorMsg) {
                             errorMsg.textContent = window.currentLanguage === 'en' ? "Invalid email or password." : "Correo o contraseña inválidos.";
                             errorMsg.style.display = "block";
                         }
                         return;
                     }
+                }
 
-                    currentUser = { id: user.id, name: user.name, email: user.email, avatar: user.avatar, role: user.role };
-                    showLoggedInState();
+                if (errorMsg) {
+                    errorMsg.textContent = window.currentLanguage === 'en' ? "Cloud login is not available right now." : "El inicio de sesión en la nube no está disponible en este momento.";
+                    errorMsg.style.display = "block";
                 }
             } catch (e) {
                 console.error("Firebase login error:", e);
@@ -21030,6 +21065,12 @@ function initInternalBLSimulation() {
         const newComment = {
             id: commentId,
             author: currentUser.name || "Usuario",
+            // 2026-08-15 (seguridad): authorEmail es requerido por las reglas
+            // nuevas de Realtime Database para verificar, del lado del
+            // servidor, que el comentario lo está creando/borrando su
+            // verdadero autor (o un admin) — evita que alguien falsifique el
+            // nombre o el rol mostrado en un comentario ajeno.
+            authorEmail: currentUser.email,
             avatar: currentUser.avatar || selectedAvatar,
             role: currentUser.role || "Estudiante",
             text: commentText,
