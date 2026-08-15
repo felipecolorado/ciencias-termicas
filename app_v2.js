@@ -13899,26 +13899,24 @@ function initMulticapaCustomSimulation() {
             const sub = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉", "₁₀"];
             const subStr = sub[idx + 1] || (idx + 1);
             const div = document.createElement('div');
-            div.className = 'result-card';
-            div.style.padding = '10px';
-            div.style.display = 'flex';
-            div.style.flexDirection = 'column';
-            div.style.gap = '8px';
+            div.className = 'result-card layer-card';
             div.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h4 class="layer-title">
                     <span>Capa ${idx + 1}</span>
-                    <span id="cm-l${idx}-k-badge" style="font-size: 0.7rem; opacity: 0.8;"></span>
+                    <span id="cm-l${idx}-k-badge" class="layer-k-badge"></span>
+                </h4>
+                <div class="control-row">
+                    <label for="cm-layer-L-${idx}">L${subStr}</label>
+                    <input type="range" id="cm-layer-L-${idx}" class="cm-layer-L" data-idx="${idx}" min="0.001" max="1.00" step="0.001" value="${layer.L}">
+                    <span class="value-badge"><span id="cm-l${idx}-L-val">${layer.L.toFixed(3)}</span> m</span>
                 </div>
-                <div class="control-group">
-                    <label style="font-size: 0.7rem;">Espesor (L${subStr}): <span id="cm-l${idx}-L-val">${layer.L.toFixed(3)}</span> m</label>
-                    <input type="range" class="cm-layer-L" data-idx="${idx}" min="0.001" max="1.00" step="0.001" value="${layer.L}">
+                <div class="control-row">
+                    <label for="cm-layer-k-${idx}">k${subStr}</label>
+                    <input type="range" id="cm-layer-k-${idx}" class="cm-layer-k" data-idx="${idx}" min="0.001" max="2200" step="0.001" value="${layer.k}">
+                    <span class="value-badge"><span id="cm-l${idx}-k-val">${layer.k.toFixed(3)}</span> W/mK</span>
                 </div>
-                <div class="control-group">
-                    <label style="font-size: 0.7rem;">Conductividad (k${subStr}): <span id="cm-l${idx}-k-val">${layer.k.toFixed(3)}</span> W/mK</label>
-                    <input type="range" class="cm-layer-k" data-idx="${idx}" min="0.001" max="2200" step="0.001" value="${layer.k}">
-                </div>
-                <div style="font-size: 0.7rem; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 6px; color: var(--text-secondary); display: flex; justify-content: space-between; align-items: center;">
-                    <span>Resistencia (R${subStr}):</span>
+                <div class="layer-resistance-row">
+                    <span>R${subStr}</span>
                     <strong><span id="cm-l${idx}-R-val" style="color: var(--accent-orange);">${(layer.L / layer.k).toFixed(4)}</span> K/W</strong>
                 </div>
             `;
@@ -21943,29 +21941,47 @@ function initInternalBLSimulation() {
 
                 if (allEquilibrium && !hasReachedEquilibriumFlag) {
                     hasReachedEquilibriumFlag = true;
-                    startBtn.innerHTML = '<i class="fas fa-sun" style="color:#f59e0b;"></i> <span class="lang-es">Sol Encendido (Equilibrio)</span><span class="lang-en" style="display:none;">Sun On (Equilibrium)</span>';
-                    startBtn.style.background = "rgba(245, 158, 11, 0.25)";
-                    startBtn.style.border = "1px solid rgba(245, 158, 11, 0.5)";
+
+                    // Detención automática al alcanzar el equilibrio térmico:
+                    // 1) pausa el experimento, 2) detiene el bucle de animación
+                    // (no se reprograma un nuevo requestAnimationFrame), y
+                    // 3) congela de inmediato el registro de nuevas filas en
+                    // la tabla y en las series de la gráfica (al no seguir
+                    // iterando el loop, no se agregan más puntos).
+                    isRunning = false;
+
+                    // 4) Estado visual del botón: "Completado" (equilibrio alcanzado)
+                    startBtn.innerHTML = '<i class="fas fa-check-circle" style="color:#10b981;"></i> <span class="lang-es">Equilibrio Alcanzado</span><span class="lang-en" style="display:none;">Equilibrium Reached</span>';
+                    startBtn.style.background = "rgba(16, 185, 129, 0.18)";
+                    startBtn.style.border = "1px solid rgba(16, 185, 129, 0.5)";
+                    startBtn.style.color = "#10b981";
+
                     showEuniceQuoteAndConclusion();
+                    updateDisplays(); // refleja el estado final congelado en la tabla
+                    drawCanvas(); // último frame con las temperaturas de equilibrio
+
+                    if (animationId !== null) {
+                        cancelAnimationFrame(animationId);
+                        animationId = null;
+                    }
+                    return; // detiene el bucle: sin nuevo requestAnimationFrame
                 }
 
                 if (Math.abs(time % 1) < 0.5) {
-                    if (!hasReachedEquilibriumFlag) {
-                        timeData.push(time.toFixed(0));
-                        activeKeys.forEach(key => {
-                            state[key].history.push(parseFloat(state[key].T.toFixed(1)));
-                        });
+                    timeData.push(time.toFixed(0));
+                    activeKeys.forEach(key => {
+                        state[key].history.push(parseFloat(state[key].T.toFixed(1)));
+                    });
 
-                        if (chartInstance) {
-                            chartInstance.data.labels = timeData;
-                            chartInstance.data.datasets.forEach((dataset, idx) => {
-                                const key = activeKeys[idx];
-                                if (key && state[key]) {
-                                    dataset.data = state[key].history;
-                                }
-                            });
-                            chartInstance.update();
-                        }
+                    if (chartInstance) {
+                        chartInstance.data.labels = timeData;
+                        chartInstance.data.datasets.forEach((dataset, idx) => {
+                            const key = activeKeys[idx];
+                            if (key && state[key]) {
+                                dataset.data = state[key].history;
+                            }
+                        });
+                        chartInstance.update();
                     }
                     updateDisplays();
                 }
@@ -22010,6 +22026,13 @@ function initInternalBLSimulation() {
             startBtn.style.border = "none";
             startBtn.style.color = "white";
             if (isRunning) {
+                // El bucle se detiene por completo (cancelAnimationFrame) al alcanzar
+                // el equilibrio; si el usuario reanuda manualmente, hay que
+                // reiniciarlo y permitir que un nuevo equilibrio pueda detectarse.
+                hasReachedEquilibriumFlag = false;
+                if (animationId === null) {
+                    loop();
+                }
                 startBtn.innerHTML = '<i class="fas fa-pause"></i> <span class="lang-es">Pausar Experimento</span><span class="lang-en" style="display:none;">Pause Experiment</span>';
                 startBtn.style.background = "#3b82f6";
             } else {

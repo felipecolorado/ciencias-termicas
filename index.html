@@ -3886,31 +3886,29 @@
                                         radiación infrarroja del sol de forma diferenciada. El calentamiento en un
                                         volumen cerrado impulsado por radiación constante <i>I</i><sub>solar</sub>
                                         depende del coeficiente de absorción infrarroja del gas (&alpha;<sub>IR</sub>),
-                                        la densidad (&rho;) y la <strong>capacidad calorífica a presión constante
-                                            (<i>C</i><sub>p</sub>)</strong>:</span>
+                                        la densidad (&rho;) y la <strong>capacidad calorífica a volumen constante
+                                            (<i>C</i><sub>v</sub>)</strong>:</span>
                                     <span class="lang-en" style="display:none;">In 1856, Eunice Newton Foote
                                         experimentally discovered that <strong>Carbon Dioxide (CO<sub>2</sub>)</strong>
                                         and other gases absorb solar infrared radiation differently. Heating in a closed
                                         volume driven by constant radiation <i>I</i><sub>solar</sub> depends on the gas
                                         infrared absorption coefficient (&alpha;<sub>IR</sub>), density (&rho;), and
-                                        <strong>heat capacity at constant pressure
-                                            (<i>C</i><sub>p</sub>)</strong>:</span>
+                                        <strong>heat capacity at constant volume
+                                            (<i>C</i><sub>v</sub>)</strong>:</span>
                                 </p>
 
-                                <div style="display:flex; flex-direction:column; gap:10px; margin: 12px 0; width:100%;">
-                                    <div
-                                        style="width:100%; text-align:center; font-size: 0.95rem; background:rgba(0,0,0,0.25); padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.05); overflow-x:auto;">
+                                <div id="foote-math-panel"
+                                    style="width:100%; text-align:center; background:rgba(15,23,42,0.35); padding:14px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); overflow: visible; height: auto; max-height: none; margin: 12px 0; display:flex; flex-direction:column; gap:8px;">
+                                    <div style="font-size: 0.95rem; color:#f1f5f9;">
                                         $$\rho \cdot V \cdot C_v \frac{dT}{dt} = \alpha_{\text{IR}} \cdot
                                         I_{\text{solar}} \cdot A_{\text{rad}} - h \cdot A_{\text{conv}} \cdot (T -
                                         T_{\text{amb}})$$
                                     </div>
-                                    <div
-                                        style="width:100%; text-align:center; font-size: 0.90rem; background:rgba(56,189,248,0.1); padding:8px; border-radius:8px; border:1px solid rgba(56,189,248,0.3); color:#38bdf8; overflow-x:auto;">
+                                    <div style="font-size: 0.88rem; color:#38bdf8;">
                                         $$A_{\text{rad}} = D \cdot L \quad \text{y} \quad A_{\text{conv}} = \pi D L +
                                         2\left(\frac{\pi D^2}{4}\right)$$
                                     </div>
-                                    <div
-                                        style="width:100%; text-align:center; font-size: 0.95rem; background:rgba(245,158,11,0.1); padding:10px; border-radius:8px; border:1px solid rgba(245,158,11,0.3); color:#f59e0b; overflow-x:auto;">
+                                    <div style="font-size: 0.95rem; color:#f59e0b;">
                                         $$\Delta U = m \cdot C_v \cdot \Delta T = m \cdot C_v \cdot (T -
                                         T_{\text{amb}})$$
                                     </div>
@@ -3930,14 +3928,14 @@
 
                             <div class="simulation-workspace"
                                 style="display:flex; flex-direction:column; gap:15px; width:100%;">
-                                <div class="controls-card glass" style="width:100%; max-width:none;">
-                                    <h4 class="sim-subheading"><i class="fas fa-sliders-h"></i> <span
+                                <div class="controls-card glass" id="foote-controls-card" style="width:100%; max-width:none;">
+                                    <h4 class="sim-subheading" id="foote-controls-heading"><i class="fas fa-sliders-h"></i> <span
                                             class="lang-es">Parámetros del Experimento Solar</span><span class="lang-en"
                                             style="display:none;">Solar Experiment Parameters</span></h4>
 
-                                    <div
+                                    <div id="foote-params-grid"
                                         style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:15px; align-items:start;">
-                                        <div>
+                                        <div id="foote-sliders-col">
                                             <div class="control-group" style="margin-bottom: 12px;">
                                                 <label for="foote-solar-irradiance"><span class="lang-es">Irradiancia
                                                         Solar Simulado (<i>I</i><sub>solar</sub>):</span><span
@@ -3980,7 +3978,7 @@
                                                     value="5" style="width: 100%;">
                                             </div>
 
-                                            <div
+                                            <div id="foote-areas-info"
                                                 style="display:flex; gap:10px; margin-bottom:12px; background:rgba(0,0,0,0.2); padding:8px 10px; border-radius:6px; border:1px solid rgba(255,255,255,0.06); font-size:0.8rem; color:#cbd5e1;">
                                                 <div style="flex:1;"><i class="fas fa-vector-square"
                                                         style="color:#10b981; margin-right:4px;"></i> <strong>Áreas
@@ -3989,7 +3987,7 @@
                                                         <i>A</i><sub>rad</sub> = 0.008 m²</span></div>
                                             </div>
 
-                                            <div style="display:flex; gap:8px; margin-top:10px;">
+                                            <div id="foote-action-buttons" style="display:flex; gap:8px; margin-top:10px;">
                                                 <button id="foote-start-btn" class="btn-clear"
                                                     style="flex:1; background:var(--accent-orange); color:white; border:none; padding:10px; border-radius:8px; font-weight:bold; cursor:pointer;"><i
                                                         class="fas fa-sun"></i> <span class="lang-es">Encender
@@ -4001,7 +3999,7 @@
                                             </div>
                                         </div>
 
-                                        <div>
+                                        <div id="foote-gas-col">
                                             <div class="control-group" style="margin-bottom: 8px;">
                                                 <div
                                                     style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
@@ -4090,19 +4088,19 @@
                                     </div>
                                 </div>
 
-                                <div class="animation-card"
+                                <div class="animation-card" id="foote-animation-card"
                                     style="width:100%; display:flex; flex-direction:column; gap:12px;">
-                                    <h4 class="sim-subheading"><i class="fas fa-vial"></i> <span
+                                    <h4 class="sim-subheading" id="foote-animation-heading"><i class="fas fa-vial"></i> <span
                                             class="lang-es">Cilindros de Vidrio Simultáneos de Eunice Foote & Radiación
                                             Infrarroja</span><span class="lang-en" style="display:none;">Eunice Foote's
                                             Simultaneous Glass Cylinders & Infrared Radiation</span></h4>
-                                    <div class="canvas-container"
+                                    <div class="canvas-container" id="foote-canvas-container"
                                         style="position:relative; height:240px; background:#060d1a; border-radius:8px; overflow:hidden; border:1px solid rgba(236,72,153,0.3);">
                                         <canvas id="footeCanvas"
                                             style="width:100%; height:100%; display:block;"></canvas>
                                     </div>
 
-                                    <div
+                                    <div id="foote-chart-wrapper"
                                         style="background: rgba(15,23,42,0.3); border-radius: 8px; padding: 12px; border: 1px solid rgba(255,255,255,0.05); height: 420px;">
                                         <canvas id="footeTempChart" style="width:100%; height:100%;"></canvas>
                                     </div>
@@ -8484,87 +8482,13 @@
                         <div class="simulation-workspace">
                             <div id="cm-layout-wrapper"
                                 style="display: flex; flex-direction: column; gap: 15px; width: 100%;">
-                                <!-- Row 1: Visual Animation and Chart -->
-                                <div class="cm-row cm-row-1"
-                                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; width: 100%;">
+                                <!-- Fila Superior: Frontera Izquierda (izq.) · Esquema Térmico y Flujo de
+                                     Calor (centro) · Frontera Derecha (der.) — 3 columnas, alineadas con la
+                                     fila intermedia de abajo -->
+                                <div id="cm-row-top" class="cm-row cm-row-top"
+                                    style="display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 12px; align-items: start; width: 100%;">
 
-                                    <!-- Canvas Card for 2D Animation -->
-                                    <div id="cm-panel-canvas" class="canvas-card"
-                                        style="display: flex; flex-direction: column; gap: 10px;">
-                                        <div
-                                            style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                                            <h4 class="sim-subheading" style="margin: 0;"><i
-                                                    class="fas fa-network-wired"></i> <span class="lang-es">Esquema
-                                                    Térmico
-                                                    y Flujo de Calor</span><span class="lang-en"
-                                                    style="display:none;">Thermal Scheme and Heat Flow</span></h4>
-
-                                            <!-- Layers Count Selector -->
-                                            <div
-                                                style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
-                                                <label for="cm-layers-count"
-                                                    style="font-size: 0.8rem; color: var(--text-secondary); margin: 0;">Número
-                                                    de
-                                                    Capas:</label>
-                                                <select id="cm-layers-count" class="filter-select"
-                                                    style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-primary); border-radius: 6px; padding: 2px 6px;">
-                                                    <option value="1">1 Capa</option>
-                                                    <option value="2">2 Capas</option>
-                                                    <option value="3" selected>3 Capas</option>
-                                                    <option value="4">4 Capas</option>
-                                                    <option value="5">5 Capas</option>
-                                                    <option value="6">6 Capas</option>
-                                                    <option value="7">7 Capas</option>
-                                                    <option value="8">8 Capas</option>
-                                                    <option value="9">9 Capas</option>
-                                                    <option value="10">10 Capas</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div
-                                            style="position: relative; background: var(--bg-dark); border-radius: 8px; border: 1px solid var(--panel-border); padding: 10px; width: 100%; height: 320px; display: flex; align-items: center; justify-content: center;">
-                                            <canvas id="customMultiCanvas"
-                                                style="width: 100%; height: 100%; display: block;"></canvas>
-                                        </div>
-                                    </div>
-
-                                    <!-- Chart Card for Temperature Profile -->
-                                    <div id="cm-panel-chart" class="canvas-card"
-                                        style="display: flex; flex-direction: column; gap: 10px;">
-                                        <h4 class="sim-subheading" style="margin: 0;"><i class="fas fa-chart-line"></i>
-                                            <span class="lang-es">Perfil de Temperatura $T(x)$</span><span
-                                                class="lang-en" style="display:none;">Temperature Profile $T(x)$</span>
-                                        </h4>
-                                        <div
-                                            style="position: relative; background: var(--bg-dark); border-radius: 8px; border: 1px solid var(--panel-border); padding: 10px; width: 100%; height: 320px; display: flex; align-items: center; justify-content: center;">
-                                            <canvas id="customMultiChart" style="width: 100%; height: 100%;"></canvas>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <!-- Row 0: Layer Config Controls (Moved from below) -->
-                                <div id="cm-panel-layers" class="controls-card" style="width: 100%;">
-                                    <div style="margin-bottom: 12px;">
-                                        <h4 class="sim-subheading" style="margin: 0;"><i class="fas fa-layer-group"></i>
-                                            <span class="lang-es">Configuración de las Capas de la Pared</span><span
-                                                class="lang-en" style="display:none;">Wall Layer Configuration</span>
-                                        </h4>
-                                    </div>
-
-                                    <!-- Container where JS will dynamically insert sliders for each layer -->
-                                    <div id="cm-layers-container"
-                                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px;">
-                                        <!-- Will be populated dynamically -->
-                                    </div>
-                                </div>
-
-
-                                <!-- Row 2: General Controls and BC Config -->
-                                <div class="cm-row cm-row-2"
-                                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%;">
-
-                                    <!-- Left Boundary Config -->
+                                    <!-- Columna Izquierda: Frontera Izquierda -->
                                     <div id="cm-panel-left-bc" class="controls-card">
                                         <h4 class="sim-subheading"
                                             style="color: var(--accent-cyan); font-size: 1.15rem; text-align: left; margin-bottom: 15px;">
@@ -8637,7 +8561,47 @@
                                         </div>
                                     </div>
 
-                                    <!-- Right Boundary Config -->
+                                    <!-- Columna Central: Esquema Térmico y Flujo de Calor -->
+                                    <div id="cm-panel-canvas" class="canvas-card"
+                                        style="display: flex; flex-direction: column; gap: 10px;">
+                                        <div
+                                            style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                                            <h4 class="sim-subheading" style="margin: 0;"><i
+                                                    class="fas fa-network-wired"></i> <span class="lang-es">Esquema
+                                                    Térmico
+                                                    y Flujo de Calor</span><span class="lang-en"
+                                                    style="display:none;">Thermal Scheme and Heat Flow</span></h4>
+
+                                            <!-- Layers Count Selector -->
+                                            <div
+                                                style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+                                                <label for="cm-layers-count"
+                                                    style="font-size: 0.8rem; color: var(--text-secondary); margin: 0;">Número
+                                                    de
+                                                    Capas:</label>
+                                                <select id="cm-layers-count" class="filter-select"
+                                                    style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-primary); border-radius: 6px; padding: 2px 6px;">
+                                                    <option value="1">1 Capa</option>
+                                                    <option value="2">2 Capas</option>
+                                                    <option value="3" selected>3 Capas</option>
+                                                    <option value="4">4 Capas</option>
+                                                    <option value="5">5 Capas</option>
+                                                    <option value="6">6 Capas</option>
+                                                    <option value="7">7 Capas</option>
+                                                    <option value="8">8 Capas</option>
+                                                    <option value="9">9 Capas</option>
+                                                    <option value="10">10 Capas</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div
+                                            style="position: relative; background: var(--bg-dark); border-radius: 8px; border: 1px solid var(--panel-border); padding: 10px; width: 100%; height: 320px; display: flex; align-items: center; justify-content: center;">
+                                            <canvas id="customMultiCanvas"
+                                                style="width: 100%; height: 100%; display: block;"></canvas>
+                                        </div>
+                                    </div>
+
+                                    <!-- Columna Derecha: Frontera Derecha -->
                                     <div id="cm-panel-right-bc" class="controls-card">
                                         <h4 class="sim-subheading"
                                             style="color: var(--accent-orange); font-size: 1.15rem; text-align: right; margin-bottom: 15px;">
@@ -8712,94 +8676,158 @@
 
                                 </div>
 
+                                <!-- Fila Central: Configuración de Capas (izq.) · Perfil de Temperatura T(x)
+                                     (centro) · Resultados de la Simulación (der.) — 3 columnas.
+                                     LOTE 1 (modo normal): #cm-center-left-col agrupa capas+gráfica en la
+                                     columna izquierda (display:contents — ver style.css, no afecta fullscreen). -->
+                                <div id="cm-row-center" class="cm-row cm-row-center"
+                                    style="display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 12px; align-items: start; width: 100%;">
 
-                                <!-- Row 4: Unified Results Panel in a single row -->
-                                <div id="cm-panel-results" class="result-card" style="padding: 20px; width: 100%;">
-                                    <h4 class="sim-subheading"
-                                        style="margin: 0 0 15px 0; color: var(--accent-orange); border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 8px;">
-                                        <i class="fas fa-poll"></i> <span class="lang-es">Resultados de la
-                                            Simulación</span><span class="lang-en" style="display:none;">Simulation
-                                            Results</span>
-                                    </h4>
+                                    <div id="cm-center-left-col" class="cm-center-left-col">
 
-                                    <div style="display: flex; flex-wrap: wrap; gap: 30px; width: 100%;">
-                                        <!-- Global Metrics -->
-                                        <div
-                                            style="flex: 1; min-width: 250px; display: flex; flex-direction: column; gap: 12px; justify-content: center;">
-                                            <h5
-                                                style="margin: 0 0 5px 0; color: var(--text-secondary); font-size: 0.85rem; font-weight: bold;">
-                                                <i class="fas fa-calculator"></i> <span class="lang-es">Métricas
-                                                    Globales</span><span class="lang-en" style="display:none;">Global
-                                                    Metrics</span>
-                                            </h5>
-                                            <div
-                                                style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px; font-size: 0.8rem;">
-                                                <span><span class="lang-es">Resistencia Conducción Total
-                                                        $(R_{cond})$:</span><span class="lang-en"
-                                                        style="display:none;">Total Conduction Resistance
-                                                        $(R_{cond})$:</span></span>
-                                                <strong><span id="cm-rcond-val" style="color: var(--accent-cyan);">--
-                                                        K/W</span></strong>
-                                            </div>
-                                            <div
-                                                style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px; font-size: 0.8rem;">
-                                                <span><span class="lang-es">Resistencia Total del Circuito
-                                                        $(R_{tot})$:</span><span class="lang-en"
-                                                        style="display:none;">Total Circuit Resistance
-                                                        $(R_{tot})$:</span></span>
-                                                <strong><span id="cm-rtot-val" style="color: var(--accent-cyan);">--
-                                                        K/W</span></strong>
-                                            </div>
-                                            <div
-                                                style="display: flex; justify-content: space-between; font-size: 0.8rem;">
-                                                <span>Flujo de Calor Resultante $(q'')$:</span>
-                                                <strong><span id="cm-q-val" style="color: var(--accent-orange);">--
-                                                        W/m²</span></strong>
-                                            </div>
-
-                                            <!-- Conflicting Flux Alert -->
-                                            <div id="cm-alert-box"
-                                                style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px dashed #ef4444; padding: 10px; border-radius: 8px; color: #fca5a5; font-size: 0.75rem; gap: 6px; align-items: center; margin-top: 5px;">
-                                                <i class="fas fa-exclamation-triangle"
-                                                    style="color: #f87171; font-size: 1rem;"></i>
-                                                <div><strong>Fronteras Incompatibles:</strong> <span
-                                                        class="lang-es">Flujos de calor opuestos no balanceados. No
-                                                        existe estado estacionario.</span><span class="lang-en"
-                                                        style="display:none;">Opposing unbalanced heat flows. There is
-                                                        no steady state.</span></div>
-                                            </div>
+                                    <!-- Columna Izquierda: Configuración de las Capas de la Pared -->
+                                    <div id="cm-panel-layers" class="controls-card">
+                                        <div style="margin-bottom: 10px;">
+                                            <h4 class="sim-subheading" style="margin: 0;"><i class="fas fa-layer-group"></i>
+                                                <span class="lang-es">Configuración de las Capas de la Pared</span><span
+                                                    class="lang-en" style="display:none;">Wall Layer Configuration</span>
+                                            </h4>
                                         </div>
 
-                                        <!-- Interface Temperatures Table -->
-                                        <div
-                                            style="flex: 1.2; min-width: 280px; display: flex; flex-direction: column;">
-                                            <h5
-                                                style="margin: 0 0 8px 0; color: var(--text-secondary); font-size: 0.85rem; font-weight: bold;">
-                                                <i class="fas fa-thermometer-half"></i> <span
-                                                    class="lang-es">Temperaturas en Interfases</span><span
-                                                    class="lang-en" style="display:none;">Temperatures at
-                                                    Interfaces</span>
-                                            </h5>
+                                        <!-- Container where JS will dynamically insert sliders for each layer -->
+                                        <div id="cm-layers-container"
+                                            style="display: grid; grid-template-columns: 1fr; gap: 8px;">
+                                            <!-- Will be populated dynamically -->
+                                        </div>
+                                    </div>
+
+                                    <!-- Columna Central: Perfil de Temperatura T(x) -->
+                                    <div id="cm-panel-chart" class="canvas-card"
+                                        style="display: flex; flex-direction: column; gap: 10px;">
+                                        <h4 class="sim-subheading" style="margin: 0;"><i class="fas fa-chart-line"></i>
+                                            <span class="lang-es">Perfil de Temperatura $T(x)$</span><span
+                                                class="lang-en" style="display:none;">Temperature Profile $T(x)$</span>
+                                        </h4>
+                                        <div class="chart-container-cm"
+                                            style="position: relative; background: var(--bg-dark); border-radius: 8px; border: 1px solid var(--panel-border); padding: 10px; width: 100%; height: 320px; display: flex; align-items: center; justify-content: center;">
+                                            <canvas id="customMultiChart" style="width: 100%; height: 100%;"></canvas>
+                                        </div>
+                                    </div>
+
+                                    </div>
+                                    <!-- /#cm-center-left-col -->
+
+                                    <!-- Columna Derecha: Resultados de la Simulación -->
+                                    <div id="cm-panel-results" class="result-card" style="padding: 14px; width: 100%;">
+                                        <h4 class="sim-subheading"
+                                            style="margin: 0 0 12px 0; color: var(--accent-orange); border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 8px;">
+                                            <i class="fas fa-poll"></i> <span class="lang-es">Resultados de la
+                                                Simulación</span><span class="lang-en" style="display:none;">Simulation
+                                                Results</span>
+                                        </h4>
+
+                                        <div style="display: flex; flex-wrap: wrap; gap: 14px; width: 100%;">
+                                            <!-- Global Metrics -->
                                             <div
-                                                style="overflow-y: auto; max-height: 155px; border: 1px solid rgba(255,255,255,0.05); border-radius: 6px; padding: 5px;">
-                                                <table
-                                                    style="width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: left;">
-                                                    <thead>
-                                                        <tr
-                                                            style="border-bottom: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); font-size: 0.75rem;">
-                                                            <th style="padding: 6px;">Interfase</th>
-                                                            <th style="padding: 6px;">Posición $(x)$</th>
-                                                            <th style="padding: 6px; text-align: right;">Temperatura
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="cm-temp-table-body">
-                                                        <!-- Will be populated dynamically -->
-                                                    </tbody>
-                                                </table>
+                                                style="flex: 1; min-width: 100%; display: flex; flex-direction: column; gap: 10px; justify-content: center;">
+                                                <h5
+                                                    style="margin: 0 0 5px 0; color: var(--text-secondary); font-size: 0.85rem; font-weight: bold;">
+                                                    <i class="fas fa-calculator"></i> <span class="lang-es">Métricas
+                                                        Globales</span><span class="lang-en" style="display:none;">Global
+                                                        Metrics</span>
+                                                </h5>
+                                                <div
+                                                    style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px; font-size: 0.8rem;">
+                                                    <span><span class="lang-es">Resistencia Conducción Total
+                                                            $(R_{cond})$:</span><span class="lang-en"
+                                                            style="display:none;">Total Conduction Resistance
+                                                            $(R_{cond})$:</span></span>
+                                                    <strong><span id="cm-rcond-val" style="color: var(--accent-cyan);">--
+                                                            K/W</span></strong>
+                                                </div>
+                                                <div
+                                                    style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px; font-size: 0.8rem;">
+                                                    <span><span class="lang-es">Resistencia Total del Circuito
+                                                            $(R_{tot})$:</span><span class="lang-en"
+                                                            style="display:none;">Total Circuit Resistance
+                                                            $(R_{tot})$:</span></span>
+                                                    <strong><span id="cm-rtot-val" style="color: var(--accent-cyan);">--
+                                                            K/W</span></strong>
+                                                </div>
+                                                <div
+                                                    style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                                                    <span>Flujo de Calor Resultante $(q'')$:</span>
+                                                    <strong><span id="cm-q-val" style="color: var(--accent-orange);">--
+                                                            W/m²</span></strong>
+                                                </div>
+
+                                                <!-- Conflicting Flux Alert -->
+                                                <div id="cm-alert-box"
+                                                    style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px dashed #ef4444; padding: 10px; border-radius: 8px; color: #fca5a5; font-size: 0.75rem; gap: 6px; align-items: center; margin-top: 5px;">
+                                                    <i class="fas fa-exclamation-triangle"
+                                                        style="color: #f87171; font-size: 1rem;"></i>
+                                                    <div><strong>Fronteras Incompatibles:</strong> <span
+                                                            class="lang-es">Flujos de calor opuestos no balanceados. No
+                                                            existe estado estacionario.</span><span class="lang-en"
+                                                            style="display:none;">Opposing unbalanced heat flows. There is
+                                                            no steady state.</span></div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Interface Temperatures Table -->
+                                            <div
+                                                style="flex: 1; min-width: 100%; display: flex; flex-direction: column;">
+                                                <h5
+                                                    style="margin: 0 0 8px 0; color: var(--text-secondary); font-size: 0.85rem; font-weight: bold;">
+                                                    <i class="fas fa-thermometer-half"></i> <span
+                                                        class="lang-es">Temperaturas en Interfases</span><span
+                                                        class="lang-en" style="display:none;">Temperatures at
+                                                        Interfaces</span>
+                                                </h5>
+                                                <div
+                                                    style="overflow-y: auto; max-height: 180px; border: 1px solid rgba(255,255,255,0.05); border-radius: 6px; padding: 5px;">
+                                                    <table
+                                                        style="width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: left;">
+                                                        <thead>
+                                                            <tr
+                                                                style="border-bottom: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); font-size: 0.75rem;">
+                                                                <th style="padding: 6px;">Interfase</th>
+                                                                <th style="padding: 6px;">Posición $(x)$</th>
+                                                                <th style="padding: 6px; text-align: right;">Temperatura
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="cm-temp-table-body">
+                                                            <!-- Will be populated dynamically -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
+                                </div>
+
+                                <!-- Row 4.5: Guía Didáctica — Registro, Tabulación y Gráfica Paramétrica -->
+                                <div id="cm-panel-guide" style="width: 100%;">
+                                    <p class="sim-instruction"
+                                        style="font-size: 0.9rem; color: var(--text-secondary); margin: 0; border-left: 3px solid var(--accent-cyan); background: rgba(6, 182, 212, 0.06); padding: 10px 15px; border-radius: 0 8px 8px 0; width: 100%;">
+                                        <span class="lang-es"><i class="fas fa-lightbulb"
+                                                style="color: var(--accent-cyan); margin-right: 5px;"></i> Esta
+                                            sección te permite graficar y analizar soluciones personalizadas:
+                                            selecciona qué variable ubicar en el eje horizontal y vertical, varía
+                                            cualquier parámetro del sistema y registra tus resultados. Podrás
+                                            exportar los datos en formato CSV para su análisis en Excel o
+                                            visualizar las tendencias de manera instantánea a través del gráfico
+                                            paramétrico interactivo.</span>
+                                        <span class="lang-en" style="display:none;"><i class="fas fa-lightbulb"
+                                                style="color: var(--accent-cyan); margin-right: 5px;"></i> This
+                                            section lets you plot and analyze custom solutions: choose which
+                                            variable to place on the horizontal and vertical axes, vary any
+                                            system parameter, and record your results. You can export the data
+                                            as a CSV file for analysis in Excel, or instantly visualize trends
+                                            through the interactive parametric chart.</span>
+                                    </p>
                                 </div>
 
                                 <!-- Row 5: Data Tabulation and Graphing -->
