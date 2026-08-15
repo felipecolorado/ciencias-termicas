@@ -5109,3 +5109,106 @@ body.psychrometry-lab-open {
 body.body-lock {
   overflow: hidden !important;
 }
+
+/* ============================================================
+   DESCARGA DE CLASES (PDF) — Panel flotante superior derecho
+   ============================================================ */
+.downloads-toggle-btn {
+  background: var(--panel-bg);
+  color: var(--accent-cyan);
+  border: 1px solid var(--panel-border);
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  transition: var(--transition-smooth);
+}
+
+.downloads-toggle-btn:hover {
+  border-color: var(--accent-cyan);
+  transform: translateY(-1px);
+}
+
+.downloads-panel {
+  position: fixed;
+  top: 75px;
+  right: 20px;
+  z-index: 100000;
+  width: 260px;
+  max-width: calc(100vw - 40px);
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--panel-border);
+  background: var(--panel-bg);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  flex-direction: column;
+  gap: 10px;
+}
+
+.downloads-panel-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.35;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.downloads-panel-title i {
+  color: var(--accent-cyan);
+  margin-top: 2px;
+}
+
+.downloads-panel-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.downloads-panel-list a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--panel-border);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text-secondary, #94a3b8);
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: var(--transition-smooth);
+}
+
+.downloads-panel-list a:hover {
+  border-color: var(--accent-orange);
+  color: var(--text-primary);
+  background: var(--accent-orange-glow);
+}
+
+.downloads-panel-list a i {
+  color: #ef4444;
+  font-size: 0.9rem;
+}
+
+body.light-theme .downloads-panel-list a {
+  background: rgba(15, 23, 42, 0.02);
+}
+
+@media (max-width: 600px) {
+  .downloads-panel {
+    top: 68px;
+    right: 10px;
+    width: calc(100vw - 20px);
+  }
+}

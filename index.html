@@ -69,6 +69,13 @@
                 <i class="fas fa-book-open"></i> <span>Wiki</span>
             </button>
 
+            <!-- Descarga de Clases (PDF) Toggle -->
+            <button id="downloads-toggle" class="btn-clear downloads-toggle-btn"
+                title="Descargar clases de Transferencia de Calor y Masa">
+                <i id="downloads-toggle-icon" class="fas fa-file-pdf"></i>
+                <span class="lang-es">Clases</span><span class="lang-en" style="display:none;">Classes</span>
+            </button>
+
             <button id="theme-toggle" class="btn-clear" title="Alternar Modo Oscuro/Claro"
                 style="background: var(--panel-bg); color: var(--text-primary); border: 1px solid var(--panel-border); padding: 6px 12px; border-radius: 50%; cursor: pointer; backdrop-filter: blur(10px); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">
                 <i class="fas fa-moon"></i>
@@ -144,6 +151,36 @@
                 style="color: var(--accent-cyan); text-decoration: none; font-weight: bold;">felipe.colorado@udea.edu.co</a>
         </div>
     </div>
+
+    <!-- Panel de Descarga de Clases (PDF) -->
+    <div id="downloads-box" class="downloads-panel glass" style="display: none;">
+        <div class="downloads-panel-title">
+            <i class="fas fa-file-pdf"></i>
+            <span class="lang-es">Descarga las clases de Transferencia de Calor y Masa</span>
+            <span class="lang-en" style="display:none;">Download the Heat and Mass Transfer class slides</span>
+        </div>
+        <ol class="downloads-panel-list">
+            <li>
+                <a href="Clase%201.pdf" download target="_blank" rel="noopener">
+                    <i class="fas fa-file-pdf"></i>
+                    <span class="lang-es">Clase 1</span><span class="lang-en" style="display:none;">Class 1</span>
+                </a>
+            </li>
+            <li>
+                <a href="Clase%202.pdf" download target="_blank" rel="noopener">
+                    <i class="fas fa-file-pdf"></i>
+                    <span class="lang-es">Clase 2</span><span class="lang-en" style="display:none;">Class 2</span>
+                </a>
+            </li>
+            <li>
+                <a href="Clase%203%20y%20clase%204.pdf" download target="_blank" rel="noopener">
+                    <i class="fas fa-file-pdf"></i>
+                    <span class="lang-es">Clase 3 y Clase 4</span><span class="lang-en" style="display:none;">Class 3 &amp; Class 4</span>
+                </a>
+            </li>
+        </ol>
+    </div>
+
     <div class="bg-glow"></div>
     <header class="app-header" style="position: relative;">
         <!-- Escudo Universidad de Antioquia -->

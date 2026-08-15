@@ -801,6 +801,37 @@ function startApp() {
         });
     }
 
+    // Downloads (Clases PDF) Toggle Logic
+    const downloadsBtn = document.getElementById('downloads-toggle');
+    const downloadsBox = document.getElementById('downloads-box');
+    const downloadsIcon = document.getElementById('downloads-toggle-icon');
+    if (downloadsBtn && downloadsBox) {
+        downloadsBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = downloadsBox.style.display === 'flex';
+            if (!isOpen) {
+                downloadsBox.style.display = 'flex';
+                if (downloadsIcon) downloadsIcon.className = 'fas fa-times';
+                // Evita solapamiento visual con el panel de contacto
+                if (contactBox && contactBox.style.display !== 'none') {
+                    contactBox.style.display = 'none';
+                    if (contactBtn) contactBtn.innerHTML = '<i class="fas fa-envelope"></i>';
+                }
+            } else {
+                downloadsBox.style.display = 'none';
+                if (downloadsIcon) downloadsIcon.className = 'fas fa-file-pdf';
+            }
+        });
+
+        // Close downloads box when clicking anywhere else
+        document.addEventListener('click', (e) => {
+            if (!downloadsBox.contains(e.target) && e.target !== downloadsBtn && !downloadsBtn.contains(e.target)) {
+                downloadsBox.style.display = 'none';
+                if (downloadsIcon) downloadsIcon.className = 'fas fa-file-pdf';
+            }
+        });
+    }
+
     // Search and Filter Listeners
     const searchInput = document.getElementById('timeline-search');
     const categorySelect = document.getElementById('timeline-filter-category');
