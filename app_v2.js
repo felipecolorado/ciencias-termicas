@@ -2201,6 +2201,15 @@ function switchTab(tabId, disableTimelineSync = false) {
 
     // Update pane active status
     document.querySelectorAll(".tab-pane").forEach(pane => {
+        // GUARD anti-colisión: mientras el laboratorio Multicapa esté en modo
+        // pantalla completa (clase 'fullscreen', gestionada exclusivamente por su
+        // propio controlador IIFE), switchTab no debe tocarlo en absoluto -ni su
+        // estado active/inactive ni sus estilos inline- para eliminar cualquier
+        // posibilidad de que switchTab interfiera con el fullscreen mientras el
+        // modal vive teletransportado en document.body.
+        if (pane.getAttribute("id") === "multicapa-custom-sim" && pane.classList.contains("fullscreen")) {
+            return;
+        }
         if (pane.getAttribute("id") === tabId) {
             pane.classList.add("active");
             if (tabId === "multicapa-custom-sim") {
@@ -2312,6 +2321,11 @@ function switchTab(tabId, disableTimelineSync = false) {
     // FIX multicapa-custom-sim: inicialización diferida cuando el canvas ya tiene dimensiones reales
     if (tabId === 'multicapa-custom-sim') {
         setTimeout(() => {
+            const activePane = document.getElementById(tabId);
+            // GUARD anti-colisión: si el modal ya está en pantalla completa, este
+            // bloque de switchTab no debe hacer nada -su controlador IIFE dedicado
+            // ya gestiona init/resize/scroll por sí solo-.
+            if (activePane && activePane.classList.contains('fullscreen')) return;
             // Si la inicialización falló al cargar (canvas en display:none), reintentar ahora
             if (!window._multicapaInited) {
                 try {
@@ -2324,7 +2338,6 @@ function switchTab(tabId, disableTimelineSync = false) {
             if (window.MulticapaLab && typeof window.MulticapaLab.resize === 'function') {
                 window.MulticapaLab.resize();
             }
-            const activePane = document.getElementById(tabId);
             if (activePane) {
                 activePane.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
@@ -21051,7 +21064,18 @@ function initInternalBLSimulation() {
         const nameElem = document.getElementById("user-profile-name");
         const roleElem = document.getElementById("user-profile-role");
 
-        if (avatarElem && currentUser && currentUser.avatar) avatarElem.src = currentUser.avatar;
+        if (avatarElem && currentUser && currentUser.avatar) {
+            // Fix: las fotos de perfil de Google (lh3.googleusercontent.com) responden 403
+            // si el navegador envía el header Referer con la URL completa de la página.
+            // Se fija "no-referrer" también vía JS (además del atributo en index.html) para
+            // cubrir el caso en que el <img> ya existía en el DOM antes de este fix.
+            avatarElem.referrerPolicy = "no-referrer";
+            avatarElem.onerror = function () {
+                avatarElem.onerror = null;
+                avatarElem.src = selectedAvatar; // fallback al avatar por defecto de la app
+            };
+            avatarElem.src = currentUser.avatar;
+        }
         if (nameElem && currentUser && currentUser.name) nameElem.textContent = currentUser.name;
 
         if (roleElem && currentUser && currentUser.role) {
@@ -23642,6 +23666,23 @@ function initInternalBLSimulation() {
         transitionMs:     300,
     };
 
+    // Blindaje anti-propagación: ningún clic realizado DENTRO del modal (sliders,
+    // selects, botón "Agregar punto", etc.) debe poder burbujear hasta un listener
+    // global de document (p. ej. un futuro "cerrar al hacer clic fuera") y disparar
+    // un cierre no deseado. Se adjunta una sola vez sobre el modal.
+    function stopInnerClickPropagation(e) {
+        e.stopPropagation();
+    }
+
+    // Activa por consola con `window.MULTICAPA_DEBUG = true` para registrar, con
+    // stack trace, cada intento de abrir/cerrar el laboratorio y su motivo. Sin
+    // esa bandera no imprime nada: no añade ruido en producción.
+    function debugLog(action, reason) {
+        if (!window.MULTICAPA_DEBUG) return;
+        console.warn('[MulticapaLab] ' + action + (reason ? ' — motivo: ' + reason : ''));
+        console.trace();
+    }
+
     function getMulticapaChart() {
         var canvas = document.getElementById('customMultiChart');
         if (canvas && window.Chart) {
@@ -23662,7 +23703,7 @@ function initInternalBLSimulation() {
         if (chart) {
             try { chart.resize(); chart.update('none'); } catch (e) { console.warn('Error resizing Multicapa chart', e); }
         }
-        
+
         if (window.customParamChart) {
             try { window.customParamChart.resize(); window.customParamChart.update('none'); } catch (e) { console.warn('Error resizing customParamChart', e); }
         }
@@ -23678,8 +23719,25 @@ function initInternalBLSimulation() {
         }
     }
 
+    // Redibujado ASÍNCRONO real: doble requestAnimationFrame garantiza que el navegador
+    // ya calculó layout y pintó el nuevo estado (position:fixed / 100vw / 100vh) antes de
+    // leer offsetWidth/offsetHeight. Un solo rAF puede seguir cayendo dentro del mismo
+    // ciclo de layout en algunos navegadores; el doble rAF es el patrón robusto estándar.
+    // setTimeout(..., 50) queda como respaldo si rAF no está disponible.
+    function deferredResize(fn) {
+        if (typeof requestAnimationFrame === 'function') {
+            requestAnimationFrame(function () {
+                requestAnimationFrame(fn);
+            });
+        } else {
+            setTimeout(fn, 50);
+        }
+    }
+
     function forceDelayedResize() {
-        setTimeout(resizeMulticapaAssets, 80);
+        deferredResize(resizeMulticapaAssets);
+        // Respaldo adicional por si Chart.js/fuentes aún no asentaron layout tras el rAF doble
+        setTimeout(resizeMulticapaAssets, 150);
     }
 
     function getLang() {
@@ -23690,6 +23748,16 @@ function initInternalBLSimulation() {
         var modal = document.getElementById(CFG.modalId);
         if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
 
+        debugLog('OPEN');
+
+        // Garantiza que la simulación esté inicializada SIN atar este listener a
+        // switchTab ni a window._multicapaInited: si ya corrió, initMulticapaCustomSimulation
+        // tiene su propia guardia interna y esta llamada es un no-op seguro.
+        if (!window._multicapaInited && typeof window.initMulticapaCustomSimulation === 'function') {
+            try { window.initMulticapaCustomSimulation(); } catch (e) { console.warn('Error inicializando Multicapa antes de fullscreen', e); }
+        }
+
+        // ── Teleport DOM seguro con placeholder de respaldo ──
         var originalParent = modal.parentNode;
         var placeholder = document.createComment('multicapa-lab-placeholder');
         originalParent.insertBefore(placeholder, modal);
@@ -23704,6 +23772,31 @@ function initInternalBLSimulation() {
         document.body.style.overflow = 'hidden';
         document.body.classList.add(CFG.bodyLockClass);
 
+        // Marca de tiempo de apertura: usada para ignorar un Escape "fantasma"
+        // que pudiera dispararse durante la transición inicial (ver keydown más abajo).
+        modal._openedAt = Date.now();
+
+        // CAUSA RAÍZ DEL "CONGELAMIENTO": switchTab() deja estilos inline con !important
+        // (position/z-index/background) para la vista normal embebida del tab. Un
+        // !important inline gana SIEMPRE sobre el !important de la hoja de estilos, así
+        // que la regla "#multicapa-custom-sim.fullscreen { position: fixed !important }"
+        // quedaba bloqueada hasta que un clic en OTRA pestaña limpiaba esos inline styles
+        // como efecto secundario. Se limpian aquí explícitamente para que el fullscreen
+        // no dependa de switchTab ni de ningún evento externo.
+        modal.style.removeProperty('position');
+        modal.style.removeProperty('z-index');
+        modal.style.removeProperty('background');
+        modal.style.removeProperty('display');
+        modal.style.removeProperty('visibility');
+        modal.style.removeProperty('opacity');
+        modal.style.removeProperty('height');
+
+        // Fuerza un reflow síncrono SOBRE EL MODAL recién movido para que el navegador
+        // aplique de inmediato position:fixed/100vw/100vh, en vez de dejarlo pendiente
+        // hasta que un evento no relacionado (p. ej. cambiar de pestaña) dispare el
+        // repintado.
+        void modal.offsetHeight;
+
         var closeBtn = document.getElementById(CFG.closeBtnId);
         if (closeBtn) closeBtn.classList.add('visible');
 
@@ -23712,7 +23805,9 @@ function initInternalBLSimulation() {
             ? 'Lab opened in full screen. Press Escape to exit.'
             : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
 
-        resizeMulticapaAssets();
+        // NO redibujar el canvas de inmediato: el layout aún no está asentado en este
+        // mismo tick. Se difiere con doble rAF (+ respaldo setTimeout) para leer
+        // offsetWidth/offsetHeight ya correctos.
         forceDelayedResize();
 
         // Reprocesar MathJax si está disponible
@@ -23727,9 +23822,14 @@ function initInternalBLSimulation() {
         }
     }
 
-    function closeMulticapaLabFullscreen() {
+    function closeMulticapaLabFullscreen(reason) {
         var modal = document.getElementById(CFG.modalId);
         if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+        // Reentrancia: si ya se está cerrando (p. ej. Escape + clic casi simultáneos,
+        // o un doble disparo del mismo evento), no reiniciar el proceso de cierre.
+        if (modal.classList.contains(CFG.closingClass)) return;
+
+        debugLog('CLOSE', reason);
 
         modal.classList.add(CFG.closingClass);
         var closeBtn = document.getElementById(CFG.closeBtnId);
@@ -23778,11 +23878,36 @@ function initInternalBLSimulation() {
     function attachMulticapaListeners() {
         var openBtn  = document.getElementById(CFG.openBtnId);
         var closeBtn = document.getElementById(CFG.closeBtnId);
-        if (openBtn)  openBtn.addEventListener('click', openMulticapaLabFullscreen);
-        if (closeBtn) closeBtn.addEventListener('click', closeMulticapaLabFullscreen);
+        var modal    = document.getElementById(CFG.modalId);
+
+        // Listener directo e independiente: no depende de switchTab ni de
+        // window._multicapaInited. Basta con que el botón exista en el DOM al cargar.
+        // e.stopPropagation() evita que el clic de apertura/cierre burbujee hasta
+        // cualquier listener global de document (p. ej. cierres de otros paneles).
+        if (openBtn)  openBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            openMulticapaLabFullscreen();
+        });
+        if (closeBtn) closeBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            closeMulticapaLabFullscreen('close-button');
+        });
+
+        // Blindaje: ningún clic dentro del modal (sliders, selects, botones internos)
+        // debe poder burbujear hacia document. Se adjunta una sola vez; sigue
+        // funcionando después del teleport a document.body porque los listeners
+        // no se pierden al mover el nodo.
+        if (modal) modal.addEventListener('click', stopInnerClickPropagation);
 
         document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' || e.keyCode === 27) closeMulticapaLabFullscreen();
+            if (e.key !== 'Escape' && e.keyCode !== 27) return;
+            var m = document.getElementById(CFG.modalId);
+            if (!m || !m.classList.contains(CFG.fullscreenClass)) return;
+            // Ignora Escape durante los primeros ~400ms tras abrir, para blindar
+            // contra un keydown residual disparado justo durante la transición
+            // de apertura / el teleport del modal (falso positivo de cierre).
+            if (Date.now() - (m._openedAt || 0) < 400) return;
+            closeMulticapaLabFullscreen('escape-key');
         });
 
         var resizeTimer;
