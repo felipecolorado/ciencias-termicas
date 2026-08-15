@@ -20585,6 +20585,11 @@ function initInternalBLSimulation() {
         let displayName = firebaseUser.displayName || (email ? email.split("@")[0] : "Usuario");
         let avatarUrl = firebaseUser.photoURL || selectedAvatar;
         let role = isEmailAdmin ? "Administrador" : "Estudiante";
+        // La foto que trae Google en ESTE login es la fuente de verdad: cuentas con un
+        // registro previo en la base de datos (típicamente la del Administrador, creada antes
+        // de existir el login con Google) no deben dejar que ese avatar antiguo/guardado
+        // sobrescriba la foto real de Google.
+        const hasFreshGooglePhoto = !!firebaseUser.photoURL;
 
         // Actualizar currentUser y la interfaz DE INMEDIATO sin esperar a la base de datos
         currentUser = {
@@ -20616,9 +20621,14 @@ function initInternalBLSimulation() {
                         currentUser.name = uData.name;
                         updated = true;
                     }
-                    if (uData.avatar && uData.avatar !== currentUser.avatar) {
+                    if (!hasFreshGooglePhoto && uData.avatar && uData.avatar !== currentUser.avatar) {
                         currentUser.avatar = uData.avatar;
                         updated = true;
+                    } else if (hasFreshGooglePhoto && uData.avatar !== currentUser.avatar) {
+                        // Autocorregir el registro desactualizado en la base de datos para que
+                        // no vuelva a tapar la foto de Google en futuros inicios de sesión.
+                        db.ref("users/" + userKey + "/avatar").set(currentUser.avatar)
+                            .catch((e) => console.warn("Advertencia al sincronizar avatar en RTDB:", e));
                     }
                     if (uData.role && uData.role !== currentUser.role) {
                         currentUser.role = uData.role;

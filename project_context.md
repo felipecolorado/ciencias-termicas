@@ -113,7 +113,7 @@ Pendiente de implementar (trabajo por lotes, se irá actualizando):
 | `multi-sim` | Multi-simulador | ✅ |
 | `res-sim` | Resistencias Térmicas | ✅ |
 | `par-sim` | Resistencias en Paralelo | ✅ |
-| `cm-layers-container` | Capas Multicapa | ⬜ |
+| `cm-layers-container` | Capas Multicapa | ✅ (Integrado en multicapa-custom-sim) |
 | `carnot-sim` | Ciclo de Carnot | ✅ |
 | `joule-sim` | Expansión de Joule | ✅ |
 | `clausius-sim` | Clausius | ✅ |
@@ -138,7 +138,7 @@ Pendiente de implementar (trabajo por lotes, se irá actualizando):
 | `watt-sim` | Watt | ✅ |
 | `water-substance-sim` | Sustancia pura (agua) | ✅ |
 | `psychrometry-lab-sim` | Psicrometría | ✅ |
-| `newton-sim` | Newton (simulador adicional) | ⬜ |
+| `newton-sim` | Newton (simulador adicional) | ✅ (Integrado en newton-lab-modal) |
 
 ---
 
@@ -213,6 +213,31 @@ body.LABID-lab-open { overflow: hidden; }
 #### 5. Nota sobre la función genérica existente
 
 En `app_v2.js` ~línea 22892 existe `toggleLabFullscreen(container)` con clase `.lab-fullscreen` y botón `.lab-expand-btn`. Esta función es genérica pero **no** usa teleport DOM ni animación de cierre. Para laboratorios simples (sin Canvas o Chart.js complejo) puede usarse añadiendo la clase `.lab-expand-btn` al botón. Para laboratorios complejos se prefiere el patrón IIFE dedicado.
+
+### Arquitectura de Inicialización Diferida (Lazy Init) para Canvas en Tabs
+
+**Problema Crítico:** Los laboratorios interactivos que dependen de `Canvas` o `Chart.js` y están ubicados dentro de pestañas (`.tab-pane`) ocultas por defecto (`display: none`), fallarán silenciosamente si intentan inicializarse durante el `DOMContentLoaded` o mediante `safeInit` al arrancar la app. Esto ocurre porque al estar ocultos, las dimensiones del contenedor (`offsetWidth`, `offsetHeight`) son `0x0`, lo cual corrompe el contexto `2d` del canvas y lanza excepciones internas en Chart.js.
+
+**Solución Estándar (Ejemplo: `multicapa-custom-sim`):**
+1. **Guardia Inicial:** Dentro de la función de inicialización del laboratorio (`initXxxSimulation`), evaluar si las dimensiones son nulas. Si lo son, abortar y esperar. Usar una bandera global para registrar el éxito.
+```javascript
+function initMulticapaCustomSimulation() {
+    if (window._multicapaInited) return; // Evitar doble init
+    const canvas = document.getElementById('customMultiCanvas');
+    if (!canvas || (canvas.offsetWidth === 0 && canvas.offsetHeight === 0)) return; // Diferir
+    // ... inicializar ...
+    window._multicapaInited = true; // Marcar éxito al final
+}
+```
+2. **Reintento en Tab Switch:** Al cambiar a la pestaña de este laboratorio (en `switchTab`), una vez forzada la visibilidad (`display: block !important`), llamar a la función nuevamente para que tome las dimensiones reales.
+```javascript
+if (tabId === 'multicapa-custom-sim') {
+    setTimeout(() => {
+        if (!window._multicapaInited) initMulticapaCustomSimulation();
+        // ... resize explícito y scroll ...
+    }, 80); // Dar tiempo al renderizado del DOM
+}
+```
 
 ---
 
