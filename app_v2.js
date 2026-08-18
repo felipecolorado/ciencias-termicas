@@ -1206,22 +1206,33 @@ function fetchRealUserCount() {
                         userCountText.textContent = displayCount.toLocaleString();
                     }
                     localStorage.setItem("gatekeeper_registered_count_real", displayCount);
+                } else {
+                    // null o indefinido (nodo aún no existe): retirar spinner
+                    if (userCountText) userCountText.textContent = "–";
                 }
             }, (error) => {
+                // Error de red o permisos: retirar spinner con guion
                 console.warn("No se pudo leer stats/userCount (contador de usuarios):", error.message);
+                if (userCountText) userCountText.textContent = "–";
             });
+
+            // Iniciar presencia en línea SOLO cuando Firebase está listo (evita entradas duplicadas)
+            initOnlinePresence();
         } catch (e) {
             console.error("Error al obtener recuento de usuarios reales de Firebase:", e);
+            if (userCountText) userCountText.textContent = "–";
         }
     } else {
+        // Firebase aún no disponible: reintentar sin crear presencia duplicada
         setTimeout(fetchRealUserCount, 1000);
     }
-
-    // Iniciar rastreo de presencia en línea
-    initOnlinePresence();
 }
 
 function initOnlinePresence() {
+    // Guarda: una sola instancia de presencia por pestaña
+    if (window._presenceInited) return;
+    window._presenceInited = true;
+
     const onlineCountText = document.getElementById("online-count-text");
     if (typeof firebase !== 'undefined') {
         try {
@@ -1244,17 +1255,22 @@ function initOnlinePresence() {
             const myPresenceRef = db.ref("presence/" + sessionKey);
             const onlineUsersRef = db.ref("presence");
 
-            // Escribir estado 'conectado' al iniciar sesión
-            myPresenceRef.set({
-                timestamp: Date.now(),
-                userAgent: navigator.userAgent
+            // Usar .info/connected para escribir presencia solo cuando la conexión RTDB
+            // esté activa; esto garantiza que onDisconnect limpie el nodo incluso tras
+            // una reconexión y que no queden entradas residuales.
+            let firebaseConnected = false;
+            db.ref(".info/connected").on("value", (snap) => {
+                if (snap.val() === true) {
+                    myPresenceRef.onDisconnect().remove().then(() => {
+                        myPresenceRef.set({
+                            timestamp: firebase.database.ServerValue.TIMESTAMP,
+                            userAgent: navigator.userAgent
+                        });
+                    });
+                }
             });
 
-            // Configurar borrado automático al cerrar la pestaña o desconectarse
-            myPresenceRef.onDisconnect().remove();
-
             // Escuchar cambios reactivos en las conexiones activas totales
-            let firebaseConnected = false;
             onlineUsersRef.on("value", (snapshot) => {
                 firebaseConnected = true;
                 const activeConnections = snapshot.numChildren();
