@@ -1207,20 +1207,27 @@ function fetchRealUserCount() {
                     }
                     localStorage.setItem("gatekeeper_registered_count_real", displayCount);
                 } else {
-                    // null o indefinido (nodo aún no existe): retirar spinner
-                    if (userCountText) userCountText.textContent = "–";
+                    // null/undefined: el nodo no existe aún en RTDB.
+                    // Usar el último valor conocido del caché local; si no hay,
+                    // mostrar "1" como mínimo razonable (nunca dejar "–" vacío).
+                    const cached = parseInt(localStorage.getItem("gatekeeper_registered_count_real"), 10);
+                    const fallback = (Number.isFinite(cached) && cached > 0) ? cached : 1;
+                    if (userCountText) userCountText.textContent = fallback.toLocaleString();
                 }
             }, (error) => {
-                // Error de red o permisos: retirar spinner con guion
-                console.warn("No se pudo leer stats/userCount (contador de usuarios):", error.message);
-                if (userCountText) userCountText.textContent = "–";
+                // Error de red o permisos: misma lógica de caché/mínimo
+                console.warn("No se pudo leer stats/userCount:", error.message);
+                const cached = parseInt(localStorage.getItem("gatekeeper_registered_count_real"), 10);
+                const fallback = (Number.isFinite(cached) && cached > 0) ? cached : 1;
+                if (userCountText) userCountText.textContent = fallback.toLocaleString();
             });
 
             // Iniciar presencia en línea SOLO cuando Firebase está listo (evita entradas duplicadas)
             initOnlinePresence();
         } catch (e) {
             console.error("Error al obtener recuento de usuarios reales de Firebase:", e);
-            if (userCountText) userCountText.textContent = "–";
+            const cached = parseInt(localStorage.getItem("gatekeeper_registered_count_real"), 10);
+            if (userCountText) userCountText.textContent = ((Number.isFinite(cached) && cached > 0) ? cached : 1).toLocaleString();
         }
     } else {
         // Firebase aún no disponible: reintentar sin crear presencia duplicada
@@ -1259,21 +1266,48 @@ function initOnlinePresence() {
             // esté activa; esto garantiza que onDisconnect limpie el nodo incluso tras
             // una reconexión y que no queden entradas residuales.
             let firebaseConnected = false;
-            db.ref(".info/connected").on("value", (snap) => {
-                if (snap.val() === true) {
-                    myPresenceRef.onDisconnect().remove().then(() => {
-                        myPresenceRef.set({
-                            timestamp: firebase.database.ServerValue.TIMESTAMP,
-                            userAgent: navigator.userAgent
-                        });
+            const writePresence = () => {
+                myPresenceRef.onDisconnect().remove().then(() => {
+                    myPresenceRef.set({
+                        timestamp: firebase.database.ServerValue.TIMESTAMP,
+                        userAgent: navigator.userAgent
                     });
-                }
+                });
+            };
+            db.ref(".info/connected").on("value", (snap) => {
+                if (snap.val() === true) writePresence();
             });
 
-            // Escuchar cambios reactivos en las conexiones activas totales
+            // Renovar el timestamp cada 4 min para que el nodo no quede fuera
+            // de la ventana de 5 min mientras la pestaña sigue abierta.
+            const renewInterval = setInterval(() => {
+                myPresenceRef.set({
+                    timestamp: firebase.database.ServerValue.TIMESTAMP,
+                    userAgent: navigator.userAgent
+                });
+            }, 4 * 60 * 1000);
+
+            // Limpiar el intervalo cuando la pestaña se cierra
+            window.addEventListener("beforeunload", () => {
+                clearInterval(renewInterval);
+                myPresenceRef.remove();
+            }, { once: true });
+
+            // Escuchar cambios reactivos en las conexiones activas totales.
+            // Filtrar por timestamp reciente (< 5 min) para ignorar nodos huérfanos
+            // de sesiones que cerraron abruptamente sin ejecutar onDisconnect.
+            const STALE_MS = 5 * 60 * 1000; // 5 minutos
             onlineUsersRef.on("value", (snapshot) => {
                 firebaseConnected = true;
-                const activeConnections = snapshot.numChildren();
+                const now = Date.now();
+                let activeConnections = 0;
+                snapshot.forEach(child => {
+                    const ts = child.val() && child.val().timestamp;
+                    // Solo contar si el timestamp es un número reciente
+                    if (typeof ts === "number" && (now - ts) < STALE_MS) {
+                        activeConnections++;
+                    }
+                });
                 // Al menos el usuario actual está en línea
                 const displayOnline = Math.max(1, activeConnections);
                 if (onlineCountText) {
