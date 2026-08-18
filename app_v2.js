@@ -6020,6 +6020,23 @@ function initNewtonSimulation() {
     // quedar estática. Física: cuando T_cilindro → T_∞, ΔT → 0 → β·g·ΔT → 0.
     const EQUILIBRIUM_EPSILON = 0.1; // °C
 
+    // ── Escala proporcional de posiciones de partículas al redimensionar ────────
+    // En vez de destruir y recrear el arreglo completo, traslada cada partícula
+    // al nuevo espacio preservando su trayectoria. Se usa cuando ya existe un
+    // arreglo de partículas con posiciones válidas y las dimensiones del canvas
+    // cambian (resize de ventana, toggle fullscreen).
+    // Las velocidades NO se escalan: son absolutas (px/frame) y pequeñas; el
+    // motor de física ya las ajusta dinámicamente en cada frame via heatFactor.
+    function rescaleParticles(oldW, oldH, newW, newH) {
+        if (!oldW || !oldH || !newW || !newH) return;
+        const sx = newW / oldW;
+        const sy = newH / oldH;
+        particles.forEach(p => {
+            p.x *= sx;
+            p.y *= sy;
+        });
+    }
+
     function initParticles() {
         // Leer siempre las dimensiones renderizadas del contenedor.
         // getBoundingClientRect() devuelve el tamaño real post-layout,
@@ -6481,9 +6498,17 @@ function initNewtonSimulation() {
 
         if (targetW > 0 && targetH > 0 &&
             (canvas.width !== targetW || canvas.height !== targetH)) {
+            const _oldW = canvas.width;
+            const _oldH = canvas.height;
             canvas.width = targetW;
             canvas.height = targetH;
-            initParticles();
+            // Preservar trayectorias escalando posiciones; solo reinicializar si
+            // el arreglo está vacío (primera carga) o las dimensiones previas son 0.
+            if (particles.length > 0 && _oldW > 0 && _oldH > 0) {
+                rescaleParticles(_oldW, _oldH, targetW, targetH);
+            } else {
+                initParticles();
+            }
 
             // Notificar a Chart.js que el contenedor cambió de tamaño
             if (chartInstance) {
@@ -6657,15 +6682,10 @@ function initNewtonSimulation() {
             const shellObserver = new ResizeObserver(() => {
                 if (resizeRAF) cancelAnimationFrame(resizeRAF);
                 resizeRAF = requestAnimationFrame(() => {
-                    const rect = canvasShell.getBoundingClientRect();
-                    const w = Math.floor(rect.width);
-                    const h = Math.floor(rect.height);
-                    if (w > 0 && h > 0 && (canvas.width !== w || canvas.height !== h)) {
-                        canvas.width = w;
-                        canvas.height = h;
-                        initParticles(); // recalcula zonas con el nuevo ancho
-                    }
-                    // El gráfico vive en un contenedor hermano; resize() lo adapta
+                    // El canvas de animación lo redimensiona el guard interno de draw(),
+                    // que llama a rescaleParticles() preservando trayectorias continuas.
+                    // Aquí solo actualizamos Chart.js para evitar el triple disparo
+                    // de initParticles() que causaba parpadeo visible.
                     if (chartInstance) {
                         chartInstance.resize();
                     }
@@ -6684,31 +6704,46 @@ function initNewtonSimulation() {
     }
 
     // ── Listener para el evento newton:resize emitido por resizeNewtonAssets() ──
-    // Permite que el fullscreen controller (IIFE externo) notifique a esta
-    // función de que el canvas ya fue redimensionado y hay que reiniciar
-    // partículas, sin crear dependencia circular de funciones internas.
-    function onNewtonResize() {
-        initParticles();
+    // El IIFE fullscreen controller despacha este evento DESPUÉS de actualizar
+    // c.width/c.height, incluyendo las dimensiones anteriores (oldW/oldH) para
+    // que podamos escalar posiciones en vez de reinicializar completamente.
+    function onNewtonResize(e) {
+        const detail = e && e.detail ? e.detail : {};
+        const newW = detail.w  || canvas.width;
+        const newH = detail.h  || canvas.height;
+        const oldW = detail.oldW || 0;
+        const oldH = detail.oldH || 0;
+        // Escalar trayectorias si ya hay partículas y conocemos las dimensiones previas;
+        // reinicializar solo en la primera carga (arreglo vacío) o si no hay oldW/oldH.
+        if (particles.length > 0 && oldW > 0 && oldH > 0) {
+            rescaleParticles(oldW, oldH, newW, newH);
+        } else {
+            initParticles();
+        }
         if (chartInstance) chartInstance.resize();
     }
     window.addEventListener('newton:resize', onNewtonResize);
 
-    // ── window.resize: cubre TANTO fullscreen COMO modo normal ───────────────
-    // El fullscreen controller ya tiene su propio debounce para fullscreen;
-    // este listener cubre el caso de redimensionado de ventana en modo normal
-    // (cambio de ancho de panel, rotación de dispositivo, etc.).
+    // ── Reanuda el bucle draw() si fue cancelado por el IntersectionObserver ──
+    // Al abrir/cerrar fullscreen el modal se teletransporta al body; el canvas
+    // puede salir del viewport original y el IntersectionObserver cancela el rAF.
+    // El IIFE despacha 'newton:resume' tras la transición para reiniciar el bucle.
+    function onNewtonResume() {
+        if (animationId) cancelAnimationFrame(animationId);
+        lastTimestamp = performance.now();
+        animationId = requestAnimationFrame(draw);
+    }
+    window.addEventListener('newton:resume', onNewtonResume);
+
+    // ── window.resize: solo actualiza Chart.js ───────────────────────────────
+    // El canvas de animación lo redimensiona el guard interno de draw() (Route 1)
+    // y el IIFE via 'newton:resize' (Route 4). Esta ruta solo sincroniza Chart.js
+    // para evitar el triple disparo de initParticles() que causaba parpadeo.
     let _winResizeRAF = null;
     function onWindowResize() {
         if (_winResizeRAF) cancelAnimationFrame(_winResizeRAF);
         _winResizeRAF = requestAnimationFrame(() => {
-            const modal = document.getElementById('newton-lab-modal');
-            // En modo normal (sin .fullscreen), el fullscreen controller no actúa;
-            // hacemos el resize aquí. En fullscreen lo hace resizeNewtonAssets().
-            const isFullscreen = modal && modal.classList.contains('fullscreen');
-            if (!isFullscreen) {
-                initParticles();
-                if (chartInstance) chartInstance.resize();
-            }
+            if (chartInstance) chartInstance.resize();
         });
     }
     window.addEventListener('resize', onWindowResize);
@@ -9629,6 +9664,26 @@ function initHerschelSimulation() {
         herschelChart.options.scales.y.min = Math.floor(Tamb - 1);
         herschelChart.options.scales.y.max = Math.ceil(Tamb + (I / 1000) * 5);
         herschelChart.update('none');
+
+        // ── Herschel Cartoon Reaction ─────────────────────────────────────
+        // pct ≥ 82  →  λ > 700 nm: infrarrojo cercano (zona de descubrimiento)
+        // pct ≥ 92  →  λ > 850 nm: infrarrojo lejano (asombro máximo sostenido)
+        var isIR    = (pct >= 82);
+        var isFarIR = (pct >= 92);
+
+        // Anchor de posicionamiento: recibe is-surprised / is-far-ir (cascada CSS)
+        var cartoonBox = document.getElementById('herschel-cartoon-box');
+        if (cartoonBox) {
+            cartoonBox.classList.toggle('is-surprised', isIR);
+            cartoonBox.classList.toggle('is-far-ir',    isFarIR);
+        }
+
+        // Widget visual: recibe herschel-surprised para selectores directos en CSS
+        var cartoonWidget = document.getElementById('herschel-cartoon-widget');
+        if (cartoonWidget) {
+            cartoonWidget.classList.toggle('herschel-surprised', isIR);
+        }
+        // ─────────────────────────────────────────────────────────────────
     }
 
     function renderLoop() {
@@ -9656,26 +9711,95 @@ function initHerschelSimulation() {
         const cx = canvas.width;
         const cy = canvas.height;
 
-        // 1. Draw Window slit and sunray beam
-        const windowX = 40;
-        const windowY = 60;
-        ctx.fillStyle = "#1e293b";
-        ctx.fillRect(0, 0, windowX, cy); // Wall
-        ctx.fillStyle = "#020617";
-        ctx.fillRect(0, windowY, windowX, 25); // Slit opening
-
-        // Draw sunray beam entering through the slit
-        const beamStart = windowX;
+        // ── 1. PARED CON CANAL COLIMADOR INCLINADO ──────────────────────────────────
+        // El haz solar incide en θ = arctan(3/4) ≈ 36.87° bajo la horizontal.
+        // El canal colimador está alineado coaxialmente con ese vector de incidencia.
+        //   Vector unitario del rayo:  bdx = cos θ = 4/5 = 0.8,  bdy = sin θ = 3/5 = 0.6
+        //   Perpendicular "arriba" en pantalla (y↓): pux = +bdy = 0.6, puy = -bdx = -0.8
         const beamEndY = 140;
-        const prismX = 140;
-        const prismY = 140;
+        const prismX   = 140;
+        const prismY   = 140;
 
-        ctx.strokeStyle = "rgba(255, 253, 220, 0.4)";
-        ctx.lineWidth = 15;
+        const bdx = 0.8, bdy = 0.6;          // dirección unitaria del rayo
+        const pux = bdy,  puy = -bdx;        // perpendicular arriba en pantalla
+
+        const wallW = 40;                     // grosor de la pared (px)
+        const halfW = 10;                     // semiancho del canal ⊥ al rayo (px)
+
+        // Centro del canal en la cara interior de la pared (salida hacia el prisma)
+        const exitX = wallW;                                          // 40 px
+        const exitY = beamEndY - (prismX - 10 - wallW) * (bdy / bdx); // 72.5 px
+
+        // Centro del canal en la cara exterior (entrada desde el sol)
+        const entX = 0;
+        const entY = exitY - wallW * (bdy / bdx);                    // 42.5 px
+
+        // Cuatro vértices del parallelogramo del canal (alineado con el rayo)
+        const cT1 = { x: entX  + halfW * pux, y: entY  + halfW * puy }; // entrada-superior
+        const cT2 = { x: exitX + halfW * pux, y: exitY + halfW * puy }; // salida-superior
+        const cB2 = { x: exitX - halfW * pux, y: exitY - halfW * puy }; // salida-inferior
+        const cB1 = { x: entX  - halfW * pux, y: entY  - halfW * puy }; // entrada-inferior
+
+        // ── a) Pared con hueco del canal (regla par-impar) ─────────────────────
+        ctx.save();
         ctx.beginPath();
-        ctx.moveTo(beamStart, windowY + 12.5);
+        ctx.rect(0, 0, wallW + halfW * pux + 2, cy); // rect de pared cubre hasta el labio sup.
+        ctx.moveTo(cT1.x, cT1.y);                    // canal en CW → evenodd crea hueco
+        ctx.lineTo(cT2.x, cT2.y);
+        ctx.lineTo(cB2.x, cB2.y);
+        ctx.lineTo(cB1.x, cB1.y);
+        ctx.closePath();
+        ctx.fillStyle = '#1e293b';
+        ctx.fill('evenodd');
+        ctx.restore();
+
+        // ── b) Interior del canal: gradiente solar ──────────────────────────────
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(cT1.x, cT1.y);
+        ctx.lineTo(cT2.x, cT2.y);
+        ctx.lineTo(cB2.x, cB2.y);
+        ctx.lineTo(cB1.x, cB1.y);
+        ctx.closePath();
+        ctx.clip();
+        const solarGrad = ctx.createLinearGradient(entX, entY, exitX, exitY);
+        solarGrad.addColorStop(0,    'rgba(255, 248, 185, 0.95)');
+        solarGrad.addColorStop(0.55, 'rgba(255, 252, 210, 0.78)');
+        solarGrad.addColorStop(1,    'rgba(255, 253, 220, 0.55)');
+        ctx.fillStyle = solarGrad;
+        ctx.fill();
+        ctx.restore();
+
+        // ── c) Labios del canal (perspectiva de profundidad) ───────────────────
+        ctx.lineCap = 'square';
+        // Labio superior (iluminado por el sol)
+        ctx.strokeStyle = '#94a3b8';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(cT1.x, cT1.y);
+        ctx.lineTo(cT2.x, cT2.y);
+        ctx.stroke();
+        // Labio inferior (en sombra)
+        ctx.strokeStyle = '#1e3a5f';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(cB1.x, cB1.y);
+        ctx.lineTo(cB2.x, cB2.y);
+        ctx.stroke();
+        ctx.lineCap = 'butt';
+
+        // ── d) Haz blanco colimado desde la salida del canal hasta el prisma ───
+        const bGrad = ctx.createLinearGradient(exitX, exitY, prismX - 10, beamEndY);
+        bGrad.addColorStop(0, 'rgba(255, 253, 220, 0.50)');
+        bGrad.addColorStop(1, 'rgba(255, 253, 220, 0.25)');
+        ctx.strokeStyle = bGrad;
+        ctx.lineWidth = halfW * 2;   // 20 px — mismo ancho que la apertura del canal
+        ctx.lineCap = 'butt';
+        ctx.beginPath();
+        ctx.moveTo(exitX, exitY);
         ctx.lineTo(prismX - 10, beamEndY);
         ctx.stroke();
+        // ────────────────────────────────────────────────────────────────────────
 
         // 2. Draw Prism (Triangle)
         ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
@@ -9688,6 +9812,22 @@ function initHerschelSimulation() {
         ctx.closePath();
         ctx.fill();
         ctx.stroke();
+
+        // 2b. Prism label (bilingual)
+        {
+            const isEN = document.documentElement.lang === 'en' ||
+                         document.body.classList.contains('lang-en-active') ||
+                         document.querySelector('.lang-en') &&
+                         document.querySelector('.lang-en').style.display !== 'none';
+            const prismLabel = isEN ? 'Glass Prism' : 'Prisma de Vidrio';
+            ctx.save();
+            ctx.fillStyle = 'rgba(147,197,253,0.92)';
+            ctx.font = 'bold 11px Inter, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            ctx.fillText(prismLabel, prismX, prismY + 35);
+            ctx.restore();
+        }
 
         // 3. Draw Dispersed Ray Gradient Spectrum on the table
         const tableY = cy - 130;
@@ -9711,8 +9851,8 @@ function initHerschelSimulation() {
             ctx.fillStyle = col.c;
             ctx.beginPath();
             ctx.moveTo(prismX, prismY);
-            ctx.lineTo(spectrumStartX + col.xRatio * spectrumW - 10, tableY);
-            ctx.lineTo(spectrumStartX + col.xRatio * spectrumW + 10, tableY);
+            ctx.lineTo(spectrumStartX + col.xRatio * spectrumW - 18, tableY);
+            ctx.lineTo(spectrumStartX + col.xRatio * spectrumW + 18, tableY);
             ctx.closePath();
             ctx.fill();
         });
@@ -9737,7 +9877,7 @@ function initHerschelSimulation() {
         grad.addColorStop(0.95, "rgba(12, 20, 36, 0.1)"); // Dark
 
         ctx.fillStyle = grad;
-        ctx.fillRect(spectrumStartX, tableY - 6, spectrumW, 12);
+        ctx.fillRect(spectrumStartX, tableY - 12, spectrumW, 24);
 
         // Draw labels below spectrum (rotated vertically and larger)
         const colorLabels = [
@@ -24307,11 +24447,13 @@ function initInternalBLSimulation() {
             var h = rect && rect.height > 0 ? Math.floor(rect.height) : 0; // 0 → no redimensionar
 
             if (w > 0 && h > 0 && (c.width !== w || c.height !== h)) {
+                var oldW = c.width;
+                var oldH = c.height;
                 c.width = w;
                 c.height = h;
-                // Disparar re-inicialización de partículas a través del evento global
-                // que escucha initNewtonSimulation() para evitar dependencia circular.
-                window.dispatchEvent(new CustomEvent('newton:resize', { detail: { w: w, h: h } }));
+                // oldW/oldH permiten a onNewtonResize() escalar posiciones de
+                // partículas proporcionalmente en vez de reinicializar el arreglo.
+                window.dispatchEvent(new CustomEvent('newton:resize', { detail: { w: w, h: h, oldW: oldW, oldH: oldH } }));
             }
         }
     }
@@ -24381,10 +24523,13 @@ function initInternalBLSimulation() {
         // Tick 0: resize inmediato cuando el browser ya tiene el layout fullscreen
         setTimeout(function () { resizeNewtonAssets(); }, 0);
 
-        // Tras la transición CSS: resize final + re-typeset + foco
+        // Tras la transición CSS: resize final + re-typeset + foco + reanudar bucle
         setTimeout(function () {
             resizeNewtonAssets();
             retypesetMathJax();
+            // El IntersectionObserver puede haber cancelado draw() durante el teleport;
+            // 'newton:resume' lo reinicia sin depender de funciones internas del motor.
+            window.dispatchEvent(new CustomEvent('newton:resume'));
             var first = modal.querySelector('button, input, [tabindex]:not([tabindex="-1"])');
             if (first) first.focus();
         }, CFG.transitionMs + 50);
@@ -24429,8 +24574,9 @@ function initInternalBLSimulation() {
             modal._originalParent = null;
             modal._placeholder = null;
 
-            // Resize al tamaño de columna ahora que el nodo está en su contenedor
+            // Resize al tamaño de columna + reanudar bucle draw() si fue cancelado
             resizeNewtonAssets();
+            window.dispatchEvent(new CustomEvent('newton:resume'));
 
             if (modal._returnFocus && modal._returnFocus.focus) {
                 modal._returnFocus.focus();

@@ -55,6 +55,87 @@ El proyecto no utiliza frameworks pesados como React o Angular. Está construido
 
 ---
 
+## 🔐 Backend y Seguridad (Firebase) — Migración de seguridad completada (2026-08-15/17)
+
+Además del frontend puro descrito arriba, el proyecto usa el proyecto Firebase
+`thermal-science-history` (dos bases de datos) para autenticación de
+usuarios, comentarios y contadores de presencia:
+
+- **Realtime Database** (`thermal-science-history-default-rtdb`): `users/*`,
+  `comments/*`, `presence/*`, `online_sessions/*`, `stats/userCount`. Es
+  donde vive todo el dato sensible de la app.
+- **Cloud Firestore**: solo `online_sessions` (fallback de conteo de
+  presencia sin autenticación, `useCounterFallback()`).
+
+Archivos de configuración/reglas en `v4/firebase/` (no forman parte del
+sitio publicado; solo los usa el Firebase CLI localmente):
+- `firebase.json`, `.firebaserc`, `firestore.rules`, `firestore.indexes.json`,
+  `database.rules.json`.
+- `MIGRATION_PLAN.md` — documento detallado del hallazgo de seguridad
+  original y del plan aplicado. **Leer antes de tocar autenticación,
+  comentarios, roles o reglas.**
+- `scripts/setAdminClaim.js`, `scripts/syncUserCount.js`, `scripts/package.json`
+  — scripts administrativos de una sola vez (Admin SDK).
+- ⚠️ **`scripts/serviceAccountKey.json`** y los demás JSON de credenciales
+  del Admin SDK presentes en esa carpeta dan acceso total de administrador
+  al proyecto Firebase. **Nunca deben subirse a GitHub/GitHub Pages ni a
+  ningún repositorio.** Si en algún momento se crea/usa un repo Git en
+  `v4/`, agregarlos a `.gitignore` de inmediato (hoy no hay `.gitignore` en
+  `v4/`).
+
+### Qué se encontró y qué se corrigió (ya aplicado en `app_v2.js`, no repetir ni revertir)
+
+Hallazgo original: las reglas de Realtime Database estaban en modo de
+prueba, `handleAuthSubmit` guardaba la contraseña del usuario en **texto
+plano** en `users/{userKey}.password`, y el login tenía un respaldo
+inseguro que comparaba esa contraseña en el cliente contra RTDB —
+cualquiera con la URL de la base de datos podía leer `/users` completo
+(emails + contraseñas de todos los usuarios).
+
+Cambios de código ya aplicados:
+1. `fetchRealUserCount()` lee `stats/userCount` en vez de `/users` completo.
+2. Registro (`handleAuthSubmit`, rama `register`): ya no guarda `password`
+   en RTDB, ya no auto-asigna `role: "Administrador"` por email hardcodeado
+   (el rol inicial siempre es `"Estudiante"`), y ya no crea cuentas
+   "solo-RTDB" si falla el registro en Firebase Auth.
+3. Login (`handleAuthSubmit`, rama login): depende exclusivamente de
+   `firebase.auth().signInWithEmailAndPassword(...)` — se eliminó el
+   respaldo que comparaba `user.password !== password` contra RTDB.
+4. `handlePostComment` agrega `authorEmail: currentUser.email` a cada
+   comentario nuevo (requerido por las reglas nuevas de `comments/*`, que
+   verifican ese campo contra `auth.token.email`).
+
+### Estado del despliegue: ✅ completo y verificado en producción
+
+Todo el checklist de la sección 6 de `MIGRATION_PLAN.md` ya se ejecutó:
+- `firestore.rules` y `database.rules.json` desplegados
+  (`firebase deploy --only firestore:rules,database`).
+- Custom claim `admin: true` asignado vía `scripts/setAdminClaim.js`
+  (requerido para editar el campo `role` de cualquier usuario y para
+  borrar comentarios ajenos — las reglas de servidor usan
+  `auth.token.admin`, no el campo `role` de RTDB, como fuente de verdad).
+- `stats/userCount` sembrado vía `scripts/syncUserCount.js`.
+- Verificado en ventana de incógnito: login, registro, ver/publicar
+  comentarios, contador de "en línea" y de usuarios registrados.
+
+Pendiente / opcional (ver `MIGRATION_PLAN.md` secciones 4–5, no bloqueante
+para producción):
+- Migrar posibles usuarios "solo-RTDB" (se registraron antes de que
+  existiera Firebase Auth en el sitio, o su registro en Auth falló) — no
+  pueden iniciar sesión hasta migrarlos con el Admin SDK.
+- Borrar campos `password` heredados en registros antiguos de `/users`
+  (la escritura de contraseñas nuevas ya está bloqueada por
+  `.validate: false`, pero valores viejos no se borran solos).
+- (Opcional) Cloud Function que mantenga `stats/userCount` sincronizado
+  automáticamente en vez de correr `syncUserCount.js` a mano — requiere
+  plan Blaze.
+- Mover el chequeo de "admin" en la UI del email hardcodeado
+  `felipe.colorado@udea.edu.co` al custom claim
+  (`idTokenResult.claims.admin`) — solo afecta qué botones se muestran; las
+  reglas del servidor ya protegen los datos independientemente de esto.
+
+---
+
 ## 🧩 Funcionalidades Clave
 
 1. **Línea de Tiempo Dinámica**: Los eventos históricos se cargan desde la estructura de datos JS `timelineEvents`.
@@ -249,6 +330,7 @@ if (tabId === 'multicapa-custom-sim') {
 4. **Cambios quirúrgicos**: Identificar exactamente qué líneas cambiar. Nunca reemplazar bloques grandes de código sin necesidad. **Nunca** revertir a versiones anteriores.
 5. **Patrón de datos en JS**: La data (`timelineEvents`) se define en JS y el HTML se inyecta/modifica dinámicamente vía DOM.
 6. **Trabajo por lotes**: La implementación del fullscreen en laboratorios restantes se hará por lotes según indicación del usuario. Actualizar la tabla de inventario (✅/⬜) en este documento al completar cada lote.
+7. **Firebase/seguridad**: Nunca reintroducir el guardado de `password` en texto plano en RTDB, el respaldo de login que compara contraseñas en el cliente, ni la auto-asignación de `role: "Administrador"` por email hardcodeado — estas prácticas ya fueron eliminadas de `app_v2.js` y bloqueadas por `database.rules.json` (`.validate: false` en `password`). Ver sección "🔐 Backend y Seguridad" arriba y `firebase/MIGRATION_PLAN.md` antes de tocar `handleAuthSubmit`, `handlePostComment`, `fetchRealUserCount` o cualquier archivo de `v4/firebase/`. Nunca subir `firebase/scripts/serviceAccountKey.json` (ni JSON equivalentes) a ningún repositorio.
 
 ---
 

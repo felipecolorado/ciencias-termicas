@@ -5757,3 +5757,176 @@ body.light-theme .downloads-panel-list a {
     white-space: normal;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   ── HERSCHEL LAB — CARTOON WIDGET & SURPRISE ──
+   Anchor    : #herschel-cartoon-box  → position:absolute top-right del .canvas-container
+   Visual    : #herschel-cartoon-widget → columna: personaje arriba, globo abajo
+   Estado neutro    : sin clase extra  → frame 1 visible, globo oculto
+   Estado sorpresa  : .is-surprised   → ciclo f2 ↔ f5 (800 ms), globo visible (pct ≥ 82)
+   Estado IR lejano : .is-far-ir      → frame 5 fijo con pulso suave (pct ≥ 92)
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Anchor de posicionamiento ── */
+#herschel-cartoon-box {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* ── Contenedor visual (columna: personaje + globo) ── */
+#herschel-cartoon-widget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: 130px;
+}
+
+/* ── Escenario de frames (apilados) ── */
+#herschel-cartoon-stage {
+    position: relative;
+    width: 72px;
+    height: 80px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+    transition: filter 0.4s ease;
+}
+
+/* En sorpresa: halo cálido bajo el personaje */
+#herschel-cartoon-box.is-surprised #herschel-cartoon-stage {
+    filter: drop-shadow(0 2px 10px rgba(239, 68, 68, 0.55));
+}
+
+/* Todos los frames apilados, transparentes por defecto */
+.herschel-frame {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.12s step-end;
+}
+
+/* Frame 1 visible en estado neutro */
+.herschel-f1 { opacity: 1; }
+
+/* En estado sorpresa: ocultar frame 1 */
+#herschel-cartoon-box.is-surprised .herschel-f1 {
+    opacity: 0;
+    animation: none;
+}
+
+/* Keyframes ciclo f2 ↔ f5 (800 ms) */
+@keyframes herschel-flash-f2 {
+    0%, 50%     { opacity: 1; }
+    50.1%, 100% { opacity: 0; }
+}
+@keyframes herschel-flash-f5 {
+    0%, 50%     { opacity: 0; }
+    50.1%, 100% { opacity: 1; }
+}
+
+/* Activar ciclo cuando .is-surprised */
+#herschel-cartoon-box.is-surprised .herschel-f2 {
+    animation: herschel-flash-f2 0.8s steps(1) infinite;
+}
+#herschel-cartoon-box.is-surprised .herschel-f5 {
+    animation: herschel-flash-f5 0.8s steps(1) infinite;
+}
+
+/* IR lejano: fijar en frame 5 con pulso suave */
+@keyframes herschel-pulse-ir {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.65; }
+}
+#herschel-cartoon-box.is-far-ir .herschel-f2 { animation: none; opacity: 0; }
+#herschel-cartoon-box.is-far-ir .herschel-f5 {
+    animation: herschel-pulse-ir 1.8s ease-in-out infinite;
+}
+
+/* ── Globo de diálogo — aparece debajo del personaje ── */
+.herschel-bubble {
+    width: 100%;
+    font-size: 0.75rem;
+    line-height: 1.35;
+    text-align: center;
+    color: var(--text-secondary, #94a3b8);
+    background: rgba(0, 0, 0, 0.55);
+    border-radius: 6px;
+    padding: 5px 8px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(4px) scale(0.96);
+    transition: opacity 0.35s ease, transform 0.35s ease, color 0.35s ease;
+    pointer-events: none;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+/* Triángulo apuntando al personaje (arriba) */
+.herschel-bubble::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -7px;
+    transform: translateX(-50%);
+    border: 7px solid transparent;
+    border-bottom-color: rgba(0, 0, 0, 0.55);
+}
+
+/* Mostrar globo solo en estado sorpresa */
+#herschel-cartoon-box.is-surprised .herschel-bubble {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    color: #fca5a5;
+}
+
+/* ── Responsividad: canvas estrecho ── */
+@media (max-width: 600px) {
+    #herschel-cartoon-box {
+        top: 8px;
+        right: 8px;
+    }
+    #herschel-cartoon-widget {
+        width: 96px;
+    }
+    #herschel-cartoon-stage {
+        width: 52px;
+        height: 60px;
+    }
+    .herschel-bubble {
+        font-size: 0.68rem;
+    }
+}
+
+/* ── Fullscreen: widget más grande ── */
+#herschel-sim.fullscreen #herschel-cartoon-box {
+    top: 16px;
+    right: 16px;
+}
+#herschel-sim.fullscreen #herschel-cartoon-widget {
+    width: 155px;
+}
+#herschel-sim.fullscreen #herschel-cartoon-stage {
+    width: 88px;
+    height: 98px;
+}
+#herschel-sim.fullscreen .herschel-bubble {
+    font-size: 0.82rem;
+}
+
+/* ── Modo claro ── */
+body.light-mode .herschel-bubble {
+    background: rgba(255, 255, 255, 0.82);
+    color: #374151;
+}
+body.light-mode .herschel-bubble::before {
+    border-bottom-color: rgba(255, 255, 255, 0.82);
+}
+body.light-mode #herschel-cartoon-box.is-surprised .herschel-bubble {
+    color: #b91c1c;
+}
