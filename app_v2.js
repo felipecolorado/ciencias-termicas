@@ -2407,6 +2407,49 @@ function switchTab(tabId, disableTimelineSync = false) {
         }, 80);
     }
 
+    // FIX nusselt-sim: reintento de inicialización diferida (Lazy Init) +
+    // recálculo de dimensiones/partículas del perfil de velocidad al abrir
+    // esta pestaña. initNusseltSimulation() puede haber abortado en el
+    // arranque (DOMContentLoaded) porque el canvas estaba en 0x0 mientras
+    // la pestaña permanecía oculta; aquí, con display:block ya aplicado,
+    // reintentamos con las dimensiones reales.
+    if (tabId === 'nusselt-sim') {
+        setTimeout(() => {
+            const activePane = document.getElementById(tabId);
+            if (activePane && activePane.classList.contains('fullscreen')) return;
+            if (!window._nusseltInited) {
+                // Primer intento fallido al cargar: reintentar ahora que el
+                // canvas ya tiene dimensiones reales.
+                try {
+                    initNusseltSimulation();
+                } catch (e) {
+                    console.error('Error al inicializar Nusselt:', e);
+                }
+            } else {
+                // Ya estaba inicializado: recalcular el tamaño real del
+                // canvas de animación y reinstanciar sus partículas para
+                // que el perfil de velocidad se dibuje correctamente sin
+                // depender de abrir/cerrar pantalla completa.
+                const animCanvas = document.getElementById('nusseltCanvas');
+                if (animCanvas && animCanvas.parentElement) {
+                    const parentWidth = animCanvas.parentElement.clientWidth;
+                    const parentHeight = animCanvas.parentElement.clientHeight;
+                    if (parentWidth > 0 && parentHeight > 0) {
+                        animCanvas.width = parentWidth;
+                        animCanvas.height = parentHeight;
+                    }
+                }
+                if (typeof window.resetNusseltParticles === 'function') {
+                    window.resetNusseltParticles();
+                }
+            }
+            // Redimensionar la gráfica Chart.js del perfil de temperatura
+            if (window.NusseltLab && typeof window.NusseltLab.resize === 'function') {
+                window.NusseltLab.resize();
+            }
+        }, 80);
+    }
+
     // FIX v2: Re-render MathJax equations for the newly visible tab pane
     setTimeout(() => {
         if (window.MathJax && MathJax.typesetPromise) {
@@ -6773,6 +6816,7 @@ function initNewtonSimulation() {
 // 12. NUSSELT SIMULATION
 // ==========================================
 function initNusseltSimulation() {
+    if (window._nusseltInited) return; // Evitar doble init (ya inicializado con dimensiones válidas)
     const uSlider = document.getElementById("nu-u");
     const kSlider = document.getElementById("nu-k");
     const lcSlider = document.getElementById("nu-lc");
@@ -6792,6 +6836,19 @@ function initNusseltSimulation() {
     const canvas = document.getElementById("nusseltChart");
     const animCanvas = document.getElementById("nusseltCanvas");
     if (!canvas || !animCanvas) return;
+
+    // GUARD "Lazy Init": si el canvas o su contenedor padre aún tienen
+    // dimensiones 0x0 (pestaña 'nusselt-sim' oculta con display:none al
+    // cargar la página), abortar la inicialización. Instanciar aquí el
+    // Chart.js y las partículas del perfil de velocidad sobre un canvas
+    // 0x0 corrompe sus posiciones/tamaño y Chart.js nunca se recupera
+    // correctamente después, aunque el contenedor se haga visible más
+    // tarde. switchTab reintenta esta función una vez la pestaña esté
+    // realmente visible (ver bloque 'nusselt-sim' en switchTab).
+    const animParent = animCanvas.parentElement;
+    const hasNoSize = (animCanvas.offsetWidth === 0 && animCanvas.offsetHeight === 0) ||
+        (animParent && animParent.offsetWidth === 0 && animParent.offsetHeight === 0);
+    if (hasNoSize) return;
 
     const ctx = canvas.getContext("2d");
     const actx = animCanvas.getContext("2d");
@@ -7033,6 +7090,19 @@ function initNusseltSimulation() {
             if (animationId) cancelAnimationFrame(animationId);
         }
     });
+
+    // Como ya pasamos la guarda "Lazy Init" de arriba, el canvas tiene
+    // dimensiones reales en este punto: forzamos el primer sizing +
+    // instanciación de partículas aquí mismo, sin depender de la primera
+    // notificación asíncrona del IntersectionObserver (evita la carrera
+    // entre este cálculo y resizeNusseltAssets() del controlador de
+    // pantalla completa, que antes dejaba `particles` vacío).
+    animCanvas.width = animParent.clientWidth || animCanvas.offsetWidth;
+    animCanvas.height = animParent.clientHeight || animCanvas.offsetHeight;
+    initParticles();
+
+    window._nusseltInited = true;
+    window.resetNusseltParticles = initParticles;
 
     observer.observe(animCanvas);
 }
