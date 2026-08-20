@@ -5087,6 +5087,257 @@ body.telkes-lab-open {
 }
 
 /* ============================================================
+   GEN-SIM — Resultados analíticos y fórmulas (Ts, ΔT_max, T_max)
+   Alcance exclusivo: #gen-sim. Sólo reorganiza visualmente las
+   tarjetas de resultados (.result-card/.result-row) y los
+   contenedores de fórmulas MathJax ya existentes en index.html;
+   no depende de clases ni de HTML nuevo.
+   ============================================================ */
+
+/* ── 1. Cuadrícula compacta y alineada para Ts / ΔT_max / T_max ── */
+#gen-sim .result-card {
+  padding: 0.75rem 0.85rem;
+  gap: 0.35rem;
+}
+
+#gen-sim .result-card .result-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(72px, auto);
+  align-items: baseline;
+  column-gap: 0.6rem;
+  font-size: 0.78rem;
+}
+
+#gen-sim .result-card .result-row>span:first-child {
+  min-width: 0;
+}
+
+#gen-sim .result-card .highlight-val {
+  justify-self: end;
+  text-align: right;
+  white-space: nowrap;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 480px) {
+  #gen-sim .result-card .result-row {
+    grid-template-columns: 1fr;
+    row-gap: 0.15rem;
+  }
+
+  #gen-sim .result-card .highlight-val {
+    justify-self: start;
+  }
+}
+
+/* ── 2. Legibilidad de fórmulas MathJax (modo claro/oscuro) sin
+   desbordamiento horizontal — panel de teoría .sim-intro /
+   .gen-formula-block ── */
+#gen-sim .sim-intro {
+  overflow-x: hidden;
+}
+
+#gen-sim .gen-formula-block {
+  color: var(--text-muted);
+}
+
+#gen-sim .gen-formula-block strong {
+  color: var(--text-primary);
+}
+
+#gen-sim .sim-intro mjx-container[display="true"],
+#gen-sim .gen-formula-block mjx-container[display="true"] {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.2rem 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(249, 115, 22, 0.35) transparent;
+}
+
+#gen-sim .sim-intro mjx-container[display="true"]::-webkit-scrollbar {
+  height: 6px;
+}
+
+#gen-sim .sim-intro mjx-container[display="true"]::-webkit-scrollbar-thumb {
+  background: rgba(249, 115, 22, 0.35);
+  border-radius: 4px;
+}
+
+body.light-theme #gen-sim .sim-intro mjx-container[display="true"]::-webkit-scrollbar-thumb {
+  background: rgba(234, 88, 12, 0.35);
+}
+
+@media (max-width: 600px) {
+  #gen-sim .sim-intro mjx-container[display="true"] {
+    font-size: 0.85em;
+  }
+}
+
+/* ── 3. Panel único consolidado de ecuaciones
+   (#gen-equations-summary-panel) — tipografía condensada, padding
+   reducido y overflow:visible para eliminar por completo cualquier
+   barra de desplazamiento horizontal/vertical en las fórmulas.
+   Reemplaza a los antiguos bloques .gen-formula-block sueltos y a
+   #gen-energy-balance-box, ahora consolidados aquí. ── */
+#gen-equations-summary-panel {
+  margin-top: 0.85rem !important;
+  padding: 8px !important;
+  border-top: 0 !important;
+  border: 1px solid rgba(249, 115, 22, 0.22);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(249, 115, 22, 0.08), rgba(249, 115, 22, 0.02));
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  overflow: visible !important;
+}
+
+#gen-equations-summary-panel,
+#gen-equations-summary-panel * {
+  overflow: visible;
+}
+
+#gen-equations-summary-panel .geq-panel-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+#gen-equations-summary-panel .geq-block {
+  padding: 6px 8px;
+  margin-bottom: 0.5rem;
+}
+
+#gen-equations-summary-panel .geq-block:last-child {
+  margin-bottom: 0;
+}
+
+#gen-equations-summary-panel .geq-label {
+  margin-bottom: 0.3rem;
+}
+
+#gen-equations-summary-panel strong {
+  color: var(--text-primary);
+}
+
+#gen-equations-summary-panel .geq-note {
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+}
+
+#gen-equations-summary-panel .result-row {
+  font-size: 0.8rem;
+}
+
+#gen-equations-summary-panel .geq-live-row {
+  padding: 2px 0;
+}
+
+#gen-equations-summary-panel .highlight-val {
+  font-size: 0.92rem;
+}
+
+/* Fórmulas MathJax del panel: sin scrollbar propio, tamaño condensado */
+#gen-sim #gen-equations-summary-panel mjx-container[display="true"] {
+  display: block;
+  max-width: none;
+  overflow-x: visible;
+  overflow-y: visible;
+  padding: 0.15rem 0;
+  font-size: 0.92em;
+}
+
+body.light-theme #gen-equations-summary-panel {
+  border-color: rgba(234, 88, 12, 0.28);
+  background: linear-gradient(180deg, rgba(234, 88, 12, 0.07), rgba(234, 88, 12, 0.015));
+}
+
+body.light-theme #gen-equations-summary-panel .geq-panel-title,
+body.light-theme #gen-equations-summary-panel strong {
+  color: #7c2d12;
+}
+
+/* ── 4. Cuadrícula de comparación geométrica (Pared Plana / Cilindro /
+   Esfera) y resaltado de la geometría activa (.active-geom-row) —
+   soporte para modo claro/oscuro. ── */
+#gen-equations-summary-panel .geom-compare-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0.35rem 0;
+}
+
+#gen-equations-summary-panel .geom-cell {
+  min-width: 0;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+}
+
+#gen-equations-summary-panel .geom-cell-title {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  margin-bottom: 0.15rem;
+}
+
+#gen-equations-summary-panel .geom-cell p {
+  margin: 0;
+}
+
+body.light-theme #gen-equations-summary-panel .geom-cell {
+  background: rgba(15, 23, 42, 0.035);
+  border-color: rgba(15, 23, 42, 0.09);
+}
+
+/* Resalta la fila/celda de la geometría actualmente activa */
+#gen-equations-summary-panel .geom-cell.active-geom-row {
+  background: rgba(249, 115, 22, 0.12);
+  border-color: rgba(249, 115, 22, 0.5);
+  box-shadow: inset 0 0 0 1px rgba(249, 115, 22, 0.3);
+}
+
+#gen-equations-summary-panel .geom-cell.active-geom-row .geom-cell-title {
+  color: var(--accent-orange);
+}
+
+body.light-theme #gen-equations-summary-panel .geom-cell.active-geom-row {
+  background: rgba(234, 88, 12, 0.1);
+  border-color: rgba(234, 88, 12, 0.45);
+  box-shadow: inset 0 0 0 1px rgba(234, 88, 12, 0.25);
+}
+
+body.light-theme #gen-equations-summary-panel .geom-cell.active-geom-row .geom-cell-title {
+  color: #c2410c;
+}
+
+/* ── 5. Responsive: colapso de la cuadrícula sin generar scroll interno ── */
+@media (max-width: 700px) {
+  #gen-equations-summary-panel .geom-compare-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  #gen-equations-summary-panel {
+    font-size: 0.8rem;
+    padding: 6px !important;
+  }
+
+  #gen-sim #gen-equations-summary-panel mjx-container[display="true"] {
+    font-size: 0.85em;
+  }
+}
+
+/* ============================================================
    LOTE 9 — FULLSCREEN STYLES
    water-substance-sim · psychrometry-lab-sim
    ============================================================ */

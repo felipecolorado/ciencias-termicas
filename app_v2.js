@@ -5486,11 +5486,24 @@ function initGenerationSimulation() {
     const valW = document.getElementById('gen-w-val');
 
     const valTs = document.getElementById('gen-ts-val');
+    const valDeltaT = document.getElementById('gen-deltat-val');
     const valTmax = document.getElementById('gen-tmax-val');
     const valTsCyl = document.getElementById('gen-ts-cyl');
     const valTmaxCyl = document.getElementById('gen-tmax-cyl');
     const valTsSph = document.getElementById('gen-ts-sph');
     const valTmaxSph = document.getElementById('gen-tmax-sph');
+
+    // Panel consolidado de ecuaciones (#gen-equations-summary-panel): referencias DOM
+    const valEqEgot = document.getElementById('gen-eq-egot-val');
+    const valEqTs = document.getElementById('gen-eq-ts-val');
+    const valEqDtmax = document.getElementById('gen-eq-dtmax-val');
+    const valEqTmax = document.getElementById('gen-eq-tmax-val');
+    const geomCells = document.querySelectorAll('#gen-equations-summary-panel .geom-cell[data-geom]');
+
+    // Geometría activa del panel de ecuaciones (Pared Plana por defecto,
+    // seleccionable al hacer clic/Enter sobre cualquier celda de geometría).
+    let activeGenGeometry = 'plate';
+    const GEN_GEOMETRY_N = { plate: 1, cylinder: 2, sphere: 3 }; // factor de forma n
 
     const ctx = document.getElementById('genChart').getContext('2d');
 
@@ -5585,6 +5598,101 @@ function initGenerationSimulation() {
         }
     });
 
+    // Cálculo explícito de Ts, ΔT_max y T_max a partir del factor de forma n
+    // (n = 1 pared plana, n = 2 cilindro infinito, n = 3 esfera):
+    //   Ts       = T∞ + (q̇·L) / (n·h)
+    //   ΔT_max   = (q̇·L²) / (2·n·k)
+    //   T_max    = Ts + ΔT_max
+    function calcGenTemps(qdot, L, h, k, Tinf, n) {
+        const Ts = Tinf + (qdot * L) / (n * h);
+        const deltaT = (qdot * L * L) / (2 * n * k);
+        const Tmax = Ts + deltaT;
+        return { Ts, deltaT, Tmax };
+    }
+
+    // ---------------------------------------------------------------
+    // Balance Global de Energía (Tareas 1-4)
+    // ---------------------------------------------------------------
+    // Tarea 1 (parámetros geométricos activos): el simulador reutiliza el
+    // mismo semi-espesor L como radio r0 para cilindro y esfera (las
+    // tarjetas de resultados los describen como "Diámetro = 2L"). Como el
+    // laboratorio no expone sliders de área/longitud propios, se usa una
+    // base unitaria de referencia: A = 1 m² de pared y H = 1 m de cilindro.
+    const GEN_UNIT_AREA = 1;   // A: área unitaria de la pared plana [m²]
+    const GEN_UNIT_LENGTH = 1; // H: longitud unitaria del cilindro [m]
+
+    // Tarea 2: Volumen geométrico V según el tipo de cuerpo.
+    //   Pared plana : V = 2AL
+    //   Cilindro    : V = π r0² H
+    //   Esfera      : V = (4/3) π r0³
+    function calcGenVolume(geometry, L, r0, A, H) {
+        switch (geometry) {
+            case 'plate': return 2 * A * L;
+            case 'cylinder': return Math.PI * r0 * r0 * H;
+            case 'sphere': return (4 / 3) * Math.PI * Math.pow(r0, 3);
+            default: return NaN;
+        }
+    }
+
+    // Área superficial de convección As según el tipo de cuerpo.
+    //   Pared plana (ambas caras) : As = 2A
+    //   Cilindro                  : As = 2π r0 H
+    //   Esfera                    : As = 4π r0²
+    function calcGenSurfaceArea(geometry, r0, A, H) {
+        switch (geometry) {
+            case 'plate': return 2 * A;
+            case 'cylinder': return 2 * Math.PI * r0 * H;
+            case 'sphere': return 4 * Math.PI * r0 * r0;
+            default: return NaN;
+        }
+    }
+
+    // Evita solapar llamadas a MathJax.typesetPromise sobre el panel de
+    // ecuaciones mientras una anterior sigue en curso (tipografiado seguro).
+    let genBalanceTypesetPending = false;
+    function typesetGenEnergyBalance() {
+        const panel = document.getElementById('gen-equations-summary-panel');
+        if (!panel || !window.MathJax || typeof MathJax.typesetPromise !== 'function') return;
+        if (genBalanceTypesetPending) return;
+        genBalanceTypesetPending = true;
+        MathJax.typesetPromise([panel])
+            .catch(function (err) {
+                console.log('MathJax gen-equations-summary-panel error:', err);
+            })
+            .finally(function () {
+                genBalanceTypesetPending = false;
+            });
+    }
+
+    // Resalta con .active-geom-row la(s) celda(s) de la geometría activa
+    // en las tres cuadrículas de comparación del panel (Volumen, Ts, ΔT_max).
+    function updateActiveGeomHighlight() {
+        geomCells.forEach(cell => {
+            cell.classList.toggle('active-geom-row', cell.dataset.geom === activeGenGeometry);
+        });
+    }
+
+    // Cambia la geometría activa (llamado al hacer clic/Enter sobre una
+    // celda) y fuerza el recálculo + resaltado + tipografiado del panel.
+    function setActiveGenGeometry(geometry) {
+        if (!GEN_GEOMETRY_N[geometry] || geometry === activeGenGeometry) return;
+        activeGenGeometry = geometry;
+        updateSimulation();
+    }
+
+    geomCells.forEach(cell => {
+        cell.style.cursor = 'pointer';
+        cell.setAttribute('role', 'button');
+        cell.setAttribute('tabindex', '0');
+        cell.addEventListener('click', () => setActiveGenGeometry(cell.dataset.geom));
+        cell.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setActiveGenGeometry(cell.dataset.geom);
+            }
+        });
+    });
+
     function updateSimulation() {
         const qdot = parseFloat(sliderQdot.value) * 1000;
         const k = parseFloat(sliderK.value);
@@ -5599,23 +5707,61 @@ function initGenerationSimulation() {
         valTinf.textContent = sliderTinf.value;
         valW.textContent = sliderW.value;
 
-        // Calculations for Flat Plate
-        const Ts = Tinf + (qdot * L) / h;
-        const Tmax = Ts + (qdot * L * L) / (2 * k);
+        // Pared Plana (n = 1)
+        const { Ts, deltaT, Tmax } = calcGenTemps(qdot, L, h, k, Tinf, 1);
         valTs.textContent = Ts.toFixed(1) + " °C";
+        if (valDeltaT) valDeltaT.textContent = deltaT.toFixed(1) + " °C";
         valTmax.textContent = Tmax.toFixed(1) + " °C";
 
-        // Calculations for Cylinder
-        const TsCyl = Tinf + (qdot * L) / (2 * h);
-        const TmaxCyl = TsCyl + (qdot * L * L) / (4 * k);
+        // Cilindro Infinito (n = 2)
+        const { Ts: TsCyl, Tmax: TmaxCyl } = calcGenTemps(qdot, L, h, k, Tinf, 2);
         if (valTsCyl) valTsCyl.textContent = TsCyl.toFixed(1) + " °C";
         if (valTmaxCyl) valTmaxCyl.textContent = TmaxCyl.toFixed(1) + " °C";
 
-        // Calculations for Sphere
-        const TsSph = Tinf + (qdot * L) / (3 * h);
-        const TmaxSph = TsSph + (qdot * L * L) / (6 * k);
+        // Esfera (n = 3)
+        const { Ts: TsSph, Tmax: TmaxSph } = calcGenTemps(qdot, L, h, k, Tinf, 3);
         if (valTsSph) valTsSph.textContent = TsSph.toFixed(1) + " °C";
         if (valTmaxSph) valTmaxSph.textContent = TmaxSph.toFixed(1) + " °C";
+
+        // -------------------------------------------------------------
+        // Panel de Ecuaciones (#gen-equations-summary-panel): V, Ė_gen,
+        // T_s, ΔT_max y T_max según la GEOMETRÍA ACTIVA seleccionada
+        // (Pared: n=1 → 2k; Cilindro: n=2 → 4k; Esfera: n=3 → 6k),
+        // reutilizando calcGenTemps() con el factor de forma n correcto.
+        // -------------------------------------------------------------
+        const activeN = GEN_GEOMETRY_N[activeGenGeometry] || 1;
+        const activeR0 = L; // radio de cilindro/esfera == semi-espesor de la pared
+        const { Ts: activeTs, deltaT: activeDeltaT, Tmax: activeTmax } =
+            calcGenTemps(qdot, L, h, k, Tinf, activeN);
+
+        // Tarea 1: Volumen (V) y Tasa Total de Generación Ė_gen = q̇·V [W]
+        const activeVolume = calcGenVolume(activeGenGeometry, L, activeR0, GEN_UNIT_AREA, GEN_UNIT_LENGTH);
+        const activeEgen = qdot * activeVolume;
+
+        // Validación numérica del balance estacionario Ė_gen = Q̇_conv
+        // (Q̇_conv = h·As·(Ts-T∞)) para la geometría activa.
+        const activeAs = calcGenSurfaceArea(activeGenGeometry, activeR0, GEN_UNIT_AREA, GEN_UNIT_LENGTH);
+        const activeQconv = h * activeAs * (activeTs - Tinf);
+        const activeBalanceError = Math.abs(activeEgen - activeQconv);
+        if (activeBalanceError >= Math.max(1e-6, Math.abs(activeEgen) * 1e-3)) {
+            console.warn('[gen-sim] Balance de energía Ė_gen ≠ Q̇_conv (' + activeGenGeometry + '):',
+                { activeEgen, activeQconv, activeBalanceError });
+        }
+
+        // Tarea 2: inyección de los valores formateados ante cualquier evento
+        // de cambio en los controles (sliders) o en la geometría activa.
+        if (valEqEgot) {
+            valEqEgot.textContent = Math.abs(activeEgen) >= 1000
+                ? (activeEgen / 1000).toFixed(2) + " kW"
+                : activeEgen.toFixed(1) + " W";
+        }
+        if (valEqTs) valEqTs.textContent = activeTs.toFixed(1) + " °C";
+        if (valEqDtmax) valEqDtmax.textContent = activeDeltaT.toFixed(1) + " °C";
+        if (valEqTmax) valEqTmax.textContent = activeTmax.toFixed(1) + " °C";
+
+        // Tarea 3: resalta la geometría activa y tipografía MathJax de forma segura.
+        updateActiveGeomHighlight();
+        typesetGenEnergyBalance();
 
         const points = 50;
         const dataPlate = [];
@@ -5670,6 +5816,16 @@ function initGenerationSimulation() {
     });
 
     updateSimulation();
+
+    // Asegura el tipografiado MathJax del panel de teoría (Ts, ΔT_max, T_max)
+    // por si el laboratorio se inicializa mientras su pestaña aún estaba
+    // oculta durante el tipografiado global de la página.
+    const genFormulaBlock = document.querySelector('#gen-sim .gen-formula-block');
+    if (genFormulaBlock && window.MathJax && typeof MathJax.typesetPromise === 'function') {
+        MathJax.typesetPromise([genFormulaBlock]).catch(function (err) {
+            console.log('MathJax gen-sim error:', err);
+        });
+    }
 }
 
 // ----------------------------------------------------

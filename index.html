@@ -1952,6 +1952,85 @@
                                         convection on its surfaces.</span></p>
                                 <p>$$ T_s = T_\infty + \frac{\dot{q} L}{h} \quad , \quad T(x) = T_s +
                                     \frac{\dot{q}}{2k}(L^2 - x^2) $$</p>
+                                <div class="gen-formula-block" id="gen-equations-summary-panel">
+                                    <h4 class="geq-panel-title"><span class="lang-es">Resumen de Ecuaciones — Generación Interna</span><span class="lang-en" style="display:none;">Equation Summary — Internal Generation</span></h4>
+
+                                    <div class="geq-block">
+                                        <p class="geq-label"><strong><span class="lang-es">Balance Global de Energía:</span><span class="lang-en" style="display:none;">Global Energy Balance:</span></strong></p>
+                                        <p>$$ \dot{E}_{\text{gen}} = \dot{q} \cdot V = \dot{Q}_{\text{conv}} $$</p>
+                                        <div class="result-row geq-live-row">
+                                            <span><span class="lang-es">Generación Total ($\dot{E}_{\text{gen}}$):</span><span class="lang-en" style="display:none;">Total Generation ($\dot{E}_{\text{gen}}$):</span></span>
+                                            <span id="gen-eq-egot-val" class="highlight-val">-- W</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="geq-block">
+                                        <p class="geq-label"><strong><span class="lang-es">Geometría y Volumen ($V$):</span><span class="lang-en" style="display:none;">Geometry and Volume ($V$):</span></strong></p>
+                                        <div class="geom-compare-grid">
+                                            <div class="geom-cell active-geom-row" data-geom="plate">
+                                                <span class="geom-cell-title"><span class="lang-es">Pared Plana</span><span class="lang-en" style="display:none;">Flat Wall</span></span>
+                                                <p>$$ V = 2AL $$</p>
+                                            </div>
+                                            <div class="geom-cell" data-geom="cylinder">
+                                                <span class="geom-cell-title"><span class="lang-es">Cilindro</span><span class="lang-en" style="display:none;">Cylinder</span></span>
+                                                <p>$$ V = \pi r_0^2 H $$</p>
+                                            </div>
+                                            <div class="geom-cell" data-geom="sphere">
+                                                <span class="geom-cell-title"><span class="lang-es">Esfera</span><span class="lang-en" style="display:none;">Sphere</span></span>
+                                                <p>$$ V = \frac{4}{3}\pi r_0^3 $$</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="geq-block">
+                                        <p class="geq-label"><strong><span class="lang-es">Temperatura Superficial ($T_s$):</span><span class="lang-en" style="display:none;">Surface Temperature ($T_s$):</span></strong></p>
+                                        <div class="geom-compare-grid">
+                                            <div class="geom-cell active-geom-row" data-geom="plate">
+                                                <span class="geom-cell-title"><span class="lang-es">Pared Plana</span><span class="lang-en" style="display:none;">Flat Wall</span></span>
+                                                <p>$$ T_s = T_\infty + \frac{\dot{q}L}{h} $$</p>
+                                            </div>
+                                            <div class="geom-cell" data-geom="cylinder">
+                                                <span class="geom-cell-title"><span class="lang-es">Cilindro</span><span class="lang-en" style="display:none;">Cylinder</span></span>
+                                                <p>$$ T_s = T_\infty + \frac{\dot{q}r_0}{2h} $$</p>
+                                            </div>
+                                            <div class="geom-cell" data-geom="sphere">
+                                                <span class="geom-cell-title"><span class="lang-es">Esfera</span><span class="lang-en" style="display:none;">Sphere</span></span>
+                                                <p>$$ T_s = T_\infty + \frac{\dot{q}r_0}{3h} $$</p>
+                                            </div>
+                                        </div>
+                                        <div class="result-row geq-live-row">
+                                            <span><span class="lang-es">Temp. Superficie Activa ($T_s$):</span><span class="lang-en" style="display:none;">Active Surface Temp. ($T_s$):</span></span>
+                                            <span id="gen-eq-ts-val" class="highlight-val">-- &deg;C</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="geq-block">
+                                        <p class="geq-label"><strong><span class="lang-es">Caída Máxima de Temperatura ($\Delta T_{\max}$):</span><span class="lang-en" style="display:none;">Maximum Temperature Drop ($\Delta T_{\max}$):</span></strong></p>
+                                        <div class="geom-compare-grid">
+                                            <div class="geom-cell active-geom-row" data-geom="plate">
+                                                <span class="geom-cell-title"><span class="lang-es">Pared Plana</span><span class="lang-en" style="display:none;">Flat Wall</span></span>
+                                                <p>$$ \Delta T_{\max} = \frac{\dot{q}L^2}{2k} $$</p>
+                                            </div>
+                                            <div class="geom-cell" data-geom="cylinder">
+                                                <span class="geom-cell-title"><span class="lang-es">Cilindro</span><span class="lang-en" style="display:none;">Cylinder</span></span>
+                                                <p>$$ \Delta T_{\max} = \frac{\dot{q}r_0^2}{4k} $$</p>
+                                            </div>
+                                            <div class="geom-cell" data-geom="sphere">
+                                                <span class="geom-cell-title"><span class="lang-es">Esfera</span><span class="lang-en" style="display:none;">Sphere</span></span>
+                                                <p>$$ \Delta T_{\max} = \frac{\dot{q}r_0^2}{6k} $$</p>
+                                            </div>
+                                        </div>
+                                        <p class="geq-note"><span class="lang-es">Temperatura Máxima en el Centro:</span><span class="lang-en" style="display:none;">Maximum Center Temperature:</span> $$ T_{\max} = T_s + \Delta T_{\max} $$</p>
+                                        <div class="result-row geq-live-row">
+                                            <span><span class="lang-es">$\Delta T_{\max}$ Activa:</span><span class="lang-en" style="display:none;">Active $\Delta T_{\max}$:</span></span>
+                                            <span id="gen-eq-dtmax-val" class="highlight-val">-- &deg;C</span>
+                                        </div>
+                                        <div class="result-row geq-live-row">
+                                            <span><span class="lang-es">$T_{\max}$ Activa:</span><span class="lang-en" style="display:none;">Active $T_{\max}$:</span></span>
+                                            <span id="gen-eq-tmax-val" class="highlight-val">-- &deg;C</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="simulation-workspace">
@@ -2007,6 +2086,14 @@
                                                     style="display:none;">Temp. Surface
                                                     ($T_{s,\text{flat}}$):</span></span>
                                             <span id="gen-ts-val" class="highlight-val">270.0 &deg;C</span>
+                                        </div>
+                                        <div class="result-row">
+                                            <span><span class="lang-es">Caída Máx. Temp.
+                                                    ($\Delta T_{\max}$):</span><span class="lang-en"
+                                                    style="display:none;">Max. Temp. Drop
+                                                    ($\Delta T_{\max}$):</span></span>
+                                            <span id="gen-deltat-val" class="highlight-val"
+                                                style="color: var(--accent-orange);">12.5 &deg;C</span>
                                         </div>
                                         <div class="result-row" style="margin-bottom: 0.5rem;">
                                             <span><span class="lang-es">Temp. Máxima (Centro)
