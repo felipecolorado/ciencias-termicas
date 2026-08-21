@@ -6394,6 +6394,22 @@ body.light-theme #contact-res-sim-modal {
     border: 1px solid var(--cr-canvas-border);
 }
 
+/* Ronda 9: altura del modo normal (no-fullscreen), migrada aquí desde el
+   style="height:460px" en línea que tenía este contenedor en index.html.
+   Ese estilo inline (máxima especificidad) pisaba silenciosamente la regla
+   de fullscreen #contact-res-sim-modal.fullscreen #contact-res-canvas-
+   container (52vh, ver sección "Tamaños de canvas/gráfica dentro de
+   fullscreen" más abajo) impidiendo que el Canvas de la prensa creciera al
+   entrar a pantalla completa -mientras que #contact-res-chart-container, al
+   no tener ningún estilo inline, sí alcanzaba los 52vh esperados, rompiendo
+   la simetría de alto entre ambas columnas que buscaba el Requisito #1-.
+   Se retira el atributo `style` de index.html y se reproduce el mismo
+   valor (460px) aquí, con selector `:not(.fullscreen)` para no interferir
+   con la regla de 52vh que ya cubre el modo fullscreen exclusivamente. */
+#contact-res-sim-modal:not(.fullscreen) #contact-res-canvas-container {
+    height: 460px;
+}
+
 #contact-res-sim-modal .contact-res-piston,
 #contact-res-sim-modal .contact-res-anvil {
     position: absolute;
@@ -6678,48 +6694,93 @@ body.light-theme #contact-res-sim-modal .contact-res-micro-zoom-label {
     opacity: 1;
     transform: none;
     row-gap: 22px;
-    /* Requisito 2026-08-21 (ronda 8) #2: el 50%/50% pedido es exclusivo de
-       "la presentación inicial" (modo normal); en fullscreen se conserva la
-       proporción angosta original de #contact-res-sliders-panel (panel de
-       controles 300–340px) para no romper el layout de prensa/gráfica ya
-       verificado en rondas 6–7. */
-    grid-template-columns: minmax(300px, 340px) minmax(0, 1fr);
+    /* Requisito 2026-08-21 (ronda 8) #2: el 50%/50% pedido en aquella ronda
+       era exclusivo de "la presentación inicial" (modo normal); en
+       fullscreen se conservaba la proporción angosta original de
+       #contact-res-sliders-panel (panel de controles 300–340px) para no
+       romper el layout de prensa/gráfica verificado en rondas 6–7. La
+       ronda 9 (ver bloque "visualizador 2 columnas" más abajo) añade una
+       TERCERA columna a este mismo valor -sigue siendo el mismo panel de
+       controles angosto en la 1ª columna- para acomodar canvas y gráfica
+       lado a lado en las columnas 2ª y 3ª.
+       Requisito 2026-08-21 (ronda 9) #1: "align-items:start" pedido
+       explícitamente para el panel visualizador ya está declarado aquí
+       arriba a nivel de grid maestro (ver bloque base "1. Layout de 2
+       columnas" — align-items:start nunca se sobreescribe en fullscreen),
+       así que se hereda sin necesidad de repetirlo. */
+    grid-template-columns: minmax(300px, 340px) 1fr 1fr;
+    /* Requisito 2026-08-21 (ronda 9) #1: "gap:12px" pedido explícitamente
+       para el panel visualizador (canvas | gráfica). CSS Grid sólo admite
+       un column-gap uniforme para todo el grid -no un valor distinto por
+       cada par de columnas sin recurrir a un subgrid anidado, lo que
+       exigiría mover el DOM de la gráfica junto al de la prensa y así
+       alteraría el orden de lectura del documento (ver Regla #8 en
+       project_context.md: evitar reordenar HTML por motivos de
+       accesibilidad)-, así que este valor de 12px se aplica también entre
+       la columna de controles y la de la prensa (antes 28px). Es un ajuste
+       cosmético menor, exclusivo del modo fullscreen de este mismo
+       laboratorio, que no rompe ninguna medida ya verificada en rondas
+       anteriores (controles/resultados siguen angostos a 300–340px; sólo
+       cambia el espacio en blanco entre columnas). */
+    column-gap: 12px;
 }
 
-/* Requisito 2026-08-21 (ronda 7) #1: reordenamiento EXCLUSIVO del modo
-   fullscreen — la gráfica "Perfil de Temperatura T(x)" vuelve a apilarse
-   directamente debajo de la animación "Prensa Mecánica y Zoom
-   Microscópico" (#contact-res-canvas-container) dentro de la MISMA columna
-   visual (columna derecha), en vez de ocupar un bloque de ancho completo
-   bajo las dos columnas como hace el modo normal desde la ronda 5. El modo
-   normal (`#contact-res-sim-modal:not(.fullscreen)`, es decir la regla base
-   de la sección "1. Layout de 2 columnas" más arriba, sin scoping a
-   `.fullscreen`) NO se toca aquí — sigue siendo results→chart de ancho
-   completo, sin cambios.
-   Mecánica: como esta sección ya usa `display:contents` en
-   `.simulation-workspace` + `grid-template-areas` con nombres propios
-   (mismo patrón que el resto de rondas — ver Regla #8 en "Reglas para IA"
-   de project_context.md), basta con REESCRIBIR `grid-template-areas` para
-   este modo: "chart" pasa de la última fila ("chart chart", ambas
-   columnas) a compartir la columna derecha con "press" (misma columna que
-   #contact-res-canvas-container), y "results" pasa a ocupar sola la
-   última fila de la columna izquierda. No hace falta reasignar
-   `grid-area` en ningún elemento (siguen siendo "press"/"chart"/"results"
-   tal cual las definió la sección 1) — sólo cambia DÓNDE cae cada nombre
-   de área en la matriz. Se neutraliza además el `grid-column:1/-1` y el
+/* Requisito 2026-08-21 (ronda 7) #1 [SUPERADO por la ronda 9, ver bloque
+   siguiente]: aquella ronda apilaba la gráfica directamente debajo de la
+   prensa, compartiendo columna. La ronda 9 reemplaza ese apilamiento por
+   una disposición lado a lado (ver más abajo) — se deja esta nota como
+   registro histórico del porqué "chart" compartía antes columna con
+   "press", por si una ronda futura necesita revertir a un layout apilado
+   en vez de lado a lado. */
+
+/* Requisito 2026-08-21 (ronda 9) #1/#2: "Panel visualizador" EXCLUSIVO de
+   fullscreen — el Canvas de la prensa (#contact-res-canvas-container) y la
+   gráfica "Perfil de Temperatura" (#contact-res-chart-container) pasan de
+   apilarse verticalmente (ronda 7) a quedar LADO A LADO en 2 columnas
+   iguales, con los controles/resultados conservando su propia columna
+   angosta a la izquierda. El modo normal (`#contact-res-sim-modal:not(
+   .fullscreen)`, regla base de la sección "1. Layout de 2 columnas" más
+   arriba) NO se toca — sigue siendo el bloque de ancho completo de la
+   ronda 5, sin cambios.
+   Mecánica (Regla #8 — reordenar vía grid-template-areas, no vía DOM):
+   `.simulation-workspace` ya aplana (`display:contents`) TODOS sus hijos
+   directos como ítems del grid maestro de `#contact-res-sim-modal`, sin
+   importar en cuál de las dos filas de documento (`.simulation-workspace`)
+   viva cada uno originalmente — por eso `.animation-card:has(#contactRes
+   Chart)` (definida en la fila 2 de index.html, junto a #contact-res-
+   results) ya podía "aparecer" en la columna derecha de la fila 1 desde la
+   ronda 7 sin mover una sola línea de HTML. La ronda 9 explota exactamente
+   el mismo mecanismo: el grid maestro pasa a 3 columnas (ver bloque
+   `#contact-res-sim-modal.fullscreen` de arriba), "press" y "chart" se
+   reasignan cada uno a su propia columna (2ª y 3ª respectivamente) en
+   lugar de compartir la 2ª, y ambos SPAN las mismas 2 filas que ocupan
+   "controls"+"results" apilados en la 1ª columna -así el canvas y la
+   gráfica quedan alineados verticalmente con el bloque completo de
+   controles/resultados, no sólo con una de sus dos filas-. No se reasigna
+   `grid-area` en ningún elemento (siguen siendo "press"/"chart"/"controls"
+   /"results" tal cual los definió la sección 1) — sólo cambia DÓNDE cae
+   cada nombre de área en la nueva matriz de 3 columnas.
+   Verificación del Requisito #2 (jerarquía de contenedores): no hizo falta
+   ningún wrapper nuevo en index.html — `#contact-res-canvas-container` y
+   `#contact-res-chart-container` (id añadido en esta misma ronda, ver
+   index.html) ya tienen `min-width:0` en sus `.animation-card` padres
+   (sección 1) y ningún ancho fijo en px propio (sólo alto), así que ambos
+   se ajustan automáticamente al ancho real de su nueva columna sin
+   desbordar; ver además la sección "Tamaños de canvas/gráfica dentro de
+   fullscreen" más abajo, donde se amplía su alto ahora que cada uno tiene
+   una columna propia (antes debían repartirse el alto entre los dos por
+   estar apilados). Se neutraliza además el `grid-column:1/-1` y el
    `margin-top:12px` que la sección 1 le da a `.animation-card:has
    (#contactResChart)` para el modo normal (ese span de 2 columnas y ese
    margen eran correctos SÓLO para el bloque de ancho completo del modo
-   normal); en fullscreen la gráfica vuelve a ocupar sólo su propia columna
-   (grid-column:auto, resuelto por "chart" en la 2ª celda de la fila) con
-   separación vertical dada por el `row-gap:22px` ya declarado arriba
-   (mismo valor que separa el resto de filas del grid en fullscreen). */
+   normal); en fullscreen la gráfica ocupa sólo su propia columna
+   (grid-column:auto, resuelto por "chart" en la 3ª columna). */
 #contact-res-sim-modal.fullscreen {
     grid-template-areas:
-        "openbtn   openbtn"
-        "intro     intro"
-        "controls  press"
-        "results   chart";
+        "openbtn   openbtn  openbtn"
+        "intro     intro    intro"
+        "controls  press    chart"
+        "results   press    chart";
 }
 
 #contact-res-sim-modal.fullscreen .animation-card:has(#contactResChart) {
@@ -6862,15 +6923,26 @@ body.light-theme #contact-res-open-btn {
 }
 
 /* Tamaños de canvas/gráfica dentro de fullscreen (misma proporción que
-   Fourier/Newton: se agranda respecto al modo embebido en la pestaña) */
+   Fourier/Newton: se agranda respecto al modo embebido en la pestaña).
+   Requisito 2026-08-21 (ronda 9) #1/#5: antes (ronda 7) canvas y gráfica
+   compartían columna apilados verticalmente, así que la gráfica quedaba
+   comprimida a 32vh para dejarle más alto a la prensa (46vh). Desde que
+   ambos tienen su propia columna (lado a lado, ver bloque "panel
+   visualizador" más arriba), ya no compiten por el mismo espacio vertical
+   — se igualan a la misma altura (52vh) para que ambas columnas luzcan
+   simétricas, igual que sus anchos (1fr 1fr). Ambos siguen sin ancho fijo
+   en px (min-width:0 en su .animation-card padre, sección 1), así que
+   `resizeContactResAssets()` (app_v2.js) sigue leyendo el `clientWidth`
+   real de cada contenedor en cada resize/entrada a fullscreen — ningún
+   valor de ancho quedó hardcodeado aquí. */
 #contact-res-sim-modal.fullscreen #contact-res-canvas-container {
-    height: 46vh;
-    max-height: 520px;
+    height: 52vh;
+    max-height: 560px;
 }
 
-#contact-res-sim-modal.fullscreen .chart-container {
-    height: 32vh;
-    max-height: 380px;
+#contact-res-sim-modal.fullscreen #contact-res-chart-container {
+    height: 52vh;
+    max-height: 560px;
 }
 
 @media (max-width: 900px) {
@@ -6879,12 +6951,16 @@ body.light-theme #contact-res-open-btn {
         display: block;
     }
 
+    /* Por debajo de 900px el panel visualizador de 2 columnas (ronda 9)
+       igual colapsa a 1 sola columna, ver bloque siguiente — se restauran
+       aquí alturas más razonables para el flujo vertical de móvil, mismo
+       criterio que ya usaba la ronda 7 para este breakpoint. */
     #contact-res-sim-modal.fullscreen #contact-res-canvas-container {
         height: 42vh;
         max-height: 340px;
     }
 
-    #contact-res-sim-modal.fullscreen .chart-container {
+    #contact-res-sim-modal.fullscreen #contact-res-chart-container {
         height: 28vh;
         max-height: 260px;
     }
@@ -6950,6 +7026,65 @@ body.light-theme #contact-res-sim-modal #contact-res-pressure-unit {
 
 body.light-theme #contact-res-sim-modal #contact-res-results .result-row {
     color: #0f172a;
+}
+
+/* Requisito 2026-08-21 (ronda 9) #3: la tarjeta de resultados
+   (#contact-res-results-box, id añadido en esta ronda al mismo
+   .control-group.result-card que ya agrupaba los 6 .result-row) replica
+   exactamente la misma tipografía, badges compactos y disposición de una
+   sola línea que ya usan las barras deslizantes de #contact-res-sliders-
+   panel (ronda 8). La regla global `.result-row` (línea ~893) ya aporta
+   display:flex; justify-content:space-between; align-items:center;
+   font-size:0.8rem -prácticamente idéntico a los 0.80rem de los sliders-,
+   así que aquí sólo se refuerza white-space:nowrap (que la regla global no
+   declara) y se convierte cada valor (.highlight-val, antes texto plano en
+   negrita a 1.05rem) al mismo "chrome" de píldora que .value-badge (fondo,
+   borde, border-radius, padding, font-size 0.78rem, ver sección 6 más
+   abajo) — sólo se sobreescribe el chrome (display/fondo/borde/padding/
+   font-size/radio), nunca el `color` de cada valor individual, que sigue
+   gobernado por las reglas ya existentes más arriba en esta sección 5
+   (--cr-badge-hot/--cr-badge-cold/--cr-badge-jump, algunas con
+   !important) y por los `style="color:..."` inline de index.html -misma
+   filosofía que la sección 6 usa para .value-badge de los sliders, cuyo
+   color naranja de texto tampoco lo fija el chrome del badge sino una
+   regla aparte-. Las etiquetas (span izquierdo de cada fila) reciben el
+   mismo azul celeste #38bdf8/#0369a1 que ya usan las labels de los
+   sliders (ronda 7); a diferencia de los sliders, aquí no hay conflicto de
+   especificidad con la regla global `.control-group label span{color:
+   var(--accent-orange)}` porque estas filas no usan `<label>`, sólo
+   `<span>`, así que no hace falta el selector reforzado con `.lang-es`/
+   `.lang-en` que sí fue necesario en ronda 7. */
+#contact-res-sim-modal #contact-res-results-box .result-row {
+    white-space: nowrap;
+}
+
+#contact-res-sim-modal #contact-res-results-box .result-row>span:first-child {
+    color: #38bdf8;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+body.light-theme #contact-res-sim-modal #contact-res-results-box .result-row>span:first-child {
+    color: #0369a1;
+}
+
+#contact-res-sim-modal #contact-res-results-box .highlight-val {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    font-weight: 700;
+    font-size: 0.78rem;
+    background: rgba(249, 115, 22, 0.12);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+    padding: 1px 8px;
+    border-radius: 10px;
+    white-space: nowrap;
+}
+
+body.light-theme #contact-res-sim-modal #contact-res-results-box .highlight-val {
+    background: rgba(194, 65, 12, 0.08);
+    border-color: rgba(194, 65, 12, 0.24);
 }
 
 body.light-theme #contact-res-sim-modal #contact-res-canvas-container .cr-gauge-hub {

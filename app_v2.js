@@ -2217,6 +2217,15 @@ window.filterLabs = function () {
     const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
     const category = categorySelect ? categorySelect.value : "all";
 
+    // Helper: does this button carry a given tag?
+    function hasTag(tab, tag) {
+        var tags = (tab.getAttribute("data-tags") || "").split(" ");
+        return tags.indexOf(tag) !== -1;
+    }
+
+    // Tag-based filter categories (multi-value data-tags attribute)
+    var TAG_FILTERS = { "transferencia-calor":true, "conduccion":true, "conveccion":true, "radiacion":true };
+
     const tabs = document.querySelectorAll(".tabs-header .tab-btn");
 
     tabs.forEach(tab => {
@@ -2240,13 +2249,27 @@ window.filterLabs = function () {
         let matchesSearch = text.includes(query);
         let matchesCategory = false;
 
-        if (category === "Otros" || category === "otros") {
+        if (category === "all") {
+            // "Todos": mostrar todo excepto lab-otros (comportamiento original)
+            matchesCategory = !isOtro;
+        } else if (TAG_FILTERS[category]) {
+            // Filtro por tag semántico: muestra sólo labs que tienen ese tag en data-tags
+            // Para "transferencia-calor" también acepta data-category legacy
+            if (category === "transferencia-calor") {
+                matchesCategory = hasTag(tab, "transferencia-calor") ||
+                                  tab.getAttribute("data-category") === "transferencia-calor";
+            } else {
+                matchesCategory = hasTag(tab, category);
+            }
+        } else if (category === "Otros" || category === "otros") {
             matchesCategory = isOtro;
         } else {
+            // Filtros de sección estructural (Principios, Mecánica, Termodinámica, etc.)
             if (isOtro) {
-                matchesCategory = false; // Ocultar por defecto si la categoría no es 'Otros'
+                matchesCategory = false;
             } else {
-                matchesCategory = (category === "all") || (catTitle && catTitle.includes(category)) || text.includes(category.toLowerCase());
+                matchesCategory = (catTitle && catTitle.includes(category)) ||
+                                  text.includes(category.toLowerCase());
             }
         }
 
@@ -2271,6 +2294,32 @@ window.filterLabs = function () {
         }
         cat.style.display = hasVisible ? "" : "none";
     });
+};
+
+// Pill filter helper: activates a pill, syncs the select, and triggers filterLabs
+window.activatePillFilter = function(pillBtn) {
+    var filterVal = pillBtn.getAttribute("data-filter");
+    // Update pill active styles
+    document.querySelectorAll(".tc-pill").forEach(function(p) {
+        var isActive = p === pillBtn;
+        p.style.fontWeight = isActive ? "700" : "600";
+        p.style.boxShadow = isActive ? "0 0 0 2px currentColor" : "";
+        p.style.opacity = isActive ? "1" : "0.7";
+    });
+    // Sync the category select
+    var sel = document.getElementById("lab-filter-category");
+    if (sel) {
+        var found = false;
+        for (var i = 0; i < sel.options.length; i++) {
+            if (sel.options[i].value === filterVal) {
+                sel.selectedIndex = i;
+                found = true;
+                break;
+            }
+        }
+        if (!found) { sel.selectedIndex = 0; }  // fallback to "all"
+    }
+    window.filterLabs();
 };
 
 function switchTab(tabId, disableTimelineSync = false) {
@@ -27435,13 +27484,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return key;
     }
 
-    function fmtCompact(value, unit, digits) {
-        if (!isFinite(value)) return (value < 0 ? '-' : '') + '&infin; ' + unit;
-        var abs = Math.abs(value);
-        if (abs !== 0 && (abs < 1e-3 || abs >= 1e5)) {
-            return value.toExponential(2) + ' ' + unit;
-        }
-        return value.toFixed(digits == null ? 3 : digits) + ' ' + unit;
+    // Formato numérico unificado para la tarjeta "Resultados de la
+    // Simulación" (Ronda 9, Requisito #4): decimales fijos (sin notación
+    // exponencial, para que el ancho del badge sea predecible y estable
+    // como el de los sliders) + unidad entre corchetes, ej. "12.500 [W]".
+    function fmtResultValue(value, unitBracket, digits) {
+        var d = digits == null ? 3 : digits;
+        if (!isFinite(value)) return (value < 0 ? '-' : '') + '&infin; [' + unitBracket + ']';
+        return value.toFixed(d) + ' [' + unitBracket + ']';
     }
 
     function clamp(v, lo, hi) { return Math.min(Math.max(v, lo), hi); }
@@ -27520,12 +27570,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (el.thotVal) el.thotVal.textContent = state.Thot.toFixed(0);
         if (el.tcoldVal) el.tcoldVal.textContent = state.Tcold.toFixed(0);
 
-        if (el.rcVal) el.rcVal.innerHTML = fmtCompact(r.Rc, 'K/W', 4);
-        if (el.hcVal) el.hcVal.innerHTML = fmtCompact(r.hc, 'W/m&sup2;K', 1);
-        if (el.qVal) el.qVal.innerHTML = fmtCompact(r.Q, 'W', 3);
-        if (el.tc1Val) el.tc1Val.innerHTML = r.Tc1.toFixed(2) + ' &deg;C';
-        if (el.tc2Val) el.tc2Val.innerHTML = r.Tc2.toFixed(2) + ' &deg;C';
-        if (el.dtVal) el.dtVal.innerHTML = r.deltaTInterface.toFixed(3) + ' &deg;C';
+        if (el.rcVal) el.rcVal.innerHTML = fmtResultValue(r.Rc, 'K/W', 4);
+        if (el.hcVal) el.hcVal.innerHTML = fmtResultValue(r.hc, 'W/m&sup2;&middot;K', 1);
+        if (el.qVal) el.qVal.innerHTML = fmtResultValue(r.Q, 'W', 3);
+        if (el.tc1Val) el.tc1Val.innerHTML = fmtResultValue(r.Tc1, '&deg;C', 2);
+        if (el.tc2Val) el.tc2Val.innerHTML = fmtResultValue(r.Tc2, '&deg;C', 2);
+        if (el.dtVal) el.dtVal.innerHTML = fmtResultValue(r.deltaTInterface, '&deg;C', 3);
         if (el.hudDt) el.hudDt.innerHTML = r.deltaTInterface.toFixed(2) + ' &deg;C';
     }
 
@@ -28143,10 +28193,14 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillText(txt, w - 8, h - 6);
     }
 
-    function draw(timestamp) {
-        if (_paused) { _rafId = null; return; }
-        if (!el.canvas || !el.ctx) { _rafId = null; return; }
-
+    // Ajusta contactResCanvas al tamaño real de su contenedor (Ronda 9,
+    // Requisito #5). Extraído de draw() como helper independiente -sin
+    // programar requestAnimationFrame- para que también pueda invocarse
+    // desde resizeContactResAssets() sin arriesgar un segundo bucle rAF
+    // paralelo (draw() ya reprograma su propio requestAnimationFrame al
+    // final de cada frame; ver nota en resizeContactResAssets()).
+    function resizeContactResCanvas() {
+        if (!el.canvas) return;
         var container = el.canvas.parentElement;
         var cw = container ? container.clientWidth : el.canvas.clientWidth;
         var ch = container ? container.clientHeight : el.canvas.clientHeight;
@@ -28154,6 +28208,30 @@ document.addEventListener('DOMContentLoaded', () => {
             el.canvas.width = cw;
             el.canvas.height = ch;
         }
+    }
+
+    // Rutina unificada de resize (Ronda 9, Requisito #5): adapta en el mismo
+    // instante el Canvas de la prensa (contactResCanvas) y la gráfica
+    // (contactResChart) al ancho/alto real de sus respectivos contenedores.
+    // En fullscreen ambos contenedores miden el 50% del panel visualizador
+    // (grid-template-columns: 1fr 1fr en #contact-res-canvas-container /
+    // #contact-res-chart-container, ver style.css), así que leer
+    // clientWidth/clientHeight de cada uno por separado ya basta -sin
+    // necesidad de calcular manualmente el 50%- porque el layout CSS es la
+    // fuente de verdad. NO llama a draw() directamente (ver nota histórica
+    // en startLoop/stopLoop): el bucle rAF ya en marcha recoge las nuevas
+    // dimensiones en su siguiente tick, evitando una segunda cadena rAF
+    // paralela.
+    function resizeContactResAssets() {
+        resizeContactResCanvas();
+        resizeChart();
+    }
+
+    function draw(timestamp) {
+        if (_paused) { _rafId = null; return; }
+        if (!el.canvas || !el.ctx) { _rafId = null; return; }
+
+        resizeContactResCanvas();
 
         if (!_lastFrameTime) _lastFrameTime = timestamp || 0;
         var dt = ((timestamp || 0) - _lastFrameTime) / 1000;
@@ -28284,7 +28362,7 @@ document.addEventListener('DOMContentLoaded', () => {
             var observer = new IntersectionObserver(function (entries) {
                 if (entries[0].isIntersecting) {
                     startLoop();
-                    resizeChart();
+                    resizeContactResAssets();
                 } else {
                     stopLoop();
                 }
@@ -28320,7 +28398,7 @@ document.addEventListener('DOMContentLoaded', () => {
         var pane = document.getElementById('contact-res-sim');
         var isVisible = pane && (pane.classList.contains('active') || (el.canvas && el.canvas.offsetWidth > 0));
         if (isVisible) {
-            resizeChart();
+            resizeContactResAssets();
             startLoop();
         }
     });
@@ -28358,7 +28436,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // evento, que agenda otra llamada 80ms después, indefinidamente).
         // Se actúa de forma directa en su lugar:
         if (!_inited) tryInit();
-        resizeChart();
+        resizeContactResAssets();
         startLoop();
     }
 
