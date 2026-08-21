@@ -331,6 +331,7 @@ if (tabId === 'multicapa-custom-sim') {
 5. **Patrón de datos en JS**: La data (`timelineEvents`) se define en JS y el HTML se inyecta/modifica dinámicamente vía DOM.
 6. **Trabajo por lotes**: La implementación del fullscreen en laboratorios restantes se hará por lotes según indicación del usuario. Actualizar la tabla de inventario (✅/⬜) en este documento al completar cada lote.
 7. **Firebase/seguridad**: Nunca reintroducir el guardado de `password` en texto plano en RTDB, el respaldo de login que compara contraseñas en el cliente, ni la auto-asignación de `role: "Administrador"` por email hardcodeado — estas prácticas ya fueron eliminadas de `app_v2.js` y bloqueadas por `database.rules.json` (`.validate: false` en `password`). Ver sección "🔐 Backend y Seguridad" arriba y `firebase/MIGRATION_PLAN.md` antes de tocar `handleAuthSubmit`, `handlePostComment`, `fetchRealUserCount` o cualquier archivo de `v4/firebase/`. Nunca subir `firebase/scripts/serviceAccountKey.json` (ni JSON equivalentes) a ningún repositorio.
+8. **Regla #8 — Reordenamientos de layout vía CSS Grid, no vía DOM**: cuando un laboratorio ya usa el patrón `.simulation-workspace { display: contents; }` + `grid-template-areas` nombradas (ver ejemplos: `multicapa-custom-sim`, `foote-sim`, `contact-res-sim`), cualquier reordenamiento visual pedido debe resolverse reescribiendo únicamente los nombres de área de `grid-template-areas` (y el `grid-area` de los paneles afectados si cambia su nombre de área) — nunca reordenando el HTML. Esto preserva el orden del documento (importante para accesibilidad/lectores de pantalla) y minimiza el diff. Para un panel que deba pasar a "ancho completo" en un grid de 2 columnas, su área debe repetirse en ambos nombres de columna en la misma fila (ej. `"chart chart"`), reforzado opcionalmente con `width:100%` explícito.
 
 ---
 
@@ -552,3 +553,328 @@ wrapper) vía `grid-column`/`grid-row` scoped a `:not(.fullscreen)`, con
 el HTML, (3) replicar el mismo selector en el/los `@media` de colapso a 1
 columna para evitar que la regla de escritorio gane el empate de
 especificidad en viewports angostos.
+
+### ✅ Resistencia Térmica por Contacto (`#contact-res-sim-modal` / `#contact-res-sim`) — Reubicación de layout vía CSS Grid (ronda 5, `style.css`, 2026-08-21)
+
+Primera ronda de refinamiento de este laboratorio (5 ajustes quirúrgicos
+pedidos, aplicados exclusivamente dentro de `#contact-res-sim-modal` /
+`#contact-res-sim`, sin tocar ningún otro laboratorio). `index.html` **no
+necesitó cambios** en esta ronda (diff de bytes = 0): el botón de cierre
+`#contact-res-close-btn` ya era hijo directo del modal en el DOM, así que
+el requisito de "no quedar atrapado dentro de contenedores con overflow"
+se resolvió verificando la jerarquía existente, no moviéndola.
+
+**`style.css`** — el laboratorio ya usaba el patrón `display: contents` +
+`grid-template-areas` nombradas (regla base, sin scoping a `.fullscreen`,
+~línea 6269). Siguiendo la **Regla #8** (ver más abajo): reordenamiento
+vía reescritura de `grid-template-areas`, no vía DOM:
+
+- `grid-template-areas` reescrito de
+  `"controls press" / "controls chart" / "controls results"` a
+  `"controls press" / "results press" / "chart chart"` — esto mueve la
+  tarjeta de resultados (`results`) a la fila inmediatamente debajo de los
+  controles (cumple requisito #2: resultados justo debajo de los
+  sliders/selectores), y la gráfica (`chart`) queda en su propia fila
+  ocupando ambas columnas (cumple requisitos #3 y #4: la gráfica queda
+  directamente debajo de la tabla de interfases y a ancho completo).
+- `.animation-card:has(#contactResChart)` reforzado con
+  `grid-column: 1 / -1; width: 100%` (redundante con el span de
+  `grid-template-areas`, pero explícito para evitar cualquier ambigüedad).
+- Nueva regla `.chart-container { width: 100% }` scoped al laboratorio.
+- Requisito #5 (IDs semánticos y soporte bilingüe `.lang-es`/`.lang-en`):
+  verificado sin cambios — ningún control cambió de `id` ni perdió sus
+  spans de idioma al reubicarse, ya que la reubicación fue puramente vía
+  `grid-area`, sin tocar el DOM.
+
+Si se solicita reordenar de nuevo esta sección u otra similar que ya use
+el patrón de grid nombrado: reescribir sólo `grid-template-areas` (y el
+`grid-area` de cualquier panel cuyo nombre de área cambie) es suficiente
+en la enorme mayoría de los casos — no mover HTML. Para un panel que deba
+pasar a "ancho completo" en un grid de 2 columnas, su área debe repetirse
+en ambos nombres de columna en la misma fila (ej. `"chart chart"`), y
+conviene añadir `width:100%` explícito en la regla del panel como refuerzo
+visual, aunque el span del grid ya lo garantice. (Formalizado como la
+Regla #8 numerada en la sección "📝 Reglas para IA" arriba.)
+
+### ✅ Resistencia Térmica por Contacto — Botón cerrar, color de labels, densidad de resultados + fix de bug real de z-index (ronda 6, `style.css` + `app_v2.js`, 2026-08-21)
+
+Sexta ronda de refinamiento de `contact-res-sim` / `#contact-res-sim-modal`.
+`index.html` **no se tocó** (diff de bytes = 0 contra el final de la ronda
+5, verificado). Esta ronda tuvo dos partes: 5 ajustes CSS pedidos +
+5 ajustes/verificaciones JS pedidos, y — lo más importante — **un bug real
+de superposición de layout encontrado y corregido durante la verificación
+con Playwright**, no reportado por el usuario sino descubierto al probar.
+
+**CSS (`style.css`):**
+
+1. `#contact-res-close-btn`: `top` 20px→15px, `right` 25px→20px. El
+   `z-index` pedido explícitamente por el usuario era `10005`, pero **no
+   era suficiente** (ver el bug real más abajo) — se subió a `1000000`,
+   replicando el patrón ya usado por `#newton-lab-close-btn`/
+   `#fourier-lab-close-btn` en el propio `style.css`.
+2. Color azul celeste `#38bdf8` (modo oscuro) / `#0369a1` (modo claro,
+   `body.light-theme`) aplicado a `#contact-res-sim-modal .control-group.
+   control-group-compact label` (las etiquetas de presión/rugosidad/
+   material/fluido/temperaturas) y a `#contact-res-sim-modal .sim-
+   subheading` (los títulos h4 "Prensa Mecánica..." / "Perfil de
+   Temperatura..."). El `.value-badge` (valor numérico junto a cada
+   etiqueta) no se ve afectado porque ya tiene su propio `color` explícito
+   (naranja), que gana sobre el color heredado del `label` padre.
+3. `#contact-res-sim-modal #contact-res-results` (la tarjeta de
+   resultados, ya reubicada bajo los controles desde la ronda 5) pasó a
+   `display:flex; flex-direction:column; gap:6px` — elimina cualquier
+   margin-collapse entre `.result-card` y `.info-card` internos.
+4. `.animation-card:has(#contactResChart)` (la gráfica, ya de ancho
+   completo desde la ronda 5) recibió `grid-column: 1 / -1` explícito
+   (refuerzo redundante pero inequívoco del span "chart chart" de
+   `grid-template-areas`) y `margin-top: 12px`; su `.chart-container`
+   interno recibió `min-height: 280px`.
+5. Comentario de verificación (sin cambio de código, ya era correcto):
+   `#contact-res-sim-modal.fullscreen` conserva `overflow-y:auto`, y
+   `#contact-res-close-btn` no puede ser recortado por overflow de ningún
+   hijo porque es hijo DIRECTO del modal y usa `position:fixed`.
+
+**⚠️ Bug real encontrado y corregido (no estaba en la lista de 5 puntos,
+   surgió de la verificación JS #5 "comprobar que no existan...
+   superposiciones de layout"):** con Playwright (`elementFromPoint`/
+   `elementsFromPoint` en las coordenadas reales del botón) se detectó que
+   `#contact-res-close-btn` en modo fullscreen quedaba **tapado para
+   clics** por `#contact-toggle` (botón "Mostrar Información de Contacto"
+   de la barra flotante superior del sitio — el `<div style="position:
+   fixed; top:20px; right:20px; z-index:99999">` justo después de
+   `<body>` en `index.html`, con selector de idioma/Wiki/Clases/Tema/
+   Contacto). Causa raíz: **no es un problema del z-index del botón en sí,
+   sino de contexto de apilamiento (stacking context)**. El botón es hijo
+   de `#contact-res-sim-modal.fullscreen`, que también es
+   `position:fixed` con su propio `z-index` — eso convierte al modal en un
+   contexto de apilamiento propio, y el z-index del botón (por altísimo
+   que sea) sólo compite *dentro* de ese contexto, nunca directamente
+   contra hermanos del modal (como la barra flotante superior). Lo que
+   importa frente a esos hermanos es el z-index del **contenedor del
+   modal**, que sólo tenía `9999` — muy por debajo de `99999`. Se corrigió
+   subiendo `#contact-res-sim-modal.fullscreen` de `z-index:9999` a
+   `z-index:999999`, exactamente el mismo patrón ya usado (y ya comentado
+   in situ) por `#newton-lab-modal.fullscreen`/`#fourier-lab-modal.
+   fullscreen`: "z-index deliberadamente por debajo del botón de cierre
+   (1000000). El modal cubre la página pero el botón × siempre queda
+   encima." Verificado tras el fix: `elementFromPoint` en el centro del
+   botón devuelve `contact-res-close-btn` (no `contact-toggle`), y un test
+   de clic real de Playwright sobre el botón ya cierra el modal sin
+   timeout, en dos ciclos completos de abrir/cerrar.
+
+**JS (`app_v2.js`), dentro del mismo IIFE de ContactRes:**
+
+1/2. `resizeChart()` reescrita: antes llamaba `_chart.resize()` sin
+   argumentos (Chart.js recalcula desde el contenedor, pero de forma
+   asíncrona vía su propio ResizeObserver interno — con la gráfica ahora
+   de ancho completo, un salto de ancho más grande podía notarse con un
+   frame de retraso). Ahora lee `_chart.canvas.parentElement.clientWidth/
+   clientHeight` y llama `_chart.resize(width, height)` con ambos
+   argumentos — forma soportada por Chart.js para forzar tamaño exacto de
+   forma síncrona. **Deliberadamente no se asigna `canvas.width =
+   container.clientWidth` a mano** (como sugería literalmente el pedido):
+   Chart.js ya gestiona `canvas.width/height` en píxeles de dispositivo
+   (multiplicando por `devicePixelRatio`) internamente en su propio
+   `resize()`; sobrescribirlo después dejaría esos valores
+   desincronizados y produciría exactamente la distorsión que se pedía
+   evitar. Verificado con un stub mínimo de `Chart` inyectado vía
+   Playwright (`addInitScript`, ya que el sandbox de pruebas no tiene
+   acceso de red al CDN real de Chart.js): el canvas de `contactResChart`
+   pasa de 550px (modo normal, contenedor 552px) a 1300px (fullscreen,
+   contenedor 1302px) y vuelve a 550px al cerrar con Escape — la
+   diferencia constante de 2px es el `border:1px` del `.chart-container`
+   (`clientWidth` excluye border), no un error.
+3. Verificado sin cambios: `attachInputListeners()` ya conecta `input` en
+   los 5 sliders y `change` en los 3 `<select>`, todos disparando
+   `updateAll()` de forma síncrona y sin debounce — los badges bajo cada
+   control ya responden en tiempo real. Confirmado en vivo con Playwright:
+   mover el slider de presión a 10 MPa actualiza el badge
+   (`#contact-res-pressure-val`) y `#contact-res-rc-val` inmediatamente.
+4. Verificado sin cambios: tanto el `keydown` de Escape como el click en
+   `#contact-res-close-btn` llaman al mismo `closeContactResFullscreen()`,
+   que remueve `CFG.bodyLockClass` (`contact-res-open`) de `<body>` y
+   resetea `document.body.style.overflow` en su `cleanup()` — un único
+   camino de código para ambos disparadores. Confirmado con Playwright:
+   `document.body.className` y `.style.overflow` quedan limpios tras
+   cerrar por cualquiera de las dos vías.
+5. Verificación de consola/layout: cero errores de JavaScript propios del
+   laboratorio tras los cambios (los únicos mensajes de consola en el
+   entorno de pruebas — `Chart is not defined`, `MathJax.typesetPromise`,
+   `net::ERR_TUNNEL_CONNECTION_FAILED`/404 — son por la falta de acceso a
+   los CDNs externos *del sandbox de pruebas*, no del sitio real desplegado
+   con acceso a internet). El hallazgo real de esta verificación fue el
+   bug de z-index del botón de cerrar, ya descrito y corregido arriba.
+
+**Verificado**: `node --check app_v2.js` sin errores; balance de llaves
+CSS 883/883 y JS 5361/5361 (ambos balanceados); `diff` de bytes de
+`index.html` contra el final de la ronda 5 → 0 cambios; suite de
+Playwright con stub de Chart.js confirmando resize correcto en ambas
+direcciones, badges en tiempo real, y los dos ciclos completos de abrir/
+cerrar fullscreen (por Escape y por click) sin quedar atascado.
+
+Si se solicita subir el z-index de un botón de cerrar (o cualquier
+elemento fixed) "por encima de todo" en algún laboratorio y no basta con
+subir el z-index del propio elemento: comprobar primero si su ancestro
+inmediato con `position` no-estático (aquí, el propio modal en modo
+`.fullscreen`) tiene un z-index bajo — si lo tiene, ese ancestro es quien
+compite contra hermanos externos (como la barra flotante superior del
+sitio, `z-index:99999`), no el elemento hijo. La solución ya establecida
+en el sitio (Newton/Fourier, y ahora ContactRes) es subir el z-index del
+propio `.fullscreen` a un valor muy alto pero estrictamente menor al del
+botón de cerrar (p. ej. `999999` de contenedor vs `1000000` de botón).
+
+### ✅ Resistencia Térmica por Contacto — Layout fullscreen apilado, compactación de sliders, labels en una línea + fix de bug real de color en labels (ronda 7, `style.css` + `index.html`, 2026-08-21)
+
+Séptima ronda de refinamiento de `contact-res-sim` / `#contact-res-sim-modal`.
+`app_v2.js` **no se tocó** (verificado que el `resizeChart()` de la ronda 6,
+ya basado en `container.clientWidth/clientHeight`, satisface automáticamente
+el nuevo layout apilado sin ningún cambio adicional — ver verificación JS
+más abajo). `translations.js` tampoco se tocó (estos labels usan el patrón
+`.lang-es`/`.lang-en`, no el diccionario de canvas).
+
+**1. Layout exclusivo de modo fullscreen (`style.css`) — reordenamiento vía
+   Regla #8 (grid-template-areas), no vía DOM:**
+
+Se añadió un override de `grid-template-areas` scoped exclusivamente a
+`#contact-res-sim-modal.fullscreen` (después del bloque base `.fullscreen`
+ya existente de la ronda 6), reutilizando los MISMOS nombres de área
+("controls", "press", "results", "chart") que la regla base sin-`.fullscreen`,
+sólo remapeados a una disposición apilada de 2 filas × 2 columnas:
+
+```css
+#contact-res-sim-modal.fullscreen {
+    grid-template-areas:
+        "openbtn   openbtn"
+        "intro     intro"
+        "controls  press"
+        "results   chart";
+}
+#contact-res-sim-modal.fullscreen .animation-card:has(#contactResChart) {
+    grid-column: auto;   /* anula el "1 / -1" de ancho completo de la ronda 6, */
+    margin-top: 0;        /* sólo vigente en modo NO-fullscreen */
+}
+```
+
+Como el modo normal (sin `.fullscreen`) no se tocó, su `grid-template-areas`
+de la ronda 5 (`"controls press" / "results press" / "chart chart"`) sigue
+intacto — verificado con Playwright: en modo normal la gráfica sigue en
+552px de ancho abarcando ambas columnas y la prensa en su columna angosta
+de 184px; en fullscreen, gráfica y prensa comparten exactamente la misma
+`x` y el mismo ancho (934px de tarjeta / 932px de canvas), apiladas una
+sobre otra en la columna visual derecha. El espacio entre la tarjeta de la
+prensa y la de la gráfica en fullscreen es exactamente los 22px de
+`row-gap` ya declarado (verificado vía `getBoundingClientRect` de ambos
+`.animation-card`, no de los canvases internos — medir los canvases
+directamente da una cifra mayor porque incluye el título `h4.sim-subheading`
+y el padding interno de cada tarjeta, lo cual llevó a una sospecha inicial
+de "gap excesivo" que resultó ser una medición equivocada, no un bug).
+
+**2. Compactación máxima de sliders (`style.css`):**
+
+- `#contact-res-controls` (contenedor flex-column): `gap` 6px→4px (este
+  gap ES el "margin-bottom" entre bloques — ver nota de diseño en el CSS:
+  usar un `margin-bottom` adicional en `.control-group-compact` duplicaría
+  el espaciado sobre este gap ya existente).
+- `.control-group-compact-row` (grid de 2 columnas): `gap` 6px→4px.
+- `.control-group.control-group-compact`: `padding` 6px 8px→4px; `gap`
+  interno (label→slider) 4px→3px; `font-size` añadido 0.85rem.
+- `input[type="range"]` scoped a `#contact-res-controls`: `height` 4px→3px
+  (ya existente de ronda anterior, ahora reforzado); thumb
+  `::-webkit-slider-thumb` 14px (global) → 11px scoped; añadidas las
+  equivalentes `::-moz-range-track`/`::-moz-range-thumb` (Firefox), que la
+  regla global del sitio no cubre.
+
+**3. Labels/headers en una sola línea horizontal (`style.css`):**
+
+`#contact-res-sim-modal .control-group.control-group-compact label`:
+`display:flex; align-items:center; justify-content:space-between;
+flex-wrap:nowrap; white-space:nowrap; gap:8px; margin-bottom:0;
+font-size:0.80rem` (antes 0.85rem). El `white-space:nowrap` en el `<label>`
+se hereda a sus hijos de texto, así ningún nombre de variable, símbolo LaTeX
+o paréntesis de unidad puede partirse en dos líneas.
+
+**4. Acortamiento de texto en `index.html` (para que quepa en una línea sin
+   overflow dentro de las columnas de ~150-160px de `.control-group-compact-row`):**
+
+| Control | ES antes → ahora | EN antes → ahora |
+|---|---|---|
+| Material | "Material de los Sólidos en Contacto:" → "Material de Contacto:" | "Material of the Solids in Contact:" → "Contact Material:" |
+| Fluido | "Fluido / Material Intersticial:" → "Medio Intersticial:" | "Interstitial Fluid / Material:" → "Interstitial Medium:" |
+| Rugosidad 1 | "Rugosidad Superficial 1 ($R_{a,1}$):" → "Rugosidad 1 ($R_{a,1}$):" | "Surface Roughness 1 ($R_{a,1}$):" → "Roughness 1 ($R_{a,1}$):" |
+| Rugosidad 2 | "Rugosidad Superficial 2 ($R_{a,2}$):" → "Rugosidad 2 ($R_{a,2}$):" | "Surface Roughness 2 ($R_{a,2}$):" → "Roughness 2 ($R_{a,2}$):" |
+| T caliente | "Temperatura Extremo Caliente ($T_{\text{hot}}$):" → "Extremo Caliente ($T_{\text{hot}}$):" | "Hot End Temperature ($T_{\text{hot}}$):" → "Hot End ($T_{\text{hot}}$):" |
+| T fría | "Temperatura Extremo Frío ($T_{\text{cold}}$):" → "Extremo Frío ($T_{\text{cold}}$):" | "Cold End Temperature ($T_{\text{cold}}$):" → "Cold End ($T_{\text{cold}}$):" |
+| Presión (EN) | (multi-línea implícita) → "Contact Pressure ($P$):" en una sola línea | — |
+
+Todos los IDs (`for=`, `id=` de selects/inputs) y la estructura
+`.lang-es`/`.lang-en` se preservaron sin cambios — sólo el texto interno
+se acortó. Verificado con `scrollWidth` vs `clientWidth` de cada `<label>`
+vía Playwright, en modo normal Y en fullscreen: cero labels con overflow
+(`scrollWidth === clientWidth` en las 7 filas compactas).
+
+**⚠️ Bug real encontrado y corregido durante la verificación visual (no
+   estaba en la lista de 5 puntos, análogo al bug de z-index de la ronda
+   6):** al inspeccionar visualmente el fullscreen ya con labels en una
+   línea, el texto de las etiquetas se veía naranja en vez del azul celeste
+   que la ronda 6 supuestamente ya había aplicado. Causa raíz: la regla
+   azul de ronda 6 (`#contact-res-sim-modal .control-group.control-group-
+   compact label { color: #38bdf8; }`) sólo fija el color del propio
+   `<label>`, pero el TEXTO real vive dentro de `<span class="lang-es">`/
+   `<span class="lang-en">` hijos — y existe una regla GLOBAL, sitewide,
+   usada por todos los laboratorios (`style.css` línea ~832:
+   `.control-group label span { color: var(--accent-orange); }`,
+   especificidad 0-1-2) que sí compite directamente por esos `<span>` y
+   gana porque la regla azul de ronda 6 no incluye `span` en su selector
+   (nunca compitió por ese elemento). Se corrigió añadiendo un selector con
+   ID que apunta explícitamente a `.lang-es`/`.lang-en` (nunca a
+   `.value-badge`, cuyo naranja es intencional y ya estaba protegido por su
+   propia regla con ID):
+
+```css
+#contact-res-sim-modal .control-group.control-group-compact label .lang-es,
+#contact-res-sim-modal .control-group.control-group-compact label .lang-en {
+    color: #38bdf8;
+}
+body.light-theme #contact-res-sim-modal .control-group.control-group-compact label .lang-es,
+body.light-theme #contact-res-sim-modal .control-group.control-group-compact label .lang-en {
+    color: #0369a1;
+}
+```
+
+Verificado con `getComputedStyle` vía Playwright antes/después: las 7
+etiquetas pasan de `rgb(249,115,22)` (naranja, bug) a `rgb(56,189,248)`
+(azul celeste, correcto) en ambos modos (normal/fullscreen), mientras
+`.value-badge` permanece en naranja como estaba previsto. Los títulos
+`h4.sim-subheading` ("Prensa Mecánica..." / "Perfil de Temperatura...") NO
+tenían este bug — ya computaban azul correctamente, porque sus `<span>`
+hijos no son descendientes de ningún `.control-group` y por tanto nunca
+coincidían con la regla global naranja.
+
+**Verificación JS (`app_v2.js`, sin cambios de código):** el `resizeChart()`
+reescrito en la ronda 6 (basado en `_chart.canvas.parentElement.
+clientWidth/clientHeight`) y la función `draw()` del canvas de la prensa
+(que también lee las dimensiones de su contenedor en cada frame) ya
+resuelven dinámicamente el nuevo ancho de columna compartido sin necesitar
+ningún cambio — confirmado con un stub de Chart.js vía Playwright: en
+fullscreen, tanto el canvas de la prensa como el canvas de la gráfica miden
+932px (contenedor 934px, la diferencia de 2px es el `border:1px` del
+`.chart-container`/`.canvas-container`), es decir, ambos usan el 100% del
+ancho de su columna compartida, y vuelven a sus anchos de modo normal
+(182px / 550px respectivamente) al cerrar.
+
+**Verificado**: balance de llaves CSS 890/890; `node --check app_v2.js`
+sin errores (sin cambios); `grep` confirma cero restos del texto verbose
+anterior en `index.html`; suite de Playwright confirmando: (a) layout
+apilado correcto en fullscreen sin alterar modo normal, (b) cero overflow
+de labels en las 7 filas compactas en ambos modos, (c) color azul celeste
+correcto tras el fix de especificidad, (d) cierre limpio por click Y por
+Escape sin regresión del fix de z-index de ronda 6, (e) cero errores de
+consola reales (sólo ruido de CDN/sandbox ya conocido).
+
+Nota para rondas futuras: cualquier nuevo color de texto que se quiera
+aplicar a labels de `.control-group` en CUALQUIER laboratorio del sitio
+debe apuntar explícitamente a los `span` hijos (o usar un selector con
+especificidad ≥ ID), no sólo al `<label>` — la regla global
+`.control-group label span { color: var(--accent-orange) }` (línea ~832)
+siempre ganará sobre un color puesto sólo en el `<label>` padre, porque
+`color` no se hereda "a través" de una regla ya explícita en el hijo.

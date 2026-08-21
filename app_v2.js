@@ -674,6 +674,26 @@ var timelineEvents = [
         law: "Ley Constructal",
         law_en: "Constructal Law",
         bio: { name: "Adrian Bejan", life: "1948 - Presente", country: "Rumania", country_en: "Romania" }
+    },
+    {
+        year: 1969,
+        title: "Cooper, Mikic y Yovanovich: Conductancia de Contacto Térmico",
+        title_en: "Cooper, Mikic and Yovanovich: Thermal Contact Conductance",
+        surname: "Cooper, Mikic & Yovanovich",
+        "tab-target": "contact-res-sim",
+        law: "Modelo de Resistencia de Contacto (CMY)",
+        law_en: "Contact Resistance Model (CMY)",
+        country: "<img src='https://flagcdn.com/w20/gb.png' alt='Reino Unido' style='vertical-align: text-bottom; margin-right: 4px;'> Reino Unido / <img src='https://flagcdn.com/w20/us.png' alt='Estados Unidos' style='vertical-align: text-bottom; margin-right: 4px;'> EE.UU. / <img src='https://flagcdn.com/w20/ca.png' alt='Canadá' style='vertical-align: text-bottom; margin-right: 4px;'> Canadá",
+        country_en: "<img src='https://flagcdn.com/w20/gb.png' alt='United Kingdom' style='vertical-align: text-bottom; margin-right: 4px;'> United Kingdom / <img src='https://flagcdn.com/w20/us.png' alt='United States' style='vertical-align: text-bottom; margin-right: 4px;'> United States / <img src='https://flagcdn.com/w20/ca.png' alt='Canada' style='vertical-align: text-bottom; margin-right: 4px;'> Canada",
+        desc: "M.G. Cooper, B.B. Mikic y M.M. Yovanovich publican 'Thermal Contact Conductance' en el International Journal of Heat and Mass Transfer, formalizando el modelo hoy conocido como correlación <strong>Cooper-Mikic-Yovanovich (CMY)</strong>. El trabajo demostró que, a nivel microscópico, dos superficies sólidas en contacto solo se tocan realmente en una fracción diminuta de su área aparente -a través de las asperezas que logran deformarse plásticamente bajo la presión de contacto $P$-, mientras el resto del intersticio permanece ocupado por aire, vacío u otro fluido de baja conductividad:<br><br>$$ h_c = 1.25\\, k_{\\text{arm}} \\left(\\frac{m}{\\sigma}\\right) \\left(\\frac{P}{H_B}\\right)^{0.95} + \\frac{k_f}{Y_0} $$<br>Donde $\\sigma$ es la rugosidad RMS combinada de las superficies, $m$ la pendiente media de las asperezas, $H_B$ la microdureza del material más blando y $k_f$ la conductividad del fluido intersticial.<br><br><strong>Impacto en la ingeniería moderna:</strong> Esta correlación se convirtió en herramienta estándar para predecir la <strong>Resistencia Térmica de Contacto</strong> ($R_c = 1/(h_c A)$) en el diseño térmico de electrónica de potencia, disipadores de CPU, ensamblajes de combustible nuclear y estructuras espaciales, donde el salto de temperatura en cada interfase atornillada o presionada puede ser tan crítico como la conducción a través de los propios materiales.",
+        desc_en: "M.G. Cooper, B.B. Mikic and M.M. Yovanovich publish 'Thermal Contact Conductance' in the International Journal of Heat and Mass Transfer, formalizing the model known today as the <strong>Cooper-Mikic-Yovanovich (CMY)</strong> correlation. The work showed that, microscopically, two solid surfaces in contact only truly touch over a tiny fraction of their apparent area -through the asperities that manage to deform plastically under the contact pressure $P$-, while the rest of the interstitial gap remains occupied by air, vacuum, or another low-conductivity fluid:<br><br>$$ h_c = 1.25\\, k_{\\text{arm}} \\left(\\frac{m}{\\sigma}\\right) \\left(\\frac{P}{H_B}\\right)^{0.95} + \\frac{k_f}{Y_0} $$<br>Where $\\sigma$ is the combined RMS roughness of the surfaces, $m$ the mean asperity slope, $H_B$ the microhardness of the softer material, and $k_f$ the interstitial fluid conductivity.<br><br><strong>Impact on modern engineering:</strong> This correlation became a standard tool for predicting <strong>Thermal Contact Resistance</strong> ($R_c = 1/(h_c A)$) in the thermal design of power electronics, CPU heat sinks, nuclear fuel assemblies, and spacecraft structures, where the temperature jump at every bolted or pressed interface can be as critical as conduction through the materials themselves.",
+        category: "Conducción",
+        bio: {
+            name: "M.G. Cooper, B.B. Mikic & M.M. Yovanovich",
+            life: "Publicación seminal: 1969",
+            country: "Reino Unido / EE.UU. / Canadá",
+            country_en: "United Kingdom / United States / Canada"
+        }
     }
 ];
 
@@ -733,6 +753,7 @@ function startApp() {
     safeInit('Pennington', () => initPenningtonSimulation());
     safeInit('Telkes', () => initTelkesSimulation());
     safeInit('RadiacionPlacaPlana', () => initRadiacionPlacaPlanaSimulation());
+    safeInit('ContactResistance', () => { if (window.initContactResSimulation) window.initContactResSimulation(); });
 
     // Modal close logic
     const modal = document.getElementById('image-modal');
@@ -27244,6 +27265,1304 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachListeners); } else { attachListeners(); }
     window.PsychrometryLabFullscreen = { open: openFullscreen, close: closeFullscreen, resize: forceDelayedResize };
 })();
+/* ============================================================================
+   LABORATORIO DE RESISTENCIA TÉRMICA POR CONTACTO — Controller IIFE
+   ============================================================================
+   Bloque 100% aislado: no lee ni escribe variables/funciones de ningún otro
+   laboratorio (Fourier, Newton, res-sim, etc.), y no modifica switchTab() ni
+   startApp(). Único punto de integración externo: window.initContactResSimulation
+   (registrado con una única línea adicional en la lista safeInit(...) de
+   startApp(), igual que el resto de laboratorios del sitio).
 
+   IDs de DOM que este bloque consume (definidos en index.html, lote HTML
+   anterior) y de estilos que consume (definidos en style.css, lote CSS
+   anterior). Este archivo no crea ni depende de ningún otro identificador.
+   ============================================================================ */
+(function () {
+    'use strict';
 
+    // ── Estado privado del módulo (closure) ────────────────────────────────
+    var _inited = false;
+    var _rafId = null;
+    var _chart = null;
+    var _animT = 0;                 // fase de animación (flujo de calor / partículas)
+    var _lastFrameTime = null;
+    var _paused = false;
+    var _state = null;              // últimas lecturas de UI (ver readState())
+    var _results = null;            // última salida de computeContactPhysics()
 
+    // ══════════════════════════════════════════════════════════════════════
+    // 1. BASE DE DATOS DE PROPIEDADES TÉRMICAS Y MECÁNICAS
+    //    k en W/(m·K) · H_B (microdureza) en MPa · E (módulo elástico) en MPa
+    //    Valores de referencia de literatura estándar (Incropera et al. /
+    //    Yovanovich), redondeados a valores representativos con fines
+    //    didácticos — no sustituyen datos de ensayo para diseño real.
+    // ══════════════════════════════════════════════════════════════════════
+    var MATERIALS = {
+        cobre: { es: 'Cobre', en: 'Copper', k: 401, HB: 400, E: 117000 },
+        aluminio: { es: 'Aluminio', en: 'Aluminum', k: 237, HB: 250, E: 69000 },
+        acero: { es: 'Acero', en: 'Steel', k: 50, HB: 1500, E: 200000 },
+        bronce: { es: 'Bronce', en: 'Bronze', k: 60, HB: 750, E: 110000 }
+    };
+
+    var MATERIAL_PAIRS = {
+        'cobre-cobre': ['cobre', 'cobre'],
+        'aluminio-aluminio': ['aluminio', 'aluminio'],
+        'acero-acero': ['acero', 'acero'],
+        'bronce-acero': ['bronce', 'acero']
+    };
+
+    // Paleta metálica [claro, medio, oscuro] usada por el renderizado de las
+    // probetas en contactResCanvas (ver sección 3).
+    var MATERIAL_COLORS = {
+        cobre: ['#f2b48a', '#c2703b', '#7c3f16'],
+        aluminio: ['#f8fafc', '#cbd5e1', '#64748b'],
+        acero: ['#cbd5e1', '#64748b', '#334155'],
+        bronce: ['#e8c27a', '#a9752f', '#5c3d15']
+    };
+
+    var FLUIDS = {
+        vacio: { es: 'Vacío', en: 'Vacuum', k: 0.0, color: 'rgba(15,17,26,0.25)' },
+        aire: { es: 'Aire', en: 'Air', k: 0.026, color: 'rgba(148,197,255,0.14)' },
+        helio: { es: 'Helio', en: 'Helium', k: 0.15, color: 'rgba(196,160,255,0.20)' },
+        'aceite-termico': { es: 'Aceite Térmico', en: 'Thermal Oil', k: 0.13, color: 'rgba(217,155,55,0.30)' },
+        'grasa-siliconada': { es: 'Grasa Siliconada', en: 'Silicone Grease', k: 1.0, color: 'rgba(226,232,240,0.55)' }
+    };
+
+    // Geometría de probeta asumida (no hay slider de L/A en el HTML): sección
+    // transversal y longitud de cada probeta, típicas de un montaje de
+    // ensayo de resistencia de contacto tipo ASTM D5470 (barra guardada).
+    var ASSUMED_AREA_M2 = 1e-4;     // 1 cm²
+    var ASSUMED_LENGTH_M = 0.02;    // 2 cm por probeta
+
+    // ══════════════════════════════════════════════════════════════════════
+    // 2. MODELO FÍSICO ANALÍTICO — Correlación de Cooper-Mikic-Yovanovich
+    //    (CMY) para la conductancia de contacto sólido-sólido, combinada con
+    //    la correlación de Yovanovich para la conductancia del hueco lleno
+    //    de fluido/vacío. Ambas se suman en paralelo (h_c = h_contacto +
+    //    h_fluido) y el conjunto se resuelve en serie con la conducción de
+    //    cada probeta para obtener el salto de temperatura en la interfase.
+    // ══════════════════════════════════════════════════════════════════════
+    function computeContactPhysics(state) {
+        var pairKey = MATERIAL_PAIRS[state.materialPairKey] ? state.materialPairKey : 'cobre-cobre';
+        var pair = MATERIAL_PAIRS[pairKey];
+        var mat1 = MATERIALS[pair[0]];
+        var mat2 = MATERIALS[pair[1]];
+        var fluid = FLUIDS[state.fluidKey] || FLUIDS.vacio;
+
+        var k1 = mat1.k, k2 = mat2.k;
+        // Conductividad armónica combinada de los dos sólidos (CMY)
+        var kArm = (2 * k1 * k2) / (k1 + k2);
+        // La microdureza que domina la deformación plástica de las asperezas
+        // es la del material más blando del par.
+        var HB_MPa = Math.min(mat1.HB, mat2.HB);
+        var HB_Pa = HB_MPa * 1e6;
+
+        // Rugosidad RMS efectiva combinada (µm -> m)
+        var sigma1_m = Math.max(state.roughness1_um, 0.05) * 1e-6;
+        var sigma2_m = Math.max(state.roughness2_um, 0.05) * 1e-6;
+        var sigma_m = Math.sqrt(sigma1_m * sigma1_m + sigma2_m * sigma2_m);
+        var sigma_um = sigma_m * 1e6;
+
+        // Pendiente media absoluta de asperezas (correlación empírica de
+        // Yovanovich para superficies mecanizadas típicas, σ en µm)
+        var mAsp = 0.125 * Math.pow(sigma_um, 0.402);
+
+        var P_Pa = Math.max(state.pressurePa, 1); // piso de 1 Pa: evita 0^negativo
+        var Pratio = P_Pa / HB_Pa;
+
+        // Fracción de área de contacto real (deformación totalmente plástica,
+        // Ar/Aa ∝ P/H_B), acotada a 1 sólo para fines de visualización/lectura.
+        var areaFraction = Math.min(Math.max(Pratio, 0), 1);
+
+        // Conductancia de contacto sólido-sólido (CMY)
+        var hContact = 1.25 * kArm * (mAsp / sigma_m) * Math.pow(Pratio, 0.95);
+
+        // Espesor medio del hueco interfacial (correlación de gap de
+        // Yovanovich) y conductancia del fluido/vacío que lo llena.
+        var Y0_m = 1.53 * sigma_m * Math.pow(Pratio, -0.097);
+        var hFluid = fluid.k > 0 ? (fluid.k / Y0_m) : 0;
+
+        var hc = hContact + hFluid;
+        if (!isFinite(hc) || hc <= 0) hc = 1e-6;
+
+        var A = ASSUMED_AREA_M2;
+        var Rc = 1 / (hc * A);
+
+        var L = ASSUMED_LENGTH_M;
+        var R1 = L / (k1 * A);
+        var R2 = L / (k2 * A);
+        var Rtotal = R1 + Rc + R2;
+
+        var Thot = state.Thot, Tcold = state.Tcold;
+        var Q = (Thot - Tcold) / Rtotal;
+
+        var Tc1 = Thot - Q * R1;
+        var Tc2 = Tcold + Q * R2;
+        var deltaTInterface = Q * Rc; // equivalente a (Tc1 - Tc2)
+
+        return {
+            pairKey: pairKey, mat1: mat1, mat2: mat2, fluid: fluid,
+            k1: k1, k2: k2, kArm: kArm, HB_MPa: HB_MPa,
+            sigma_um: sigma_um, mAsp: mAsp, Y0_m: Y0_m,
+            areaFraction: areaFraction,
+            hContact: hContact, hFluid: hFluid, hc: hc,
+            Rc: Rc, R1: R1, R2: R2, Rtotal: Rtotal,
+            Q: Q, Tc1: Tc1, Tc2: Tc2, deltaTInterface: deltaTInterface,
+            A: A, L: L
+        };
+    }
+
+    // ── Utilidades ───────────────────────────────────────────────────────
+    function getLang() {
+        return window.currentLang || window.currentLanguage || 'es';
+    }
+
+    // Traduce texto dibujado directamente sobre <canvas> (contactResCanvas /
+    // contactResChart) leyendo window.uiTranslations, el mismo diccionario
+    // plano ES→EN que usa window.translateDOM() para el resto del DOM (ver
+    // translations.js). El texto en canvas no puede envolverse en spans
+    // .lang-es/.lang-en -no son nodos DOM traducibles por ese mecanismo-,
+    // así que cada string usa aquí su versión en español como clave: en
+    // 'es' se devuelve tal cual, en 'en' se busca la traducción y, si
+    // faltara la clave en el diccionario, se hace fallback seguro al texto
+    // en español (nunca revienta ni deja el canvas en blanco). Mismo patrón
+    // que el helper t() ya usado por el laboratorio de Newton (ver arriba).
+    function t(key) {
+        var lang = getLang();
+        var tr = window.uiTranslations || {};
+        if (lang === 'en' && tr[key]) return tr[key];
+        return key;
+    }
+
+    function fmtCompact(value, unit, digits) {
+        if (!isFinite(value)) return (value < 0 ? '-' : '') + '&infin; ' + unit;
+        var abs = Math.abs(value);
+        if (abs !== 0 && (abs < 1e-3 || abs >= 1e5)) {
+            return value.toExponential(2) + ' ' + unit;
+        }
+        return value.toFixed(digits == null ? 3 : digits) + ' ' + unit;
+    }
+
+    function clamp(v, lo, hi) { return Math.min(Math.max(v, lo), hi); }
+
+    function getColorForTemp(T) {
+        var normalized = clamp(T / 400, 0, 1);
+        var r = Math.round(normalized * 255);
+        var b = Math.round((1 - normalized) * 255);
+        return 'rgb(' + r + ', 70, ' + b + ')';
+    }
+
+    // Chip de texto con fondo anti-superposición (rect. redondeado semi-
+    // opaco detrás del texto): usado por las cotas/etiquetas dibujadas
+    // directamente sobre contactResCanvas (Requisitos #2 y #4) para que
+    // sigan siendo legibles sin importar qué haya detrás (metal claro,
+    // fluido, líneas de flujo, etc.). align: 'left' | 'right' | 'center'
+    // referido al punto (x, y); aísla todos sus cambios de estado con
+    // save()/restore() para no afectar el resto del dibujado del frame.
+    function drawLabelChip(ctx, text, x, y, align, opts) {
+        opts = opts || {};
+        ctx.save();
+        var fontSize = opts.fontSize || 11;
+        ctx.font = opts.font || ('700 ' + fontSize + 'px Outfit, sans-serif');
+        var padH = opts.padH != null ? opts.padH : 6;
+        var padV = opts.padV != null ? opts.padV : 3;
+        var tw = ctx.measureText(text).width;
+        var boxH = fontSize + padV * 2;
+        var boxW = tw + padH * 2;
+        var boxX = align === 'right' ? x - boxW : (align === 'center' ? x - boxW / 2 : x);
+        var boxY = y - boxH / 2;
+        ctx.fillStyle = opts.bg || 'rgba(11,13,19,0.72)';
+        ctx.beginPath();
+        if (typeof ctx.roundRect === 'function') {
+            ctx.roundRect(boxX, boxY, boxW, boxH, Math.min(6, boxH / 2));
+        } else {
+            ctx.rect(boxX, boxY, boxW, boxH);
+        }
+        ctx.fill();
+        ctx.fillStyle = opts.fg || '#f1f5f9';
+        ctx.textAlign = align === 'right' ? 'right' : (align === 'center' ? 'center' : 'left');
+        ctx.textBaseline = 'middle';
+        var tx = align === 'right' ? (boxX + boxW - padH) : (align === 'center' ? x : (boxX + padH));
+        ctx.fillText(text, tx, y);
+        ctx.restore();
+        return boxW;
+    }
+
+    // ══════════════════════════════════════════════════════════════════════
+    // ESTADO DE UI — lectura de sliders/selects y escritura de badges
+    // ══════════════════════════════════════════════════════════════════════
+    var el = {}; // cache de referencias DOM, poblada en initContactResSimulation()
+
+    function readState() {
+        var unit = el.pressureUnit ? el.pressureUnit.value : 'MPa';
+        var rawPressure = el.pressure ? parseFloat(el.pressure.value) : 2.0;
+        var pressurePa = unit === 'bar' ? rawPressure * 1e5 : rawPressure * 1e6;
+
+        return {
+            rawPressure: rawPressure,
+            unit: unit,
+            pressurePa: pressurePa,
+            materialPairKey: el.materialSelect ? el.materialSelect.value : 'cobre-cobre',
+            fluidKey: el.fluidSelect ? el.fluidSelect.value : 'vacio',
+            roughness1_um: el.roughness1 ? parseFloat(el.roughness1.value) : 1.6,
+            roughness2_um: el.roughness2 ? parseFloat(el.roughness2.value) : 1.6,
+            Thot: el.thot ? parseFloat(el.thot.value) : 150,
+            Tcold: el.tcold ? parseFloat(el.tcold.value) : 25
+        };
+    }
+
+    function updateBadgesAndLabels(state, r) {
+        if (el.pressureVal) el.pressureVal.textContent = state.rawPressure.toFixed(1);
+        if (el.pressureUnitLabel) el.pressureUnitLabel.textContent = state.unit;
+        if (el.roughness1Val) el.roughness1Val.textContent = state.roughness1_um.toFixed(1);
+        if (el.roughness2Val) el.roughness2Val.textContent = state.roughness2_um.toFixed(1);
+        if (el.thotVal) el.thotVal.textContent = state.Thot.toFixed(0);
+        if (el.tcoldVal) el.tcoldVal.textContent = state.Tcold.toFixed(0);
+
+        if (el.rcVal) el.rcVal.innerHTML = fmtCompact(r.Rc, 'K/W', 4);
+        if (el.hcVal) el.hcVal.innerHTML = fmtCompact(r.hc, 'W/m&sup2;K', 1);
+        if (el.qVal) el.qVal.innerHTML = fmtCompact(r.Q, 'W', 3);
+        if (el.tc1Val) el.tc1Val.innerHTML = r.Tc1.toFixed(2) + ' &deg;C';
+        if (el.tc2Val) el.tc2Val.innerHTML = r.Tc2.toFixed(2) + ' &deg;C';
+        if (el.dtVal) el.dtVal.innerHTML = r.deltaTInterface.toFixed(3) + ' &deg;C';
+        if (el.hudDt) el.hudDt.innerHTML = r.deltaTInterface.toFixed(2) + ' &deg;C';
+    }
+
+    // ══════════════════════════════════════════════════════════════════════
+    // 4. GRÁFICA CHART.JS — PERFIL T(x) CON DISCONTINUIDAD EN LA INTERFASE
+    //    Tres datasets independientes (sólido 1 / salto / sólido 2) para que
+    //    Chart.js NUNCA trace una línea diagonal uniendo los dos sólidos: la
+    //    discontinuidad en x = 0 queda representada por el dataset central,
+    //    punteado, entre (0, Tc1) y (0, Tc2).
+    // ══════════════════════════════════════════════════════════════════════
+    function initChart() {
+        var canvas = document.getElementById('contactResChart');
+        if (!canvas || typeof Chart === 'undefined') return;
+        var ctx = canvas.getContext('2d');
+
+        _chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                datasets: [
+                    {
+                        label: 'Sólido 1 (caliente)', data: [], parsing: false,
+                        borderColor: '#f97316', backgroundColor: 'rgba(249,115,22,0.12)',
+                        borderWidth: 3, pointRadius: 0, fill: false, tension: 0
+                    },
+                    {
+                        label: 'Salto interfacial (ΔT)', data: [], parsing: false,
+                        borderColor: '#fb923c', borderWidth: 2, borderDash: [5, 4],
+                        pointRadius: 4, pointBackgroundColor: '#fb923c', fill: false, tension: 0
+                    },
+                    {
+                        label: 'Sólido 2 (frío)', data: [], parsing: false,
+                        borderColor: '#06b6d4', backgroundColor: 'rgba(6,182,212,0.12)',
+                        borderWidth: 3, pointRadius: 0, fill: false, tension: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+                parsing: false,
+                interaction: { mode: 'nearest', intersect: false },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        title: { display: true, text: 'Posición x (mm)', color: '#94a3b8' },
+                        ticks: { color: '#cbd5e1' },
+                        grid: { color: 'rgba(255,255,255,0.08)' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Temperatura (°C)', color: '#94a3b8' },
+                        ticks: { color: '#cbd5e1' },
+                        grid: { color: 'rgba(255,255,255,0.08)' }
+                    }
+                },
+                plugins: {
+                    legend: { labels: { color: '#e2e8f0', boxWidth: 14, font: { size: 10 } } }
+                }
+            }
+        });
+    }
+
+    function updateChart(state, r) {
+        if (!_chart) return;
+        var Lmm = ASSUMED_LENGTH_M * 1000;
+        var steps = 14;
+        var hotPts = [], coldPts = [];
+
+        for (var i = 0; i <= steps; i++) {
+            var f = i / steps;
+            hotPts.push({ x: -Lmm + f * Lmm, y: state.Thot - f * (state.Thot - r.Tc1) });
+        }
+        for (var j = 0; j <= steps; j++) {
+            var g = j / steps;
+            coldPts.push({ x: g * Lmm, y: r.Tc2 + g * (state.Tcold - r.Tc2) });
+        }
+
+        _chart.data.datasets[0].label = t('Sólido 1 (caliente)');
+        _chart.data.datasets[1].label = t('Salto interfacial (ΔT)');
+        _chart.data.datasets[2].label = t('Sólido 2 (frío)');
+        _chart.options.scales.x.title.text = t('Posición x (mm)');
+        _chart.options.scales.y.title.text = t('Temperatura (°C)');
+
+        _chart.data.datasets[0].data = hotPts;
+        _chart.data.datasets[1].data = [{ x: 0, y: r.Tc1 }, { x: 0, y: r.Tc2 }];
+        _chart.data.datasets[2].data = coldPts;
+
+        var allT = [state.Thot, state.Tcold, r.Tc1, r.Tc2];
+        _chart.options.scales.y.min = Math.min.apply(null, allT) - 8;
+        _chart.options.scales.y.max = Math.max.apply(null, allT) + 8;
+        _chart.options.scales.x.min = -Lmm;
+        _chart.options.scales.x.max = Lmm;
+
+        _chart.update('none');
+    }
+
+    // Requisito 2026-08-21 (ronda 6, JS) #1/#2: la gráfica pasó a ser un
+    // bloque de ancho completo (grid-area "chart chart", ver style.css) en
+    // vez de compartir columna con el canvas de la prensa, así que su
+    // contenedor (.chart-container) ahora puede cambiar de ancho con más
+    // frecuencia y en saltos más grandes (p. ej. al angostar/ensanchar la
+    // ventana en los breakpoints de #contact-res-sim-modal, o al entrar/
+    // salir de fullscreen). Antes `_chart.resize()` se llamaba sin
+    // argumentos: Chart.js SÍ recalcula el tamaño a partir del contenedor
+    // en ese caso, pero sólo dispara su propio ResizeObserver interno de
+    // forma asíncrona (a veces con un frame de retraso, perceptible como un
+    // parpadeo/"jump" del ancho justo después del reordenamiento de esta
+    // ronda). Se fuerza aquí explícitamente el tamaño exacto del contenedor
+    // -leído en el mismo instante en que se invoca resizeChart()- pasando
+    // ambos argumentos a resize(width, height): esa es la forma soportada
+    // por Chart.js para fijar un tamaño inmediato y síncrono (documentada
+    // en Chart.js Canvas.resize(width, height)), sin esperar al
+    // ResizeObserver interno.
+    //
+    // Deliberadamente NO se asigna canvas.width = container.clientWidth de
+    // forma manual: Chart.js ya gestiona canvas.width/height (en píxeles de
+    // dispositivo, multiplicando por devicePixelRatio) y canvas.style.width/
+    // height (en px CSS) internamente en Canvas.resize(); sobrescribir
+    // canvas.width a mano después dejaría esos dos valores desincronizados
+    // y produciría exactamente la distorsión/estiramiento que este
+    // requisito pide evitar. resize(width, height) con el ancho/alto reales
+    // del contenedor logra el mismo resultado (forzar el tamaño exacto del
+    // panel) sin pisar la lógica interna de DPR de la librería.
+    function resizeChart() {
+        if (!_chart) return;
+        try {
+            var container = _chart.canvas ? _chart.canvas.parentElement : null;
+            if (container && container.clientWidth > 0 && container.clientHeight > 0) {
+                _chart.resize(container.clientWidth, container.clientHeight);
+            } else {
+                _chart.resize();
+            }
+            _chart.update('none');
+        } catch (e) { }
+    }
+
+    // ══════════════════════════════════════════════════════════════════════
+    // 3. RENDERIZADO EN #contactResCanvas — prensa/celda de carga (zona
+    //    superior) + zoom microscópico del intersticio (zona inferior)
+    // ══════════════════════════════════════════════════════════════════════
+    function drawGauge(ctx, cx, cy, radius, fraction, valueText) {
+        fraction = clamp(fraction, 0, 1);
+        var startAngle = Math.PI * 0.75;   // -135°
+        var endAngle = Math.PI * 2.25;     // +135° (barrido de 270°)
+        var needleAngle = startAngle + fraction * (endAngle - startAngle);
+
+        // Cuerpo del manómetro
+        var bodyGrad = ctx.createRadialGradient(cx, cy - radius * 0.25, radius * 0.1, cx, cy, radius);
+        bodyGrad.addColorStop(0, '#334155');
+        bodyGrad.addColorStop(1, '#0b0d13');
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+        ctx.fillStyle = bodyGrad;
+        ctx.fill();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#94a3b8';
+        ctx.stroke();
+
+        // Arco de escala coloreado (verde->amarillo->rojo)
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius * 0.82, startAngle, endAngle);
+        var scaleGrad = ctx.createLinearGradient(cx - radius, cy, cx + radius, cy);
+        scaleGrad.addColorStop(0, '#22c55e');
+        scaleGrad.addColorStop(0.6, '#f59e0b');
+        scaleGrad.addColorStop(1, '#ef4444');
+        ctx.strokeStyle = scaleGrad;
+        ctx.lineWidth = 4;
+        ctx.stroke();
+
+        // Marcas de graduación
+        ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+        ctx.lineWidth = 1.5;
+        for (var i = 0; i <= 10; i++) {
+            var a = startAngle + (i / 10) * (endAngle - startAngle);
+            var r1 = radius * 0.68, r2 = radius * 0.78;
+            ctx.beginPath();
+            ctx.moveTo(cx + Math.cos(a) * r1, cy + Math.sin(a) * r1);
+            ctx.lineTo(cx + Math.cos(a) * r2, cy + Math.sin(a) * r2);
+            ctx.stroke();
+        }
+
+        // Aguja
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(needleAngle);
+        ctx.beginPath();
+        ctx.moveTo(-radius * 0.12, 0);
+        ctx.lineTo(radius * 0.72, 0);
+        ctx.lineTo(-radius * 0.12, radius * 0.06);
+        ctx.closePath();
+        ctx.fillStyle = '#ef4444';
+        ctx.fill();
+        ctx.restore();
+
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius * 0.13, 0, Math.PI * 2);
+        ctx.fillStyle = '#e2e8f0';
+        ctx.fill();
+
+        // Lectura digital
+        ctx.font = 'bold ' + Math.max(9, radius * 0.24) + 'px Outfit, sans-serif';
+        ctx.fillStyle = '#f1f5f9';
+        ctx.textAlign = 'center';
+        ctx.fillText(valueText, cx, cy + radius + Math.max(12, radius * 0.32));
+    }
+
+    function drawPressMacro(ctx, x, y, w, h, state, r, animPhase) {
+        var cx = x + w / 2;
+        var pair = MATERIAL_PAIRS[r.pairKey];
+        var col1 = MATERIAL_COLORS[pair[0]];
+        var col2 = MATERIAL_COLORS[pair[1]];
+
+        var blockW = w * 0.46;
+        var blockLeft = cx - blockW / 2;
+
+        // Requisito #1: las probetas permanecen SIEMPRE en contacto en la
+        // interfase (x_int) — el hueco real es microscópico y sólo se
+        // visualiza en el zoom (drawMicroZoom); aquí, a escala macro, jamás
+        // se dibuja separación entre los dos bloques. Lo que sí transmite el
+        // aumento de presión es (a) el recorrido del pistón hacia abajo y
+        // (b) un leve aplastamiento elástico visual (las probetas se
+        // acortan unos pocos px), sin mover jamás el plano de contacto.
+        var interfaceY = y + h * 0.5;
+        var squashPx = Math.min(6, r.areaFraction * 6);
+        var blockH = h * 0.30 - squashPx * 0.5;
+
+        var topBlockBottom = interfaceY;
+        var topBlockTop = topBlockBottom - blockH;
+        var botBlockTop = interfaceY;
+        var botBlockBottom = botBlockTop + blockH;
+
+        // Vástago + pistón (se desplaza hacia abajo con la presión, sumando
+        // el aplastamiento elástico al recorrido visible)
+        var pistonTravel = Math.min(14, r.areaFraction * 14) + squashPx;
+        var pistonTop = y + h * 0.02 + pistonTravel;
+        var pistonH = topBlockTop - pistonTop;
+
+        var rodGrad = ctx.createLinearGradient(cx - 10, 0, cx + 10, 0);
+        rodGrad.addColorStop(0, '#334155'); rodGrad.addColorStop(0.5, '#cbd5e1'); rodGrad.addColorStop(1, '#334155');
+        ctx.fillStyle = rodGrad;
+        ctx.fillRect(cx - w * 0.05, y - 6, w * 0.10, pistonTop - y + 6);
+
+        function metalBlock(top, height, cols) {
+            var g = ctx.createLinearGradient(blockLeft, 0, blockLeft + blockW, 0);
+            g.addColorStop(0, cols[0]); g.addColorStop(0.5, cols[1]); g.addColorStop(1, cols[2]);
+            ctx.fillStyle = g;
+            ctx.fillRect(blockLeft, top, blockW, height);
+            ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+            ctx.lineWidth = 1.5;
+            ctx.strokeRect(blockLeft, top, blockW, height);
+            ctx.fillStyle = 'rgba(255,255,255,0.25)';
+            ctx.fillRect(blockLeft, top, blockW, Math.max(2, height * 0.08));
+        }
+
+        // Pistón (placa de compresión superior)
+        var pistonGrad = ctx.createLinearGradient(blockLeft, 0, blockLeft + blockW, 0);
+        pistonGrad.addColorStop(0, '#e2e8f0'); pistonGrad.addColorStop(0.5, '#94a3b8'); pistonGrad.addColorStop(1, '#475569');
+        ctx.fillStyle = pistonGrad;
+        ctx.fillRect(blockLeft - w * 0.03, pistonTop, blockW + w * 0.06, Math.max(6, pistonH));
+        ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+        ctx.strokeRect(blockLeft - w * 0.03, pistonTop, blockW + w * 0.06, Math.max(6, pistonH));
+
+        // Probeta 1 (caliente, arriba) y probeta 2 (fría, abajo) — ambas
+        // comparten literalmente el mismo borde interior (interfaceY):
+        // no hay ningún px de canvas entre ellas.
+        metalBlock(topBlockTop, blockH, col1);
+        metalBlock(botBlockTop, blockH, col2);
+
+        // Plano de contacto (x_int): línea siempre presente, marca dónde
+        // ocurre el salto térmico aunque las probetas nunca se separen.
+        ctx.save();
+        ctx.strokeStyle = 'rgba(15,17,26,0.55)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(blockLeft, interfaceY);
+        ctx.lineTo(blockLeft + blockW, interfaceY);
+        ctx.stroke();
+        ctx.restore();
+
+        // Base / yunque
+        var anvilTop = botBlockBottom;
+        var anvilGrad = ctx.createLinearGradient(0, anvilTop, 0, y + h * 0.98);
+        anvilGrad.addColorStop(0, '#475569'); anvilGrad.addColorStop(1, '#1e293b');
+        ctx.fillStyle = anvilGrad;
+        ctx.fillRect(blockLeft - w * 0.06, anvilTop, blockW + w * 0.12, (y + h * 0.98) - anvilTop);
+
+        // Flechas de compresión (arriba apuntando abajo, abajo apuntando arriba)
+        var pulse = 0.5 + 0.5 * Math.sin(animPhase * 3.2);
+        ctx.fillStyle = 'rgba(249,115,22,' + (0.55 + 0.4 * pulse) + ')';
+        drawTriangle(ctx, cx - w * 0.16, pistonTop - 16, 9, 12, 'down');
+        drawTriangle(ctx, cx + w * 0.16, pistonTop - 16, 9, 12, 'down');
+        drawTriangle(ctx, cx - w * 0.16, anvilTop + 16, 9, 12, 'up');
+        drawTriangle(ctx, cx + w * 0.16, anvilTop + 16, 9, 12, 'up');
+
+        // Celda de carga / manómetro
+        var gaugeR = Math.min(w, h) * 0.10;
+        var gaugeCx = x + w - gaugeR - 14;
+        var gaugeCy = y + gaugeR + 14;
+        var pMin = el.pressure ? parseFloat(el.pressure.min) : 0;
+        var pMax = el.pressure ? parseFloat(el.pressure.max) : 50;
+        var frac = (state.rawPressure - pMin) / Math.max(1e-6, (pMax - pMin));
+        drawGauge(ctx, gaugeCx, gaugeCy, gaugeR, frac, state.rawPressure.toFixed(1) + ' ' + state.unit);
+
+        // Etiquetas de temperatura de extremo
+        ctx.textAlign = 'left';
+        ctx.font = 'bold 13px Outfit, sans-serif';
+        ctx.fillStyle = getColorForTemp(state.Thot);
+        ctx.fillText(t('Cal. ') + state.Thot.toFixed(0) + '°C', blockLeft + blockW + 12, topBlockTop + blockH / 2 + 4);
+        ctx.fillStyle = getColorForTemp(state.Tcold);
+        ctx.fillText(t('Frío ') + state.Tcold.toFixed(0) + '°C', blockLeft + blockW + 12, botBlockTop + blockH / 2 + 4);
+
+        // Requisito #2: cota dinámica de ΔT_interfase = |Tc1 - Tc2| justo en
+        // el plano de contacto — flechas de cota + línea con gradiente
+        // rojo→azul (Tc1 caliente → Tc2 frío) + valor numérico en un chip
+        // con fondo anti-superposición anclado al margen derecho del canvas
+        // (nunca se sale del área visible, sin importar el ancho real del
+        // contenedor). Se omite sólo si el bloque queda demasiado bajo
+        // (pantallas muy angostas) para no invadir las etiquetas Hot/Cold.
+        if (blockH > 40) {
+            var dimHalf = Math.min(18, blockH * 0.32);
+            var dimX = blockLeft + blockW + 6;
+            var dimTop = interfaceY - dimHalf, dimBot = interfaceY + dimHalf;
+            var hotColor = getColorForTemp(r.Tc1), coldColor = getColorForTemp(r.Tc2);
+            var dimGrad = ctx.createLinearGradient(dimX, dimTop, dimX, dimBot);
+            dimGrad.addColorStop(0, hotColor);
+            dimGrad.addColorStop(1, coldColor);
+
+            ctx.save();
+            ctx.strokeStyle = dimGrad;
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(dimX, dimTop);
+            ctx.lineTo(dimX, dimBot);
+            ctx.stroke();
+            ctx.fillStyle = hotColor;
+            drawTriangle(ctx, dimX, dimTop + 6, 4, 6, 'down');
+            ctx.fillStyle = coldColor;
+            drawTriangle(ctx, dimX, dimBot - 6, 4, 6, 'up');
+            ctx.restore();
+
+            var deltaTAbs = Math.abs(r.Tc1 - r.Tc2);
+            drawLabelChip(
+                ctx,
+                t('ΔT interfase: ') + deltaTAbs.toFixed(2) + ' °C',
+                x + w - 8, interfaceY, 'right',
+                { fontSize: 10.5, bg: 'rgba(11,13,19,0.8)', fg: '#fed7aa' }
+            );
+        }
+
+        return { blockLeft: blockLeft, blockW: blockW, topBlockBottom: topBlockBottom, botBlockTop: botBlockTop, interfaceY: interfaceY };
+    }
+
+    function drawTriangle(ctx, cx, cy, halfW, height, dir) {
+        ctx.beginPath();
+        if (dir === 'down') {
+            ctx.moveTo(cx - halfW, cy - height); ctx.lineTo(cx + halfW, cy - height); ctx.lineTo(cx, cy);
+        } else {
+            ctx.moveTo(cx - halfW, cy + height); ctx.lineTo(cx + halfW, cy + height); ctx.lineTo(cx, cy);
+        }
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    // ══════════════════════════════════════════════════════════════════════
+    // Requisito #3 — ANIMACIÓN DEL MEDIO INTERSTICIAL: cada fluido/vacío
+    // seleccionable en #contact-res-fluid-select recibe un tratamiento
+    // visual distinto, todos dibujados dentro de la banda [x,y,w,h] que
+    // ocupa el hueco entre asperezas (llamados desde drawMicroZoom, ANTES
+    // de dibujar los sólidos, para que las asperezas —opacas— tapen el
+    // fluido exactamente donde hay contacto real).
+    // ══════════════════════════════════════════════════════════════════════
+
+    // Partículas de gas (Aire/Helio): estado persistente entre frames
+    // (closure de módulo) para que el movimiento browniano se acumule en
+    // vez de "temblar" en el sitio cada frame. Posiciones/velocidades en
+    // coordenadas fraccionales [0,1] -> independientes del tamaño real de
+    // la banda (que cambia con la presión y con resize/fullscreen).
+    var _gasParticles = null;
+
+    function ensureGasParticles() {
+        if (_gasParticles) return;
+        function makeSet(n) {
+            var arr = [];
+            for (var i = 0; i < n; i++) {
+                arr.push({
+                    fx: Math.random(), fy: Math.random(),
+                    vx: (Math.random() - 0.5), vy: (Math.random() - 0.5)
+                });
+            }
+            return arr;
+        }
+        // El Helio recibe más partículas y, en stepAndDrawGasParticles, más
+        // velocidad y menor radio: mayor difusividad que el Aire, coherente
+        // con su menor masa molecular (Requisito #3).
+        _gasParticles = { aire: makeSet(14), helio: makeSet(18) };
+    }
+
+    function stepAndDrawGasParticles(ctx, x, y, w, h, fluidKey) {
+        ensureGasParticles();
+        var particles = _gasParticles[fluidKey];
+        if (!particles) return;
+        var isHelio = fluidKey === 'helio';
+        var speed = isHelio ? 0.055 : 0.024;
+        var radius = isHelio ? 1.2 : 1.7;
+        ctx.fillStyle = isHelio ? 'rgba(196,160,255,0.9)' : 'rgba(226,232,240,0.8)';
+        for (var i = 0; i < particles.length; i++) {
+            var p = particles[i];
+            // Caminata browniana: se perturba la velocidad al azar cada
+            // frame y se amortigua (para que no "dispare" sin control).
+            p.vx += (Math.random() - 0.5) * 0.7;
+            p.vy += (Math.random() - 0.5) * 0.7;
+            p.vx *= 0.86; p.vy *= 0.86;
+            p.fx += p.vx * speed * 0.05;
+            p.fy += p.vy * speed * 0.05;
+            // Rebote suave en los bordes de la banda intersticial.
+            if (p.fx < 0.02) { p.fx = 0.02; p.vx = Math.abs(p.vx); }
+            if (p.fx > 0.98) { p.fx = 0.98; p.vx = -Math.abs(p.vx); }
+            if (p.fy < 0.05) { p.fy = 0.05; p.vy = Math.abs(p.vy); }
+            if (p.fy > 0.95) { p.fy = 0.95; p.vy = -Math.abs(p.vy); }
+            ctx.beginPath();
+            ctx.arc(x + p.fx * w, y + p.fy * h, radius, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    // Vacío: fondo oscuro casi transparente + ondas de radiación tenues
+    // (único mecanismo de transferencia real a través de un vacío ideal;
+    // nunca partículas, porque no hay medio material que las sostenga).
+    function drawVacuumRadiation(ctx, x, y, w, h, animPhase) {
+        ctx.fillStyle = 'rgba(6,8,14,0.5)';
+        ctx.fillRect(x, y, w, h);
+        ctx.save();
+        ctx.lineWidth = 1;
+        var waves = 3;
+        for (var wv = 0; wv < waves; wv++) {
+            var phase = animPhase * 0.7 + wv * 1.4;
+            var amp = h * (0.14 + 0.05 * wv);
+            ctx.beginPath();
+            for (var px = 0; px <= w; px += 4) {
+                var py = y + h / 2 + Math.sin((px / Math.max(1, w)) * Math.PI * 4 + phase) * amp;
+                if (px === 0) ctx.moveTo(x + px, py); else ctx.lineTo(x + px, py);
+            }
+            ctx.strokeStyle = 'rgba(148,163,184,' + (0.30 - wv * 0.07) + ')';
+            ctx.stroke();
+        }
+        ctx.restore();
+    }
+
+    // Aceite térmico / grasa siliconada: matriz de fluido viscoso continuo
+    // (sin partículas discretas) con un brillo especular que fluye
+    // lentamente sobre el tono característico del medio seleccionado.
+    function drawViscousFluid(ctx, x, y, w, h, colorRgba, animPhase) {
+        ctx.fillStyle = colorRgba;
+        ctx.fillRect(x, y, w, h);
+        var t = (animPhase * 0.06) % 1; if (t < 0) t += 1;
+        var s0 = clamp(t - 0.14, 0, 1);
+        var s1 = clamp(t, 0, 1);
+        var s2 = clamp(t + 0.14, 0, 1);
+        var sheen = ctx.createLinearGradient(x, y, x + w, y);
+        sheen.addColorStop(0, 'rgba(255,255,255,0)');
+        sheen.addColorStop(s0, 'rgba(255,255,255,0)');
+        sheen.addColorStop(s1, 'rgba(255,255,255,0.20)');
+        sheen.addColorStop(s2, 'rgba(255,255,255,0)');
+        sheen.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = sheen;
+        ctx.fillRect(x, y, w, h);
+    }
+
+    // Despachador: elige el tratamiento visual según state.fluidKey (mismo
+    // value de las <option> de #contact-res-fluid-select en index.html).
+    function drawInterstitialFluid(ctx, x, y, w, h, fluidKey, animPhase, r) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(x, y, w, h);
+        ctx.clip();
+
+        if (fluidKey === 'vacio') {
+            drawVacuumRadiation(ctx, x, y, w, h, animPhase);
+        } else if (fluidKey === 'aire' || fluidKey === 'helio') {
+            ctx.fillStyle = r.fluid.color;
+            ctx.fillRect(x, y, w, h);
+            stepAndDrawGasParticles(ctx, x, y, w, h, fluidKey);
+        } else {
+            // 'aceite-termico' / 'grasa-siliconada'
+            drawViscousFluid(ctx, x, y, w, h, r.fluid.color, animPhase);
+        }
+
+        ctx.restore();
+    }
+
+    function drawMicroZoom(ctx, x, y, w, h, state, r, animPhase) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(x, y, w, h);
+        ctx.clip();
+
+        ctx.fillStyle = '#0b0d13';
+        ctx.fillRect(x, y, w, h);
+
+        var midY = y + h / 2;
+        // Requisito #4: amplitud de aspereza proporcional a la rugosidad,
+        // que se aplana progresivamente con la fracción de área de
+        // contacto real A_real (deformación elasto-plástica) -> a mayor
+        // presión, menos relieve y menos hueco medio (gapHalf), reduciendo
+        // el volumen ocupado por el fluido intersticial.
+        var amp1 = clamp(state.roughness1_um, 0.1, 12.5) * (h * 0.018) * (1 - 0.85 * r.areaFraction);
+        var amp2 = clamp(state.roughness2_um, 0.1, 12.5) * (h * 0.018) * (1 - 0.85 * r.areaFraction);
+        var gapHalf = Math.max(0.8, (h * 0.09) * (1 - r.areaFraction));
+
+        var teeth = 9;
+        var toothW = w / teeth;
+
+        function jaggedPath(baseY, amp, upward, phaseShift) {
+            ctx.beginPath();
+            ctx.moveTo(x, baseY);
+            for (var i = 0; i <= teeth; i++) {
+                var px = x + i * toothW;
+                var jitter = Math.sin(i * 1.7 + phaseShift) * 0.35 + 0.65; // asperezas irregulares
+                var py = baseY + (upward ? -1 : 1) * amp * jitter * (i % 2 === 0 ? 1 : 0.45);
+                ctx.lineTo(px, py);
+            }
+            ctx.lineTo(x + w, baseY + (upward ? -amp * 0.2 : amp * 0.2));
+            ctx.lineTo(x + w, upward ? y : y + h);
+            ctx.lineTo(x, upward ? y : y + h);
+            ctx.closePath();
+        }
+
+        var topBase = midY - gapHalf;
+        var botBase = midY + gapHalf;
+
+        // Requisito #3: fluido/medio intersticial ANIMADO, dibujado ANTES
+        // que los sólidos para que las asperezas (opacas) lo cubran
+        // exactamente donde hay contacto real -> ya no se "tiñe" la punta
+        // de una aspereza con el color del fluido (bug visual de la
+        // versión anterior, que pintaba un rect translúcido ENCIMA de los
+        // sólidos ya dibujados).
+        var fluidTop = topBase - amp1 - 2;
+        var fluidBot = botBase + amp2 + 2;
+        drawInterstitialFluid(ctx, x, fluidTop, w, Math.max(2, fluidBot - fluidTop), state.fluidKey, animPhase, r);
+
+        // Sólido superior (probeta 1) con asperezas apuntando hacia abajo
+        jaggedPath(topBase, amp1, false, 0.6);
+        var g1 = ctx.createLinearGradient(0, y, 0, topBase);
+        var col1 = MATERIAL_COLORS[MATERIAL_PAIRS[r.pairKey][0]];
+        g1.addColorStop(0, col1[2]); g1.addColorStop(1, col1[0]);
+        ctx.fillStyle = g1;
+        ctx.fill();
+
+        // Sólido inferior (probeta 2) con asperezas apuntando hacia arriba
+        jaggedPath(botBase, amp2, true, 2.1);
+        var g2 = ctx.createLinearGradient(0, botBase, 0, y + h);
+        var col2 = MATERIAL_COLORS[MATERIAL_PAIRS[r.pairKey][1]];
+        g2.addColorStop(0, col2[0]); g2.addColorStop(1, col2[2]);
+        ctx.fillStyle = g2;
+        ctx.fill();
+
+        // Puntos de contacto real (asperezas que se tocan): su número crece
+        // con la fracción de área de contacto A_real.
+        var nContacts = Math.round(2 + r.areaFraction * (teeth - 1));
+        ctx.fillStyle = '#fef08a';
+        for (var c = 0; c < nContacts; c++) {
+            var cx2 = x + (c + 0.5) * (w / nContacts);
+            ctx.beginPath();
+            ctx.arc(cx2, midY, Math.max(1.5, 2.2 * (0.4 + r.areaFraction)), 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Líneas de flujo de calor: convergen hacia los puntos de contacto
+        // reales; su densidad/curvatura depende de la fracción de área de
+        // contacto, y se animan con un patrón de guiones en movimiento.
+        var nLines = 6;
+        ctx.lineWidth = 1.4;
+        ctx.setLineDash([5, 5]);
+        ctx.lineDashOffset = -animPhase * 26;
+        var qColor = r.Q >= 0 ? 'rgba(249,115,22,0.75)' : 'rgba(6,182,212,0.75)';
+        ctx.strokeStyle = qColor;
+        for (var li = 0; li < nLines; li++) {
+            var startX = x + (li + 0.5) * (w / nLines);
+            var targetContact = x + ((li % nContacts) + 0.5) * (w / nContacts);
+            ctx.beginPath();
+            ctx.moveTo(startX, y);
+            ctx.quadraticCurveTo(startX, topBase, targetContact, midY);
+            ctx.quadraticCurveTo(targetContact, botBase, startX, y + h);
+            ctx.stroke();
+        }
+        ctx.setLineDash([]);
+
+        ctx.restore();
+
+        // Marco de la lupa
+        ctx.strokeStyle = 'rgba(148,163,184,0.6)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.strokeRect(x + 1, y + 1, w - 2, h - 2);
+        ctx.setLineDash([]);
+
+        // Etiquetas con fondo anti-superposición (Requisito #4): sin esto,
+        // el texto quedaba ilegible sobre materiales claros como aluminio o
+        // sobre el fluido/grasa siliconada de tono claro.
+        drawLabelChip(ctx, t('ZOOM MICROSCÓPICO'), x + 6, y + 12, 'left',
+            { fontSize: 10, bg: 'rgba(11,13,19,0.72)', fg: 'rgba(226,232,240,0.95)' });
+        drawLabelChip(
+            ctx,
+            t('Área de contacto real A_real: ') + (r.areaFraction * 100).toFixed(1) + '%',
+            x + 6, y + h - 11, 'left',
+            { fontSize: 9.5, bg: 'rgba(11,13,19,0.72)', fg: 'rgba(226,232,240,0.95)' }
+        );
+    }
+
+    function drawCaption(ctx, w, h) {
+        var txt = t('Probeta asumida: A = 1 cm², L = 20 mm por barra');
+        ctx.font = '9px Outfit, sans-serif';
+        ctx.fillStyle = 'rgba(148,163,184,0.7)';
+        ctx.textAlign = 'right';
+        ctx.fillText(txt, w - 8, h - 6);
+    }
+
+    function draw(timestamp) {
+        if (_paused) { _rafId = null; return; }
+        if (!el.canvas || !el.ctx) { _rafId = null; return; }
+
+        var container = el.canvas.parentElement;
+        var cw = container ? container.clientWidth : el.canvas.clientWidth;
+        var ch = container ? container.clientHeight : el.canvas.clientHeight;
+        if (cw > 0 && ch > 0 && (el.canvas.width !== cw || el.canvas.height !== ch)) {
+            el.canvas.width = cw;
+            el.canvas.height = ch;
+        }
+
+        if (!_lastFrameTime) _lastFrameTime = timestamp || 0;
+        var dt = ((timestamp || 0) - _lastFrameTime) / 1000;
+        _lastFrameTime = timestamp || 0;
+        _animT += Math.min(dt, 0.1);
+
+        var ctx = el.ctx;
+        var w = el.canvas.width, h = el.canvas.height;
+        ctx.clearRect(0, 0, w, h);
+
+        if (_state && _results) {
+            var macroH = h * 0.56;
+            drawPressMacro(ctx, 0, 0, w, macroH, _state, _results, _animT);
+
+            var zoomY = macroH + 8;
+            var zoomH = h - zoomY - 4;
+            drawMicroZoom(ctx, 8, zoomY, w - 16, Math.max(40, zoomH), _state, _results, _animT);
+
+            drawCaption(ctx, w, h);
+        }
+
+        _rafId = requestAnimationFrame(draw);
+    }
+
+    function startLoop() {
+        if (_rafId == null) {
+            _paused = false;
+            _lastFrameTime = null;
+            _rafId = requestAnimationFrame(draw);
+        }
+    }
+
+    function stopLoop() {
+        _paused = true;
+        if (_rafId != null) { cancelAnimationFrame(_rafId); _rafId = null; }
+    }
+
+    // ══════════════════════════════════════════════════════════════════════
+    // ORQUESTACIÓN: lee UI -> calcula física -> actualiza badges + chart
+    // ══════════════════════════════════════════════════════════════════════
+    function updateAll() {
+        _state = readState();
+        _results = computeContactPhysics(_state);
+        updateBadgesAndLabels(_state, _results);
+        updateChart(_state, _results);
+    }
+
+    // ══════════════════════════════════════════════════════════════════════
+    // 5. INIT CON LAZY GUARD (offsetWidth > 0) + WIRING DE EVENTOS
+    // ══════════════════════════════════════════════════════════════════════
+    function cacheDom() {
+        el.canvas = document.getElementById('contactResCanvas');
+        el.pressure = document.getElementById('contact-res-pressure');
+        el.pressureUnit = document.getElementById('contact-res-pressure-unit');
+        el.pressureVal = document.getElementById('contact-res-pressure-val');
+        el.pressureUnitLabel = document.getElementById('contact-res-pressure-unit-label');
+        el.materialSelect = document.getElementById('contact-res-material-select');
+        el.fluidSelect = document.getElementById('contact-res-fluid-select');
+        el.roughness1 = document.getElementById('contact-res-roughness1');
+        el.roughness2 = document.getElementById('contact-res-roughness2');
+        el.roughness1Val = document.getElementById('contact-res-roughness1-val');
+        el.roughness2Val = document.getElementById('contact-res-roughness2-val');
+        el.thot = document.getElementById('contact-res-thot');
+        el.tcold = document.getElementById('contact-res-tcold');
+        el.thotVal = document.getElementById('contact-res-thot-val');
+        el.tcoldVal = document.getElementById('contact-res-tcold-val');
+        el.rcVal = document.getElementById('contact-res-rc-val');
+        el.hcVal = document.getElementById('contact-res-hc-val');
+        el.qVal = document.getElementById('contact-res-q-val');
+        el.tc1Val = document.getElementById('contact-res-tc1-val');
+        el.tc2Val = document.getElementById('contact-res-tc2-val');
+        el.dtVal = document.getElementById('contact-res-dtinterfase-val');
+        el.hudDt = document.getElementById('contact-res-hud-dt'); // HUD sobre el canvas (overlay de cotas)
+    }
+
+    // Requisito 2026-08-21 (ronda 6, JS) #3 — verificado, sin cambios: los 5
+    // sliders (presión, rugosidad1/2, T_hot/T_cold) ya usan el evento
+    // 'input' (dispara en cada tick mientras se arrastra, no sólo al
+    // soltar) y los 3 <select> (material, fluido, unidad de presión) usan
+    // 'change' (el evento correcto y ya instantáneo para <select> — no
+    // existe un equivalente "en vivo mientras se arrastra" para un select,
+    // 'change' dispara apenas se confirma la nueva opción). Ambos casos
+    // llaman a updateAll(), que ejecuta de forma síncrona
+    // readState() -> computeContactPhysics() -> updateBadgesAndLabels()
+    // (los badges bajo cada slider/selector) -> updateChart(). No hay
+    // debounce/throttle en ningún punto de esta cadena, así que los badges
+    // ya responden en tiempo real a cada evento sin necesidad de ningún
+    // listener adicional.
+    function attachInputListeners() {
+        var inputs = [el.pressure, el.roughness1, el.roughness2, el.thot, el.tcold];
+        inputs.forEach(function (input) {
+            if (input) input.addEventListener('input', updateAll);
+        });
+        [el.materialSelect, el.fluidSelect, el.pressureUnit].forEach(function (sel) {
+            if (sel) sel.addEventListener('change', updateAll);
+        });
+    }
+
+    function initContactResSimulation() {
+        if (_inited) return;
+
+        var canvas = document.getElementById('contactResCanvas');
+        // GUARDA DE LAZY INIT: si el laboratorio vive en una pestaña oculta
+        // (display:none), el contenedor mide 0x0 y cualquier intento de
+        // fijar canvas.width/height o construir el Chart.js aquí produciría
+        // un canvas corrupto. Se aborta y se reintenta más tarde (ver hooks
+        // de reintento al final de este archivo: click en la pestaña, evento
+        // 'resize' global que switchTab ya dispara tras cada cambio de tab,
+        // e IntersectionObserver una vez el canvas exista en el DOM).
+        if (!canvas || !(canvas.offsetWidth > 0 && canvas.offsetHeight > 0)) {
+            return;
+        }
+
+        cacheDom();
+        if (!el.canvas) return;
+        el.ctx = el.canvas.getContext('2d');
+
+        _inited = true;
+
+        initChart();
+        attachInputListeners();
+        updateAll();
+        startLoop();
+
+        // Pausa/reanuda el bucle de animación cuando el canvas sale/entra del
+        // viewport (mismo patrón de optimización usado por el resto del sitio).
+        if ('IntersectionObserver' in window) {
+            var observer = new IntersectionObserver(function (entries) {
+                if (entries[0].isIntersecting) {
+                    startLoop();
+                    resizeChart();
+                } else {
+                    stopLoop();
+                }
+            });
+            observer.observe(el.canvas);
+        }
+    }
+    window.initContactResSimulation = initContactResSimulation;
+
+    // ── Reintentos de lazy init (sin tocar switchTab ni startApp) ──────────
+    function tryInit() {
+        if (!_inited) initContactResSimulation();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', tryInit);
+    } else {
+        tryInit();
+    }
+
+    document.addEventListener('click', function (e) {
+        var btn = e.target && e.target.closest ? e.target.closest('.tab-btn[data-target="contact-res-sim"]') : null;
+        if (btn) setTimeout(tryInit, 60);
+    });
+
+    // switchTab() ya dispara `window.dispatchEvent(new Event('resize'))` unos
+    // 50ms después de cualquier cambio de pestaña; nos apoyamos en ese evento
+    // genérico (sin modificar switchTab) tanto para el reintento de lazy init
+    // como para redimensionar canvas/gráfica cuando el laboratorio ya está
+    // inicializado y su pestaña vuelve a quedar activa/visible.
+    window.addEventListener('resize', function () {
+        if (!_inited) { tryInit(); return; }
+        var pane = document.getElementById('contact-res-sim');
+        var isVisible = pane && (pane.classList.contains('active') || (el.canvas && el.canvas.offsetWidth > 0));
+        if (isVisible) {
+            resizeChart();
+            startLoop();
+        }
+    });
+
+    // ══════════════════════════════════════════════════════════════════════
+    // CONTROLLER DE FULLSCREEN (teleport DOM) — mismo contrato CFG que el
+    // resto de laboratorios del sitio (ver Fourier/Newton/Lote 9).
+    // ══════════════════════════════════════════════════════════════════════
+    var CFG = {
+        modalId: 'contact-res-sim-modal',
+        openBtnId: 'contact-res-open-btn',
+        closeBtnId: 'contact-res-close-btn',
+        fullscreenClass: 'fullscreen',
+        closingClass: 'is-closing',
+        bodyLockClass: 'contact-res-open',
+        transitionMs: 300
+    };
+
+    function retypesetMathJax(modal) {
+        if (window.MathJax) {
+            if (typeof MathJax.typesetPromise === 'function') {
+                MathJax.typesetPromise([modal]).catch(function () { });
+            } else if (MathJax.Hub) {
+                MathJax.Hub.Queue(['Typeset', MathJax.Hub, modal]);
+            }
+        }
+    }
+
+    function resizeAndRedrawFullscreen() {
+        // IMPORTANTE: NO se despacha aquí un Event('resize') sintético.
+        // attachFullscreenListeners() ya escucha 'resize' y reprograma esta
+        // misma función con setTimeout mientras el modal está en fullscreen;
+        // despachar el evento desde dentro de la propia función crearía un
+        // bucle de auto-reprogramación infinito (cada llamada dispara el
+        // evento, que agenda otra llamada 80ms después, indefinidamente).
+        // Se actúa de forma directa en su lugar:
+        if (!_inited) tryInit();
+        resizeChart();
+        startLoop();
+    }
+
+    function openContactResFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
+
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment(CFG.modalId + '-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent;
+        modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement;
+        modal._cleanupDone = false;
+
+        document.body.appendChild(modal);
+        modal.classList.remove(CFG.closingClass);
+        modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden';
+        document.body.classList.add(CFG.bodyLockClass);
+
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+
+        var live = document.getElementById('contact-res-aria-live');
+        if (live) live.textContent = getLang() === 'en'
+            ? 'Lab opened in full screen. Press Escape to exit.'
+            : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+
+        setTimeout(resizeAndRedrawFullscreen, 80);
+        setTimeout(function () { retypesetMathJax(modal); }, 150);
+    }
+
+    function closeContactResFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+
+        modal.classList.add(CFG.closingClass);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+
+        function cleanup() {
+            if (modal._cleanupDone) return;
+            modal._cleanupDone = true;
+
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass);
+            document.body.style.overflow = '';
+
+            var parent = modal._originalParent;
+            var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) {
+                parent.insertBefore(modal, placeholder);
+                parent.removeChild(placeholder);
+            } else if (parent) {
+                parent.appendChild(modal);
+            }
+            modal._originalParent = null;
+            modal._placeholder = null;
+
+            setTimeout(resizeAndRedrawFullscreen, 80);
+
+            if (modal._returnFocus && modal._returnFocus.focus) {
+                modal._returnFocus.focus();
+                modal._returnFocus = null;
+            }
+
+            var live = document.getElementById('contact-res-aria-live');
+            if (live) live.textContent = getLang() === 'en'
+                ? 'Lab closed. Returning to main view.'
+                : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+
+        modal.addEventListener('transitionend', function handler(e) {
+            if (e.target !== modal) return;
+            modal.removeEventListener('transitionend', handler);
+            cleanup();
+        });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    // Requisito 2026-08-21 (ronda 6, JS) #4 — verificado, sin cambios: tanto
+    // el keydown de Escape (más abajo, en attachFullscreenListeners) como el
+    // click de #contact-res-close-btn llaman al mismo closeContactResFullscreen()
+    // de arriba, que (a) añade CFG.closingClass para disparar la transición
+    // CSS de cierre (opacity/scale, ver #contact-res-sim-modal.is-closing en
+    // style.css), (b) espera 'transitionend' -con un setTimeout de
+    // seguridad a CFG.transitionMs+60ms por si el navegador no dispara el
+    // evento (prefers-reduced-motion, tab en background, etc.)- y (c) en
+    // cleanup() remueve tanto CFG.fullscreenClass como CFG.bodyLockClass
+    // ('contact-res-open') de <body> y resetea document.body.style.overflow
+    // a '' explícitamente. Ambos disparadores (teclado y click) comparten
+    // exactamente el mismo camino de código, así que no hay forma de que
+    // uno limpie el bloqueo de scroll y el otro no.
+    function attachFullscreenListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (openBtn) openBtn.addEventListener('click', openContactResFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeContactResFullscreen);
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' || e.keyCode === 27) closeContactResFullscreen();
+        });
+
+        var resizeTimer;
+        window.addEventListener('resize', function () {
+            var modal = document.getElementById(CFG.modalId);
+            if (modal && modal.classList.contains(CFG.fullscreenClass)) {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(resizeAndRedrawFullscreen, 80);
+            }
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attachFullscreenListeners);
+    } else {
+        attachFullscreenListeners();
+    }
+
+    window.ContactResLabFullscreen = {
+        open: openContactResFullscreen,
+        close: closeContactResFullscreen,
+        resize: resizeAndRedrawFullscreen
+    };
+
+    // ══════════════════════════════════════════════════════════════════════
+    // INTEGRACIÓN CON EL SISTEMA DE TRADUCCIÓN GLOBAL (window.translateDOM)
+    // ══════════════════════════════════════════════════════════════════════
+    // translateDOM() ya traduce todo el texto envuelto en spans .lang-es/
+    // .lang-en (incluido el contenido de este laboratorio, vía el toggle de
+    // visibilidad que aplica a TODO el documento) y cualquier texto plano
+    // presente en window.uiTranslations (ver translations.js). Sin embargo,
+    // los <option> de #contact-res-material-select / #contact-res-fluid-select
+    // no se pueden envolver de forma fiable en spans .lang-es/.lang-en -los
+    // navegadores ignoran el CSS de los hijos de <option> y muestran siempre
+    // el texto plano-, así que se resincronizan aquí de forma explícita con
+    // las mismas etiquetas ES/EN ya definidas en MATERIALS/FLUIDS (sección 1
+    // de este mismo archivo). Igualmente, las leyendas del Chart.js
+    // (contactResChart) sólo se recalculan cuando cambia un control, así que
+    // se fuerza un refresco inmediato aquí tras cada cambio de idioma. El
+    // canvas 2D (contactResCanvas) ya lee getLang() en cada frame de su
+    // propio bucle de animación, por lo que no necesita ningún hook aquí.
+    //
+    // Integración NO invasiva: se envuelve (wrap) window.translateDOM en
+    // lugar de modificar su cuerpo -definido en otra sección de este mismo
+    // archivo-, preservando su comportamiento original intacto para todos
+    // los demás laboratorios.
+    var PAIR_LABEL_ES = {
+        'cobre-cobre': 'Cobre - Cobre',
+        'aluminio-aluminio': 'Aluminio - Aluminio',
+        'acero-acero': 'Acero - Acero',
+        'bronce-acero': 'Bronce - Acero'
+    };
+    var PAIR_LABEL_EN = {
+        'cobre-cobre': 'Copper - Copper',
+        'aluminio-aluminio': 'Aluminum - Aluminum',
+        'acero-acero': 'Steel - Steel',
+        'bronce-acero': 'Bronze - Steel'
+    };
+
+    function relabelOptions(selectEl, esMap, enMap, lang) {
+        if (!selectEl || !selectEl.options) return;
+        for (var i = 0; i < selectEl.options.length; i++) {
+            var opt = selectEl.options[i];
+            var label = (lang === 'en' ? enMap[opt.value] : esMap[opt.value]);
+            if (label) opt.textContent = label;
+        }
+    }
+
+    function applyContactResLanguage(lang) {
+        var materialSelect = document.getElementById('contact-res-material-select');
+        var fluidSelect = document.getElementById('contact-res-fluid-select');
+
+        relabelOptions(materialSelect, PAIR_LABEL_ES, PAIR_LABEL_EN, lang);
+
+        var fluidEs = {}, fluidEn = {};
+        Object.keys(FLUIDS).forEach(function (k) {
+            fluidEs[k] = FLUIDS[k].es;
+            fluidEn[k] = FLUIDS[k].en;
+        });
+        relabelOptions(fluidSelect, fluidEs, fluidEn, lang);
+
+        // Refresca leyendas/títulos del Chart.js y las etiquetas de los
+        // badges inmediatamente (el canvas 2D ya es instantáneo por sí solo).
+        if (_inited) updateAll();
+    }
+
+    var _originalTranslateDOM = window.translateDOM;
+    window.translateDOM = function (lang) {
+        if (typeof _originalTranslateDOM === 'function') _originalTranslateDOM(lang);
+        applyContactResLanguage(lang);
+    };
+
+    // Sincroniza las opciones al idioma actual también en la carga inicial
+    // (por si la página arrancó en inglés, ej. preferencia guardada del
+    // usuario) sin esperar a un primer cambio de idioma.
+    function syncInitialLanguage() {
+        applyContactResLanguage(getLang());
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', syncInitialLanguage);
+    } else {
+        syncInitialLanguage();
+    }
+
+})();

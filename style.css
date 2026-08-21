@@ -6181,3 +6181,1051 @@ body.light-mode .herschel-bubble::before {
 body.light-mode #herschel-cartoon-box.is-surprised .herschel-bubble {
     color: #b91c1c;
 }
+/* =========================================================================
+   LABORATORIO DE RESISTENCIA POR CONTACTO — #contact-res-sim
+   ═════════════════════════════════════════════════════════════════════
+   Alcance ESTRICTO de toda esta sección: únicamente selectores anclados en
+   #contact-res-sim (tab-pane) y/o #contact-res-sim-modal (contenedor
+   maestro, incluyendo su modo #contact-res-sim-modal.fullscreen). No se
+   modifica ninguna regla global (.canvas-container, .chart-container,
+   .control-group, .result-card, .highlight-val, etc. NO se tocan en su
+   forma base) ni ninguna otra hoja de estilos de laboratorio.
+
+   NOTA IMPORTANTE (teleport DOM): al entrar en fullscreen, el patrón
+   estándar del proyecto (ver openFourierLabFullscreen/openNewtonLabFullscreen
+   en app_v2.js) mueve #contact-res-sim-modal a document.body, por lo que
+   DEJA de ser descendiente de #contact-res-sim mientras dura el fullscreen.
+   Por eso las variables CSS y reglas que deben seguir funcionando en ambos
+   estados están ancladas directamente a #contact-res-sim-modal (nunca como
+   "#contact-res-sim #contact-res-sim-modal ..."), igual que hacen Fourier
+   y Newton.
+   ========================================================================= */
+
+/* ── 0. Variables locales (tema oscuro por defecto + Modo Claro) ──────────
+   Ancladas al propio #contact-res-sim-modal para sobrevivir al teleport
+   DOM del modo fullscreen. No se declara nada en :root global. */
+#contact-res-sim-modal {
+    --cr-canvas-bg: #0b0d13;
+    --cr-canvas-border: rgba(255, 255, 255, 0.08);
+    --cr-panel-bg: rgba(255, 255, 255, 0.03);
+    --cr-panel-border: rgba(255, 255, 255, 0.08);
+    --cr-metal-light: #e2e8f0;
+    --cr-metal-mid: #94a3b8;
+    --cr-metal-dark: #475569;
+    --cr-metal-shadow: rgba(0, 0, 0, 0.5);
+    --cr-gauge-face: #1e293b;
+    --cr-gauge-tick: rgba(255, 255, 255, 0.35);
+    --cr-gauge-needle: #ef4444;
+    --cr-badge-hot: #f97316;
+    --cr-badge-cold: #06b6d4;
+    --cr-badge-jump: #fb923c;
+    --cr-eq-bg: rgba(0, 0, 0, 0.25);
+    --cr-eq-border: rgba(255, 255, 255, 0.1);
+}
+
+body.light-theme #contact-res-sim-modal {
+    --cr-canvas-bg: #111827;
+    --cr-canvas-border: rgba(15, 23, 42, 0.18);
+    --cr-panel-bg: rgba(15, 23, 42, 0.035);
+    --cr-panel-border: rgba(15, 23, 42, 0.12);
+    --cr-metal-light: #f8fafc;
+    --cr-metal-mid: #cbd5e1;
+    --cr-metal-dark: #64748b;
+    --cr-metal-shadow: rgba(15, 23, 42, 0.4);
+    --cr-gauge-face: #334155;
+    --cr-gauge-tick: rgba(255, 255, 255, 0.3);
+    --cr-gauge-needle: #dc2626;
+    --cr-badge-hot: #c2410c;
+    --cr-badge-cold: #0e7490;
+    --cr-badge-jump: #b45309;
+    --cr-eq-bg: rgba(15, 23, 42, 0.05);
+    --cr-eq-border: rgba(15, 23, 42, 0.14);
+}
+
+/* ── 1. Layout de 2 columnas del espacio de trabajo ────────────────────────
+   Columna izquierda (apilada): controles/sliders + selector de materiales
+   (#contact-res-sliders-panel) seguidos, inmediatamente debajo, por la tarjeta
+   de resultados numéricos y cálculos analíticos (#contact-res-results —
+   Rc, hc, Q, Tc1, Tc2, ΔT_interfase). Columna derecha: canvas de la
+   prensa/intersticio. Debajo de ambas columnas, ocupando el ancho completo,
+   la gráfica Chart.js del perfil T(x) (#contactResChart), justo debajo de
+   la tarjeta de resultados/análisis (ver requisito de reordenamiento
+   2026-08-21: antes la gráfica estaba junto a los resultados en una fila
+   aparte a la derecha; ahora resultados quedó bajo los controles y la
+   gráfica pasó a ser un bloque de ancho completo bajo ambas columnas).
+   Se aplana cada ".simulation-workspace" (display:contents) para que sus
+   hijos (animation-card / controls-container) entren directamente en el
+   grid maestro de #contact-res-sim-modal, sin alterar la clase global
+   ".simulation-workspace" usada por otros laboratorios (queda scoped con
+   el selector "#contact-res-sim-modal .simulation-workspace"). Ningún id,
+   clase ni control de index.html se movió en el DOM para lograr este
+   reordenamiento — sólo se reasignaron las áreas de este grid (mismo
+   truco ya usado por el resto de la sección: el orden visual lo decide el
+   grid, no el orden de documento). */
+#contact-res-sim-modal .simulation-workspace {
+    display: contents;
+}
+
+#contact-res-sim-modal {
+    display: grid;
+    /* Requisito 2026-08-21 (ronda 8) #2: en la presentación inicial (modo
+       NO fullscreen) #contact-res-sliders-panel debe ocupar exactamente el
+       50% de la fila — columnas simétricas 1fr 1fr en vez del panel angosto
+       de ancho fijo (300–340px) usado hasta la ronda 7. El modo fullscreen
+       revierte a la proporción angosta original (ver regla
+       "#contact-res-sim-modal.fullscreen" más abajo, sección 4) para no
+       alterar el layout ya verificado pixel a pixel en rondas 6–7 (canvas
+       de prensa/gráfica a 932px, etc.) — el requisito de 50% aplica sólo a
+       "la presentación inicial", no a fullscreen. */
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+        "openbtn   openbtn"
+        "intro     intro"
+        "controls  press"
+        "results   press"
+        "chart     chart";
+    column-gap: 28px;
+    row-gap: 18px;
+    align-items: start;
+}
+
+#contact-res-sim-modal>div[style*="justify-content:flex-end"] {
+    /* wrapper del botón "Pantalla Completa" (única coincidencia dentro del modal) */
+    grid-area: openbtn;
+}
+
+#contact-res-sim-modal>.sim-intro {
+    grid-area: intro;
+}
+
+#contact-res-sim-modal #contact-res-sliders-panel {
+    grid-area: controls;
+    align-self: start;
+    min-width: 0;
+}
+
+#contact-res-sim-modal .animation-card:has(#contact-res-canvas-container) {
+    grid-area: press;
+    min-width: 0;
+}
+
+#contact-res-sim-modal .animation-card:has(#contactResChart) {
+    grid-area: chart;
+    /* Refuerzo explícito además del span vía grid-template-areas ("chart
+       chart" arriba): equivalente a grid-column:1/-1 en un grid de 2
+       columnas con nombres de área — no son excluyentes, ambos expresan el
+       mismo resultado y este segundo lo deja inequívoco ante cualquier
+       futura edición de grid-template-areas que no repita el mismo nombre
+       en ambas columnas. */
+    grid-column: 1 / -1;
+    min-width: 0;
+    /* Requisito 2026-08-21 (ronda 5) #3/#4: la gráfica pasa a ser un bloque
+       de ancho completo inmediatamente debajo de la tarjeta de
+       resultados/análisis. Ronda 6 #4: margin-top explícito para separarla
+       limpiamente de la tabla de resultados que queda justo encima. */
+    width: 100%;
+    margin-top: 12px;
+}
+
+#contact-res-sim-modal .animation-card:has(#contactResChart) .chart-container {
+    width: 100%;
+    /* Requisito 2026-08-21 (ronda 6) #4: alto mínimo garantizado ahora que
+       la gráfica es un bloque de ancho completo (antes compartía columna
+       con el canvas de la prensa y su altura quedaba condicionada por el
+       .chart-container global de 320px; con min-height explícito nunca
+       queda por debajo de 280px en ningún breakpoint que no la sobreescriba). */
+    min-height: 280px;
+}
+
+#contact-res-sim-modal #contact-res-results {
+    grid-area: results;
+    min-width: 0;
+    /* Requisito 2026-08-21 (ronda 6) #3: la tarjeta de resultados fluye en
+       columna compacta justo al terminar los controles de entrada (ya
+       colocada en la misma columna, debajo de #contact-res-sliders-panel, desde
+       la ronda 5) — display:flex en vez del stacking por bloque por
+       defecto para eliminar cualquier margin-collapse entre .result-card
+       y .info-card y dar un espaciado uniforme de 6px. */
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Requisito #5: colapso ordenado en 2 pasos, manteniendo siempre el canvas
+   visible. 1024px: se conserva la distribución de 2 columnas, pero el
+   panel de controles se angosta un poco más y se ajustan los espacios.
+   768px: colapso a 1 columna (controles → prensa/zoom → gráfica →
+   resultados, mismo orden de documento), con el canvas reducido a una
+   altura fija más razonable para móvil pero siempre visible. */
+@media (max-width: 1024px) {
+    #contact-res-sim-modal {
+        grid-template-columns: minmax(260px, 300px) minmax(0, 1fr);
+        column-gap: 20px;
+        row-gap: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    #contact-res-sim-modal {
+        display: block;
+    }
+
+    #contact-res-sim-modal .simulation-workspace {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    #contact-res-sim-modal #contact-res-canvas-container {
+        height: 340px !important;
+        min-height: 260px;
+    }
+}
+
+/* ── 2. Prensa mecánica: bloques metálicos, celda de carga y flechas ──────
+   Clases listas para el próximo lote HTML/JS. Se anclan sobre
+   #contact-res-canvas-container, que ya hereda position:relative de la
+   clase global ".canvas-container" (no se redefine aquí), de modo que
+   estos elementos HUD se posicionan en overlay sobre #contactResCanvas
+   exactamente como hace Newton con ".nhud-overlay". */
+#contact-res-sim-modal #contact-res-canvas-container {
+    background: var(--cr-canvas-bg);
+    border: 1px solid var(--cr-canvas-border);
+}
+
+#contact-res-sim-modal .contact-res-piston,
+#contact-res-sim-modal .contact-res-anvil {
+    position: absolute;
+    left: 50%;
+    width: 56%;
+    height: 16%;
+    transform: translateX(-50%);
+    border-radius: 4px;
+    background: linear-gradient(180deg, var(--cr-metal-light) 0%, var(--cr-metal-mid) 45%, var(--cr-metal-dark) 100%);
+    box-shadow: 0 6px 14px var(--cr-metal-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    z-index: 2;
+    transition: transform 0.25s ease-out, height 0.25s ease-out;
+}
+
+#contact-res-sim-modal .contact-res-piston {
+    top: 4%;
+    border-bottom: 3px solid var(--cr-metal-dark);
+}
+
+#contact-res-sim-modal .contact-res-piston::after {
+    /* vástago del pistón */
+    content: "";
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    width: 22%;
+    height: 22px;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, var(--cr-metal-dark) 0%, var(--cr-metal-light) 50%, var(--cr-metal-dark) 100%);
+    border-radius: 3px 3px 0 0;
+}
+
+#contact-res-sim-modal .contact-res-anvil {
+    bottom: 4%;
+    border-top: 3px solid var(--cr-metal-dark);
+}
+
+#contact-res-sim-modal .contact-res-load-cell {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 38%, var(--cr-gauge-face) 0%, var(--cr-canvas-bg) 100%);
+    border: 3px solid var(--cr-metal-mid);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), inset 0 0 8px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+}
+
+#contact-res-sim-modal .contact-res-load-cell::before {
+    /* marcas de graduación del manómetro */
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border-radius: 50%;
+    background: repeating-conic-gradient(var(--cr-gauge-tick) 0deg 2deg, transparent 2deg 18deg);
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+#contact-res-sim-modal .cr-gauge-needle {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    width: 3px;
+    height: 30px;
+    background: var(--cr-gauge-needle);
+    transform-origin: bottom center;
+    transform: translateX(-50%) rotate(var(--cr-gauge-deg, -60deg));
+    border-radius: 2px;
+    transition: transform 0.25s ease-out;
+    box-shadow: 0 0 4px var(--cr-gauge-needle);
+    z-index: 1;
+}
+
+#contact-res-sim-modal .cr-gauge-hub {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cr-metal-light);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+    z-index: 2;
+}
+
+#contact-res-sim-modal .cr-gauge-value {
+    position: absolute;
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.66rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    background: rgba(0, 0, 0, 0.45);
+    padding: 1px 7px;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
+body.light-theme #contact-res-sim-modal .cr-gauge-value {
+    background: rgba(15, 23, 42, 0.75);
+    color: #f8fafc;
+}
+
+#contact-res-sim-modal .contact-res-compression-arrow {
+    position: absolute;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 13px solid var(--accent-orange);
+    opacity: 0.85;
+    animation: cr-compress-pulse 1.15s ease-in-out infinite;
+    z-index: 3;
+    pointer-events: none;
+}
+
+#contact-res-sim-modal .contact-res-compression-arrow.top {
+    top: 6px;
+    transform: translateX(-50%);
+}
+
+#contact-res-sim-modal .contact-res-compression-arrow.bottom {
+    bottom: 6px;
+    transform: translateX(-50%) rotate(180deg);
+}
+
+@keyframes cr-compress-pulse {
+
+    0%,
+    100% {
+        opacity: 0.5;
+        filter: drop-shadow(0 0 0 transparent);
+    }
+
+    50% {
+        opacity: 1;
+        filter: drop-shadow(0 0 6px var(--accent-orange));
+    }
+}
+
+/* Zoom microscópico del intersticio (recuadro inferior/lateral dentro del
+   mismo #contactResCanvas o como overlay HTML de apoyo) */
+#contact-res-sim-modal .contact-res-micro-zoom {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 42%;
+    min-width: 140px;
+    max-width: 220px;
+    aspect-ratio: 16 / 10;
+    background: var(--cr-canvas-bg);
+    border: 1px solid var(--cr-metal-mid);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+    z-index: 4;
+    overflow: hidden;
+}
+
+#contact-res-sim-modal .contact-res-micro-zoom::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 2px dashed var(--cr-metal-mid);
+    border-radius: 6px;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+#contact-res-sim-modal .contact-res-micro-zoom-label {
+    position: absolute;
+    top: 4px;
+    left: 6px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--text-secondary, var(--text-muted));
+    background: rgba(0, 0, 0, 0.4);
+    padding: 1px 5px;
+    border-radius: 4px;
+    z-index: 5;
+}
+
+body.light-theme #contact-res-sim-modal .contact-res-micro-zoom-label {
+    background: rgba(15, 23, 42, 0.7);
+    color: #f8fafc;
+}
+
+/* ── 3. Tarjeta compacta de ecuaciones (MathJax) — sin scroll nunca ────────
+   Dentro de .sim-intro, los dos bloques de fórmulas ($$...$$) son los
+   únicos <div> hijos directos sin la clase .info-card; se seleccionan de
+   forma estructural (sin necesidad de añadir clases nuevas en index.html)
+   y se fuerza overflow:visible + reflow responsivo para garantizar cero
+   barras de desplazamiento, incluso con los <mjx-container> que MathJax
+   inyecta en tiempo de ejecución. */
+#contact-res-sim-modal .sim-intro>div:not(.info-card) {
+    overflow: visible;
+    max-width: 100%;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    background: var(--cr-eq-bg) !important;
+    border-color: var(--cr-eq-border) !important;
+    color: var(--text-primary);
+}
+
+#contact-res-sim-modal .sim-intro mjx-container {
+    max-width: 100% !important;
+    overflow: visible !important;
+    box-sizing: border-box;
+}
+
+#contact-res-sim-modal .sim-intro mjx-container[display="true"] {
+    margin: 0.4em 0 !important;
+}
+
+@media (max-width: 640px) {
+    #contact-res-sim-modal .sim-intro>div:not(.info-card) {
+        padding: 8px !important;
+        font-size: 0.92rem;
+    }
+
+    #contact-res-sim-modal .sim-intro mjx-container {
+        font-size: 88% !important;
+    }
+}
+
+/* ── 4. Modo Fullscreen (teleport DOM a document.body) ────────────────────
+   Mismo contrato que el resto del sitio: CFG.modalId = 'contact-res-sim-modal',
+   CFG.fullscreenClass = 'fullscreen', CFG.closingClass = 'is-closing',
+   CFG.bodyLockClass = 'contact-res-open'.
+   Requisito 2026-08-21 (ronda 6) #5: overflow-y:auto se conserva (ya
+   presente) para que el contenido largo del laboratorio pueda hacer scroll
+   dentro del modal en fullscreen sin depender del scroll de la página.
+   #contact-res-close-btn nunca queda recortado (clip) por este overflow ni
+   por el de ningún hijo (.canvas-container, .chart-container, tarjetas,
+   HUD) porque es hijo DIRECTO de #contact-res-sim-modal (nunca descendiente
+   de esos contenedores) y usa position:fixed — el overflow de un ancestro
+   sólo recorta a sus propios descendientes, nunca a un elemento fixed que
+   escapa al flujo normal. `transform: none` está explícito en `.fullscreen`
+   y el único momento en que el modal recibe `transform` (`.is-closing`, más
+   abajo) coincide con `inset:0` ya vigente, por lo que el botón no se
+   desplaza durante la transición de cierre.
+
+   ⚠️ BUG REAL encontrado y corregido en esta ronda (verificado con
+   Playwright: elementFromPoint/elementsFromPoint en las coordenadas reales
+   del botón — ver ronda 6 JS #5): no basta con que
+   #contact-res-close-btn tenga un z-index enorme (1000000) si SU PROPIO
+   ancestro (#contact-res-sim-modal.fullscreen) establece su propio
+   contexto de apilamiento (lo hace: position:fixed + z-index). Un hijo con
+   z-index:1000000 sólo compite dentro del contexto de apilamiento de su
+   padre — frente a HERMANOS de ese padre (fuera del modal, como la barra
+   flotante superior del sitio: el div inline `position:fixed;
+   z-index:99999` justo después de <body> con selector de idioma/Wiki/
+   Clases/Tema/Contacto) lo que importa es el z-index del PADRE (9999),
+   no el del hijo. Con z-index:9999 en el modal, ese div de z-index:99999
+   quedaba por encima del modal completo (botón de cierre incluido) y
+   #contact-toggle interceptaba los clics dirigidos al botón × en la
+   esquina superior derecha. Se sube aquí a 999999 -exactamente el mismo
+   patrón ya usado por #newton-lab-modal.fullscreen/#fourier-lab-modal.
+   fullscreen (ver esas reglas: "z-index deliberadamente por debajo del
+   botón de cierre (1000000). El modal cubre la página pero el botón ×
+   siempre queda encima")- para que el modal completo (y por tanto su
+   botón de cierre) vuelva a quedar por encima de esa barra flotante. */
+#contact-res-sim-modal.fullscreen {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    z-index: 999999;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 72px 32px 48px;
+    box-sizing: border-box;
+    opacity: 1;
+    transform: none;
+    row-gap: 22px;
+    /* Requisito 2026-08-21 (ronda 8) #2: el 50%/50% pedido es exclusivo de
+       "la presentación inicial" (modo normal); en fullscreen se conserva la
+       proporción angosta original de #contact-res-sliders-panel (panel de
+       controles 300–340px) para no romper el layout de prensa/gráfica ya
+       verificado en rondas 6–7. */
+    grid-template-columns: minmax(300px, 340px) minmax(0, 1fr);
+}
+
+/* Requisito 2026-08-21 (ronda 7) #1: reordenamiento EXCLUSIVO del modo
+   fullscreen — la gráfica "Perfil de Temperatura T(x)" vuelve a apilarse
+   directamente debajo de la animación "Prensa Mecánica y Zoom
+   Microscópico" (#contact-res-canvas-container) dentro de la MISMA columna
+   visual (columna derecha), en vez de ocupar un bloque de ancho completo
+   bajo las dos columnas como hace el modo normal desde la ronda 5. El modo
+   normal (`#contact-res-sim-modal:not(.fullscreen)`, es decir la regla base
+   de la sección "1. Layout de 2 columnas" más arriba, sin scoping a
+   `.fullscreen`) NO se toca aquí — sigue siendo results→chart de ancho
+   completo, sin cambios.
+   Mecánica: como esta sección ya usa `display:contents` en
+   `.simulation-workspace` + `grid-template-areas` con nombres propios
+   (mismo patrón que el resto de rondas — ver Regla #8 en "Reglas para IA"
+   de project_context.md), basta con REESCRIBIR `grid-template-areas` para
+   este modo: "chart" pasa de la última fila ("chart chart", ambas
+   columnas) a compartir la columna derecha con "press" (misma columna que
+   #contact-res-canvas-container), y "results" pasa a ocupar sola la
+   última fila de la columna izquierda. No hace falta reasignar
+   `grid-area` en ningún elemento (siguen siendo "press"/"chart"/"results"
+   tal cual las definió la sección 1) — sólo cambia DÓNDE cae cada nombre
+   de área en la matriz. Se neutraliza además el `grid-column:1/-1` y el
+   `margin-top:12px` que la sección 1 le da a `.animation-card:has
+   (#contactResChart)` para el modo normal (ese span de 2 columnas y ese
+   margen eran correctos SÓLO para el bloque de ancho completo del modo
+   normal); en fullscreen la gráfica vuelve a ocupar sólo su propia columna
+   (grid-column:auto, resuelto por "chart" en la 2ª celda de la fila) con
+   separación vertical dada por el `row-gap:22px` ya declarado arriba
+   (mismo valor que separa el resto de filas del grid en fullscreen). */
+#contact-res-sim-modal.fullscreen {
+    grid-template-areas:
+        "openbtn   openbtn"
+        "intro     intro"
+        "controls  press"
+        "results   chart";
+}
+
+#contact-res-sim-modal.fullscreen .animation-card:has(#contactResChart) {
+    grid-column: auto;
+    margin-top: 0;
+}
+
+#contact-res-sim-modal.is-closing {
+    display: grid;
+    opacity: 0;
+    transform: scale(0.97);
+    pointer-events: none;
+    transition: opacity 300ms ease, transform 300ms ease;
+}
+
+body.contact-res-open {
+    overflow: hidden;
+}
+
+#contact-res-sim-modal::-webkit-scrollbar {
+    width: 7px;
+}
+
+#contact-res-sim-modal::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+#contact-res-sim-modal::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+}
+
+body.light-theme #contact-res-sim-modal::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.05);
+}
+
+body.light-theme #contact-res-sim-modal::-webkit-scrollbar-thumb {
+    background: rgba(15, 23, 42, 0.18);
+}
+
+/* Botones abrir/cerrar pantalla completa (Requisito #3: patrón visual
+   estándar del sitio — bordes redondeados, fondo contrastado y hover ya
+   existían; se añaden aquí sombras sutiles + estado :active). */
+#contact-res-close-btn {
+    /* Requisito 2026-08-21 (ronda 6) #1: fixed en ambos modos (normal y
+       fullscreen tras el teleport DOM) para que nunca quede recortado por
+       overflow/clipping de un contenedor padre; top/right ajustados
+       explícitamente por encima de canvas, tarjetas y overlays HUD
+       (.cr-hud-overlay, .contact-res-load-cell, .contact-res-micro-zoom
+       usan z-index bajo, ninguno compite aquí).
+       z-index: verificado con Playwright (elementFromPoint en las
+       coordenadas reales del botón, ver ronda 6 JS #5) que 10005 NO basta:
+       la barra flotante superior del sitio (Idioma/Wiki/Clases/Tema/
+       Contacto, div inline en index.html justo tras <body>) es
+       `position:fixed; z-index:99999` y cubre exactamente esta esquina
+       superior derecha en viewports ≥~1200px, interceptando los clics del
+       botón de cerrar. Newton/Fourier ya resuelven este mismo problema con
+       z-index:1000000 en su propio #newton-lab-close-btn/
+       #fourier-lab-close-btn (ver esas reglas) — se replica aquí el mismo
+       valor por consistencia con el patrón ya establecido en el sitio. */
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    z-index: 1000000;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    line-height: 1;
+    font-weight: 600;
+    color: var(--text-primary);
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
+}
+
+#contact-res-close-btn.visible {
+    display: flex;
+}
+
+#contact-res-close-btn:hover,
+#contact-res-close-btn:focus-visible {
+    background-color: rgba(239, 68, 68, 0.18);
+    border-color: #ef4444;
+    color: #ef4444;
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+    outline: none;
+}
+
+#contact-res-close-btn:active {
+    transform: scale(0.93) rotate(90deg);
+    box-shadow: 0 1px 4px rgba(239, 68, 68, 0.3);
+}
+
+#contact-res-open-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(249, 115, 22, 0.15);
+    color: var(--accent-orange);
+    border: 1px solid rgba(249, 115, 22, 0.35);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+#contact-res-open-btn:hover {
+    background: rgba(249, 115, 22, 0.28);
+    border-color: var(--accent-orange);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+}
+
+#contact-res-open-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(249, 115, 22, 0.25);
+}
+
+body.light-theme #contact-res-close-btn {
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.18);
+}
+
+body.light-theme #contact-res-open-btn {
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
+}
+
+#contact-res-sim-modal.fullscreen #contact-res-open-btn {
+    display: none;
+}
+
+/* Tamaños de canvas/gráfica dentro de fullscreen (misma proporción que
+   Fourier/Newton: se agranda respecto al modo embebido en la pestaña) */
+#contact-res-sim-modal.fullscreen #contact-res-canvas-container {
+    height: 46vh;
+    max-height: 520px;
+}
+
+#contact-res-sim-modal.fullscreen .chart-container {
+    height: 32vh;
+    max-height: 380px;
+}
+
+@media (max-width: 900px) {
+    #contact-res-sim-modal.fullscreen {
+        padding: 60px 16px 24px;
+        display: block;
+    }
+
+    #contact-res-sim-modal.fullscreen #contact-res-canvas-container {
+        height: 42vh;
+        max-height: 340px;
+    }
+
+    #contact-res-sim-modal.fullscreen .chart-container {
+        height: 28vh;
+        max-height: 260px;
+    }
+}
+
+/* ── 5. Contraste y variables dinámicas — canvas, tarjetas y badges ───────
+   Canvas/gráfica: fondo y borde ya resueltos con --cr-canvas-bg /
+   --cr-canvas-border en la sección 0 (dinámicos por tema). Se completa
+   aquí el resto: tarjeta de controles/propiedades y badges de temperatura,
+   siempre !important donde compiten con el color inline ya presente en
+   index.html (idéntico criterio que usa la sección de multicapa-custom-sim
+   para pisar estilos inline). */
+#contact-res-sim-modal .chart-container {
+    background: var(--cr-panel-bg);
+    border-color: var(--cr-panel-border);
+}
+
+#contact-res-sim-modal #contact-res-sliders-panel .control-group,
+#contact-res-sim-modal #contact-res-results .control-group {
+    background: var(--cr-panel-bg);
+    border-color: var(--cr-panel-border);
+}
+
+#contact-res-sim-modal #contact-res-material-select,
+#contact-res-sim-modal #contact-res-fluid-select,
+#contact-res-sim-modal #contact-res-pressure-unit {
+    color: var(--text-primary);
+}
+
+body.light-theme #contact-res-sim-modal #contact-res-material-select,
+body.light-theme #contact-res-sim-modal #contact-res-fluid-select,
+body.light-theme #contact-res-sim-modal #contact-res-pressure-unit {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-color: rgba(15, 23, 42, 0.25) !important;
+}
+
+/* Badges de datos en tiempo real (Rc, hc, Q̇, Tc,1 / Tc,2, ΔT interfase):
+   colores con suficiente contraste garantizado en ambos temas. */
+#contact-res-sim-modal #contact-res-rc-val {
+    color: var(--cr-badge-hot) !important;
+}
+
+#contact-res-sim-modal #contact-res-hc-val {
+    color: var(--cr-badge-cold) !important;
+}
+
+#contact-res-sim-modal #contact-res-q-val {
+    color: var(--cr-badge-hot);
+}
+
+#contact-res-sim-modal #contact-res-tc1-val {
+    color: var(--cr-badge-hot);
+}
+
+#contact-res-sim-modal #contact-res-tc2-val {
+    color: var(--cr-badge-cold);
+}
+
+#contact-res-sim-modal #contact-res-dtinterfase-val {
+    color: var(--cr-badge-jump) !important;
+}
+
+body.light-theme #contact-res-sim-modal #contact-res-results .result-row {
+    color: #0f172a;
+}
+
+body.light-theme #contact-res-sim-modal #contact-res-canvas-container .cr-gauge-hub {
+    box-shadow: 0 0 4px rgba(15, 23, 42, 0.5);
+}
+
+/* ── 6. Panel de controles: grupos compactos de 2 columnas + value-badge ──
+   Aditivo y scoped a #contact-res-sliders-panel: no toca .control-group ni
+   .sliders-grid globales (usados por otros laboratorios). Introduce
+   .control-group-compact-row (grid de 2 columnas), el modificador
+   .control-group-compact (padding/gap reducidos, para "optimizar el
+   espacio vertical") y .value-badge (badge de valor en línea con la
+   etiqueta, mismo patrón visual que #multicapa-custom-sim .value-badge). */
+/* Requisito 2026-08-21 (ronda 7) #2: compactación máxima de las barras
+   deslizantes. El "margin-bottom" pedido entre bloques de slider se
+   implementa aquí vía el `gap` del propio flex-column de
+   #contact-res-sliders-panel (3–4px) en vez de un margin-bottom explícito en
+   cada `.control-group-compact` — ambos producen el mismo espaciado
+   vertical entre hermanos flex, pero un margin-bottom explícito ADEMÁS
+   del gap ya existente duplicaría el espacio en los controles que son
+   hijos directos de #contact-res-sliders-panel (la Presión de Contacto, que no
+   está envuelta en un `.control-group-compact-row`). Se deja este único
+   mecanismo (gap) para que el espaciado sea idéntico entre TODOS los
+   bloques, estén o no envueltos en una fila de 2 columnas. */
+#contact-res-sim-modal #contact-res-sliders-panel {
+    gap: 4px;
+}
+
+/* Requisito 2026-08-21 (ronda 8) #1: desde esta ronda #contact-res-sliders-
+   panel agrupa los 7 controles en una sola columna vertical (index.html ya
+   no envuelve material/fluido, rugosidad 1/2 ni T_hot/T_cold en filas de 2
+   columnas) — esta regla queda SIN elementos que la usen (ninguna fila de
+   `.control-group-compact-row` existe ya en el DOM del laboratorio). Se
+   deja documentada aquí, sin eliminar, en vez de borrarla, por si una
+   ronda futura reintroduce una agrupación en filas. */
+#contact-res-sim-modal .control-group-compact-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+}
+
+/* Compactación máxima (ronda 7): padding uniforme de 4px (antes 6px 8px)
+   y gap interno label→slider de 3px (antes 4px). !important sólo donde
+   compite con el padding/font-size inline que ya trae el <select> desde
+   index.html (mismo criterio usado en la compactación de
+   #multicapa-custom-sim). */
+#contact-res-sim-modal .control-group.control-group-compact {
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 0.85rem;
+}
+
+/* Requisito 2026-08-21 (ronda 8) #3: cada grupo de control dentro del panel
+   de sliders recibe la clase aditiva .control-group-row (añadida en
+   index.html a los 7 `.control-group.control-group-compact`) — ancho
+   uniforme al 100% de #contact-res-sliders-panel, para que las 7 barras
+   deslizantes/selectores midan exactamente lo mismo horizontalmente sea
+   cual sea el ancho real del panel en cada breakpoint. box-sizing:border-box
+   asegura que el padding interno (4px, regla anterior) no sume ancho extra
+   más allá del 100% declarado. */
+#contact-res-sim-modal .control-group-row {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Requisito #5 (ronda 1) / Requisito 2026-08-21 (ronda 7) #3 / ronda 8 #4:
+   label + value-badge siempre en una sola línea horizontal, con el nombre
+   del parámetro, el símbolo de variable y el paréntesis de unidades
+   (MPa, μm, °C) en el mismo renglón. `white-space:nowrap` en el propio
+   <label> se hereda a sus descendientes (el texto ES/EN y el símbolo de
+   variable dentro de ellos), así que basta esta única declaración para que
+   ni el nombre del control ni la notación de la variable puedan partirse
+   en dos líneas — combinado con el acortamiento de los textos en
+   index.html (ronda 7 #4) para que quepan sin desbordar ni solaparse con
+   el value-badge. width:100% (ronda 8) asegura que el label ocupe todo el
+   ancho de su `.control-group-row`, para que justify-content:space-between
+   separe el nombre del parámetro y el value-badge hasta los bordes
+   opuestos. El selector `.control-label` (clase aditiva en index.html,
+   ronda 8) es equivalente al `<label>` nativo — se listan ambos para que
+   la regla siga aplicando aunque en el futuro se use la clase sobre un
+   elemento que no sea `<label>`. font-size bajado a 0.80rem (antes 0.85rem)
+   como refuerzo adicional de compactación. */
+#contact-res-sim-modal .control-group.control-group-compact label,
+#contact-res-sim-modal .control-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    white-space: nowrap;
+    width: 100%;
+    flex-wrap: nowrap;
+    gap: 8px;
+    margin-bottom: 0;
+    font-size: 0.80rem;
+}
+
+/* Requisito 2026-08-21 (ronda 6) #2: azul celeste en los títulos/etiquetas
+   de los sliders de presión, rugosidad y propiedades (material/fluido,
+   temperaturas) — sólo el texto de la etiqueta, nunca el .value-badge
+   (que ya tiene su propio color explícito naranja y por lo tanto no
+   hereda este color). Se replica también en los títulos h4.sim-subheading
+   de este laboratorio (Prensa Mecánica / Perfil de Temperatura) para
+   mantener un mismo azul celeste consistente en ambos modos de tema. */
+#contact-res-sim-modal .control-group.control-group-compact label,
+#contact-res-sim-modal .sim-subheading {
+    color: #38bdf8;
+}
+
+body.light-theme #contact-res-sim-modal .control-group.control-group-compact label,
+body.light-theme #contact-res-sim-modal .sim-subheading {
+    color: #0369a1;
+}
+
+/* Fix verificado en ronda 7: la regla global `.control-group label span`
+   (línea ~832, sitewide, usada por TODOS los laboratorios) fija
+   `color: var(--accent-orange)` sobre cualquier <span> hijo de un
+   label.control-group, y con especificidad (0,1,2) le gana al color azul
+   de arriba (que sólo apunta al propio <label>, sin ` span`, así que nunca
+   compite por ese elemento). El resultado visual, confirmado con
+   getComputedStyle vía Playwright, era que el texto de la etiqueta
+   (envuelto en .lang-es/.lang-en, a veces dentro de un <span> contenedor
+   adicional) seguía viéndose naranja pese a la regla azul de ronda 6.
+   Se soluciona apuntando explícitamente a .lang-es/.lang-en (nunca a
+   .value-badge, que debe permanecer naranja) con un selector con ID que
+   sí supera la especificidad de la regla global. */
+#contact-res-sim-modal .control-group.control-group-compact label .lang-es,
+#contact-res-sim-modal .control-group.control-group-compact label .lang-en {
+    color: #38bdf8;
+}
+
+body.light-theme #contact-res-sim-modal .control-group.control-group-compact label .lang-es,
+body.light-theme #contact-res-sim-modal .control-group.control-group-compact label .lang-en {
+    color: #0369a1;
+}
+
+#contact-res-sim-modal .control-group.control-group-compact label>span:first-child {
+    min-width: 0;
+    line-height: 1.15;
+}
+
+#contact-res-sim-modal #contact-res-sliders-panel select,
+#contact-res-sim-modal #contact-res-sliders-panel input[type="number"] {
+    font-size: 0.82rem !important;
+}
+
+/* Requisito 2026-08-21 (ronda 7) #2: riel condensado a 3px de alto (antes
+   4px) y thumb condensado a 11px (dentro del rango 10–12px pedido; el
+   thumb global sitewide, definido en input[type="range"]::-webkit-slider-
+   thumb cerca del inicio de este archivo, es de 14px — aquí se scoped-
+   overridea sólo para este laboratorio, sin tocar la regla global usada
+   por el resto de simuladores). Se añade también el equivalente
+   -moz-range-thumb/-moz-range-track para Firefox, que la regla global del
+   sitio no cubre (sólo define -webkit-slider-thumb). */
+#contact-res-sim-modal #contact-res-sliders-panel input[type="range"] {
+    height: 3px;
+}
+
+#contact-res-sim-modal #contact-res-sliders-panel input[type="range"]::-webkit-slider-thumb {
+    width: 11px;
+    height: 11px;
+}
+
+#contact-res-sim-modal #contact-res-sliders-panel input[type="range"]::-moz-range-track {
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+#contact-res-sim-modal #contact-res-sliders-panel input[type="range"]::-moz-range-thumb {
+    width: 11px;
+    height: 11px;
+    border: none;
+    border-radius: 50%;
+    background: var(--accent-orange);
+    cursor: pointer;
+}
+
+#contact-res-sim-modal .value-badge {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-weight: 700;
+    font-size: 0.78rem;
+    color: var(--accent-orange);
+    background: rgba(249, 115, 22, 0.12);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+    padding: 1px 8px;
+    border-radius: 10px;
+    white-space: nowrap;
+}
+
+body.light-theme #contact-res-sim-modal .value-badge {
+    background: rgba(194, 65, 12, 0.08);
+    border-color: rgba(194, 65, 12, 0.24);
+    color: #c2410c;
+}
+
+@media (max-width: 560px) {
+    #contact-res-sim-modal .control-group-compact-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── 7. HUD de "cotas de contacto" + ΔT interfase sobre la animación ──────
+   Requisito #4: overlay HTML (no interfiere con el dibujado 2D de
+   #contactResCanvas ni con su lógica de resize en app_v2.js) anclado
+   arriba-izquierda de #contact-res-canvas-container, que ya hereda
+   position:relative de la clase global .canvas-container. Zona libre:
+   pistón/yunque quedan centrados (left:50%, translateX(-50%)), el
+   manómetro (.contact-res-load-cell) está arriba-derecha y el zoom
+   microscópico (.contact-res-micro-zoom) está abajo-izquierda, por lo que
+   este HUD nunca se superpone con los cilindros/probetas. */
+#contact-res-sim-modal .cr-hud-overlay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    pointer-events: none;
+}
+
+#contact-res-sim-modal .cr-hud-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(11, 13, 19, 0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2px 9px;
+}
+
+#contact-res-sim-modal .cr-hud-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary, #94a3b8);
+    white-space: nowrap;
+}
+
+#contact-res-sim-modal .cr-hud-value {
+    /* Tipografía monoespaciada para los datos térmicos clave: evita que el
+       ancho del chip "salte" a cada frame cuando cambian los dígitos de
+       ΔT_interfase, lo que a su vez evita que el HUD invada el área de
+       dibujo de los cilindros/probetas al recalcular su layout. */
+    font-family: 'JetBrains Mono', 'Courier New', ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--cr-badge-jump);
+    white-space: nowrap;
+}
+
+body.light-theme #contact-res-sim-modal .cr-hud-chip {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(15, 23, 42, 0.12);
+}
+
+@media (max-width: 480px) {
+    #contact-res-sim-modal .cr-hud-overlay {
+        top: 6px;
+        left: 6px;
+    }
+
+    #contact-res-sim-modal .cr-hud-label {
+        font-size: 0.56rem;
+    }
+
+    #contact-res-sim-modal .cr-hud-value {
+        font-size: 0.68rem;
+    }
+}
+

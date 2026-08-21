@@ -1653,4 +1653,91 @@ window.uiTranslations = {
   "Esfera Sólida": "Solid Sphere",
   "Caída Máxima de Temperatura": "Maximum Temperature Drop",
   "Temperatura Máxima Central": "Maximum Center Temperature",
+
+  // ── Resistencia Térmica por Contacto (#contact-res-sim) ──────────────────
+  // Título, etiquetas de controles y resultados. Nota: la mayor parte del
+  // contenido de este laboratorio ya usa el patrón de spans .lang-es/.lang-en
+  // (traducido instantáneamente por el toggle de visibilidad en translateDOM,
+  // sin pasar por este diccionario). Estas entradas cubren: (a) el contenido
+  // de los <option> de los selectores de material/fluido -que el árbol de
+  // traducción SÍ recorre como texto plano, y que además se sincronizan de
+  // forma redundante y robusta vía JS en el Controller IIFE del laboratorio,
+  // ver app_v2.js-, y (b) vocabulario general del laboratorio reutilizable
+  // en tooltips, tarjetas de la línea de tiempo u otros contextos futuros.
+  "Laboratorio de Resistencia Térmica por Contacto": "Thermal Contact Resistance Lab",
+  "Resistencia Térmica por Contacto": "Thermal Contact Resistance",
+  "Presión de Contacto": "Contact Pressure",
+  "Fluido Intersticial": "Interstitial Fluid",
+  "Fluido / Material Intersticial": "Interstitial Fluid / Material",
+  "Rugosidad Superficial": "Surface Roughness",
+  "Dureza del Material": "Material Hardness",
+  "Conductancia de Contacto": "Contact Conductance",
+  "Conductancia de Contacto ($h_c$)": "Contact Conductance ($h_c$)",
+  "Resistencia de Contacto": "Contact Resistance",
+  "Resistencia de Contacto ($R_c$)": "Contact Resistance ($R_c$)",
+  "Salto Térmico en la Interfase": "Interface Temperature Jump",
+  "Salto Térmico en la Interfase ($\\Delta T$)": "Interface Temperature Jump ($\\Delta T$)",
+  "Área de Contacto Real vs. Aparente": "Real vs. Apparent Contact Area",
+  "Material de los Sólidos en Contacto": "Material of the Solids in Contact",
+
+  // Materiales sólidos (nombre simple y pares mostrados en <option>)
+  "Cobre": "Copper",
+  "Aluminio": "Aluminum",
+  "Acero": "Steel",
+  "Bronce": "Bronze",
+  "Cobre - Cobre": "Copper - Copper",
+  "Aluminio - Aluminio": "Aluminum - Aluminum",
+  "Acero - Acero": "Steel - Steel",
+  "Bronce - Acero": "Bronze - Steel",
+
+  // Fluidos/material intersticial (coinciden con <option> de #contact-res-fluid-select)
+  "Vacío": "Vacuum",
+  "Aire": "Air",
+  "Helio": "Helium",
+  "Aceite Térmico": "Thermal Oil",
+  "Grasa Siliconada": "Silicone Grease",
+
+  // Textos explicativos del experimento y la formulación analítica
+  "¿Qué controla la magnitud de $R_c$?": "What controls the magnitude of $R_c$?",
+  "Presión de contacto ($P$):": "Contact pressure ($P$):",
+  "Rugosidad superficial:": "Surface roughness:",
+  "Medio intersticial:": "Interstitial medium:",
+  "a mayor presión, más asperezas se deforman plástica­mente y se aplastan entre sí, aumentando el área de contacto real y reduciendo $R_c$.":
+    "higher pressure plastically deforms and crushes more asperities together, increasing the real contact area and reducing $R_c$.",
+  "superficies más rugosas dejan intersticios más grandes y menos puntos de contacto real, aumentando $R_c$.":
+    "rougher surfaces leave larger gaps and fewer real contact points, increasing $R_c$.",
+  "un vacío casi no conduce calor a través del intersticio (solo radiación), mientras que un fluido conductor o una grasa térmica llenan los huecos y disparan $h_{\\text{fluido}}$, reduciendo drásticamente $R_c$.":
+    "a vacuum barely conducts heat across the gap (only radiation), while a conductive fluid or thermal grease fills the voids and boosts $h_{\\text{fluido}}$, drastically reducing $R_c$.",
+  "Prensa Mecánica y Zoom Microscópico del Intersticio": "Mechanical Press and Microscopic Interstice Zoom",
+  "Perfil de Temperatura $T(x)$ a Través de la Interfase": "Temperature Profile $T(x)$ Across the Interface",
+  "Temperatura de Contacto Lado Caliente ($T_{c,1}$):": "Contact Temperature Hot Side ($T_{c,1}$):",
+  "Temperatura de Contacto Lado Frío ($T_{c,2}$):": "Contact Temperature Cold Side ($T_{c,2}$):",
+  "Temperatura Extremo Caliente ($T_{\\text{hot}}$):": "Hot End Temperature ($T_{\\text{hot}}$):",
+  "Temperatura Extremo Frío ($T_{\\text{cold}}$):": "Cold End Temperature ($T_{\\text{cold}}$):",
+
+  // Ronda 4 — claves solicitadas explícitamente (vocabulario general del
+  // laboratorio, reutilizable en tarjetas/tooltips además del propio lab)
+  "Salto Térmico en Interfase ($\\Delta T_{\\text{int}}$)": "Interface Thermal Jump ($\\Delta T_{\\text{int}}$)",
+  "Prensa Hidráulica / Celda de Carga": "Hydraulic Press / Load Cell",
+  "Cilindros en Contacto": "Cylinders in Contact",
+  "Deformación de Asperezas": "Asperity Deformation",
+  "Vacío Térmico": "Thermal Vacuum",
+  "Grasa Térmica de Silicona": "Silicone Thermal Grease",
+
+  // Ronda 4 — texto dibujado directamente sobre contactResCanvas /
+  // contactResChart (Canvas 2D y Chart.js no admiten spans .lang-es/
+  // .lang-en; el helper t() de app_v2.js lee estas claves de
+  // window.uiTranslations usando el string en español como clave, igual
+  // que window.translateDOM() hace para el resto del sitio)
+  "Cal. ": "Hot ",
+  "Frío ": "Cold ",
+  "ΔT interfase: ": "ΔT interface: ",
+  "ZOOM MICROSCÓPICO": "MICRO ZOOM",
+  "Área de contacto real A_real: ": "Real contact area A_real: ",
+  "Probeta asumida: A = 1 cm², L = 20 mm por barra": "Assumed specimen: A = 1 cm², L = 20 mm per bar",
+  "Sólido 1 (caliente)": "Solid 1 (hot)",
+  "Salto interfacial (ΔT)": "Interface jump (ΔT)",
+  "Sólido 2 (frío)": "Solid 2 (cold)",
+  "Posición x (mm)": "Position x (mm)",
+  "Temperatura (°C)": "Temperature (°C)",
 };

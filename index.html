@@ -398,6 +398,10 @@
                             onclick="setTimeout(function(){ if(window.initRadiacionPlacaPlanaSimulation) window.initRadiacionPlacaPlanaSimulation(); }, 50);">
                             <span class="lang-es">Laboratorio de Radiación en Placa Plana</span><span class="lang-en"
                                 style="display:none;">Flat Plate Radiation Lab</span></button>
+                        <button class="tab-btn" data-target="contact-res-sim"><i class="fas fa-compress-arrows-alt"
+                                style="color:#f59e0b; margin-right:4px;"></i> <span class="lang-es">Resistencia
+                                Térmica de Contacto</span><span class="lang-en" style="display:none;">Thermal Contact
+                                Resistance</span></button>
 
                         <div class="tab-category-title"><span class="lang-es">Laboratorios de Mecánica de
                                 Fluidos</span><span class="lang-en" style="display:none;">Fluid Mechanics
@@ -10519,6 +10523,448 @@
                     </div>
                     <!-- END Otto vs Diesel Lab -->
 
+                        <!-- ═══════════════════════════════════════════════════════════
+                             TAB: Resistencia Térmica por Contacto
+                             Estructura: tab-pane > contact-res-sim-modal > [intro] +
+                             [simulation-workspace: animation-card (canvas) + controls-container]
+                             + [simulation-workspace: animation-card (chart + ecuaciones) + controls-container (badges)]
+                        ═══════════════════════════════════════════════════════════ -->
+                        <div class="tab-pane" id="contact-res-sim">
+
+                            <!-- ── Fullscreen wrapper ───────────────────────────────────── -->
+                            <div id="contact-res-sim-modal">
+
+                                <!-- Botón cerrar pantalla completa (posición fija, esquina sup-der) -->
+                                <button id="contact-res-close-btn" aria-label="Cerrar pantalla completa"
+                                    title="Cerrar pantalla completa">&#x2715;</button>
+
+                                <!-- ARIA live region (lectores de pantalla) -->
+                                <div id="contact-res-aria-live" class="sr-only" role="status" aria-live="polite">
+                                </div>
+
+                                <!-- Botón abrir pantalla completa -->
+                                <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
+                                    <button id="contact-res-open-btn" title="Abrir laboratorio en pantalla completa"
+                                        aria-label="Abrir laboratorio en pantalla completa">
+                                        <i class="fas fa-expand"></i>
+                                        <span class="lang-es">Pantalla Completa</span>
+                                        <span class="lang-en" style="display:none;">Full Screen</span>
+                                    </button>
+                                </div>
+
+                                <!-- ── Introducción teórica ──────────────────────────────── -->
+                                <div class="sim-intro">
+                                    <h3>
+                                        <span class="lang-es">Resistencia Térmica por Contacto</span>
+                                        <span class="lang-en" style="display:none;">Thermal Contact
+                                            Resistance</span>
+                                    </h3>
+
+                                    <p>
+                                        <span class="lang-es">Cuando dos superficies sólidas se ponen en contacto,
+                                            por más pulidas que parezcan, a nivel microscópico solo se tocan en un
+                                            número reducido de puntos discretos (asperezas). El resto del área
+                                            aparente queda ocupado por intersticios llenos de aire, vacío u otro
+                                            fluido, mucho menos conductor que los sólidos. Esta discontinuidad
+                                            microscópica obliga a las líneas de flujo de calor a converger hacia los
+                                            puntos de contacto real, generando una caída de temperatura abrupta e
+                                            inesperada en la interfase: la <strong>Resistencia Térmica de Contacto
+                                                ($R_c$)</strong>.</span>
+                                        <span class="lang-en" style="display:none;">When two solid surfaces are
+                                            brought into contact, no matter how polished they appear, at the
+                                            microscopic level they only touch at a limited number of discrete points
+                                            (asperities). The rest of the apparent area is occupied by interstitial
+                                            gaps filled with air, vacuum, or another fluid, far less conductive than
+                                            the solids. This microscopic discontinuity forces heat flow lines to
+                                            converge toward the real contact points, producing an abrupt, unexpected
+                                            temperature drop at the interface: the <strong>Thermal Contact Resistance
+                                                ($R_c$)</strong>.</span>
+                                    </p>
+
+                                    <div
+                                        style="text-align: center; margin: 12px 0; font-size: 1.05rem; background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                                        $$ R_c = \frac{1}{h_c \cdot A} \qquad\qquad h_c = h_{\text{contacto}} +
+                                        h_{\text{fluido}} $$
+                                    </div>
+
+                                    <p>
+                                        <span class="lang-es">La <strong>conductancia de contacto</strong> ($h_c$)
+                                            combina dos rutas de transferencia en paralelo: la conducción sólido-sólido
+                                            a través de las asperezas realmente en contacto ($h_{\text{contacto}}$,
+                                            que crece con la presión de contacto $P$ al aplastar y deformar
+                                            plásticamente las asperezas) y la conducción a través del fluido o vacío
+                                            que llena el intersticio ($h_{\text{fluido}}$, gobernada por la
+                                            conductividad térmica del medio intersticial y la separación media entre
+                                            superficies).</span>
+                                        <span class="lang-en" style="display:none;">The <strong>contact
+                                                conductance</strong> ($h_c$) combines two parallel heat-transfer
+                                            paths: solid-solid conduction through the asperities actually in contact
+                                            ($h_{\text{contacto}}$, which increases with contact pressure $P$ as it
+                                            crushes and plastically deforms the asperities) and conduction through the
+                                            fluid or vacuum filling the interstitial gap ($h_{\text{fluido}}$,
+                                            governed by the thermal conductivity of the interstitial medium and the
+                                            mean surface separation).</span>
+                                    </p>
+
+                                    <p>
+                                        <span class="lang-es">En estado estable, la resistencia de contacto se suma en
+                                            serie a las resistencias de conducción de los sólidos adyacentes. El flujo
+                                            de calor total a través del ensamble ($\dot{Q}$) y el salto de
+                                            temperatura localizado justo en la interfase ($\Delta
+                                            T_{\text{interfase}}$) se calculan como:</span>
+                                        <span class="lang-en" style="display:none;">In steady state, the contact
+                                            resistance adds in series to the conduction resistances of the adjacent
+                                            solids. The total heat flow through the assembly ($\dot{Q}$) and the
+                                            localized temperature jump right at the interface ($\Delta
+                                            T_{\text{interfase}}$) are computed as:</span>
+                                    </p>
+
+                                    <div
+                                        style="text-align: center; margin: 12px 0; font-size: 1.05rem; background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                                        $$ \dot{Q} = \frac{T_1 - T_2}{R_{\text{total}}} \qquad\qquad \Delta
+                                        T_{\text{interfase}} = \dot{Q} \cdot R_c $$
+                                    </div>
+
+                                    <div class="info-card" style="margin-top:15px; margin-bottom:0;">
+                                        <p
+                                            style="font-weight:bold; margin-bottom:8px; color:#06b6d4; display:flex; align-items:center; gap:8px;">
+                                            <i class="fas fa-info-circle"></i>
+                                            <span class="lang-es">¿Qué controla la magnitud de $R_c$?</span>
+                                            <span class="lang-en" style="display:none;">What controls the magnitude
+                                                of $R_c$?</span>
+                                        </p>
+                                        <ul
+                                            style="font-size:0.85rem; color:#cbd5e1; padding-left:20px; margin:0; line-height:1.5; display:flex; flex-direction:column; gap:6px;">
+                                            <li>
+                                                <strong>
+                                                    <span class="lang-es">Presión de contacto ($P$):</span>
+                                                    <span class="lang-en" style="display:none;">Contact pressure
+                                                        ($P$):</span>
+                                                </strong>
+                                                <span class="lang-es">a mayor presión, más asperezas se deforman
+                                                    plástica­mente y se aplastan entre sí, aumentando el área de
+                                                    contacto real y reduciendo $R_c$.</span>
+                                                <span class="lang-en" style="display:none;">higher pressure
+                                                    plastically deforms and crushes more asperities together,
+                                                    increasing the real contact area and reducing $R_c$.</span>
+                                            </li>
+                                            <li>
+                                                <strong>
+                                                    <span class="lang-es">Rugosidad superficial:</span>
+                                                    <span class="lang-en" style="display:none;">Surface
+                                                        roughness:</span>
+                                                </strong>
+                                                <span class="lang-es">superficies más rugosas dejan intersticios más
+                                                    grandes y menos puntos de contacto real, aumentando $R_c$.</span>
+                                                <span class="lang-en" style="display:none;">rougher surfaces leave
+                                                    larger gaps and fewer real contact points, increasing
+                                                    $R_c$.</span>
+                                            </li>
+                                            <li>
+                                                <strong>
+                                                    <span class="lang-es">Medio intersticial:</span>
+                                                    <span class="lang-en" style="display:none;">Interstitial
+                                                        medium:</span>
+                                                </strong>
+                                                <span class="lang-es">un vacío casi no conduce calor a través del
+                                                    intersticio (solo radiación), mientras que un fluido conductor o
+                                                    una grasa térmica llenan los huecos y disparan $h_{\text{fluido}}$,
+                                                    reduciendo drásticamente $R_c$.</span>
+                                                <span class="lang-en" style="display:none;">a vacuum barely conducts
+                                                    heat across the gap (only radiation), while a conductive fluid or
+                                                    thermal grease fills the voids and boosts $h_{\text{fluido}}$,
+                                                    drastically reducing $R_c$.</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div><!-- /.sim-intro -->
+
+                                <!-- ══════════════════════════════════════════════════════════
+                                     FILA 1 — Prensa mecánica + zoom microscópico  |  Controles
+                                ══════════════════════════════════════════════════════════ -->
+                                <div class="simulation-workspace">
+                                    <div class="animation-card">
+                                        <h4 class="sim-subheading">
+                                            <span class="lang-es">Prensa Mecánica y Zoom Microscópico del
+                                                Intersticio</span>
+                                            <span class="lang-en" style="display:none;">Mechanical Press and
+                                                Microscopic Interstice Zoom</span>
+                                        </h4>
+                                        <div class="canvas-container" id="contact-res-canvas-container"
+                                            style="height: 460px;">
+                                            <canvas id="contactResCanvas"></canvas>
+                                            <!-- HUD de cotas de contacto + ΔT interfase (overlay HTML, no
+                                                 interfiere con el dibujado 2D de #contactResCanvas; anclado
+                                                 arriba-izquierda, zona libre de pistón/yunque/manómetro/zoom) -->
+                                            <div class="cr-hud-overlay" aria-hidden="true">
+                                                <div class="cr-hud-chip">
+                                                    <span class="cr-hud-label">
+                                                        <span class="lang-es">Interfase</span>
+                                                        <span class="lang-en" style="display:none;">Interface</span>
+                                                    </span>
+                                                    <span class="cr-hud-value">x&nbsp;=&nbsp;0</span>
+                                                </div>
+                                                <div class="cr-hud-chip">
+                                                    <span class="cr-hud-label">&Delta;T<sub>interfase</sub></span>
+                                                    <span class="cr-hud-value" id="contact-res-hud-dt">--
+                                                        &deg;C</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p style="font-size:0.78rem; color: var(--text-secondary); margin-top:8px;">
+                                            <span class="lang-es"><i class="fas fa-info-circle"></i> El panel superior
+                                                anima un pistón/prensa aplicando la carga $P$ sobre las dos probetas;
+                                                el recuadro de zoom inferior muestra, a escala microscópica, la
+                                                deformación elasto-plástica de las asperezas y el llenado progresivo
+                                                del intersticio con el fluido/gas seleccionado a medida que aumenta la
+                                                presión.</span>
+                                            <span class="lang-en" style="display:none;"><i
+                                                    class="fas fa-info-circle"></i> The upper panel animates a
+                                                piston/press applying load $P$ onto the two specimens; the lower zoom
+                                                inset shows, at microscopic scale, the elasto-plastic deformation of
+                                                the asperities and the progressive filling of the gap with the
+                                                selected fluid/gas as pressure increases.</span>
+                                        </p>
+                                    </div>
+
+                                    <div class="controls-container" id="contact-res-sliders-panel">
+
+                                        <div class="control-group control-group-compact control-group-row">
+                                            <label class="control-label" for="contact-res-pressure">
+                                                <span>
+                                                    <span class="lang-es">Presión de Contacto ($P$):</span>
+                                                    <span class="lang-en" style="display:none;">Contact Pressure ($P$):</span>
+                                                </span>
+                                                <span class="value-badge"><span
+                                                        id="contact-res-pressure-val">2.0</span> <span
+                                                        id="contact-res-pressure-unit-label">MPa</span></span>
+                                            </label>
+                                            <input type="range" id="contact-res-pressure" min="0" max="50" step="0.5"
+                                                value="2.0">
+                                            <div style="display:flex; justify-content:flex-end; margin-top:4px;">
+                                                <select id="contact-res-pressure-unit"
+                                                    style="background: #1e293b; color: #cbd5e1; border: 1px solid #475569; padding: 3px 6px; border-radius: 4px; font-size: 0.75rem; outline: none;">
+                                                    <option value="MPa" selected>MPa</option>
+                                                    <option value="bar">bar</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="control-group control-group-compact control-group-row">
+                                            <label class="control-label" for="contact-res-material-select">
+                                                <span class="lang-es">Material de Contacto:</span>
+                                                <span class="lang-en" style="display:none;">Contact Material:</span>
+                                            </label>
+                                            <select id="contact-res-material-select"
+                                                style="width: 100%; background: #1e293b; color: #cbd5e1; border: 1px solid #475569; padding: 5px; border-radius: 4px; font-size: 0.85rem; outline: none; margin-top: 4px;">
+                                                <option value="cobre-cobre" selected>
+                                                    <span class="lang-es">Cobre - Cobre</span>
+                                                </option>
+                                                <option value="aluminio-aluminio">Aluminio - Aluminio</option>
+                                                <option value="acero-acero">
+                                                    <span class="lang-es">Acero - Acero</span>
+                                                </option>
+                                                <option value="bronce-acero">
+                                                    <span class="lang-es">Bronce - Acero</span>
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="control-group control-group-compact control-group-row">
+                                            <label class="control-label" for="contact-res-fluid-select">
+                                                <span class="lang-es">Medio Intersticial:</span>
+                                                <span class="lang-en" style="display:none;">Interstitial Medium:</span>
+                                            </label>
+                                            <select id="contact-res-fluid-select"
+                                                style="width: 100%; background: #1e293b; color: #cbd5e1; border: 1px solid #475569; padding: 5px; border-radius: 4px; font-size: 0.85rem; outline: none; margin-top: 4px;">
+                                                <option value="vacio" selected>
+                                                    <span class="lang-es">Vacío</span>
+                                                </option>
+                                                <option value="aire">
+                                                    <span class="lang-es">Aire</span>
+                                                </option>
+                                                <option value="helio">Helio</option>
+                                                <option value="aceite-termico">
+                                                    <span class="lang-es">Aceite Térmico</span>
+                                                </option>
+                                                <option value="grasa-siliconada">
+                                                    <span class="lang-es">Grasa Siliconada</span>
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="control-group control-group-compact control-group-row">
+                                            <label class="control-label" for="contact-res-roughness1">
+                                                <span>
+                                                    <span class="lang-es">Rugosidad 1 ($R_{a,1}$):</span>
+                                                    <span class="lang-en" style="display:none;">Roughness 1 ($R_{a,1}$):</span>
+                                                </span>
+                                                <span class="value-badge"><span
+                                                        id="contact-res-roughness1-val">1.6</span>
+                                                    &micro;m</span>
+                                            </label>
+                                            <input type="range" id="contact-res-roughness1" min="0.1" max="12.5"
+                                                step="0.1" value="1.6">
+                                        </div>
+
+                                        <div class="control-group control-group-compact control-group-row">
+                                            <label class="control-label" for="contact-res-roughness2">
+                                                <span>
+                                                    <span class="lang-es">Rugosidad 2 ($R_{a,2}$):</span>
+                                                    <span class="lang-en" style="display:none;">Roughness 2 ($R_{a,2}$):</span>
+                                                </span>
+                                                <span class="value-badge"><span
+                                                        id="contact-res-roughness2-val">1.6</span>
+                                                    &micro;m</span>
+                                            </label>
+                                            <input type="range" id="contact-res-roughness2" min="0.1" max="12.5"
+                                                step="0.1" value="1.6">
+                                        </div>
+
+                                        <div class="control-group control-group-compact control-group-row">
+                                            <label class="control-label" for="contact-res-thot">
+                                                <span>
+                                                    <span class="lang-es">Extremo Caliente ($T_{\text{hot}}$):</span>
+                                                    <span class="lang-en" style="display:none;">Hot End ($T_{\text{hot}}$):</span>
+                                                </span>
+                                                <span class="value-badge"><span
+                                                        id="contact-res-thot-val">150</span>
+                                                    &deg;C</span>
+                                            </label>
+                                            <input type="range" id="contact-res-thot" min="0" max="400" step="5"
+                                                value="150">
+                                        </div>
+
+                                        <div class="control-group control-group-compact control-group-row">
+                                            <label class="control-label" for="contact-res-tcold">
+                                                <span>
+                                                    <span class="lang-es">Extremo Frío ($T_{\text{cold}}$):</span>
+                                                    <span class="lang-en" style="display:none;">Cold End ($T_{\text{cold}}$):</span>
+                                                </span>
+                                                <span class="value-badge"><span
+                                                        id="contact-res-tcold-val">25</span>
+                                                    &deg;C</span>
+                                            </label>
+                                            <input type="range" id="contact-res-tcold" min="-20" max="200"
+                                                step="5" value="25">
+                                        </div>
+                                    </div>                                </div><!-- /.simulation-workspace (fila 1) -->
+
+                                <!-- ══════════════════════════════════════════════════════════
+                                     FILA 2 — Perfil de temperatura T(x)  |  Panel analítico y badges
+                                ══════════════════════════════════════════════════════════ -->
+                                <div class="simulation-workspace">
+                                    <div class="animation-card">
+                                        <h4 class="sim-subheading">
+                                            <span class="lang-es">Perfil de Temperatura $T(x)$ a Través de la
+                                                Interfase</span>
+                                            <span class="lang-en" style="display:none;">Temperature Profile
+                                                $T(x)$ Across the Interface</span>
+                                        </h4>
+                                        <div class="chart-container">
+                                            <canvas id="contactResChart"></canvas>
+                                        </div>
+                                        <p style="font-size:0.78rem; color: var(--text-secondary); margin-top:8px;">
+                                            <span class="lang-es"><i class="fas fa-info-circle"></i> La curva $T(x)$
+                                                muestra la caída lineal de temperatura dentro de cada sólido y la
+                                                <strong>discontinuidad abrupta $\Delta T_{\text{interfase}}$</strong>
+                                                justo en el plano de contacto ($x = 0$), característica distintiva de
+                                                la resistencia térmica de contacto frente a una conducción
+                                                perfectamente continua.</span>
+                                            <span class="lang-en" style="display:none;"><i
+                                                    class="fas fa-info-circle"></i> The $T(x)$ curve shows the linear
+                                                temperature drop within each solid and the <strong>abrupt
+                                                    discontinuity $\Delta T_{\text{interfase}}$</strong> right at the
+                                                contact plane ($x = 0$), the distinctive signature of thermal contact
+                                                resistance versus perfectly continuous conduction.</span>
+                                        </p>
+                                    </div>
+
+                                    <div class="controls-container" id="contact-res-results">
+                                        <div class="control-group result-card">
+                                            <div class="result-row">
+                                                <span>
+                                                    <span class="lang-es">Resistencia de Contacto ($R_c$):</span>
+                                                    <span class="lang-en" style="display:none;">Contact Resistance
+                                                        ($R_c$):</span>
+                                                </span>
+                                                <span id="contact-res-rc-val" class="highlight-val"
+                                                    style="color: var(--accent-orange);">-- K/W</span>
+                                            </div>
+                                            <div class="result-row border-top-row">
+                                                <span>
+                                                    <span class="lang-es">Conductancia de Contacto
+                                                        ($h_c$):</span>
+                                                    <span class="lang-en" style="display:none;">Contact Conductance
+                                                        ($h_c$):</span>
+                                                </span>
+                                                <span id="contact-res-hc-val" class="highlight-val"
+                                                    style="color: var(--accent-cyan);">-- W/m&sup2;K</span>
+                                            </div>
+                                            <div class="result-row border-top-row">
+                                                <span>
+                                                    <span class="lang-es">Flujo de Calor ($\dot{Q}$):</span>
+                                                    <span class="lang-en" style="display:none;">Heat Flow
+                                                        ($\dot{Q}$):</span>
+                                                </span>
+                                                <span id="contact-res-q-val" class="highlight-val">-- W</span>
+                                            </div>
+                                            <div class="result-row border-top-row">
+                                                <span>
+                                                    <span class="lang-es">Temperatura de Contacto Lado Caliente
+                                                        ($T_{c,1}$):</span>
+                                                    <span class="lang-en" style="display:none;">Contact Temperature
+                                                        Hot Side ($T_{c,1}$):</span>
+                                                </span>
+                                                <span id="contact-res-tc1-val" class="highlight-val">-- &deg;C</span>
+                                            </div>
+                                            <div class="result-row border-top-row">
+                                                <span>
+                                                    <span class="lang-es">Temperatura de Contacto Lado Frío
+                                                        ($T_{c,2}$):</span>
+                                                    <span class="lang-en" style="display:none;">Contact Temperature
+                                                        Cold Side ($T_{c,2}$):</span>
+                                                </span>
+                                                <span id="contact-res-tc2-val" class="highlight-val">-- &deg;C</span>
+                                            </div>
+                                            <div class="result-row border-top-row">
+                                                <span>
+                                                    <span class="lang-es">Salto Térmico en la Interfase
+                                                        ($\Delta T_{\text{interfase}}$):</span>
+                                                    <span class="lang-en" style="display:none;">Interface Temperature
+                                                        Jump ($\Delta T_{\text{interfase}}$):</span>
+                                                </span>
+                                                <span id="contact-res-dtinterfase-val" class="highlight-val"
+                                                    style="color: var(--accent-orange);">-- &deg;C</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="info-card">
+                                            <p>
+                                                <strong>
+                                                    <span class="lang-es">Impacto de variables:</span>
+                                                    <span class="lang-en" style="display:none;">Variable
+                                                        impact:</span>
+                                                </strong>
+                                                <span class="lang-es">Aumentar $P$ o cambiar de vacío a un fluido muy
+                                                    conductor (helio, aceite térmico, grasa siliconada) incrementa
+                                                    $h_c$ y reduce drásticamente $R_c$ y el salto $\Delta
+                                                    T_{\text{interfase}}$. Aumentar la rugosidad tiene el efecto
+                                                    contrario.</span>
+                                                <span class="lang-en" style="display:none;">Increasing $P$ or
+                                                    switching from vacuum to a highly conductive fluid (helium,
+                                                    thermal oil, silicone grease) increases $h_c$ and drastically
+                                                    reduces $R_c$ and the $\Delta T_{\text{interfase}}$ jump.
+                                                    Increasing roughness has the opposite effect.</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div><!-- /.simulation-workspace (fila 2) -->
+
+                            </div><!-- /#contact-res-sim-modal -->
+                        </div><!-- /#contact-res-sim -->
+
+
                 </div>
             </div>
         </section>
@@ -10845,18 +11291,20 @@
                     style="color: var(--accent-orange); text-decoration: none;">felipe.colorado@udea.edu.co</a>
             </p>
             <p style="font-size: 0.75rem; margin-top: 8px; color: var(--text-secondary); opacity: 0.8;"><i
-                    class="far fa-clock"></i> <span class="lang-es">Versión 4.2 - Última actualización: <span
-                        id="last-updated-time">14 de agosto de 2026, 23:20</span> -
-                    Corrección y estabilización del laboratorio de Pared Multicapa Personalizada (apertura,
-                    renderizado de canvas y modo oscuro); solución del sistema de pantalla completa con prevención
-                    de cierre automático; integración del panel de descarga en PDF de las clases de Transferencia
-                    de Calor y Masa; reubicación y renombramiento del Material de Apoyo Clases 1-4; y ajuste en la
-                    visualización de la foto de perfil de Google (política de referrer).</span><span class="lang-en" style="display:none;">Version 4.2 - Last update: August 14,
-                    2026, 23:20 -
-                    Fixed and stabilized the Custom Multilayer Wall lab (opening, canvas rendering, and dark mode);
-                    resolved the fullscreen system with prevention of automatic closing; integrated the download
-                    panel for the Heat and Mass Transfer class PDFs; relocated and renamed the Class 1-4 Support
-                    Material; and adjusted the Google profile photo display (referrer policy).</span>
+                    class="far fa-clock"></i> <span class="lang-es">Versión 4.3 - Última actualización: <span
+                        id="last-updated-time">21 de agosto de 2026, 08:39</span> -
+                    Reorganización del panel de controles del laboratorio de Resistencia Térmica por Contacto:
+                    barras deslizantes y selectores agrupados en una sola columna vertical dentro de
+                    #contact-res-sliders-panel; panel ubicado al 50% del ancho del espacio de trabajo en la
+                    presentación inicial (modo pantalla completa sin cambios); ancho uniforme en los 7 controles;
+                    y etiquetas con nombre del parámetro, símbolo de variable y unidades entre paréntesis siempre
+                    en una misma línea, sin cortes.</span><span class="lang-en" style="display:none;">Version 4.3 - Last update: August 21,
+                    2026, 08:39 -
+                    Reorganized the control panel of the Thermal Contact Resistance lab: sliders and selectors
+                    grouped into a single vertical column inside #contact-res-sliders-panel; panel set to 50% of
+                    the workspace width in the initial layout (fullscreen mode unchanged); uniform width across
+                    all 7 controls; and labels with parameter name, variable symbol, and parenthesized units
+                    always kept on a single line.</span>
             </p>
             <div style="margin-top: 15px; text-align: center;">
                 <span class="lang-es"><img
