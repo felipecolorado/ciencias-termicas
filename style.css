@@ -4442,6 +4442,53 @@ body.multi-lab-open {
 }
 
 /* ============================================================
+   LOTE 3 — #multi-sim: CONTRASTE EN body.light-theme
+   Alcance exclusivo: #multi-sim. No modifica ninguna variable
+   global (--accent-orange/--accent-cyan/--text-muted) ni ninguna
+   otra sección/selector de este archivo.
+
+   1) El canvas de #multi-sim (.chart-container) usa un fondo FIJO
+      rgba(0,0,0,0.2) (regla global, línea ~777) que se compone
+      sobre var(--bg-dark) del body. En tema oscuro eso da un fondo
+      casi negro; en body.light-theme, var(--bg-dark) es casi blanco
+      (#f1f5f9) y el resultado es un gris CLARO — sobre el cual los
+      colores del canvas (ticks, cajas de capa, badges, T∞/h, q'')
+      fueron calibrados asumiendo un fondo oscuro. Se fija aquí un
+      fondo oscuro opaco SÓLO para #multi-sim en tema claro, así el
+      dibujo del canvas conserva el contraste ya calibrado sin tener
+      que reescribir cada color del Chart.js/canvas en app_v2.js.
+   2) Las temperaturas de interfase (T_s1, T_int1, T_int2, T_s2) y
+      los valores T∞/h de los sliders heredan `var(--accent-orange)`
+      / `var(--accent-cyan)` (reglas globales .highlight-val /
+      .control-group label span) — ambos tonos, calibrados para
+      fondo oscuro, bajan de contraste sobre el fondo casi blanco de
+      body.light-theme. Se oscurecen aquí sólo dentro de #multi-sim.
+   ============================================================ */
+body.light-theme #multi-sim .chart-container {
+  background: rgba(15, 23, 42, 0.85);
+}
+
+body.light-theme #multi-sim .control-group label span {
+  color: #c2410c; /* naranja-700: mismo tono, contraste reforzado en tema claro */
+}
+
+body.light-theme #multi-sim .highlight-val {
+  color: #c2410c;
+}
+
+body.light-theme #multi-sim #multi-ts1-val {
+  color: #c2410c !important; /* index.html fija inline color:var(--accent-orange) */
+}
+
+body.light-theme #multi-sim #multi-ts2-val {
+  color: #0e7490 !important; /* index.html fija inline color:var(--accent-cyan) */
+}
+
+body.light-theme #multi-sim #multi-q-val {
+  color: #b91c1c !important; /* index.html fija inline color:#ef4444; mismo rojo, más oscuro */
+}
+
+/* ============================================================
    LOTE 6 — FULLSCREEN STYLES
    carnot-sim · joule-sim · clausius-sim · kelvin-sim · ottodiesel-sim · cpcv-sim
    ============================================================ */

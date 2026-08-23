@@ -1740,4 +1740,10 @@ window.uiTranslations = {
   "Sólido 2 (frío)": "Solid 2 (cold)",
   "Posición x (mm)": "Position x (mm)",
   "Temperatura (°C)": "Temperature (°C)",
+
+  // LOTE 3 — Multicapa Custom: capa límite térmica del fluido (rótulos y
+  // tooltips del Canvas esquemático y del Chart.js T(x); ver helper t() en
+  // app_v2.js junto a initMulticapaCustomSimulation())
+  "Capa Límite Térmica": "Thermal Boundary Layer",
+  "Perfil en el Fluido": "Fluid Profile",
 };

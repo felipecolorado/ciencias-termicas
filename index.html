@@ -340,8 +340,6 @@
                             <option value="Circuitos" class="lang-en" style="display:none;">Thermal Circuits</option>
                             <option value="Aplicaciones" class="lang-es">Aplicaciones</option>
                             <option value="Aplicaciones" class="lang-en" style="display:none;">Applications</option>
-                            <option value="Otros" class="lang-es">Otros Laboratorios</option>
-                            <option value="Otros" class="lang-en" style="display:none;">Other Laboratories</option>
                             <option value="transferencia-calor" class="lang-es">🔥 Transferencia de Calor</option>
                             <option value="transferencia-calor" class="lang-en" style="display:none;">🔥 Heat Transfer Labs</option>
                             <option value="Comunidad" class="lang-es">Comunidad</option>
@@ -390,30 +388,21 @@
                         <div class="tab-category-title"><span class="lang-es">Principios Físicos y Experimentos
                                 Base</span><span class="lang-en" style="display:none;">Physical Principles and Base
                                 Experiments</span></div>
-                        <button class="tab-btn" data-target="newton-sim" data-category="transferencia-calor" data-tags="transferencia-calor conveccion">Enfriamiento de Newton
-                            (1701)</button>
-                        <button class="tab-btn lab-otros" data-target="invsq-sim" data-category="transferencia-calor">Ley de la Inversa del
-                            Cuadrado</button>
-
-                        <button class="tab-btn" data-target="chatelet-sim"
-                            onclick="setTimeout(function(){ if(window.initChateletSimulation) window.initChateletSimulation(); }, 50);"><i
-                                class="fas fa-fire" style="color:#f59e0b; margin-right:4px;"></i> <span
-                                class="lang-es">Émilie du Châtelet: Conservación de la Energía (1738)</span><span
-                                class="lang-en" style="display:none;">Émilie du Châtelet: Energy Conservation
-                                (1738)</span></button>
-
-                        <button class="tab-btn" data-target="herschel-sim" data-category="transferencia-calor" data-tags="transferencia-calor radiacion">Experimento de
-                            Herschel (1800)</button>
-                        <button class="tab-btn active" data-target="fourier-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Ley de Fourier
-                            (Conducción, 1822)</button>
-
-
                         <button class="tab-btn" data-target="foote-sim"
                             onclick="setTimeout(function(){ if(window.initFooteSimulation) window.initFooteSimulation(); }, 50);"><i
                                 class="fas fa-sun" style="color:#ec4899; margin-right:4px;"></i> <span
                                 class="lang-es">Efecto Invernadero (Eunice Foote, 1856)</span><span class="lang-en"
                                 style="display:none;">Greenhouse Effect (Eunice Foote, 1856)</span></button>
 
+                        <button class="tab-btn" data-target="herschel-sim" data-category="transferencia-calor" data-tags="transferencia-calor radiacion">Experimento de
+                            Herschel (1800)</button>
+                        <button class="tab-btn" data-target="invsq-sim" data-category="transferencia-calor">Ley de la Inversa del
+                            Cuadrado</button>
+
+                        <button class="tab-btn" data-target="newton-sim" data-category="transferencia-calor" data-tags="transferencia-calor conveccion">Enfriamiento de Newton
+                            (1701)</button>
+                        <button class="tab-btn active" data-target="fourier-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Ley de Fourier
+                            (Conducción, 1822)</button>
 
                         <button class="tab-btn" data-target="planck-sim" data-category="transferencia-calor" data-tags="transferencia-calor radiacion">Ley de Planck
                             (Radiación, 1900)</button>
@@ -451,6 +440,19 @@
                         <div class="tab-category-title"><span class="lang-es">Laboratorios de Termodinámica</span><span
                                 class="lang-en" style="display:none;">Thermodynamics Laboratories</span></div>
                         <button class="tab-btn" data-target="celsius-sim">Calibración de Celsius (1742)</button>
+                        <button class="tab-btn" data-target="chatelet-sim"
+                            onclick="setTimeout(function(){ if(window.initChateletSimulation) window.initChateletSimulation(); }, 50);"><i
+                                class="fas fa-fire" style="color:#f59e0b; margin-right:4px;"></i> <span
+                                class="lang-es">Émilie du Châtelet: Conservación de la Energía (1738)</span><span
+                                class="lang-en" style="display:none;">Émilie du Châtelet: Energy Conservation
+                                (1738)</span></button>
+                        <button class="tab-btn" data-target="watt-sim">Newcomen vs. Watt (1712-1769)</button>
+                        <button class="tab-btn" data-target="pennington-sim"
+                            onclick="setTimeout(function(){ if(window.initPenningtonSimulation) window.initPenningtonSimulation(); }, 50);" data-category="transferencia-calor"><i
+                                class="fas fa-snowflake" style="color:#38bdf8; margin-right:4px;"></i> <span
+                                class="lang-es">Cadena de Frío & Aislamiento (Mary Pennington, 1910)</span><span
+                                class="lang-en" style="display:none;">Cold Chain & Insulation (Mary Pennington,
+                                1910)</span></button>
                         <button class="tab-btn" data-target="cpcv-sim">Capacidades Caloríficas Cp y Cv (1842)</button>
                         <button class="tab-btn" data-target="joule-sim">Experimento de Joule (1843)</button>
                         <button class="tab-btn" data-target="kelvin-sim">Escala Kelvin (Cero Absoluto, 1848)</button>
@@ -469,7 +471,6 @@
 
                         <div class="tab-category-title"><span class="lang-es">Motores de Calor</span><span
                                 class="lang-en" style="display:none;">Heat Engines</span></div>
-                        <button class="tab-btn" data-target="watt-sim">Newcomen vs. Watt (1712-1769)</button>
                         <button class="tab-btn" data-target="carnot-sim">Motor de Carnot (1824)</button>
                         <button class="tab-btn" data-target="ottodiesel-sim">Ciclos Otto vs. Diesel (1876-1892)</button>
 
@@ -487,29 +488,24 @@
 
                         <div class="tab-category-title"><span class="lang-es">Aplicaciones</span><span class="lang-en"
                                 style="display:none;">Applications</span></div>
+                        <button class="tab-btn" data-target="gen-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Generación
+                            Interna</button>
+                        <button class="tab-btn" data-target="telkes-sim"
+                            onclick="setTimeout(function(){ if(window.initTelkesSimulation) window.initTelkesSimulation(); }, 50);" data-category="transferencia-calor"><i
+                                class="fas fa-cube" style="color:#a855f7; margin-right:4px;"></i> <span
+                                class="lang-es">Almacenamiento PCM & Calor Latente (Maria Telkes, 1948)</span><span
+                                class="lang-en" style="display:none;">PCM Thermal Storage & Latent Heat (Maria Telkes,
+                                1948)</span></button>
+
                         <button class="tab-btn lab-otros" data-target="pelton-sim">Tanque + Venturi + Pelton</button>
                         <button class="tab-btn" data-target="fin-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion conveccion">Aletas (Superficies
                             Extendidas)</button>
-                        <button class="tab-btn" data-target="gen-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Generación
-                            Interna</button>
                         <button class="tab-btn" data-target="vf-sim" data-category="transferencia-calor" data-tags="transferencia-calor radiacion">Factor de Forma</button>
                         <button class="tab-btn" data-target="doublepipe-sim" data-category="transferencia-calor" data-tags="transferencia-calor conveccion">Intercambiador de
                             Doble Tubo</button>
                         <button class="tab-btn lab-otros" data-target="microchannel-sim" data-category="transferencia-calor">Disipador de
                             Microcanales (1981)</button>
 
-                        <button class="tab-btn lab-otros" data-target="pennington-sim"
-                            onclick="setTimeout(function(){ if(window.initPenningtonSimulation) window.initPenningtonSimulation(); }, 50);" data-category="transferencia-calor"><i
-                                class="fas fa-snowflake" style="color:#38bdf8; margin-right:4px;"></i> <span
-                                class="lang-es">Cadena de Frío & Aislamiento (Mary Pennington, 1910)</span><span
-                                class="lang-en" style="display:none;">Cold Chain & Insulation (Mary Pennington,
-                                1910)</span></button>
-                        <button class="tab-btn lab-otros" data-target="telkes-sim"
-                            onclick="setTimeout(function(){ if(window.initTelkesSimulation) window.initTelkesSimulation(); }, 50);" data-category="transferencia-calor"><i
-                                class="fas fa-cube" style="color:#a855f7; margin-right:4px;"></i> <span
-                                class="lang-es">Almacenamiento PCM & Calor Latente (Maria Telkes, 1948)</span><span
-                                class="lang-en" style="display:none;">PCM Thermal Storage & Latent Heat (Maria Telkes,
-                                1948)</span></button>
                         <div class="tab-category-title"><span class="lang-es">Comunidad</span><span class="lang-en"
                                 style="display:none;">Community</span></div>
                         <button class="tab-btn"

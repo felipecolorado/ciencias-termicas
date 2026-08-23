@@ -5946,8 +5946,154 @@ function initMultiLayerSimulation() {
 
     const ctx = document.getElementById('multiChart').getContext('2d');
 
+    // ============================================================
+    // LOTE 2 — Badges de valores instantáneos L_i / k_i sobre cada
+    // capa de #multi-sim, con anti-colisión (auto-ajuste de fuente +
+    // recorte al ancho de píxeles de la propia capa). Se dibuja en
+    // afterDatasetsDraw para quedar SIEMPRE por encima de las cajas
+    // de capa y de la curva de temperatura, garantizando legibilidad
+    // sin importar dónde pase la curva T(x).
+    // ============================================================
+    const multiLayerValueBadgesPlugin = {
+        id: 'multiLayerValueBadges',
+        afterDatasetsDraw(chart) {
+            const annPlugin = chart.options.plugins && chart.options.plugins.annotation;
+            const anns = annPlugin && annPlugin.annotations;
+            const xScale = chart.scales.x;
+            if (!anns || !xScale) return;
+
+            const pctx = chart.ctx;
+            const area = chart.chartArea;
+            const cy = area.top + (area.bottom - area.top) * 0.52; // debajo del rótulo "Capa N" (anclado arriba)
+
+            // Píldora genérica de 2 líneas, con auto-ajuste de fuente y recorte
+            // (clip) al rango de píxeles [px1,px2] recibido: reutilizada tanto
+            // por las capas (L_i/k_i) como por las condiciones de frontera
+            // (T∞/h) — LOTE 2 y LOTE 3.
+            function drawPillBadge(px1, px2, cyPos, lText, kText) {
+                const cx = (px1 + px2) / 2;
+                const colWidth = Math.abs(px2 - px1);
+                const maxWidth = Math.max(colWidth - 6, 14);
+
+                const maxFont = 13, minFont = 9;
+                let fontSize = maxFont, lW = 0, kW = 0;
+                for (fontSize = maxFont; fontSize >= minFont; fontSize--) {
+                    pctx.font = `bold ${fontSize}px Inter, sans-serif`;
+                    lW = pctx.measureText(lText).width;
+                    kW = pctx.measureText(kText).width;
+                    if (Math.max(lW, kW) + 14 <= maxWidth || fontSize === minFont) break;
+                }
+
+                const lineH = fontSize + 4;
+                const padX = 7, padY = 5;
+                const badgeW = Math.max(lW, kW) + padX * 2;
+                const badgeH = lineH * 2 + padY * 2;
+
+                pctx.save();
+                // Recorte al ancho exacto de la columna: la píldora nunca invade
+                // la capa/zona contigua, sin importar cuán angosta sea.
+                pctx.beginPath();
+                pctx.rect(Math.min(px1, px2), cyPos - badgeH, colWidth, badgeH * 2);
+                pctx.clip();
+
+                const bx = cx - badgeW / 2, by = cyPos - badgeH / 2, radius = 8;
+                pctx.beginPath();
+                if (pctx.roundRect) pctx.roundRect(bx, by, badgeW, badgeH, radius);
+                else pctx.rect(bx, by, badgeW, badgeH);
+                pctx.fillStyle = 'rgba(15, 23, 42, 0.75)';
+                pctx.fill();
+                pctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+                pctx.lineWidth = 1;
+                pctx.stroke();
+
+                pctx.fillStyle = '#f8fafc';
+                pctx.textAlign = 'center';
+                pctx.textBaseline = 'middle';
+                pctx.font = `bold ${fontSize}px Inter, sans-serif`;
+                pctx.fillText(lText, cx, cyPos - lineH / 2);
+                pctx.fillText(kText, cx, cyPos + lineH / 2);
+                pctx.restore();
+            }
+
+            function drawBadge(ann, lText, kText) {
+                if (!ann || !(ann.xMax > ann.xMin)) return; // capa sin espesor: nada que dibujar
+                drawPillBadge(xScale.getPixelForValue(ann.xMin), xScale.getPixelForValue(ann.xMax), cy, lText, kText);
+            }
+
+            // Lectura en tiempo real de los sliders activos (se re-dibuja en
+            // cada chart.update(), disparado por el listener 'input' de cada
+            // slider — ver más abajo)
+            const L1v = parseFloat(sliderL1.value), k1v = parseFloat(sliderK1.value);
+            const L2v = parseFloat(sliderL2.value), k2v = parseFloat(sliderK2.value);
+            const L3v = parseFloat(sliderL3.value), k3v = parseFloat(sliderK3.value);
+            const Tinf1v = parseFloat(sliderTinf1.value), h1v = parseFloat(sliderH1.value);
+            const Tinf2v = parseFloat(sliderTinf2.value), h2v = parseFloat(sliderH2.value);
+
+            drawBadge(anns.boxLayer1, `L = ${L1v.toFixed(2)} m`, `k = ${k1v.toFixed(2)} W/m·K`);
+            drawBadge(anns.boxLayer2, `L = ${L2v.toFixed(2)} m`, `k = ${k2v.toFixed(2)} W/m·K`);
+            drawBadge(anns.boxLayer3, `L = ${L3v.toFixed(2)} m`, `k = ${k3v.toFixed(2)} W/m·K`);
+
+            // LOTE 3 — Condiciones de convección externa (T∞1,h1 a la izquierda;
+            // T∞2,h2 a la derecha), en la zona de fluido libre del propio canvas
+            // (fuera de las cajas de capa), con la misma píldora de alto
+            // contraste — legible en tema claro u oscuro.
+            const xLeftEdge = xScale.min;
+            const xRightEdge = xScale.max;
+            drawPillBadge(
+                xScale.getPixelForValue(xLeftEdge), xScale.getPixelForValue(anns.boxLayer1.xMin),
+                cy, `T∞,1 = ${Tinf1v.toFixed(0)} °C`, `h1 = ${h1v.toFixed(0)} W/m²K`
+            );
+            drawPillBadge(
+                xScale.getPixelForValue(anns.boxLayer3.xMax), xScale.getPixelForValue(xRightEdge),
+                cy, `T∞,2 = ${Tinf2v.toFixed(0)} °C`, `h2 = ${h2v.toFixed(0)} W/m²K`
+            );
+
+            // LOTE 3 — Vector de flujo de calor q'': flecha + valor en tono
+            // cálido de alto contraste (rojo/ámbar) con halo de sombra
+            // (shadowBlur) para que nunca se pierda contra el fondo del aula,
+            // en cualquier tema.
+            const rTotV = (1 / h1v) + (L1v / k1v) + (L2v / k2v) + (L3v / k3v) + (1 / h2v);
+            const qV = (Tinf1v - Tinf2v) / rTotV; // W/m²
+            const qColor = qV >= 0 ? '#ef4444' : '#fbbf24';
+            const arrowY = area.bottom - 22;
+            const axL = xScale.getPixelForValue(anns.boxLayer1.xMin);
+            const axR = xScale.getPixelForValue(anns.boxLayer3.xMax);
+
+            pctx.save();
+            pctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+            pctx.shadowBlur = 5;
+            pctx.shadowOffsetX = 0;
+            pctx.shadowOffsetY = 0;
+            pctx.strokeStyle = qColor;
+            pctx.fillStyle = qColor;
+            pctx.lineWidth = 3;
+            pctx.beginPath();
+            if (qV >= 0) {
+                pctx.moveTo(axL + 6, arrowY);
+                pctx.lineTo(axR - 6, arrowY);
+                pctx.lineTo(axR - 16, arrowY - 5);
+                pctx.moveTo(axR - 6, arrowY);
+                pctx.lineTo(axR - 16, arrowY + 5);
+            } else {
+                pctx.moveTo(axR - 6, arrowY);
+                pctx.lineTo(axL + 6, arrowY);
+                pctx.lineTo(axL + 16, arrowY - 5);
+                pctx.moveTo(axL + 6, arrowY);
+                pctx.lineTo(axL + 16, arrowY + 5);
+            }
+            pctx.stroke();
+
+            pctx.font = 'bold 12px Inter, sans-serif';
+            pctx.textAlign = 'center';
+            pctx.textBaseline = 'alphabetic';
+            pctx.fillText(`q'' = ${(qV / 1000).toFixed(2)} kW/m²`, (axL + axR) / 2, arrowY - 10);
+            pctx.restore();
+        }
+    };
+
     multiChartInstance = new Chart(ctx, {
         type: 'line',
+        plugins: [multiLayerValueBadgesPlugin],
         data: {
             labels: [],
             datasets: [{
@@ -5980,47 +6126,64 @@ function initMultiLayerSimulation() {
             plugins: {
                 legend: { display: false },
                 annotation: {
+                    // LOTE 1 — Paleta de ALTO CONTRASTE para proyección en salón de
+                    // clases (#multi-sim exclusivamente; no afecta #multicapa-custom-sim).
                     annotations: {
                         boxLayer1: {
                             type: 'box',
                             xMin: 0,
                             xMax: 0,
-                            backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                            borderWidth: 0,
+                            backgroundColor: 'rgba(29, 78, 216, 0.28)',  // Capa 1: Azul vibrante
+                            borderColor: '#60a5fa',
+                            borderWidth: 2.5,
                             label: {
                                 display: true,
                                 content: 'Capa 1',
-                                position: 'center',
-                                color: 'rgba(255,255,255,0.3)',
-                                font: { size: 12 }
+                                // Anclado arriba (LOTE 2): libera el centro de la capa
+                                // para el badge de valores instantáneos L₁/k₁.
+                                position: { x: 'center', y: 'start' },
+                                color: '#ffffff',
+                                backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                                padding: 4,
+                                font: { size: 13, weight: 'bold' }
                             }
                         },
                         boxLayer2: {
                             type: 'box',
                             xMin: 0,
                             xMax: 0,
-                            backgroundColor: 'rgba(56, 189, 248, 0.04)',
-                            borderWidth: 0,
+                            backgroundColor: 'rgba(194, 65, 12, 0.28)', // Capa 2: Ámbar / naranja
+                            borderColor: '#fb923c',
+                            borderWidth: 2.5,
                             label: {
                                 display: true,
                                 content: 'Capa 2',
-                                position: 'center',
-                                color: 'rgba(56,189,248,0.3)',
-                                font: { size: 12 }
+                                // Anclado arriba (LOTE 2): libera el centro de la capa
+                                // para el badge de valores instantáneos L₂/k₂.
+                                position: { x: 'center', y: 'start' },
+                                color: '#ffffff',
+                                backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                                padding: 4,
+                                font: { size: 13, weight: 'bold' }
                             }
                         },
                         boxLayer3: {
                             type: 'box',
                             xMin: 0,
                             xMax: 0,
-                            backgroundColor: 'rgba(16, 185, 129, 0.04)',
-                            borderWidth: 0,
+                            backgroundColor: 'rgba(4, 120, 87, 0.28)',  // Capa 3: Verde esmeralda
+                            borderColor: '#34d399',
+                            borderWidth: 2.5,
                             label: {
                                 display: true,
                                 content: 'Capa 3',
-                                position: 'center',
-                                color: 'rgba(16,185,129,0.3)',
-                                font: { size: 12 }
+                                // Anclado arriba (LOTE 2): libera el centro de la capa
+                                // para el badge de valores instantáneos L₃/k₃.
+                                position: { x: 'center', y: 'start' },
+                                color: '#ffffff',
+                                backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                                padding: 4,
+                                font: { size: 13, weight: 'bold' }
                             }
                         }
                     }
@@ -14332,6 +14495,21 @@ function initMulticapaCustomSimulation() {
 
     const sigma = 5.67e-8; // Stefan-Boltzmann W/m^2K^4
 
+    // ── Utilidades de traducción (LOTE 3) ──────────────────────────────────
+    // Mismo patrón ya usado por Newton y ContactRes: window.uiTranslations es
+    // un diccionario plano ES→EN (ver translations.js); en 'es' se devuelve la
+    // clave tal cual, en 'en' se busca la traducción y, si faltara, se hace
+    // fallback seguro al texto en español (nunca revienta ni deja texto vacío).
+    function getLang() {
+        return window.currentLang || window.currentLanguage || 'es';
+    }
+    function t(key) {
+        var lang = getLang();
+        var tr = window.uiTranslations || {};
+        if (lang === 'en' && tr[key]) return tr[key];
+        return key;
+    }
+
     // Initialize Chart.js
     function initChart() {
         const bodyStyles = getComputedStyle(document.body);
@@ -14351,6 +14529,32 @@ function initMulticapaCustomSimulation() {
                     pointRadius: 4,
                     pointBackgroundColor: '#ef4444',
                     tension: 0
+                }, {
+                    // Capa límite térmica del fluido (frontera izquierda, sólo si tipo === 'conv').
+                    // Color/ancho de línea reafirmados en cada solveSimulation() (LOTE 3) para
+                    // alto contraste de proyector y reactividad al tema claro/oscuro en vivo.
+                    label: t('Capa Límite Térmica') + ' (Izq.)',
+                    data: [],
+                    borderColor: '#38bdf8',
+                    backgroundColor: 'rgba(56, 189, 248, 0.10)',
+                    borderWidth: 2.5,
+                    borderDash: [5, 5],
+                    pointRadius: 0,
+                    pointHoverRadius: 3,
+                    tension: 0,
+                    fill: false
+                }, {
+                    // Capa límite térmica del fluido (frontera derecha, sólo si tipo === 'conv')
+                    label: t('Capa Límite Térmica') + ' (Der.)',
+                    data: [],
+                    borderColor: '#38bdf8',
+                    backgroundColor: 'rgba(56, 189, 248, 0.10)',
+                    borderWidth: 2.5,
+                    borderDash: [5, 5],
+                    pointRadius: 0,
+                    pointHoverRadius: 3,
+                    tension: 0,
+                    fill: false
                 }]
             },
             options: {
@@ -14372,7 +14576,26 @@ function initMulticapaCustomSimulation() {
                     }
                 },
                 plugins: {
-                    legend: { display: false }
+                    legend: { display: false },
+                    // Tooltip interactivo bilingüe (LOTE 3) para los datasets[1]/[2]
+                    // (capa límite del fluido): el resto del comportamiento (dataset[0],
+                    // perfil sólido) se preserva idéntico al de Chart.js por defecto.
+                    tooltip: {
+                        callbacks: {
+                            title: function (items) {
+                                if (items && items.length && (items[0].datasetIndex === 1 || items[0].datasetIndex === 2)) {
+                                    return t('Perfil en el Fluido');
+                                }
+                                return items && items.length ? items[0].label : '';
+                            },
+                            label: function (item) {
+                                if (item.datasetIndex === 1 || item.datasetIndex === 2) {
+                                    return t('Capa Límite Térmica') + ': ' + item.parsed.y.toFixed(1) + ' °C';
+                                }
+                                return item.dataset.label + ': ' + item.formattedValue; // comportamiento por defecto de Chart.js
+                            }
+                        }
+                    }
                 }
             }
         });
@@ -14702,7 +14925,73 @@ function initMulticapaCustomSimulation() {
 
         if (customChart && customChart.data && customChart.data.datasets && customChart.data.datasets[0]) {
             customChart.data.datasets[0].data = chartData.map((t, idx) => ({ x: chartLabels[idx], y: t }));
-            customChart.options.scales.x.max = curX;
+
+            // --- Extensión de la capa límite térmica del fluido (fronteras tipo 'Convección') ---
+            // Sólo dibuja el tramo del fluido (desde T_infinito hasta T_superficie) cuando la
+            // frontera correspondiente está configurada como 'conv' (Convección pura). Perfil
+            // suave asintótico (parabólico) con pendiente nula en el borde libre (T_infinito) y
+            // pendiente finita en la pared (T_s), continuo con el perfil sólido en ese punto.
+            const L_tot = curX; // espesor total acumulado (idéntico al x.max anterior)
+            const BL_FRACTION = 0.2; // longitud visual de la capa límite: 20% del espesor total
+            const BL_POINTS = 15;
+            const T_s1 = T[0];
+            const T_s2 = T[N];
+
+            // Color/etiqueta de la capa límite (LOTE 3): alto contraste reactivo al
+            // tema claro/oscuro (#38bdf8 oscuro / #0284c7 claro) y etiqueta bilingüe
+            // reactiva al idioma actual — mismo patrón t()/getLang() ya usado por
+            // Newton y ContactRes (ver definición junto a initChart(), arriba).
+            const isLightThemeChart = document.body.classList.contains('light-theme');
+            const blLineColor = isLightThemeChart ? '#0284c7' : '#38bdf8';
+            if (customChart.data.datasets[1]) {
+                customChart.data.datasets[1].borderColor = blLineColor;
+                customChart.data.datasets[1].label = t('Capa Límite Térmica') + ' (Izq.)';
+            }
+            if (customChart.data.datasets[2]) {
+                customChart.data.datasets[2].borderColor = blLineColor;
+                customChart.data.datasets[2].label = t('Capa Límite Térmica') + ' (Der.)';
+            }
+
+            let xMin = 0.0;
+            if (customChart.data.datasets[1]) {
+                if (typeL === 'conv') {
+                    const deltaL = BL_FRACTION * L_tot;
+                    const T_inf1 = inputLTinf ? parseFloat(inputLTinf.value) : 150;
+                    const leftBLData = [];
+                    for (let i = 0; i <= BL_POINTS; i++) {
+                        const xi = i / BL_POINTS; // 0 = borde libre (T_inf1) -> 1 = pared (T_s1)
+                        const x = -deltaL + xi * deltaL;
+                        const yVal = T_inf1 + (T_s1 - T_inf1) * (xi * xi);
+                        leftBLData.push({ x, y: yVal });
+                    }
+                    customChart.data.datasets[1].data = leftBLData;
+                    xMin = -deltaL;
+                } else {
+                    customChart.data.datasets[1].data = [];
+                }
+            }
+
+            let xMax = L_tot;
+            if (customChart.data.datasets[2]) {
+                if (typeR === 'conv') {
+                    const deltaR = BL_FRACTION * L_tot;
+                    const T_inf2 = inputRTinf ? parseFloat(inputRTinf.value) : 10;
+                    const rightBLData = [];
+                    for (let i = 0; i <= BL_POINTS; i++) {
+                        const xi = i / BL_POINTS; // 0 = pared (T_s2) -> 1 = borde libre (T_inf2)
+                        const x = L_tot + xi * deltaR;
+                        const yVal = T_inf2 + (T_s2 - T_inf2) * ((1 - xi) * (1 - xi));
+                        rightBLData.push({ x, y: yVal });
+                    }
+                    customChart.data.datasets[2].data = rightBLData;
+                    xMax = L_tot + deltaR;
+                } else {
+                    customChart.data.datasets[2].data = [];
+                }
+            }
+
+            customChart.options.scales.x.min = xMin;
+            customChart.options.scales.x.max = xMax;
             customChart.update('none');
         }
         } catch (error) {
@@ -14749,48 +15038,248 @@ function initMulticapaCustomSimulation() {
         const centerY = h / 2 - 10;
         const heightPlate = 140;
 
+        // Modo proyector / alto contraste en Light & Dark Theme: algunos colores
+        // pensados para fondo oscuro pierden contraste sobre el fondo casi blanco
+        // de body.light-theme (var(--bg-dark) pasa de #0f111a a #f1f5f9 — ver
+        // style.css). Se usan variantes más oscuras/saturadas en tema claro,
+        // conservando la misma identidad de color en ambos temas.
+        const isLightTheme = document.body.classList.contains('light-theme');
+        const clrHot = isLightTheme ? '#b91c1c' : '#f87171';   // T∞ / flujo entrante (rojo)
+        const clrCool = isLightTheme ? '#1d4ed8' : '#60a5fa';  // T prescrita / flujo saliente (azul)
+        const clrRad = isLightTheme ? '#c2410c' : '#fb923c';   // radiación entrante / q'' (naranja)
+        const clrSur = isLightTheme ? '#7e22ce' : '#c084fc';   // T_sur / radiación saliente (púrpura)
+        const clrTitle = isLightTheme ? 'rgba(15, 23, 42, 0.72)' : 'rgba(255, 255, 255, 0.65)';
+
         const N = layers.length;
         const totalThickness = layers.reduce((acc, curr) => acc + curr.L, 0);
         const endX = startX + widthMax;
 
         // 1. Draw each layer
         let currentX = startX;
+        const subDigits = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉", "₁₀"];
+        let narrowLayerCounter = 0;
+
+        // Badge/píldora legible para valores instantáneos (L_i, k_i): fondo oscuro
+        // semitransparente + contorno claro para garantizar lectura sobre cualquier
+        // color de capa, con auto-ajuste de fuente y recorte (clip) para que el
+        // texto nunca invada la capa vecina.
+        function drawValueBadge(cx, cy, maxWidth, text) {
+            const maxFont = 13, minFont = 8;
+            const paddingX = 6, paddingY = 3;
+            let fontSize = maxFont, textW = 0;
+            for (fontSize = maxFont; fontSize >= minFont; fontSize--) {
+                ctx.font = `bold ${fontSize}px Inter, sans-serif`;
+                textW = ctx.measureText(text).width;
+                if (textW + paddingX * 2 <= maxWidth || fontSize === minFont) break;
+            }
+            const badgeW = textW + paddingX * 2;
+            const badgeH = fontSize + paddingY * 2;
+
+            ctx.save();
+            // Recorte al ancho disponible de la capa: el texto nunca se monta sobre la capa adyacente
+            ctx.beginPath();
+            ctx.rect(cx - maxWidth / 2 - 2, cy - badgeH, maxWidth + 4, badgeH * 2);
+            ctx.clip();
+
+            ctx.beginPath();
+            const bx = cx - badgeW / 2, by = cy - badgeH / 2, radius = badgeH / 2;
+            if (ctx.roundRect) ctx.roundRect(bx, by, badgeW, badgeH, radius);
+            else ctx.rect(bx, by, badgeW, badgeH);
+            ctx.fillStyle = 'rgba(0,0,0,0.65)';
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(255,255,255,0.55)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = `bold ${fontSize}px Inter, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(text, cx, cy + 0.5);
+            ctx.restore();
+        }
+
         layers.forEach((layer, idx) => {
             const thicknessFrac = layer.L / totalThickness;
             const lWidth = thicknessFrac * widthMax;
 
-            // Gradient representing local temperature
-            const hue = Math.max(0, Math.min(220, 220 - (T[idx] - 20) * 1.5));
-            ctx.fillStyle = `hsl(${hue}, 70%, 40%)`;
+            // Paleta de ALTO CONTRASTE por capa (optimizada para proyección en salón de clases)
+            const highContrastPalette = [
+                { fill: '#1e40af', border: '#3b82f6' }, // Capa 1: Azul vibrante / pizarra
+                { fill: '#b45309', border: '#f59e0b' }, // Capa 2: Ámbar / naranja cálido
+                { fill: '#047857', border: '#10b981' }, // Capa 3: Verde esmeralda
+                { fill: '#6d28d9', border: '#a78bfa' }, // Capa 4: Púrpura profundo
+                { fill: '#9d174d', border: '#f472b6' }, // Capa 5: Magenta/rosa fuerte
+                { fill: '#155e75', border: '#22d3ee' }, // Capa 6: Cian oscuro
+                { fill: '#854d0e', border: '#fde047' }, // Capa 7: Oliva/mostaza
+                { fill: '#7f1d1d', border: '#f87171' }, // Capa 8: Rojo ladrillo
+                { fill: '#3730a3', border: '#818cf8' }, // Capa 9: Índigo
+                { fill: '#14532d', border: '#4ade80' }  // Capa 10: Verde bosque
+            ];
+            const layerColors = highContrastPalette[idx % highContrastPalette.length];
+
+            ctx.fillStyle = layerColors.fill;
             ctx.fillRect(currentX, centerY - heightPlate / 2, lWidth, heightPlate);
 
-            // Layer outline
-            ctx.strokeStyle = 'rgba(255,255,255,0.15)';
-            ctx.lineWidth = 1.5;
+            // Borde de interfase: grosor visible (3px) y alto contraste sobre fondo claro u oscuro
+            ctx.strokeStyle = layerColors.border;
+            ctx.lineWidth = 3;
             ctx.strokeRect(currentX, centerY - heightPlate / 2, lWidth, heightPlate);
 
             // Print layer ID inside
-            ctx.fillStyle = 'rgba(255,255,255,0.6)';
+            ctx.fillStyle = '#ffffff';
             ctx.font = 'bold 9px Inter, sans-serif';
             ctx.textAlign = 'center';
             ctx.fillText(`Capa ${idx + 1}`, currentX + lWidth / 2, centerY + heightPlate / 2 - 10);
 
-            // Draw interface temperature on interface lines
-            ctx.fillStyle = 'white';
-            ctx.font = 'bold 10px Inter, sans-serif';
-            ctx.fillText(`${T[idx].toFixed(1)} °C`, currentX, centerY - heightPlate / 2 - 12);
+            // Badge de temperatura de interfase (T_s1, T_1, T_2 ... T_s2): fondo
+            // oscuro fijo, independiente del tema claro/oscuro de la página, para
+            // garantizar lectura sobre cualquier fondo de proyección (LOTE 3).
+            // Se desplaza levemente hacia adentro en la primera interfaz para no
+            // chocar con el rótulo "Frontera Izq."
+            const tempBadgeCx = idx === 0 ? currentX + 12 : currentX;
+            drawValueBadge(tempBadgeCx, centerY - heightPlate / 2 - 16, 64, `${T[idx].toFixed(1)} °C`);
+
+            // Valores instantáneos L_i y k_i superpuestos sobre la capa (LOTE 2)
+            const layerCenterX = currentX + lWidth / 2;
+            const availableWidth = Math.max(lWidth - 8, 16);
+            const isNarrowLayer = lWidth < 55;
+            let blockShift = 0;
+            if (isNarrowLayer) {
+                // Escalonado vertical entre capas angostas consecutivas para evitar
+                // que sus etiquetas colapsen visualmente entre sí
+                blockShift = (narrowLayerCounter % 2 === 0) ? -14 : 14;
+                narrowLayerCounter++;
+            }
+            const subLbl = subDigits[idx + 1] || String(idx + 1);
+            const lText = `L${subLbl} = ${layer.L.toFixed(3)} m`;
+            const kText = `k${subLbl} = ${layer.k.toFixed(2)} W/m·K`;
+
+            drawValueBadge(layerCenterX, centerY - 16 + blockShift, availableWidth, lText);
+            drawValueBadge(layerCenterX, centerY + 16 + blockShift, availableWidth, kText);
 
             currentX += lWidth;
         });
 
-        // Draw last interface temperature
-        ctx.fillStyle = 'white';
-        ctx.font = 'bold 10px Inter, sans-serif';
-        ctx.fillText(`${T[N].toFixed(1)} °C`, currentX, centerY - heightPlate / 2 - 12);
+        // Badge de temperatura de la última interfase (T_s2 / superficie derecha),
+        // desplazado levemente hacia adentro para no chocar con "Frontera Der."
+        drawValueBadge(currentX - 12, centerY - heightPlate / 2 - 16, 64, `${T[N].toFixed(1)} °C`);
 
         // 2. Boundary Condition Animations (Left & Right)
         const typeL = selectBcLType.value;
         const typeR = selectBcRType.value;
+
+        // 2.1 Capa Límite Térmica del fluido (zona exterior) — LOTE 2
+        // Sólo para frontera de tipo 'Convección' pura ('conv'), igual que la
+        // extensión matemática del LOTE 1 en el chart T(x); no aplica a
+        // 'comb'/'comb-flux' para no chocar visualmente con las flechas de
+        // radiación que ya ocupan esa misma franja lateral (bloques de abajo).
+        // Al depender de `if (typeX === 'conv')` evaluado en cada frame, el
+        // bloque desaparece automáticamente y sin rastro si el usuario cambia
+        // a 'Flujo Constante' o 'Temperatura Prescrita' (reactividad #4).
+        const blMargin = 10; // margen mínimo respecto al borde del canvas
+        const blBandTop = centerY - heightPlate / 2 + 16;
+        const blBandBottom = centerY + heightPlate / 2 - 16;
+        const blTempMin = 0, blTempMax = 200; // misma escala que suggestedMin/Max del chart T(x) (LOTE 1)
+        // Alto contraste para proyector (LOTE 3), reactivo al tema claro/oscuro —
+        // mismos valores exactos que el borderColor de los datasets[1]/[2] del
+        // chart T(x) (ver initChart()/solveSimulation()), para consistencia visual
+        // entre el Canvas esquemático y la gráfica.
+        const blLabelColor = isLightTheme ? '#0284c7' : '#38bdf8';
+        function blTempToY(tVal) {
+            const frac = Math.max(0, Math.min(1, (tVal - blTempMin) / (blTempMax - blTempMin)));
+            return blBandBottom - frac * (blBandBottom - blBandTop);
+        }
+
+        if (typeL === 'conv') {
+            const zoneL0 = blMargin;
+            const zoneL1 = startX;
+            const TinfL = parseFloat(inputLTinf.value);
+            const TwallL = T[0];
+            const blColorL = TinfL > TwallL ? clrHot : clrCool;
+
+            // Sombreado gradiente: transparente en el seno del fluido, se
+            // intensifica hacia la pared (donde ocurre el gradiente térmico real).
+            ctx.globalAlpha = 0.18;
+            const gradBLL = ctx.createLinearGradient(zoneL0, 0, zoneL1, 0);
+            gradBLL.addColorStop(0, 'rgba(0,0,0,0)');
+            gradBLL.addColorStop(1, blColorL);
+            ctx.fillStyle = gradBLL;
+            ctx.fillRect(zoneL0, centerY - heightPlate / 2, zoneL1 - zoneL0, heightPlate);
+            ctx.globalAlpha = 1.0;
+
+            // Curva suave del perfil de temperatura: mismo perfil cuadrático
+            // T(xi) = T_inf + (T_s - T_inf)·xi² usado en la gráfica T(x) del
+            // LOTE 1 (pendiente nula en el borde libre, finita en la pared).
+            ctx.strokeStyle = blColorL;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            const blStepsL = 12;
+            for (let i = 0; i <= blStepsL; i++) {
+                const xi = i / blStepsL;
+                const x = zoneL0 + xi * (zoneL1 - zoneL0);
+                const tVal = TinfL + (TwallL - TinfL) * (xi * xi);
+                const y = blTempToY(tVal);
+                if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Etiquetas discretas (halo para legibilidad en cualquier tema),
+            // centradas en la zona y con margen respecto al borde del canvas
+            // (blMargin) y a la pared sólida (startX) — requisito #3.
+            ctx.save();
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+            ctx.shadowBlur = 3;
+            ctx.textAlign = 'center';
+            ctx.fillStyle = blLabelColor;
+            ctx.font = '8px Inter, sans-serif';
+            ctx.fillText(`T∞, h${subDigits[1]}`, (zoneL0 + zoneL1) / 2, blBandTop - 4);
+            ctx.font = '7px Inter, sans-serif';
+            ctx.fillText(t('Capa Límite Térmica') + ' (δₜ)', (zoneL0 + zoneL1) / 2, blBandBottom + 12);
+            ctx.restore();
+        }
+
+        if (typeR === 'conv') {
+            const zoneR0 = endX;
+            const zoneR1 = w - blMargin;
+            const TinfR = parseFloat(inputRTinf.value);
+            const TwallR = T[N];
+            const blColorR = TinfR > TwallR ? clrHot : clrCool;
+
+            ctx.globalAlpha = 0.18;
+            const gradBLR = ctx.createLinearGradient(zoneR1, 0, zoneR0, 0);
+            gradBLR.addColorStop(0, 'rgba(0,0,0,0)');
+            gradBLR.addColorStop(1, blColorR);
+            ctx.fillStyle = gradBLR;
+            ctx.fillRect(zoneR0, centerY - heightPlate / 2, zoneR1 - zoneR0, heightPlate);
+            ctx.globalAlpha = 1.0;
+
+            // Perfil espejo del izquierdo: T(xi) = T_inf + (T_s - T_inf)·(1-xi)²
+            // (idéntico al usado en el tramo derecho del chart T(x), LOTE 1).
+            ctx.strokeStyle = blColorR;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            const blStepsR = 12;
+            for (let i = 0; i <= blStepsR; i++) {
+                const xi = i / blStepsR;
+                const x = zoneR0 + xi * (zoneR1 - zoneR0);
+                const tVal = TinfR + (TwallR - TinfR) * ((1 - xi) * (1 - xi));
+                const y = blTempToY(tVal);
+                if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            ctx.save();
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+            ctx.shadowBlur = 3;
+            ctx.textAlign = 'center';
+            ctx.fillStyle = blLabelColor;
+            ctx.font = '8px Inter, sans-serif';
+            ctx.fillText(`T∞, h${subDigits[2]}`, (zoneR0 + zoneR1) / 2, blBandTop - 4);
+            ctx.font = '7px Inter, sans-serif';
+            ctx.fillText(t('Capa Límite Térmica') + ' (δₜ)', (zoneR0 + zoneR1) / 2, blBandBottom + 12);
+            ctx.restore();
+        }
 
         // Left Boundary Animations (x < startX)
         if (typeL === 'temp') {
@@ -14802,7 +15291,7 @@ function initMulticapaCustomSimulation() {
             ctx.fillRect(startX - 20, centerY - heightPlate / 2, 20, heightPlate);
         }
         if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') {
-            ctx.strokeStyle = parseFloat(inputLTinf.value) > T[0] ? '#f87171' : '#60a5fa';
+            ctx.strokeStyle = parseFloat(inputLTinf.value) > T[0] ? clrHot : clrCool;
             ctx.lineWidth = 2.5;
             ctx.globalAlpha = 0.5;
             for (let offset = -20; offset <= -8; offset += 6) {
@@ -14818,7 +15307,7 @@ function initMulticapaCustomSimulation() {
         }
         if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux') {
             const isLIncoming = parseFloat(inputLTsur.value) > T[0];
-            ctx.strokeStyle = isLIncoming ? '#fb923c' : '#c084fc';
+            ctx.strokeStyle = isLIncoming ? clrRad : clrSur;
             ctx.lineWidth = 1.8;
             ctx.globalAlpha = 0.6;
             for (let y = centerY - heightPlate / 2 + 15; y <= centerY + heightPlate / 2 - 15; y += 28) {
@@ -14831,7 +15320,7 @@ function initMulticapaCustomSimulation() {
                 }
                 ctx.stroke();
                 // Arrowhead
-                ctx.fillStyle = isLIncoming ? '#fb923c' : '#c084fc';
+                ctx.fillStyle = isLIncoming ? clrRad : clrSur;
                 ctx.beginPath();
                 if (isLIncoming) {
                     ctx.moveTo(startX - 4, y);
@@ -14849,7 +15338,7 @@ function initMulticapaCustomSimulation() {
         if (typeL === 'flux' || typeL === 'comb-flux') {
             const qVal = parseFloat(inputLFlux.value);
             if (Math.abs(qVal) > 1.0) {
-                ctx.strokeStyle = qVal > 0 ? '#f87171' : '#60a5fa';
+                ctx.strokeStyle = qVal > 0 ? clrHot : clrCool;
                 ctx.lineWidth = 2.5;
                 const isLIncomingFlux = qVal > 0;
                 for (let y = centerY - heightPlate / 2 + 20; y <= centerY + heightPlate / 2 - 20; y += 35) {
@@ -14858,7 +15347,7 @@ function initMulticapaCustomSimulation() {
                     ctx.lineTo(startX - 5, y);
                     ctx.stroke();
                     // Arrowhead
-                    ctx.fillStyle = qVal > 0 ? '#f87171' : '#60a5fa';
+                    ctx.fillStyle = qVal > 0 ? clrHot : clrCool;
                     ctx.beginPath();
                     if (isLIncomingFlux) {
                         ctx.moveTo(startX - 4, y);
@@ -14884,7 +15373,7 @@ function initMulticapaCustomSimulation() {
             ctx.fillRect(endX, centerY - heightPlate / 2, 20, heightPlate);
         }
         if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') {
-            ctx.strokeStyle = T[N] > parseFloat(inputRTinf.value) ? '#f87171' : '#60a5fa';
+            ctx.strokeStyle = T[N] > parseFloat(inputRTinf.value) ? clrHot : clrCool;
             ctx.lineWidth = 2.5;
             ctx.globalAlpha = 0.5;
             for (let offset = 8; offset <= 20; offset += 6) {
@@ -14900,7 +15389,7 @@ function initMulticapaCustomSimulation() {
         }
         if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux') {
             const isRIncoming = parseFloat(inputRTsur.value) > T[N];
-            ctx.strokeStyle = isRIncoming ? '#fb923c' : '#c084fc';
+            ctx.strokeStyle = isRIncoming ? clrRad : clrSur;
             ctx.lineWidth = 1.8;
             ctx.globalAlpha = 0.6;
             for (let y = centerY - heightPlate / 2 + 15; y <= centerY + heightPlate / 2 - 15; y += 28) {
@@ -14913,7 +15402,7 @@ function initMulticapaCustomSimulation() {
                 }
                 ctx.stroke();
                 // Arrowhead
-                ctx.fillStyle = isRIncoming ? '#fb923c' : '#c084fc';
+                ctx.fillStyle = isRIncoming ? clrRad : clrSur;
                 ctx.beginPath();
                 if (isRIncoming) {
                     ctx.moveTo(endX + 4, y);
@@ -14931,7 +15420,7 @@ function initMulticapaCustomSimulation() {
         if (typeR === 'flux' || typeR === 'comb-flux') {
             const qValR = parseFloat(inputRFlux.value);
             if (Math.abs(qValR) > 1.0) {
-                ctx.strokeStyle = qValR > 0 ? '#60a5fa' : '#f87171'; // positive leaving = cold-like vs entering = hot-like
+                ctx.strokeStyle = qValR > 0 ? clrCool : clrHot; // positive leaving = cold-like vs entering = hot-like
                 ctx.lineWidth = 2.5;
                 const isRIncomingFlux = qValR < 0; // negative flux means entering
                 for (let y = centerY - heightPlate / 2 + 20; y <= centerY + heightPlate / 2 - 20; y += 35) {
@@ -14940,7 +15429,7 @@ function initMulticapaCustomSimulation() {
                     ctx.lineTo(endX + 45, y);
                     ctx.stroke();
                     // Arrowhead
-                    ctx.fillStyle = qValR > 0 ? '#60a5fa' : '#f87171';
+                    ctx.fillStyle = qValR > 0 ? clrCool : clrHot;
                     ctx.beginPath();
                     if (isRIncomingFlux) {
                         ctx.moveTo(endX + 4, y);
@@ -14971,6 +15460,13 @@ function initMulticapaCustomSimulation() {
         ctx.globalAlpha = 1.0;
 
         // 4. Draw heat flux arrow at the bottom
+        // Modo proyector: reborde de sombra (shadowBlur) para que la flecha y el
+        // valor de q'' nunca se pierdan contra el fondo del aula, en ningún tema.
+        ctx.save();
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+        ctx.shadowBlur = 5;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
         ctx.strokeStyle = qFlux >= 0 ? '#ef4444' : '#3b82f6';
         ctx.lineWidth = 3;
         ctx.beginPath();
@@ -14992,9 +15488,24 @@ function initMulticapaCustomSimulation() {
         }
         ctx.stroke();
 
+        // Valor numérico de q'' junto a la flecha: amarillo brillante de alto
+        // contraste + halo oscuro, legible sobre cualquier fondo/tema.
+        ctx.fillStyle = '#fbbf24';
+        ctx.font = 'bold 11px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(`q'' = ${qFlux.toFixed(1)} W/m²`, startX + widthMax / 2, arrowY + 16);
+        ctx.restore();
+
         // 5. Draw interactive boundary condition labels and values
         ctx.save();
-        
+
+        // Halo oscuro (shadowBlur) para que las etiquetas de frontera conserven
+        // contraste sobre cualquier fondo de proyección, en tema claro u oscuro
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+        ctx.shadowBlur = 3;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+
         function drawSubscriptText(base, sub, value, unit, x, y, align) {
             ctx.font = '9px Inter, sans-serif';
             const baseW = ctx.measureText(base).width;
@@ -15030,26 +15541,26 @@ function initMulticapaCustomSimulation() {
         ctx.textAlign = 'left';
         let yOffsetL = centerY - heightPlate / 2 - 20;
         ctx.font = 'bold 9px Inter, sans-serif';
-        ctx.fillStyle = 'rgba(255,255,255,0.4)';
+        ctx.fillStyle = clrTitle;
         ctx.fillText("Frontera Izq.", 10, yOffsetL);
         
         yOffsetL += 12;
         if (typeL === 'temp') {
-            ctx.fillStyle = '#60a5fa';
+            ctx.fillStyle = clrCool;
             drawSubscriptText("T", "L", parseFloat(inputLTemp.value).toFixed(0), "°C", 10, yOffsetL, 'left');
         }
         if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') {
-            ctx.fillStyle = '#f87171';
+            ctx.fillStyle = clrHot;
             drawSubscriptText("T", "∞,L", parseFloat(inputLTinf.value).toFixed(0), "°C", 10, yOffsetL, 'left');
             yOffsetL += 11;
         }
         if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux') {
-            ctx.fillStyle = '#c084fc';
+            ctx.fillStyle = clrSur;
             drawSubscriptText("T", "sur,L", parseFloat(inputLTsur.value).toFixed(0), "°C", 10, yOffsetL, 'left');
             yOffsetL += 11;
         }
         if (typeL === 'flux' || typeL === 'comb-flux') {
-            ctx.fillStyle = '#fb923c';
+            ctx.fillStyle = clrRad;
             drawSubscriptText("q\"", "L", parseFloat(inputLFlux.value).toFixed(0), "W/m²", 10, yOffsetL, 'left');
         }
         
@@ -15057,26 +15568,26 @@ function initMulticapaCustomSimulation() {
         ctx.textAlign = 'right';
         let yOffsetR = centerY + 20;
         ctx.font = 'bold 9px Inter, sans-serif';
-        ctx.fillStyle = 'rgba(255,255,255,0.4)';
+        ctx.fillStyle = clrTitle;
         ctx.fillText("Frontera Der.", w - 10, yOffsetR);
         
         yOffsetR += 12;
         if (typeR === 'temp') {
-            ctx.fillStyle = '#60a5fa';
+            ctx.fillStyle = clrCool;
             drawSubscriptText("T", "R", parseFloat(inputRTemp.value).toFixed(0), "°C", w - 10, yOffsetR, 'right');
         }
         if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') {
-            ctx.fillStyle = '#f87171';
+            ctx.fillStyle = clrHot;
             drawSubscriptText("T", "∞,R", parseFloat(inputRTinf.value).toFixed(0), "°C", w - 10, yOffsetR, 'right');
             yOffsetR += 11;
         }
         if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux') {
-            ctx.fillStyle = '#c084fc';
+            ctx.fillStyle = clrSur;
             drawSubscriptText("T", "sur,R", parseFloat(inputRTsur.value).toFixed(0), "°C", w - 10, yOffsetR, 'right');
             yOffsetR += 11;
         }
         if (typeR === 'flux' || typeR === 'comb-flux') {
-            ctx.fillStyle = '#fb923c';
+            ctx.fillStyle = clrRad;
             drawSubscriptText("q\"", "R", parseFloat(inputRFlux.value).toFixed(0), "W/m²", w - 10, yOffsetR, 'right');
         }
         
