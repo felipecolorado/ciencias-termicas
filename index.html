@@ -8947,6 +8947,18 @@
                                             <canvas id="customMultiCanvas"
                                                 style="width: 100%; height: 100%; display: block;"></canvas>
                                         </div>
+
+                                        <!-- LOTE — Circuito de Resistencias Térmicas Equivalentes -->
+                                        <h4 class="sim-subheading" style="margin: 0; font-size: 0.95rem;"><i
+                                                class="fas fa-bolt"></i> <span class="lang-es">Circuito de
+                                                Resistencias Térmicas Equivalentes</span><span class="lang-en"
+                                                style="display:none;">Equivalent Thermal Resistance Circuit</span>
+                                        </h4>
+                                        <div id="cm-circuit-container"
+                                            style="position: relative; background: var(--bg-dark); border-radius: 8px; border: 1px solid var(--panel-border); padding: 10px; width: 100%; height: 200px; display: flex; align-items: center; justify-content: center;">
+                                            <canvas id="customMultiCircuitCanvas"
+                                                style="width: 100%; height: 100%; display: block;"></canvas>
+                                        </div>
                                     </div>
 
                                     <!-- Columna Derecha: Frontera Derecha -->
@@ -9099,12 +9111,32 @@
                                                 </h5>
                                                 <div
                                                     style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px; font-size: 0.8rem;">
+                                                    <span><span class="lang-es">Resistencia Frontera Izq.
+                                                            $(R_{bc,L})$:</span><span class="lang-en"
+                                                            style="display:none;">Left Boundary Resistance
+                                                            $(R_{bc,L})$:</span></span>
+                                                    <strong><span id="cm-rbcl-val"
+                                                            style="color: var(--accent-blue);">--
+                                                            K/W</span></strong>
+                                                </div>
+                                                <div
+                                                    style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px; font-size: 0.8rem;">
                                                     <span><span class="lang-es">Resistencia Conducción Total
                                                             $(R_{cond})$:</span><span class="lang-en"
                                                             style="display:none;">Total Conduction Resistance
                                                             $(R_{cond})$:</span></span>
                                                     <strong><span id="cm-rcond-val"
                                                             style="color: var(--accent-cyan);">--
+                                                            K/W</span></strong>
+                                                </div>
+                                                <div
+                                                    style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px; font-size: 0.8rem;">
+                                                    <span><span class="lang-es">Resistencia Frontera Der.
+                                                            $(R_{bc,R})$:</span><span class="lang-en"
+                                                            style="display:none;">Right Boundary Resistance
+                                                            $(R_{bc,R})$:</span></span>
+                                                    <strong><span id="cm-rbcr-val"
+                                                            style="color: var(--accent-blue);">--
                                                             K/W</span></strong>
                                                 </div>
                                                 <div

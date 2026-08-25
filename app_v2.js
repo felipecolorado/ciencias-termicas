@@ -14709,6 +14709,12 @@ function initMulticapaCustomSimulation() {
     const alertBox = document.getElementById('cm-alert-box');
     const tempTableBody = document.getElementById('cm-temp-table-body');
 
+    // ── Circuito de Resistencias Térmicas Equivalentes (LOTE) ──────────────
+    const circuitCanvas = document.getElementById('customMultiCircuitCanvas');
+    const circuitCtx = circuitCanvas ? circuitCanvas.getContext('2d') : null;
+    const lblRbcL = document.getElementById('cm-rbcl-val');
+    const lblRbcR = document.getElementById('cm-rbcr-val');
+
     // Simulation variables
     let layers = [
         { L: 0.05, k: 50.0 }, // default steel
@@ -14718,9 +14724,40 @@ function initMulticapaCustomSimulation() {
     const maxLayers = 10;
     let T = []; // temperatures at interfaces (size N+1)
     let qFlux = 0.0;
+    let bcResL = { R: 0, hConv: 0, hRad: 0, isSource: false }; // resistencia/fuente de frontera izq. (LOTE circuito)
+    let bcResR = { R: 0, hConv: 0, hRad: 0, isSource: false }; // resistencia/fuente de frontera der. (LOTE circuito)
     let customChart;
 
     const sigma = 5.67e-8; // Stefan-Boltzmann W/m^2K^4
+
+    // ── Resistencia/fuente equivalente de una frontera (LOTE — Circuito de
+    // Resistencias Térmicas Equivalentes) ──────────────────────────────────
+    // Devuelve { R, hConv, hRad, isSource }:
+    //   • 'temp'  (Dirichlet)      -> R = 0 (cortocircuito, sin resistencia fantasma).
+    //   • 'conv'                   -> R = 1/h.
+    //   • 'rad'                    -> h_rad = ε·σ·(Ts+Tsur)·(Ts²+Tsur²) [Kelvin], R = 1/h_rad.
+    //   • 'comb'                   -> R_eq = (1/R_conv + 1/R_rad)⁻¹ = 1/(h_conv+h_rad).
+    //   • 'flux'                   -> fuente de flujo pura (Neumann): sin resistencia
+    //                                  definida (circuito abierto, R = null → R→∞, no
+    //                                  se suma a R_tot); isSource = true.
+    //   • 'comb-flux'              -> misma R_eq que 'comb' (rama resistiva conv‖rad)
+    //                                  MÁS una fuente de flujo q'' superpuesta en el
+    //                                  mismo nodo (isSource = true).
+    function boundaryResistanceInfo(type, hVal, epsVal, tsurVal, TsVal) {
+        if (type === 'temp') return { R: 0, hConv: 0, hRad: 0, isSource: false };
+        let hConv = 0, hRad = 0;
+        if (type === 'conv' || type === 'comb' || type === 'comb-flux') {
+            hConv = hVal;
+        }
+        if (type === 'rad' || type === 'comb' || type === 'comb-flux') {
+            const TsK = TsVal + 273.15;
+            const TsurK = tsurVal + 273.15;
+            hRad = epsVal * sigma * (TsK + TsurK) * (TsK * TsK + TsurK * TsurK);
+        }
+        if (type === 'flux') return { R: null, hConv: 0, hRad: 0, isSource: true };
+        const hTotal = hConv + hRad;
+        return { R: hTotal > 0 ? 1 / hTotal : null, hConv, hRad, isSource: type === 'comb-flux' };
+    }
 
     // ── Utilidades de traducción (LOTE 3) ──────────────────────────────────
     // Mismo patrón ya usado por Newton y ContactRes: window.uiTranslations es
@@ -15258,19 +15295,38 @@ function initMulticapaCustomSimulation() {
         }
         if (typeR === 'temp') T[N] = TR_input; // fuerza el valor exacto impuesto en la superficie derecha
 
-        // Calculate total resistance including boundary layers (if convection/combined is active)
-        let Rtot = Rcond;
-        if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') {
-            Rtot += 1.0 / (inputLH ? parseFloat(inputLH.value) : 20);
-        }
-        if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') {
-            Rtot += 1.0 / (inputRH ? parseFloat(inputRH.value) : 20);
-        }
+        // ── Resistencias de frontera para el Circuito de Resistencias
+        // Equivalentes (LOTE): se evalúan con la temperatura de superficie
+        // YA resuelta (T[0]/T[N]) porque R_rad depende de Ts. Reemplaza el
+        // cálculo anterior de Rtot (que sólo sumaba 1/h y omitía la
+        // contribución radiativa incluso en fronteras 'rad' puras) por la
+        // fórmula general R_tot = R_bc,izq + R_cond,tot + R_bc,der, con
+        // R_bc = (1/R_conv + 1/R_rad)⁻¹ cuando ambos mecanismos coexisten.
+        bcResL = boundaryResistanceInfo(
+            typeL,
+            inputLH ? parseFloat(inputLH.value) : 20,
+            inputLEps ? parseFloat(inputLEps.value) : 0.85,
+            inputLTsur ? parseFloat(inputLTsur.value) : 150,
+            T[0]
+        );
+        bcResR = boundaryResistanceInfo(
+            typeR,
+            inputRH ? parseFloat(inputRH.value) : 20,
+            inputREps ? parseFloat(inputREps.value) : 0.85,
+            inputRTsur ? parseFloat(inputRTsur.value) : 10,
+            T[N]
+        );
+
+        // Calculate total resistance including boundary resistances (0 para
+        // 'temp' -exacto-, null/sin sumar para 'flux' -fuente pura-)
+        let Rtot = Rcond + (bcResL.R || 0) + (bcResR.R || 0);
 
         // Update UI metrics
         if (lblRcond) lblRcond.innerText = Rcond.toFixed(4) + ' K/W';
         if (lblRtot) lblRtot.innerText = Rtot.toFixed(4) + ' K/W';
         if (lblQ) lblQ.innerText = qFlux.toFixed(1) + ' W/m²';
+        if (lblRbcL) lblRbcL.innerText = bcResL.R === null ? t('Fuente (sin R)') : bcResL.R.toFixed(4) + ' K/W';
+        if (lblRbcR) lblRbcR.innerText = bcResR.R === null ? t('Fuente (sin R)') : bcResR.R.toFixed(4) + ' K/W';
 
         // Update Table
         let tableHtml = '';
@@ -16055,6 +16111,249 @@ function initMulticapaCustomSimulation() {
         ctx.restore();
     }
 
+    // ════════════════════════════════════════════════════════════════════
+    // Circuito de Resistencias Térmicas Equivalentes (LOTE)
+    // ════════════════════════════════════════════════════════════════════
+    // Diagrama esquemático del circuito eléctrico análogo (NO a escala
+    // espacial — convención estándar de texto de transferencia de calor:
+    // cada resistencia se dibuja con el mismo ancho, sin importar L_i real).
+    // Nodos rotulados con las temperaturas resueltas (T∞, T_s,i, T_sur),
+    // símbolos de resistencia en zigzag para cada capa y cada mecanismo de
+    // frontera, ramas en paralelo cuando la frontera combina convección +
+    // radiación, y un ícono de fuente (círculo + flecha) para flujo
+    // impuesto (Neumann) — ver boundaryResistanceInfo() más arriba para el
+    // modelo físico. Se redibuja en cada frame de animLoop() (igual que
+    // render(), del que reutiliza el mismo patrón de lectura dinámica de
+    // clientWidth/clientHeight) para permanecer sincronizado en tiempo real
+    // con los sliders/inputs y responder automáticamente a resize/fullscreen.
+    function renderCircuit() {
+        if (!circuitCanvas || !circuitCtx) return;
+        if (circuitCanvas.offsetParent === null) return; // invisible
+        if (!T || T.length === 0) return; // aún no ha corrido solveSimulation()
+
+        const cw = circuitCanvas.width = circuitCanvas.clientWidth;
+        const ch = circuitCanvas.height = circuitCanvas.clientHeight;
+        circuitCtx.clearRect(0, 0, cw, ch);
+        if (!cw || !ch) return;
+
+        const isLightTheme = document.body.classList.contains('light-theme');
+        const wireColor = isLightTheme ? '#334155' : '#94a3b8';
+        const nodeColor = isLightTheme ? '#0f172a' : '#f8fafc';
+        const resColor = isLightTheme ? '#b45309' : '#fbbf24';    // resistencias de capa/convección (ámbar)
+        const radColor = isLightTheme ? '#c2410c' : '#fb923c';   // rama de radiación (naranja)
+        const tempColor = isLightTheme ? '#1d4ed8' : '#60a5fa';  // temperaturas de nodo (azul)
+        const sourceColor = isLightTheme ? '#7e22ce' : '#c084fc'; // fuente de flujo impuesto (púrpura)
+
+        const typeL = selectBcLType.value;
+        const typeR = selectBcRType.value;
+        const N = layers.length;
+
+        const margin = 12;
+        const wireY = ch * 0.5;
+        const bcZoneW = Math.min(115, Math.max(72, cw * 0.15));
+        function zoneWidthFor(type) {
+            if (type === 'temp') return 26;
+            if (type === 'flux') return Math.max(46, bcZoneW * 0.62);
+            return bcZoneW; // conv, rad, comb, comb-flux
+        }
+        const leftZoneW = zoneWidthFor(typeL);
+        const rightZoneW = zoneWidthFor(typeR);
+
+        const x0 = margin;
+        const xL = x0 + leftZoneW;            // nodo T_s,1 (superficie exterior izq.)
+        const xEnd = cw - margin;
+        const xR = xEnd - rightZoneW;         // nodo T_s,N+1 (superficie exterior der.)
+        const layerW = N > 0 ? Math.max(8, (xR - xL) / N) : 0;
+        const compact = layerW < 46;          // demasiadas capas / canvas angosto: simplifica etiquetas
+        const veryCompact = layerW < 26;
+
+        circuitCtx.textAlign = 'center';
+        circuitCtx.lineCap = 'round';
+
+        function drawNode(x, y, color) {
+            circuitCtx.beginPath();
+            circuitCtx.arc(x, y, 3, 0, Math.PI * 2);
+            circuitCtx.fillStyle = color || nodeColor;
+            circuitCtx.fill();
+        }
+
+        function drawZigzag(x1, x2, y, color) {
+            const len = x2 - x1;
+            if (len <= 0) return;
+            const lead = Math.min(9, len * 0.18);
+            const zigStart = x1 + lead, zigEnd = x2 - lead;
+            const zigLen = Math.max(4, zigEnd - zigStart);
+            const humps = veryCompact ? 3 : (compact ? 4 : 6);
+            const step = zigLen / humps;
+            const ampl = veryCompact ? 5 : 7;
+            circuitCtx.strokeStyle = color || resColor;
+            circuitCtx.lineWidth = 1.8;
+            circuitCtx.beginPath();
+            circuitCtx.moveTo(x1, y);
+            circuitCtx.lineTo(zigStart, y);
+            for (let i = 0; i < humps; i++) {
+                const xm = zigStart + step * (i + 0.5);
+                const yp = (i % 2 === 0) ? y - ampl : y + ampl;
+                circuitCtx.lineTo(xm, yp);
+            }
+            circuitCtx.lineTo(zigEnd, y);
+            circuitCtx.lineTo(x2, y);
+            circuitCtx.stroke();
+        }
+
+        function drawWireV(x, y1, y2, color) {
+            circuitCtx.strokeStyle = color || wireColor;
+            circuitCtx.lineWidth = 1.6;
+            circuitCtx.beginPath();
+            circuitCtx.moveTo(x, y1);
+            circuitCtx.lineTo(x, y2);
+            circuitCtx.stroke();
+        }
+
+        // Ícono de fuente de flujo impuesto (círculo + flecha horizontal,
+        // dirección según el signo de q'' — mismo criterio que la flecha de
+        // flujo del esquema físico en render()).
+        function drawFluxSource(x, y, qVal, color) {
+            const r = 8;
+            circuitCtx.strokeStyle = color || sourceColor;
+            circuitCtx.lineWidth = 1.6;
+            circuitCtx.beginPath();
+            circuitCtx.arc(x, y, r, 0, Math.PI * 2);
+            circuitCtx.stroke();
+            const dir = qVal >= 0 ? 1 : -1;
+            circuitCtx.beginPath();
+            circuitCtx.moveTo(x - r * 0.5 * dir, y);
+            circuitCtx.lineTo(x + r * 0.5 * dir, y);
+            circuitCtx.lineTo(x + r * 0.1 * dir, y - r * 0.35);
+            circuitCtx.moveTo(x + r * 0.5 * dir, y);
+            circuitCtx.lineTo(x + r * 0.1 * dir, y + r * 0.35);
+            circuitCtx.stroke();
+        }
+
+        function label(text, x, y, color, font) {
+            circuitCtx.save();
+            circuitCtx.shadowColor = 'rgba(0,0,0,0.85)';
+            circuitCtx.shadowBlur = 3;
+            circuitCtx.fillStyle = color || wireColor;
+            circuitCtx.font = font || (veryCompact ? '7px Inter, sans-serif' : (compact ? '8px Inter, sans-serif' : 'bold 9px Inter, sans-serif'));
+            circuitCtx.fillText(text, x, y);
+            circuitCtx.restore();
+        }
+
+        // ==================== FRONTERA (izquierda o derecha, espejadas) ====================
+        function drawBoundary(side, type, bcInfo, hInput, tinfInput, epsInput, tsurInput, fluxInput, TsVal) {
+            const isLeft = side === 'left';
+            const xOuter = isLeft ? x0 : xEnd;
+            const xNode = isLeft ? xL : xR;
+            const xMid = (xOuter + xNode) / 2;
+
+            if (type === 'temp') {
+                drawNode(xNode, wireY, tempColor);
+                circuitCtx.textAlign = 'center';
+                label(t('T impuesta'), xNode, wireY - 20, tempColor);
+                label(`${formatNumCompact(TsVal, 1)}°C`, xNode, wireY + 22, tempColor, 'bold 10px Inter, sans-serif');
+                circuitCtx.textAlign = 'center';
+                return;
+            }
+
+            if (type === 'flux') {
+                const xIcon = isLeft ? xOuter + (xNode - xOuter) * 0.4 : xOuter - (xOuter - xNode) * 0.4;
+                drawFluxSource(xIcon, wireY, parseFloat(fluxInput.value), sourceColor);
+                circuitCtx.strokeStyle = sourceColor;
+                circuitCtx.lineWidth = 1.6;
+                circuitCtx.beginPath();
+                circuitCtx.moveTo(isLeft ? xIcon + 8 : xIcon - 8, wireY);
+                circuitCtx.lineTo(xNode, wireY);
+                circuitCtx.stroke();
+                drawNode(xNode, wireY, sourceColor);
+                circuitCtx.textAlign = 'center';
+                label(`q''=${formatNumCompact(parseFloat(fluxInput.value), 0)}`, xIcon, wireY - 20, sourceColor);
+                label(t('Fuente'), xIcon, wireY + 22, sourceColor);
+                circuitCtx.textAlign = 'center';
+                return;
+            }
+
+            if (type === 'comb' || type === 'comb-flux') {
+                // Dos ramas INDEPENDIENTES (dos nodos exteriores distintos: T∞ y
+                // T_sur no son el mismo potencial) que convergen en el nodo de
+                // superficie xNode — topología correcta de R_conv ∥ R_rad.
+                const yTop = wireY - 16, yBot = wireY + 16;
+                const branchLo = Math.min(xOuter, xNode), branchHi = Math.max(xOuter, xNode);
+                drawNode(xOuter, yTop, tempColor);
+                drawNode(xOuter, yBot, radColor);
+                drawZigzag(branchLo, branchHi, yTop, resColor);
+                drawZigzag(branchLo, branchHi, yBot, radColor);
+                drawWireV(xNode, yTop, wireY);
+                drawWireV(xNode, yBot, wireY);
+                drawNode(xNode, wireY, tempColor);
+
+                circuitCtx.textAlign = isLeft ? 'left' : 'right';
+                label(`T∞=${formatNumCompact(parseFloat(tinfInput.value), 0)}°`, xOuter, yTop - 20, tempColor);
+                label(`T_sur=${formatNumCompact(parseFloat(tsurInput.value), 0)}°`, xOuter, yBot + 28, radColor);
+                circuitCtx.textAlign = 'center';
+                if (!compact) {
+                    label(`R_conv=${formatNumCompact(bcInfo.hConv > 0 ? 1 / bcInfo.hConv : 0, 3)}`, xMid, yTop - 10, resColor);
+                    label(`R_rad=${formatNumCompact(bcInfo.hRad > 0 ? 1 / bcInfo.hRad : 0, 3)}`, xMid, yBot + 16, radColor);
+                }
+                if (type === 'comb-flux') {
+                    // Fuente de flujo tapeada al mismo nodo de superficie (xNode),
+                    // desplazada VERTICALMENTE por debajo de ambas ramas R_conv/
+                    // R_rad (fuera de su franja yTop..yBot) para no solaparse con
+                    // los zigzags ni con la etiqueta T_sur.
+                    const ySrc = wireY + 58;
+                    drawWireV(xNode, wireY, ySrc - 8);
+                    drawFluxSource(xNode, ySrc, parseFloat(fluxInput.value), sourceColor);
+                    label(`q''=${formatNumCompact(parseFloat(fluxInput.value), 0)} (${t('Fuente')})`, xNode, ySrc + 16, sourceColor, '7px Inter, sans-serif');
+                }
+                return;
+            }
+
+            // 'conv' o 'rad' puro: una sola rama resistiva
+            drawNode(xOuter, wireY, tempColor);
+            drawZigzag(Math.min(xOuter, xNode), Math.max(xOuter, xNode), wireY, type === 'rad' ? radColor : resColor);
+            drawNode(xNode, wireY, tempColor);
+            const rVal = type === 'rad' ? (bcInfo.hRad > 0 ? 1 / bcInfo.hRad : 0) : (bcInfo.hConv > 0 ? 1 / bcInfo.hConv : 0);
+            circuitCtx.textAlign = 'center';
+            if (!veryCompact) label(type === 'rad' ? 'R_rad' : 'R_conv', xMid, wireY - 14, type === 'rad' ? radColor : resColor);
+            label(formatNumCompact(rVal, 3), xMid, wireY + 18, type === 'rad' ? radColor : resColor, 'bold 9px Inter, sans-serif');
+            circuitCtx.textAlign = isLeft ? 'left' : 'right';
+            const outerText = type === 'rad'
+                ? `T_sur=${formatNumCompact(parseFloat(tsurInput.value), 0)}°`
+                : `T∞=${formatNumCompact(parseFloat(tinfInput.value), 0)}°`;
+            label(outerText, xOuter, wireY - 24, tempColor);
+            circuitCtx.textAlign = 'center';
+        }
+
+        drawBoundary('left', typeL, bcResL, inputLH, inputLTinf, inputLEps, inputLTsur, inputLFlux, T[0]);
+        drawBoundary('right', typeR, bcResR, inputRH, inputRTinf, inputREps, inputRTsur, inputRFlux, T[N]);
+
+        // ==================== CAPAS (RESISTENCIAS EN SERIE) ====================
+        const subDigits = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉", "₁₀"];
+        circuitCtx.textAlign = 'center';
+        for (let i = 0; i < N; i++) {
+            const segX0 = xL + i * layerW;
+            const segX1 = xL + (i + 1) * layerW;
+            drawZigzag(segX0, segX1, wireY, resColor);
+            drawNode(segX0, wireY, nodeColor);
+            const sub = subDigits[i + 1] || String(i + 1);
+            if (!veryCompact) label(`R${sub}`, (segX0 + segX1) / 2, wireY - 14, resColor);
+            label(formatNumCompact(layers[i].L / layers[i].k, 3), (segX0 + segX1) / 2, wireY + 18, resColor, veryCompact ? '7px Inter, sans-serif' : 'bold 9px Inter, sans-serif');
+            // Temperatura de interfase: alternando arriba/abajo para no chocar entre
+            // nodos consecutivos. Se omite i===0 cuando typeL==='temp': ese nodo
+            // (xL) ya lo rotula drawBoundary() con su propio texto "T impuesta" —
+            // evita una etiqueta duplicada sobre el mismo punto.
+            if (i > 0 || typeL !== 'temp') {
+                const belowRow = (i % 2 === 0);
+                label(`${formatNumCompact(T[i], 1)}°`, segX0, belowRow ? wireY - 26 : wireY + 30, tempColor, '7px Inter, sans-serif');
+            }
+        }
+        drawNode(xR, wireY, nodeColor);
+        if (typeR !== 'temp') {
+            // El nodo T_s,N+1 ya lo rotula drawBoundary() en modo 'temp'; en los
+            // demás tipos se etiqueta aquí junto con la serie de capas.
+            label(`${formatNumCompact(T[N], 1)}°`, xR, (N % 2 === 0) ? wireY - 26 : wireY + 30, tempColor, '7px Inter, sans-serif');
+        }
+    }
 
     // 6. Data Tabulation and Parametric Graphing
     let customTabulatedData = [];
@@ -16240,6 +16539,7 @@ function initMulticapaCustomSimulation() {
     function animLoop() {
         animTime += 0.05;
         render();
+        renderCircuit(); // LOTE — Circuito de Resistencias Térmicas Equivalentes
         animId = requestAnimationFrame(animLoop);
     }
     animLoop();
