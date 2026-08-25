@@ -758,7 +758,6 @@ body {
   margin-bottom: 1.5rem;
 }
 
-
 .sim-intro p {
   font-size: 0.9rem;
   color: var(--text-muted);
@@ -1484,12 +1483,6 @@ body.light-theme .newton-tab-btn.active {
   margin-left: 20px;
 }
 
-
-
-
-
-
-
 /* Footer */
 .app-footer {
   margin-top: 40px;
@@ -1705,7 +1698,6 @@ body.light-theme .newton-tab-btn.active {
   }
 }
 
-
 /* Clase para expandir el laboratorio a pantalla completa */
 .lab-fullscreen {
   position: fixed !important;
@@ -1719,7 +1711,6 @@ body.light-theme .newton-tab-btn.active {
   padding: 20px !important;
   box-sizing: border-box !important;
 }
-
 
 /* ============================================================
    NEWTON COOLING LAB — FULLSCREEN / MODAL
@@ -2828,7 +2819,6 @@ body.fourier-lab-open {
   cursor: pointer;
 }
 
-
 #fourier-lab-close-btn.visible {
   display: flex;
 }
@@ -3128,130 +3118,6 @@ body.transient-lab-open {
 
 @media (max-width: 600px) {
   #transient-sim.fullscreen {
-    padding: 56px 10px 24px;
-  }
-}
-
-/* ============================================================
-   INSULATED LAB — FULLSCREEN & HUD STYLES
-   ============================================================ */
-
-#insulated-sim.fullscreen {
-  display: block !important;
-  position: fixed !important;
-  top: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  z-index: 999999 !important;
-  background-color: var(--bg-dark, #0f172a);
-  color: var(--text-primary, #e2e8f0);
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 72px 32px 48px;
-  box-sizing: border-box;
-  opacity: 1 !important;
-  pointer-events: all !important;
-  transform: none !important;
-}
-
-body.insulated-lab-open {
-  overflow: hidden;
-}
-
-#insulated-lab-close-btn {
-  position: fixed;
-  top: 20px;
-  right: 25px;
-  z-index: 1000000;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  line-height: 1;
-  font-weight: 600;
-  color: var(--text-primary, #e2e8f0);
-  background-color: rgba(255, 255, 255, 0.10);
-  border: 1.5px solid rgba(255, 255, 255, 0.20);
-  border-radius: 50%;
-  cursor: pointer;
-  pointer-events: auto !important;
-  isolation: isolate;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.18s ease;
-}
-
-#insulated-lab-close-btn.visible {
-  display: flex;
-}
-
-#insulated-lab-close-btn:hover,
-#insulated-lab-close-btn:focus-visible {
-  background-color: rgba(239, 68, 68, 0.18);
-  border-color: #ef4444;
-  color: #ef4444;
-  transform: scale(1.1) rotate(90deg);
-  outline: none;
-}
-
-#insulated-lab-close-btn:active {
-  transform: scale(0.93) rotate(90deg);
-}
-
-#insulated-lab-open-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  background: rgba(59, 130, 246, 0.15);
-  color: #60a5fa;
-  border: 1px solid rgba(59, 130, 246, 0.35);
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.82rem;
-  font-weight: 600;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
-}
-
-#insulated-lab-open-btn:hover {
-  background: rgba(59, 130, 246, 0.28);
-  border-color: #60a5fa;
-  transform: translateY(-1px);
-}
-
-#insulated-sim.is-closing {
-  display: block !important;
-  opacity: 0;
-  transform: scale(0.97);
-  pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-#insulated-sim::-webkit-scrollbar {
-  width: 7px;
-}
-
-#insulated-sim::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.04);
-}
-
-#insulated-sim::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
-}
-
-@media (max-width: 900px) {
-  #insulated-sim.fullscreen {
-    padding: 64px 16px 32px;
-  }
-}
-
-@media (max-width: 600px) {
-  #insulated-sim.fullscreen {
     padding: 56px 10px 24px;
   }
 }
@@ -4460,218 +4326,6 @@ body.invsq-lab-open {
   #invsq-sim.fullscreen {
     padding: 56px 10px 24px;
   }
-}
-
-/* ============================================================
-   LOTE 5 — FULLSCREEN STYLES
-   res-sim · par-sim · multi-sim
-   ============================================================ */
-
-/* ── Fullscreen base ── */
-#res-sim.fullscreen,
-#par-sim.fullscreen,
-#multi-sim.fullscreen {
-  display: block !important;
-  position: fixed !important;
-  top: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  z-index: 999999 !important;
-  background-color: var(--bg-dark, #0f172a);
-  color: var(--text-primary, #e2e8f0);
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 72px 32px 48px;
-  box-sizing: border-box;
-  opacity: 1 !important;
-  pointer-events: all !important;
-  transform: none !important;
-}
-
-/* ── Closing animation ── */
-#res-sim.is-closing,
-#par-sim.is-closing,
-#multi-sim.is-closing {
-  display: block !important;
-  opacity: 0;
-  transform: scale(0.97);
-  pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-/* ── Scrollbar ── */
-#res-sim::-webkit-scrollbar,
-#par-sim::-webkit-scrollbar,
-#multi-sim::-webkit-scrollbar {
-  width: 7px;
-}
-
-#res-sim::-webkit-scrollbar-track,
-#par-sim::-webkit-scrollbar-track,
-#multi-sim::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.04);
-}
-
-#res-sim::-webkit-scrollbar-thumb,
-#par-sim::-webkit-scrollbar-thumb,
-#multi-sim::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
-}
-
-/* ── Body scroll lock ── */
-body.res-lab-open,
-body.par-lab-open,
-body.multi-lab-open {
-  overflow: hidden;
-}
-
-/* ── Close buttons ── */
-#res-lab-close-btn,
-#par-lab-close-btn,
-#multi-lab-close-btn {
-  position: fixed;
-  top: 20px;
-  right: 25px;
-  z-index: 1000000;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  line-height: 1;
-  font-weight: 600;
-  color: var(--text-primary, #e2e8f0);
-  background-color: rgba(255, 255, 255, 0.10);
-  border: 1.5px solid rgba(255, 255, 255, 0.20);
-  border-radius: 50%;
-  cursor: pointer;
-  pointer-events: auto !important;
-  isolation: isolate;
-  transition: background-color 0.2s ease, border-color 0.2s ease,
-    color 0.2s ease, transform 0.18s ease;
-}
-
-#res-lab-close-btn.visible,
-#par-lab-close-btn.visible,
-#multi-lab-close-btn.visible {
-  display: flex;
-}
-
-#res-lab-close-btn:hover,
-#res-lab-close-btn:focus-visible,
-#par-lab-close-btn:hover,
-#par-lab-close-btn:focus-visible,
-#multi-lab-close-btn:hover,
-#multi-lab-close-btn:focus-visible {
-  background-color: rgba(239, 68, 68, 0.18);
-  border-color: #ef4444;
-  color: #ef4444;
-  transform: scale(1.1) rotate(90deg);
-  outline: none;
-}
-
-#res-lab-close-btn:active,
-#par-lab-close-btn:active,
-#multi-lab-close-btn:active {
-  transform: scale(0.93) rotate(90deg);
-}
-
-/* ── Open buttons ── */
-#res-lab-open-btn,
-#par-lab-open-btn,
-#multi-lab-open-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  background: rgba(59, 130, 246, 0.15);
-  color: #60a5fa;
-  border: 1px solid rgba(59, 130, 246, 0.35);
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.82rem;
-  font-weight: 600;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
-}
-
-#res-lab-open-btn:hover,
-#par-lab-open-btn:hover,
-#multi-lab-open-btn:hover {
-  background: rgba(59, 130, 246, 0.28);
-  border-color: #60a5fa;
-  transform: translateY(-1px);
-}
-
-/* ── Responsive ── */
-@media (max-width: 900px) {
-
-  #res-sim.fullscreen,
-  #par-sim.fullscreen,
-  #multi-sim.fullscreen {
-    padding: 64px 16px 32px;
-  }
-}
-
-@media (max-width: 600px) {
-
-  #res-sim.fullscreen,
-  #par-sim.fullscreen,
-  #multi-sim.fullscreen {
-    padding: 56px 10px 24px;
-  }
-}
-
-/* ============================================================
-   LOTE 3 — #multi-sim: CONTRASTE EN body.light-theme
-   Alcance exclusivo: #multi-sim. No modifica ninguna variable
-   global (--accent-orange/--accent-cyan/--text-muted) ni ninguna
-   otra sección/selector de este archivo.
-
-   1) El canvas de #multi-sim (.chart-container) usa un fondo FIJO
-      rgba(0,0,0,0.2) (regla global, línea ~777) que se compone
-      sobre var(--bg-dark) del body. En tema oscuro eso da un fondo
-      casi negro; en body.light-theme, var(--bg-dark) es casi blanco
-      (#f1f5f9) y el resultado es un gris CLARO — sobre el cual los
-      colores del canvas (ticks, cajas de capa, badges, T∞/h, q'')
-      fueron calibrados asumiendo un fondo oscuro. Se fija aquí un
-      fondo oscuro opaco SÓLO para #multi-sim en tema claro, así el
-      dibujo del canvas conserva el contraste ya calibrado sin tener
-      que reescribir cada color del Chart.js/canvas en app_v2.js.
-   2) Las temperaturas de interfase (T_s1, T_int1, T_int2, T_s2) y
-      los valores T∞/h de los sliders heredan `var(--accent-orange)`
-      / `var(--accent-cyan)` (reglas globales .highlight-val /
-      .control-group label span) — ambos tonos, calibrados para
-      fondo oscuro, bajan de contraste sobre el fondo casi blanco de
-      body.light-theme. Se oscurecen aquí sólo dentro de #multi-sim.
-   ============================================================ */
-body.light-theme #multi-sim .chart-container {
-  background: rgba(15, 23, 42, 0.85);
-}
-
-body.light-theme #multi-sim .control-group label span {
-  color: #c2410c; /* naranja-700: mismo tono, contraste reforzado en tema claro */
-}
-
-body.light-theme #multi-sim .highlight-val {
-  color: #c2410c;
-}
-
-body.light-theme #multi-sim #multi-ts1-val {
-  color: #c2410c !important; /* index.html fija inline color:var(--accent-orange) */
-}
-
-body.light-theme #multi-sim #multi-ts2-val {
-  color: #0e7490 !important; /* index.html fija inline color:var(--accent-cyan) */
-}
-
-body.light-theme #multi-sim #multi-q-val {
-  color: #b91c1c !important; /* index.html fija inline color:#ef4444; mismo rojo, más oscuro */
 }
 
 /* ============================================================
@@ -7605,7 +7259,7 @@ body.light-theme #contact-res-sim-modal .cr-hud-chip {
    sólo lectura (<span id="...-val">) por un <input type="number">
    editable sin tener que repetir estas reglas por laboratorio. Bloque 1
    (Conducción y Circuitos Térmicos): fourier-sim, fin-sim, pennington-sim,
-   telkes-sim, res-sim, par-sim, transient-sim, insulated-sim,
+   telkes-sim, transient-sim,
    contact-res-sim. No toca ningún estilo de #multicapa-custom-sim
    (.cm-num-sync sigue intacto, sin cambios).
    ============================================================ */
@@ -7663,7 +7317,7 @@ input[type="number"].sim-number-input::-webkit-outer-spin-button {
    medianas, ~1000-1300px, Regla #10) — mismo fix ya validado en
    #multicapa-custom-sim. Sólo se aplica a labels que ya son flex
    (.control-group label, regla global de todo el sitio) dentro de estos
-   9 laboratorios; ningún otro laboratorio se ve afectado por selector. Se
+   6 laboratorios; ningún otro laboratorio se ve afectado por selector. Se
    usan los ID que persisten durante el teleport DOM a fullscreen
    (CFG.modalId de cada controller): fourier-lab-modal y
    contact-res-sim-modal (wrappers dedicados), el resto usa directamente
@@ -7674,10 +7328,7 @@ input[type="number"].sim-number-input::-webkit-outer-spin-button {
 #fin-sim .control-group label,
 #pennington-sim .control-group label,
 #telkes-sim .control-group label,
-#res-sim .control-group label,
-#par-sim .control-group label,
-#transient-sim .control-group label,
-#insulated-sim .control-group label {
+#transient-sim .control-group label {
     flex-wrap: wrap;
     min-width: 0;
 }
@@ -7722,7 +7373,6 @@ input[type="number"].sim-number-input::-webkit-outer-spin-button {
 #invsq-sim .control-group label,
 #prandtl-sim .control-group label,
 #gen-sim .control-group label,
-#multi-sim .control-group label,
 #bernoulli-sim .control-group label,
 #pelton-sim .control-group label,
 #celsius-sim .control-group label,

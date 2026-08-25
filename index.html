@@ -30,7 +30,6 @@
     <script
         src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1/dist/chartjs-plugin-annotation.min.js"></script>
 
-
     <!-- FIX v2: MathJax configured for manual typeset control to fix first-load rendering -->
     <script>
         window.MathJax = {
@@ -476,13 +475,6 @@
 
                         <div class="tab-category-title"><span class="lang-es">Circuitos Térmicos</span><span
                                 class="lang-en" style="display:none;">Thermal Circuits</span></div>
-                        <button class="tab-btn" data-target="multi-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Pared Multicapa</button>
-                        <button class="tab-btn" data-target="par-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion conveccion radiacion">Resistencias en
-                            Paralelo</button>
-                        <button class="tab-btn" data-target="res-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Pared Compuesta y Circuito
-                            Térmico</button>
-                        <button class="tab-btn" data-target="insulated-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Placa Plana
-                            Aislada</button>
                         <button class="tab-btn" data-target="multicapa-custom-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Pared
                             Multicapa Personalizada</button>
 
@@ -690,9 +682,9 @@
                                                     <span class="lang-en" style="display:none;">Temperature
                                                         T<sub>1</sub>
                                                         (Left/Inner):</span>
-                                                    <span><input type="number" id="fourier-t1-num" class="sim-number-input" min="0" max="500" step="5" value="100"> &deg;C</span>
+                                                    <span><input type="number" id="fourier-t1-num" class="sim-number-input" min="-273" max="5000" step="1" value="100"> &deg;C</span>
                                                 </label>
-                                                <input type="range" id="fourier-t1" min="0" max="500" step="5"
+                                                <input type="range" id="fourier-t1" min="-273" max="5000" step="1"
                                                     value="100">
                                             </div>
                                             <div class="control-group" id="fourier-t2-container">
@@ -702,27 +694,27 @@
                                                     <span class="lang-en" style="display:none;">Temperature
                                                         T<sub>2</sub>
                                                         (Right/Outer):</span>
-                                                    <span><input type="number" id="fourier-t2-num" class="sim-number-input" min="0" max="500" step="5" value="20"> &deg;C</span>
+                                                    <span><input type="number" id="fourier-t2-num" class="sim-number-input" min="-273" max="5000" step="1" value="20"> &deg;C</span>
                                                 </label>
-                                                <input type="range" id="fourier-t2" min="0" max="500" step="5"
+                                                <input type="range" id="fourier-t2" min="-273" max="5000" step="1"
                                                     value="20">
                                             </div>
                                             <div class="control-group" id="fourier-q-in-container"
                                                 style="display: none;">
-                                                <label for="fourier-q-in"><span class="lang-es">Tasa de Calor Impuesta
-                                                        (q):</span><span class="lang-en" style="display:none;">Imposed
+                                                <label for="fourier-q-in"><span class="lang-es">Flujo de Calor Impuesto
+                                                        (q''):</span><span class="lang-en" style="display:none;">Imposed
                                                         Heat
-                                                        Rate (q):</span> <input type="number" id="fourier-q-in-num" class="sim-number-input" min="-1000" max="1000" step="10" value="164">
-                                                    kW</label>
-                                                <input type="range" id="fourier-q-in" min="-1000" max="1000" step="10"
-                                                    value="164">
+                                                        Flux (q''):</span> <input type="number" id="fourier-q-in-num" class="sim-number-input" min="-1000000" max="1000000" step="1" value="164000">
+                                                    <span id="fourier-q-in-compact" class="value-badge">164.00 kW/m&sup2;</span></label>
+                                                <input type="range" id="fourier-q-in" min="-1000000" max="1000000" step="1"
+                                                    value="164000">
                                             </div>
                                             <div class="control-group">
                                                 <label for="fourier-k"><span class="lang-es">Conductividad Térmica
                                                         (k):</span><span class="lang-en" style="display:none;">Thermal
-                                                        Conductivity (k):</span> <input type="number" id="fourier-k-num" class="sim-number-input" min="0.1" max="400" step="0.1" value="205">
+                                                        Conductivity (k):</span> <input type="number" id="fourier-k-num" class="sim-number-input" min="0.001" max="2200" step="0.001" value="205">
                                                     W/(m&middot;K)</label>
-                                                <input type="range" id="fourier-k" min="0.1" max="400" step="0.1"
+                                                <input type="range" id="fourier-k" min="0.001" max="2200" step="0.001"
                                                     value="205">
                                             </div>
                                             <div class="control-group" id="fourier-r1-container" style="display: none;">
@@ -737,8 +729,8 @@
                                                 <label id="fourier-l-label" for="fourier-l"><span
                                                         class="lang-es">Espesor
                                                         (L):</span><span class="lang-en" style="display:none;">Thickness
-                                                        (L):</span> <input type="number" id="fourier-l-num" class="sim-number-input" min="0" max="1.0" step="0.01" value="0.1"> m</label>
-                                                <input type="range" id="fourier-l" min="0" max="1.0" step="0.01"
+                                                        (L):</span> <input type="number" id="fourier-l-num" class="sim-number-input" min="0.001" max="1.0" step="0.001" value="0.1"> m</label>
+                                                <input type="range" id="fourier-l" min="0.001" max="1.0" step="0.001"
                                                     value="0.1">
                                             </div>
                                             <div class="control-group" id="fourier-r2-container" style="display: none;">
@@ -1688,8 +1680,6 @@
                             </div>
                         </div>
 
-
-
                         <!-- Prandtl Simulation Tab -->
                         <div class="tab-pane" id="prandtl-sim">
                             <!-- ⬛ Fullscreen wrapper -->
@@ -2289,216 +2279,6 @@
                             </div>
                         </div>
 
-                        <!-- Multilayer Wall Simulation Tab -->
-                        <div class="tab-pane" id="multi-sim">
-                            <!-- ⬛ Fullscreen wrapper -->
-                            <button id="multi-lab-close-btn" aria-label="Cerrar pantalla completa"
-                                title="Cerrar pantalla completa">&#x2715;</button>
-                            <div id="multi-lab-fullscreen-anchor"
-                                style="display:flex;justify-content:flex-end;margin-bottom:8px;">
-                                <button id="multi-lab-open-btn" title="Abrir laboratorio en pantalla completa"
-                                    aria-label="Abrir laboratorio en pantalla completa">
-                                    <i class="fas fa-expand"></i>
-                                    <span class="lang-es">Pantalla Completa</span>
-                                    <span class="lang-en" style="display:none;">Full Screen</span>
-                                </button>
-                            </div>
-                            <div id="multi-lab-aria-live" class="sr-only" role="status" aria-live="polite"></div>
-                            <div class="sim-intro">
-                                <h3><span class="lang-es">Conducción en Pared Multicapa (3 Capas en
-                                        Serie)</span><span class="lang-en" style="display:none;">19. Conduction in
-                                        Multilayer Wall (3 Layers in Series)</span></h3>
-                                <p><span class="lang-es">Análisis de la transferencia de calor por conducción
-                                        estacionaria unidimensional a través de una pared compuesta de tres capas con
-                                        distintas conductividades térmicas $k_1, k_2, k_3$ y espesores $L_1, L_2, L_3$.
-                                        Las fronteras externas están expuestas a fluidos a temperaturas $T_{\infty, 1}$
-                                        y $T_{\infty, 2}$ con coeficientes de convección $h_1$ y $h_2$.</span><span
-                                        class="lang-en" style="display:none;">Analysis of heat transfer by
-                                        one-dimensional stationary conduction through a wall composed of three layers
-                                        with different thermal conductivities $k_1, k_2, k_3$ and thicknesses $L_1, L_2,
-                                        L_3$. The external boundaries are exposed to fluids at temperatures $T_{\infty,
-                                        1}$ and $T_{\infty, 2}$ with convection coefficients $h_1$ and $h_2$.</span></p>
-                                <p><span class="lang-es">La resistencia térmica total es la suma en serie: $$
-                                        R''_{\text{tot}} = \frac{1}{h_1} + \frac{L_1}{k_1} + \frac{L_2}{k_2} +
-                                        \frac{L_3}{k_3} + \frac{1}{h_2} $$</span><span class="lang-en"
-                                        style="display:none;">The total thermal resistance is the series sum: $$
-                                        R''_{\text{tot}} = \frac{1}{h_1} + \frac{L_1}{k_1} + \frac{L_2}{k_2} +
-                                        \frac{L_3}{k_3} + \frac{1}{h_2} $$</span></p>
-                                <p><span class="lang-es">El flujo de calor constante es: $$ q'' = \frac{T_{\infty, 1} -
-                                        T_{\infty, 2}}{R''_{\text{tot}}} $$</span><span class="lang-en"
-                                        style="display:none;">The constant heat flux is: $$ q'' = \frac{T_{\infty, 1} -
-                                        T_{\infty, 2}}{R''_{\text{tot}}} $$</span></p>
-                            </div>
-
-                            <div class="simulation-workspace">
-                                <div class="chart-container" style="height: auto; min-height: 350px;">
-                                    <canvas id="multiChart"></canvas>
-                                </div>
-                                <div class="controls-container">
-                                    <div class="sliders-grid">
-                                        <!-- Left Convection -->
-                                        <div class="control-group" style="border-left: 3px solid var(--accent-orange);">
-                                            <label for="multi-tinf1"><span class="lang-es">Temp. Ambiente Izq.
-                                                    $(T_{\infty, 1})$:</span><span class="lang-en"
-                                                    style="display:none;">Temp. Left Environment $(T_{\infty,
-                                                    1})$:</span> <input type="number" id="multi-tinf1-num" class="sim-number-input" min="-20" max="1000" step="1" value="80"> &deg;C</label>
-                                            <input type="range" id="multi-tinf1" min="-20" max="1000" step="1"
-                                                value="80">
-                                        </div>
-                                        <div class="control-group" style="border-left: 3px solid var(--accent-orange);">
-                                            <label for="multi-h1"><span class="lang-es">Coef. Convección Izq.
-                                                    $(h_1)$:</span><span class="lang-en" style="display:none;">Coef.
-                                                    Left Convection $(h_1)$:</span> <input type="number" id="multi-h1-num" class="sim-number-input" min="5" max="500" step="5" value="50">
-                                                <span class="lang-es">W/m²K</span><span class="lang-en"
-                                                    style="display:none;">W/m²K</span></label>
-                                            <input type="range" id="multi-h1" min="5" max="500" step="5" value="50">
-                                        </div>
-
-                                        <!-- Layer 1 -->
-                                        <div class="control-group">
-                                            <label for="multi-l1"><span class="lang-es">Espesor Capa 1
-                                                    $(L_1)$:</span><span class="lang-en" style="display:none;">Layer 1
-                                                    Thickness $(L_1)$:</span> <input type="number" id="multi-l1-num" class="sim-number-input" min="0.01" max="1.0" step="0.01" value="0.05">
-                                                m</label>
-                                            <input type="range" id="multi-l1" min="0.01" max="1.0" step="0.01"
-                                                value="0.05">
-                                        </div>
-                                        <div class="control-group">
-                                            <label for="multi-k1"><span class="lang-es">Conductividad Capa 1
-                                                    $(k_1)$:</span><span class="lang-en"
-                                                    style="display:none;">Conductivity Layer 1 $(k_1)$:</span> <input type="number" id="multi-k1-num" class="sim-number-input" min="0.1" max="400" step="0.01" value="20"> <span class="lang-es">W/mK</span><span
-                                                    class="lang-en" style="display:none;">W/mK</span></label>
-                                            <input type="range" id="multi-k1" min="0.1" max="400" step="0.01"
-                                                value="20">
-                                        </div>
-
-                                        <!-- Layer 2 -->
-                                        <div class="control-group">
-                                            <label for="multi-l2"><span class="lang-es">Espesor Capa 2
-                                                    $(L_2)$:</span><span class="lang-en" style="display:none;">Layer 2
-                                                    Thickness $(L_2)$:</span> <input type="number" id="multi-l2-num" class="sim-number-input" min="0.01" max="1.0" step="0.01" value="0.08">
-                                                m</label>
-                                            <input type="range" id="multi-l2" min="0.01" max="1.0" step="0.01"
-                                                value="0.08">
-                                        </div>
-                                        <div class="control-group">
-                                            <label for="multi-k2"><span class="lang-es">Conductividad Capa 2
-                                                    $(k_2)$:</span><span class="lang-en" style="display:none;">Layer 2
-                                                    Conductivity $(k_2)$:</span> <input type="number" id="multi-k2-num" class="sim-number-input" min="0.1" max="400" step="0.01" value="5"> <span
-                                                    class="lang-es">W/mK</span><span class="lang-en"
-                                                    style="display:none;">W/mK</span></label>
-                                            <input type="range" id="multi-k2" min="0.1" max="400" step="0.01" value="5">
-                                        </div>
-
-                                        <!-- Layer 3 -->
-                                        <div class="control-group">
-                                            <label for="multi-l3"><span class="lang-es">Espesor Capa 3
-                                                    $(L_3)$:</span><span class="lang-en" style="display:none;">Layer 3
-                                                    Thickness $(L_3)$:</span> <input type="number" id="multi-l3-num" class="sim-number-input" min="0.01" max="1.0" step="0.01" value="0.05">
-                                                m</label>
-                                            <input type="range" id="multi-l3" min="0.01" max="1.0" step="0.01"
-                                                value="0.05">
-                                        </div>
-                                        <div class="control-group">
-                                            <label for="multi-k3"><span class="lang-es">Conductividad Capa 3
-                                                    $(k_3)$:</span><span class="lang-en" style="display:none;">Layer 3
-                                                    Conductivity $(k_3)$:</span> <input type="number" id="multi-k3-num" class="sim-number-input" min="0.1" max="400" step="0.01" value="50"> <span
-                                                    class="lang-es">W/mK</span><span class="lang-en"
-                                                    style="display:none;">W/mK</span></label>
-                                            <input type="range" id="multi-k3" min="0.1" max="400" step="0.01"
-                                                value="50">
-                                        </div>
-
-                                        <!-- Right Convection -->
-                                        <div class="control-group" style="border-left: 3px solid var(--accent-cyan);">
-                                            <label for="multi-tinf2"><span class="lang-es">Temp. Ambiente Der.
-                                                    $(T_{\infty, 2})$:</span><span class="lang-en"
-                                                    style="display:none;">Temp. Environment Right. $(T_{\infty,
-                                                    2})$:</span> <input type="number" id="multi-tinf2-num" class="sim-number-input" min="-20" max="150" step="1" value="20"> &deg;C</label>
-                                            <input type="range" id="multi-tinf2" min="-20" max="150" step="1"
-                                                value="20">
-                                        </div>
-                                        <div class="control-group" style="border-left: 3px solid var(--accent-cyan);">
-                                            <label for="multi-h2"><span class="lang-es">Coef. Convección Der.
-                                                    $(h_2)$:</span><span class="lang-en" style="display:none;">Coef.
-                                                    Right convection $(h_2)$:</span> <input type="number" id="multi-h2-num" class="sim-number-input" min="5" max="500" step="5" value="25">
-                                                <span class="lang-es">W/m²K</span><span class="lang-en"
-                                                    style="display:none;">W/m²K</span></label>
-                                            <input type="range" id="multi-h2" min="5" max="500" step="5" value="25">
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group result-card" style="margin-top: 15px;">
-                                        <div class="result-row">
-                                            <span>Flujo de Calor $(q'')$:</span>
-                                            <span id="multi-q-val" class="highlight-val" style="color: #ef4444;">0.00
-                                                kW/m²</span>
-                                        </div>
-                                        <div class="result-row">
-                                            <span><span class="lang-es">Resistencia Total
-                                                    $(R''_{\text{tot}})$:</span><span class="lang-en"
-                                                    style="display:none;">Total Resistance
-                                                    $(R''_{\text{tot}})$:</span></span>
-                                            <span id="multi-r-val" class="highlight-val">0.0000 m²K/W</span>
-                                        </div>
-                                        <div class="result-row"
-                                            style="font-size: 0.8rem; padding-left: 10px; color: var(--text-muted);">
-                                            <span>&bull; Conv. Izquierda $(R''_{\text{conv,1}})$:</span>
-                                            <span id="multi-r-conv1-val">0.0000 m²K/W</span>
-                                        </div>
-                                        <div class="result-row"
-                                            style="font-size: 0.8rem; padding-left: 10px; color: var(--text-muted);">
-                                            <span>&bull; Conducción Capa 1 $(R''_{\text{cond,1}})$:</span>
-                                            <span id="multi-r-cond1-val">0.0000 m²K/W</span>
-                                        </div>
-                                        <div class="result-row"
-                                            style="font-size: 0.8rem; padding-left: 10px; color: var(--text-muted);">
-                                            <span>&bull; Conducción Capa 2 $(R''_{\text{cond,2}})$:</span>
-                                            <span id="multi-r-cond2-val">0.0000 m²K/W</span>
-                                        </div>
-                                        <div class="result-row"
-                                            style="font-size: 0.8rem; padding-left: 10px; color: var(--text-muted);">
-                                            <span>&bull; Conducción Capa 3 $(R''_{\text{cond,3}})$:</span>
-                                            <span id="multi-r-cond3-val">0.0000 m²K/W</span>
-                                        </div>
-                                        <div class="result-row"
-                                            style="font-size: 0.8rem; padding-left: 10px; color: var(--text-muted); margin-bottom: 0.5rem;">
-                                            <span>&bull; Conv. Derecha $(R''_{\text{conv,2}})$:</span>
-                                            <span id="multi-r-conv2-val">0.0000 m²K/W</span>
-                                        </div>
-                                        <div class="result-row border-top-row">
-                                            <span><span class="lang-es">Temp. Superficie Izq. $(T_{s, 1})$:</span><span
-                                                    class="lang-en" style="display:none;">Temp. Left Surface $(T_{s,
-                                                    1})$:</span></span>
-                                            <span id="multi-ts1-val" class="highlight-val"
-                                                style="color: var(--accent-orange);">0.0 &deg;C</span>
-                                        </div>
-                                        <div class="result-row">
-                                            <span><span class="lang-es">Temp. Interfaz 1-2 $(T_{\text{int},
-                                                    1})$:</span><span class="lang-en" style="display:none;">Temp.
-                                                    Interface 1-2 $(T_{\text{int}, 1})$:</span></span>
-                                            <span id="multi-tint1-val" class="highlight-val">0.0 &deg;C</span>
-                                        </div>
-                                        <div class="result-row">
-                                            <span><span class="lang-es">Temp. Interfaz 2-3 $(T_{\text{int},
-                                                    2})$:</span><span class="lang-en" style="display:none;">Temp.
-                                                    Interface 2-3 $(T_{\text{int}, 2})$:</span></span>
-                                            <span id="multi-tint2-val" class="highlight-val">0.0 &deg;C</span>
-                                        </div>
-                                        <div class="result-row">
-                                            <span><span class="lang-es">Temp. Superficie Der. $(T_{s, 2})$:</span><span
-                                                    class="lang-en" style="display:none;">Temp. Right Surface $(T_{s,
-                                                    2})$:</span></span>
-                                            <span id="multi-ts2-val" class="highlight-val"
-                                                style="color: var(--accent-cyan);">0.0 &deg;C</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Multilayer Wall Simulation Tab -->
-
                         <!-- ═══════════════════════════════════════════════════════════
                              TAB: Experimento de Enfriamiento de Newton (1701)
                              Estructura: tab-pane > newton-lab-modal > [intro] + [2col]
@@ -2675,7 +2455,6 @@
 
                                     </div><!-- /.n2col-vis (COL-A) -->
 
-
                                     <!-- ╔══════════════════════════════════════════════════╗
                                          ║  COLUMNA B — Controles y métricas          (1fr) ║
                                          ╚══════════════════════════════════════════════════╝ -->
@@ -2796,7 +2575,6 @@
                                             </div><!-- /.n2col-sliders-grid -->
                                         </section><!-- /.n2col-params -->
 
-
                                         <!-- B2 ── Botones de simulación ──────────────── -->
                                         <section class="n2col-card n2col-actions">
                                             <header class="n2col-card-header">
@@ -2818,7 +2596,6 @@
                                                 </button>
                                             </div>
                                         </section><!-- /.n2col-actions -->
-
 
                                         <!-- B3 ── Tabla de resultados por medio ─────── -->
                                         <section class="n2col-card n2col-metrics">
@@ -4878,7 +4655,6 @@
                             </div>
                         </div>
 
-
                         <!-- Nusselt Simulation Tab -->
                         <div class="tab-pane" id="nusselt-sim">
                             <!-- ⬛ Fullscreen wrapper -->
@@ -5336,190 +5112,6 @@
                             </div>
                         </div>
 
-                        <!-- Thermal Resistance Network Tab -->
-                        <div class="tab-pane" id="res-sim">
-                            <!-- ⬛ Fullscreen wrapper -->
-                            <button id="res-lab-close-btn" aria-label="Cerrar pantalla completa"
-                                title="Cerrar pantalla completa">&#x2715;</button>
-                            <div id="res-lab-fullscreen-anchor"
-                                style="display:flex;justify-content:flex-end;margin-bottom:8px;">
-                                <button id="res-lab-open-btn" title="Abrir laboratorio en pantalla completa"
-                                    aria-label="Abrir laboratorio en pantalla completa">
-                                    <i class="fas fa-expand"></i>
-                                    <span class="lang-es">Pantalla Completa</span>
-                                    <span class="lang-en" style="display:none;">Full Screen</span>
-                                </button>
-                            </div>
-                            <div id="res-lab-aria-live" class="sr-only" role="status" aria-live="polite"></div>
-                            <div class="sim-intro">
-                                <h3><span class="lang-es">Pared Compuesta y Analogía de Resistencias
-                                        Térmicas</span><span class="lang-en" style="display:none;">Composite Wall and
-                                        Thermal Resistance Analogy</span></h3>
-                                <p><span class="lang-es">La conducción de calor a través de un medio en estado estable
-                                        puede ser modelada matemáticamente utilizando la</span><span class="lang-en"
-                                        style="display:none;">The conduction of heat through a medium in a steady state
-                                        can be modeled mathematically using the</span> <strong>Ley de Ohm</strong> <span
-                                        class="lang-es">($I = \Delta V / R$). En transferencia de calor, la corriente es
-                                        la tasa de transferencia de calor ($q$), el potencial es la diferencia de
-                                        temperaturas ($\Delta T$), y la resistencia al flujo se llama</span><span
-                                        class="lang-en" style="display:none;">($I = \Delta V / R$). In heat transfer,
-                                        the current is the heat transfer rate ($q$), the potential is the temperature
-                                        difference ($\Delta T$), and the resistance to flow is called</span>
-                                    <strong><span class="lang-es">Resistencia Térmica ($R_{th}$)</span><span
-                                            class="lang-en" style="display:none;">Thermal Resistance
-                                            ($R_{th}$)</span></strong>.
-                                </p>
-                                <p><span class="lang-es">En este ejemplo clásico de una pared plana compuesta de 3 capas
-                                        expuesta a fluidos en convección a ambos lados, el circuito consiste en 5
-                                        resistencias en serie. Modifica las propiedades para ver cómo afectan el perfil
-                                        de temperatura y la resistencia total.</span><span class="lang-en"
-                                        style="display:none;">In this classic example of a 3-layer composite flat wall
-                                        exposed to convecting fluids on both sides, the circuit consists of 5 resistors
-                                        in series. Modify the properties to see how they affect the temperature profile
-                                        and total resistance.</span> <em><span class="lang-es">(Área transversal $A = 1
-                                            \text{ m}^2$ asumida)</span><span class="lang-en"
-                                            style="display:none;">(Assumed cross-sectional area $A = 1 \text{
-                                            m}^2$)</span></em></p>
-                            </div>
-
-                            <div class="simulation-workspace">
-                                <div class="animation-card">
-                                    <h4 class="sim-subheading">Pared Compuesta y Circuito Térmico Equivalente</h4>
-                                    <div class="canvas-container"
-                                        style="background-color: var(--panel-bg); border-radius: 8px; height: 400px;">
-                                        <canvas id="resCanvas" width="800" height="400"></canvas>
-                                    </div>
-                                    <div
-                                        style="display: flex; justify-content: space-between; margin-top: 15px; color: var(--text-primary);">
-                                        <div class="result-card"
-                                            style="flex: 1; margin-right: 10px; text-align: center;">
-                                            <div style="font-size: 0.8rem; color: var(--text-secondary);"><span
-                                                    class="lang-es">Resistencia Total ($R_{tot}$)</span><span
-                                                    class="lang-en" style="display:none;">Total Resistance
-                                                    ($R_{tot}$)</span></div>
-                                            <div id="res-rtot-val" class="highlight-val"
-                                                style="color: var(--accent-orange);">0.00 K/W</div>
-                                        </div>
-                                        <div class="result-card"
-                                            style="flex: 1; margin-left: 10px; text-align: center;">
-                                            <div style="font-size: 0.8rem; color: var(--text-secondary);">Flujo de Calor
-                                                ($q$)</div>
-                                            <div id="res-q-val" class="highlight-val"
-                                                style="color: var(--accent-cyan);">0.00 W</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="controls-container">
-                                    <!-- Fluids -->
-                                    <div
-                                        style="margin-bottom: 20px; padding: 10px; border: 1px solid #334155; border-radius: 8px;">
-                                        <h4
-                                            style="margin-top: 0; margin-bottom: 10px; font-size: 0.9rem; color: var(--accent-orange);">
-                                            Condiciones de Convección (Fluidos)</h4>
-                                        <div class="sliders-grid">
-                                            <div class="control-group">
-                                                <label for="res-tinf1">$T_{\infty,1}$ Interior: <input type="number" id="res-tinf1-num" class="sim-number-input" min="20" max="500" step="5" value="300"> °C</label>
-                                                <input type="range" id="res-tinf1" min="20" max="500" step="5"
-                                                    value="300">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="res-h1">$h_1$ Interior: <input type="number" id="res-h1-num" class="sim-number-input" min="5" max="200" step="1" value="50">
-                                                    <span class="lang-es">W/m²K</span><span class="lang-en"
-                                                        style="display:none;">W/m²K</span></label>
-                                                <input type="range" id="res-h1" min="5" max="200" step="1" value="50">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="res-tinf2">$T_{\infty,2}$ Exterior: <input type="number" id="res-tinf2-num" class="sim-number-input" min="-20" max="100" step="5" value="20"> °C</label>
-                                                <input type="range" id="res-tinf2" min="-20" max="100" step="5"
-                                                    value="20">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="res-h2">$h_2$ Exterior: <input type="number" id="res-h2-num" class="sim-number-input" min="5" max="200" step="1" value="25">
-                                                    <span class="lang-es">W/m²K</span><span class="lang-en"
-                                                        style="display:none;">W/m²K</span></label>
-                                                <input type="range" id="res-h2" min="5" max="200" step="1" value="25">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Layers -->
-                                    <div
-                                        style="margin-bottom: 10px; padding: 10px; border: 1px solid #334155; border-radius: 8px;">
-                                        <h4
-                                            style="margin-top: 0; margin-bottom: 10px; font-size: 0.9rem; color: var(--text-primary);">
-                                            Pared 1 (Interna)</h4>
-                                        <div class="sliders-grid">
-                                            <div class="control-group">
-                                                <label for="res-k1"><span class="lang-es">Conductividad
-                                                        $k_1$:</span><span class="lang-en"
-                                                        style="display:none;">Conductivity $k_1$:</span> <input type="number" id="res-k1-num" class="sim-number-input" min="0.05" max="5.0" step="0.05" value="0.5"> <span
-                                                        class="lang-es">W/m·K</span><span class="lang-en"
-                                                        style="display:none;">W/m·K</span></label>
-                                                <input type="range" id="res-k1" min="0.05" max="5.0" step="0.05"
-                                                    value="0.5">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="res-L1"><span class="lang-es">Espesor $L_1$:</span><span
-                                                        class="lang-en" style="display:none;">Thickness $L_1$:</span>
-                                                    <input type="number" id="res-L1-num" class="sim-number-input" min="2" max="30" step="1" value="10"> cm</label>
-                                                <input type="range" id="res-L1" min="2" max="30" step="1" value="10">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div
-                                        style="margin-bottom: 10px; padding: 10px; border: 1px solid #334155; border-radius: 8px;">
-                                        <h4
-                                            style="margin-top: 0; margin-bottom: 10px; font-size: 0.9rem; color: var(--text-primary);">
-                                            Pared 2 (Media)</h4>
-                                        <div class="sliders-grid">
-                                            <div class="control-group">
-                                                <label for="res-k2"><span class="lang-es">Conductividad
-                                                        $k_2$:</span><span class="lang-en"
-                                                        style="display:none;">Conductivity $k_2$:</span> <input type="number" id="res-k2-num" class="sim-number-input" min="0.05" max="5.0" step="0.05" value="0.1"> <span
-                                                        class="lang-es">W/m·K</span><span class="lang-en"
-                                                        style="display:none;">W/m·K</span></label>
-                                                <input type="range" id="res-k2" min="0.05" max="5.0" step="0.05"
-                                                    value="0.1">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="res-L2"><span class="lang-es">Espesor $L_2$:</span><span
-                                                        class="lang-en" style="display:none;">Thickness $L_2$:</span>
-                                                    <input type="number" id="res-L2-num" class="sim-number-input" min="2" max="30" step="1" value="15"> cm</label>
-                                                <input type="range" id="res-L2" min="2" max="30" step="1" value="15">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div style="padding: 10px; border: 1px solid #334155; border-radius: 8px;">
-                                        <h4
-                                            style="margin-top: 0; margin-bottom: 10px; font-size: 0.9rem; color: var(--text-primary);">
-                                            Pared 3 (Externa)</h4>
-                                        <div class="sliders-grid">
-                                            <div class="control-group">
-                                                <label for="res-k3"><span class="lang-es">Conductividad
-                                                        $k_3$:</span><span class="lang-en"
-                                                        style="display:none;">Conductivity $k_3$:</span> <input type="number" id="res-k3-num" class="sim-number-input" min="0.05" max="5.0" step="0.05" value="1.2"> <span
-                                                        class="lang-es">W/m·K</span><span class="lang-en"
-                                                        style="display:none;">W/m·K</span></label>
-                                                <input type="range" id="res-k3" min="0.05" max="5.0" step="0.05"
-                                                    value="1.2">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="res-L3"><span class="lang-es">Espesor $L_3$:</span><span
-                                                        class="lang-en" style="display:none;">Thickness $L_3$:</span>
-                                                    <input type="number" id="res-L3-num" class="sim-number-input" min="2" max="30" step="1" value="5"> cm</label>
-                                                <input type="range" id="res-L3" min="2" max="30" step="1" value="5">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-
                         <!-- View Factor Simulation Tab -->
                         <div class="tab-pane" id="vf-sim">
                             <!-- ⬛ Fullscreen wrapper -->
@@ -5757,8 +5349,6 @@
                             </div>
                         </div>
 
-
-
                         <!-- Internal Flow Boundary Layer Simulation Tab -->
                         <div class="tab-pane" id="internal-bl-sim">
                             <!-- ⬛ Fullscreen wrapper -->
@@ -5840,7 +5430,6 @@
                                     <p style="overflow-x: auto; overflow-y: hidden; padding-bottom: 5px;">$$u(r) =
                                         2U_{avg}\left[1 - \left(\frac{r}{R}\right)^2\right] \quad \Longrightarrow \quad
                                         u_{max} = 2\, U_{avg}$$</p>
-
 
                                     <!-- Nota explicativa sobre invarianza del perfil con Re -->
                                     <div
@@ -6073,321 +5662,6 @@
                                             developed flow</span>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- Parallel Resistances Simulation Tab -->
-
-                        <div class="tab-pane" id="par-sim">
-                            <!-- ⬛ Fullscreen wrapper -->
-                            <button id="par-lab-close-btn" aria-label="Cerrar pantalla completa"
-                                title="Cerrar pantalla completa">&#x2715;</button>
-                            <div id="par-lab-fullscreen-anchor"
-                                style="display:flex;justify-content:flex-end;margin-bottom:8px;">
-                                <button id="par-lab-open-btn" title="Abrir laboratorio en pantalla completa"
-                                    aria-label="Abrir laboratorio en pantalla completa">
-                                    <i class="fas fa-expand"></i>
-                                    <span class="lang-es">Pantalla Completa</span>
-                                    <span class="lang-en" style="display:none;">Full Screen</span>
-                                </button>
-                            </div>
-                            <div id="par-lab-aria-live" class="sr-only" role="status" aria-live="polite"></div>
-                            <div class="sim-intro">
-                                <h3><span class="lang-es">Resistencias Térmicas en Paralelo (Convección y
-                                        Radiación)</span><span class="lang-en" style="display:none;">Parallel Thermal
-                                        Resistances (Convection and Radiation)</span></h3>
-                                <p>
-                                    <span class="lang-es">En problemas reales de transferencia de calor, la frontera
-                                        expuesta al exterior suele perder calor mediante dos mecanismos simultáneos e
-                                        independientes: <strong>Convección</strong> hacia el aire adyacente
-                                        y <strong>Radiación</strong> hacia los
-                                        alrededores. Al actuar al mismo tiempo sobre la misma superficie, estos
-                                        mecanismos se modelan como resistencias en <strong>paralelo</strong>.</span>
-                                    <span class="lang-en" style="display:none;">In real heat
-                                        transfer problems, the boundary exposed to the outside usually loses heat
-                                        through two simultaneous and independent mechanisms: <strong>Convection</strong>
-                                        into the adjacent air
-                                        and <strong>Radiation</strong> towards the surroundings. By acting at the same
-                                        time on
-                                        the same surface, these mechanisms are modeled as resistances in
-                                        <strong>parallel</strong>.</span>
-                                </p>
-                                <p style="overflow-x: auto; overflow-y: hidden; padding-bottom: 5px;">$$ q = \frac{T_1 -
-                                    T_{surr}}{R_{tot}} \quad , \quad R_{tot} = R_1 + R_2 + R_3 + R_{eq,parallel} \quad ,
-                                    \quad R_{eq,parallel} = \frac{1}{\frac{1}{R_{conv}} + \frac{1}{R_{rad}}} =
-                                    \frac{1}{(h + h_r)A} $$</p>
-                                <p
-                                    style="font-size: 0.8rem; overflow-x: auto; white-space: nowrap; padding-bottom: 5px;">
-                                    $$ h_r = \epsilon \sigma (T_s + T_{surr})(T_s^2 + T_{surr}^2) \quad
-                                    (\text{Temperaturas en Kelvin y } \sigma = 5.67 \times 10^{-8} \text{
-                                    W/m}^2\text{K}^4) $$</p>
-                            </div>
-
-                            <div class="simulation-workspace">
-                                <div class="controls-container">
-                                    <!-- Temperatures and boundary conditions -->
-                                    <div
-                                        style="margin-bottom: 6px; padding: 6px 10px; border: 1px solid #334155; border-radius: 8px;">
-                                        <h4
-                                            style="margin-top: 0; margin-bottom: 4px; font-size: 0.85rem; color: var(--accent-orange);">
-                                            Frontera Izquierda y Condiciones del Medio</h4>
-                                        <div class="sliders-grid">
-                                            <div class="control-group">
-                                                <label for="par-t1"><span class="lang-es">Temp. Izquierda
-                                                        $T_1$:</span><span class="lang-en" style="display:none;">Temp.
-                                                        Left $T_1$:</span> <input type="number" id="par-t1-num" class="sim-number-input" min="-200" max="100" step="1" value="50"> °C</label>
-                                                <input type="range" id="par-t1" min="-200" max="100" step="1"
-                                                    value="50">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="par-tsurr"><span class="lang-es">Temp. Alrededores
-                                                        $T_{surr}$:</span><span class="lang-en"
-                                                        style="display:none;">Temp. Surroundings $T_{surr}$:</span>
-                                                    <input type="number" id="par-tsurr-num" class="sim-number-input" min="-200" max="100" step="1" value="-50"> °C</label>
-                                                <input type="range" id="par-tsurr" min="-200" max="100" step="1"
-                                                    value="-50">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="par-h"><span class="lang-es">Coef. Convección
-                                                        $h$:</span><span class="lang-en" style="display:none;">Coef.
-                                                        Convection $h$:</span> <input type="number" id="par-h-num" class="sim-number-input" min="0" max="150" step="1" value="20"> <span
-                                                        class="lang-es">W/m²K</span><span class="lang-en"
-                                                        style="display:none;">W/m²K</span></label>
-                                                <input type="range" id="par-h" min="0" max="150" step="1" value="20">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="par-eps"><span class="lang-es">Emisividad <span
-                                                            class="lang-es">$\epsilon$</span><span class="lang-en"
-                                                            style="display:none;">$\epsilon$</span>:</span><span
-                                                        class="lang-en" style="display:none;">Emissivity <span
-                                                            class="lang-es">$\epsilon$</span><span class="lang-en"
-                                                            style="display:none;">$\epsilon$</span>:</span> <input type="number" id="par-eps-num" class="sim-number-input" min="0.0" max="1.0" step="0.05" value="0.80"></label>
-                                                <input type="range" id="par-eps" min="0.0" max="1.0" step="0.05"
-                                                    value="0.80">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="par-alpha"><span class="lang-es">Absortividad
-                                                        $\alpha_{abs}$:</span><span class="lang-en"
-                                                        style="display:none;">Absorptivity $\alpha_{abs}$:</span> <input type="number" id="par-alpha-num" class="sim-number-input" min="0.0" max="1.0" step="0.05" value="0.70"></label>
-                                                <input type="range" id="par-alpha" min="0.0" max="1.0" step="0.05"
-                                                    value="0.70">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="par-g"><span class="lang-es">Irradiancia $G$:</span><span
-                                                        class="lang-en" style="display:none;">Irradiance $G$:</span>
-                                                    <input type="number" id="par-g-num" class="sim-number-input" min="0" max="1200" step="50" value="0"> W/m²</label>
-                                                <input type="range" id="par-g" min="0" max="1200" step="50" value="0">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Layers Properties -->
-                                    <div
-                                        style="margin-bottom: 6px; padding: 6px 10px; border: 1px solid #334155; border-radius: 8px;">
-                                        <h4
-                                            style="margin-top: 0; margin-bottom: 4px; font-size: 0.85rem; color: var(--accent-cyan);">
-                                            Propiedades Capa 1 (Conducción)</h4>
-                                        <div class="sliders-grid">
-                                            <div class="control-group">
-                                                <label for="par-k1"><span class="lang-es">Conductividad
-                                                        $k_1$:</span><span class="lang-en"
-                                                        style="display:none;">Conductivity $k_1$:</span> <input type="number" id="par-k1-num" class="sim-number-input" min="0.1" max="400" step="0.1" value="1.5"> <span
-                                                        class="lang-es">W/m·K</span><span class="lang-en"
-                                                        style="display:none;">W/m·K</span></label>
-                                                <input type="range" id="par-k1" min="0.1" max="400" step="0.1"
-                                                    value="1.5">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="par-L1"><span class="lang-es">Espesor $L_1$:</span><span
-                                                        class="lang-en" style="display:none;">Thickness $L_1$:</span>
-                                                    <input type="number" id="par-L1-num" class="sim-number-input" min="0.1" max="30.0" step="0.1" value="10.0"> cm</label>
-                                                <input type="range" id="par-L1" min="0.1" max="30.0" step="0.1"
-                                                    value="10.0">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div
-                                        style="margin-bottom: 6px; padding: 6px 10px; border: 1px solid #334155; border-radius: 8px;">
-                                        <h4
-                                            style="margin-top: 0; margin-bottom: 4px; font-size: 0.85rem; color: var(--accent-emerald);">
-                                            Propiedades Capa 2 (Conducción)</h4>
-                                        <div class="sliders-grid">
-                                            <div class="control-group">
-                                                <label for="par-k2"><span class="lang-es">Conductividad
-                                                        $k_2$:</span><span class="lang-en"
-                                                        style="display:none;">Conductivity $k_2$:</span> <input type="number" id="par-k2-num" class="sim-number-input" min="0.1" max="400" step="0.1" value="0.5"> <span
-                                                        class="lang-es">W/m·K</span><span class="lang-en"
-                                                        style="display:none;">W/m·K</span></label>
-                                                <input type="range" id="par-k2" min="0.1" max="400" step="0.1"
-                                                    value="0.5">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="par-L2"><span class="lang-es">Espesor $L_2$:</span><span
-                                                        class="lang-en" style="display:none;">Thickness $L_2$:</span>
-                                                    <input type="number" id="par-L2-num" class="sim-number-input" min="0.1" max="30.0" step="0.1" value="8.0"> cm</label>
-                                                <input type="range" id="par-L2" min="0.1" max="30.0" step="0.1"
-                                                    value="8.0">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div style="padding: 6px 10px; border: 1px solid #334155; border-radius: 8px;">
-                                        <h4
-                                            style="margin-top: 0; margin-bottom: 4px; font-size: 0.85rem; color: var(--accent-orange);">
-                                            Propiedades Capa 3 (Conducción)</h4>
-                                        <div class="sliders-grid">
-                                            <div class="control-group">
-                                                <label for="par-k3"><span class="lang-es">Conductividad
-                                                        $k_3$:</span><span class="lang-en"
-                                                        style="display:none;">Conductivity $k_3$:</span> <input type="number" id="par-k3-num" class="sim-number-input" min="0.1" max="400" step="0.1" value="1.0"> <span
-                                                        class="lang-es">W/m·K</span><span class="lang-en"
-                                                        style="display:none;">W/m·K</span></label>
-                                                <input type="range" id="par-k3" min="0.1" max="400" step="0.1"
-                                                    value="1.0">
-                                            </div>
-                                            <div class="control-group">
-                                                <label for="par-L3"><span class="lang-es">Espesor $L_3$:</span><span
-                                                        class="lang-en" style="display:none;">Thickness $L_3$:</span>
-                                                    <input type="number" id="par-L3-num" class="sim-number-input" min="0.1" max="30.0" step="0.1" value="10.0"> cm</label>
-                                                <input type="range" id="par-L3" min="0.1" max="30.0" step="0.1"
-                                                    value="10.0">
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="animation-card">
-                                    <h4 class="sim-subheading">Perfil de Temperatura y Circuito Equivalente en Paralelo
-                                    </h4>
-                                    <div class="canvas-container"
-                                        style="background-color: var(--panel-bg); border-radius: 8px; height: 400px;">
-                                        <canvas id="parCanvas" width="800" height="400"></canvas>
-                                    </div>
-                                    <div
-                                        style="display: flex; justify-content: space-between; margin-top: 15px; color: var(--text-primary); gap: 10px; flex-wrap: wrap;">
-                                        <div class="result-card"
-                                            style="flex: 1; min-width: 130px; text-align: center; padding: 6px;">
-                                            <div style="font-size: 0.75rem; color: var(--text-secondary);"><span
-                                                    class="lang-es">Resistencia Conducción ($R_{cond}$)</span><span
-                                                    class="lang-en" style="display:none;">Conduction Resistance
-                                                    ($R_{cond}$)</span></div>
-                                            <div id="par-rcond-val" class="highlight-val"
-                                                style="color: var(--accent-orange); font-size: 1.1rem;">0.00 K/W</div>
-                                        </div>
-                                        <div class="result-card"
-                                            style="flex: 1; min-width: 130px; text-align: center; padding: 6px;">
-                                            <div style="font-size: 0.75rem; color: var(--text-secondary);"><span
-                                                    class="lang-es">Resistencia Convección ($R_{conv}$)</span><span
-                                                    class="lang-en" style="display:none;">Convection Resistance
-                                                    ($R_{conv}$)</span></div>
-                                            <div id="par-rconv-val" class="highlight-val"
-                                                style="color: var(--accent-cyan); font-size: 1.1rem;">0.00 K/W</div>
-                                        </div>
-                                        <div class="result-card"
-                                            style="flex: 1; min-width: 130px; text-align: center; padding: 6px;">
-                                            <div style="font-size: 0.75rem; color: var(--text-secondary);"><span
-                                                    class="lang-es">Resistencia Radiación ($R_{rad}$)</span><span
-                                                    class="lang-en" style="display:none;">Radiation Resistance
-                                                    ($R_{rad}$)</span></div>
-                                            <div id="par-rrad-val" class="highlight-val"
-                                                style="color: #a855f7; font-size: 1.1rem;">0.00 K/W</div>
-                                        </div>
-                                        <div class="result-card"
-                                            style="flex: 1; min-width: 130px; text-align: center; padding: 6px;">
-                                            <div style="font-size: 0.75rem; color: var(--text-secondary);"><span
-                                                    class="lang-es">Resist. Equivalente ($R_{eq,par}$)</span><span
-                                                    class="lang-en" style="display:none;">Resist. Equivalent
-                                                    ($R_{eq,par}$)</span></div>
-                                            <div id="par-req-val" class="highlight-val"
-                                                style="color: #10b981; font-size: 1.1rem;">0.00 K/W</div>
-                                        </div>
-                                        <div class="result-card"
-                                            style="flex: 1; min-width: 130px; text-align: center; padding: 6px;">
-                                            <div style="font-size: 0.75rem; color: var(--text-secondary);">Temp.
-                                                Superficie ($T_s$)</div>
-                                            <div id="par-ts-val" class="highlight-val"
-                                                style="color: #ef4444; font-size: 1.1rem;">0.0 °C</div>
-                                        </div>
-                                        <div class="result-card"
-                                            style="flex: 1; min-width: 130px; text-align: center; padding: 6px;">
-                                            <div style="font-size: 0.75rem; color: var(--text-secondary);"><span
-                                                    class="lang-es">Tasa <span class="lang-es">Conducción
-                                                        ($q_{cond}$)</span><span class="lang-en"
-                                                        style="display:none;">Conduction ($q_{cond}$)</span></span><span
-                                                    class="lang-en" style="display:none;">Conduction Rate
-                                                    ($q_{cond}$)</span></div>
-                                            <div id="par-q-val" class="highlight-val"
-                                                style="color: var(--accent-emerald); font-size: 1.1rem;">0.0 W</div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Heat Flow Surface Energy Balance -->
-                                    <div
-                                        style="margin-top: 15px; padding: 10px; background: rgba(0, 0, 0, 0.2); border: 1px dashed rgba(255, 255, 255, 0.1); border-radius: 8px;">
-                                        <h5
-                                            style="margin: 0 0 8px 0; font-size: 0.8rem; color: var(--accent-orange); text-align: center; text-transform: uppercase; letter-spacing: 0.05em;">
-                                            Balance de Energía en la Superficie Derecha ($T_s$)</h5>
-                                        <div
-                                            style="display: flex; justify-content: space-around; gap: 8px; flex-wrap: wrap; text-align: center; color: var(--text-primary); align-items: center;">
-                                            <div style="flex: 1; min-width: 100px;">
-                                                <div
-                                                    style="font-size: 0.7rem; color: var(--text-secondary); white-space: nowrap;">
-                                                    <span class="lang-es">Conducción ($q_{cond}$)</span><span
-                                                        class="lang-en" style="display:none;">Conduction
-                                                        ($q_{cond}$)</span>
-                                                </div>
-                                                <div id="par-qcond-val"
-                                                    style="font-size: 1.1rem; font-weight: 700; color: #3b82f6;">0.0 W
-                                                </div>
-                                            </div>
-                                            <div
-                                                style="font-size: 1.2rem; font-weight: 700; color: var(--text-secondary);">
-                                                +</div>
-                                            <div style="flex: 1; min-width: 100px;">
-                                                <div
-                                                    style="font-size: 0.7rem; color: var(--text-secondary); white-space: nowrap;">
-                                                    <span class="lang-es">Absorción Solar ($q_{sol}$)</span><span
-                                                        class="lang-en" style="display:none;">Solar Absorption
-                                                        ($q_{sol}$)</span>
-                                                </div>
-                                                <div id="par-qsol-val"
-                                                    style="font-size: 1.1rem; font-weight: 700; color: #facc15;">0.0 W
-                                                </div>
-                                            </div>
-                                            <div
-                                                style="font-size: 1.5rem; font-weight: 700; color: var(--accent-emerald); margin: 0 10px;">
-                                                =</div>
-                                            <div style="flex: 1; min-width: 100px;">
-                                                <div
-                                                    style="font-size: 0.7rem; color: var(--text-secondary); white-space: nowrap;">
-                                                    <span class="lang-es">Convección ($q_{conv}$)</span><span
-                                                        class="lang-en" style="display:none;">Convection
-                                                        ($q_{conv}$)</span>
-                                                </div>
-                                                <div id="par-qconv-val"
-                                                    style="font-size: 1.1rem; font-weight: 700; color: #06b6d4;">0.0 W
-                                                </div>
-                                            </div>
-                                            <div
-                                                style="font-size: 1.2rem; font-weight: 700; color: var(--text-secondary);">
-                                                +</div>
-                                            <div style="flex: 1; min-width: 100px;">
-                                                <div
-                                                    style="font-size: 0.7rem; color: var(--text-secondary); white-space: nowrap;">
-                                                    <span class="lang-es">Radiación Emisión ($q_{rad}$)</span><span
-                                                        class="lang-en" style="display:none;">Radiation Emission
-                                                        ($q_{rad}$)</span>
-                                                </div>
-                                                <div id="par-qrad-val"
-                                                    style="font-size: 1.1rem; font-weight: 700; color: #a855f7;">0.0 W
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
 
@@ -6817,7 +6091,6 @@
                             </div>
                         </div>
 
-
                         <div class="tab-pane" id="joule-sim">
                             <!-- ⬛ Fullscreen wrapper -->
                             <button id="joule-lab-close-btn" aria-label="Cerrar pantalla completa"
@@ -7098,7 +6371,6 @@
                                 </div>
 
                                 <div class="controls-card" style="display: flex; flex-direction: column; gap: 15px;">
-
 
                                     <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px;">
                                         <div class="sliders-grid">
@@ -8544,201 +7816,6 @@
                         </div>
                     </div>
 
-                    <!-- Insulated Flat Plate Simulation Tab (Lab 26) -->
-                    <div class="tab-pane" id="insulated-sim">
-                        <!-- ⬛ Fullscreen wrapper -->
-                        <button id="insulated-lab-close-btn" aria-label="Cerrar pantalla completa"
-                            title="Cerrar pantalla completa">&#x2715;</button>
-                        <div id="insulated-lab-fullscreen-anchor"
-                            style="display:flex;justify-content:flex-end;margin-bottom:8px;">
-                            <button id="insulated-lab-open-btn" title="Abrir laboratorio en pantalla completa"
-                                aria-label="Abrir laboratorio en pantalla completa">
-                                <i class="fas fa-expand"></i>
-                                <span class="lang-es">Pantalla Completa</span>
-                                <span class="lang-en" style="display:none;">Full Screen</span>
-                            </button>
-                        </div>
-                        <div id="insulated-lab-aria-live" class="sr-only" role="status" aria-live="polite"></div>
-                        <div class="sim-intro">
-                            <h3><span class="lang-es">Placa Plana con Superficie Aislada (Circuito
-                                    Adiabático)</span><span class="lang-en" style="display:none;">Flat Plate with
-                                    Insulated Surface (Adiabatic Circuit)</span></h3>
-                            <p>
-                                <span class="lang-es">Esta simulación modela la transferencia de calor unidimensional en
-                                    una placa plana (pared) de espesor $L$ y conductividad $k$. Una de sus superficies
-                                    está <strong>completamente aislada (condición adiabática, $dT/dx = 0$)</strong>,
-                                    mientras que la superficie libre se
-                                    mantiene expuesta a una temperatura controlada $T_s$. Puedes también activar la
-                                    **generación interna de calor ($q_g$)** para observar el perfil parabólico
-                                    resultante.</span>
-                                <span class="lang-en" style="display:none;">This simulation models
-                                    one-dimensional heat transfer in a flat plate (wall) of thickness $L$ and
-                                    conductivity $k$. One of its surfaces is <strong>completely insulated (adiabatic
-                                        condition, $dT/dx = 0$)</strong>, while the free surface is kept exposed to a
-                                    controlled temperature $T_s$. You can also activate **internal heat generation
-                                    ($q_g$)** to observe the resulting parabolic profile.</span>
-                            </p>
-                            <p>
-                                <span class="lang-es">La ecuación diferencial gobernante para la conducción
-                                    unidimensional con generación es:
-                                    $$ \frac{\partial^2 T}{\partial x^2} + \frac{q_g}{k} = \frac{1}{\alpha}
-                                    \frac{\partial T}{\partial t} $$
-                                    Bajo estado estacionario con una superficie aislada en $x = 0$ y superficie libre en
-                                    $x = L$ a temperatura $T_s$, la solución analítica es:
-                                    $$ T(x) = T_s + \frac{q_g L^2}{2k} \left[ 1 - \left(\frac{x}{L}\right)^2 \right] $$
-                                    Si no hay generación ($q_g = 0$), en estado estable toda la placa alcanza
-                                    uniformemente la temperatura de la superficie libre: $T(x) = T_s$.</span>
-                                <span class="lang-en" style="display:none;">The governing differential equation for
-                                    one-dimensional conduction with generation is:
-                                    $$ \frac{\partial^2 T}{\partial x^2} + \frac{q_g}{k} = \frac{1}{\alpha}
-                                    \frac{\partial T}{\partial t} $$
-                                    Under steady state with an insulated surface at $x = 0$ and free surface at
-                                    $x = L$ at temperature $T_s$, the analytical solution is:
-                                    $$ T(x) = T_s + \frac{q_g L^2}{2k} \left[ 1 - \left(\frac{x}{L}\right)^2 \right] $$
-                                    If there is no generation ($q_g = 0$), in steady state the entire plate uniformly
-                                    reaches the free surface temperature: $T(x) = T_s$.</span>
-                            </p>
-                        </div>
-
-                        <div class="simulation-workspace">
-                            <div style="display: flex; flex-direction: column; gap: 15px; width: 100%;">
-                                <!-- Row 1: Visual Animation and Chart -->
-                                <div
-                                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; width: 100%;">
-
-                                    <!-- Canvas Card for 2D Animation -->
-                                    <div class="canvas-card" style="display: flex; flex-direction: column; gap: 10px;">
-                                        <h4 class="sim-subheading" style="margin: 0;"><i class="fas fa-video"></i> <span
-                                                class="lang-es">Animación Térmica de la Placa</span><span
-                                                class="lang-en" style="display:none;">Thermal Plate Animation</span>
-                                        </h4>
-                                        <div
-                                            style="position: relative; background: var(--bg-dark); border-radius: 8px; border: 1px solid var(--panel-border); padding: 10px; width: 100%; height: 320px; display: flex; align-items: center; justify-content: center;">
-                                            <canvas id="insulatedCanvas"
-                                                style="width: 100%; height: 100%; display: block;"></canvas>
-                                        </div>
-                                    </div>
-
-                                    <!-- Chart Card for Temperature Profile -->
-                                    <div class="canvas-card" style="display: flex; flex-direction: column; gap: 10px;">
-                                        <h4 class="sim-subheading" style="margin: 0;"><i class="fas fa-chart-line"></i>
-                                            <span class="lang-es">Perfil de Temperatura $T(x)$</span><span
-                                                class="lang-en" style="display:none;">Temperature Profile $T(x)$</span>
-                                        </h4>
-                                        <div
-                                            style="position: relative; background: var(--bg-dark); border-radius: 8px; border: 1px solid var(--panel-border); padding: 10px; width: 100%; height: 320px; display: flex; align-items: center; justify-content: center;">
-                                            <canvas id="insulatedChart" style="width: 100%; height: 100%;"></canvas>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <!-- Row 2: Controls Card -->
-                                <div class="controls-card" style="width: 100%;">
-                                    <h4 class="sim-subheading" style="margin-bottom: 12px;"><i
-                                            class="fas fa-sliders-h"></i> <span class="lang-es">Parámetros de
-                                            Control</span><span class="lang-en" style="display:none;">Control
-                                            Parameters</span></h4>
-                                    <div class="sliders-grid"
-                                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                                        <div class="control-group">
-                                            <label for="ins-ts"><span class="lang-es">Temp. Superficie Libre
-                                                    $(T_s)$:</span><span class="lang-en" style="display:none;">Temp.
-                                                    Free Surface $(T_s)$:</span> <input type="number" id="ins-ts-num" class="sim-number-input" min="0" max="200" step="1" value="100">
-                                                °C</label>
-                                            <input type="range" id="ins-ts" min="0" max="200" step="1" value="100">
-                                        </div>
-                                        <div class="control-group">
-                                            <label for="ins-k">Conductividad $(k)$: <input type="number" id="ins-k-num" class="sim-number-input" min="0.1" max="400" step="0.5" value="15"> <span
-                                                    class="lang-es">W/m·K</span><span class="lang-en"
-                                                    style="display:none;">W/m·K</span></label>
-                                            <input type="range" id="ins-k" min="0.1" max="400" step="0.5" value="15">
-                                        </div>
-                                        <div class="control-group">
-                                            <label for="ins-qg"><span class="lang-es">Gen. Calor Interna
-                                                    $(q_g)$:</span><span class="lang-en" style="display:none;">Internal
-                                                    Heat Generation $(q_g)$:</span> <input type="number" id="ins-qg-num" class="sim-number-input" min="0" max="1000" step="10" value="100">
-                                                <span class="lang-es">kW/m³</span><span class="lang-en"
-                                                    style="display:none;">kW/m³</span></label>
-                                            <input type="range" id="ins-qg" min="0" max="1000" step="10" value="100">
-                                        </div>
-                                        <div class="control-group">
-                                            <label for="ins-thick"><span class="lang-es">Espesor Placa
-                                                    $(L)$:</span><span class="lang-en" style="display:none;">Plate
-                                                    Thickness $(L)$:</span> <input type="number" id="ins-thick-num" class="sim-number-input" min="0.02" max="0.50" step="0.01" value="0.10">
-                                                m</label>
-                                            <input type="range" id="ins-thick" min="0.02" max="0.50" step="0.01"
-                                                value="0.10">
-                                        </div>
-                                        <div class="control-group">
-                                            <label for="ins-mode">Modo de Simulación:</label>
-                                            <select id="ins-mode" class="filter-select"
-                                                style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-primary); border-radius: 8px; width:100%; padding: 6px;">
-                                                <option value="transient" selected>Transitorio (Difusión)</option>
-                                                <option value="steady">Estado Estacionario</option>
-                                            </select>
-                                        </div>
-                                        <div class="control-group"
-                                            style="display: flex; gap: 10px; align-items: flex-end;">
-                                            <button id="ins-play-btn" class="btn-clear"
-                                                style="flex: 1; padding: 8px; border-radius: 8px; font-weight: bold; background: var(--accent-cyan); color: white; border: none; cursor: pointer;"><i
-                                                    class="fas fa-play"></i> <span class="lang-es">Simular</span><span
-                                                    class="lang-en" style="display:none;">Simulate</span></button>
-                                            <button id="ins-reset-btn" class="btn-clear"
-                                                style="flex: 1; padding: 8px; border-radius: 8px; font-weight: bold; background: var(--accent-orange); color: white; border: none; cursor: pointer;"><i
-                                                    class="fas fa-redo"></i> Reiniciar</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Row 3: Result metrics -->
-                                <div
-                                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; width: 100%;">
-                                    <div class="result-card" style="padding: 10px; text-align: center;">
-                                        <div style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 4px;">
-                                            <span class="lang-es">Temp. Superficie Aislada $(T_{insulated})$</span><span
-                                                class="lang-en" style="display:none;">Temp. Insulated Surface
-                                                $(T_{insulated})$</span>
-                                        </div>
-                                        <div style="font-size: 1.15rem; font-weight: bold; color: var(--accent-cyan);">
-                                            <span id="ins-t0-val">--</span> °C
-                                        </div>
-                                    </div>
-                                    <div class="result-card" style="padding: 10px; text-align: center;">
-                                        <div style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 4px;">
-                                            <span class="lang-es">Flujo Calor Superficie Libre
-                                                $(q''_{free})$</span><span class="lang-en" style="display:none;">Free
-                                                Surface Heat Flow $(q''_{free})$</span>
-                                        </div>
-                                        <div
-                                            style="font-size: 1.15rem; font-weight: bold; color: var(--accent-orange);">
-                                            <span id="ins-qfree-val">--</span> W/m²
-                                        </div>
-                                    </div>
-                                    <div class="result-card" style="padding: 10px; text-align: center;">
-                                        <div style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 4px;">
-                                            <span class="lang-es">Difusividad Térmica $(\alpha)$</span><span
-                                                class="lang-en" style="display:none;">Thermal Diffusivity
-                                                $(\alpha)$</span>
-                                        </div>
-                                        <div style="font-size: 1.15rem; font-weight: bold; color: var(--text-primary);">
-                                            <span id="ins-alpha-val">--</span> <span class="lang-es">m²/s</span><span
-                                                class="lang-en" style="display:none;">m²/s</span>
-                                        </div>
-                                    </div>
-                                    <div class="result-card" style="padding: 10px; text-align: center;">
-                                        <div style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 4px;">
-                                            Tiempo Transcurrido</div>
-                                        <div style="font-size: 1.15rem; font-weight: bold; color: var(--text-primary);">
-                                            <span id="ins-time-val">--</span> s
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Customizable Multi-layer Flat Wall Simulation Tab (Lab 27) -->
                     <div class="tab-pane" id="multicapa-custom-sim">
                         <!-- ⬛ Fullscreen wrapper -->
@@ -8849,6 +7926,8 @@
                                                     <option value="flux">Flujo de Calor Específico</option>
                                                     <option value="comb">Combinado (Conv + Rad)</option>
                                                     <option value="comb-flux">Combinado (Conv + Rad + Flujo)</option>
+                                                    <option value="irr_conv">Irradiación + Convección</option>
+                                                    <option value="irr_rad">Irradiación + Radiación</option>
                                                 </select>
                                             </div>
                                             <!-- Dynamic fields will show/hide via JS -->
@@ -8905,6 +7984,28 @@
                                                         min="-5000" max="5000" step="50" value="500"> W/m²</label>
                                                 <input type="range" id="cm-l-flux" min="-5000" max="5000" step="50"
                                                     value="500">
+                                            </div>
+                                            <!-- LOTE — Irradiación externa (Irradiación + Convección /
+                                                 Irradiación + Radiación): reutiliza cm-l-conv-group (h, T∞)
+                                                 o cm-l-rad-group (ε, T_sur) según el tipo elegido, y añade
+                                                 aquí sólo los dos parámetros propios de la irradiación
+                                                 incidente (G, α). -->
+                                            <div id="cm-l-irr-group" class="control-group" style="display: none;">
+                                                <label for="cm-l-g"><span class="lang-es">Irradiación
+                                                        $(G_{L})$:</span><span class="lang-en"
+                                                        style="display:none;">Irradiation $(G_{L})$:</span> <input
+                                                        type="number" id="cm-l-g-num" class="cm-num-sync" min="0"
+                                                        max="1500" step="10" value="600"> W/m²</label>
+                                                <input type="range" id="cm-l-g" min="0" max="1500" step="10"
+                                                    value="600">
+                                                <label for="cm-l-alpha" style="margin-top: 6px;"><span
+                                                        class="lang-es">Absortividad
+                                                        $(\alpha_{L})$:</span><span class="lang-en"
+                                                        style="display:none;">Absorptivity $(\alpha_{L})$:</span>
+                                                    <input type="number" id="cm-l-alpha-num" class="cm-num-sync"
+                                                        min="0" max="1.0" step="0.05" value="0.7"></label>
+                                                <input type="range" id="cm-l-alpha" min="0" max="1.0" step="0.05"
+                                                    value="0.7">
                                             </div>
                                         </div>
                                     </div>
@@ -8981,6 +8082,8 @@
                                                     <option value="flux">Flujo de Calor Específico</option>
                                                     <option value="comb">Combinado (Conv + Rad)</option>
                                                     <option value="comb-flux">Combinado (Conv + Rad + Flujo)</option>
+                                                    <option value="irr_conv">Irradiación + Convección</option>
+                                                    <option value="irr_rad">Irradiación + Radiación</option>
                                                 </select>
                                             </div>
                                             <!-- Dynamic fields will show/hide via JS -->
@@ -9037,6 +8140,25 @@
                                                         min="-5000" max="5000" step="50" value="500"> W/m²</label>
                                                 <input type="range" id="cm-r-flux" min="-5000" max="5000" step="50"
                                                     value="500">
+                                            </div>
+                                            <!-- LOTE — Irradiación externa (ver comentario análogo en
+                                                 cm-l-irr-group, columna izquierda). -->
+                                            <div id="cm-r-irr-group" class="control-group" style="display: none;">
+                                                <label for="cm-r-g"><span class="lang-es">Irradiación
+                                                        $(G_{R})$:</span><span class="lang-en"
+                                                        style="display:none;">Irradiation $(G_{R})$:</span> <input
+                                                        type="number" id="cm-r-g-num" class="cm-num-sync" min="0"
+                                                        max="1500" step="10" value="600"> W/m²</label>
+                                                <input type="range" id="cm-r-g" min="0" max="1500" step="10"
+                                                    value="600">
+                                                <label for="cm-r-alpha" style="margin-top: 6px;"><span
+                                                        class="lang-es">Absortividad
+                                                        $(\alpha_{R})$:</span><span class="lang-en"
+                                                        style="display:none;">Absorptivity $(\alpha_{R})$:</span>
+                                                    <input type="number" id="cm-r-alpha-num" class="cm-num-sync"
+                                                        min="0" max="1.0" step="0.05" value="0.7"></label>
+                                                <input type="range" id="cm-r-alpha" min="0" max="1.0" step="0.05"
+                                                    value="0.7">
                                             </div>
                                         </div>
                                     </div>
@@ -9223,6 +8345,62 @@
                                             as a CSV file for analysis in Excel, or instantly visualize trends
                                             through the interactive parametric chart.</span>
                                     </p>
+
+                                    <!-- LOTE — Visualización Dinámica de h, Perfil de Capa Límite y
+                                         Supuestos del Modelo: acordeón didáctico "Supuestos del Modelo
+                                         Físico". Mismo patrón nativo details/summary ya usado por
+                                         fin-sim (bilingüe .lang-es/.lang-en, sin JS adicional). -->
+                                    <details id="cm-panel-assumptions"
+                                        style="margin-top: 10px; background: rgba(255,255,255,0.02); padding: 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); width: 100%;">
+                                        <summary
+                                            style="cursor: pointer; font-weight: bold; color: var(--accent-orange); outline: none;">
+                                            <i class="fas fa-circle-info" style="margin-right: 5px;"></i>
+                                            <span class="lang-es">Supuestos del Modelo Físico</span><span
+                                                class="lang-en" style="display:none;">Physical Model
+                                                Assumptions</span>
+                                        </summary>
+                                        <ul
+                                            style="margin: 10px 0 0.5rem 20px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+                                            <li><span class="lang-es"><strong>Conducción 1D estacionaria:</strong>
+                                                    sin generación interna de calor ($\dot{q}=0$) y conductividad
+                                                    $k_i$ constante (independiente de la temperatura) en cada
+                                                    capa.</span><span class="lang-en" style="display:none;"><strong>Steady
+                                                        1D conduction:</strong> no internal heat generation
+                                                    ($\dot{q}=0$) and constant conductivity $k_i$ (temperature-independent)
+                                                    within each layer.</span></li>
+                                            <li><span class="lang-es"><strong>Contacto interfacial
+                                                        perfecto:</strong> entre capas sólidas adyacentes, sin
+                                                    resistencia de contacto ($T$ y $q''$ continuos en cada
+                                                    interfaz).</span><span class="lang-en" style="display:none;"><strong>Perfect
+                                                        interfacial contact:</strong> between adjacent solid
+                                                    layers, no contact resistance ($T$ and $q''$ continuous
+                                                    across each interface).</span></li>
+                                            <li><span class="lang-es"><strong>Radiación superficie-alrededores en
+                                                        medio transparente:</strong> el fluido/medio circundante
+                                                    no absorbe ni emite radiación (factor de forma superficie→alrededores
+                                                    $F=1$).</span><span class="lang-en" style="display:none;"><strong>Surface-to-surroundings
+                                                        radiation in a transparent medium:</strong> the
+                                                    surrounding fluid/medium neither absorbs nor emits
+                                                    radiation (surface-to-surroundings view factor
+                                                    $F=1$).</span></li>
+                                            <li><span class="lang-es"><strong>Absortividad ($\alpha$) vs.
+                                                        emisividad ($\varepsilon$):</strong> son propiedades
+                                                    físicamente distintas. $\alpha$ gobierna cuánta irradiación
+                                                    incidente $G$ absorbe la superficie ($\alpha \cdot G$,
+                                                    fronteras "Irradiación + Convección/Radiación"); $\varepsilon$
+                                                    gobierna cuánto emite la propia superficie hacia $T_{surr}$
+                                                    (fronteras "Radiación"/"Combinado"). No se asume
+                                                    $\alpha=\varepsilon$.</span><span class="lang-en"
+                                                    style="display:none;"><strong>Absorptivity ($\alpha$) vs.
+                                                        emissivity ($\varepsilon$):</strong> these are
+                                                    physically distinct properties. $\alpha$ governs how much
+                                                    incident irradiation $G$ the surface absorbs ($\alpha \cdot
+                                                    G$, "Irradiation + Convection/Radiation" boundaries);
+                                                    $\varepsilon$ governs how much the surface itself emits
+                                                    toward $T_{surr}$ ("Radiation"/"Combined" boundaries). $\alpha=\varepsilon$
+                                                    is not assumed.</span></li>
+                                        </ul>
+                                    </details>
                                 </div>
 
                                 <!-- Row 5: Data Tabulation and Graphing -->
@@ -9323,7 +8501,6 @@
                                         </div>
                                     </div>
                                 </div>
-
 
                             </div>
                         </div>
@@ -9549,8 +8726,6 @@
                                 </div>
                             </div>
                         </div>
-
-
 
                         <!-- Row 4: How Carnot identified Absolute Zero -->
                         <div
@@ -10637,7 +9812,6 @@
                         <!-- Hidden verdict span kept for JS compatibility -->
                         <span id="ottodiesel-verdict" style="display:none;"></span>
 
-
                         <!-- Active Process Phase Indicator Card (Static list with highlighting) -->
                         <div id="ottodiesel-phase-card"
                             style="background: rgba(99, 102, 241, 0.05); border: 1px solid rgba(99, 102, 241, 0.15); border-radius: 12px; padding: 14px 18px; margin-bottom: 18px; font-size: 0.82rem; line-height: 1.45; display: flex; flex-direction: column; gap: 10px;">
@@ -10767,8 +9941,6 @@
                                 </p>
                             </div>
                         </div>
-
-
 
                         <!-- Educational Section -->
                         <div
@@ -11246,7 +10418,6 @@
 
                         </div><!-- /#contact-res-sim-modal -->
                     </div><!-- /#contact-res-sim -->
-
 
                 </div>
             </div>
@@ -12148,7 +11319,6 @@
                 ctxT.strokeStyle = '#475569'; ctxT.lineWidth = 1.5;
                 ctxT.beginPath(); ctxT.moveTo(tx - 5, 30); ctxT.lineTo(tx - 5, 198); ctxT.moveTo(tx + 5, 30); ctxT.lineTo(tx + 5, 198); ctxT.stroke();
             }
-
 
             function render() {
                 tt += 0.05;

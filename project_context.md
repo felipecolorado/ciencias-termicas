@@ -181,7 +181,6 @@ Pendiente de implementar (trabajo por lotes, se irá actualizando):
 | `fourier-sim` | Sim. Fourier | ✅ |
 | `transient-sim` | Conducción Transitoria | ✅ |
 | `fin-sim` | Aletas | ✅ |
-| `insulated-sim` | Pared Insulada | ✅ |
 | `nat-conv-sim` | Convección Natural | ✅ |
 | `nusselt-sim` | Número de Nusselt | ✅ |
 | `reynolds-sim` | Número de Reynolds | ✅ |
@@ -191,9 +190,6 @@ Pendiente de implementar (trabajo por lotes, se irá actualizando):
 | `boiling-sim` | Ebullición | ✅ |
 | `planck-sim` | Radiación de Planck | ✅ |
 | `vf-sim` | Factor de Vista | ✅ |
-| `multi-sim` | Multi-simulador | ✅ |
-| `res-sim` | Resistencias Térmicas | ✅ |
-| `par-sim` | Resistencias en Paralelo | ✅ |
 | `cm-layers-container` | Capas Multicapa | ✅ (Integrado en multicapa-custom-sim) |
 | `carnot-sim` | Ciclo de Carnot | ✅ |
 | `joule-sim` | Expansión de Joule | ✅ |
@@ -1336,3 +1332,161 @@ contenedor en el laboratorio destino antes de fijar un ancho en px para
 `.cm-num-sync` — no asumir que 56-58px alcanza; depende de cuántos
 dígitos puede tener el valor máximo de cada control y de qué tan angosta
 es la columna en ese laboratorio (Regla #10).
+
+### ✅ Condiciones de Frontera con Irradiación Externa (`#multicapa-custom-sim`) — LOTE (`index.html` + `app_v2.js` + `translations.js`, 2026-08-25)
+
+Se agregaron dos tipos de frontera nuevos a `#cm-bc-l-type`/`#cm-bc-r-type`
+(hasta ahora: `temp`, `conv`, `rad`, `flux`, `comb`, `comb-flux`):
+
+- **`irr_conv`** ("Irradiación + Convección"): balance
+  `q''_net,in = α·G + h·(T∞ - Ts) = q''_cond`.
+- **`irr_rad`** ("Irradiación + Radiación"): balance
+  `q''_net,in = α·G - ε·σ·(Ts⁴ - T_surr⁴) = q''_cond`.
+
+**Decisión de diseño clave:** en vez de crear campos nuevos para h/T∞ o
+ε/T_surr, ambos tipos **reutilizan** los grupos existentes
+`cm-{l,r}-conv-group`/`cm-{l,r}-rad-group` (mismo patrón ya usado por
+`comb`/`comb-flux` para mostrar dos grupos a la vez) y sólo agregan un
+grupo nuevo `cm-{l,r}-irr-group` con los dos parámetros propios de la
+irradiación: `G` (0-1500 W/m², slider+número) y `α` (0-1, slider+número).
+Los inputs nuevos (`inputLG/inputLAlpha/inputRG/inputRAlpha`) se suman a
+`numFieldsMap`, `inputsToBind` y a la lista de `bindBcNumberInput` junto
+a los ya existentes — mismo mecanismo de sincronización bidireccional
+slider↔número del LOTE anterior, sin tocar su implementación.
+
+**Solver (`solveSimulation`):** `getFluxLeft`/`getFluxRight` ganan una
+rama `irr_conv`/`irr_rad` que suma `α·G` como fuente CONSTANTE (no
+depende de T0/TN, por lo que no aporta término en
+`getDFluxLeftDT`/`getDFluxRightDT` — su derivada es 0). Las ramas de
+convección/radiación existentes se extendieron con `|| type ===
+'irr_conv'`/`|| type === 'irr_rad'` respectivamente para que `irr_conv`
+reutilice exactamente la misma física de `conv` (mismo h/T∞) y `irr_rad`
+la misma de `rad` (mismo ε/T_surr) — la única diferencia real es el
+término `α·G` sumado aparte. Convención de signo verificada explícitamente
+(ver comentarios en el código): en `getFluxLeft` (flujo ENTRANDO a la
+pared) `α·G` se SUMA; en `getFluxRight` (flujo SALIENDO de la pared) se
+RESTA, porque la irradiación siempre entra a la pared sin importar de
+qué lado incide. Las semillas iniciales de Newton-Raphson (T0_guess/
+TN_guess en los 4 casos A-D) también se extendieron para usar T∞ como
+punto de partida cuando el tipo es `irr_conv` (igual que ya hacían para
+`conv`).
+
+**`boundaryResistanceInfo()` (circuito equivalente):** `irr_conv` ->
+`R = 1/h_conv` (misma fórmula que `conv` puro); `irr_rad` -> `R =
+1/h_rad` (misma fórmula que `rad` puro); ambos con `isSource: true`
+(hay una fuente de flujo superpuesta, igual que `comb-flux`).
+
+**Canvas esquemático (`render()`):** las franjas de convección (líneas
+onduladas + capa límite térmica en el Chart.js) y de radiación (flechas
+punteadas + bóveda de "Alrededores") ya dibujadas para `conv`/`rad` se
+reutilizan automáticamente para `irr_conv`/`irr_rad` (mismas condiciones
+`||` extendidas). Se agregó un bloque nuevo de rayos de irradiación
+(color dorado `clrSolar`, franja más externa que la de conv/rad para no
+solaparse) y una línea nueva de etiqueta `G_L/α_L` (o `_R`) en el bloque
+de texto de frontera existente, reutilizando `drawSubscriptText()` sin
+modificarla.
+
+**Circuito de resistencias (`renderCircuit()` / `drawBoundary()`):**
+rama nueva `irr_conv`/`irr_rad` — misma resistencia zigzag única que
+`conv`/`rad` puro, más un ícono de fuente (`drawFluxSource`, reutilizado
+sin cambios) tapeado al nodo de superficie mostrando `α·G`, mismo patrón
+vertical que usa `comb-flux` para su fuente de flujo pero con una sola
+rama resistiva en vez de dos en paralelo.
+
+**Traducciones:** 4 entradas nuevas en `window.uiTranslations`
+("Irradiación + Convección", "Irradiación + Radiación", "Irradiación
+(G)", "Absortividad (α)") — las dos primeras traducen el `<option>` vía
+`translateDOM()` (recorrido genérico de nodos de texto); las etiquetas
+de los sliders G/α en los paneles de frontera usan en cambio el patrón
+`.lang-es`/`.lang-en` ya establecido para el resto de controles de este
+mismo panel (no dependen de `translateDOM()`).
+
+**Verificado con Playwright** (`file://index.html` local, stub mínimo de
+`Chart` con `update`/`destroy`/`resize` para poder ejecutar
+`initMulticapaCustomSimulation()` completo sin acceso a CDN — mismo
+método ya usado en el LOTE anterior): `irr_conv` con `G=0` reproduce
+exactamente los mismos T0/T_N/q''/R_tot que `conv` puro con los mismos
+h/T∞ (y lo mismo `irr_rad` vs. `rad` con `G=0`); `irr_conv`/`irr_rad`
+con `α=0` también reproduce el caso puro sin importar `G`; con `G` y `α`
+altos (1200 W/m², 0.9) la temperatura de superficie sube de forma
+coherente en ambos lados (izq. y der.) y con ambos mecanismos; toggling
+de visibilidad de los 4 grupos (conv/rad/flux/irr) verificado para
+`irr_conv` e `irr_rad`; traducción ES→EN de las 2 opciones nuevas
+verificada; entrada y salida de pantalla completa sin errores de
+consola; `multicapa-custom-sim`, `contact-res-sim` y `fourier-sim`
+siguen funcionando con normalidad. `node --check app_v2.js` y `node
+--check translations.js` sin errores.
+
+---
+
+## 🗑️ Eliminación del Laboratorio "Conducción en Pared Multicapa (3 Capas en Serie)" (`multi-sim`) — 2026-08-25
+
+Se retiró por completo el laboratorio estático antiguo de 3 capas fijas en
+serie (`id="multi-sim"`, título "Conducción en Pared Multicapa (3 Capas en
+Serie)"), reemplazado hace tiempo en la práctica por el laboratorio dinámico
+**`multicapa-custom-sim`** ("Conducción Multicapa con Condiciones de
+Frontera Generales"), el cual **no fue tocado** y sigue 100% operativo.
+
+⚠️ **Si `multi-sim` aparece en algún commit/backup antiguo o en referencias
+de LOTEs anteriores en este mismo documento (LOTE 5, LOTE 9, LOTE 1-3 de
+categorización de Conducción), es un ID obsoleto — no restaurarlo.** Esos
+registros históricos se dejaron intactos porque describen hechos de cuando
+el laboratorio SÍ existía; no deben editarse retroactivamente ni usarse
+como referencia para recrear el módulo.
+
+**Cambios aplicados:**
+- **`index.html`**: se eliminó el `<div class="tab-pane" id="multi-sim">`
+  completo (~206 líneas: intro, canvas `multiChart`, sliders de fronteras
+  convectivas y de las 3 capas, tarjeta de resultados) y el botón de nav
+  `<button class="tab-btn" data-target="multi-sim" ...>Pared Multicapa</button>`
+  de la sección "Circuitos Térmicos". El botón vecino `data-target=
+  "multicapa-custom-sim"` ("Pared Multicapa Personalizada") no se tocó.
+- **`app_v2.js`**: se eliminaron `initMultiLayerSimulation()` (función
+  completa + variable `multiChartInstance`), su registro
+  `safeInit('MultiLayer', ...)`, y el controller IIFE de fullscreen
+  dedicado ("MULTI-LAYER WALL LAB — FULLSCREEN CONTROLLER", `CFG.modalId:
+  'multi-sim'`, exponía `window.MultiLab`). Cero referencias residuales a
+  `multi-sim`/`multiChart`/`MultiLab` en todo el archivo tras el cambio.
+- **`style.css`**: se eliminó el bloque completo "LOTE 5 — FULLSCREEN
+  STYLES / multi-sim" (fullscreen, animación de cierre, scrollbar, botones
+  abrir/cerrar, responsive) y el bloque "LOTE 3 — #multi-sim: CONTRASTE EN
+  body.light-theme"; además se quitó únicamente la línea `#multi-sim
+  .control-group label,` de una regla compartida de selectores múltiples
+  (línea ~7558 antes del cambio) sin tocar ninguna otra entrada de esa
+  lista. Ninguna regla `#multicapa-custom-sim`/`.layer-card`/`.cm-row` fue
+  modificada.
+- **`translations.js`**: se eliminaron 33 líneas — todas las claves del
+  diccionario exclusivas de este laboratorio (título, intro, fórmulas,
+  labels de fronteras/capas T∞/h/L/k, desglose de resistencias,
+  temperaturas de interfase), incluyendo duplicados residuales con
+  variantes de espacio/dos-puntos de una migración anterior al patrón
+  `.lang-es`/`.lang-en` inline. Todas se confirmaron huérfanas (cero usos
+  en `index.html`) antes de eliminarlas mediante búsqueda exacta de cada
+  cadena.
+- **`project_context.md`**: se retiró la fila `| \`multi-sim\` | 
+  Multi-simulador | ✅ |` de la tabla de inventario de fullscreen.
+
+**Verificación (Playwright headless, `file://index.html`, stub de
+Chart.js):**
+- `#multi-sim`, `#multi-lab-open-btn`, `#multi-lab-close-btn`,
+  `#multiChart`, `[data-target="multi-sim"]` y `window.MultiLab`: los 6
+  ausentes del DOM/`window` tras la carga.
+- Filtro de categoría "Conducción" (`activatePillFilter`): carga sin
+  errores, sin botones rotos, muestra los laboratorios restantes de la
+  categoría (`fourier-sim`, `nusselt-sim`, `transient-sim`,
+  `contact-res-sim`, `pennington-sim`, `multicapa-custom-sim`, `gen-sim`,
+  `telkes-sim`, `fin-sim`). *(Nota: `par-sim`, `res-sim` e
+  `insulated-sim`, presentes en el registro de LOTE 1-3 de categorización
+  de 2026-08-24, ya no existen como `data-target` independientes en el
+  archivo actual — cambio de una sesión anterior no relacionado con este
+  LOTE; no se investigó más por estar fuera de alcance.)*
+- `multicapa-custom-sim`: `switchTab()` activa la pestaña, el lazy-init
+  (`window._multicapaInited`) se dispara correctamente, `customMultiCanvas`
+  reporta dimensiones > 0, cambiar la temperatura de frontera izquierda
+  recalcula y actualiza `cm-rtot-val`/`cm-q-val` en tiempo real, y el ciclo
+  completo de apertura/cierre de pantalla completa funciona sin
+  interferencia.
+- Cero errores de consola reales (sólo ruido esperado de CDN/sandbox).
+- `node --check app_v2.js` y `node --check translations.js` sin errores;
+  balance de `<div>`/`</div>` (1375/1375) y llaves (929/929 HTML-embebido,
+  5274/5274 JS) verificado antes/después.

@@ -818,12 +818,9 @@ function startApp() {
     safeInit('Prandtl', () => initPrandtlSimulation());
     safeInit('ViewFactor', () => initViewFactorSimulation());
     safeInit('Generation', () => initGenerationSimulation());
-    safeInit('MultiLayer', () => initMultiLayerSimulation());
     safeInit('Newton', () => initNewtonSimulation());
     safeInit('Nusselt', () => initNusseltSimulation());
     safeInit('BoundaryLayer', () => initBoundaryLayerSimulation());
-    safeInit('Resistance', () => initResistanceSimulation());
-    safeInit('Parallel', () => initParallelSimulation());
     safeInit('Reynolds', () => initReynoldsSimulation());
     safeInit('NatConv', () => initNatConvSimulation());
     safeInit('KelvinScale', () => initKelvinSimulation());
@@ -837,7 +834,6 @@ function startApp() {
     safeInit('VortexStreet', () => initVortexSimulation());
     safeInit('BoilingRegimes', () => initBoilingSimulation());
     safeInit('Transient', () => initTransientSimulation());
-    safeInit('Insulated', () => initInsulatedSimulation());
     safeInit('MulticapaCustom', () => initMulticapaCustomSimulation());
     safeInit('Carnot', () => initCarnotSimulation());
     safeInit('OttoDiesel', () => initOttoDieselSimulation());
@@ -1618,7 +1614,6 @@ window.openScientistModalDirect = function (idx, event) {
     else if (ev.year === 1904) tabTarget = "prandtl-sim";
     else if (ev.year === 1915 || ev.year === 1930) tabTarget = "nusselt-sim";
     else if (ev.year === 1936) tabTarget = "bl-sim";
-    else if (ev.year === 1947) tabTarget = "res-sim";
     else if (ev.surname === "Joule") tabTarget = "joule-sim";
     else if (ev.surname === "Kelvin") tabTarget = "kelvin-sim";
     else if (ev.surname === "Clausius") tabTarget = "clausius-sim";
@@ -2109,7 +2104,6 @@ function initTimeline(searchText = '', selectedCategory = 'all') {
         else if (ev.year === 1904) tabTarget = "prandtl-sim";
         else if (ev.year === 1915 || ev.year === 1930) tabTarget = "nusselt-sim";
         else if (ev.year === 1936) tabTarget = "bl-sim";
-        else if (ev.year === 1947) tabTarget = "res-sim";
         else if (ev.surname === "Joule") tabTarget = "joule-sim";
         else if (ev.surname === "Kelvin") tabTarget = "kelvin-sim";
         else if (ev.surname === "Clausius") tabTarget = "clausius-sim";
@@ -2475,7 +2469,6 @@ function switchTab(tabId, disableTimelineSync = false) {
             "newton-sim": "1701",
             "boiling-sim": "1934",
             "bl-sim": "1908",
-            "res-sim": "1947",
             "ns-sim": "1822",
             "celsius-sim": "1742",
             "bernoulli-sim": "1738",
@@ -2628,7 +2621,6 @@ function switchTab(tabId, disableTimelineSync = false) {
     }, 100);
 }
 
-
 /* =========================================================================
    FOURIER CONDUCTION SIMULATOR
    ========================================================================= */
@@ -2754,12 +2746,26 @@ function initFourierSimulation() {
                 return (value < 0 ? "-" : "") + "&infin; W";
             }
             const absQ = Math.abs(value);
-            if (absQ >= 1e6) {
+            // LOTE Fourier rangos extremos: con k hasta 2200 W/(m·K), L
+            // hasta 0.001 m y ΔT hasta ~5273 °C, q puede alcanzar el orden
+            // de los GW; con k=0.001 y L=1 m también puede caer muy por
+            // debajo de 1 W. Se agregan escalones TW/GW arriba y mW/µW
+            // abajo para que nunca se desborde el texto ni se muestren
+            // demasiados dígitos.
+            if (absQ >= 1e12) {
+                return `${(value / 1e12).toFixed(2)} TW`;
+            } else if (absQ >= 1e9) {
+                return `${(value / 1e9).toFixed(2)} GW`;
+            } else if (absQ >= 1e6) {
                 return `${(value / 1e6).toFixed(2)} MW`;
             } else if (absQ >= 1000) {
                 return `${(value / 1000).toFixed(2)} kW`;
-            } else {
+            } else if (absQ >= 1 || absQ === 0) {
                 return `${value.toFixed(2)} W`;
+            } else if (absQ >= 1e-3) {
+                return `${(value * 1000).toFixed(2)} mW`;
+            } else {
+                return `${(value * 1e6).toFixed(2)} &micro;W`;
             }
         } else if (type === "t") {
             return `${value.toFixed(2)} &deg;C`;
@@ -2767,10 +2773,47 @@ function initFourierSimulation() {
     }
 
     function getColorForTemp(T) {
-        const normalized = Math.max(0, Math.min(1, T / 500));
+        // LOTE Fourier rangos extremos: antes normalizaba sobre 0-500 °C
+        // (rango antiguo del slider). Ahora se normaliza sobre el rango
+        // físico completo permitido (-273 a 5000 °C) para que el gradiente
+        // de color siga siendo representativo en todo el dominio nuevo.
+        const TMIN = -273, TMAX = 5000;
+        const normalized = Math.max(0, Math.min(1, (T - TMIN) / (TMAX - TMIN)));
         const r = Math.round(normalized * 255);
         const b = Math.round((1 - normalized) * 255);
         return `rgb(${r}, 50, ${b})`;
+    }
+
+    // LOTE Fourier — flujo de calor impuesto (q''): formateo compacto de
+    // -1,000,000 a 1,000,000 W/m² en 3 escalones (W/m² · kW/m² · MW/m²),
+    // sin ceros decimales sobrantes ("164" en vez de "164.00", "1.5" en
+    // vez de "1.50"). computeFluxDisplay() calcula el número/unidad base;
+    // formatFlux() (HTML, para el badge) y formatFluxPlain() (texto plano,
+    // para el <canvas>, que NO interpreta entidades HTML como &sup2;)
+    // reutilizan el mismo cálculo sin duplicar la lógica de escalones.
+    function computeFluxDisplay(value) {
+        const absQ = Math.abs(value);
+        let scaled, unitBase;
+        if (absQ >= 1e6) {
+            scaled = value / 1e6; unitBase = 'MW';
+        } else if (absQ >= 1000) {
+            scaled = value / 1000; unitBase = 'kW';
+        } else {
+            scaled = value; unitBase = 'W';
+        }
+        let str = scaled.toFixed(2).replace(/\.?0+$/, '');
+        if (str === '-0') str = '0';
+        return { str, unitBase };
+    }
+
+    function formatFlux(value) {
+        const { str, unitBase } = computeFluxDisplay(value);
+        return `${str} ${unitBase}/m&sup2;`;
+    }
+
+    function formatFluxPlain(value) {
+        const { str, unitBase } = computeFluxDisplay(value);
+        return `${str} ${unitBase}/m²`;
     }
 
     // LOTE 3: labelAH.innerHTML se reconstruye por completo cada vez que
@@ -2831,6 +2874,16 @@ function initFourierSimulation() {
         fourierT1 = parseFloat(sliderT1.value);
         fourierK = parseFloat(sliderK.value);
         const geom = geomSelect ? geomSelect.value : "plane";
+
+        // LOTE Fourier — flujo de calor impuesto (q''): badge de lectura
+        // compacta en tiempo real junto al input numérico, independiente
+        // del modo activo (se mantiene actualizado aunque el contenedor
+        // esté oculto en modo "calcular q", listo para cuando se muestre).
+        if (sliderQin) {
+            const qFluxRaw = parseFloat(sliderQin.value);
+            const qCompactBadge = document.getElementById('fourier-q-in-compact');
+            if (qCompactBadge && !isNaN(qFluxRaw)) qCompactBadge.innerHTML = formatFlux(qFluxRaw);
+        }
 
         const r1 = sliderR1 ? parseFloat(sliderR1.value) : 0.05;
         let r2 = sliderR2 ? parseFloat(sliderR2.value) : 0.15;
@@ -2925,10 +2978,23 @@ function initFourierSimulation() {
             resultLabel.innerHTML = isEn ? "Heat transfer rate (q):" : "Tasa de transferencia (q):";
             resultVal.innerHTML = formatValue(fourierQ, "q");
         } else {
-            const qIn_kW = parseFloat(sliderQin.value);
-            // LOTE 3: fourier-q-in-val ahora es fourier-q-in-num,
-            // sincronizado por syncSliderAndNumberInput().
-            let tempQ = qIn_kW * 1000;
+            // LOTE Fourier — flujo de calor impuesto (q''): el input ya no
+            // representa una tasa total en kW (como en LOTE 3), sino el
+            // flujo de calor por unidad de área q'' en W/m² directamente
+            // (rango ±1,000,000 W/m², sin factor de conversión ×1000).
+            // Para pared plana, integrando la Ley de Fourier:
+            //   T(L) = T(0) - q''·L/k          (independiente del área)
+            // Se reconstruye la tasa total Q = q''·AH y se reutiliza el
+            // mismo camino de cálculo (Q·R_cond) ya usado en modo
+            // "calcular q", porque R_cond = L/(k·AH) ya divide por AH:
+            //   Q·R_cond = (q''·AH)·(L/(k·AH)) = q''·L/k  → AH se cancela.
+            // Para cilindro/esfera se preserva la semántica previa (tasa
+            // total en W, AH representa la longitud H o no aplica) — un
+            // flujo por unidad de área no tiene una definición simple de
+            // una sola variable en esas geometrías radiales, y este LOTE
+            // sólo pide la forma plana T(x) = T0 - q''x/k.
+            const qFlux = parseFloat(sliderQin.value);
+            const tempQ = (geom === "plane") ? (qFlux * AH) : qFlux;
 
             let computedT2 = fourierT1 - (tempQ * R_cond);
 
@@ -2954,9 +3020,19 @@ function initFourierSimulation() {
             warningEl.style.display = absoluteZeroReached ? "block" : "none";
         }
 
-        let minY = Math.min(0, fourierT1, fourierT2) - 10;
-        let maxY = Math.max(500, fourierT1, fourierT2) + 10;
-        fourierChart.options.scales.y.min = minY < 0 ? minY : 0;
+        // LOTE Fourier rangos extremos: la escala anterior forzaba
+        // siempre un mínimo de 500°C visibles y un piso en 0°C, lo cual
+        // con el nuevo rango físico (-273 a 5000 °C) dejaba franjas
+        // enormes de espacio vacío (o, en el extremo opuesto, casi
+        // recortaba el perfil si T1/T2 se acercaban a 5000). Ahora la
+        // escala se autoajusta siempre a los valores actuales de T1/T2
+        // con un margen proporcional, sin piso ni techo fijos.
+        const tMin = Math.min(fourierT1, fourierT2);
+        const tMax = Math.max(fourierT1, fourierT2);
+        const margin = Math.max(10, (tMax - tMin) * 0.1);
+        let minY = tMin - margin;
+        let maxY = tMax + margin;
+        fourierChart.options.scales.y.min = minY;
         fourierChart.options.scales.y.max = maxY;
 
         let points_x = [];
@@ -3040,7 +3116,14 @@ function initFourierSimulation() {
         if (geom === "plane") {
             const minWallWidth = w * 0.1;
             const maxWallWidth = w * 0.7;
-            const wallWidth = fourierL === 0 ? 2 : minWallWidth + (fourierL - 0.01) / (1.0 - 0.01) * (maxWallWidth - minWallWidth);
+            // LOTE Fourier rangos extremos: antes usaba 0.01/1.0
+            // hardcodeados como límites de L para mapear el ancho visual;
+            // ahora lee min/max reales del slider (0.001 a 1.0 m) para que
+            // el mapeo siga siendo válido si el rango físico cambia de
+            // nuevo en el futuro.
+            const Lmin = parseFloat(sliderL.min) || 0.001;
+            const Lmax = parseFloat(sliderL.max) || 1.0;
+            const wallWidth = (fourierL <= 0 || Lmax === Lmin) ? 2 : minWallWidth + (fourierL - Lmin) / (Lmax - Lmin) * (maxWallWidth - minWallWidth);
             const wallLeft = (w - wallWidth) / 2;
             const wallRight = wallLeft + wallWidth;
             const wallTop = h * 0.15;
@@ -3071,6 +3154,53 @@ function initFourierSimulation() {
             ctx.fillStyle = "#ffffff"; ctx.font = "bold 14px Outfit";
             ctx.textAlign = "right"; ctx.fillText(`T₁ = ${fourierT1.toFixed(0)}°C`, wallLeft - 10, h * 0.5);
             ctx.textAlign = "left"; ctx.fillText(`T₂ = ${fourierT2.toFixed(0)}°C`, wallRight + 10, h * 0.5);
+
+            // LOTE Fourier — flujo de calor impuesto (q''): flecha
+            // direccional sobre la pared, sólo en modo "calcular T₂"
+            // (frontera de flujo impuesto) y sólo para pared plana (única
+            // geometría con fórmula q'' pedida en este LOTE). El largo se
+            // escala en log10 sobre el rango completo ±1,000,000 W/m² para
+            // que tanto valores pequeños (1 W/m²) como el máximo permitido
+            // produzcan una flecha visualmente distinguible sin salirse
+            // nunca del ancho de la pared (clamp a maxArrowLen).
+            if (currentMode === "calc-t2") {
+                const qFluxNow = parseFloat(sliderQin.value);
+                if (!isNaN(qFluxNow) && qFluxNow !== 0) {
+                    const arrowY = wallTop - 22;
+                    const minArrowLen = 18;
+                    const maxArrowLen = Math.max(minArrowLen, wallWidth * 0.6);
+                    const logMag = Math.log10(Math.abs(qFluxNow) + 1);
+                    const logMax = Math.log10(1000001);
+                    const norm = Math.max(0, Math.min(1, logMag / logMax));
+                    const arrowLen = minArrowLen + norm * (maxArrowLen - minArrowLen);
+                    const dir = Math.sign(qFluxNow);
+                    const midX = (wallLeft + wallRight) / 2;
+                    const startX = midX - dir * (arrowLen / 2);
+                    const endX = midX + dir * (arrowLen / 2);
+
+                    ctx.save();
+                    ctx.strokeStyle = "#fbbf24";
+                    ctx.fillStyle = "#fbbf24";
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(startX, arrowY);
+                    ctx.lineTo(endX, arrowY);
+                    ctx.stroke();
+
+                    const headSize = 7;
+                    ctx.beginPath();
+                    ctx.moveTo(endX, arrowY);
+                    ctx.lineTo(endX - dir * headSize, arrowY - headSize * 0.6);
+                    ctx.lineTo(endX - dir * headSize, arrowY + headSize * 0.6);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    ctx.font = "bold 11px Outfit";
+                    ctx.textAlign = "center";
+                    ctx.fillText(formatFluxPlain(qFluxNow), midX, arrowY - 8);
+                    ctx.restore();
+                }
+            }
 
         } else {
             const cx = w / 2;
@@ -3218,8 +3348,6 @@ function initFourierSimulation() {
     updateSimulation();
     draw();
 }
-
-
 
 // ==========================================
 // Newton's Cooling Simulation
@@ -3633,8 +3761,6 @@ function initNusseltSimulation_OLD_UNUSED() {
     updateSimulation();
 }
 
-
-
 /* =========================================================================
    BOUNDARY LAYER & ANALOGY SIMULATOR
    ========================================================================= */
@@ -3798,217 +3924,6 @@ function initBoundaryLayerSimulation_OLD_UNUSED() {
     updateSimulation();
 }
 
-
-
-/* =========================================================================
-   THERMAL RESISTANCE NETWORK SIMULATOR
-   ========================================================================= */
-function initResistanceSimulation() {
-    const canvas = document.getElementById("resCanvas");
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-
-    // UI Elements
-    const sl_tinf1 = document.getElementById("res-tinf1");
-    const sl_h1 = document.getElementById("res-h1");
-    const sl_tinf2 = document.getElementById("res-tinf2");
-    const sl_h2 = document.getElementById("res-h2");
-
-    const sl_k1 = document.getElementById("res-k1");
-    const sl_L1 = document.getElementById("res-L1");
-    const sl_k2 = document.getElementById("res-k2");
-    const sl_L2 = document.getElementById("res-L2");
-    const sl_k3 = document.getElementById("res-k3");
-    const sl_L3 = document.getElementById("res-L3");
-
-    const val_rtot = document.getElementById("res-rtot-val");
-    const val_q = document.getElementById("res-q-val");
-
-    function drawResistor(x, y, width, height, color, label, valStr) {
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-
-        // Draw zigzag
-        const numZigs = 5;
-        const dx = width / (numZigs * 2 + 1);
-        let cx = x;
-
-        ctx.moveTo(cx, y);
-        cx += dx;
-
-        for (let i = 0; i < numZigs; i++) {
-            ctx.lineTo(cx, y - height / 2);
-            cx += dx;
-            ctx.lineTo(cx, y + height / 2);
-            cx += dx;
-        }
-
-        ctx.lineTo(cx, y);
-        ctx.stroke();
-
-        // Label
-        ctx.fillStyle = "#94a3b8";
-        ctx.font = "12px Outfit";
-        ctx.textAlign = "center";
-        ctx.fillText(label, x + width / 2, y + height / 2 + 15);
-        ctx.fillStyle = color;
-        ctx.fillText(valStr, x + width / 2, y + height / 2 + 30);
-    }
-
-    function updateSimulation() {
-        const tinf1 = parseFloat(sl_tinf1.value);
-        const h1 = parseFloat(sl_h1.value);
-        const tinf2 = parseFloat(sl_tinf2.value);
-        const h2 = parseFloat(sl_h2.value);
-
-        const k1 = parseFloat(sl_k1.value);
-        const L1 = parseFloat(sl_L1.value) / 100;
-        const k2 = parseFloat(sl_k2.value);
-        const L2 = parseFloat(sl_L2.value) / 100;
-        const k3 = parseFloat(sl_k3.value);
-        const L3 = parseFloat(sl_L3.value) / 100;
-
-        document.getElementById("res-tinf1-val").textContent = tinf1;
-        document.getElementById("res-h1-val").textContent = h1;
-        document.getElementById("res-tinf2-val").textContent = tinf2;
-        document.getElementById("res-h2-val").textContent = h2;
-
-        document.getElementById("res-k1-val").textContent = k1.toFixed(2);
-        document.getElementById("res-L1-val").textContent = (L1 * 100).toFixed(0);
-        document.getElementById("res-k2-val").textContent = k2.toFixed(2);
-        document.getElementById("res-L2-val").textContent = (L2 * 100).toFixed(0);
-        document.getElementById("res-k3-val").textContent = k3.toFixed(2);
-        document.getElementById("res-L3-val").textContent = (L3 * 100).toFixed(0);
-
-        const R_conv1 = 1 / h1;
-        const R_cond1 = L1 / k1;
-        const R_cond2 = L2 / k2;
-        const R_cond3 = L3 / k3;
-        const R_conv2 = 1 / h2;
-
-        const R_tot = R_conv1 + R_cond1 + R_cond2 + R_cond3 + R_conv2;
-        const q = (tinf1 - tinf2) / R_tot;
-
-        val_rtot.textContent = R_tot.toFixed(4) + " K/W";
-        val_q.textContent = q.toFixed(1) + " W";
-
-        const Ts1 = tinf1 - q * R_conv1;
-        const T2 = Ts1 - q * R_cond1;
-        const T3 = T2 - q * R_cond2;
-        const Ts2 = T3 - q * R_cond3;
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Centered and larger layout
-        const startX = 150;
-        const totalL = L1 + L2 + L3;
-        const availWidth = 500;
-
-        const w1 = (L1 / totalL) * availWidth;
-        const w2 = (L2 / totalL) * availWidth;
-        const w3 = (L3 / totalL) * availWidth;
-
-        const wallY = 40;
-        const wallH = 220;
-
-        // Walls
-        ctx.fillStyle = "rgba(100, 116, 139, 0.4)";
-        ctx.fillRect(startX, wallY, w1, wallH);
-        ctx.strokeStyle = "#94a3b8";
-        ctx.strokeRect(startX, wallY, w1, wallH);
-
-        ctx.fillStyle = "rgba(148, 163, 184, 0.4)";
-        ctx.fillRect(startX + w1, wallY, w2, wallH);
-        ctx.strokeRect(startX + w1, wallY, w2, wallH);
-
-        ctx.fillStyle = "rgba(203, 213, 225, 0.4)";
-        ctx.fillRect(startX + w1 + w2, wallY, w3, wallH);
-        ctx.strokeRect(startX + w1 + w2, wallY, w3, wallH);
-
-        // Temperature Profile
-        const minT = Math.min(tinf1, tinf2) - 10;
-        const maxT = Math.max(tinf1, tinf2) + 10;
-        const T_range = maxT - minT || 1; // avoid div by 0
-
-        function getTy(T) {
-            return wallY + wallH - ((T - minT) / T_range) * wallH;
-        }
-
-        ctx.beginPath();
-        ctx.strokeStyle = "#ef4444";
-        ctx.lineWidth = 3;
-
-        const x_inf1 = startX - 80;
-        ctx.moveTo(x_inf1, getTy(tinf1));
-        ctx.lineTo(startX, getTy(Ts1));
-        ctx.lineTo(startX + w1, getTy(T2));
-        ctx.lineTo(startX + w1 + w2, getTy(T3));
-        ctx.lineTo(startX + w1 + w2 + w3, getTy(Ts2));
-
-        const x_inf2 = startX + availWidth + 80;
-        ctx.lineTo(x_inf2, getTy(tinf2));
-        ctx.stroke();
-
-        // Nodes
-        ctx.fillStyle = "#ef4444";
-        const points = [
-            { x: x_inf1, y: getTy(tinf1), label: "T_inf1", val: tinf1 },
-            { x: startX, y: getTy(Ts1), label: "Ts1", val: Ts1 },
-            { x: startX + w1, y: getTy(T2), label: "T2", val: T2 },
-            { x: startX + w1 + w2, y: getTy(T3), label: "T3", val: T3 },
-            { x: startX + w1 + w2 + w3, y: getTy(Ts2), label: "Ts2", val: Ts2 },
-            { x: x_inf2, y: getTy(tinf2), label: "T_inf2", val: tinf2 }
-        ];
-
-        points.forEach(p => {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.font = "12px Arial";
-            ctx.fillStyle = "#ffffff";
-            ctx.fillText(`${p.label}=${p.val.toFixed(1)}°C`, p.x, p.y - 12);
-        });
-
-        // Electrical Circuit
-        const circY = wallY + wallH + 70;
-
-        ctx.strokeStyle = "#475569";
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(x_inf1, getTy(tinf1)); ctx.lineTo(x_inf1, circY);
-        ctx.moveTo(startX, getTy(Ts1)); ctx.lineTo(startX, circY);
-        ctx.moveTo(startX + w1, getTy(T2)); ctx.lineTo(startX + w1, circY);
-        ctx.moveTo(startX + w1 + w2, getTy(T3)); ctx.lineTo(startX + w1 + w2, circY);
-        ctx.moveTo(startX + w1 + w2 + w3, getTy(Ts2)); ctx.lineTo(startX + w1 + w2 + w3, circY);
-        ctx.moveTo(x_inf2, getTy(tinf2)); ctx.lineTo(x_inf2, circY);
-        ctx.stroke();
-
-        drawResistor(x_inf1, circY, startX - x_inf1, 20, "#60a5fa", "R_conv1", R_conv1.toFixed(3));
-        drawResistor(startX, circY, w1, 20, "#facc15", "R_cond1", R_cond1.toFixed(3));
-        drawResistor(startX + w1, circY, w2, 20, "#facc15", "R_cond2", R_cond2.toFixed(3));
-        drawResistor(startX + w1 + w2, circY, w3, 20, "#facc15", "R_cond3", R_cond3.toFixed(3));
-        drawResistor(startX + w1 + w2 + w3, circY, x_inf2 - (startX + w1 + w2 + w3), 20, "#60a5fa", "R_conv2", R_conv2.toFixed(3));
-
-        points.forEach(p => {
-            ctx.fillStyle = "#0f172a";
-            ctx.beginPath();
-            ctx.arc(p.x, circY, 4, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.strokeStyle = "#ef4444";
-            ctx.stroke();
-        });
-    }
-
-    // Add Event Listeners
-    [sl_tinf1, sl_h1, sl_tinf2, sl_h2, sl_k1, sl_L1, sl_k2, sl_L2, sl_k3, sl_L3].forEach(el => {
-        el.addEventListener('input', updateSimulation);
-    });
-
-    updateSimulation();
-}
-
-
 // Planck's Law and Wavelength to Color Helper Functions
 function calculatePlanck(lambda, T) {
     // Planck's Law: E_lambda = (C1) / (lambda^5 * (exp(C2 / (lambda * T)) - 1))
@@ -4104,7 +4019,6 @@ function getWavelengthColor(lambda) {
         color: `rgb(${R}, ${G}, ${B})`
     };
 }
-
 
 function initMaxwellSimulation() {
     const canvas = document.getElementById("maxwellChart");
@@ -4825,7 +4739,6 @@ function initPrandtlSimulation() {
             if (numNu) numNu.value = sliderNu.value;
             if (numPr) numPr.value = sliderPr.value;
         }
-
 
         const newData = updatePrandtlData(u_val, nu_val, x_val, pr_val, sc_val);
         prandtlChart.data.labels = newData.yPoints;
@@ -5703,8 +5616,6 @@ function initFinSimulation() {
     updateDisplay();
 }
 
-
-
 // ----------------------------------------------------
 let genChartInstance = null;
 
@@ -6062,428 +5973,6 @@ function initGenerationSimulation() {
             console.log('MathJax gen-sim error:', err);
         });
     }
-}
-
-// ----------------------------------------------------
-// 8. Multilayer Wall Simulator
-// ----------------------------------------------------
-let multiChartInstance = null;
-
-function initMultiLayerSimulation() {
-    const sliderTinf1 = document.getElementById('multi-tinf1');
-    const sliderH1 = document.getElementById('multi-h1');
-    const sliderL1 = document.getElementById('multi-l1');
-    const sliderK1 = document.getElementById('multi-k1');
-
-    const sliderL2 = document.getElementById('multi-l2');
-    const sliderK2 = document.getElementById('multi-k2');
-
-    const sliderL3 = document.getElementById('multi-l3');
-    const sliderK3 = document.getElementById('multi-k3');
-
-    const sliderTinf2 = document.getElementById('multi-tinf2');
-    const sliderH2 = document.getElementById('multi-h2');
-
-    const valTinf1 = document.getElementById('multi-tinf1-val');
-    const valH1 = document.getElementById('multi-h1-val');
-    const valL1 = document.getElementById('multi-l1-val');
-    const valK1 = document.getElementById('multi-k1-val');
-
-    const valL2 = document.getElementById('multi-l2-val');
-    const valK2 = document.getElementById('multi-k2-val');
-
-    const valL3 = document.getElementById('multi-l3-val');
-    const valK3 = document.getElementById('multi-k3-val');
-
-    const valTinf2 = document.getElementById('multi-tinf2-val');
-    const valH2 = document.getElementById('multi-h2-val');
-
-    const valQ = document.getElementById('multi-q-val');
-    const valR = document.getElementById('multi-r-val');
-    const valRConv1 = document.getElementById('multi-r-conv1-val');
-    const valRCond1 = document.getElementById('multi-r-cond1-val');
-    const valRCond2 = document.getElementById('multi-r-cond2-val');
-    const valRCond3 = document.getElementById('multi-r-cond3-val');
-    const valRConv2 = document.getElementById('multi-r-conv2-val');
-    const valTs1 = document.getElementById('multi-ts1-val');
-    const valTint1 = document.getElementById('multi-tint1-val');
-    const valTint2 = document.getElementById('multi-tint2-val');
-    const valTs2 = document.getElementById('multi-ts2-val');
-
-    const ctx = document.getElementById('multiChart').getContext('2d');
-
-    // ============================================================
-    // LOTE 2 — Badges de valores instantáneos L_i / k_i sobre cada
-    // capa de #multi-sim, con anti-colisión (auto-ajuste de fuente +
-    // recorte al ancho de píxeles de la propia capa). Se dibuja en
-    // afterDatasetsDraw para quedar SIEMPRE por encima de las cajas
-    // de capa y de la curva de temperatura, garantizando legibilidad
-    // sin importar dónde pase la curva T(x).
-    // ============================================================
-    const multiLayerValueBadgesPlugin = {
-        id: 'multiLayerValueBadges',
-        afterDatasetsDraw(chart) {
-            const annPlugin = chart.options.plugins && chart.options.plugins.annotation;
-            const anns = annPlugin && annPlugin.annotations;
-            const xScale = chart.scales.x;
-            if (!anns || !xScale) return;
-
-            const pctx = chart.ctx;
-            const area = chart.chartArea;
-            const cy = area.top + (area.bottom - area.top) * 0.52; // debajo del rótulo "Capa N" (anclado arriba)
-
-            // Píldora genérica de 2 líneas, con auto-ajuste de fuente y recorte
-            // (clip) al rango de píxeles [px1,px2] recibido: reutilizada tanto
-            // por las capas (L_i/k_i) como por las condiciones de frontera
-            // (T∞/h) — LOTE 2 y LOTE 3.
-            function drawPillBadge(px1, px2, cyPos, lText, kText) {
-                const cx = (px1 + px2) / 2;
-                const colWidth = Math.abs(px2 - px1);
-                const maxWidth = Math.max(colWidth - 6, 14);
-
-                const maxFont = 13, minFont = 9;
-                let fontSize = maxFont, lW = 0, kW = 0;
-                for (fontSize = maxFont; fontSize >= minFont; fontSize--) {
-                    pctx.font = `bold ${fontSize}px Inter, sans-serif`;
-                    lW = pctx.measureText(lText).width;
-                    kW = pctx.measureText(kText).width;
-                    if (Math.max(lW, kW) + 14 <= maxWidth || fontSize === minFont) break;
-                }
-
-                const lineH = fontSize + 4;
-                const padX = 7, padY = 5;
-                const badgeW = Math.max(lW, kW) + padX * 2;
-                const badgeH = lineH * 2 + padY * 2;
-
-                pctx.save();
-                // Recorte al ancho exacto de la columna: la píldora nunca invade
-                // la capa/zona contigua, sin importar cuán angosta sea.
-                pctx.beginPath();
-                pctx.rect(Math.min(px1, px2), cyPos - badgeH, colWidth, badgeH * 2);
-                pctx.clip();
-
-                const bx = cx - badgeW / 2, by = cyPos - badgeH / 2, radius = 8;
-                pctx.beginPath();
-                if (pctx.roundRect) pctx.roundRect(bx, by, badgeW, badgeH, radius);
-                else pctx.rect(bx, by, badgeW, badgeH);
-                pctx.fillStyle = 'rgba(15, 23, 42, 0.75)';
-                pctx.fill();
-                pctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
-                pctx.lineWidth = 1;
-                pctx.stroke();
-
-                pctx.fillStyle = '#f8fafc';
-                pctx.textAlign = 'center';
-                pctx.textBaseline = 'middle';
-                pctx.font = `bold ${fontSize}px Inter, sans-serif`;
-                pctx.fillText(lText, cx, cyPos - lineH / 2);
-                pctx.fillText(kText, cx, cyPos + lineH / 2);
-                pctx.restore();
-            }
-
-            function drawBadge(ann, lText, kText) {
-                if (!ann || !(ann.xMax > ann.xMin)) return; // capa sin espesor: nada que dibujar
-                drawPillBadge(xScale.getPixelForValue(ann.xMin), xScale.getPixelForValue(ann.xMax), cy, lText, kText);
-            }
-
-            // Lectura en tiempo real de los sliders activos (se re-dibuja en
-            // cada chart.update(), disparado por el listener 'input' de cada
-            // slider — ver más abajo)
-            const L1v = parseFloat(sliderL1.value), k1v = parseFloat(sliderK1.value);
-            const L2v = parseFloat(sliderL2.value), k2v = parseFloat(sliderK2.value);
-            const L3v = parseFloat(sliderL3.value), k3v = parseFloat(sliderK3.value);
-            const Tinf1v = parseFloat(sliderTinf1.value), h1v = parseFloat(sliderH1.value);
-            const Tinf2v = parseFloat(sliderTinf2.value), h2v = parseFloat(sliderH2.value);
-
-            drawBadge(anns.boxLayer1, `L = ${L1v.toFixed(2)} m`, `k = ${k1v.toFixed(2)} W/m·K`);
-            drawBadge(anns.boxLayer2, `L = ${L2v.toFixed(2)} m`, `k = ${k2v.toFixed(2)} W/m·K`);
-            drawBadge(anns.boxLayer3, `L = ${L3v.toFixed(2)} m`, `k = ${k3v.toFixed(2)} W/m·K`);
-
-            // LOTE 3 — Condiciones de convección externa (T∞1,h1 a la izquierda;
-            // T∞2,h2 a la derecha), en la zona de fluido libre del propio canvas
-            // (fuera de las cajas de capa), con la misma píldora de alto
-            // contraste — legible en tema claro u oscuro.
-            const xLeftEdge = xScale.min;
-            const xRightEdge = xScale.max;
-            drawPillBadge(
-                xScale.getPixelForValue(xLeftEdge), xScale.getPixelForValue(anns.boxLayer1.xMin),
-                cy, `T∞,1 = ${Tinf1v.toFixed(0)} °C`, `h1 = ${h1v.toFixed(0)} W/m²K`
-            );
-            drawPillBadge(
-                xScale.getPixelForValue(anns.boxLayer3.xMax), xScale.getPixelForValue(xRightEdge),
-                cy, `T∞,2 = ${Tinf2v.toFixed(0)} °C`, `h2 = ${h2v.toFixed(0)} W/m²K`
-            );
-
-            // LOTE 3 — Vector de flujo de calor q'': flecha + valor en tono
-            // cálido de alto contraste (rojo/ámbar) con halo de sombra
-            // (shadowBlur) para que nunca se pierda contra el fondo del aula,
-            // en cualquier tema.
-            const rTotV = (1 / h1v) + (L1v / k1v) + (L2v / k2v) + (L3v / k3v) + (1 / h2v);
-            const qV = (Tinf1v - Tinf2v) / rTotV; // W/m²
-            const qColor = qV >= 0 ? '#ef4444' : '#fbbf24';
-            const arrowY = area.bottom - 22;
-            const axL = xScale.getPixelForValue(anns.boxLayer1.xMin);
-            const axR = xScale.getPixelForValue(anns.boxLayer3.xMax);
-
-            pctx.save();
-            pctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
-            pctx.shadowBlur = 5;
-            pctx.shadowOffsetX = 0;
-            pctx.shadowOffsetY = 0;
-            pctx.strokeStyle = qColor;
-            pctx.fillStyle = qColor;
-            pctx.lineWidth = 3;
-            pctx.beginPath();
-            if (qV >= 0) {
-                pctx.moveTo(axL + 6, arrowY);
-                pctx.lineTo(axR - 6, arrowY);
-                pctx.lineTo(axR - 16, arrowY - 5);
-                pctx.moveTo(axR - 6, arrowY);
-                pctx.lineTo(axR - 16, arrowY + 5);
-            } else {
-                pctx.moveTo(axR - 6, arrowY);
-                pctx.lineTo(axL + 6, arrowY);
-                pctx.lineTo(axL + 16, arrowY - 5);
-                pctx.moveTo(axL + 6, arrowY);
-                pctx.lineTo(axL + 16, arrowY + 5);
-            }
-            pctx.stroke();
-
-            pctx.font = 'bold 12px Inter, sans-serif';
-            pctx.textAlign = 'center';
-            pctx.textBaseline = 'alphabetic';
-            pctx.fillText(`q'' = ${(qV / 1000).toFixed(2)} kW/m²`, (axL + axR) / 2, arrowY - 10);
-            pctx.restore();
-        }
-    };
-
-    multiChartInstance = new Chart(ctx, {
-        type: 'line',
-        plugins: [multiLayerValueBadgesPlugin],
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'Perfil de Temperatura',
-                data: [],
-                borderColor: '#f97316',
-                backgroundColor: 'transparent',
-                borderWidth: 3,
-                pointRadius: 6,
-                pointBackgroundColor: '#fff',
-                tension: 0
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    type: 'linear',
-                    title: { display: true, text: 'Posición x (m)', color: '#94a3b8' },
-                    grid: { color: 'rgba(255,255,255,0.1)' },
-                    ticks: { color: '#cbd5e1' }
-                },
-                y: {
-                    title: { display: true, text: 'Temperatura (°C)', color: '#94a3b8' },
-                    grid: { color: 'rgba(255,255,255,0.1)' },
-                    ticks: { color: '#cbd5e1' }
-                }
-            },
-            plugins: {
-                legend: { display: false },
-                annotation: {
-                    // LOTE 1 — Paleta de ALTO CONTRASTE para proyección en salón de
-                    // clases (#multi-sim exclusivamente; no afecta #multicapa-custom-sim).
-                    annotations: {
-                        boxLayer1: {
-                            type: 'box',
-                            xMin: 0,
-                            xMax: 0,
-                            backgroundColor: 'rgba(29, 78, 216, 0.28)',  // Capa 1: Azul vibrante
-                            borderColor: '#60a5fa',
-                            borderWidth: 2.5,
-                            label: {
-                                display: true,
-                                content: 'Capa 1',
-                                // Anclado arriba (LOTE 2): libera el centro de la capa
-                                // para el badge de valores instantáneos L₁/k₁.
-                                position: { x: 'center', y: 'start' },
-                                color: '#ffffff',
-                                backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                                padding: 4,
-                                font: { size: 13, weight: 'bold' }
-                            }
-                        },
-                        boxLayer2: {
-                            type: 'box',
-                            xMin: 0,
-                            xMax: 0,
-                            backgroundColor: 'rgba(194, 65, 12, 0.28)', // Capa 2: Ámbar / naranja
-                            borderColor: '#fb923c',
-                            borderWidth: 2.5,
-                            label: {
-                                display: true,
-                                content: 'Capa 2',
-                                // Anclado arriba (LOTE 2): libera el centro de la capa
-                                // para el badge de valores instantáneos L₂/k₂.
-                                position: { x: 'center', y: 'start' },
-                                color: '#ffffff',
-                                backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                                padding: 4,
-                                font: { size: 13, weight: 'bold' }
-                            }
-                        },
-                        boxLayer3: {
-                            type: 'box',
-                            xMin: 0,
-                            xMax: 0,
-                            backgroundColor: 'rgba(4, 120, 87, 0.28)',  // Capa 3: Verde esmeralda
-                            borderColor: '#34d399',
-                            borderWidth: 2.5,
-                            label: {
-                                display: true,
-                                content: 'Capa 3',
-                                // Anclado arriba (LOTE 2): libera el centro de la capa
-                                // para el badge de valores instantáneos L₃/k₃.
-                                position: { x: 'center', y: 'start' },
-                                color: '#ffffff',
-                                backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                                padding: 4,
-                                font: { size: 13, weight: 'bold' }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    });
-
-    function updateSimulation() {
-        const Tinf1 = parseFloat(sliderTinf1.value);
-        const h1 = parseFloat(sliderH1.value);
-        const L1 = parseFloat(sliderL1.value);
-        const k1 = parseFloat(sliderK1.value);
-
-        const L2 = parseFloat(sliderL2.value);
-        const k2 = parseFloat(sliderK2.value);
-
-        const L3 = parseFloat(sliderL3.value);
-        const k3 = parseFloat(sliderK3.value);
-
-        const Tinf2 = parseFloat(sliderTinf2.value);
-        const h2 = parseFloat(sliderH2.value);
-
-        const rConv1 = 1 / h1;
-        const rCond1 = L1 / k1;
-        const rCond2 = L2 / k2;
-        const rCond3 = L3 / k3;
-        const rConv2 = 1 / h2;
-        const rTot = rConv1 + rCond1 + rCond2 + rCond3 + rConv2;
-
-        const q = (Tinf1 - Tinf2) / rTot;
-
-        const Ts1 = Tinf1 - q * rConv1;
-        const Tint1 = Ts1 - q * rCond1;
-        const Tint2 = Tint1 - q * rCond2;
-        const Ts2 = Tint2 - q * rCond3;
-
-        valQ.textContent = (q / 1000).toFixed(2) + " kW/m²";
-        valR.textContent = rTot.toFixed(4) + " m²K/W";
-        if (valRConv1) valRConv1.textContent = rConv1.toFixed(4) + " m²K/W";
-        if (valRCond1) valRCond1.textContent = rCond1.toFixed(4) + " m²K/W";
-        if (valRCond2) valRCond2.textContent = rCond2.toFixed(4) + " m²K/W";
-        if (valRCond3) valRCond3.textContent = rCond3.toFixed(4) + " m²K/W";
-        if (valRConv2) valRConv2.textContent = rConv2.toFixed(4) + " m²K/W";
-        valTs1.textContent = Ts1.toFixed(1) + " °C";
-        valTint1.textContent = Tint1.toFixed(1) + " °C";
-        valTint2.textContent = Tint2.toFixed(1) + " °C";
-        valTs2.textContent = Ts2.toFixed(1) + " °C";
-
-        const delta = 0.05;
-        const freeStream = 0.03;
-
-        const xS1 = 0;
-        const xInt1 = L1;
-        const xInt2 = L1 + L2;
-        const xS2 = L1 + L2 + L3;
-
-        const data = [];
-        const numFluidPoints = 20;
-
-        // Left boundary layer fluid curve
-        data.push({ x: xS1 - delta - freeStream, y: Tinf1 });
-        data.push({ x: xS1 - delta, y: Tinf1 });
-
-        for (let i = 1; i <= numFluidPoints; i++) {
-            const fraction = i / numFluidPoints;
-            const x = xS1 - delta + (delta * fraction);
-            const T = Tinf1 + (Ts1 - Tinf1) * Math.pow(fraction, 2);
-            data.push({ x: x, y: T });
-        }
-
-        // Wall boundaries & interfaces
-        data.push({ x: xS1, y: Ts1 });
-        data.push({ x: xInt1, y: Tint1 });
-        data.push({ x: xInt2, y: Tint2 });
-        data.push({ x: xS2, y: Ts2 });
-
-        // Right boundary layer fluid curve
-        for (let i = 1; i <= numFluidPoints; i++) {
-            const fraction = i / numFluidPoints;
-            const x = xS2 + (delta * fraction);
-            const T = Ts2 - (Ts2 - Tinf2) * (2 * fraction - Math.pow(fraction, 2));
-            data.push({ x: x, y: T });
-        }
-
-        data.push({ x: xS2 + delta + freeStream, y: Tinf2 });
-
-        multiChartInstance.data.datasets[0].data = data;
-
-        multiChartInstance.options.plugins.annotation.annotations.boxLayer1.xMin = xS1;
-        multiChartInstance.options.plugins.annotation.annotations.boxLayer1.xMax = xInt1;
-
-        multiChartInstance.options.plugins.annotation.annotations.boxLayer2.xMin = xInt1;
-        multiChartInstance.options.plugins.annotation.annotations.boxLayer2.xMax = xInt2;
-
-        multiChartInstance.options.plugins.annotation.annotations.boxLayer3.xMin = xInt2;
-        multiChartInstance.options.plugins.annotation.annotations.boxLayer3.xMax = xS2;
-
-        const maxT = Math.max(Tinf1, Tinf2, Ts1, Ts2, Tint1, Tint2);
-        const minT = Math.min(Tinf1, Tinf2, Ts1, Ts2, Tint1, Tint2);
-        const marginY = Math.max(10, (maxT - minT) * 0.1);
-
-        multiChartInstance.options.scales.y.min = Math.floor(minT - marginY);
-        multiChartInstance.options.scales.y.max = Math.ceil(maxT + marginY);
-
-        multiChartInstance.options.scales.x.min = xS1 - delta - freeStream;
-        multiChartInstance.options.scales.x.max = xS2 + delta + freeStream;
-
-        multiChartInstance.update();
-    }
-
-    [sliderTinf1, sliderH1, sliderL1, sliderK1, sliderL2, sliderK2, sliderL3, sliderK3, sliderTinf2, sliderH2].forEach(slider => {
-        slider.addEventListener('input', updateSimulation);
-    });
-
-    syncSliderAndNumberInput(sliderTinf1, document.getElementById('multi-tinf1-num'), updateSimulation);
-    syncSliderAndNumberInput(sliderH1, document.getElementById('multi-h1-num'), updateSimulation);
-    syncSliderAndNumberInput(sliderL1, document.getElementById('multi-l1-num'), updateSimulation);
-    syncSliderAndNumberInput(sliderK1, document.getElementById('multi-k1-num'), updateSimulation);
-    syncSliderAndNumberInput(sliderL2, document.getElementById('multi-l2-num'), updateSimulation);
-    syncSliderAndNumberInput(sliderK2, document.getElementById('multi-k2-num'), updateSimulation);
-    syncSliderAndNumberInput(sliderL3, document.getElementById('multi-l3-num'), updateSimulation);
-    syncSliderAndNumberInput(sliderK3, document.getElementById('multi-k3-num'), updateSimulation);
-    syncSliderAndNumberInput(sliderTinf2, document.getElementById('multi-tinf2-num'), updateSimulation);
-    syncSliderAndNumberInput(sliderH2, document.getElementById('multi-h2-num'), updateSimulation);
-
-    window.addEventListener('resize', () => {
-        if (document.getElementById('multi-sim').classList.contains('active')) {
-            multiChartInstance.resize();
-            updateSimulation();
-        }
-    });
-
-    updateSimulation();
 }
 
 // ==========================================
@@ -7825,295 +7314,6 @@ function initBoundaryLayerSimulation() {
     updateSimulation();
 }
 
-/* =========================================================================
-   THERMAL RESISTANCE NETWORK SIMULATOR
-   ========================================================================= */
-function initResistanceSimulation() {
-    const canvas = document.getElementById("resCanvas");
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-
-    const sl_tinf1 = document.getElementById("res-tinf1");
-    const sl_h1 = document.getElementById("res-h1");
-    const sl_tinf2 = document.getElementById("res-tinf2");
-    const sl_h2 = document.getElementById("res-h2");
-
-    const sl_k1 = document.getElementById("res-k1");
-    const sl_L1 = document.getElementById("res-L1");
-    const sl_k2 = document.getElementById("res-k2");
-    const sl_L2 = document.getElementById("res-L2");
-    const sl_k3 = document.getElementById("res-k3");
-    const sl_L3 = document.getElementById("res-L3");
-
-    const val_rtot = document.getElementById("res-rtot-val");
-    const val_q = document.getElementById("res-q-val");
-
-    function drawResistor(x, y, width, height, color, baseLabel, subLabel, valStr) {
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-
-        const numZigs = 5;
-        const dx = width / (numZigs * 2 + 1);
-        let cx = x;
-
-        ctx.moveTo(cx, y);
-        cx += dx;
-
-        for (let i = 0; i < numZigs; i++) {
-            ctx.lineTo(cx, y - height / 2);
-            cx += dx;
-            ctx.lineTo(cx, y + height / 2);
-            cx += dx;
-        }
-
-        ctx.lineTo(cx, y);
-        ctx.stroke();
-
-        // Draw label with subscripts
-        ctx.fillStyle = "#94a3b8";
-        ctx.textAlign = "left";
-
-        ctx.font = "11px Outfit";
-        const baseWidth = ctx.measureText(baseLabel).width;
-        ctx.font = "8px Outfit";
-        const subWidth = ctx.measureText(subLabel).width;
-
-        const totalLabelWidth = baseWidth + subWidth;
-        const startLabelX = x + width / 2 - totalLabelWidth / 2;
-
-        ctx.font = "11px Outfit";
-        ctx.fillText(baseLabel, startLabelX, y + height / 2 + 15);
-        ctx.font = "8px Outfit";
-        ctx.fillText(subLabel, startLabelX + baseWidth, y + height / 2 + 18);
-
-        // Draw value
-        ctx.fillStyle = color;
-        ctx.font = "11px Outfit";
-        ctx.textAlign = "center";
-        ctx.fillText(valStr, x + width / 2, y + height / 2 + 30);
-    }
-
-    function updateSimulation() {
-        const tinf1 = parseFloat(sl_tinf1.value);
-        const h1 = parseFloat(sl_h1.value);
-        const tinf2 = parseFloat(sl_tinf2.value);
-        const h2 = parseFloat(sl_h2.value);
-
-        const k1 = parseFloat(sl_k1.value);
-        const L1 = parseFloat(sl_L1.value) / 100;
-        const k2 = parseFloat(sl_k2.value);
-        const L2 = parseFloat(sl_L2.value) / 100;
-        const k3 = parseFloat(sl_k3.value);
-        const L3 = parseFloat(sl_L3.value) / 100;
-
-        // LOTE 3: res-tinf1-val/res-h1-val/res-tinf2-val/res-h2-val/
-        // res-k1-val/res-L1-val/res-k2-val/res-L2-val/res-k3-val/res-L3-val
-        // ahora son <input type="number">, sincronizados por
-        // syncSliderAndNumberInput() (LOTE 2) — estas escrituras al badge
-        // de sólo lectura quedaron obsoletas y se retiraron.
-
-        const R_conv1 = 1 / h1;
-        const R_cond1 = L1 / k1;
-        const R_cond2 = L2 / k2;
-        const R_cond3 = L3 / k3;
-        const R_conv2 = 1 / h2;
-
-        const R_tot = R_conv1 + R_cond1 + R_cond2 + R_cond3 + R_conv2;
-        const q = (tinf1 - tinf2) / R_tot;
-
-        val_rtot.textContent = R_tot.toFixed(4) + " K/W";
-        val_q.textContent = q.toFixed(1) + " W";
-
-        const Ts1 = tinf1 - q * R_conv1;
-        const T2 = Ts1 - q * R_cond1;
-        const T3 = T2 - q * R_cond2;
-        const Ts2 = T3 - q * R_cond3;
-
-        const parent = canvas.parentElement;
-        if (canvas.width !== parent.clientWidth) {
-            canvas.width = parent.clientWidth;
-        }
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        const leftMargin = 50;
-        const gap = 80;
-
-        const x_inf1 = leftMargin;
-        const startX = leftMargin + gap;
-        const x_inf2 = canvas.width - leftMargin;
-        const endX = canvas.width - leftMargin - gap;
-        const availWidth = endX - startX;
-
-        const totalL = L1 + L2 + L3;
-
-        const w1 = (L1 / totalL) * availWidth;
-        const w2 = (L2 / totalL) * availWidth;
-        const w3 = (L3 / totalL) * availWidth;
-
-        const wallY = 40;
-        const wallH = 220;
-
-        ctx.fillStyle = "rgba(100, 116, 139, 0.4)";
-        ctx.fillRect(startX, wallY, w1, wallH);
-        ctx.strokeStyle = "#94a3b8";
-        ctx.strokeRect(startX, wallY, w1, wallH);
-
-        ctx.fillStyle = "rgba(148, 163, 184, 0.4)";
-        ctx.fillRect(startX + w1, wallY, w2, wallH);
-        ctx.strokeRect(startX + w1, wallY, w2, wallH);
-
-        ctx.fillStyle = "rgba(203, 213, 225, 0.4)";
-        ctx.fillRect(startX + w1 + w2, wallY, w3, wallH);
-        ctx.strokeRect(startX + w1 + w2, wallY, w3, wallH);
-
-        const minT = Math.min(tinf1, tinf2) - 10;
-        const maxT = Math.max(tinf1, tinf2) + 10;
-        const T_range = maxT - minT || 1;
-
-        function getTy(T) {
-            return wallY + wallH - ((T - minT) / T_range) * wallH;
-        }
-
-        ctx.beginPath();
-        ctx.strokeStyle = "#ef4444";
-        ctx.lineWidth = 3;
-
-        // Zona de Convección Izquierda (curva parabólica con asíntota en tinf1)
-        const numLeftPoints = 30;
-        ctx.moveTo(x_inf1, getTy(tinf1));
-        for (let i = 1; i <= numLeftPoints; i++) {
-            const t = i / numLeftPoints;
-            const x = x_inf1 + t * (startX - x_inf1);
-            const T = tinf1 + (Ts1 - tinf1) * Math.pow(t, 2);
-            ctx.lineTo(x, getTy(T));
-        }
-
-        // Zonas de Conducción en las 3 paredes sólidas (líneas rectas)
-        ctx.lineTo(startX + w1, getTy(T2));
-        ctx.lineTo(startX + w1 + w2, getTy(T3));
-
-        // Zona de Convección Derecha (curva parabólica con asíntota en tinf2)
-        ctx.lineTo(endX, getTy(Ts2));
-        const numRightPoints = 30;
-        for (let i = 1; i <= numRightPoints; i++) {
-            const t = i / numRightPoints;
-            const x = endX + t * (x_inf2 - endX);
-            const T = tinf2 + (Ts2 - tinf2) * Math.pow(1 - t, 2);
-            ctx.lineTo(x, getTy(T));
-        }
-        ctx.stroke();
-
-        const points = [
-            { x: x_inf1, y: getTy(tinf1), base: "T", sub: "∞,1", val: tinf1 },
-            { x: startX, y: getTy(Ts1), base: "T", sub: "s,1", val: Ts1 },
-            { x: startX + w1, y: getTy(T2), base: "T", sub: "2", val: T2 },
-            { x: startX + w1 + w2, y: getTy(T3), base: "T", sub: "3", val: T3 },
-            { x: startX + w1 + w2 + w3, y: getTy(Ts2), base: "T", sub: "s,2", val: Ts2 },
-            { x: x_inf2, y: getTy(tinf2), base: "T", sub: "∞,2", val: tinf2 }
-        ];
-
-        points.forEach(p => {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
-            ctx.fillStyle = "#ef4444";
-            ctx.fill();
-
-            // Medir anchos para caja de fondo
-            ctx.font = "bold 11px Outfit";
-            const baseWidth = ctx.measureText(p.base).width;
-            ctx.font = "bold 8px Outfit";
-            const subWidth = ctx.measureText(p.sub).width;
-            ctx.font = "bold 11px Outfit";
-            const valText = ` = ${p.val.toFixed(1)}°C`;
-            const valWidth = ctx.measureText(valText).width;
-
-            const totalWidth = baseWidth + subWidth + valWidth;
-            const startX_text = p.x - totalWidth / 2;
-
-            // Caja de fondo
-            ctx.fillStyle = "rgba(15, 23, 42, 0.85)";
-            ctx.fillRect(p.x - totalWidth / 2 - 4, p.y - 24, totalWidth + 8, 16);
-
-            // Dibujar T
-            ctx.fillStyle = "#ffffff";
-            ctx.font = "bold 11px Outfit";
-            ctx.textAlign = "left";
-            ctx.fillText(p.base, startX_text, p.y - 12);
-
-            // Dibujar Subíndice
-            ctx.font = "bold 8px Outfit";
-            ctx.fillText(p.sub, startX_text + baseWidth, p.y - 9);
-
-            // Dibujar valor
-            ctx.font = "bold 11px Outfit";
-            ctx.fillText(valText, startX_text + baseWidth + subWidth, p.y - 12);
-        });
-
-        const circY = wallY + wallH + 70;
-
-        ctx.strokeStyle = "#475569";
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(x_inf1, getTy(tinf1)); ctx.lineTo(x_inf1, circY);
-        ctx.moveTo(startX, getTy(Ts1)); ctx.lineTo(startX, circY);
-        ctx.moveTo(startX + w1, getTy(T2)); ctx.lineTo(startX + w1, circY);
-        ctx.moveTo(startX + w1 + w2, getTy(T3)); ctx.lineTo(startX + w1 + w2, circY);
-        ctx.moveTo(startX + w1 + w2 + w3, getTy(Ts2)); ctx.lineTo(startX + w1 + w2 + w3, circY);
-        ctx.moveTo(x_inf2, getTy(tinf2)); ctx.lineTo(x_inf2, circY);
-        ctx.stroke();
-
-        const h_conv1 = 10 + Math.min(45, R_conv1 * 60);
-        const h_cond1 = 10 + Math.min(45, R_cond1 * 60);
-        const h_cond2 = 10 + Math.min(45, R_cond2 * 60);
-        const h_cond3 = 10 + Math.min(45, R_cond3 * 60);
-        const h_conv2 = 10 + Math.min(45, R_conv2 * 60);
-
-        drawResistor(x_inf1, circY, startX - x_inf1, h_conv1, "#60a5fa", "R''", "conv,1", R_conv1.toFixed(3));
-        drawResistor(startX, circY, w1, h_cond1, "#facc15", "R''", "cond,1", R_cond1.toFixed(3));
-        drawResistor(startX + w1, circY, w2, h_cond2, "#facc15", "R''", "cond,2", R_cond2.toFixed(3));
-        drawResistor(startX + w1 + w2, circY, w3, h_cond3, "#facc15", "R''", "cond,3", R_cond3.toFixed(3));
-        drawResistor(startX + w1 + w2 + w3, circY, x_inf2 - (startX + w1 + w2 + w3), h_conv2, "#60a5fa", "R''", "conv,2", R_conv2.toFixed(3));
-
-        points.forEach(p => {
-            ctx.fillStyle = "#0f172a";
-            ctx.beginPath();
-            ctx.arc(p.x, circY, 4, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.strokeStyle = "#ef4444";
-            ctx.stroke();
-        });
-    }
-
-    [sl_tinf1, sl_h1, sl_tinf2, sl_h2, sl_k1, sl_L1, sl_k2, sl_L2, sl_k3, sl_L3].forEach(el => {
-        el.addEventListener('input', updateSimulation);
-    });
-
-    // LOTE 3 — entrada numérica directa: conecta cada slider con su
-    // <input type="number"> hermano vía el helper global del LOTE 2,
-    // reutilizando updateSimulation sin duplicarla.
-    [
-        ['res-tinf1-num', sl_tinf1], ['res-h1-num', sl_h1], ['res-tinf2-num', sl_tinf2], ['res-h2-num', sl_h2],
-        ['res-k1-num', sl_k1], ['res-L1-num', sl_L1], ['res-k2-num', sl_k2], ['res-L2-num', sl_L2],
-        ['res-k3-num', sl_k3], ['res-L3-num', sl_L3]
-    ].forEach(([numId, sliderEl]) => {
-        const numEl = document.getElementById(numId);
-        if (numEl && sliderEl) syncSliderAndNumberInput(sliderEl, numEl, updateSimulation);
-    });
-
-    window.addEventListener('resize', updateSimulation);
-
-    const observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-            updateSimulation();
-        }
-    });
-    observer.observe(canvas);
-
-    updateSimulation();
-}
-
 function initViewFactorSimulation() {
     const sliderW = document.getElementById("vf-w");
     const sliderL = document.getElementById("vf-l");
@@ -8316,350 +7516,7 @@ function initViewFactorSimulation() {
     updateDisplay();
 }
 
-function initParallelSimulation() {
-    const sl_t1 = document.getElementById("par-t1");
-    const sl_tsurr = document.getElementById("par-tsurr");
-    const sl_h = document.getElementById("par-h");
-    const sl_eps = document.getElementById("par-eps");
-    const sl_k1 = document.getElementById("par-k1");
-    const sl_L1 = document.getElementById("par-L1");
-    const sl_k2 = document.getElementById("par-k2");
-    const sl_L2 = document.getElementById("par-L2");
-    const sl_k3 = document.getElementById("par-k3");
-    const sl_L3 = document.getElementById("par-L3");
-    const sl_g = document.getElementById("par-g");
-    const sl_alpha = document.getElementById("par-alpha");
-
-    const canvas = document.getElementById("parCanvas");
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-
-    function drawResistorLine(ctx, startX, startY, endX, endY, heightVal) {
-        ctx.beginPath();
-        ctx.moveTo(startX, startY);
-        const len = endX - startX;
-
-        ctx.lineTo(startX + len * 0.15, startY);
-
-        const zWidth = len * 0.7;
-        const step = zWidth / 6;
-        let direction = -1;
-        const hVal = Math.min(Math.max(heightVal, 8), 40);
-
-        for (let i = 0; i < 6; i++) {
-            const px = startX + len * 0.15 + step * (i + 0.5);
-            const py = startY + direction * hVal;
-            ctx.lineTo(px, py);
-            direction *= -1;
-        }
-
-        ctx.lineTo(startX + len * 0.85, startY);
-        ctx.lineTo(endX, endY);
-        ctx.stroke();
-    }
-
-    function drawVerticalText(text, x, y) {
-        ctx.save();
-        ctx.translate(x, y);
-        ctx.rotate(-Math.PI / 2);
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(text, 0, 0);
-        ctx.restore();
-    }
-
-    function updateSimulation() {
-        const t1 = parseFloat(sl_t1.value);
-        const tsurr = parseFloat(sl_tsurr.value);
-        const h = parseFloat(sl_h.value);
-        const eps = parseFloat(sl_eps.value);
-        const k1 = parseFloat(sl_k1.value);
-        const L1 = parseFloat(sl_L1.value) / 100;
-        const k2_real = parseFloat(sl_k2.value);
-        const L2 = parseFloat(sl_L2.value) / 100;
-        const k3_real = parseFloat(sl_k3.value);
-        const L3 = parseFloat(sl_L3.value) / 100;
-        const G = parseFloat(sl_g.value);
-        const alpha = parseFloat(sl_alpha.value);
-
-        // LOTE 3: par-t1-val/par-tsurr-val/par-h-val/par-eps-val/par-k1-val/
-        // par-L1-val/par-k2-val/par-L2-val/par-k3-val/par-L3-val/par-g-val/
-        // par-alpha-val ahora son <input type="number">, sincronizados por
-        // syncSliderAndNumberInput() (LOTE 2) — estas escrituras al badge
-        // de sólo lectura quedaron obsoletas y se retiraron.
-
-        const A = 1.0;
-        const R1 = L1 / (k1 * A);
-        const R2 = L2 / (k2_real * A);
-        const R3 = L3 / (k3_real * A);
-        const R123 = R1 + R2 + R3;
-
-        const t1_K = t1 + 273.15;
-        const tsurr_K = tsurr + 273.15;
-        const sigma = 5.67e-8;
-        const q_solar = alpha * G * A;
-
-        let Ts_K = (t1_K + tsurr_K) / 2;
-        let q = 0;
-        let hr = 0;
-        let Rconv = 0;
-        let Rrad = 0;
-        let Rparallel = 0;
-
-        for (let iter = 0; iter < 100; iter++) {
-            const Ts_clamped = Math.max(Ts_K, 1.0);
-            hr = eps * sigma * (Ts_clamped + tsurr_K) * (Ts_clamped * Ts_clamped + tsurr_K * tsurr_K);
-
-            Rconv = h > 0 ? 1 / (h * A) : 1e12;
-            Rrad = hr > 0 ? 1 / (hr * A) : 1e12;
-
-            Rparallel = 1 / ((1 / Rconv) + (1 / Rrad));
-            const Ts_new_K = (Rparallel * t1_K + R123 * tsurr_K + R123 * Rparallel * q_solar) / (R123 + Rparallel);
-
-            if (Math.abs(Ts_new_K - Ts_K) < 1e-5) {
-                Ts_K = Ts_new_K;
-                break;
-            }
-            Ts_K = Ts_new_K;
-        }
-
-        const Ts = Ts_K - 273.15;
-        q = (t1_K - Ts_K) / R123;
-        const Ti1 = t1 - q * R1;
-        const Ti2 = t1 - q * (R1 + R2);
-
-        document.getElementById("par-rcond-val").textContent = `${R123.toFixed(4)} K/W`;
-        document.getElementById("par-rconv-val").textContent = h > 0 ? `${Rconv.toFixed(4)} K/W` : '∞ K/W';
-        document.getElementById("par-rrad-val").textContent = eps > 0 ? `${Rrad.toFixed(4)} K/W` : '∞ K/W';
-        document.getElementById("par-req-val").textContent = `${Rparallel.toFixed(4)} K/W`;
-        document.getElementById("par-ts-val").textContent = `${Ts.toFixed(1)} °C`;
-        document.getElementById("par-q-val").textContent = `${q.toFixed(1)} W`;
-
-        // Heat Flow Surface Energy Balance calculations
-        const q_conv = h > 0 ? (Ts - tsurr) / Rconv : 0.0;
-        const q_rad = (eps > 0 && hr > 0) ? (Ts - tsurr) / Rrad : 0.0;
-
-        document.getElementById("par-qcond-val").textContent = `${q.toFixed(1)} W`;
-        document.getElementById("par-qsol-val").textContent = `${q_solar.toFixed(1)} W`;
-        document.getElementById("par-qconv-val").textContent = `${q_conv.toFixed(1)} W`;
-        document.getElementById("par-qrad-val").textContent = `${q_rad.toFixed(1)} W`;
-
-        const width = canvas.width;
-        const height = canvas.height;
-        ctx.clearRect(0, 0, width, height);
-
-        const leftMargin = 120;
-        const rightMargin = 120;
-        const totalL = L1 + L2 + L3;
-
-        const maxTotalL = 0.9;
-        const maxAvailWidth = width - leftMargin - rightMargin - 80;
-        const currentAvailWidth = Math.max(0.25, totalL / maxTotalL) * maxAvailWidth;
-
-        const w1 = (L1 / totalL) * currentAvailWidth;
-        const w2 = (L2 / totalL) * currentAvailWidth;
-        const w3 = (L3 / totalL) * currentAvailWidth;
-
-        const startX = leftMargin;
-        const wallY = 30;
-        const wallH = 180;
-
-        ctx.strokeStyle = "#94a3b8";
-        ctx.lineWidth = 1.5;
-
-        ctx.fillStyle = "rgba(100, 110, 120, 0.4)";
-        ctx.fillRect(startX, wallY, w1, wallH);
-        ctx.strokeRect(startX, wallY, w1, wallH);
-
-        ctx.fillStyle = "rgba(140, 150, 160, 0.4)";
-        ctx.fillRect(startX + w1, wallY, w2, wallH);
-        ctx.strokeRect(startX + w1, wallY, w2, wallH);
-
-        ctx.fillStyle = "rgba(180, 190, 200, 0.4)";
-        ctx.fillRect(startX + w1 + w2, wallY, w3, wallH);
-        ctx.strokeRect(startX + w1 + w2, wallY, w3, wallH);
-
-        const minT = Math.min(t1, tsurr) - 20;
-        const maxT = Math.max(t1, tsurr) + 20;
-        const T_range = maxT - minT || 1;
-
-        function getTempY(t) {
-            return wallY + wallH - ((t - minT) / T_range) * wallH;
-        }
-
-        const y1 = getTempY(t1);
-        const yi1 = getTempY(Ti1);
-        const yi2 = getTempY(Ti2);
-        const ys = getTempY(Ts);
-        const ysurr = getTempY(tsurr);
-
-        const x_s = startX + w1 + w2 + w3;
-        const x_surr = x_s + 140;
-
-        ctx.beginPath();
-        ctx.moveTo(startX, y1);
-        ctx.lineTo(startX + w1, yi1);
-        ctx.lineTo(startX + w1 + w2, yi2);
-        ctx.lineTo(x_s, ys);
-        ctx.lineTo(x_surr, ysurr);
-
-        ctx.strokeStyle = "#ef4444";
-        ctx.lineWidth = 3;
-        ctx.stroke();
-
-        ctx.fillStyle = "#ef4444";
-        [[startX, y1], [startX + w1, yi1], [startX + w1 + w2, yi2], [x_s, ys], [x_surr, ysurr]].forEach(p => {
-            ctx.beginPath();
-            ctx.arc(p[0], p[1], 5, 0, Math.PI * 2);
-            ctx.fill();
-        });
-
-        if (G > 0) {
-            const sunX = x_s + 90;
-            const sunY = wallY + 25;
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(sunX, sunY, 12, 0, Math.PI * 2);
-            ctx.fillStyle = "rgba(250, 204, 21, 0.9)";
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = "#facc15";
-            ctx.fill();
-            ctx.strokeStyle = "#facc15";
-            ctx.lineWidth = 1.5;
-            ctx.shadowBlur = 0;
-            for (let angle = Math.PI * 0.7; angle <= Math.PI * 1.3; angle += 0.2) {
-                const sx = sunX + Math.cos(angle) * 16;
-                const sy = sunY + Math.sin(angle) * 16;
-                const ex = sunX + Math.cos(angle) * 28;
-                const ey = sunY + Math.sin(angle) * 28;
-                ctx.beginPath();
-                ctx.moveTo(sx, sy);
-                ctx.lineTo(ex, ey);
-                ctx.stroke();
-            }
-            ctx.fillStyle = "#facc15";
-            ctx.font = "9px Outfit";
-            ctx.textAlign = "center";
-            ctx.fillText(`${G} W/m²`, sunX, sunY + 25);
-            ctx.restore();
-        }
-
-        ctx.fillStyle = "#f1f5f9";
-        ctx.font = "bold 11px Outfit";
-        ctx.textAlign = "center";
-
-        ctx.fillText(`T₁ = ${t1.toFixed(0)}°C`, startX - 35, y1 + 4);
-        ctx.fillText(`Ti₁ = ${Ti1.toFixed(0)}°C`, startX + w1, yi1 - 10);
-        ctx.fillText(`Ti₂ = ${Ti2.toFixed(0)}°C`, startX + w1 + w2, yi2 - 10);
-        ctx.fillText(`Ts = ${Ts.toFixed(0)}°C`, x_s + 35, ys + 4);
-        ctx.fillText(`T∞ = ${tsurr.toFixed(0)}°C`, x_surr + 35, ysurr + 4);
-
-        ctx.fillStyle = "#cbd5e1";
-        ctx.font = "bold 10px Outfit";
-        const textY = wallY + wallH / 2;
-        drawVerticalText(`Capa 1 (k₁ = ${k1})`, startX + w1 / 2, textY);
-        drawVerticalText(`Capa 2 (k₂ = ${k2_real})`, startX + w1 + w2 / 2, textY);
-        drawVerticalText(`Capa 3 (k₃ = ${k3_real})`, startX + w1 + w2 + w3 / 2, textY);
-
-        const circY = 320;
-
-        const nodeX1 = startX;
-        const nodeX2 = startX + w1;
-        const nodeX3 = startX + w1 + w2;
-        const nodeX4 = startX + w1 + w2 + w3;
-        const nodeX5 = x_surr;
-
-        ctx.strokeStyle = "rgba(255,255,255,0.15)";
-        ctx.lineWidth = 2;
-
-        ctx.strokeStyle = "#3b82f6";
-        drawResistorLine(ctx, nodeX1, circY, nodeX2, circY, R1 * 100);
-
-        ctx.strokeStyle = "#f97316";
-        drawResistorLine(ctx, nodeX2, circY, nodeX3, circY, R2 * 100);
-
-        ctx.strokeStyle = "#10b981";
-        drawResistorLine(ctx, nodeX3, circY, nodeX4, circY, R3 * 100);
-
-        ctx.strokeStyle = "#94a3b8";
-        ctx.beginPath();
-        ctx.moveTo(nodeX4, circY);
-        ctx.lineTo(nodeX4 + 15, circY - 30);
-        ctx.moveTo(nodeX4, circY);
-        ctx.lineTo(nodeX4 + 15, circY + 30);
-        ctx.stroke();
-
-        ctx.strokeStyle = "#06b6d4";
-        drawResistorLine(ctx, nodeX4 + 15, circY - 30, nodeX5 - 15, circY - 30, Rconv * 1.5);
-
-        ctx.strokeStyle = "#a855f7";
-        drawResistorLine(ctx, nodeX4 + 15, circY + 30, nodeX5 - 15, circY + 30, Rrad * 1.5);
-
-        ctx.strokeStyle = "#94a3b8";
-        ctx.beginPath();
-        ctx.moveTo(nodeX5 - 15, circY - 30);
-        ctx.lineTo(nodeX5, circY);
-        ctx.moveTo(nodeX5 - 15, circY + 30);
-        ctx.lineTo(nodeX5, circY);
-        ctx.stroke();
-
-        ctx.fillStyle = "#ffffff";
-        [[nodeX1, circY], [nodeX2, circY], [nodeX3, circY], [nodeX4, circY], [nodeX5, circY]].forEach(p => {
-            ctx.beginPath();
-            ctx.arc(p[0], p[1], 4, 0, Math.PI * 2);
-            ctx.fill();
-        });
-
-        ctx.fillStyle = "#cbd5e1";
-        ctx.font = "10px Outfit";
-        ctx.fillText("R₁ (Cond)", (nodeX1 + nodeX2) / 2, circY + 20);
-        ctx.fillText("R₂ (Cond)", (nodeX2 + nodeX3) / 2, circY + 20);
-        ctx.fillText("R₃ (Cond)", (nodeX3 + nodeX4) / 2, circY + 20);
-        ctx.fillText("Rconv", (nodeX4 + nodeX5) / 2, circY - 45);
-        ctx.fillText("Rrad", (nodeX4 + nodeX5) / 2, circY + 45);
-        ctx.font = "bold 11px Outfit";
-        ctx.fillStyle = "#ef4444";
-        ctx.fillText("T₁", nodeX1, circY - 10);
-        ctx.fillText("Ti₁", nodeX2, circY - 10);
-        ctx.fillText("Ti₂", nodeX3, circY - 10);
-        ctx.fillText("Ts", nodeX4, circY - 10);
-        ctx.fillText("T∞", nodeX5, circY - 10);
-    }
-
-    const elements = [sl_t1, sl_tsurr, sl_h, sl_eps, sl_k1, sl_L1, sl_k2, sl_L2, sl_k3, sl_L3, sl_g, sl_alpha];
-    elements.forEach(el => {
-        if (el) el.addEventListener("input", updateSimulation);
-    });
-
-    // LOTE 3 — entrada numérica directa: conecta cada slider con su
-    // <input type="number"> hermano vía el helper global del LOTE 2,
-    // reutilizando updateSimulation sin duplicarla.
-    [
-        ['par-t1-num', sl_t1], ['par-tsurr-num', sl_tsurr], ['par-h-num', sl_h], ['par-eps-num', sl_eps],
-        ['par-k1-num', sl_k1], ['par-L1-num', sl_L1], ['par-k2-num', sl_k2], ['par-L2-num', sl_L2],
-        ['par-k3-num', sl_k3], ['par-L3-num', sl_L3], ['par-g-num', sl_g], ['par-alpha-num', sl_alpha]
-    ].forEach(([numId, sliderEl]) => {
-        const numEl = document.getElementById(numId);
-        if (numEl && sliderEl) syncSliderAndNumberInput(sliderEl, numEl, updateSimulation);
-    });
-
-    window.addEventListener("resize", updateSimulation);
-
-    const observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-            updateSimulation();
-        }
-    });
-    observer.observe(canvas);
-
-    updateSimulation();
-}
-
 // Add empty lines at the end to ensure it parses correctly
-
-
-
 
 /* =========================================================================
    REYNOLDS INK INJECTION SIMULATOR
@@ -13584,7 +12441,6 @@ function initBoilingSimulation() {
     };
 }
 
-
 /* =========================================================================
    TRANSIENT HEAT CONDUCTION SIMULATOR (FDM 1D)
    ========================================================================= */
@@ -14285,381 +13141,6 @@ function initTransientSimulation() {
     };
 }
 
-
-function initInsulatedSimulation() {
-    const canvas = document.getElementById('insulatedCanvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-
-    const chartCanvas = document.getElementById('insulatedChart');
-    if (!chartCanvas) return;
-    const chartCtx = chartCanvas.getContext('2d');
-
-    // Controls
-    const inputTs = document.getElementById('ins-ts');
-    const inputK = document.getElementById('ins-k');
-    const inputQg = document.getElementById('ins-qg');
-    const inputThick = document.getElementById('ins-thick');
-    const selectMode = document.getElementById('ins-mode');
-    const playBtn = document.getElementById('ins-play-btn');
-    const resetBtn = document.getElementById('ins-reset-btn');
-
-    // Value spans
-    const spanTs = document.getElementById('ins-ts-val');
-    const spanK = document.getElementById('ins-k-val');
-    const spanQg = document.getElementById('ins-qg-val');
-    const spanThick = document.getElementById('ins-thick-val');
-
-    // Results
-    const lblT0 = document.getElementById('ins-t0-val');
-    const lblQfree = document.getElementById('ins-qfree-val');
-    const lblAlpha = document.getElementById('ins-alpha-val');
-    const lblTime = document.getElementById('ins-time-val');
-
-    // Simulation State
-    const M = 11; // 11 nodes
-    let T = new Array(M).fill(20.0); // Temperature array
-    let simTime = 0;
-    let running = false;
-    let insChart;
-
-    // Fixed physical constants for the wall material (steel-like base, k varies)
-    const rho = 7800; // kg/m^3
-    const cp = 460;   // J/kg-K
-
-    function getAlpha(k) {
-        return k / (rho * cp);
-    }
-
-    // Initialize Chart.js
-    function initChart() {
-        const bodyStyles = getComputedStyle(document.body);
-        const textColor = bodyStyles.getPropertyValue('--chart-text').trim() || '#94a3b8';
-        const gridColor = bodyStyles.getPropertyValue('--chart-grid').trim() || 'rgba(255, 255, 255, 0.05)';
-
-        insChart = new Chart(chartCtx, {
-            type: 'line',
-            data: {
-                labels: Array.from({ length: M }, (_, i) => (i / (M - 1)).toFixed(2)),
-                datasets: [{
-                    label: 'Perfil de Temperatura',
-                    data: [],
-                    borderColor: '#06b6d4',
-                    backgroundColor: 'rgba(6, 182, 212, 0.1)',
-                    borderWidth: 3,
-                    pointRadius: 3,
-                    pointBackgroundColor: '#06b6d4',
-                    tension: 0.15
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        title: { display: true, text: 'Posición normalizada (x / L)', color: textColor },
-                        grid: { color: gridColor },
-                        ticks: { color: textColor }
-                    },
-                    y: {
-                        title: { display: true, text: 'Temperatura (°C)', color: textColor },
-                        grid: { color: gridColor },
-                        ticks: { color: textColor },
-                        suggestedMin: 0,
-                        suggestedMax: 200
-                    }
-                },
-                plugins: {
-                    legend: { display: false }
-                }
-            }
-        });
-    }
-
-    initChart();
-
-    function updateSlidersText() {
-        if (spanTs) spanTs.innerText = inputTs.value;
-        if (spanK) spanK.innerText = inputK.value;
-        if (spanQg) spanQg.innerText = inputQg.value;
-        if (spanThick) spanThick.innerText = parseFloat(inputThick.value).toFixed(2);
-    }
-
-    function resetSimulation() {
-        const Ts = parseFloat(inputTs.value);
-        T.fill(20.0); // Reset to room temp
-        T[M - 1] = Ts; // Dirichlet boundary
-        simTime = 0;
-        updateUI();
-    }
-
-    function updateUI() {
-        const k = parseFloat(inputK.value);
-        const qg = parseFloat(inputQg.value) * 1000; // kW/m^3 to W/m^3
-        const L = parseFloat(inputThick.value);
-        const alpha = getAlpha(k);
-
-        // Update spans/labels
-        updateSlidersText();
-        if (lblT0) lblT0.innerText = T[0].toFixed(1);
-        if (lblAlpha) lblAlpha.innerText = alpha.toExponential(3);
-        if (lblTime) lblTime.innerText = simTime.toFixed(2);
-
-        // Heat flux at the free boundary (x = L)
-        // q'' = -k * (T[M-1] - T[M-2]) / dx
-        const dx = L / (M - 1);
-        const qFree = -k * (T[M - 1] - T[M - 2]) / dx;
-        if (lblQfree) lblQfree.innerText = qFree.toFixed(1);
-
-        // Update Chart
-        insChart.data.labels = Array.from({ length: M }, (_, i) => (i / (M - 1)).toFixed(2));
-        insChart.data.datasets[0].data = [...T];
-        insChart.update('none');
-    }
-
-    function solveStep() {
-        const mode = selectMode.value;
-        const Ts = parseFloat(inputTs.value);
-        const k = parseFloat(inputK.value);
-        const qg = parseFloat(inputQg.value) * 1000; // W/m^3
-        const L = parseFloat(inputThick.value);
-        const alpha = getAlpha(k);
-
-        if (mode === 'steady') {
-            // Steady State analytical solution
-            // T(x) = Ts + (q_g * L^2 / (2*k)) * (1 - (x/L)^2)
-            for (let i = 0; i < M; i++) {
-                const xFrac = i / (M - 1);
-                T[i] = Ts + (qg * L * L / (2 * k)) * (1 - xFrac * xFrac);
-            }
-            simTime = Infinity;
-        } else {
-            // Transient Finite Difference Solver (Explicit FDM)
-            const dx = L / (M - 1);
-            // Stability condition: Fo_delta = alpha * dt / dx^2 <= 0.25 (since node 0 has 2*Fo coefficient)
-            const dt = 0.2 * dx * dx / alpha;
-            const Fo = alpha * dt / (dx * dx);
-
-            const nextT = [...T];
-
-            // Node 0: Insulated (dT/dx = 0)
-            nextT[0] = T[0] + 2 * Fo * (T[1] - T[0]) + (qg * dt) / (rho * cp);
-
-            // Internal Nodes
-            for (let i = 1; i < M - 1; i++) {
-                nextT[i] = T[i] + Fo * (T[i - 1] - 2 * T[i] + T[i + 1]) + (qg * dt) / (rho * cp);
-            }
-
-            // Node M-1: Constant Surface Temp (Ts)
-            nextT[M - 1] = Ts;
-
-            T = nextT;
-            simTime += dt;
-        }
-    }
-
-    // Particle flow for heat flux animation
-    let particles = [];
-    class HeatParticle {
-        constructor() {
-            this.reset();
-        }
-        reset() {
-            this.x = 1.0; // Enters from free boundary (right)
-            this.y = 0.1 + Math.random() * 0.8;
-            this.speed = 0.005 + Math.random() * 0.008;
-            this.active = true;
-        }
-        update() {
-            // Move left towards insulated boundary
-            this.x -= this.speed;
-            if (this.x < 0.15) {
-                // Dissipate/stop at the insulation boundary
-                this.active = false;
-            }
-        }
-    }
-
-    // Populate particles
-    for (let i = 0; i < 30; i++) {
-        particles.push(new HeatParticle());
-    }
-
-    function render() {
-        if (canvas.offsetParent === null) return; // invisible
-
-        const w = canvas.width = canvas.clientWidth;
-        const h = canvas.height = canvas.clientHeight;
-        ctx.clearRect(0, 0, w, h);
-
-        const L = parseFloat(inputThick.value);
-        const startX = 140;
-        const plateWidth = Math.max(30, (w - 200) * (L / 0.50));
-        const endX = startX + plateWidth;
-        const centerY = h / 2;
-        const plateHeight = 160;
-
-        // 1. Draw Insulation Layer on the Left (x = 0)
-        ctx.fillStyle = '#475569';
-        ctx.fillRect(startX - 25, centerY - plateHeight / 2 - 10, 25, plateHeight + 20);
-
-        // Draw diagonal stripes on insulation
-        ctx.strokeStyle = '#94a3b8';
-        ctx.lineWidth = 2;
-        for (let y = centerY - plateHeight / 2 - 5; y <= centerY + plateHeight / 2 + 5; y += 15) {
-            ctx.beginPath();
-            ctx.moveTo(startX - 25, y);
-            ctx.lineTo(startX, y + 10);
-            ctx.stroke();
-        }
-
-        // Label for insulation
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = 'bold 10px Inter, sans-serif';
-        ctx.textAlign = 'right';
-        ctx.fillText("AISLAMIENTO IDEAL", startX - 30, centerY);
-        ctx.fillText("dT/dx = 0 (Adiabático)", startX - 30, centerY + 15);
-
-        // 2. Draw the Plate with dynamic temperature color gradient
-        const grad = ctx.createLinearGradient(startX, 0, endX, 0);
-        // Interpolate colors based on nodes
-        for (let i = 0; i < M; i++) {
-            const xFrac = i / (M - 1);
-            // Map temperature to HSL color (Blue/Cold = 220, Red/Hot = 0)
-            const tVal = Math.max(20, Math.min(200, T[i]));
-            const hue = 220 - ((tVal - 20) / 180) * 220;
-            grad.addColorStop(xFrac, `hsl(${hue}, 85%, 45%)`);
-        }
-
-        ctx.fillStyle = grad;
-        ctx.fillRect(startX, centerY - plateHeight / 2, plateWidth, plateHeight);
-        ctx.strokeStyle = '#334155';
-        ctx.lineWidth = 3;
-        ctx.strokeRect(startX, centerY - plateHeight / 2, plateWidth, plateHeight);
-
-        // 3. Draw heat flux arrows / particles
-        ctx.globalAlpha = 0.6;
-        particles.forEach(p => {
-            if (p.active) {
-                p.update();
-                const px = startX + p.x * plateWidth;
-                const py = centerY - plateHeight / 2 + p.y * plateHeight;
-
-                // Color based on local temperature
-                const nodeIdx = Math.max(0, Math.min(M - 1, Math.floor(p.x * (M - 1))));
-                const tVal = Math.max(20, Math.min(200, T[nodeIdx]));
-                const hue = 220 - ((tVal - 20) / 180) * 220;
-                ctx.fillStyle = `hsl(${hue}, 85%, 60%)`;
-
-                ctx.beginPath();
-                ctx.arc(px, py, 4, 0, Math.PI * 2);
-                ctx.fill();
-            } else {
-                p.reset();
-            }
-        });
-        ctx.globalAlpha = 1.0;
-
-        // 4. Draw Callouts/Labels on boundaries
-        ctx.fillStyle = 'white';
-        ctx.font = 'bold 11px Inter, sans-serif';
-        ctx.textAlign = 'center';
-
-        // T_insulated (Left)
-        ctx.fillText(`T_iso = ${T[0].toFixed(1)} °C`, startX + 15, centerY - plateHeight / 2 - 15);
-        ctx.fillStyle = '#22d3ee';
-        ctx.beginPath();
-        ctx.arc(startX, centerY - plateHeight / 2, 5, 0, Math.PI * 2);
-        ctx.fill();
-
-        // T_s (Right)
-        ctx.fillStyle = 'white';
-        ctx.fillText(`T_s = ${T[M - 1].toFixed(1)} °C`, endX - 15, centerY - plateHeight / 2 - 15);
-        ctx.fillStyle = '#f59e0b';
-        ctx.beginPath();
-        ctx.arc(endX, centerY - plateHeight / 2, 5, 0, Math.PI * 2);
-        ctx.fill();
-    }
-
-    // Listeners
-    // LOTE 3: extraída a función nombrada (antes closure anónima inline,
-    // idéntica para los 4 sliders) para que tanto el slider como su
-    // <input type="number"> hermano la reutilicen como callback del
-    // helper del LOTE 2, sin duplicar lógica.
-    function handleInsulatedInput() {
-        updateUI();
-        if (selectMode.value === 'steady') {
-            solveStep();
-            updateUI();
-        }
-    }
-    const inputs = [inputTs, inputK, inputQg, inputThick];
-    inputs.forEach(el => {
-        if (el) el.addEventListener('input', handleInsulatedInput);
-    });
-
-    // LOTE 3 — entrada numérica directa: conecta cada slider con su
-    // <input type="number"> hermano vía el helper global del LOTE 2.
-    [
-        ['ins-ts-num', inputTs], ['ins-k-num', inputK], ['ins-qg-num', inputQg], ['ins-thick-num', inputThick]
-    ].forEach(([numId, sliderEl]) => {
-        const numEl = document.getElementById(numId);
-        if (numEl && sliderEl) syncSliderAndNumberInput(sliderEl, numEl, handleInsulatedInput);
-    });
-
-    if (selectMode) {
-        selectMode.addEventListener('change', () => {
-            if (selectMode.value === 'steady') {
-                running = false;
-                if (playBtn) playBtn.innerHTML = '<i class="fas fa-play"></i> Simular';
-                solveStep();
-                updateUI();
-            } else {
-                resetSimulation();
-            }
-        });
-    }
-
-    if (playBtn) {
-        playBtn.addEventListener('click', () => {
-            if (selectMode.value === 'steady') {
-                solveStep();
-                updateUI();
-                return;
-            }
-            running = !running;
-            playBtn.innerHTML = running ? '<i class="fas fa-pause"></i> Pausar' : '<i class="fas fa-play"></i> Simular';
-        });
-    }
-
-    if (resetBtn) {
-        resetBtn.addEventListener('click', () => {
-            running = false;
-            if (playBtn) playBtn.innerHTML = '<i class="fas fa-play"></i> Simular';
-            resetSimulation();
-        });
-    }
-
-    // Animation Loop
-    let animId;
-    function loop() {
-        if (running && selectMode.value === 'transient') {
-            for (let s = 0; s < 50; s++) { // run multiple steps per frame for speed
-                solveStep();
-            }
-            updateUI();
-        }
-        render();
-        animId = requestAnimationFrame(loop);
-    }
-    loop();
-
-    // Initial state
-    resetSimulation();
-    updateUI();
-}
-
-
 function initMulticapaCustomSimulation() {
     // Guardia: no re-inicializar si ya está activo
     if (window._multicapaInited) return;
@@ -14692,6 +13173,11 @@ function initMulticapaCustomSimulation() {
     const inputLEps = document.getElementById('cm-l-eps');
     const inputLTsur = document.getElementById('cm-l-tsur');
     const inputLFlux = document.getElementById('cm-l-flux');
+    // LOTE — Irradiación externa (Irradiación + Convección / + Radiación):
+    // G (irradiación incidente) y α (absortividad); h/T∞ y ε/T_sur se
+    // reutilizan de inputLH/inputLTinf y inputLEps/inputLTsur (arriba).
+    const inputLG = document.getElementById('cm-l-g');
+    const inputLAlpha = document.getElementById('cm-l-alpha');
 
     // BC Right Controls
     const selectBcRType = document.getElementById('cm-bc-r-type');
@@ -14701,6 +13187,8 @@ function initMulticapaCustomSimulation() {
     const inputREps = document.getElementById('cm-r-eps');
     const inputRTsur = document.getElementById('cm-r-tsur');
     const inputRFlux = document.getElementById('cm-r-flux');
+    const inputRG = document.getElementById('cm-r-g');
+    const inputRAlpha = document.getElementById('cm-r-alpha');
 
     // Metrics Spans
     const lblRcond = document.getElementById('cm-rcond-val');
@@ -14743,20 +13231,27 @@ function initMulticapaCustomSimulation() {
     //   • 'comb-flux'              -> misma R_eq que 'comb' (rama resistiva conv‖rad)
     //                                  MÁS una fuente de flujo q'' superpuesta en el
     //                                  mismo nodo (isSource = true).
+    //   • 'irr_conv'                -> R = 1/h_conv (rama resistiva única, igual que
+    //                                  'conv') MÁS una fuente de irradiación absorbida
+    //                                  α·G superpuesta en el nodo de superficie
+    //                                  (isSource = true, mismo patrón que 'comb-flux'
+    //                                  pero con una sola rama resistiva).
+    //   • 'irr_rad'                 -> R = 1/h_rad (rama resistiva única, igual que
+    //                                  'rad') MÁS la misma fuente α·G (isSource = true).
     function boundaryResistanceInfo(type, hVal, epsVal, tsurVal, TsVal) {
         if (type === 'temp') return { R: 0, hConv: 0, hRad: 0, isSource: false };
         let hConv = 0, hRad = 0;
-        if (type === 'conv' || type === 'comb' || type === 'comb-flux') {
+        if (type === 'conv' || type === 'comb' || type === 'comb-flux' || type === 'irr_conv') {
             hConv = hVal;
         }
-        if (type === 'rad' || type === 'comb' || type === 'comb-flux') {
+        if (type === 'rad' || type === 'comb' || type === 'comb-flux' || type === 'irr_rad') {
             const TsK = TsVal + 273.15;
             const TsurK = tsurVal + 273.15;
             hRad = epsVal * sigma * (TsK + TsurK) * (TsK * TsK + TsurK * TsurK);
         }
         if (type === 'flux') return { R: null, hConv: 0, hRad: 0, isSource: true };
         const hTotal = hConv + hRad;
-        return { R: hTotal > 0 ? 1 / hTotal : null, hConv, hRad, isSource: type === 'comb-flux' };
+        return { R: hTotal > 0 ? 1 / hTotal : null, hConv, hRad, isSource: (type === 'comb-flux' || type === 'irr_conv' || type === 'irr_rad') };
     }
 
     // ── Utilidades de traducción (LOTE 3) ──────────────────────────────────
@@ -14781,6 +13276,24 @@ function initMulticapaCustomSimulation() {
     function formatNumCompact(val, maxDecimals = 2) {
         if (val === null || val === undefined || isNaN(val)) return '--';
         return parseFloat(Number(val).toFixed(maxDecimals)).toString();
+    }
+
+    // ── Espesor aparente de la película térmica en función de h (LOTE —
+    // Visualización Dinámica de h) ──────────────────────────────────────────
+    // A mayor coeficiente convectivo h, la capa límite térmica real es más
+    // delgada (y la caída T∞→Ts más abrupta); a menor h, más gruesa/gradual.
+    // Se mapea h en el rango físico típico de la interfaz [5, 500] W/m²K a
+    // una fracción visual [0.22, 1.0] del ancho máximo disponible para la
+    // franja de fluido, usando escala logarítmica (h suele variar en órdenes
+    // de magnitud, no linealmente) para que el cambio se note en todo el
+    // rango del slider. Se usa tanto en el Canvas (customMultiCanvas, franja
+    // lateral) como en la gráfica T(x) (customChart, datasets[1]/[2]) para
+    // mantener consistencia visual entre ambas representaciones.
+    function filmWidthFraction(hVal) {
+        const hMin = 5, hMax = 500;
+        const hC = Math.max(hMin, Math.min(hMax, hVal || hMin));
+        const frac = 1 - (Math.log10(hC / hMin) / Math.log10(hMax / hMin)); // 1 en h=hMin -> 0 en h=hMax
+        return 0.22 + frac * 0.78;
     }
 
     // Initialize Chart.js
@@ -15017,15 +13530,17 @@ function initMulticapaCustomSimulation() {
         if (!selectBcLType || !selectBcRType) return;
         const typeL = selectBcLType.value;
         const elLTemp = document.getElementById('cm-l-temp-group'); if (elLTemp) elLTemp.style.display = typeL === 'temp' ? 'block' : 'none';
-        const elLConv = document.getElementById('cm-l-conv-group'); if (elLConv) elLConv.style.display = (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') ? 'block' : 'none';
-        const elLRad = document.getElementById('cm-l-rad-group'); if (elLRad) elLRad.style.display = (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux') ? 'block' : 'none';
+        const elLConv = document.getElementById('cm-l-conv-group'); if (elLConv) elLConv.style.display = (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv') ? 'block' : 'none';
+        const elLRad = document.getElementById('cm-l-rad-group'); if (elLRad) elLRad.style.display = (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad') ? 'block' : 'none';
         const elLFlux = document.getElementById('cm-l-flux-group'); if (elLFlux) elLFlux.style.display = (typeL === 'flux' || typeL === 'comb-flux') ? 'block' : 'none';
+        const elLIrr = document.getElementById('cm-l-irr-group'); if (elLIrr) elLIrr.style.display = (typeL === 'irr_conv' || typeL === 'irr_rad') ? 'block' : 'none';
 
         const typeR = selectBcRType.value;
         const elRTemp = document.getElementById('cm-r-temp-group'); if (elRTemp) elRTemp.style.display = typeR === 'temp' ? 'block' : 'none';
-        const elRConv = document.getElementById('cm-r-conv-group'); if (elRConv) elRConv.style.display = (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') ? 'block' : 'none';
-        const elRRad = document.getElementById('cm-r-rad-group'); if (elRRad) elRRad.style.display = (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux') ? 'block' : 'none';
+        const elRConv = document.getElementById('cm-r-conv-group'); if (elRConv) elRConv.style.display = (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv') ? 'block' : 'none';
+        const elRRad = document.getElementById('cm-r-rad-group'); if (elRRad) elRRad.style.display = (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad') ? 'block' : 'none';
         const elRFlux = document.getElementById('cm-r-flux-group'); if (elRFlux) elRFlux.style.display = (typeR === 'flux' || typeR === 'comb-flux') ? 'block' : 'none';
+        const elRIrr = document.getElementById('cm-r-irr-group'); if (elRIrr) elRIrr.style.display = (typeR === 'irr_conv' || typeR === 'irr_rad') ? 'block' : 'none';
 
         // Sincroniza los inputs numéricos editables con el valor actual de
         // cada slider (LOTE — entrada numérica bidireccional). Se omite el
@@ -15035,8 +13550,10 @@ function initMulticapaCustomSimulation() {
         const numFieldsMap = [
             ['cm-l-temp-num', inputLTemp], ['cm-l-h-num', inputLH], ['cm-l-tinf-num', inputLTinf],
             ['cm-l-eps-num', inputLEps], ['cm-l-tsur-num', inputLTsur], ['cm-l-flux-num', inputLFlux],
+            ['cm-l-g-num', inputLG], ['cm-l-alpha-num', inputLAlpha],
             ['cm-r-temp-num', inputRTemp], ['cm-r-h-num', inputRH], ['cm-r-tinf-num', inputRTinf],
-            ['cm-r-eps-num', inputREps], ['cm-r-tsur-num', inputRTsur], ['cm-r-flux-num', inputRFlux]
+            ['cm-r-eps-num', inputREps], ['cm-r-tsur-num', inputRTsur], ['cm-r-flux-num', inputRFlux],
+            ['cm-r-g-num', inputRG], ['cm-r-alpha-num', inputRAlpha]
         ];
 
         numFieldsMap.forEach(([numId, input]) => {
@@ -15052,8 +13569,8 @@ function initMulticapaCustomSimulation() {
         [selectBcLType, selectBcRType].forEach(el => el.addEventListener('change', updateBcVisibility));
     }
     const inputsToBind = [
-        inputLTemp, inputLH, inputLTinf, inputLEps, inputLTsur, inputLFlux,
-        inputRTemp, inputRH, inputRTinf, inputREps, inputRTsur, inputRFlux
+        inputLTemp, inputLH, inputLTinf, inputLEps, inputLTsur, inputLFlux, inputLG, inputLAlpha,
+        inputRTemp, inputRH, inputRTinf, inputREps, inputRTsur, inputRFlux, inputRG, inputRAlpha
     ];
     inputsToBind.forEach(el => {
         if (el) el.addEventListener('input', updateBcVisibility);
@@ -15082,8 +13599,10 @@ function initMulticapaCustomSimulation() {
     [
         ['cm-l-temp-num', inputLTemp], ['cm-l-h-num', inputLH], ['cm-l-tinf-num', inputLTinf],
         ['cm-l-eps-num', inputLEps], ['cm-l-tsur-num', inputLTsur], ['cm-l-flux-num', inputLFlux],
+        ['cm-l-g-num', inputLG], ['cm-l-alpha-num', inputLAlpha],
         ['cm-r-temp-num', inputRTemp], ['cm-r-h-num', inputRH], ['cm-r-tinf-num', inputRTinf],
-        ['cm-r-eps-num', inputREps], ['cm-r-tsur-num', inputRTsur], ['cm-r-flux-num', inputRFlux]
+        ['cm-r-eps-num', inputREps], ['cm-r-tsur-num', inputRTsur], ['cm-r-flux-num', inputRFlux],
+        ['cm-r-g-num', inputRG], ['cm-r-alpha-num', inputRAlpha]
     ].forEach(([numId, rangeEl]) => bindBcNumberInput(numId, rangeEl));
 
     if (selectLayersCount) {
@@ -15126,18 +13645,26 @@ function initMulticapaCustomSimulation() {
                 return ((inputLTemp ? parseFloat(inputLTemp.value) : 100) - T0) / 1e-4; // large virtual h
             }
             let q = 0.0;
-            if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') {
+            if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv') {
                 const hL = inputLH ? parseFloat(inputLH.value) : 20;
                 const tinfL = inputLTinf ? parseFloat(inputLTinf.value) : 150;
                 q += hL * (tinfL - T0);
             }
-            if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux') {
+            if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad') {
                 const epsL = inputLEps ? parseFloat(inputLEps.value) : 0.85;
                 const tsurL = inputLTsur ? parseFloat(inputLTsur.value) : 150;
                 q += sigma * epsL * (Math.pow(tsurL + 273.15, 4) - Math.pow(T0 + 273.15, 4));
             }
             if (typeL === 'flux' || typeL === 'comb-flux') {
                 q += inputLFlux ? parseFloat(inputLFlux.value) : 500;
+            }
+            if (typeL === 'irr_conv' || typeL === 'irr_rad') {
+                // Irradiación neta absorbida (α·G): fuente de flujo constante
+                // (no depende de T0) inyectada en el nodo de superficie —
+                // ver getDFluxLeftDT: su derivada respecto a T0 es nula.
+                const gL = inputLG ? parseFloat(inputLG.value) : 0;
+                const alphaL = inputLAlpha ? parseFloat(inputLAlpha.value) : 0;
+                q += alphaL * gL;
             }
             return q;
         }
@@ -15148,18 +13675,29 @@ function initMulticapaCustomSimulation() {
                 return (TN - (inputRTemp ? parseFloat(inputRTemp.value) : 20)) / 1e-4;
             }
             let q = 0.0;
-            if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') {
+            if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv') {
                 const hR = inputRH ? parseFloat(inputRH.value) : 20;
                 const tinfR = inputRTinf ? parseFloat(inputRTinf.value) : 10;
                 q += hR * (TN - tinfR);
             }
-            if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux') {
+            if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad') {
                 const epsR = inputREps ? parseFloat(inputREps.value) : 0.85;
                 const tsurR = inputRTsur ? parseFloat(inputRTsur.value) : 10;
                 q += sigma * epsR * (Math.pow(TN + 273.15, 4) - Math.pow(tsurR + 273.15, 4));
             }
             if (typeR === 'flux' || typeR === 'comb-flux') {
                 q += inputRFlux ? parseFloat(inputRFlux.value) : 500;
+            }
+            if (typeR === 'irr_conv' || typeR === 'irr_rad') {
+                // Irradiación absorbida (α·G) saliendo de la frontera derecha:
+                // en getFluxRight, q representa flujo SALIENDO de la pared, así
+                // que una fuente de irradiación entrante (hacia la pared) resta
+                // de q — signo opuesto al de getFluxLeft (misma convención ya
+                // usada por 'flux'/'comb-flux' arriba, ver render() e
+                // isRIncomingFlux: q>0 = saliendo, q<0 = entrando a la pared).
+                const gR = inputRG ? parseFloat(inputRG.value) : 0;
+                const alphaR = inputRAlpha ? parseFloat(inputRAlpha.value) : 0;
+                q -= alphaR * gR;
             }
             return q;
         }
@@ -15168,28 +13706,32 @@ function initMulticapaCustomSimulation() {
         function getDFluxLeftDT(T0) {
             if (typeL === 'temp') return -1e4;
             let dq = 0.0;
-            if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') {
+            if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv') {
                 const hL = inputLH ? parseFloat(inputLH.value) : 20;
                 dq += -hL;
             }
-            if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux') {
+            if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad') {
                 const epsL = inputLEps ? parseFloat(inputLEps.value) : 0.85;
                 dq += -4 * sigma * epsL * Math.pow(T0 + 273.15, 3);
             }
+            // Nota: la irradiación absorbida (α·G) es una fuente CONSTANTE
+            // respecto a T0 -> su derivada es 0, no aporta término aquí.
             return dq;
         }
 
         function getDFluxRightDT(TN) {
             if (typeR === 'temp') return 1e4;
             let dq = 0.0;
-            if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') {
+            if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv') {
                 const hR = inputRH ? parseFloat(inputRH.value) : 20;
                 dq += hR;
             }
-            if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux') {
+            if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad') {
                 const epsR = inputREps ? parseFloat(inputREps.value) : 0.85;
                 dq += 4 * sigma * epsR * Math.pow(TN + 273.15, 3);
             }
+            // Nota: la irradiación absorbida (α·G) es una fuente CONSTANTE
+            // respecto a TN -> su derivada es 0, no aporta término aquí.
             return dq;
         }
 
@@ -15220,7 +13762,7 @@ function initMulticapaCustomSimulation() {
             // Caso B: T0 exacto (Dirichlet); TN es la única incógnita.
             T0_guess = TL_input;
             TN_guess = 20.0;
-            if (typeR === 'conv' && inputRTinf) TN_guess = parseFloat(inputRTinf.value);
+            if ((typeR === 'conv' || typeR === 'irr_conv') && inputRTinf) TN_guess = parseFloat(inputRTinf.value);
             converged = false;
             for (let iter = 0; iter < 100; iter++) {
                 const q_cond = (T0_guess - TN_guess) / Rcond;
@@ -15234,7 +13776,7 @@ function initMulticapaCustomSimulation() {
             // Caso C: TN exacto (Dirichlet); T0 es la única incógnita.
             TN_guess = TR_input;
             T0_guess = 100.0;
-            if (typeL === 'conv' && inputLTinf) T0_guess = parseFloat(inputLTinf.value);
+            if ((typeL === 'conv' || typeL === 'irr_conv') && inputLTinf) T0_guess = parseFloat(inputLTinf.value);
             converged = false;
             for (let iter = 0; iter < 100; iter++) {
                 const q_cond = (T0_guess - TN_guess) / Rcond;
@@ -15249,8 +13791,8 @@ function initMulticapaCustomSimulation() {
             // sin cambios de comportamiento.
             T0_guess = 100.0;
             TN_guess = 20.0;
-            if (typeL === 'conv' && inputLTinf) T0_guess = parseFloat(inputLTinf.value);
-            if (typeR === 'conv' && inputRTinf) TN_guess = parseFloat(inputRTinf.value);
+            if ((typeL === 'conv' || typeL === 'irr_conv') && inputLTinf) T0_guess = parseFloat(inputLTinf.value);
+            if ((typeR === 'conv' || typeR === 'irr_conv') && inputRTinf) TN_guess = parseFloat(inputRTinf.value);
             converged = false;
 
             for (let iter = 0; iter < 100; iter++) {
@@ -15382,10 +13924,20 @@ function initMulticapaCustomSimulation() {
                 customChart.data.datasets[2].label = t('Capa Límite Térmica') + ' (Der.)';
             }
 
+            // Tipos de frontera con componente convectiva activa (h > 0): 'conv'/
+            // 'irr_conv' puros, y también 'comb'/'comb-flux' (Convección + Radiación
+            // combinadas) — en estos últimos dos, T_s1/T_s2 (=T[0]/T[N]) ya viene del
+            // solver acoplado (getFluxLeft/Right suman h_conv Y h_rad simultáneamente),
+            // así que el perfil de capa límite dibujado aquí refleja automáticamente la
+            // temperatura de superficie real resultante de ambos mecanismos combinados.
+            const hasConvL = (typeL === 'conv' || typeL === 'irr_conv' || typeL === 'comb' || typeL === 'comb-flux');
+            const hasConvR = (typeR === 'conv' || typeR === 'irr_conv' || typeR === 'comb' || typeR === 'comb-flux');
+
             let xMin = 0.0;
             if (customChart.data.datasets[1]) {
-                if (typeL === 'conv') {
-                    const deltaL = BL_FRACTION * L_tot;
+                if (hasConvL) {
+                    const hL_bl = inputLH ? parseFloat(inputLH.value) : 20;
+                    const deltaL = BL_FRACTION * L_tot * filmWidthFraction(hL_bl);
                     const T_inf1 = inputLTinf ? parseFloat(inputLTinf.value) : 150;
                     const leftBLData = [];
                     for (let i = 0; i <= BL_POINTS; i++) {
@@ -15403,8 +13955,9 @@ function initMulticapaCustomSimulation() {
 
             let xMax = L_tot;
             if (customChart.data.datasets[2]) {
-                if (typeR === 'conv') {
-                    const deltaR = BL_FRACTION * L_tot;
+                if (hasConvR) {
+                    const hR_bl = inputRH ? parseFloat(inputRH.value) : 20;
+                    const deltaR = BL_FRACTION * L_tot * filmWidthFraction(hR_bl);
                     const T_inf2 = inputRTinf ? parseFloat(inputRTinf.value) : 10;
                     const rightBLData = [];
                     for (let i = 0; i <= BL_POINTS; i++) {
@@ -15482,6 +14035,7 @@ function initMulticapaCustomSimulation() {
         const clrCool = isLightTheme ? '#1d4ed8' : '#60a5fa';  // T prescrita / flujo saliente (azul)
         const clrRad = isLightTheme ? '#c2410c' : '#fb923c';   // radiación entrante / q'' (naranja)
         const clrSur = isLightTheme ? '#7e22ce' : '#c084fc';   // T_sur / radiación saliente (púrpura)
+        const clrSolar = isLightTheme ? '#b45309' : '#fbbf24'; // irradiación incidente G / α·G (dorado, LOTE — Irradiación Externa)
         const clrTitle = isLightTheme ? 'rgba(15, 23, 42, 0.72)' : 'rgba(255, 255, 255, 0.65)';
 
         const N = layers.length;
@@ -15661,14 +14215,19 @@ function initMulticapaCustomSimulation() {
         const typeL = selectBcLType.value;
         const typeR = selectBcRType.value;
 
-        // 2.1 Capa Límite Térmica del fluido (zona exterior) — LOTE 2
-        // Sólo para frontera de tipo 'Convección' pura ('conv'), igual que la
-        // extensión matemática del LOTE 1 en el chart T(x); no aplica a
-        // 'comb'/'comb-flux' para no chocar visualmente con las flechas de
-        // radiación que ya ocupan esa misma franja lateral (bloques de abajo).
-        // Al depender de `if (typeX === 'conv')` evaluado en cada frame, el
-        // bloque desaparece automáticamente y sin rastro si el usuario cambia
-        // a 'Flujo Constante' o 'Temperatura Prescrita' (reactividad #4).
+        // 2.1 Capa Límite Térmica del fluido (zona exterior) — LOTE 2, extendido
+        // por el LOTE de Visualización Dinámica de h a 'comb'/'comb-flux'
+        // (Convección + Radiación combinadas): T_s1/T_s2 (=T[0]/T[N]) ya vienen
+        // del solver acoplado, así que el perfil de capa límite aquí refleja la
+        // temperatura de superficie real resultante de h_conv Y h_rad a la vez.
+        // El espesor visual de la franja se reduce dinámicamente al acercarse a
+        // la pared conforme h crece (filmWidthFraction), dejando la franja más
+        // externa (cercana al borde del canvas) libre para los rayos de
+        // radiación/vault (bloques de más abajo) — con h alto la franja de
+        // convección queda angosta y pegada a la pared, sin invadir esa zona.
+        // Al depender de `if (typeX === ...)` evaluado en cada frame, el bloque
+        // desaparece automáticamente y sin rastro si el usuario cambia a
+        // 'Flujo Constante' o 'Temperatura Prescrita' (reactividad #4).
         const blMargin = 10; // margen mínimo respecto al borde del canvas
         const blBandTop = centerY - heightPlate / 2 + 16;
         const blBandBottom = centerY + heightPlate / 2 - 16;
@@ -15683,12 +14242,22 @@ function initMulticapaCustomSimulation() {
             return blBandBottom - frac * (blBandBottom - blBandTop);
         }
 
-        if (typeL === 'conv') {
-            const zoneL0 = blMargin;
+        const hasConvBL_L = (typeL === 'conv' || typeL === 'irr_conv' || typeL === 'comb' || typeL === 'comb-flux');
+        const hasConvBL_R = (typeR === 'conv' || typeR === 'irr_conv' || typeR === 'comb' || typeR === 'comb-flux');
+
+        if (hasConvBL_L) {
+            const zoneL0Full = blMargin;
             const zoneL1 = startX;
             const TinfL = parseFloat(inputLTinf.value);
             const TwallL = T[0];
             const blColorL = TinfL > TwallL ? clrHot : clrCool;
+            const hL = inputLH ? parseFloat(inputLH.value) : 20;
+
+            // Espesor visual de la película reactivo a h (LOTE — Visualización
+            // Dinámica de h): a mayor h, la franja activa (gradiente + curva) se
+            // angosta y se pega a la pared; zoneL0Full..zoneL0 (fuera de la
+            // franja activa) queda como "seno del fluido" sin gradiente visible.
+            const zoneL0 = zoneL1 - (zoneL1 - zoneL0Full) * filmWidthFraction(hL);
 
             // Sombreado gradiente: transparente en el seno del fluido, se
             // intensifica hacia la pared (donde ocurre el gradiente térmico real).
@@ -15697,12 +14266,13 @@ function initMulticapaCustomSimulation() {
             gradBLL.addColorStop(0, 'rgba(0,0,0,0)');
             gradBLL.addColorStop(1, blColorL);
             ctx.fillStyle = gradBLL;
-            ctx.fillRect(zoneL0, centerY - heightPlate / 2, zoneL1 - zoneL0, heightPlate);
+            ctx.fillRect(zoneL0Full, centerY - heightPlate / 2, zoneL1 - zoneL0Full, heightPlate);
             ctx.globalAlpha = 1.0;
 
             // Curva suave del perfil de temperatura: mismo perfil cuadrático
             // T(xi) = T_inf + (T_s - T_inf)·xi² usado en la gráfica T(x) del
-            // LOTE 1 (pendiente nula en el borde libre, finita en la pared).
+            // LOTE 1 (pendiente nula en el borde libre, finita en la pared),
+            // ahora trazada sólo dentro de la franja activa [zoneL0, zoneL1].
             ctx.strokeStyle = blColorL;
             ctx.lineWidth = 2;
             ctx.beginPath();
@@ -15717,37 +14287,45 @@ function initMulticapaCustomSimulation() {
             ctx.stroke();
 
             // Etiquetas discretas (halo para legibilidad en cualquier tema),
-            // centradas en la zona y con margen respecto al borde del canvas
-            // (blMargin) y a la pared sólida (startX) — requisito #3.
+            // centradas en la zona completa y con margen respecto al borde del
+            // canvas (blMargin) y a la pared sólida (startX) — requisito #3.
+            // Valor de h destacado (bold, LOTE — Visualización Dinámica de h,
+            // requisito #1: formatNumCompact(h,1)).
             ctx.save();
             ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
             ctx.shadowBlur = 3;
             ctx.textAlign = 'center';
             ctx.fillStyle = blLabelColor;
-            ctx.font = '8px Inter, sans-serif';
-            ctx.fillText(`T∞, h${subDigits[1]}`, (zoneL0 + zoneL1) / 2, blBandTop - 4);
+            ctx.font = 'bold 9px Inter, sans-serif';
+            ctx.fillText(`h${subDigits[1]}=${formatNumCompact(hL, 1)} W/m²K`, (zoneL0Full + zoneL1) / 2, blBandTop - 4);
             ctx.font = '7px Inter, sans-serif';
-            ctx.fillText(t('Capa Límite Térmica') + ' (δₜ)', (zoneL0 + zoneL1) / 2, blBandBottom + 12);
+            ctx.fillText(t('Capa Límite Térmica') + ' (δₜ)', (zoneL0Full + zoneL1) / 2, blBandBottom + 12);
             ctx.restore();
         }
 
-        if (typeR === 'conv') {
+        if (hasConvBL_R) {
             const zoneR0 = endX;
-            const zoneR1 = w - blMargin;
+            const zoneR1Full = w - blMargin;
             const TinfR = parseFloat(inputRTinf.value);
             const TwallR = T[N];
             const blColorR = TinfR > TwallR ? clrHot : clrCool;
+            const hR = inputRH ? parseFloat(inputRH.value) : 20;
+
+            // Espejo del lado izquierdo: franja activa angosta y pegada a la
+            // pared (zoneR0) conforme h crece.
+            const zoneR1 = zoneR0 + (zoneR1Full - zoneR0) * filmWidthFraction(hR);
 
             ctx.globalAlpha = 0.18;
             const gradBLR = ctx.createLinearGradient(zoneR1, 0, zoneR0, 0);
             gradBLR.addColorStop(0, 'rgba(0,0,0,0)');
             gradBLR.addColorStop(1, blColorR);
             ctx.fillStyle = gradBLR;
-            ctx.fillRect(zoneR0, centerY - heightPlate / 2, zoneR1 - zoneR0, heightPlate);
+            ctx.fillRect(zoneR0, centerY - heightPlate / 2, zoneR1Full - zoneR0, heightPlate);
             ctx.globalAlpha = 1.0;
 
             // Perfil espejo del izquierdo: T(xi) = T_inf + (T_s - T_inf)·(1-xi)²
-            // (idéntico al usado en el tramo derecho del chart T(x), LOTE 1).
+            // (idéntico al usado en el tramo derecho del chart T(x), LOTE 1),
+            // trazada sólo dentro de la franja activa [zoneR0, zoneR1].
             ctx.strokeStyle = blColorR;
             ctx.lineWidth = 2;
             ctx.beginPath();
@@ -15766,10 +14344,10 @@ function initMulticapaCustomSimulation() {
             ctx.shadowBlur = 3;
             ctx.textAlign = 'center';
             ctx.fillStyle = blLabelColor;
-            ctx.font = '8px Inter, sans-serif';
-            ctx.fillText(`T∞, h${subDigits[2]}`, (zoneR0 + zoneR1) / 2, blBandTop - 4);
+            ctx.font = 'bold 9px Inter, sans-serif';
+            ctx.fillText(`h${subDigits[2]}=${formatNumCompact(hR, 1)} W/m²K`, (zoneR0 + zoneR1Full) / 2, blBandTop - 4);
             ctx.font = '7px Inter, sans-serif';
-            ctx.fillText(t('Capa Límite Térmica') + ' (δₜ)', (zoneR0 + zoneR1) / 2, blBandBottom + 12);
+            ctx.fillText(t('Capa Límite Térmica') + ' (δₜ)', (zoneR0 + zoneR1Full) / 2, blBandBottom + 12);
             ctx.restore();
         }
 
@@ -15782,7 +14360,7 @@ function initMulticapaCustomSimulation() {
             ctx.fillStyle = gradL;
             ctx.fillRect(startX - 20, centerY - heightPlate / 2, 20, heightPlate);
         }
-        if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') {
+        if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv') {
             ctx.strokeStyle = parseFloat(inputLTinf.value) > T[0] ? clrHot : clrCool;
             ctx.lineWidth = 2.5;
             ctx.globalAlpha = 0.5;
@@ -15797,7 +14375,7 @@ function initMulticapaCustomSimulation() {
             }
             ctx.globalAlpha = 1.0;
         }
-        if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux') {
+        if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad') {
             const isLIncoming = parseFloat(inputLTsur.value) > T[0];
             ctx.strokeStyle = isLIncoming ? clrRad : clrSur;
             ctx.lineWidth = 1.8;
@@ -15855,6 +14433,31 @@ function initMulticapaCustomSimulation() {
                 }
             }
         }
+        if (typeL === 'irr_conv' || typeL === 'irr_rad') {
+            // LOTE — Irradiación Externa: rayos de irradiación incidente (G, α)
+            // en una franja más externa que la de convección/radiación
+            // reutilizadas arriba (esas franjas ya representan el mecanismo
+            // físico real de intercambio; ésta es sólo la señal visual del
+            // flujo solar que se absorbe en la superficie — ver
+            // getFluxLeft()/boundaryResistanceInfo()).
+            ctx.strokeStyle = clrSolar;
+            ctx.fillStyle = clrSolar;
+            ctx.lineWidth = 2;
+            ctx.globalAlpha = 0.85;
+            for (let y = centerY - heightPlate / 2 + 12; y <= centerY + heightPlate / 2 - 12; y += 26) {
+                ctx.beginPath();
+                ctx.moveTo(startX - 75, y - 14);
+                ctx.lineTo(startX - 52, y);
+                ctx.stroke();
+                // Punta de flecha hacia la pared
+                ctx.beginPath();
+                ctx.moveTo(startX - 50, y);
+                ctx.lineTo(startX - 58, y - 5);
+                ctx.lineTo(startX - 57, y + 4);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1.0;
+        }
 
         // Right Boundary Animations (x > endX)
         if (typeR === 'temp') {
@@ -15865,7 +14468,7 @@ function initMulticapaCustomSimulation() {
             ctx.fillStyle = gradR;
             ctx.fillRect(endX, centerY - heightPlate / 2, 20, heightPlate);
         }
-        if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') {
+        if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv') {
             ctx.strokeStyle = T[N] > parseFloat(inputRTinf.value) ? clrHot : clrCool;
             ctx.lineWidth = 2.5;
             ctx.globalAlpha = 0.5;
@@ -15880,7 +14483,7 @@ function initMulticapaCustomSimulation() {
             }
             ctx.globalAlpha = 1.0;
         }
-        if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux') {
+        if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad') {
             const isRIncoming = parseFloat(inputRTsur.value) > T[N];
             ctx.strokeStyle = isRIncoming ? clrRad : clrSur;
             ctx.lineWidth = 1.8;
@@ -15937,6 +14540,28 @@ function initMulticapaCustomSimulation() {
                     ctx.fill();
                 }
             }
+        }
+        if (typeR === 'irr_conv' || typeR === 'irr_rad') {
+            // LOTE — Irradiación Externa (ver comentario análogo en el bloque
+            // izquierdo, arriba): rayos incidentes espejados hacia la pared
+            // derecha, en la franja externa a convección/radiación.
+            ctx.strokeStyle = clrSolar;
+            ctx.fillStyle = clrSolar;
+            ctx.lineWidth = 2;
+            ctx.globalAlpha = 0.85;
+            for (let y = centerY - heightPlate / 2 + 12; y <= centerY + heightPlate / 2 - 12; y += 26) {
+                ctx.beginPath();
+                ctx.moveTo(endX + 75, y - 14);
+                ctx.lineTo(endX + 52, y);
+                ctx.stroke();
+                // Punta de flecha hacia la pared
+                ctx.beginPath();
+                ctx.moveTo(endX + 50, y);
+                ctx.lineTo(endX + 58, y - 5);
+                ctx.lineTo(endX + 57, y + 4);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1.0;
         }
 
         // 3. Animate heat flux particles through the wall
@@ -16055,12 +14680,12 @@ function initMulticapaCustomSimulation() {
             ctx.fillStyle = clrCool;
             drawSubscriptText("T", "L", formatNumCompact(parseFloat(inputLTemp.value), 0), "°C", 10, yOffsetL, 'left');
         }
-        if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') {
+        if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv') {
             ctx.fillStyle = clrHot;
             drawSubscriptText("T", "∞,L", formatNumCompact(parseFloat(inputLTinf.value), 0), "°C", 10, yOffsetL, 'left');
             yOffsetL += 15;
         }
-        if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux') {
+        if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad') {
             ctx.fillStyle = clrSur;
             drawSubscriptText("T", "sur,L", formatNumCompact(parseFloat(inputLTsur.value), 0), "°C", 10, yOffsetL, 'left');
             yOffsetL += 15;
@@ -16068,6 +14693,14 @@ function initMulticapaCustomSimulation() {
         if (typeL === 'flux' || typeL === 'comb-flux') {
             ctx.fillStyle = clrRad;
             drawSubscriptText("q\"", "L", formatNumCompact(parseFloat(inputLFlux.value), 0), "W/m²", 10, yOffsetL, 'left');
+        }
+        if (typeL === 'irr_conv' || typeL === 'irr_rad') {
+            // LOTE — Irradiación Externa: etiqueta G/α, mismo mecanismo
+            // drawSubscriptText() que el resto de fronteras (ver arriba).
+            ctx.fillStyle = clrSolar;
+            drawSubscriptText("G", "L", formatNumCompact(parseFloat(inputLG.value), 0), "W/m²", 10, yOffsetL, 'left');
+            yOffsetL += 15;
+            drawSubscriptText("α", "L", formatNumCompact(parseFloat(inputLAlpha.value), 2), "", 10, yOffsetL, 'left');
         }
 
         // Right Side
@@ -16093,12 +14726,12 @@ function initMulticapaCustomSimulation() {
             ctx.fillStyle = clrCool;
             drawSubscriptText("T", "R", formatNumCompact(parseFloat(inputRTemp.value), 0), "°C", w - 10, yOffsetR, 'right');
         }
-        if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') {
+        if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv') {
             ctx.fillStyle = clrHot;
             drawSubscriptText("T", "∞,R", formatNumCompact(parseFloat(inputRTinf.value), 0), "°C", w - 10, yOffsetR, 'right');
             yOffsetR += 15;
         }
-        if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux') {
+        if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad') {
             ctx.fillStyle = clrSur;
             drawSubscriptText("T", "sur,R", formatNumCompact(parseFloat(inputRTsur.value), 0), "°C", w - 10, yOffsetR, 'right');
             yOffsetR += 15;
@@ -16106,6 +14739,12 @@ function initMulticapaCustomSimulation() {
         if (typeR === 'flux' || typeR === 'comb-flux') {
             ctx.fillStyle = clrRad;
             drawSubscriptText("q\"", "R", formatNumCompact(parseFloat(inputRFlux.value), 0), "W/m²", w - 10, yOffsetR, 'right');
+        }
+        if (typeR === 'irr_conv' || typeR === 'irr_rad') {
+            ctx.fillStyle = clrSolar;
+            drawSubscriptText("G", "R", formatNumCompact(parseFloat(inputRG.value), 0), "W/m²", w - 10, yOffsetR, 'right');
+            yOffsetR += 15;
+            drawSubscriptText("α", "R", formatNumCompact(parseFloat(inputRAlpha.value), 2), "", w - 10, yOffsetR, 'right');
         }
 
         ctx.restore();
@@ -16308,6 +14947,45 @@ function initMulticapaCustomSimulation() {
                 return;
             }
 
+            if (type === 'irr_conv' || type === 'irr_rad') {
+                // LOTE — Irradiación Externa: misma rama resistiva única que
+                // 'conv'/'rad' puro (bcInfo.hConv/hRad ya calculado por
+                // boundaryResistanceInfo() con el mismo criterio), MÁS una
+                // fuente de irradiación absorbida α·G tapeada al nodo de
+                // superficie — mismo patrón visual que la fuente de
+                // 'comb-flux' (arriba), pero con una sola rama resistiva en
+                // vez de dos en paralelo.
+                const isRad = type === 'irr_rad';
+                drawNode(xOuter, wireY, tempColor);
+                drawZigzag(Math.min(xOuter, xNode), Math.max(xOuter, xNode), wireY, isRad ? radColor : resColor);
+                drawNode(xNode, wireY, tempColor);
+                const rValIrr = isRad ? (bcInfo.hRad > 0 ? 1 / bcInfo.hRad : 0) : (bcInfo.hConv > 0 ? 1 / bcInfo.hConv : 0);
+                circuitCtx.textAlign = 'center';
+                if (!veryCompact) label(isRad ? 'R_rad' : 'R_conv', xMid, wireY - 14, isRad ? radColor : resColor);
+                label(formatNumCompact(rValIrr, 3), xMid, wireY + 18, isRad ? radColor : resColor, 'bold 9px Inter, sans-serif');
+                circuitCtx.textAlign = isLeft ? 'left' : 'right';
+                const outerTextIrr = isRad
+                    ? `T_sur=${formatNumCompact(parseFloat(tsurInput.value), 0)}°`
+                    : `T∞=${formatNumCompact(parseFloat(tinfInput.value), 0)}°`;
+                label(outerTextIrr, xOuter, wireY - 24, tempColor);
+                circuitCtx.textAlign = 'center';
+
+                // Fuente de irradiación absorbida α·G, tapeada al nodo de
+                // superficie, desplazada por debajo de la rama resistiva
+                // (mismo offset vertical que usa 'comb-flux' para su fuente
+                // de flujo, adaptado a una sola rama en vez de dos).
+                const gInputSide = isLeft ? inputLG : inputRG;
+                const alphaInputSide = isLeft ? inputLAlpha : inputRAlpha;
+                const gValIrr = gInputSide ? parseFloat(gInputSide.value) : 0;
+                const alphaValIrr = alphaInputSide ? parseFloat(alphaInputSide.value) : 0;
+                const absorbedQ = alphaValIrr * gValIrr;
+                const ySrc = wireY + 44;
+                drawWireV(xNode, wireY, ySrc - 8);
+                drawFluxSource(xNode, ySrc, absorbedQ, sourceColor);
+                label(`αG=${formatNumCompact(absorbedQ, 0)}`, xNode, ySrc + 16, sourceColor, '7px Inter, sans-serif');
+                return;
+            }
+
             // 'conv' o 'rad' puro: una sola rama resistiva
             drawNode(xOuter, wireY, tempColor);
             drawZigzag(Math.min(xOuter, xNode), Math.max(xOuter, xNode), wireY, type === 'rad' ? radColor : resColor);
@@ -16476,8 +15154,8 @@ function initMulticapaCustomSimulation() {
             layers.forEach(l => {
                 R_tot_current += l.L / l.k;
             });
-            if (selectBcLType.value === 'conv' || selectBcLType.value === 'comb' || selectBcLType.value === 'comb-flux') R_tot_current += 1.0 / parseFloat(inputLH.value);
-            if (selectBcRType.value === 'conv' || selectBcRType.value === 'comb' || selectBcRType.value === 'comb-flux') R_tot_current += 1.0 / parseFloat(inputRH.value);
+            if (selectBcLType.value === 'conv' || selectBcLType.value === 'comb' || selectBcLType.value === 'comb-flux' || selectBcLType.value === 'irr_conv') R_tot_current += 1.0 / parseFloat(inputLH.value);
+            if (selectBcRType.value === 'conv' || selectBcRType.value === 'comb' || selectBcRType.value === 'comb-flux' || selectBcRType.value === 'irr_conv') R_tot_current += 1.0 / parseFloat(inputRH.value);
 
             const pt = {
                 id: pointCounter++,
@@ -17126,7 +15804,6 @@ function initCarnotSimulation() {
         engCtx.fillStyle = '#f59e0b'; engCtx.font = 'bold 10px Inter'; engCtx.textAlign = 'center';
         engCtx.fillText('\u03b7 = ' + (r.eta * 100).toFixed(1) + '%', W - 44, 19);
     }
-
 
     // ── T-S Diagram — fully dynamic axes + animated point ──────
     function drawTS(phase) {
@@ -17891,8 +16568,6 @@ function initOttoDieselSimulation() {
         safe('diesel-live-P-inst', instD.P.toFixed(0) + ' kPa');
     }
 
-
-
     // ── Helper: render one engine on a given canvas/ctx ──────
     function renderSingleEngine(canvas, ctx, phase, isOtto) {
         const W = canvas.width, H = canvas.height;
@@ -18643,7 +17318,6 @@ function initOttoDieselSimulation() {
     startAnimation();
 }
 
-
 // ═══════════════════════════════════════════════════════════════════════════
 //  LAB 28b: NEWCOMEN vs. WATT — Steam Engine Efficiency Simulation
 // ═══════════════════════════════════════════════════════════════════════════
@@ -19346,9 +18020,6 @@ function initWattLab() {
 }
 
 document.addEventListener('DOMContentLoaded', () => { initWattLab(); });
-
-
-
 
 // ============================================================================
 // LAB: PRINCIPIO DE BERNOULLI (TUBO DE VENTURI)
@@ -20882,8 +19553,6 @@ function initNavierStokesSimulation() {
         ctx.fillText(`α = ${alpha}°`, cx_airfoil + chord_airfoil * 0.28, cy_airfoil - chord_airfoil * 0.12);
         ctx.restore();
 
-
-
         if (!isPaused) {
             updateCoefficients(alpha, parseInt(sliderRe.value));
         }
@@ -22263,7 +20932,6 @@ function initInternalBLSimulation() {
             particles = [];
         }
 
-
         // Zone labels
         ctx.font = 'bold 11px Outfit, sans-serif'; ctx.textAlign = 'center';
         ctx.fillStyle = '#60a5fa';
@@ -22324,7 +20992,6 @@ function initInternalBLSimulation() {
         draw();
     }
 }
-
 
 // =========================================================================
 // COMMUNITY COMMENT WALL SYSTEM (FIREBASE REALTIME DATABASE ENGINE)
@@ -25379,164 +24046,6 @@ function initInternalBLSimulation() {
 })();
 
 /* ============================================================
-   INSULATED FLAT PLATE LAB — FULLSCREEN CONTROLLER
-   ============================================================ */
-(function () {
-    'use strict';
-
-    var CFG = {
-        modalId:         'insulated-sim',
-        openBtnId:       'insulated-lab-open-btn',
-        closeBtnId:      'insulated-lab-close-btn',
-        fullscreenClass:  'fullscreen',
-        closingClass:     'is-closing',
-        bodyLockClass:    'insulated-lab-open',
-        transitionMs:     300,
-    };
-
-    function getInsulatedChart() {
-        var canvas = document.getElementById('insulatedChart');
-        if (canvas && window.Chart) {
-            if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
-            if (Chart.instances) {
-                return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
-            }
-        }
-        return null;
-    }
-
-    function getInsulatedCanvas() {
-        return document.getElementById('insulatedCanvas');
-    }
-
-    function resizeInsulatedAssets() {
-        var chart = getInsulatedChart();
-        if (chart) {
-            try { chart.resize(); chart.update('none'); } catch (e) { console.warn('Error resizing Insulated chart', e); }
-        }
-        var c = getInsulatedCanvas();
-        if (c) {
-            var w = c.clientWidth || c.offsetWidth;
-            var h = c.clientHeight || c.offsetHeight;
-            if (w > 0 && h > 0 && (c.width !== w || c.height !== h)) {
-                c.width = w; c.height = h;
-            }
-        }
-    }
-
-    function forceDelayedResize() {
-        setTimeout(resizeInsulatedAssets, 80);
-    }
-
-    function getLang() {
-        return window.currentLang || window.currentLanguage || 'es';
-    }
-
-    function openInsulatedLabFullscreen() {
-        var modal = document.getElementById(CFG.modalId);
-        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
-
-        var originalParent = modal.parentNode;
-        var placeholder = document.createComment('insulated-lab-placeholder');
-        originalParent.insertBefore(placeholder, modal);
-        modal._originalParent = originalParent;
-        modal._placeholder    = placeholder;
-        modal._returnFocus    = document.activeElement;
-        modal._cleanupDone    = false;
-
-        document.body.appendChild(modal);
-        modal.classList.remove(CFG.closingClass);
-        modal.classList.add(CFG.fullscreenClass);
-        document.body.style.overflow = 'hidden';
-        document.body.classList.add(CFG.bodyLockClass);
-
-        var closeBtn = document.getElementById(CFG.closeBtnId);
-        if (closeBtn) closeBtn.classList.add('visible');
-
-        var live = document.getElementById('insulated-lab-aria-live');
-        if (live) live.textContent = getLang() === 'en'
-            ? 'Lab opened in full screen. Press Escape to exit.'
-            : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
-
-        resizeInsulatedAssets();
-        forceDelayedResize();
-    }
-
-    function closeInsulatedLabFullscreen() {
-        var modal = document.getElementById(CFG.modalId);
-        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
-
-        modal.classList.add(CFG.closingClass);
-        var closeBtn = document.getElementById(CFG.closeBtnId);
-        if (closeBtn) closeBtn.classList.remove('visible');
-
-        function cleanup() {
-            if (modal._cleanupDone) return;
-            modal._cleanupDone = true;
-
-            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
-            document.body.classList.remove(CFG.bodyLockClass);
-            document.body.style.overflow = '';
-
-            var parent      = modal._originalParent;
-            var placeholder = modal._placeholder;
-            if (parent && placeholder && placeholder.parentNode === parent) {
-                parent.insertBefore(modal, placeholder);
-                parent.removeChild(placeholder);
-            } else if (parent) {
-                parent.appendChild(modal);
-            }
-            modal._originalParent = null;
-            modal._placeholder    = null;
-
-            forceDelayedResize();
-
-            if (modal._returnFocus && modal._returnFocus.focus) {
-                modal._returnFocus.focus();
-                modal._returnFocus = null;
-            }
-
-            var live = document.getElementById('insulated-lab-aria-live');
-            if (live) live.textContent = getLang() === 'en'
-                ? 'Lab closed. Returning to main view.'
-                : 'Laboratorio cerrado. Volviendo a la vista principal.';
-        }
-
-        modal.addEventListener('transitionend', function handler(e) {
-            if (e.target !== modal) return;
-            modal.removeEventListener('transitionend', handler);
-            cleanup();
-        });
-        setTimeout(cleanup, CFG.transitionMs + 60);
-    }
-
-    function attachInsulatedListeners() {
-        var openBtn  = document.getElementById(CFG.openBtnId);
-        var closeBtn = document.getElementById(CFG.closeBtnId);
-        if (openBtn)  openBtn.addEventListener('click', openInsulatedLabFullscreen);
-        if (closeBtn) closeBtn.addEventListener('click', closeInsulatedLabFullscreen);
-
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' || e.keyCode === 27) closeInsulatedLabFullscreen();
-        });
-
-        var resizeTimer;
-        window.addEventListener('resize', function () {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(resizeInsulatedAssets, 80);
-        });
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', attachInsulatedListeners);
-    } else {
-        attachInsulatedListeners();
-    }
-
-    window.InsulatedLab = { open: openInsulatedLabFullscreen, close: closeInsulatedLabFullscreen, resize: forceDelayedResize };
-})();
-
-/* ============================================================
    MULTICAPA-CUSTOM LAB — FULLSCREEN CONTROLLER
    ============================================================ */
 (function () {
@@ -26295,7 +24804,6 @@ function initInternalBLSimulation() {
     // 'toggle' en capture para interceptarlo antes de que burbujee
     document.addEventListener('toggle', handler, true);
 }());
-
 
 // --- Lógica de Pantalla Completa para Simuladores ---
 function toggleLabFullscreen(container) {
@@ -27384,246 +25892,6 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 /* ============================================================
-   THERMAL RESISTANCE LAB — FULLSCREEN CONTROLLER
-   Canvas: resCanvas (updated via slider event)
-   ============================================================ */
-(function () {
-    'use strict';
-
-    var CFG = {
-        modalId:         'res-sim',
-        openBtnId:       'res-lab-open-btn',
-        closeBtnId:      'res-lab-close-btn',
-        fullscreenClass:  'fullscreen',
-        closingClass:     'is-closing',
-        bodyLockClass:    'res-lab-open',
-        transitionMs:     300,
-    };
-
-    function resizeResAssets() {
-        var sl = document.getElementById('res-k1');
-        if (sl) sl.dispatchEvent(new Event('input'));
-    }
-
-    function forceDelayedResize() { setTimeout(resizeResAssets, 80); }
-    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
-
-    function openResLabFullscreen() {
-        var modal = document.getElementById(CFG.modalId);
-        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
-        var originalParent = modal.parentNode;
-        var placeholder = document.createComment('res-lab-placeholder');
-        originalParent.insertBefore(placeholder, modal);
-        modal._originalParent = originalParent; modal._placeholder = placeholder;
-        modal._returnFocus = document.activeElement; modal._cleanupDone = false;
-        document.body.appendChild(modal);
-        modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
-        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
-        var closeBtn = document.getElementById(CFG.closeBtnId);
-        if (closeBtn) closeBtn.classList.add('visible');
-        var live = document.getElementById('res-lab-aria-live');
-        if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
-        resizeResAssets(); forceDelayedResize();
-    }
-
-    function closeResLabFullscreen() {
-        var modal = document.getElementById(CFG.modalId);
-        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
-        modal.classList.add(CFG.closingClass);
-        var closeBtn = document.getElementById(CFG.closeBtnId);
-        if (closeBtn) closeBtn.classList.remove('visible');
-        function cleanup() {
-            if (modal._cleanupDone) return; modal._cleanupDone = true;
-            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
-            document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
-            var parent = modal._originalParent; var placeholder = modal._placeholder;
-            if (parent && placeholder && placeholder.parentNode === parent) { parent.insertBefore(modal, placeholder); parent.removeChild(placeholder); } else if (parent) { parent.appendChild(modal); }
-            modal._originalParent = null; modal._placeholder = null;
-            forceDelayedResize();
-            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
-            var live = document.getElementById('res-lab-aria-live');
-            if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
-        }
-        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); });
-        setTimeout(cleanup, CFG.transitionMs + 60);
-    }
-
-    function attachResListeners() {
-        var openBtn = document.getElementById(CFG.openBtnId); var closeBtn = document.getElementById(CFG.closeBtnId);
-        if (openBtn) openBtn.addEventListener('click', openResLabFullscreen);
-        if (closeBtn) closeBtn.addEventListener('click', closeResLabFullscreen);
-        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeResLabFullscreen(); });
-        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeResAssets, 80); });
-    }
-
-    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachResListeners); } else { attachResListeners(); }
-    window.ResistanceLab = { open: openResLabFullscreen, close: closeResLabFullscreen, resize: forceDelayedResize };
-})();
-
-/* ============================================================
-   PARALLEL RESISTANCE LAB — FULLSCREEN CONTROLLER
-   Canvas: parCanvas (updated via slider event)
-   ============================================================ */
-(function () {
-    'use strict';
-
-    var CFG = {
-        modalId:         'par-sim',
-        openBtnId:       'par-lab-open-btn',
-        closeBtnId:      'par-lab-close-btn',
-        fullscreenClass:  'fullscreen',
-        closingClass:     'is-closing',
-        bodyLockClass:    'par-lab-open',
-        transitionMs:     300,
-    };
-
-    function resizeParAssets() {
-        var sl = document.getElementById('par-L1');
-        if (sl) sl.dispatchEvent(new Event('input'));
-    }
-
-    function forceDelayedResize() { setTimeout(resizeParAssets, 80); }
-    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
-
-    function openParLabFullscreen() {
-        var modal = document.getElementById(CFG.modalId);
-        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
-        var originalParent = modal.parentNode;
-        var placeholder = document.createComment('par-lab-placeholder');
-        originalParent.insertBefore(placeholder, modal);
-        modal._originalParent = originalParent; modal._placeholder = placeholder;
-        modal._returnFocus = document.activeElement; modal._cleanupDone = false;
-        document.body.appendChild(modal);
-        modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
-        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
-        var closeBtn = document.getElementById(CFG.closeBtnId);
-        if (closeBtn) closeBtn.classList.add('visible');
-        var live = document.getElementById('par-lab-aria-live');
-        if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
-        resizeParAssets(); forceDelayedResize();
-    }
-
-    function closeParLabFullscreen() {
-        var modal = document.getElementById(CFG.modalId);
-        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
-        modal.classList.add(CFG.closingClass);
-        var closeBtn = document.getElementById(CFG.closeBtnId);
-        if (closeBtn) closeBtn.classList.remove('visible');
-        function cleanup() {
-            if (modal._cleanupDone) return; modal._cleanupDone = true;
-            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
-            document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
-            var parent = modal._originalParent; var placeholder = modal._placeholder;
-            if (parent && placeholder && placeholder.parentNode === parent) { parent.insertBefore(modal, placeholder); parent.removeChild(placeholder); } else if (parent) { parent.appendChild(modal); }
-            modal._originalParent = null; modal._placeholder = null;
-            forceDelayedResize();
-            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
-            var live = document.getElementById('par-lab-aria-live');
-            if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
-        }
-        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); });
-        setTimeout(cleanup, CFG.transitionMs + 60);
-    }
-
-    function attachParListeners() {
-        var openBtn = document.getElementById(CFG.openBtnId); var closeBtn = document.getElementById(CFG.closeBtnId);
-        if (openBtn) openBtn.addEventListener('click', openParLabFullscreen);
-        if (closeBtn) closeBtn.addEventListener('click', closeParLabFullscreen);
-        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeParLabFullscreen(); });
-        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeParAssets, 80); });
-    }
-
-    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachParListeners); } else { attachParListeners(); }
-    window.ParaleloLab = { open: openParLabFullscreen, close: closeParLabFullscreen, resize: forceDelayedResize };
-})();
-
-/* ============================================================
-   MULTI-LAYER WALL LAB — FULLSCREEN CONTROLLER
-   Chart: multiChart
-   ============================================================ */
-(function () {
-    'use strict';
-
-    var CFG = {
-        modalId:         'multi-sim',
-        openBtnId:       'multi-lab-open-btn',
-        closeBtnId:      'multi-lab-close-btn',
-        fullscreenClass:  'fullscreen',
-        closingClass:     'is-closing',
-        bodyLockClass:    'multi-lab-open',
-        transitionMs:     300,
-    };
-
-    function getMultiChart() {
-        var canvas = document.getElementById('multiChart');
-        if (canvas && window.Chart) {
-            if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
-            if (Chart.instances) return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
-        }
-        return null;
-    }
-
-    function resizeMultiAssets() {
-        var chart = getMultiChart();
-        if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { console.warn('Multi chart resize error', e); } }
-    }
-
-    function forceDelayedResize() { setTimeout(resizeMultiAssets, 80); }
-    function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
-
-    function openMultiLabFullscreen() {
-        var modal = document.getElementById(CFG.modalId);
-        if (!modal || modal.classList.contains(CFG.fullscreenClass)) return;
-        var originalParent = modal.parentNode;
-        var placeholder = document.createComment('multi-lab-placeholder');
-        originalParent.insertBefore(placeholder, modal);
-        modal._originalParent = originalParent; modal._placeholder = placeholder;
-        modal._returnFocus = document.activeElement; modal._cleanupDone = false;
-        document.body.appendChild(modal);
-        modal.classList.remove(CFG.closingClass); modal.classList.add(CFG.fullscreenClass);
-        document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
-        var closeBtn = document.getElementById(CFG.closeBtnId);
-        if (closeBtn) closeBtn.classList.add('visible');
-        var live = document.getElementById('multi-lab-aria-live');
-        if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
-        resizeMultiAssets(); forceDelayedResize();
-    }
-
-    function closeMultiLabFullscreen() {
-        var modal = document.getElementById(CFG.modalId);
-        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
-        modal.classList.add(CFG.closingClass);
-        var closeBtn = document.getElementById(CFG.closeBtnId);
-        if (closeBtn) closeBtn.classList.remove('visible');
-        function cleanup() {
-            if (modal._cleanupDone) return; modal._cleanupDone = true;
-            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
-            document.body.classList.remove(CFG.bodyLockClass); document.body.style.overflow = '';
-            var parent = modal._originalParent; var placeholder = modal._placeholder;
-            if (parent && placeholder && placeholder.parentNode === parent) { parent.insertBefore(modal, placeholder); parent.removeChild(placeholder); } else if (parent) { parent.appendChild(modal); }
-            modal._originalParent = null; modal._placeholder = null;
-            forceDelayedResize();
-            if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
-            var live = document.getElementById('multi-lab-aria-live');
-            if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
-        }
-        modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); });
-        setTimeout(cleanup, CFG.transitionMs + 60);
-    }
-
-    function attachMultiListeners() {
-        var openBtn = document.getElementById(CFG.openBtnId); var closeBtn = document.getElementById(CFG.closeBtnId);
-        if (openBtn) openBtn.addEventListener('click', openMultiLabFullscreen);
-        if (closeBtn) closeBtn.addEventListener('click', closeMultiLabFullscreen);
-        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeMultiLabFullscreen(); });
-        var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resizeMultiAssets, 80); });
-    }
-
-    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attachMultiListeners); } else { attachMultiListeners(); }
-    window.MultiLab = { open: openMultiLabFullscreen, close: closeMultiLabFullscreen, resize: forceDelayedResize };
-})();
-
-/* ============================================================
    LOTE 6: CARNOT LAB — FULLSCREEN CONTROLLER
    ============================================================ */
 (function () {
@@ -28644,7 +26912,7 @@ document.addEventListener('DOMContentLoaded', () => {
    LABORATORIO DE RESISTENCIA TÉRMICA POR CONTACTO — Controller IIFE
    ============================================================================
    Bloque 100% aislado: no lee ni escribe variables/funciones de ningún otro
-   laboratorio (Fourier, Newton, res-sim, etc.), y no modifica switchTab() ni
+   laboratorio (Fourier, Newton, etc.), y no modifica switchTab() ni
    startApp(). Único punto de integración externo: window.initContactResSimulation
    (registrado con una única línea adicional en la lista safeInit(...) de
    startApp(), igual que el resto de laboratorios del sitio).
