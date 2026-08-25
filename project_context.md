@@ -878,3 +878,461 @@ especificidad ≥ ID), no sólo al `<label>` — la regla global
 `.control-group label span { color: var(--accent-orange) }` (línea ~832)
 siempre ganará sobre un color puesto sólo en el `<label>` padre, porque
 `color` no se hereda "a través" de una regla ya explícita en el hijo.
+
+---
+
+## 🔵 Categorización de Laboratorios en "Conducción" (LOTE 1-3, 2026-08-24)
+
+Reorganización solicitada de 13 laboratorios para que queden agrupados bajo
+la categoría **Conducción** del filtro de laboratorios (píldoras 🔵/🟢/🔴 en
+`#tc-pill-filters`, `index.html` ~línea 360-386). Trabajo en 3 lotes.
+
+### Hallazgo clave (LOTE 1) — dónde vive realmente la categorización
+
+`timelineEvents` (biografías históricas, `app_v2.js` líneas 2-~1770) **NO**
+controla el filtro de laboratorios — sólo pinta las tarjetas de la línea de
+tiempo. El mecanismo real que decide si un laboratorio aparece bajo el pill
+"Conducción" es:
+
+- `window.filterLabs()` (`app_v2.js` ~línea 2214): lee el atributo
+  **`data-tags`** de cada `<button class="tab-btn">` del nav lateral
+  (`hasTag()`, línea 2221-2224) y compara contra el token `"conduccion"`
+  (español, sin tilde, minúscula). Un botón con `class="lab-otros"` o
+  `data-category="Otros"` queda excluido del filtro "Todos" (línea 2245-2247).
+- `window.activatePillFilter()` (~línea 2300) sincroniza el pill clicado con
+  el `<select id="lab-filter-category">` y llama a `filterLabs()`.
+
+Estructuras secundarias, independientes del filtro de laboratorios:
+- `wikiDatabase` (`app_v2.js` líneas 2340-2462): sólo 11 conceptos para el
+  modal "Wiki Interactiva", con su propio `category` (minúsculas sin tilde,
+  valor único, comparado con `===`). Sólo 3 de los 13 labs tienen entrada
+  ahí: `fourier-ley` (conduccion, ya correcto), `heisler-transitorio`
+  (conduccion, ya correcto), `nusselt-numero` (**se dejó en `conveccion`**
+  a petición expresa del usuario — el campo es de valor único y el concepto
+  compara ambos mecanismos; cambiarlo lo sacaría del filtro Convección de
+  esa mini-enciclopedia).
+- `timelineEvents`: sólo 6 entradas tienen `"tab-target"` explícito
+  vinculándolas a un lab (`chatelet-sim`, `foote-sim`, `maxwell-sim`,
+  `pennington-sim`, `telkes-sim`, `contact-res-sim`); su `category` sólo
+  afecta el color/filtro de la propia línea de tiempo, no el nav de labs.
+
+### LOTE 2 (`app_v2.js`) — sólo 2 cambios reales posibles
+
+De los 13 laboratorios, **10 no tienen ningún objeto con propiedad
+`category`/`discipline` en `app_v2.js`** — lo único que tienen ahí son los
+`CFG` de sus controllers de fullscreen (`modalId`/`openBtnId`/`closeBtnId`),
+que están fuera de alcance por regla explícita ("no modificar controllers de
+fullscreen"). Sólo existían 2 objetos editables con sentido real:
+
+- `timelineEvents` → entrada de **Mary Engler Pennington** (`tab-target:
+  "pennington-sim"`): `category: "Otros"` → `category: "Conducción"`
+  (línea 455).
+- `timelineEvents` → entrada de **Maria Telkes** (`tab-target:
+  "telkes-sim"`): `category: "Otros"` → `category: "Conducción"`
+  (línea 588).
+
+Se usó el string `"Conducción"` (no `"conduction"`) porque es la convención
+ya usada por Fourier/Biot/Cooper-Mikic-Yovanovich en ese mismo array.
+Verificado: ambas entradas tienen `tab-target` explícito (tiene prioridad
+sobre el fallback por `category` en la función que resuelve a qué lab
+navegar el timeline, líneas ~1511-1537 y ~2002-2028), así que el cambio de
+`category` es puramente de clasificación/color, sin efecto en la navegación.
+`node --check` OK; diff de bytes contra el original → exactamente esas 2
+líneas cambiaron.
+
+### LOTE 3 (`index.html` + `translations.js`) — el cambio que sí controla el filtro
+
+Edición quirúrgica de `data-tags` en 5 de los 13 `<button class="tab-btn">`
+del nav lateral (los otros 8 ya tenían `conduccion` en `data-tags` desde
+antes: `fourier-sim`, `nusselt-sim`, `transient-sim`, `contact-res-sim`,
+`res-sim`, `multicapa-custom-sim`, `gen-sim`, `fin-sim`):
+
+| Lab (`data-target`) | Línea | Cambio |
+|---|---|---|
+| `pennington-sim` | 451 | Se agregó `data-tags="transferencia-calor conduccion"` (no tenía) |
+| `multi-sim` | 479 | Se agregó `data-tags="transferencia-calor conduccion"`; se quitó `class="lab-otros"` |
+| `par-sim` | 480 | `data-tags` pasó de `"transferencia-calor conveccion radiacion"` a `"transferencia-calor conduccion conveccion radiacion"` |
+| `insulated-sim` | 484 | Se agregó `data-tags="transferencia-calor conduccion"`; se quitó `class="lab-otros"` |
+| `telkes-sim` | 494 | Se agregó `data-tags="transferencia-calor conduccion"` (no tenía) |
+
+Sin cambios de texto visible, IDs, callbacks ni estructura de grid (Regla
+#8 no aplica: no se tocó ningún `grid-template-areas` ni wrapper
+`display:contents`). Diff de bytes contra el original → exactamente esas 5
+líneas cambiaron; conteo de `<button`/`</button>` idéntico antes/después
+(214/214); `lab-otros` bajó de 6 a 4 ocurrencias (quedan sólo
+`clausius-sim`, `maxwell-sim`, `pelton-sim`, `microchannel-sim`, fuera de
+alcance de este lote).
+
+**`translations.js`**: verificado, sin cambios necesarios. La clave
+`"Conducción": "Conduction"` ya existía (línea 514). Los 13 nombres de
+laboratorio ya tenían su par ES/EN, ya sea vía spans `.lang-es`/`.lang-en`
+inline en el botón (`contact-res-sim`, `pennington-sim`, `telkes-sim`) o vía
+entrada en el diccionario `window.uiTranslations` para el texto plano del
+botón, ya usado por el walker de nodos de texto de `app_v2.js` (~línea
+20930) al cambiar a inglés (`"Pared Multicapa": "Multilayer Wall"` línea
+815, `"Placa Plana Aislada": "Insulated Flat Plate"` línea 827,
+`"Resistencias en Paralelo": "Parallel Resistors"` línea 877, todas
+preexistentes). No se agregó ninguna clave nueva.
+
+### Verificación funcional (Playwright headless, `file://index.html` local)
+
+1. **Filtro de categoría**: se simuló el click en el pill `data-filter=
+   "conduccion"` (`activatePillFilter` → `filterLabs`) y se listaron los
+   `.tab-btn` visibles: **exactamente 13**, y coinciden 1:1 con los 13
+   `data-target` esperados (`fourier-sim`, `nusselt-sim`, `transient-sim`,
+   `contact-res-sim`, `pennington-sim`, `multi-sim`, `par-sim`, `res-sim`,
+   `insulated-sim`, `multicapa-custom-sim`, `gen-sim`, `telkes-sim`,
+   `fin-sim`). Verificado también por análisis estático (parseo de los 44
+   botones `.tab-btn` del nav) con el mismo resultado.
+2. **Fullscreen (abrir/cerrar) de los 5 labs recién editados**
+   (`pennington-sim`, `telkes-sim`, `multi-sim`, `par-sim`,
+   `insulated-sim`): en los 5, `switchTab()` activa el pane, el botón
+   `<prefijo>-lab-open-btn` añade la clase `.fullscreen`, el botón de cerrar
+   es el elemento superior en sus propias coordenadas (`elementFromPoint`,
+   sin bloqueo de z-index) y `Escape` cierra correctamente (clase
+   `.fullscreen` removida). Sin regresión — no se tocó ningún controller de
+   fullscreen en estos lotes.
+3. **Lazy init / dimensiones de Canvas**: para los 13 labs, al activar su
+   pestaña vía `switchTab()`, todos sus `<canvas>` internos reportan
+   `offsetWidth`/`offsetHeight` > 0 (no 0×0), confirmando que el guard de
+   inicialización diferida no abortaría en un entorno real con Chart.js
+   cargado.
+4. Los únicos errores de consola observados en el sandbox de pruebas son
+   `Chart is not defined` / `MathJax.typesetPromise is not a function` /
+   `net::ERR_FILE_NOT_FOUND` — por falta de acceso a los CDNs externos y a
+   recursos de imagen en el entorno de pruebas local, no por el sitio real
+   desplegado con acceso a internet (mismo patrón ya documentado en rondas
+   anteriores de `contact-res-sim`).
+
+**Estado final**: los 13 laboratorios pedidos quedan bajo la categoría
+Conducción del filtro de laboratorios. Si se pide extender esta misma
+categorización a otro laboratorio en el futuro: agregar `conduccion` a su
+`data-tags` en `index.html` (o crearlo si el botón no tiene `data-tags`) y,
+si el botón tenía `class="lab-otros"`, quitarla — ésa es la única edición
+que controla el filtro real; no hace falta tocar `timelineEvents` ni
+`wikiDatabase` salvo que ese laboratorio tenga una entrada específica ahí.
+
+---
+
+## 🟠 Reubicación de "Newcomen vs. Watt" a "Motores de Calor" (2026-08-24)
+
+Se movió el laboratorio `watt-sim` (Newcomen vs. Watt, 1712-1769) de la
+sección "Laboratorios de Termodinámica" a la sección "Motores de Calor" en
+el nav lateral de `index.html`.
+
+**Hallazgo clave — no existe `data-subcategory` en el sitio (verificado con
+grep, 0 resultados).** La pertenencia de un laboratorio a una
+sección/subcategoría del nav (Principios, Mecánica de Fluidos,
+Termodinámica, Motores de Calor, Circuitos Térmicos, Aplicaciones,
+Comunidad) **no se decide por ningún atributo `data-*`, sino por posición
+en el DOM**: tanto `window.filterLabs()` (`app_v2.js` ~línea 2229-2240,
+usado por `#lab-filter-category`) como el `<option value="Motores">` de ese
+mismo `<select>` (`index.html` línea 335-336) resuelven la sección de cada
+`.tab-btn` recorriendo `previousElementSibling` hasta el `.tab-category-
+title` más cercano y comparando su `textContent`. Por eso el único cambio
+real posible (y el que se aplicó) fue mover físicamente el `<button
+data-target="watt-sim">` en `index.html`, no agregar un atributo nuevo.
+
+**`index.html`** (diff de bytes: sólo esas 2 líneas — una borrada de su
+posición anterior y una insertada en la nueva; conteo `<button`/`</button>`
+idéntico antes/después, 214/214; el string `data-target="watt-sim"`
+sigue apareciendo exactamente 1 vez):
+- Se quitó `<button class="tab-btn" data-target="watt-sim">Newcomen vs.
+  Watt (1712-1769)</button>` de la sección "Laboratorios de Termodinámica"
+  (entre `chatelet-sim` y `pennington-sim`).
+- Se agregó la misma línea, sin cambios de contenido/atributos, justo
+  después del `<div class="tab-category-title">Motores de Calor</div>` y
+  antes de `carnot-sim` (orden cronológico: Newcomen/Watt 1712-1769 →
+  Carnot 1824 → Otto/Diesel 1876-1892).
+
+**`app_v2.js` — no se modificó `category` de la entrada de Watt en
+`timelineEvents` (línea 156, sigue en `"Termodinámica"`), a diferencia del
+LOTE 2 de Conducción.** Motivo: la taxonomía de `category` en
+`timelineEvents` (Historia/Conducción/Convección/Radiación/Termodinámica/
+Otros) **no tiene ningún valor "Motores de Calor"/"Motores"/"heat-engines"**
+— ese es un concepto exclusivo de las secciones estructurales del nav de
+laboratorios, no de la línea de tiempo. Introducir un valor nuevo ahí
+habría sido inconsistente con el resto del array y sin ningún lector que lo
+reconozca. Además, el trabajo de Watt sobre eficiencia calor→trabajo sigue
+siendo, con toda razón, "Termodinámica" en esa clasificación. Se verificó
+que esto no afecta la navegación: la tarjeta de Watt en la línea de tiempo
+ya resuelve su `tabTarget` por `ev.surname === "Watt"` (línea 1515/2006,
+con prioridad sobre el fallback por `category`), así que sigue abriendo
+`watt-sim` sin cambios.
+
+**Hallazgo lateral (no corregido, fuera de alcance de este pedido):** la
+entrada `carnot-eficiencia` de `wikiDatabase` (~línea 22430-22438, modal
+"Wiki Interactiva") tiene `simTarget: "watt-sim"` en vez de `"carnot-sim"`
+— parece un cruce/mislabel preexistente, anterior a este cambio y no
+relacionado con la reubicación del nav. Se deja documentado por si se pide
+corregir en un lote futuro.
+
+**`translations.js`**: verificado, sin cambios necesarios. Ya existían
+`"Motores de Calor": "Heat Engines"` (línea 772) y `"Newcomen vs. Watt
+(1712-1769)": "Newcomen vs. Watt (1712-1769)"` (línea 778, el nombre propio
++ fecha no cambia de un idioma a otro).
+
+**Verificación funcional (Playwright headless)**:
+1. Seleccionar "Motores de Calor" en `#lab-filter-category` → visibles
+   exactamente `["watt-sim", "carnot-sim", "ottodiesel-sim"]`.
+2. El `.tab-category-title` más cercano hacia atrás desde el botón de
+   `watt-sim` es "Motores de Calor" (antes era "Laboratorios de
+   Termodinámica").
+3. `switchTab('watt-sim')` activa el pane; sus 3 elementos internos
+   (`newcomen-canvas`, `watt-canvas`, `watt-temp-chart`) reportan
+   dimensiones > 0 (no 0×0).
+4. Ciclo de pantalla completa: abrir con `watt-lab-open-btn` → clase
+   `.fullscreen` añadida; `watt-lab-close-btn` es el elemento superior en
+   sus propias coordenadas (sin bloqueo de z-index); `Escape` cierra
+   correctamente. Sin regresión — no se tocó el controller IIFE de
+   `watt-sim` (CFG en `app_v2.js` ~línea 27580) ni sus animaciones de
+   cilindro/vapor.
+5. Sin errores de consola propios (sólo el ruido ya conocido de
+   CDN/sandbox: `Chart is not defined`, `MathJax`, `net::ERR_FILE_NOT_FOUND`).
+
+### ✅ Reorganización de Layout Vertical a Ancho Completo en Modo Normal — Superó al "Grid Maestro 2 Columnas B.2" (LOTE, `style.css`, 2026-08-24)
+
+Refinamiento exclusivo del **modo normal** de `#multicapa-custom-sim`
+(`#multicapa-custom-sim:not(.fullscreen)` en todas las reglas nuevas/
+tocadas). `#multicapa-custom-sim.fullscreen` **no se tocó** (verificado
+con Playwright: bounding boxes de `cm-layout-wrapper`,
+`cm-panel-left-bc/-layers/-right-bc/-canvas/-chart/-results/-guide`
+idénticos byte a byte antes/después del cambio). `index.html` y
+`app_v2.js` **no se tocaron** (diff de bytes de `index.html` → 0; se
+reutilizan los wrappers `#cm-row-top`/`#cm-row-center`/
+`#cm-center-left-col`, ya `display:contents`, aditivos desde LOTEs
+anteriores).
+
+**⚠️ SUPERSEDE al bloque "GRID MAESTRO 2 COLUMNAS (VARIANTE B.2)"**
+(2 columnas maestro, fronteras apiladas en la columna izquierda, capas
+a ancho completo en la base) documentado en la ronda anterior. Si ese
+bloque antiguo aparece en algún commit/backup, es obsoleto — no
+restaurar.
+
+**Estructura nueva (jerarquía vertical descendente, pedida
+explícitamente por el usuario):**
+
+1. Fila superior — Panel de Configuración Inicial, **3 columnas
+   iguales** (`minmax(0,1fr)` × 3): Frontera Izquierda
+   (`#cm-panel-left-bc`) | Selector/Configuración de Capas
+   (`#cm-panel-layers` / `#cm-layers-container`) | Frontera Derecha
+   (`#cm-panel-right-bc`).
+2. Esquema Térmico y Flujo de Calor (`#cm-panel-canvas`) — ancho
+   completo (`grid-column: 1 / -1`).
+3. Perfil de Temperatura `T(x)` (`#cm-panel-chart`) — ancho completo,
+   `min-height/height: 340px` en `.chart-container-cm`.
+4. Resultados de la Simulación (`#cm-panel-results`) → Guía Didáctica
+   (`#cm-panel-guide`) → Tabulación + Gráfica Paramétrica
+   (`.cm-row-5`) — cada una a ancho completo, en ese orden.
+
+**Mecanismo (Regla #8, sin tocar el DOM):** `#cm-layout-wrapper` pasa a
+`display:grid !important` con `grid-template-columns: minmax(0,1fr)
+minmax(0,1fr) minmax(0,1fr)` y `grid-template-areas` nombradas:
+
+```
+"bcL     layers  bcR"
+"canvas  canvas  canvas"
+"chart   chart   chart"
+"results results results"
+"guide   guide   guide"
+"row5    row5    row5"
+```
+
+`#cm-row-top`/`#cm-row-center` siguen aplanadas con `display:contents
+!important` (ya lo estaban desde la ronda anterior). El orden del
+documento HTML no cambió — sólo la posición visual vía `grid-area`.
+
+**Fix necesario en `#cm-layers-container` (mini-grid de 3 columnas por
+capa, de la ronda 4):** con `#cm-panel-layers` compartiendo ahora la
+fila superior de 3 columnas iguales, su track mide sólo ~130-200px en
+la inmensa mayoría del rango de escritorio (Regla #10) — insuficiente
+para `repeat(3,1fr)` (regla base sin scoping, ~3760). Se agregó
+`@media (min-width:1001px) { #multicapa-custom-sim:not(.fullscreen)
+#cm-layers-container { grid-template-columns: 1fr !important; } }`
+— fuerza 1 columna mientras el layout de 3 columnas maestro está
+activo (>1000px). **Esta regla SUPERSEDE la excepción puntual anterior
+"franja angosta 1025-1100px"** (que sólo reducía a 2 columnas en esa
+banda estrecha): con el nuevo layout TODO el rango >1000px queda
+angosto, no sólo esa banda — la excepción vieja se retiró del CSS.
+Verificado con Playwright inyectando 3 tarjetas `.layer-card` de
+prueba: 1 columna sin overflow en 1920/1280/1024px (columna
+~145-273px), vuelve a `repeat(3,1fr)` sin overflow en ≤1000px (columna
+completa ~766-786px, 3 sub-columnas ~251px cada una).
+
+**Breakpoint responsive:** `@media (max-width: 1000px)` (pedido
+explícitamente por el usuario, reemplaza el breakpoint de 768px que
+usaba la ronda anterior para este laboratorio) — colapsa
+`#cm-layout-wrapper` a 1 columna, mismo orden de documento (Frontera
+Izq. → Esquema → Frontera Der. → Capas → Perfil `T(x)` → Resultados →
+Guía → Tabulación/Gráfica Paramétrica). Dentro de este bloque también
+se resetea `grid-column: auto` en `#cm-panel-canvas`/`#cm-panel-chart`
+(el `1 / -1` de la regla base ya no aplica con una sola columna, pero
+se resetea por claridad/robustez ante futuros cambios de nº de
+columnas en este breakpoint).
+
+**Verificado con Playwright** (barrido 320px-1920px de viewport,
+`file://index.html` local, tab forzado `.active` sin depender de
+`app_v2.js`): cero desbordamiento horizontal nuevo introducido por
+este cambio en ningún ancho (`wrap.scrollWidth === wrap.clientWidth`
+en 320-1920px salvo el desbordamiento **preexistente** ya documentado
+en la ronda anterior, de 27px/82px en 375px/320px, confirmado
+idéntico en el archivo SIN modificar — vive en la tabla
+`white-space:nowrap` de `#cm-panel-tabulation`, fuera de alcance de
+este LOTE). Orden de documento verificado en el breakpoint colapsado
+(bcL → canvas → bcR → layers → chart → results → guide). Fullscreen
+verificado con los mismos bounding boxes exactos que antes de esta
+ronda. Balance de llaves CSS verificado (911/911) antes y después del
+cambio. Capturas de pantalla (Playwright, viewport 1440px) confirman
+visualmente la estructura pedida: fila superior de 3 columnas iguales,
+esquema/gráfica/resultados/guía/tabulación a ancho completo debajo.
+
+Si se pide una distribución distinta para este mismo laboratorio en el
+futuro: los nombres de área ya cubren los 8 paneles reales
+(`bcL`/`layers`/`bcR`/`canvas`/`chart`/`results`/`guide`/`row5`) —
+casi cualquier reordenamiento pedido se resuelve reescribiendo sólo
+`grid-template-areas` (Regla #8), sin tocar `index.html`. Si un panel
+que hoy es angosto (p. ej. `#cm-panel-layers`) pasa a ser ancho
+completo de nuevo, revisar si la excepción de `#cm-layers-container`
+(`@media min-width:1001px`, fuerza 1 columna) sigue siendo necesaria o
+debe ajustarse/retirarse — depende del ancho real medido con
+Playwright (Regla #10), no del viewport asumido.
+
+### ✅ Entrada Numérica Directa Bidireccional con Sliders (`#multicapa-custom-sim`) — LOTE piloto (`index.html` + `app_v2.js` + `style.css`, 2026-08-24)
+
+Implementado exclusivamente en el laboratorio **"Conducción Multicapa con
+Condiciones de Frontera Generales"** (`#multicapa-custom-sim`), como
+arquitectura modelo antes de extenderlo a otros laboratorios. Afecta tanto
+modo normal como fullscreen (los `<input type="number">` conviven bien en
+ambos anchos de columna, verificado con Playwright en los dos modos — a
+diferencia de otros LOTEs de este laboratorio, esta funcionalidad no está
+scopeada a `:not(.fullscreen)` porque el pedido es "sincronización
+bidireccional" en sí, no un reacomodo de layout). No se tocó ninguna
+fórmula/lógica de cálculo (`solveSimulation()`), ningún ID funcional
+existente (`customMultiCanvas`, `customMultiChart`, `cm-rcond-val`,
+`cm-rtot-val`, `cm-q-val`, etc.), ni ningún controller de fullscreen.
+
+**14 variables intervenidas** (12 de frontera + los 2 patrones L_i/k_i que
+se repiten por capa):
+- Frontera Izquierda: `cm-l-temp`, `cm-l-h`, `cm-l-tinf`, `cm-l-eps`,
+  `cm-l-tsur`, `cm-l-flux`.
+- Frontera Derecha: `cm-r-temp`, `cm-r-h`, `cm-r-tinf`, `cm-r-eps`,
+  `cm-r-tsur`, `cm-r-flux`.
+- Capas (`renderLayersConfig()`, por cada capa activa): `cm-layer-L-{idx}`,
+  `cm-layer-k-{idx}`.
+
+**1. `index.html` — fronteras (12 campos):** los antiguos `<span
+id="cm-l-temp-val">100</span>` de sólo lectura dentro de cada `<label>` se
+reemplazaron EN EL MISMO LUGAR por `<input type="number" id="cm-l-temp-num"
+class="cm-num-sync" min="-273" max="2000" step="1" value="100">` — mismos
+`min`/`max`/`step` que su `<input type="range">` hermano. Cambio puramente
+aditivo/sustitutivo de un elemento por otro en la misma posición del DOM;
+no se movió ni se agregó ningún wrapper nuevo. IDs nuevos: `cm-l-temp-num`,
+`cm-l-h-num`, `cm-l-tinf-num`, `cm-l-eps-num`, `cm-l-tsur-num`,
+`cm-l-flux-num` (y sus espejos `cm-r-*-num`).
+
+**2. `app_v2.js` — capas (`renderLayersConfig()`, ~línea 14607):** el
+`<span id="cm-l{idx}-L-val">` dentro de `.value-badge` se reemplazó por
+`<input type="number" id="cm-l{idx}-L-num" class="cm-layer-L-num
+cm-num-sync" data-idx="{idx}" min="0.001" max="1.00" step="0.001">` (mismo
+patrón para k con `cm-l{idx}-k-num` / `cm-layer-k-num`, min/max/step
+0.001-2200). La estructura interna de cada `.control-row` pasó de una fila
+en línea (`label | slider | badge`) a **cabecera + slider apilados**
+(`.control-row-head` con label+badge arriba, slider a ancho completo
+debajo) — ver punto 4 (motivo: el badge de ancho fijo dejaba el slider con
+~0px útil en las columnas más angostas). Se extrajo la lógica de
+actualización de cada capa a `applyLayerL(idx, value)` /
+`applyLayerK(idx, value)` (antes vivía inline en el listener del slider)
+para que tanto el slider como el número numérico la reutilicen sin
+duplicar código — ninguna fórmula cambió, sólo se factorizó.
+
+**3. `app_v2.js` — sincronización bidireccional:**
+- **Fronteras:** `updateBcVisibility()` (que ya corría en cada `input` de
+  los sliders de frontera) ahora también sincroniza los 12 inputs
+  numéricos desde sus sliders (`numFieldsMap`, antes `spansMap` con
+  `.innerText`, ahora `.value`) — con un guard `document.activeElement !==
+  numEl` para no pisar lo que el usuario esté escribiendo. Función nueva
+  `bindBcNumberInput(numId, rangeEl)`: al escribir en el número, mueve el
+  slider (`rangeEl.value = raw`, que clampa internamente a `[min,max]`) y
+  llama a `updateBcVisibility()` — mismo camino de cálculo que ya usaban
+  los sliders, sin lógica duplicada; al confirmar (`change`/blur) refleja
+  en el número el valor final ya clampado por el slider.
+- **Capas:** mismo patrón, con `applyLayerL`/`applyLayerK` en vez de
+  `updateBcVisibility()`. Los listeners de los inputs numéricos se
+  re-adjuntan en cada `renderLayersConfig()` (igual que ya hacían los de
+  los sliders), porque el contenido de `#cm-layers-container` se
+  regenera por completo al cambiar el número de capas.
+- **Validación mientras se escribe:** en ambos casos, si el campo está
+  vacío, es sólo `"-"`, o no parsea a número (`isNaN`), el listener de
+  `input` no hace nada — evita que el usuario pierda el carácter que
+  acaba de borrar o el signo negativo a medio escribir.
+- **Clamp final:** el `<input type="range">` clampa su propio `.value` a
+  `[min,max]` de forma nativa incluso al asignarlo por script — se lee
+  ese valor YA clampado de vuelta (`parseFloat(rangeEl.value)`) en vez de
+  usar el texto crudo tal cual lo escribió el usuario, así que un valor
+  fuera de rango nunca llega al solver ni queda "pegado" en el número
+  tras perder el foco.
+
+**4. `style.css` — hallazgos reales de overflow corregidos durante la
+verificación con Playwright (no estaban en la lista original de
+instrucciones, surgieron de medir con Playwright en el rango completo
+320px-1920px, siguiendo la Regla #10 del proyecto):**
+- Los inputs numéricos de ancho fijo (`.cm-num-sync`, `flex-shrink:0`,
+  necesario para no recortar texto como "2200.000" o "10000") dentro de
+  un `<label>` con `display:flex` (patrón preexistente del laboratorio)
+  forzaban overflow del propio label hacia arriba en la cadena del grid
+  maestro, específicamente en la banda **~1025-1280px** (Regla #10: ahí
+  `.tabs-container` cae a su mínimo local). Corregido con `flex-wrap:wrap`
+  + `min-width:0` en `#multicapa-custom-sim label` y en los 3 grid items
+  de la fila superior (`#cm-panel-left-bc`/`-right-bc`/`-layers`) — el
+  label pasa a 2 líneas en vez de desbordar.
+- El mini-grid `#cm-layers-container` (`@media (min-width:1001px)`, ya
+  forzado a 1 columna desde el LOTE anterior) usaba `1fr` a secas en vez
+  de `minmax(0,1fr)` (Regla #9) — con el input numérico ya no cabía su
+  contenido mínimo en la banda 1025-1100px y desbordaba su propio
+  contenedor (sin llegar a desbordar el grid maestro completo, gracias al
+  `min-width:0` de arriba, pero sí pintaba contenido fuera de su caja).
+  Corregido a `minmax(0,1fr)`.
+- **Bug real más serio, encontrado en esta misma verificación:** dentro
+  de cada tarjeta de capa, el `.control-row` original en línea (grid
+  `auto 1fr auto`: label | slider | badge) dejaba al **slider con
+  ~0-1px de ancho útil** en las columnas más angostas — el label y el
+  badge (ninguno se encogía) absorbían todo el espacio, y en las filas de
+  "k" (unidad "W/mK", más larga que la "m" de "L") el **label llegaba a
+  aplastarse a 0px de ancho (`clientWidth:0`), quedando invisible**.
+  Corregido restructurando `.control-row` a **cabecera + slider
+  apilados** (ver punto 2): con el slider en su propia fila a ancho
+  completo, deja de competir por espacio horizontal con el label/badge.
+  Complementado con `flex-wrap:wrap` en `.control-row-head` y
+  `flex-shrink:0` en `.layer-card label` para que, si aun así no cabe
+  todo en una línea, el badge baje a una 2ª línea en vez de aplastar el
+  label.
+- Ancho fijo elegido para `.cm-num-sync`: 58px en fronteras y en capas,
+  con las flechas nativas de incremento/decremento **retiradas por
+  completo** (`-webkit-appearance:none` en los pseudo-elementos, no sólo
+  atenuadas) — con flechas visibles, el texto de valores largos como
+  "10000" o "2200.000" se recortaba dentro del propio input incluso sin
+  desbordar la página (`scrollWidth > clientWidth` del input mismo,
+  detectado con Playwright antes de este ajuste).
+
+**Verificado con Playwright** (barrido 320px-1920px, `file://index.html`
+local con un stub mínimo de `Chart` para poder ejecutar
+`initMulticapaCustomSimulation()` completo sin acceso a CDN): cero
+overflow horizontal nuevo introducido por este LOTE en todo el rango
+(el único residual, 27px/82px en 375px/320px, es el mismo preexistente ya
+documentado en el LOTE anterior, confirmado idéntico). Pruebas
+funcionales directas (`dispatchEvent` de `input`/`change`): slider→número
+(frontera y capa), número→slider en rango, número→slider fuera de rango
+con clamp correcto al perder el foco, entrada parcial inválida (`"-"`,
+vacío) sin romper nada, y el caso más exigente de longitud de texto
+(`k=2200.000`, `h=10000`) sin recorte — todo confirmado en modo normal Y
+en fullscreen. `node --check app_v2.js` sin errores; balance de llaves
+CSS (915/915) y diffs de bytes revisados antes de aplicar.
+
+Si se extiende este patrón a otro laboratorio: reutilizar
+`bindBcNumberInput`/`applyLayer*` como referencia de arquitectura (rango
+= fuente de verdad, el número sólo escribe en el rango y deja que éste
+clampe nativamente), y medir SIEMPRE con Playwright el ancho real del
+contenedor en el laboratorio destino antes de fijar un ancho en px para
+`.cm-num-sync` — no asumir que 56-58px alcanza; depende de cuántos
+dígitos puede tener el valor máximo de cada control y de qué tan angosta
+es la columna en ese laboratorio (Regla #10).

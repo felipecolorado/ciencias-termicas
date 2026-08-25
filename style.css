@@ -3482,108 +3482,203 @@ body.multicapa-lab-open {
   flex-direction: column;
 }
 
-/* Responsive: por debajo de 1000px, tanto la fila superior (fronteras +
-   esquema) como la fila intermedia (capas + perfil T(x) + resultados)
-   colapsan a una sola columna en modo normal. En fullscreen el colapso ya
-   lo gestionan los @media anteriores. */
-@media (max-width: 1000px) {
-
-  #multicapa-custom-sim #cm-row-top,
-  #multicapa-custom-sim #cm-row-center {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* ============================================================
-   LOTE 1 — MULTICAPA CUSTOM: REUBICACIÓN "PERFIL DE TEMPERATURA"
-   Alcance exclusivo: modo normal de #multicapa-custom-sim
-   (selector :not(.fullscreen) en cada regla). NO toca ninguna
-   regla existente de #multicapa-custom-sim.fullscreen ni la
-   lógica/fórmulas en app_v2.js.
+   LOTE — MULTICAPA CUSTOM: REORGANIZACIÓN DE LAYOUT VERTICAL A
+   ANCHO COMPLETO EN MODO NORMAL
 
-   Objetivo: en #cm-row-center, agrupar #cm-panel-layers (arriba)
-   y #cm-panel-chart (debajo) en la columna izquierda; mantener
-   #cm-panel-results en la columna derecha.
+   Alcance exclusivo: modo normal de #multicapa-custom-sim (selector
+   :not(.fullscreen) en cada regla). NO toca ninguna regla de
+   #multicapa-custom-sim.fullscreen ni la lógica/fórmulas en
+   app_v2.js. Cero cambios en index.html — se reutilizan los wrappers
+   #cm-row-top / #cm-row-center / #cm-center-left-col ya existentes
+   (aditivos desde LOTEs anteriores; #cm-center-left-col ya era
+   display:contents SIEMPRE desde el LOTE de reubicación del Perfil de
+   Temperatura, sin cambios en esta ronda).
 
-   #cm-center-left-col (nuevo wrapper puramente aditivo en
-   index.html) recibe display:contents SIEMPRE — tanto en modo
-   normal como en fullscreen — para no participar como caja del
-   grid en ninguno de los dos modos. Esto es intencional:
-   • En fullscreen, .cm-row ya se aplana con display:contents
-     (regla existente); al aplanarse también #cm-center-left-col,
-     #cm-panel-layers/#cm-panel-chart quedan como hijos directos
-     del grid maestro #cm-layout-wrapper exactamente igual que
-     antes, preservando 100% el layout de pantalla completa.
-   • En modo normal, el wrapper desaparece de la caja y el
-     posicionamiento real de #cm-panel-layers/#cm-panel-chart/
-     #cm-panel-results lo controlan las reglas de grid-column/
-     grid-row de abajo, aplicadas directamente sobre los paneles
-     (no sobre el wrapper).
+   ⚠️ SUPERSEDE al bloque anterior "GRID MAESTRO 2 COLUMNAS (VARIANTE
+   B.2)" (2 columnas maestro, fronteras apiladas en la columna
+   izquierda, capas a ancho completo en la base). Si ese bloque
+   antiguo aparece en algún commit/backup, es obsoleto — no
+   restaurar.
+
+   Estructura pedida (jerarquía vertical descendente):
+     Fila 1 — Panel de Configuración Inicial, 3 columnas iguales:
+       Frontera Izq. (#cm-panel-left-bc) | Selector/Config. de Capas
+       (#cm-panel-layers) | Frontera Der. (#cm-panel-right-bc).
+     Fila 2 — Esquema Térmico y Flujo de Calor (#cm-panel-canvas),
+       ancho completo.
+     Fila 3 — Perfil de Temperatura T(x) (#cm-panel-chart), ancho
+       completo.
+     Fila 4 — Resultados de la Simulación (#cm-panel-results), luego
+       Guía Didáctica (#cm-panel-guide), luego Tabulación Paramétrica
+       (.cm-row-5) — cada una a ancho completo, en ese orden.
+
+   Mecanismo: mismo patrón ya validado (Regla #8) — grid-template-
+   areas nombradas en #cm-layout-wrapper, filas .cm-row aplanadas con
+   display:contents. #cm-row-top y #cm-row-center ya estaban
+   aplanadas desde el LOTE anterior; se reutilizan sin cambios. Sólo
+   cambia la asignación de #cm-layout-wrapper (grid-template-columns/
+   -areas) y el grid-area de cada panel — cero cambios en index.html,
+   cero reordenamiento del DOM.
+
+   3 columnas iguales con minmax(0, 1fr), NO "1fr" a secas (Regla #9):
+   un track "1fr" simple tiene un mínimo implícito "auto" (=
+   min-content de lo más ancho que contenga esa columna en CUALQUIER
+   fila del grid), lo que puede desbordar el contenedor real del
+   sitio — que en modo normal, medido con Playwright en rondas
+   anteriores, casi nunca supera ~610px (Regla #10) — minmax(0,1fr)
+   fuerza el mínimo real a 0 y deja que el contenido interno haga
+   wrap/trunque en vez de desbordar el wrapper.
    ============================================================ */
 #multicapa-custom-sim #cm-center-left-col {
   display: contents;
 }
 
-/* Fila intermedia en modo normal: 2 columnas (izq. ancha = capas +
-   gráfica apiladas; der. = resultados). Se usa !important porque
-   #cm-row-center trae `grid-template-columns: 1fr 1.6fr 1fr` inline
-   en index.html (mayor especificidad que un selector de clase/ID). */
+#multicapa-custom-sim:not(.fullscreen) #cm-layout-wrapper {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas:
+    "bcL     layers  bcR"
+    "canvas  canvas  canvas"
+    "chart   chart   chart"
+    "results results results"
+    "guide   guide   guide"
+    "row5    row5    row5";
+  gap: 15px;
+  align-items: start;
+}
+
+#multicapa-custom-sim:not(.fullscreen) #cm-row-top,
 #multicapa-custom-sim:not(.fullscreen) #cm-row-center {
-  grid-template-columns: minmax(0, 1.7fr) minmax(260px, 1fr) !important;
-  grid-template-rows: auto auto;
+  display: contents !important;
+}
+
+#multicapa-custom-sim:not(.fullscreen) #cm-panel-left-bc {
+  grid-area: bcL;
+  /* min-width:0 (LOTE — entrada numérica bidireccional): sin esto, el
+     "automatic minimum size" de un grid item se calcula sobre el
+     min-content de su contenido — el input numérico de ancho fijo
+     dentro del label empuja ese min-content por encima del ancho real
+     de la columna (banda ~1025-1280px, Regla #10) y agranda la propia
+     pista del grid maestro en vez de dejar que el contenido se ajuste
+     (el label ya resuelve esto con flex-wrap, pero el grid item
+     también necesita min-width:0 para no ignorar ese wrap). */
+  min-width: 0;
 }
 
 #multicapa-custom-sim:not(.fullscreen) #cm-panel-layers {
-  grid-column: 1;
-  grid-row: 1;
+  grid-area: layers;
+  width: 100%;
+  min-width: 0;
+}
+
+#multicapa-custom-sim:not(.fullscreen) #cm-panel-right-bc {
+  grid-area: bcR;
+  min-width: 0;
+}
+
+#multicapa-custom-sim:not(.fullscreen) #cm-panel-canvas {
+  grid-area: canvas;
+  grid-column: 1 / -1;
   width: 100%;
 }
 
 #multicapa-custom-sim:not(.fullscreen) #cm-panel-chart {
-  grid-column: 1;
-  grid-row: 2;
+  grid-area: chart;
+  grid-column: 1 / -1;
   width: 100%;
 }
 
 #multicapa-custom-sim:not(.fullscreen) #cm-panel-results {
-  grid-column: 2;
-  grid-row: 1 / -1;
+  grid-area: results;
+  width: 100%;
 }
 
-/* Las tarjetas de capa ya usan repeat(3, 1fr) !important (ver sección
-   "CONDENSACIÓN 3X" más abajo); aquí sólo garantizamos que el propio
-   panel y su contenedor ocupen el 100% del ancho de la columna
-   izquierda, ya ensanchada arriba. */
+#multicapa-custom-sim:not(.fullscreen) #cm-panel-guide {
+  grid-area: guide;
+}
+
+#multicapa-custom-sim:not(.fullscreen) .cm-row-5 {
+  grid-area: row5;
+}
+
 #multicapa-custom-sim:not(.fullscreen) #cm-layers-container {
   width: 100%;
 }
 
 /* Contenedor del canvas de la gráfica: ancho 100% y altura mínima
-   320px para que el gráfico se renderice completo y legible. */
+   340px (pedida explícitamente para esta reorganización) para que el
+   gráfico se renderice completo y legible ocupando el ancho total
+   del wrapper. */
 #multicapa-custom-sim:not(.fullscreen) #cm-panel-chart .chart-container-cm {
   width: 100%;
-  min-height: 320px;
-  height: 320px;
+  min-height: 340px;
+  height: 340px;
 }
 
-/* Responsivo: por debajo de 1000px, la fila intermedia colapsa a una
-   sola columna (capas → gráfica → resultados, en ese orden de
-   documento) igual que el resto del laboratorio en modo normal. */
+/* Config. de las Capas ahora comparte la fila superior con las 2
+   fronteras (columna central de 3 iguales) en vez de tener ancho
+   completo como en la ronda anterior — el track resultante mide
+   ~1/3 del contenedor real del sitio (~130-200px en la inmensa
+   mayoría del rango de escritorio, Regla #10), insuficiente para el
+   mini-grid de 3 columnas por capa (regla base, sin scoping,
+   repeat(3,1fr), usada también por fullscreen). Se fuerza a 1
+   columna exclusivamente en modo normal y por encima de 1000px (el
+   rango donde este layout de 3 columnas maestro está activo) — no
+   afecta fullscreen (contenedor ~1436px, sigue con 3 columnas sin
+   cambios) ni el layout colapsado ≤1000px (donde #cm-panel-layers
+   vuelve a ocupar el ancho completo del wrapper y el mini-grid puede
+   volver a repeat(3,1fr) vía la regla base sin scoping).
+   ⚠️ SUPERSEDE la excepción puntual anterior "franja angosta
+   1025-1100px" (ronda "GRID MAESTRO 2 COLUMNAS"): aquella banda ya
+   no es la única estrecha — con este layout TODO el rango >1000px lo
+   es, porque #cm-panel-layers dejó de tener ancho completo. */
+@media (min-width: 1001px) {
+  #multicapa-custom-sim:not(.fullscreen) #cm-layers-container {
+    /* minmax(0, 1fr), NO "1fr" a secas (Regla #9): con una sola tarjeta
+       de capa por fila, "1fr" a secas hereda el mínimo implícito
+       "auto" (= min-content de la tarjeta, ~126px con el input
+       numérico añadido en el LOTE de entrada bidireccional) y no se
+       encogía por debajo de eso — desbordaba ~10-23px de su propio
+       contenedor en la banda 1025-1100px (detectado con Playwright:
+       #cm-layers-container.scrollWidth > .clientWidth) aunque sin
+       llegar a desbordar el grid maestro completo (los ancestros ya
+       tienen min-width:0). minmax(0,1fr) fuerza el mínimo real a 0. */
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* Responsivo 1000px (breakpoint pedido explícitamente para esta
+   reorganización): colapsa a 1 sola columna, en el MISMO orden de
+   documento (Frontera Izq. → Esquema → Frontera Der. → Capas →
+   Perfil T(x) → Resultados → Guía → Tabulación/Gráfica Paramétrica)
+   — preserva la lectura/tabulación lógica para accesibilidad. Por
+   debajo de 1000px, #cm-panel-layers vuelve a ocupar el ancho
+   completo del wrapper: la excepción de arriba (min-width:1001px) ya
+   no aplica y el mini-grid de capas vuelve a la regla base
+   (repeat(3,1fr), colapsando de nuevo a 1 columna sólo por debajo de
+   700px vía la sección "CONDENSACIÓN 3X" más abajo). */
 @media (max-width: 1000px) {
-  #multicapa-custom-sim:not(.fullscreen) #cm-row-center {
-    grid-template-columns: 1fr !important;
-    grid-template-rows: auto;
+  #multicapa-custom-sim:not(.fullscreen) #cm-layout-wrapper {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "bcL"
+      "canvas"
+      "bcR"
+      "layers"
+      "chart"
+      "results"
+      "guide"
+      "row5";
   }
 
-  #multicapa-custom-sim:not(.fullscreen) #cm-panel-layers,
-  #multicapa-custom-sim:not(.fullscreen) #cm-panel-chart,
-  #multicapa-custom-sim:not(.fullscreen) #cm-panel-results {
-    grid-column: 1;
-    grid-row: auto;
+  #multicapa-custom-sim:not(.fullscreen) #cm-panel-canvas,
+  #multicapa-custom-sim:not(.fullscreen) #cm-panel-chart {
+    grid-column: auto;
   }
 }
 /* ============================================================
-   FIN LOTE 1 — REUBICACIÓN "PERFIL DE TEMPERATURA"
+   FIN LOTE — REORGANIZACIÓN DE LAYOUT VERTICAL A ANCHO COMPLETO
    ============================================================ */
 
 /* ── Guía didáctica (Registro/Tabulación · Gráfica Paramétrica) ── */
@@ -3615,6 +3710,7 @@ body.multicapa-lab-open {
   padding: 6px 8px !important;
   margin-bottom: 6px !important;
   gap: 4px !important;
+  min-width: 0;
 }
 
 #multicapa-custom-sim label {
@@ -3624,6 +3720,16 @@ body.multicapa-lab-open {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* flex-wrap + min-width:0 (LOTE — entrada numérica bidireccional): el
+     input numérico ("cm-num-sync") tiene ancho fijo y no se encoge
+     (flex-shrink:0, necesario para no recortar el texto del valor); sin
+     esto, en las columnas más angostas de la fila superior de 3
+     columnas (banda ~1025-1280px, Regla #10) el texto del label +
+     el número no cabían en una sola línea y forzaban overflow del
+     propio label hacia arriba en la cadena (grid item → grid maestro).
+     Con flex-wrap:wrap el label pasa a 2 líneas en vez de desbordar. */
+  flex-wrap: wrap;
+  min-width: 0;
 }
 
 #multicapa-custom-sim input[type="range"] {
@@ -3638,6 +3744,50 @@ body.multicapa-lab-open {
   padding: 2px 6px !important;
   height: 24px !important;
 }
+
+/* ============================================================
+   LOTE — ENTRADA NUMÉRICA DIRECTA BIDIRECCIONAL CON SLIDERS
+   Alcance exclusivo: #multicapa-custom-sim. Los `<input type="number"
+   class="cm-num-sync">` reemplazan en el mismo lugar a los antiguos
+   `<span id="...-val">` de sólo lectura (fronteras Izq./Der. en
+   index.html, y L_i/k_i dentro de .value-badge en las tarjetas de
+   capa generadas por renderLayersConfig() en app_v2.js) — la
+   sincronización bidireccional slider↔número vive en app_v2.js
+   (bindBcNumberInput / applyLayerL / applyLayerK). Ancho fijo y
+   angosto porque estos campos conviven en columnas muy estrechas
+   (fronteras: ~130-200px en la fila superior de 3 columnas del LOTE
+   anterior; tarjetas de capa: aún más angostas). */
+#multicapa-custom-sim input[type="number"].cm-num-sync {
+  width: 58px;
+  min-width: 0;
+  flex-shrink: 0;
+  text-align: right;
+  -moz-appearance: textfield;
+}
+
+/* Se retiran del todo las flechas nativas de incremento/decremento (no
+   sólo se atenúan): estos campos conviven en columnas muy angostas
+   (fronteras: ~130-200px en la fila superior de 3 columnas del LOTE
+   anterior; tarjetas de capa: aún más angostas) y valores como
+   h=10000.0 W/m²K o k=2200.000 W/mK necesitan el ancho completo del
+   campo sólo para el texto — con las flechas nativas puestas encima el
+   texto se recorta (detectado con Playwright: scrollWidth > clientWidth
+   del propio input, no del contenedor). */
+#multicapa-custom-sim input[type="number"].cm-num-sync::-webkit-inner-spin-button,
+#multicapa-custom-sim input[type="number"].cm-num-sync::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  opacity: 0;
+  width: 0;
+}
+
+#multicapa-custom-sim .layer-card input[type="number"].cm-num-sync {
+  width: 58px;
+  padding: 1px 2px !important;
+}
+/* ============================================================
+   FIN LOTE — ENTRADA NUMÉRICA DIRECTA BIDIRECCIONAL
+   ============================================================ */
 
 /* ============================================================
    CONDENSACIÓN 3X — "Configuración de las Capas de la Pared"
@@ -3687,19 +3837,44 @@ body.multicapa-lab-open {
   opacity: 0.8;
 }
 
-/* Filas de entrada: label, slider y valor en línea (grid auto/1fr/auto) */
+/* Filas de entrada: cabecera (label + valor numérico) apilada sobre el
+   slider a ancho completo — no en línea (grid auto/1fr/auto) como
+   antes. Cambiado en el LOTE de entrada numérica bidireccional: con el
+   valor de sólo lectura (span) reemplazado por un <input type="number">
+   de ancho fijo que no puede encogerse, compartir una sola fila con el
+   slider dejaba a este último con ~0px de ancho útil en las columnas
+   más angostas del laboratorio (banda ~1025-1280px del grid maestro de
+   3 columnas, Regla #10, y aún más angosto dentro del mini-grid de
+   #cm-layers-container). Apilar evita esa competencia por espacio
+   horizontal: el slider siempre tiene el 100% del ancho de la tarjeta. */
 #multicapa-custom-sim .layer-card .control-row {
-  display: grid !important;
-  grid-template-columns: auto 1fr auto !important;
-  align-items: center !important;
-  gap: 4px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
   margin-bottom: 2px !important;
+}
+
+#multicapa-custom-sim .layer-card .control-row-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+  /* flex-wrap (LOTE — entrada numérica bidireccional): el value-badge
+     (número + unidad, p. ej. "2200.000 W/mK") no se encoge — detectado
+     con Playwright: sin esto, en las columnas más angostas el label
+     ("k₁") absorbía todo el déficit de espacio y se aplastaba a 0px de
+     ancho (invisible), sobre todo en las filas de "k" (unidad "W/mK"
+     más larga que la "m" de las filas de "L"). Con wrap, el badge baja
+     a una segunda línea en vez de aplastar el label. */
+  flex-wrap: wrap;
+  min-width: 0;
 }
 
 #multicapa-custom-sim .layer-card label {
   font-size: 0.72rem !important;
   margin: 0 !important;
   white-space: nowrap !important;
+  flex-shrink: 0;
 }
 
 #multicapa-custom-sim .layer-card input[type="range"] {
@@ -3737,6 +3912,17 @@ body.multicapa-lab-open {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* ⚠️ La antigua excepción puntual "franja angosta 1025-1100px" (ronda
+   "GRID MAESTRO 2 COLUMNAS", que reducía #cm-layers-container a 2
+   columnas sólo en esa banda) fue reemplazada por la regla
+   "@media (min-width: 1001px) { ... grid-template-columns: 1fr ... }"
+   dentro del bloque "REORGANIZACIÓN DE LAYOUT VERTICAL A ANCHO
+   COMPLETO" más arriba — con #cm-panel-layers compartiendo ahora la
+   fila superior de 3 columnas iguales, TODO el rango >1000px queda
+   angosto (no sólo 1025-1100px), así que la excepción puntual quedó
+   obsoleta y se retiró. No restaurar si aparece en algún commit/
+   backup antiguo. */
 
 /* ============================================================
    LOTE 2 — FULLSCREEN STYLES
@@ -7409,5 +7595,158 @@ body.light-theme #contact-res-sim-modal .cr-hud-chip {
     #contact-res-sim-modal .cr-hud-value {
         font-size: 0.68rem;
     }
+}
+
+/* ============================================================
+   LOTE 3 — INPUTS NUMÉRICOS GENÉRICOS SITEWIDE (.sim-number-input)
+   Generaliza el patrón validado en #multicapa-custom-sim (.cm-num-sync,
+   ver sección "ENTRADA NUMÉRICA DIRECTA BIDIRECCIONAL" más arriba en este
+   archivo) para que cualquier laboratorio pueda reemplazar su badge de
+   sólo lectura (<span id="...-val">) por un <input type="number">
+   editable sin tener que repetir estas reglas por laboratorio. Bloque 1
+   (Conducción y Circuitos Térmicos): fourier-sim, fin-sim, pennington-sim,
+   telkes-sim, res-sim, par-sim, transient-sim, insulated-sim,
+   contact-res-sim. No toca ningún estilo de #multicapa-custom-sim
+   (.cm-num-sync sigue intacto, sin cambios).
+   ============================================================ */
+input[type="number"].sim-number-input {
+    width: 64px;
+    min-width: 0;
+    flex-shrink: 0;
+    text-align: right;
+    font-weight: 700;
+    font-size: 0.8rem;
+    font-family: inherit;
+    color: var(--accent-orange);
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 4px;
+    padding: 1px 4px;
+    height: 22px;
+    line-height: 1.1;
+    -moz-appearance: textfield;
+}
+
+input[type="number"].sim-number-input:focus {
+    outline: none;
+    border-color: var(--accent-orange);
+}
+
+/* Flechas nativas de incremento/decremento retiradas por completo (no
+   sólo atenuadas) — mismo motivo que en .cm-num-sync: con las flechas
+   visibles, valores de varios dígitos (ej. "10000", "2200.000") se
+   recortan dentro del propio input en las columnas más angostas. */
+input[type="number"].sim-number-input::-webkit-inner-spin-button,
+input[type="number"].sim-number-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    opacity: 0;
+    width: 0;
+}
+
+/* Cuando el número vive dentro de un .value-badge (patrón ya usado por
+   contact-res-sim y por las tarjetas de capa de multicapa): el input se
+   funde en la píldora en vez de dibujar una caja anidada — el badge ya
+   aporta el fondo/borde/color, así que el input queda transparente y sin
+   borde propio dentro de él. */
+.value-badge input[type="number"].sim-number-input {
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: inherit;
+    height: auto;
+}
+
+/* Label en flex-wrap dentro de los laboratorios de este LOTE: evita que
+   el input numérico (ancho fijo, flex-shrink:0) fuerce overflow del
+   propio label en las columnas más angostas (fullscreen en pantallas
+   medianas, ~1000-1300px, Regla #10) — mismo fix ya validado en
+   #multicapa-custom-sim. Sólo se aplica a labels que ya son flex
+   (.control-group label, regla global de todo el sitio) dentro de estos
+   9 laboratorios; ningún otro laboratorio se ve afectado por selector. Se
+   usan los ID que persisten durante el teleport DOM a fullscreen
+   (CFG.modalId de cada controller): fourier-lab-modal y
+   contact-res-sim-modal (wrappers dedicados), el resto usa directamente
+   el id del tab-pane porque es él mismo el que se teletransporta.
+   contact-res-sim-modal no se incluye aquí: sus labels ya usan su propio
+   white-space:nowrap ajustado en rondas anteriores (ver más arriba). */
+#fourier-lab-modal .control-group label,
+#fin-sim .control-group label,
+#pennington-sim .control-group label,
+#telkes-sim .control-group label,
+#res-sim .control-group label,
+#par-sim .control-group label,
+#transient-sim .control-group label,
+#insulated-sim .control-group label {
+    flex-wrap: wrap;
+    min-width: 0;
+}
+
+/* ============================================================
+   LOTE 4 — INPUTS NUMÉRICOS: Convección, Radiación, Termodinámica,
+   Fluidos, Máquinas Térmicas y resto de laboratorios (.sim-number-unit
+   + extensión del fix de flex-wrap de LOTE 3 a estos laboratorios).
+   Reutiliza .sim-number-input sin cambios (definido arriba, LOTE 3).
+   ============================================================ */
+
+/* Texto de unidad estático que queda junto a un .sim-number-input
+   cuando el valor mostrado originalmente traía la unidad embebida en
+   el mismo span/strong que el badge de sólo lectura (ej. "12 W/m²·K").
+   Estilo discreto, no compite visualmente con el input editable.
+   LOTE 5: color cambiado de #94a3b8 fijo a var(--text-muted) — el valor
+   fijo daba sólo 2.34:1 de contraste sobre el fondo de Modo Claro (falla
+   WCAG AA, que exige 4.5:1); --text-muted ya se redefine correctamente a
+   un gris más oscuro en body.light-theme (#64748b, ~4.34:1), así que
+   basta con adoptar la variable ya existente en vez de fijar el valor
+   oscuro a mano. Sin cambio visual en Modo Oscuro (--text-muted es
+   #94a3b8 en ambos casos ahí). */
+.sim-number-unit {
+    font-size: 0.72rem;
+    color: var(--text-muted, #94a3b8);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* Mismo fix de overflow que LOTE 3 (label flex + input de ancho fijo
+   en columnas angostas de fullscreen, Regla #10), extendido a los
+   laboratorios de este LOTE que usan el patrón estándar
+   .control-group label. Se usa el ID que persiste durante el teleport
+   DOM a fullscreen (CFG.modalId de cada controller) — coincide con el
+   id del propio tab-pane en todos los casos listados aquí (cada uno se
+   teletransporta a sí mismo, sin wrapper dedicado). newton-sim,
+   chatelet-sim y ottodiesel-sim no usan .control-group (HUD/markup
+   propio) y por eso no aparecen en esta lista. */
+#planck-sim .control-group label,
+#maxwell-sim .control-group label,
+#water-substance-sim .control-group label,
+#invsq-sim .control-group label,
+#prandtl-sim .control-group label,
+#gen-sim .control-group label,
+#multi-sim .control-group label,
+#bernoulli-sim .control-group label,
+#pelton-sim .control-group label,
+#celsius-sim .control-group label,
+#foote-sim .control-group label,
+#ns-sim .control-group label,
+#herschel-sim .control-group label,
+#nusselt-sim .control-group label,
+#bl-sim .control-group label,
+#reynolds-sim .control-group label,
+#nat-conv-sim .control-group label,
+#vf-sim .control-group label,
+#microchannel-sim .control-group label,
+#internal-bl-sim .control-group label,
+#kelvin-sim .control-group label,
+#clausius-sim .control-group label,
+#cpcv-sim .control-group label,
+#joule-sim .control-group label,
+#doublepipe-sim .control-group label,
+#vortex-sim .control-group label,
+#boiling-sim .control-group label,
+#carnot-sim .control-group label,
+#lab-radiacion-placa-plana .control-group label,
+#watt-sim .control-group label {
+    flex-wrap: wrap;
+    min-width: 0;
 }
 

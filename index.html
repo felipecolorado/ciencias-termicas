@@ -446,9 +446,8 @@
                                 class="lang-es">Émilie du Châtelet: Conservación de la Energía (1738)</span><span
                                 class="lang-en" style="display:none;">Émilie du Châtelet: Energy Conservation
                                 (1738)</span></button>
-                        <button class="tab-btn" data-target="watt-sim">Newcomen vs. Watt (1712-1769)</button>
                         <button class="tab-btn" data-target="pennington-sim"
-                            onclick="setTimeout(function(){ if(window.initPenningtonSimulation) window.initPenningtonSimulation(); }, 50);" data-category="transferencia-calor"><i
+                            onclick="setTimeout(function(){ if(window.initPenningtonSimulation) window.initPenningtonSimulation(); }, 50);" data-category="transferencia-calor" data-tags="transferencia-calor conduccion"><i
                                 class="fas fa-snowflake" style="color:#38bdf8; margin-right:4px;"></i> <span
                                 class="lang-es">Cadena de Frío & Aislamiento (Mary Pennington, 1910)</span><span
                                 class="lang-en" style="display:none;">Cold Chain & Insulation (Mary Pennington,
@@ -471,17 +470,18 @@
 
                         <div class="tab-category-title"><span class="lang-es">Motores de Calor</span><span
                                 class="lang-en" style="display:none;">Heat Engines</span></div>
+                        <button class="tab-btn" data-target="watt-sim">Newcomen vs. Watt (1712-1769)</button>
                         <button class="tab-btn" data-target="carnot-sim">Motor de Carnot (1824)</button>
                         <button class="tab-btn" data-target="ottodiesel-sim">Ciclos Otto vs. Diesel (1876-1892)</button>
 
                         <div class="tab-category-title"><span class="lang-es">Circuitos Térmicos</span><span
                                 class="lang-en" style="display:none;">Thermal Circuits</span></div>
-                        <button class="tab-btn lab-otros" data-target="multi-sim" data-category="transferencia-calor">Pared Multicapa</button>
-                        <button class="tab-btn" data-target="par-sim" data-category="transferencia-calor" data-tags="transferencia-calor conveccion radiacion">Resistencias en
+                        <button class="tab-btn" data-target="multi-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Pared Multicapa</button>
+                        <button class="tab-btn" data-target="par-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion conveccion radiacion">Resistencias en
                             Paralelo</button>
                         <button class="tab-btn" data-target="res-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Pared Compuesta y Circuito
                             Térmico</button>
-                        <button class="tab-btn lab-otros" data-target="insulated-sim" data-category="transferencia-calor">Placa Plana
+                        <button class="tab-btn" data-target="insulated-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Placa Plana
                             Aislada</button>
                         <button class="tab-btn" data-target="multicapa-custom-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Pared
                             Multicapa Personalizada</button>
@@ -491,7 +491,7 @@
                         <button class="tab-btn" data-target="gen-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Generación
                             Interna</button>
                         <button class="tab-btn" data-target="telkes-sim"
-                            onclick="setTimeout(function(){ if(window.initTelkesSimulation) window.initTelkesSimulation(); }, 50);" data-category="transferencia-calor"><i
+                            onclick="setTimeout(function(){ if(window.initTelkesSimulation) window.initTelkesSimulation(); }, 50);" data-category="transferencia-calor" data-tags="transferencia-calor conduccion"><i
                                 class="fas fa-cube" style="color:#a855f7; margin-right:4px;"></i> <span
                                 class="lang-es">Almacenamiento PCM & Calor Latente (Maria Telkes, 1948)</span><span
                                 class="lang-en" style="display:none;">PCM Thermal Storage & Latent Heat (Maria Telkes,
@@ -690,7 +690,7 @@
                                                     <span class="lang-en" style="display:none;">Temperature
                                                         T<sub>1</sub>
                                                         (Left/Inner):</span>
-                                                    <span><span id="fourier-t1-val">100</span> &deg;C</span>
+                                                    <span><input type="number" id="fourier-t1-num" class="sim-number-input" min="0" max="500" step="5" value="100"> &deg;C</span>
                                                 </label>
                                                 <input type="range" id="fourier-t1" min="0" max="500" step="5"
                                                     value="100">
@@ -702,7 +702,7 @@
                                                     <span class="lang-en" style="display:none;">Temperature
                                                         T<sub>2</sub>
                                                         (Right/Outer):</span>
-                                                    <span><span id="fourier-t2-val">20</span> &deg;C</span>
+                                                    <span><input type="number" id="fourier-t2-num" class="sim-number-input" min="0" max="500" step="5" value="20"> &deg;C</span>
                                                 </label>
                                                 <input type="range" id="fourier-t2" min="0" max="500" step="5"
                                                     value="20">
@@ -712,7 +712,7 @@
                                                 <label for="fourier-q-in"><span class="lang-es">Tasa de Calor Impuesta
                                                         (q):</span><span class="lang-en" style="display:none;">Imposed
                                                         Heat
-                                                        Rate (q):</span> <span id="fourier-q-in-val">164</span>
+                                                        Rate (q):</span> <input type="number" id="fourier-q-in-num" class="sim-number-input" min="-1000" max="1000" step="10" value="164">
                                                     kW</label>
                                                 <input type="range" id="fourier-q-in" min="-1000" max="1000" step="10"
                                                     value="164">
@@ -720,7 +720,7 @@
                                             <div class="control-group">
                                                 <label for="fourier-k"><span class="lang-es">Conductividad Térmica
                                                         (k):</span><span class="lang-en" style="display:none;">Thermal
-                                                        Conductivity (k):</span> <span id="fourier-k-val">205</span>
+                                                        Conductivity (k):</span> <input type="number" id="fourier-k-num" class="sim-number-input" min="0.1" max="400" step="0.1" value="205">
                                                     W/(m&middot;K)</label>
                                                 <input type="range" id="fourier-k" min="0.1" max="400" step="0.1"
                                                     value="205">
@@ -728,7 +728,7 @@
                                             <div class="control-group" id="fourier-r1-container" style="display: none;">
                                                 <label for="fourier-r1"><span class="lang-es">Radio Interno
                                                         (r₁):</span><span class="lang-en" style="display:none;">Internal
-                                                        Radius (r₁):</span> <span id="fourier-r1-val">0.05</span>
+                                                        Radius (r₁):</span> <input type="number" id="fourier-r1-num" class="sim-number-input" min="0.01" max="1.0" step="0.01" value="0.05">
                                                     m</label>
                                                 <input type="range" id="fourier-r1" min="0.01" max="1.0" step="0.01"
                                                     value="0.05">
@@ -737,14 +737,14 @@
                                                 <label id="fourier-l-label" for="fourier-l"><span
                                                         class="lang-es">Espesor
                                                         (L):</span><span class="lang-en" style="display:none;">Thickness
-                                                        (L):</span> <span id="fourier-l-val">0.10</span> m</label>
+                                                        (L):</span> <input type="number" id="fourier-l-num" class="sim-number-input" min="0" max="1.0" step="0.01" value="0.1"> m</label>
                                                 <input type="range" id="fourier-l" min="0" max="1.0" step="0.01"
                                                     value="0.1">
                                             </div>
                                             <div class="control-group" id="fourier-r2-container" style="display: none;">
                                                 <label for="fourier-r2"><span class="lang-es">Radio Externo
                                                         (r₂):</span><span class="lang-en" style="display:none;">External
-                                                        Radius (r₂):</span> <span id="fourier-r2-val">0.15</span>
+                                                        Radius (r₂):</span> <input type="number" id="fourier-r2-num" class="sim-number-input" min="0.01" max="1.0" step="0.01" value="0.15">
                                                     m</label>
                                                 <input type="range" id="fourier-r2" min="0.01" max="1.0" step="0.01"
                                                     value="0.15">
@@ -752,8 +752,7 @@
                                             <div class="control-group" id="fourier-ah-container">
                                                 <label id="fourier-ah-label" for="fourier-ah"><span class="lang-es">Área
                                                         transversal (A):</span><span class="lang-en"
-                                                        style="display:none;">Cross-sectional area (A):</span> <span
-                                                        id="fourier-ah-val">1.0</span> m&sup2;</label>
+                                                        style="display:none;">Cross-sectional area (A):</span> <input type="number" id="fourier-ah-num" class="sim-number-input" min="0.1" max="10.0" step="0.1" value="1.0"> m&sup2;</label>
                                                 <input type="range" id="fourier-ah" min="0.1" max="10.0" step="0.1"
                                                     value="1.0">
                                             </div>
@@ -878,6 +877,10 @@
                                         </div>
                                         <input type="range" id="planck-temp" min="0" max="10000" step="100"
                                             value="5800">
+                                        <div style="display:flex; align-items:center; gap:6px; margin-top:4px;">
+                                            <span style="font-size:0.7rem; color:#94a3b8;">Editar directamente (antes del multiplicador):</span>
+                                            <input type="number" id="planck-temp-num" class="sim-number-input" min="0" max="10000" step="100" value="5800">
+                                        </div>
 
                                         <div
                                             style="display: flex; align-items: center; justify-content: flex-end; margin-top: 8px;">
@@ -1004,8 +1007,7 @@
                                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
                                             <label for="maxwell-temp" style="margin-bottom: 0;"><span
                                                     class="lang-es">Temperatura:</span><span class="lang-en"
-                                                    style="display:none;">Temperature:</span> <span
-                                                    id="maxwell-temp-val">300</span> K</label>
+                                                    style="display:none;">Temperature:</span> <input type="number" id="maxwell-temp-num" class="sim-number-input" min="50" max="2500" step="10" value="300"> K</label>
                                         </div>
                                         <input type="range" id="maxwell-temp" min="50" max="2500" step="10" value="300">
                                     </div>
@@ -1211,20 +1213,20 @@
                                         <div class="control-group">
                                             <label for="water-p"><span class="lang-es">Presión
                                                     $(P)$:</span><span class="lang-en" style="display:none;">Pressure
-                                                    $(P)$:</span> <span id="water-p-val">101.3</span> kPa</label>
+                                                    $(P)$:</span> <input type="number" id="water-p-num" class="sim-number-input" min="1" max="22064" step="0.5" value="101.325"> kPa</label>
                                             <input type="range" id="water-p" min="1" max="22064" step="0.5"
                                                 value="101.325">
                                         </div>
                                         <div class="control-group" id="water-t-group">
                                             <label for="water-t"><span class="lang-es">Temperatura
                                                     $(T)$:</span><span class="lang-en" style="display:none;">Temperature
-                                                    $(T)$:</span> <span id="water-t-val">25</span> °C</label>
+                                                    $(T)$:</span> <input type="number" id="water-t-num" class="sim-number-input" min="0.1" max="600" step="0.5" value="25"> °C</label>
                                             <input type="range" id="water-t" min="0.1" max="600" step="0.5" value="25">
                                         </div>
                                         <div class="control-group" id="water-x-group" style="display:none;">
                                             <label for="water-x"><span class="lang-es">Calidad
                                                     $(x)$:</span><span class="lang-en" style="display:none;">Quality
-                                                    $(x)$:</span> <span id="water-x-val">0.50</span></label>
+                                                    $(x)$:</span> <input type="number" id="water-x-num" class="sim-number-input" min="0" max="1" step="0.01" value="0.5"></label>
                                             <input type="range" id="water-x" min="0" max="1" step="0.01" value="0.5">
                                         </div>
                                         <div class="control-group" style="grid-column: span 2;">
@@ -1367,14 +1369,12 @@
                                 </div>
                                 <div class="controls-container">
                                     <div class="control-group">
-                                        <label for="invsq-power"><span>Potencia de la Fuente $(P)$:</span> <span><span
-                                                    id="invsq-power-val">1000</span> W</span></label>
+                                        <label for="invsq-power"><span>Potencia de la Fuente $(P)$:</span> <span><input type="number" id="invsq-power-num" class="sim-number-input" min="100" max="10000" step="100" value="1000"> W</span></label>
                                         <input type="range" id="invsq-power" min="100" max="10000" step="100"
                                             value="1000">
                                     </div>
                                     <div class="control-group">
-                                        <label for="invsq-dist"><span>Distancia del objetivo $(r)$:</span> <span><span
-                                                    id="invsq-dist-val">2.0</span> m</span></label>
+                                        <label for="invsq-dist"><span>Distancia del objetivo $(r)$:</span> <span><input type="number" id="invsq-dist-num" class="sim-number-input" min="0.5" max="10.0" step="0.1" value="2.0"> m</span></label>
                                         <input type="range" id="invsq-dist" min="0.5" max="10.0" step="0.1" value="2.0">
                                     </div>
                                     <div class="control-group result-card">
@@ -1506,7 +1506,7 @@
                                         <div class="control-group">
                                             <label for="fin-tb"><span class="lang-es">Temperatura de la base
                                                     $(T_b)$:</span><span class="lang-en" style="display:none;">Base
-                                                    temperature $(T_b)$:</span> <span id="fin-tb-val">100</span>
+                                                    temperature $(T_b)$:</span> <input type="number" id="fin-tb-num" class="sim-number-input" min="-200" max="1000" step="1" value="100">
                                                 &deg;C</label>
                                             <input type="range" id="fin-tb" min="-200" max="1000" step="1" value="100">
                                         </div>
@@ -1526,39 +1526,38 @@
                                         <div class="control-group" id="fin-d-group">
                                             <label for="fin-d"><span class="lang-es">Diámetro de la aleta
                                                     $(D)$:</span><span class="lang-en" style="display:none;">Fin
-                                                    diameter $(D)$:</span> <span id="fin-d-val">10</span> mm</label>
+                                                    diameter $(D)$:</span> <input type="number" id="fin-d-num" class="sim-number-input" min="1" max="50" step="1" value="10"> mm</label>
                                             <input type="range" id="fin-d" min="1" max="50" step="1" value="10">
                                         </div>
                                         <div class="control-group" id="fin-w-group" style="display: none;">
                                             <label for="fin-w"><span class="lang-es">Ancho de la aleta
                                                     $(w)$:</span><span class="lang-en" style="display:none;">Fin Width
-                                                    $(w)$:</span> <span id="fin-w-val">20</span> mm</label>
+                                                    $(w)$:</span> <input type="number" id="fin-w-num" class="sim-number-input" min="1" max="100" step="1" value="20"> mm</label>
                                             <input type="range" id="fin-w" min="1" max="100" step="1" value="20">
                                         </div>
                                         <div class="control-group" id="fin-t-group" style="display: none;">
                                             <label for="fin-t"><span class="lang-es">Espesor de la aleta
                                                     $(t)$:</span><span class="lang-en" style="display:none;">Fin
-                                                    thickness $(t)$:</span> <span id="fin-t-val">2</span> mm</label>
+                                                    thickness $(t)$:</span> <input type="number" id="fin-t-num" class="sim-number-input" min="1" max="20" step="1" value="2"> mm</label>
                                             <input type="range" id="fin-t" min="1" max="20" step="1" value="2">
                                         </div>
                                         <div class="control-group">
                                             <label for="fin-length"><span class="lang-es">Longitud de la aleta
                                                     $(L)$:</span><span class="lang-en" style="display:none;">Fin length
-                                                    $(L)$:</span> <span id="fin-length-val">10</span> cm</label>
+                                                    $(L)$:</span> <input type="number" id="fin-length-num" class="sim-number-input" min="1" max="30" step="1" value="10"> cm</label>
                                             <input type="range" id="fin-length" min="1" max="30" step="1" value="10">
                                         </div>
                                         <div class="control-group">
                                             <label for="fin-k"><span class="lang-es">Conductividad del Material
                                                     $(k)$:</span><span class="lang-en"
-                                                    style="display:none;">Conductivity of Material $(k)$:</span> <span
-                                                    id="fin-k-val">205</span> <span class="lang-es">W/mK</span><span
+                                                    style="display:none;">Conductivity of Material $(k)$:</span> <input type="number" id="fin-k-num" class="sim-number-input" min="10" max="400" step="5" value="205"> <span class="lang-es">W/mK</span><span
                                                     class="lang-en" style="display:none;">W/mK</span></label>
                                             <input type="range" id="fin-k" min="10" max="400" step="5" value="205">
                                         </div>
                                         <div class="control-group">
                                             <label for="fin-h"><span class="lang-es">Coef. de Convección
                                                     $(h)$:</span><span class="lang-en" style="display:none;">Coef.
-                                                    Convection $(h)$:</span> <span id="fin-h-val">25</span> <span
+                                                    Convection $(h)$:</span> <input type="number" id="fin-h-num" class="sim-number-input" min="5" max="250" step="5" value="25"> <span
                                                     class="lang-es">W/m²K</span><span class="lang-en"
                                                     style="display:none;">W/m²K</span></label>
                                             <input type="range" id="fin-h" min="5" max="250" step="5" value="25">
@@ -1566,21 +1565,20 @@
                                         <div class="control-group">
                                             <label for="fin-tinf"><span class="lang-es">Temp. Ambiente
                                                     $(T_\infty)$:</span><span class="lang-en"
-                                                    style="display:none;">Temp. Environment $(T_\infty)$:</span> <span
-                                                    id="fin-tinf-val">20</span> &deg;C</label>
+                                                    style="display:none;">Temp. Environment $(T_\infty)$:</span> <input type="number" id="fin-tinf-num" class="sim-number-input" min="-200" max="1000" step="1" value="20"> &deg;C</label>
                                             <input type="range" id="fin-tinf" min="-200" max="1000" step="1" value="20">
                                         </div>
                                         <div class="control-group">
                                             <label for="fin-tl"><span class="lang-es">Temp. Punta Especificada
                                                     $(T_L)$:</span><span class="lang-en" style="display:none;">Temp.
-                                                    Specified Tip $(T_L)$:</span> <span id="fin-tl-val">50</span>
+                                                    Specified Tip $(T_L)$:</span> <input type="number" id="fin-tl-num" class="sim-number-input" min="-200" max="1000" step="1" value="50">
                                                 &deg;C</label>
                                             <input type="range" id="fin-tl" min="-200" max="1000" step="1" value="50">
                                         </div>
                                         <div class="control-group">
                                             <label for="fin-x"><span class="lang-es">Posición $x$ (cm):</span><span
                                                     class="lang-en" style="display:none;">$x$ position (cm):</span>
-                                                <span id="fin-x-val">5.0</span></label>
+                                                <input type="number" id="fin-x-num" class="sim-number-input" min="0" max="10" step="0.1" value="5.0"></label>
                                             <input type="range" id="fin-x" min="0" max="10" step="0.1" value="5.0">
                                         </div>
                                     </div>
@@ -1794,53 +1792,50 @@
 
                                     <div class="control-group">
                                         <label for="prandtl-p"><span class="lang-es">Presión ($P$):</span><span
-                                                class="lang-en" style="display:none;">Pressure ($P$):</span> <span
-                                                id="prandtl-p-val">1.0</span> atm</label>
+                                                class="lang-en" style="display:none;">Pressure ($P$):</span> <input type="number" id="prandtl-p-num" class="sim-number-input" min="0.1" max="10.0" step="0.1" value="1.0"> atm</label>
                                         <input type="range" id="prandtl-p" min="0.1" max="10.0" step="0.1" value="1.0">
                                     </div>
                                     <div class="control-group">
                                         <label for="prandtl-u"><span class="lang-es">Velocidad de flujo
                                                 ($U_\infty$):</span><span class="lang-en" style="display:none;">Flow
-                                                Velocity ($U_\infty$):</span> <span id="prandtl-u-val">2.0</span>
+                                                Velocity ($U_\infty$):</span> <input type="number" id="prandtl-u-num" class="sim-number-input" min="0.1" max="50.0" step="0.1" value="2.0">
                                             m/s</label>
                                         <input type="range" id="prandtl-u" min="0.1" max="50.0" step="0.1" value="2.0">
                                     </div>
                                     <div class="control-group">
                                         <label for="prandtl-x"><span class="lang-es">Posición local ($x$):</span><span
-                                                class="lang-en" style="display:none;">Local Position ($x$):</span> <span
-                                                id="prandtl-x-val">1.0</span> m</label>
+                                                class="lang-en" style="display:none;">Local Position ($x$):</span> <input type="number" id="prandtl-x-num" class="sim-number-input" min="0.05" max="100.0" step="0.05" value="1.0"> m</label>
                                         <input type="range" id="prandtl-x" min="0.05" max="100.0" step="0.05"
                                             value="1.0">
                                     </div>
                                     <div class="control-group">
                                         <label for="prandtl-l"><span class="lang-es">Longitud total ($L$):</span><span
-                                                class="lang-en" style="display:none;">Total Length ($L$):</span> <span
-                                                id="prandtl-l-val">2.0</span> m</label>
+                                                class="lang-en" style="display:none;">Total Length ($L$):</span> <input type="number" id="prandtl-l-num" class="sim-number-input" min="0.1" max="100.0" step="0.1" value="2.0"> m</label>
                                         <input type="range" id="prandtl-l" min="0.1" max="100.0" step="0.1" value="2.0">
                                     </div>
                                     <div class="control-group">
                                         <label for="prandtl-ts"><span class="lang-es">Temp. Superficie
                                                 ($T_s$):</span><span class="lang-en" style="display:none;">Surface Temp
-                                                ($T_s$):</span> <span id="prandtl-ts-val">100</span> °C</label>
+                                                ($T_s$):</span> <input type="number" id="prandtl-ts-num" class="sim-number-input" min="0" max="400" step="1" value="100"> °C</label>
                                         <input type="range" id="prandtl-ts" min="0" max="400" step="1" value="100">
                                     </div>
                                     <div class="control-group">
                                         <label for="prandtl-tinf"><span class="lang-es">Temp. Fluido
                                                 $(T_\infty)$:</span><span class="lang-en" style="display:none;">Fluid
-                                                Temp $(T_\infty)$:</span> <span id="prandtl-tinf-val">20</span>
+                                                Temp $(T_\infty)$:</span> <input type="number" id="prandtl-tinf-num" class="sim-number-input" min="0" max="400" step="1" value="20">
                                             °C</label>
                                         <input type="range" id="prandtl-tinf" min="0" max="400" step="1" value="20">
                                     </div>
                                     <div class="control-group">
                                         <label for="prandtl-cs"><span class="lang-es">Conc. Superficie
                                                 $(C_s)$:</span><span class="lang-en" style="display:none;">Surface Conc.
-                                                $(C_s)$:</span> <span id="prandtl-cs-val">100</span> %</label>
+                                                $(C_s)$:</span> <input type="number" id="prandtl-cs-num" class="sim-number-input" min="0" max="100" step="1" value="100"> %</label>
                                         <input type="range" id="prandtl-cs" min="0" max="100" step="1" value="100">
                                     </div>
                                     <div class="control-group">
                                         <label for="prandtl-cinf"><span class="lang-es">Conc. Fluido
                                                 $(C_\infty)$:</span><span class="lang-en" style="display:none;">Fluid
-                                                Conc. $(C_\infty)$:</span> <span id="prandtl-cinf-val">0</span>
+                                                Conc. $(C_\infty)$:</span> <input type="number" id="prandtl-cinf-num" class="sim-number-input" min="0" max="100" step="1" value="0">
                                             %</label>
                                         <input type="range" id="prandtl-cinf" min="0" max="100" step="1" value="0">
                                     </div>
@@ -1855,20 +1850,19 @@
                                     <div class="control-group prandtl-custom-prop" style="display: none;">
                                         <label for="prandtl-nu"><span class="lang-es">Viscosidad cinemática ($\nu \times
                                                 10^5$):</span><span class="lang-en" style="display:none;">Kinematic
-                                                Viscosity ($\nu \times 10^5$):</span> <span
-                                                id="prandtl-nu-val">1.5</span> m²/s</label>
+                                                Viscosity ($\nu \times 10^5$):</span> <input type="number" id="prandtl-nu-num" class="sim-number-input" min="0.1" max="50.0" step="0.1" value="1.5"> m²/s</label>
                                         <input type="range" id="prandtl-nu" min="0.1" max="50.0" step="0.1" value="1.5">
                                     </div>
                                     <div class="control-group prandtl-custom-prop" style="display: none;">
                                         <label for="prandtl-pr"><span class="lang-es">Número de Prandtl
                                                 ($Pr$):</span><span class="lang-en" style="display:none;">Prandtl Number
-                                                ($Pr$):</span> <span id="prandtl-pr-val">0.7</span></label>
+                                                ($Pr$):</span> <input type="number" id="prandtl-pr-num" class="sim-number-input" min="0.1" max="15.0" step="0.1" value="0.7"></label>
                                         <input type="range" id="prandtl-pr" min="0.1" max="15.0" step="0.1" value="0.7">
                                     </div>
                                     <div class="control-group prandtl-custom-prop" style="display: none;">
                                         <label for="prandtl-sc"><span class="lang-es">Número de Schmidt
                                                 $(Sc)$:</span><span class="lang-en" style="display:none;">Schmidt Number
-                                                $(Sc)$:</span> <span id="prandtl-sc-val">0.7</span></label>
+                                                $(Sc)$:</span> <input type="number" id="prandtl-sc-num" class="sim-number-input" min="0.1" max="10.0" step="0.1" value="0.7"></label>
                                         <input type="range" id="prandtl-sc" min="0.1" max="10.0" step="0.1" value="0.7">
                                     </div>
                                     <div class="results-panel info-card"
@@ -2181,13 +2175,12 @@
                                         <div class="control-group">
                                             <label for="gen-qdot"><span class="lang-es">Generación
                                                     $(\dot{q})$:</span><span class="lang-en"
-                                                    style="display:none;">Generation $(\dot{q})$:</span> <span
-                                                    id="gen-qdot-val">500</span> <span class="lang-es">kW/m³</span><span
+                                                    style="display:none;">Generation $(\dot{q})$:</span> <input type="number" id="gen-qdot-num" class="sim-number-input" min="0" max="2000" step="10" value="500"> <span class="lang-es">kW/m³</span><span
                                                     class="lang-en" style="display:none;">kW/m³</span></label>
                                             <input type="range" id="gen-qdot" min="0" max="2000" step="10" value="500">
                                         </div>
                                         <div class="control-group">
-                                            <label for="gen-k">Conductividad $(k)$: <span id="gen-k-val">50</span> <span
+                                            <label for="gen-k">Conductividad $(k)$: <input type="number" id="gen-k-num" class="sim-number-input" min="1" max="400" step="1" value="50"> <span
                                                     class="lang-es">W/mK</span><span class="lang-en"
                                                     style="display:none;">W/mK</span></label>
                                             <input type="range" id="gen-k" min="1" max="400" step="1" value="50">
@@ -2195,21 +2188,20 @@
                                         <div class="control-group">
                                             <label for="gen-h"><span class="lang-es">Coef. Convección $(h)$:</span><span
                                                     class="lang-en" style="display:none;">Coef. Convection $(h)$:</span>
-                                                <span id="gen-h-val">100</span> <span class="lang-es">W/m²K</span><span
+                                                <input type="number" id="gen-h-num" class="sim-number-input" min="5" max="1000" step="5" value="100"> <span class="lang-es">W/m²K</span><span
                                                     class="lang-en" style="display:none;">W/m²K</span></label>
                                             <input type="range" id="gen-h" min="5" max="1000" step="5" value="100">
                                         </div>
                                         <div class="control-group">
                                             <label for="gen-tinf"><span class="lang-es">Temp. Ambiente
                                                     $(T_\infty)$:</span><span class="lang-en"
-                                                    style="display:none;">Temp. Environment $(T_\infty)$:</span> <span
-                                                    id="gen-tinf-val">20</span> &deg;C</label>
+                                                    style="display:none;">Temp. Environment $(T_\infty)$:</span> <input type="number" id="gen-tinf-num" class="sim-number-input" min="-20" max="100" step="1" value="20"> &deg;C</label>
                                             <input type="range" id="gen-tinf" min="-20" max="100" step="1" value="20">
                                         </div>
                                         <div class="control-group" style="grid-column: span 2;">
                                             <label for="gen-w"><span class="lang-es">Espesor Total $(w =
                                                     2L)$:</span><span class="lang-en" style="display:none;">Total
-                                                    Thickness $(w = 2L)$:</span> <span id="gen-w-val">0.10</span>
+                                                    Thickness $(w = 2L)$:</span> <input type="number" id="gen-w-num" class="sim-number-input" min="0.01" max="0.5" step="0.01" value="0.10">
                                                 m</label>
                                             <input type="range" id="gen-w" min="0.01" max="0.5" step="0.01"
                                                 value="0.10">
@@ -2349,14 +2341,14 @@
                                             <label for="multi-tinf1"><span class="lang-es">Temp. Ambiente Izq.
                                                     $(T_{\infty, 1})$:</span><span class="lang-en"
                                                     style="display:none;">Temp. Left Environment $(T_{\infty,
-                                                    1})$:</span> <span id="multi-tinf1-val">80</span> &deg;C</label>
+                                                    1})$:</span> <input type="number" id="multi-tinf1-num" class="sim-number-input" min="-20" max="1000" step="1" value="80"> &deg;C</label>
                                             <input type="range" id="multi-tinf1" min="-20" max="1000" step="1"
                                                 value="80">
                                         </div>
                                         <div class="control-group" style="border-left: 3px solid var(--accent-orange);">
                                             <label for="multi-h1"><span class="lang-es">Coef. Convección Izq.
                                                     $(h_1)$:</span><span class="lang-en" style="display:none;">Coef.
-                                                    Left Convection $(h_1)$:</span> <span id="multi-h1-val">50</span>
+                                                    Left Convection $(h_1)$:</span> <input type="number" id="multi-h1-num" class="sim-number-input" min="5" max="500" step="5" value="50">
                                                 <span class="lang-es">W/m²K</span><span class="lang-en"
                                                     style="display:none;">W/m²K</span></label>
                                             <input type="range" id="multi-h1" min="5" max="500" step="5" value="50">
@@ -2366,7 +2358,7 @@
                                         <div class="control-group">
                                             <label for="multi-l1"><span class="lang-es">Espesor Capa 1
                                                     $(L_1)$:</span><span class="lang-en" style="display:none;">Layer 1
-                                                    Thickness $(L_1)$:</span> <span id="multi-l1-val">0.05</span>
+                                                    Thickness $(L_1)$:</span> <input type="number" id="multi-l1-num" class="sim-number-input" min="0.01" max="1.0" step="0.01" value="0.05">
                                                 m</label>
                                             <input type="range" id="multi-l1" min="0.01" max="1.0" step="0.01"
                                                 value="0.05">
@@ -2374,8 +2366,7 @@
                                         <div class="control-group">
                                             <label for="multi-k1"><span class="lang-es">Conductividad Capa 1
                                                     $(k_1)$:</span><span class="lang-en"
-                                                    style="display:none;">Conductivity Layer 1 $(k_1)$:</span> <span
-                                                    id="multi-k1-val">20</span> <span class="lang-es">W/mK</span><span
+                                                    style="display:none;">Conductivity Layer 1 $(k_1)$:</span> <input type="number" id="multi-k1-num" class="sim-number-input" min="0.1" max="400" step="0.01" value="20"> <span class="lang-es">W/mK</span><span
                                                     class="lang-en" style="display:none;">W/mK</span></label>
                                             <input type="range" id="multi-k1" min="0.1" max="400" step="0.01"
                                                 value="20">
@@ -2385,7 +2376,7 @@
                                         <div class="control-group">
                                             <label for="multi-l2"><span class="lang-es">Espesor Capa 2
                                                     $(L_2)$:</span><span class="lang-en" style="display:none;">Layer 2
-                                                    Thickness $(L_2)$:</span> <span id="multi-l2-val">0.08</span>
+                                                    Thickness $(L_2)$:</span> <input type="number" id="multi-l2-num" class="sim-number-input" min="0.01" max="1.0" step="0.01" value="0.08">
                                                 m</label>
                                             <input type="range" id="multi-l2" min="0.01" max="1.0" step="0.01"
                                                 value="0.08">
@@ -2393,7 +2384,7 @@
                                         <div class="control-group">
                                             <label for="multi-k2"><span class="lang-es">Conductividad Capa 2
                                                     $(k_2)$:</span><span class="lang-en" style="display:none;">Layer 2
-                                                    Conductivity $(k_2)$:</span> <span id="multi-k2-val">5</span> <span
+                                                    Conductivity $(k_2)$:</span> <input type="number" id="multi-k2-num" class="sim-number-input" min="0.1" max="400" step="0.01" value="5"> <span
                                                     class="lang-es">W/mK</span><span class="lang-en"
                                                     style="display:none;">W/mK</span></label>
                                             <input type="range" id="multi-k2" min="0.1" max="400" step="0.01" value="5">
@@ -2403,7 +2394,7 @@
                                         <div class="control-group">
                                             <label for="multi-l3"><span class="lang-es">Espesor Capa 3
                                                     $(L_3)$:</span><span class="lang-en" style="display:none;">Layer 3
-                                                    Thickness $(L_3)$:</span> <span id="multi-l3-val">0.05</span>
+                                                    Thickness $(L_3)$:</span> <input type="number" id="multi-l3-num" class="sim-number-input" min="0.01" max="1.0" step="0.01" value="0.05">
                                                 m</label>
                                             <input type="range" id="multi-l3" min="0.01" max="1.0" step="0.01"
                                                 value="0.05">
@@ -2411,7 +2402,7 @@
                                         <div class="control-group">
                                             <label for="multi-k3"><span class="lang-es">Conductividad Capa 3
                                                     $(k_3)$:</span><span class="lang-en" style="display:none;">Layer 3
-                                                    Conductivity $(k_3)$:</span> <span id="multi-k3-val">50</span> <span
+                                                    Conductivity $(k_3)$:</span> <input type="number" id="multi-k3-num" class="sim-number-input" min="0.1" max="400" step="0.01" value="50"> <span
                                                     class="lang-es">W/mK</span><span class="lang-en"
                                                     style="display:none;">W/mK</span></label>
                                             <input type="range" id="multi-k3" min="0.1" max="400" step="0.01"
@@ -2423,14 +2414,14 @@
                                             <label for="multi-tinf2"><span class="lang-es">Temp. Ambiente Der.
                                                     $(T_{\infty, 2})$:</span><span class="lang-en"
                                                     style="display:none;">Temp. Environment Right. $(T_{\infty,
-                                                    2})$:</span> <span id="multi-tinf2-val">20</span> &deg;C</label>
+                                                    2})$:</span> <input type="number" id="multi-tinf2-num" class="sim-number-input" min="-20" max="150" step="1" value="20"> &deg;C</label>
                                             <input type="range" id="multi-tinf2" min="-20" max="150" step="1"
                                                 value="20">
                                         </div>
                                         <div class="control-group" style="border-left: 3px solid var(--accent-cyan);">
                                             <label for="multi-h2"><span class="lang-es">Coef. Convección Der.
                                                     $(h_2)$:</span><span class="lang-en" style="display:none;">Coef.
-                                                    Right convection $(h_2)$:</span> <span id="multi-h2-val">25</span>
+                                                    Right convection $(h_2)$:</span> <input type="number" id="multi-h2-num" class="sim-number-input" min="5" max="500" step="5" value="25">
                                                 <span class="lang-es">W/m²K</span><span class="lang-en"
                                                     style="display:none;">W/m²K</span></label>
                                             <input type="range" id="multi-h2" min="5" max="500" step="5" value="25">
@@ -2705,7 +2696,7 @@
                                                     <div class="nhud-label-row">
                                                         <span class="nhud-label">$T_i$</span>
                                                         <span class="nhud-value">
-                                                            <span id="newton-ti-val">500</span>
+                                                            <input type="number" id="newton-ti-num" class="sim-number-input" min="100" max="800" step="10" value="500">
                                                             <span class="nhud-unit"> °C</span>
                                                         </span>
                                                     </div>
@@ -2722,7 +2713,7 @@
                                                     <div class="nhud-label-row">
                                                         <span class="nhud-label">$T_\infty$</span>
                                                         <span class="nhud-value">
-                                                            <span id="newton-tinf-val">20</span>
+                                                            <input type="number" id="newton-tinf-num" class="sim-number-input" min="0" max="100" step="5" value="20">
                                                             <span class="nhud-unit"> °C</span>
                                                         </span>
                                                     </div>
@@ -2739,7 +2730,7 @@
                                                     <div class="nhud-label-row">
                                                         <span class="nhud-label">$D$</span>
                                                         <span class="nhud-value">
-                                                            <span id="newton-d-val">0.05</span>
+                                                            <input type="number" id="newton-d-num" class="sim-number-input" min="0.01" max="0.30" step="0.01" value="0.05">
                                                             <span class="nhud-unit"> m</span>
                                                         </span>
                                                     </div>
@@ -2756,7 +2747,7 @@
                                                     <div class="nhud-label-row">
                                                         <span class="nhud-label">$k$</span>
                                                         <span class="nhud-value">
-                                                            <span id="newton-k-val">80.2</span>
+                                                            <input type="number" id="newton-k-num" class="sim-number-input" min="1" max="400" step="1" value="80">
                                                             <span class="nhud-unit"> W/mK</span>
                                                         </span>
                                                     </div>
@@ -2773,7 +2764,7 @@
                                                     <div class="nhud-label-row">
                                                         <span class="nhud-label">$\rho$</span>
                                                         <span class="nhud-value">
-                                                            <span id="newton-rho-val">7870</span>
+                                                            <input type="number" id="newton-rho-num" class="sim-number-input" min="100" max="20000" step="50" value="7870">
                                                             <span class="nhud-unit"> kg/m³</span>
                                                         </span>
                                                     </div>
@@ -2790,7 +2781,7 @@
                                                     <div class="nhud-label-row">
                                                         <span class="nhud-label">$c_p$</span>
                                                         <span class="nhud-value">
-                                                            <span id="newton-cp-val">450</span>
+                                                            <input type="number" id="newton-cp-num" class="sim-number-input" min="100" max="4000" step="50" value="450">
                                                             <span class="nhud-unit"> J/kg·K</span>
                                                         </span>
                                                     </div>
@@ -3079,7 +3070,7 @@
                                         <div class="control-group">
                                             <label for="bernoulli-v1"><span class="lang-es">Velocidad de Entrada
                                                     $(v_1)$:</span><span class="lang-en" style="display:none;">Input
-                                                    Velocity $(v_1)$:</span> <span id="bernoulli-v1-val">2.0</span>
+                                                    Velocity $(v_1)$:</span> <input type="number" id="bernoulli-v1-num" class="sim-number-input" min="0.5" max="10.0" step="0.1" value="2.0">
                                                 <span class="lang-es">m/s</span><span class="lang-en"
                                                     style="display:none;">m/s</span></label>
                                             <input type="range" id="bernoulli-v1" min="0.5" max="10.0" step="0.1"
@@ -3088,7 +3079,7 @@
                                         <div class="control-group">
                                             <label for="bernoulli-d1"><span class="lang-es">Diámetro Principal
                                                     $(D_1)$:</span><span class="lang-en" style="display:none;">Main
-                                                    Diameter $(D_1)$:</span> <span id="bernoulli-d1-val">10</span>
+                                                    Diameter $(D_1)$:</span> <input type="number" id="bernoulli-d1-num" class="sim-number-input" min="8" max="15" step="0.5" value="10">
                                                 cm</label>
                                             <input type="range" id="bernoulli-d1" min="8" max="15" step="0.5"
                                                 value="10">
@@ -3096,7 +3087,7 @@
                                         <div class="control-group">
                                             <label for="bernoulli-d2"><span class="lang-es">Diámetro Estrechamiento
                                                     $(D_2)$:</span><span class="lang-en" style="display:none;">Narrowing
-                                                    Diameter $(D_2)$:</span> <span id="bernoulli-d2-val">5</span>
+                                                    Diameter $(D_2)$:</span> <input type="number" id="bernoulli-d2-num" class="sim-number-input" min="2" max="10" step="0.5" value="5">
                                                 cm</label>
                                             <input type="range" id="bernoulli-d2" min="2" max="10" step="0.5" value="5">
                                         </div>
@@ -3104,7 +3095,7 @@
                                             <label for="bernoulli-dz"><span class="lang-es">Diferencia de Elevación
                                                     $(z_1 - z_2)$:</span><span class="lang-en"
                                                     style="display:none;">Elevation Difference $(z_1 - z_2)$:</span>
-                                                <span id="bernoulli-dz-val">0.0</span> m</label>
+                                                <input type="number" id="bernoulli-dz-num" class="sim-number-input" min="-1.0" max="1.0" step="0.1" value="0.0"> m</label>
                                             <input type="range" id="bernoulli-dz" min="-1.0" max="1.0" step="0.1"
                                                 value="0.0">
                                         </div>
@@ -3298,20 +3289,20 @@
                                         <div class="control-group">
                                             <label for="pelton-h"><span class="lang-es">Altura del Tanque
                                                     (H):</span><span class="lang-en" style="display:none;">Tank Height
-                                                    (H):</span> <span id="pelton-h-val">60.0</span> m</label>
+                                                    (H):</span> <input type="number" id="pelton-h-num" class="sim-number-input" min="0" max="57" step="0.5" value="60.0"> m</label>
                                             <input type="range" id="pelton-h" min="0" max="57" step="0.5" value="60.0">
                                         </div>
                                         <div class="control-group">
                                             <label for="pelton-d1"><span class="lang-es">Diámetro Tubería Principal
                                                     (D1):</span><span class="lang-en" style="display:none;">Main Pipe
-                                                    Diameter (D1):</span> <span id="pelton-d1-val">0.50</span> m</label>
+                                                    Diameter (D1):</span> <input type="number" id="pelton-d1-num" class="sim-number-input" min="0.2" max="3.0" step="0.01" value="0.5"> m</label>
                                             <input type="range" id="pelton-d1" min="0.2" max="3.0" step="0.01"
                                                 value="0.5">
                                         </div>
                                         <div class="control-group">
                                             <label for="pelton-d2"><span class="lang-es">Diámetro Garganta Venturi
                                                     (D2):</span><span class="lang-en" style="display:none;">Venturi
-                                                    Throat Diameter (D2):</span> <span id="pelton-d2-val">0.20</span>
+                                                    Throat Diameter (D2):</span> <input type="number" id="pelton-d2-num" class="sim-number-input" min="0.05" max="3.0" step="0.01" value="0.2">
                                                 m</label>
                                             <input type="range" id="pelton-d2" min="0.05" max="3.0" step="0.01"
                                                 value="0.2">
@@ -3512,6 +3503,7 @@
                                                     °C (Moderna)</span></label>
                                             <input type="range" id="celsius-temp" min="-273" max="200" value="25"
                                                 step="0.5" style="width: 100%; margin-top: 5px;">
+                                            <input type="number" id="celsius-temp-num" class="sim-number-input" min="-273" max="200" step="0.5" value="25" style="margin-top:4px;">
                                         </div>
 
                                         <div class="control-group" style="grid-column: span 1;">
@@ -3993,18 +3985,14 @@
                                         <div style="flex:1; min-width:180px;">
                                             <label for="chatelet-mass"><span class="lang-es">Masa de la Esfera
                                                     (<i>m</i>):</span><span class="lang-en" style="display:none;">Sphere
-                                                    Mass (<i>m</i>):</span> <span id="chatelet-mass-val"
-                                                    style="color:var(--accent-orange); font-weight:bold;">1.0
-                                                    kg</span></label>
+                                                    Mass (<i>m</i>):</span> <input type="number" id="chatelet-mass-num" class="sim-number-input" min="0.2" max="5.0" step="0.1" value="1.0"> <span class="sim-number-unit">kg</span></label>
                                             <input type="range" id="chatelet-mass" min="0.2" max="5.0" step="0.1"
                                                 value="1.0" style="width: 100%;">
                                         </div>
                                         <div style="flex:1; min-width:180px;">
                                             <label for="chatelet-height"><span class="lang-es">Altura de Caída
                                                     (<i>h</i>):</span><span class="lang-en" style="display:none;">Drop
-                                                    Height (<i>h</i>):</span> <span id="chatelet-height-val"
-                                                    style="color:var(--accent-cyan); font-weight:bold;">2.0
-                                                    m</span></label>
+                                                    Height (<i>h</i>):</span> <input type="number" id="chatelet-height-num" class="sim-number-input" min="0.5" max="10.0" step="0.5" value="2.0"> <span class="sim-number-unit">m</span></label>
                                             <input type="range" id="chatelet-height" min="0.5" max="10.0" step="0.5"
                                                 value="2.0" style="width: 100%;">
                                         </div>
@@ -4168,9 +4156,7 @@
                                                 <label for="foote-solar-irradiance"><span class="lang-es">Irradiancia
                                                         Solar Simulado (<i>I</i><sub>solar</sub>):</span><span
                                                         class="lang-en" style="display:none;">Simulated Solar Irradiance
-                                                        (<i>I</i><sub>solar</sub>):</span> <span id="foote-solar-val"
-                                                        style="color:var(--accent-orange); font-weight:bold;">1000
-                                                        W/m²</span></label>
+                                                        (<i>I</i><sub>solar</sub>):</span> <input type="number" id="foote-solar-irradiance-num" class="sim-number-input" min="200" max="2000" step="50" value="1000"> <span class="sim-number-unit">W/m²</span></label>
                                                 <input type="range" id="foote-solar-irradiance" min="200" max="2000"
                                                     step="50" value="1000" style="width: 100%;">
                                             </div>
@@ -4179,9 +4165,7 @@
                                                 <label for="foote-tamb-input"><span class="lang-es">Temperatura Ambiente
                                                         (<i>T</i><sub>amb</sub>):</span><span class="lang-en"
                                                         style="display:none;">Ambient Temperature
-                                                        (<i>T</i><sub>amb</sub>):</span> <span id="foote-tamb-val"
-                                                        style="color:var(--accent-cyan); font-weight:bold;">25
-                                                        °C</span></label>
+                                                        (<i>T</i><sub>amb</sub>):</span> <input type="number" id="foote-tamb-input-num" class="sim-number-input" min="0" max="40" step="1" value="25"> <span class="sim-number-unit">°C</span></label>
                                                 <input type="range" id="foote-tamb-input" min="0" max="40" step="1"
                                                     value="25" style="width: 100%;">
                                             </div>
@@ -4190,8 +4174,7 @@
                                                 <label for="foote-h-input"><span class="lang-es">Coeficiente Convectivo
                                                         Exter. (<i>h</i>):</span><span class="lang-en"
                                                         style="display:none;">Ext. Convective Coeff. (<i>h</i>):</span>
-                                                    <span id="foote-h-val" style="color:#a855f7; font-weight:bold;">12
-                                                        W/m²·K</span></label>
+                                                    <input type="number" id="foote-h-input-num" class="sim-number-input" min="2" max="50" step="1" value="12"> <span class="sim-number-unit">W/m²·K</span></label>
                                                 <input type="range" id="foote-h-input" min="2" max="50" step="1"
                                                     value="12" style="width: 100%;">
                                             </div>
@@ -4201,7 +4184,7 @@
                                                         (<i>V</i>):</span><span class="lang-en"
                                                         style="display:none;">Container Volume (<i>V</i>):</span> <span
                                                         id="foote-v-val" style="color:#38bdf8; font-weight:bold;">5.0 L
-                                                        (0.005 m³)</span></label>
+                                                        (0.005 m³)</span> <input type="number" id="foote-v-input-num" class="sim-number-input" min="1" max="20" step="0.5" value="5"> <span class="sim-number-unit">L</span></label>
                                                 <input type="range" id="foote-v-input" min="1" max="20" step="0.5"
                                                     value="5" style="width: 100%;">
                                             </div>
@@ -4405,17 +4388,14 @@
                                         <div style="flex:1; min-width:140px;">
                                             <label for="pennington-thickness"><span class="lang-es">Espesor Aislante
                                                     (<i>L</i>):</span><span class="lang-en"
-                                                    style="display:none;">Thickness (<i>L</i>):</span> <span
-                                                    id="pennington-thickness-val"
-                                                    style="color:#38bdf8; font-weight:bold;">10 cm</span></label>
+                                                    style="display:none;">Thickness (<i>L</i>):</span> <input type="number" id="pennington-thickness-num" class="sim-number-input" min="2" max="30" step="1" value="10"> cm</label>
                                             <input type="range" id="pennington-thickness" min="2" max="30" step="1"
                                                 value="10" style="width: 100%;">
                                         </div>
                                         <div style="flex:1; min-width:140px;">
                                             <label for="pennington-text"><span class="lang-es">T° Exterior
                                                     Verano:</span><span class="lang-en" style="display:none;">Ext.
-                                                    Summer T°:</span> <span id="pennington-text-val"
-                                                    style="color:#ef4444; font-weight:bold;">35 °C</span></label>
+                                                    Summer T°:</span> <input type="number" id="pennington-text-num" class="sim-number-input" min="20" max="45" step="1" value="35"> °C</label>
                                             <input type="range" id="pennington-text" min="20" max="45" step="1"
                                                 value="35" style="width: 100%;">
                                         </div>
@@ -4512,18 +4492,14 @@
                                             <label for="telkes-solar"><span class="lang-es">Radiación Solar Recibida
                                                     (<i>I</i><sub>solar</sub>):</span><span class="lang-en"
                                                     style="display:none;">Solar Radiation
-                                                    (<i>I</i><sub>solar</sub>):</span> <span id="telkes-solar-val"
-                                                    style="color:var(--accent-orange); font-weight:bold;">800
-                                                    W/m²</span></label>
+                                                    (<i>I</i><sub>solar</sub>):</span> <input type="number" id="telkes-solar-num" class="sim-number-input" min="200" max="1200" step="50" value="800"> W/m²</label>
                                             <input type="range" id="telkes-solar" min="200" max="1200" step="50"
                                                 value="800" style="width: 100%;">
                                         </div>
                                         <div style="flex:1; min-width:180px;">
                                             <label for="telkes-mass"><span class="lang-es">Masa del Acumulador
                                                     (<i>m</i>):</span><span class="lang-en"
-                                                    style="display:none;">Storage Mass (<i>m</i>):</span> <span
-                                                    id="telkes-mass-val" style="color:#a855f7; font-weight:bold;">50
-                                                    kg</span></label>
+                                                    style="display:none;">Storage Mass (<i>m</i>):</span> <input type="number" id="telkes-mass-num" class="sim-number-input" min="10" max="200" step="10" value="50"> kg</label>
                                             <input type="range" id="telkes-mass" min="10" max="200" step="10" value="50"
                                                 style="width: 100%;">
                                         </div>
@@ -4683,8 +4659,7 @@
                                         <div class="control-group">
                                             <label for="ns-alpha"><span class="lang-es">Ángulo de Ataque
                                                     $(\alpha)$:</span><span class="lang-en" style="display:none;">Angle
-                                                    of Attack $(\alpha)$:</span> <span
-                                                    id="ns-alpha-val">8</span>°</label>
+                                                    of Attack $(\alpha)$:</span> <input type="number" id="ns-alpha-num" class="sim-number-input" min="0" max="25" step="1" value="8">°</label>
                                             <input type="range" id="ns-alpha" min="0" max="25" step="1" value="8">
                                         </div>
                                         <div class="control-group" style="grid-column: span 2;">
@@ -4694,6 +4669,7 @@
                                                         class="lang-en" style="display:none;">m/s</span>, Re = 9.3×10⁵,
                                                     M = 0.08)</span></label>
                                             <input type="range" id="ns-re" min="10" max="800" step="10" value="100">
+                                            <input type="number" id="ns-re-num" class="sim-number-input" min="10" max="800" step="10" value="100" style="margin-top:4px;"> <span class="sim-number-unit">km/h</span>
                                         </div>
                                         <div class="control-group">
                                             <label for="ns-mode">Modo de Visualización:</label>
@@ -4828,11 +4804,12 @@
                                                     style="display:none;">Thermometer Position (Spectrum):</span> <span
                                                     id="herschel-pos-val">Amarillo</span></label>
                                             <input type="range" id="herschel-pos" min="0" max="100" step="1" value="50">
+                                            <input type="number" id="herschel-pos-num" class="sim-number-input" min="0" max="100" step="1" value="50" style="margin-top:4px;">
                                         </div>
                                         <div class="control-group">
                                             <label for="herschel-int"><span class="lang-es">Intensidad Solar
                                                     $(I)$:</span><span class="lang-en" style="display:none;">Solar
-                                                    Intensity $(I)$:</span> <span id="herschel-int-val">600</span>
+                                                    Intensity $(I)$:</span> <input type="number" id="herschel-int-num" class="sim-number-input" min="200" max="1000" step="50" value="600">
                                                 W/m²</label>
                                             <input type="range" id="herschel-int" min="200" max="1000" step="50"
                                                 value="600">
@@ -4840,8 +4817,7 @@
                                         <div class="control-group">
                                             <label for="herschel-temp"><span class="lang-es">Temp. Ambiente
                                                     $(T_{amb})$:</span><span class="lang-en" style="display:none;">Temp.
-                                                    Environment $(T_{amb})$:</span> <span
-                                                    id="herschel-temp-val">20</span> &deg;C</label>
+                                                    Environment $(T_{amb})$:</span> <input type="number" id="herschel-temp-num" class="sim-number-input" min="15" max="35" step="1" value="20"> &deg;C</label>
                                             <input type="range" id="herschel-temp" min="15" max="35" step="1"
                                                 value="20">
                                         </div>
@@ -4968,7 +4944,7 @@
                                         <div class="control-group">
                                             <label for="nu-u"><span class="lang-es">Velocidad del Fluido
                                                     $(u)$:</span><span class="lang-en" style="display:none;">Fluid
-                                                    Velocity $(u)$:</span> <span id="nu-u-val">0</span> <span
+                                                    Velocity $(u)$:</span> <input type="number" id="nu-u-num" class="sim-number-input" min="0" max="10" step="0.01" value="0"> <span
                                                     class="lang-es">m/s</span><span class="lang-en"
                                                     style="display:none;">m/s</span></label>
                                             <input type="range" id="nu-u" min="0" max="10" step="0.01" value="0">
@@ -4976,7 +4952,7 @@
                                         <div class="control-group">
                                             <label for="nu-k"><span class="lang-es">Conductividad Fluido
                                                     $(k)$:</span><span class="lang-en" style="display:none;">Fluid
-                                                    Conductivity $(k)$:</span> <span id="nu-k-val">0.6</span> <span
+                                                    Conductivity $(k)$:</span> <input type="number" id="nu-k-num" class="sim-number-input" min="0.1" max="100" step="0.1" value="0.6"> <span
                                                     class="lang-es">W/mK</span><span class="lang-en"
                                                     style="display:none;">W/mK</span></label>
                                             <input type="range" id="nu-k" min="0.1" max="100" step="0.1" value="0.6">
@@ -4984,21 +4960,20 @@
                                         <div class="control-group">
                                             <label for="nu-lc"><span class="lang-es">Espesor $(L_c)$:</span><span
                                                     class="lang-en" style="display:none;">Thickness $(L_c)$:</span>
-                                                <span id="nu-lc-val">0.05</span> m</label>
+                                                <input type="number" id="nu-lc-num" class="sim-number-input" min="0.01" max="0.2" step="0.01" value="0.05"> m</label>
                                             <input type="range" id="nu-lc" min="0.01" max="0.2" step="0.01"
                                                 value="0.05">
                                         </div>
                                         <div class="control-group">
                                             <label for="nu-ts"><span class="lang-es">Temp. Pared $(T_s)$:</span><span
                                                     class="lang-en" style="display:none;">Temp. Wall $(T_s)$:</span>
-                                                <span id="nu-ts-val">100</span> °C</label>
+                                                <input type="number" id="nu-ts-num" class="sim-number-input" min="20" max="300" step="1" value="100"> °C</label>
                                             <input type="range" id="nu-ts" min="20" max="300" step="1" value="100">
                                         </div>
                                         <div class="control-group" style="grid-column: span 2;">
                                             <label for="nu-tinf"><span class="lang-es">Temp. Libre
                                                     $(T_\infty)$:</span><span class="lang-en"
-                                                    style="display:none;">Temp. Free $(T_\infty)$:</span> <span
-                                                    id="nu-tinf-val">20</span> °C</label>
+                                                    style="display:none;">Temp. Free $(T_\infty)$:</span> <input type="number" id="nu-tinf-num" class="sim-number-input" min="0" max="100" step="1" value="20"> °C</label>
                                             <input type="range" id="nu-tinf" min="0" max="100" step="1" value="20">
                                         </div>
                                     </div>
@@ -5094,13 +5069,13 @@
                                         <div class="control-group">
                                             <label for="bl-pr"><span class="lang-es">Número de Prandtl
                                                     $(Pr)$:</span><span class="lang-en" style="display:none;">Prandtl
-                                                    number $(Pr)$:</span> <span id="bl-pr-val">1.0</span></label>
+                                                    number $(Pr)$:</span> <input type="number" id="bl-pr-num" class="sim-number-input" min="0.1" max="10.0" step="0.1" value="1.0"></label>
                                             <input type="range" id="bl-pr" min="0.1" max="10.0" step="0.1" value="1.0">
                                         </div>
                                         <div class="control-group">
                                             <label for="bl-sc"><span class="lang-es">Número de Schmidt
                                                     $(Sc)$:</span><span class="lang-en" style="display:none;">Schmidt
-                                                    number $(Sc)$:</span> <span id="bl-sc-val">1.0</span></label>
+                                                    number $(Sc)$:</span> <input type="number" id="bl-sc-num" class="sim-number-input" min="0.1" max="10.0" step="0.1" value="1.0"></label>
                                             <input type="range" id="bl-sc" min="0.1" max="10.0" step="0.1" value="1.0">
                                         </div>
                                         <div class="control-group" style="grid-column: span 2;">
@@ -5189,7 +5164,7 @@
                                         <div class="control-group">
                                             <label for="reynolds-v"><span class="lang-es">Velocidad del Fluido
                                                     $(V)$:</span><span class="lang-en" style="display:none;">Fluid
-                                                    Velocity $(V)$:</span> <span id="reynolds-v-val">2.0</span> <span
+                                                    Velocity $(V)$:</span> <input type="number" id="reynolds-v-num" class="sim-number-input" min="0" max="10" step="0.1" value="2.0"> <span
                                                     class="lang-es">m/s</span><span class="lang-en"
                                                     style="display:none;">m/s</span></label>
                                             <input type="range" id="reynolds-v" min="0" max="10" step="0.1" value="2.0">
@@ -5197,7 +5172,7 @@
                                         <div class="control-group">
                                             <label for="reynolds-dh"><span class="lang-es">Diámetro Hidráulico
                                                     $(D_h)$:</span><span class="lang-en" style="display:none;">Hydraulic
-                                                    Diameter $(D_h)$:</span> <span id="reynolds-dh-val">50</span>
+                                                    Diameter $(D_h)$:</span> <input type="number" id="reynolds-dh-num" class="sim-number-input" min="10" max="100" step="5" value="50">
                                                 mm</label>
                                             <input type="range" id="reynolds-dh" min="10" max="100" step="5" value="50">
                                         </div>
@@ -5210,6 +5185,10 @@
                                                     class="lang-en" style="display:none;">m²/s</span></label>
                                             <input type="range" id="reynolds-nu" min="-6.4" max="-3.0" step="0.05"
                                                 value="-6.0">
+                                            <div style="display:flex; align-items:center; gap:6px; margin-top:4px;">
+                                                <span style="font-size:0.7rem; color:#94a3b8;">Editar exponente $(\log_{10}\nu)$:</span>
+                                                <input type="number" id="reynolds-nu-num" class="sim-number-input" min="-6.4" max="-3.0" step="0.05" value="-6.0">
+                                            </div>
                                         </div>
                                     </div>
 
@@ -5299,22 +5278,21 @@
                                         <div class="control-group">
                                             <label for="natconv-ts"><span class="lang-es">Temperatura Superficie
                                                     $(T_s)$:</span><span class="lang-en" style="display:none;">Surface
-                                                    Temperature $(T_s)$:</span> <span id="natconv-ts-val">80</span>
+                                                    Temperature $(T_s)$:</span> <input type="number" id="natconv-ts-num" class="sim-number-input" min="-20" max="200" step="1" value="80">
                                                 &deg;C</label>
                                             <input type="range" id="natconv-ts" min="-20" max="200" step="1" value="80">
                                         </div>
                                         <div class="control-group">
                                             <label for="natconv-tinf"><span class="lang-es">Temperatura Fluido
                                                     $(T_\infty)$:</span><span class="lang-en"
-                                                    style="display:none;">Fluid Temperature $(T_\infty)$:</span> <span
-                                                    id="natconv-tinf-val">20</span> &deg;C</label>
+                                                    style="display:none;">Fluid Temperature $(T_\infty)$:</span> <input type="number" id="natconv-tinf-num" class="sim-number-input" min="-20" max="100" step="1" value="20"> &deg;C</label>
                                             <input type="range" id="natconv-tinf" min="-20" max="100" step="1"
                                                 value="20">
                                         </div>
                                         <div class="control-group" style="grid-column: span 2;">
                                             <label for="natconv-d"><span class="lang-es">Diámetro Cilindro
                                                     $(D)$:</span><span class="lang-en" style="display:none;">Cylinder
-                                                    Diameter $(D)$:</span> <span id="natconv-d-val">40</span> mm</label>
+                                                    Diameter $(D)$:</span> <input type="number" id="natconv-d-num" class="sim-number-input" min="10" max="100" step="1" value="40"> mm</label>
                                             <input type="range" id="natconv-d" min="10" max="100" step="1" value="40">
                                         </div>
                                     </div>
@@ -5441,25 +5419,23 @@
                                             Condiciones de Convección (Fluidos)</h4>
                                         <div class="sliders-grid">
                                             <div class="control-group">
-                                                <label for="res-tinf1">$T_{\infty,1}$ Interior: <span
-                                                        id="res-tinf1-val">300</span> °C</label>
+                                                <label for="res-tinf1">$T_{\infty,1}$ Interior: <input type="number" id="res-tinf1-num" class="sim-number-input" min="20" max="500" step="5" value="300"> °C</label>
                                                 <input type="range" id="res-tinf1" min="20" max="500" step="5"
                                                     value="300">
                                             </div>
                                             <div class="control-group">
-                                                <label for="res-h1">$h_1$ Interior: <span id="res-h1-val">50</span>
+                                                <label for="res-h1">$h_1$ Interior: <input type="number" id="res-h1-num" class="sim-number-input" min="5" max="200" step="1" value="50">
                                                     <span class="lang-es">W/m²K</span><span class="lang-en"
                                                         style="display:none;">W/m²K</span></label>
                                                 <input type="range" id="res-h1" min="5" max="200" step="1" value="50">
                                             </div>
                                             <div class="control-group">
-                                                <label for="res-tinf2">$T_{\infty,2}$ Exterior: <span
-                                                        id="res-tinf2-val">20</span> °C</label>
+                                                <label for="res-tinf2">$T_{\infty,2}$ Exterior: <input type="number" id="res-tinf2-num" class="sim-number-input" min="-20" max="100" step="5" value="20"> °C</label>
                                                 <input type="range" id="res-tinf2" min="-20" max="100" step="5"
                                                     value="20">
                                             </div>
                                             <div class="control-group">
-                                                <label for="res-h2">$h_2$ Exterior: <span id="res-h2-val">25</span>
+                                                <label for="res-h2">$h_2$ Exterior: <input type="number" id="res-h2-num" class="sim-number-input" min="5" max="200" step="1" value="25">
                                                     <span class="lang-es">W/m²K</span><span class="lang-en"
                                                         style="display:none;">W/m²K</span></label>
                                                 <input type="range" id="res-h2" min="5" max="200" step="1" value="25">
@@ -5477,8 +5453,7 @@
                                             <div class="control-group">
                                                 <label for="res-k1"><span class="lang-es">Conductividad
                                                         $k_1$:</span><span class="lang-en"
-                                                        style="display:none;">Conductivity $k_1$:</span> <span
-                                                        id="res-k1-val">0.5</span> <span
+                                                        style="display:none;">Conductivity $k_1$:</span> <input type="number" id="res-k1-num" class="sim-number-input" min="0.05" max="5.0" step="0.05" value="0.5"> <span
                                                         class="lang-es">W/m·K</span><span class="lang-en"
                                                         style="display:none;">W/m·K</span></label>
                                                 <input type="range" id="res-k1" min="0.05" max="5.0" step="0.05"
@@ -5487,7 +5462,7 @@
                                             <div class="control-group">
                                                 <label for="res-L1"><span class="lang-es">Espesor $L_1$:</span><span
                                                         class="lang-en" style="display:none;">Thickness $L_1$:</span>
-                                                    <span id="res-L1-val">10</span> cm</label>
+                                                    <input type="number" id="res-L1-num" class="sim-number-input" min="2" max="30" step="1" value="10"> cm</label>
                                                 <input type="range" id="res-L1" min="2" max="30" step="1" value="10">
                                             </div>
                                         </div>
@@ -5502,8 +5477,7 @@
                                             <div class="control-group">
                                                 <label for="res-k2"><span class="lang-es">Conductividad
                                                         $k_2$:</span><span class="lang-en"
-                                                        style="display:none;">Conductivity $k_2$:</span> <span
-                                                        id="res-k2-val">0.1</span> <span
+                                                        style="display:none;">Conductivity $k_2$:</span> <input type="number" id="res-k2-num" class="sim-number-input" min="0.05" max="5.0" step="0.05" value="0.1"> <span
                                                         class="lang-es">W/m·K</span><span class="lang-en"
                                                         style="display:none;">W/m·K</span></label>
                                                 <input type="range" id="res-k2" min="0.05" max="5.0" step="0.05"
@@ -5512,7 +5486,7 @@
                                             <div class="control-group">
                                                 <label for="res-L2"><span class="lang-es">Espesor $L_2$:</span><span
                                                         class="lang-en" style="display:none;">Thickness $L_2$:</span>
-                                                    <span id="res-L2-val">15</span> cm</label>
+                                                    <input type="number" id="res-L2-num" class="sim-number-input" min="2" max="30" step="1" value="15"> cm</label>
                                                 <input type="range" id="res-L2" min="2" max="30" step="1" value="15">
                                             </div>
                                         </div>
@@ -5526,8 +5500,7 @@
                                             <div class="control-group">
                                                 <label for="res-k3"><span class="lang-es">Conductividad
                                                         $k_3$:</span><span class="lang-en"
-                                                        style="display:none;">Conductivity $k_3$:</span> <span
-                                                        id="res-k3-val">1.2</span> <span
+                                                        style="display:none;">Conductivity $k_3$:</span> <input type="number" id="res-k3-num" class="sim-number-input" min="0.05" max="5.0" step="0.05" value="1.2"> <span
                                                         class="lang-es">W/m·K</span><span class="lang-en"
                                                         style="display:none;">W/m·K</span></label>
                                                 <input type="range" id="res-k3" min="0.05" max="5.0" step="0.05"
@@ -5536,7 +5509,7 @@
                                             <div class="control-group">
                                                 <label for="res-L3"><span class="lang-es">Espesor $L_3$:</span><span
                                                         class="lang-en" style="display:none;">Thickness $L_3$:</span>
-                                                    <span id="res-L3-val">5</span> cm</label>
+                                                    <input type="number" id="res-L3-num" class="sim-number-input" min="2" max="30" step="1" value="5"> cm</label>
                                                 <input type="range" id="res-L3" min="2" max="30" step="1" value="5">
                                             </div>
                                         </div>
@@ -5620,20 +5593,18 @@
                                     <div class="sliders-grid">
                                         <div class="control-group">
                                             <label for="vf-w"><span class="lang-es">Ancho del plato $W$:</span><span
-                                                    class="lang-en" style="display:none;">Plate width $W$:</span> <span
-                                                    id="vf-w-val">2.0</span> m</label>
+                                                    class="lang-en" style="display:none;">Plate width $W$:</span> <input type="number" id="vf-w-num" class="sim-number-input" min="0.1" max="10.0" step="0.1" value="2.0"> m</label>
                                             <input type="range" id="vf-w" min="0.1" max="10.0" step="0.1" value="2.0">
                                         </div>
                                         <div class="control-group">
                                             <label for="vf-l"><span class="lang-es">Largo del plato $L$:</span><span
-                                                    class="lang-en" style="display:none;">Plate length $L$:</span> <span
-                                                    id="vf-l-val">2.0</span> m</label>
+                                                    class="lang-en" style="display:none;">Plate length $L$:</span> <input type="number" id="vf-l-num" class="sim-number-input" min="0.1" max="10.0" step="0.1" value="2.0"> m</label>
                                             <input type="range" id="vf-l" min="0.1" max="10.0" step="0.1" value="2.0">
                                         </div>
                                         <div class="control-group" style="grid-column: span 2;">
                                             <label for="vf-d"><span class="lang-es">Distancia de separación
                                                     $D$:</span><span class="lang-en" style="display:none;">Separation
-                                                    distance $D$:</span> <span id="vf-d-val">1.0</span> m</label>
+                                                    distance $D$:</span> <input type="number" id="vf-d-num" class="sim-number-input" min="0.1" max="10.0" step="0.1" value="1.0"> m</label>
                                             <input type="range" id="vf-d" min="0.1" max="10.0" step="0.1" value="1.0">
                                         </div>
                                     </div>
@@ -5714,20 +5685,19 @@
                                         <div class="control-group">
                                             <label for="mc-power"><span class="lang-es">Potencia del Chip
                                                     ($Q$):</span><span class="lang-en" style="display:none;">Chip Power
-                                                    ($Q$):</span> <span id="mc-power-val">150</span> W</label>
+                                                    ($Q$):</span> <input type="number" id="mc-power-num" class="sim-number-input" min="50" max="400" step="10" value="150"> W</label>
                                             <input type="range" id="mc-power" min="50" max="400" step="10" value="150">
                                         </div>
                                         <div class="control-group">
                                             <label for="mc-width"><span class="lang-es">Ancho de Canal
                                                     ($w_c$):</span><span class="lang-en" style="display:none;">Channel
-                                                    Width ($w_c$):</span> <span id="mc-width-val">100</span>
+                                                    Width ($w_c$):</span> <input type="number" id="mc-width-num" class="sim-number-input" min="50" max="400" step="10" value="100">
                                                 &mu;m</label>
                                             <input type="range" id="mc-width" min="50" max="400" step="10" value="100">
                                         </div>
                                         <div class="control-group">
                                             <label for="mc-flow"><span class="lang-es">Caudal ($V'$):</span><span
-                                                    class="lang-en" style="display:none;">Flow rate ($V'$):</span> <span
-                                                    id="mc-flow-val">100</span> <span class="lang-es">ml/min</span><span
+                                                    class="lang-en" style="display:none;">Flow rate ($V'$):</span> <input type="number" id="mc-flow-num" class="sim-number-input" min="20" max="350" step="5" value="100"> <span class="lang-es">ml/min</span><span
                                                     class="lang-en" style="display:none;">ml/min</span></label>
                                             <input type="range" id="mc-flow" min="20" max="350" step="5" value="100">
                                         </div>
@@ -5942,48 +5912,43 @@
                                         <div class="control-group">
                                             <label for="ibl-uavg"><span class="lang-es">Velocidad
                                                     ($U_{avg}$):</span><span class="lang-en" style="display:none;">Avg.
-                                                    Vel. ($U_{avg}$):</span> <span id="ibl-uavg-val">0.05</span>
+                                                    Vel. ($U_{avg}$):</span> <input type="number" id="ibl-uavg-num" class="sim-number-input" min="0.01" max="2.00" step="0.01" value="0.05">
                                                 m/s</label>
                                             <input type="range" id="ibl-uavg" min="0.01" max="2.00" step="0.01"
                                                 value="0.05">
                                         </div>
                                         <div class="control-group">
                                             <label for="ibl-diam"><span class="lang-es">Diámetro ($D$):</span><span
-                                                    class="lang-en" style="display:none;">Diameter ($D$):</span> <span
-                                                    id="ibl-diam-val">500</span> mm</label>
+                                                    class="lang-en" style="display:none;">Diameter ($D$):</span> <input type="number" id="ibl-diam-num" class="sim-number-input" min="1" max="1000" step="1" value="500"> mm</label>
                                             <input type="range" id="ibl-diam" min="1" max="1000" step="1" value="500">
                                         </div>
                                         <div class="control-group">
                                             <label for="ibl-length"><span class="lang-es">Longitud ($L$):</span><span
-                                                    class="lang-en" style="display:none;">Length ($L$):</span> <span
-                                                    id="ibl-length-val">10</span> m</label>
+                                                    class="lang-en" style="display:none;">Length ($L$):</span> <input type="number" id="ibl-length-num" class="sim-number-input" min="1" max="100" step="1" value="10"> m</label>
                                             <input type="range" id="ibl-length" min="1" max="100" step="1" value="10">
                                         </div>
                                         <div class="control-group">
                                             <label for="ibl-prandtl"><span class="lang-es">Prandtl ($Pr$):</span><span
-                                                    class="lang-en" style="display:none;">Prandtl ($Pr$):</span> <span
-                                                    id="ibl-prandtl-val">1.0</span></label>
+                                                    class="lang-en" style="display:none;">Prandtl ($Pr$):</span> <input type="number" id="ibl-prandtl-num" class="sim-number-input" min="0.1" max="15.0" step="0.1" value="1.0"></label>
                                             <input type="range" id="ibl-prandtl" min="0.1" max="15.0" step="0.1"
                                                 value="1.0">
                                         </div>
                                         <div class="control-group">
                                             <label for="ibl-tfin"><span class="lang-es">Temp. fluido
                                                     ($T_{f,in}$):</span><span class="lang-en"
-                                                    style="display:none;">Fluid temp ($T_{f,in}$):</span> <span
-                                                    id="ibl-tfin-val">20</span> °C</label>
+                                                    style="display:none;">Fluid temp ($T_{f,in}$):</span> <input type="number" id="ibl-tfin-num" class="sim-number-input" min="0" max="100" step="1" value="20"> °C</label>
                                             <input type="range" id="ibl-tfin" min="0" max="100" step="1" value="20">
                                         </div>
                                         <div class="control-group">
                                             <label for="ibl-ts"><span class="lang-es">Temp. pared ($T_s$):</span><span
                                                     class="lang-en" style="display:none;">Wall temp ($T_s$):</span>
-                                                <span id="ibl-ts-val">80</span> °C</label>
+                                                <input type="number" id="ibl-ts-num" class="sim-number-input" min="0" max="100" step="1" value="80"> °C</label>
                                             <input type="range" id="ibl-ts" min="0" max="100" step="1" value="80">
                                         </div>
                                         <div class="control-group">
                                             <label for="ibl-particles-count"><span
                                                     class="lang-es">Partículas:</span><span class="lang-en"
-                                                    style="display:none;">Particles:</span> <span
-                                                    id="ibl-particles-count-val">250</span></label>
+                                                    style="display:none;">Particles:</span> <input type="number" id="ibl-particles-count-num" class="sim-number-input" min="0" max="1000" step="10" value="250"></label>
                                             <input type="range" id="ibl-particles-count" min="0" max="1000" step="10"
                                                 value="250">
                                         </div>
@@ -6170,7 +6135,7 @@
                                             <div class="control-group">
                                                 <label for="par-t1"><span class="lang-es">Temp. Izquierda
                                                         $T_1$:</span><span class="lang-en" style="display:none;">Temp.
-                                                        Left $T_1$:</span> <span id="par-t1-val">50</span> °C</label>
+                                                        Left $T_1$:</span> <input type="number" id="par-t1-num" class="sim-number-input" min="-200" max="100" step="1" value="50"> °C</label>
                                                 <input type="range" id="par-t1" min="-200" max="100" step="1"
                                                     value="50">
                                             </div>
@@ -6178,14 +6143,14 @@
                                                 <label for="par-tsurr"><span class="lang-es">Temp. Alrededores
                                                         $T_{surr}$:</span><span class="lang-en"
                                                         style="display:none;">Temp. Surroundings $T_{surr}$:</span>
-                                                    <span id="par-tsurr-val">-50</span> °C</label>
+                                                    <input type="number" id="par-tsurr-num" class="sim-number-input" min="-200" max="100" step="1" value="-50"> °C</label>
                                                 <input type="range" id="par-tsurr" min="-200" max="100" step="1"
                                                     value="-50">
                                             </div>
                                             <div class="control-group">
                                                 <label for="par-h"><span class="lang-es">Coef. Convección
                                                         $h$:</span><span class="lang-en" style="display:none;">Coef.
-                                                        Convection $h$:</span> <span id="par-h-val">20</span> <span
+                                                        Convection $h$:</span> <input type="number" id="par-h-num" class="sim-number-input" min="0" max="150" step="1" value="20"> <span
                                                         class="lang-es">W/m²K</span><span class="lang-en"
                                                         style="display:none;">W/m²K</span></label>
                                                 <input type="range" id="par-h" min="0" max="150" step="1" value="20">
@@ -6196,23 +6161,21 @@
                                                             style="display:none;">$\epsilon$</span>:</span><span
                                                         class="lang-en" style="display:none;">Emissivity <span
                                                             class="lang-es">$\epsilon$</span><span class="lang-en"
-                                                            style="display:none;">$\epsilon$</span>:</span> <span
-                                                        id="par-eps-val">0.80</span></label>
+                                                            style="display:none;">$\epsilon$</span>:</span> <input type="number" id="par-eps-num" class="sim-number-input" min="0.0" max="1.0" step="0.05" value="0.80"></label>
                                                 <input type="range" id="par-eps" min="0.0" max="1.0" step="0.05"
                                                     value="0.80">
                                             </div>
                                             <div class="control-group">
                                                 <label for="par-alpha"><span class="lang-es">Absortividad
                                                         $\alpha_{abs}$:</span><span class="lang-en"
-                                                        style="display:none;">Absorptivity $\alpha_{abs}$:</span> <span
-                                                        id="par-alpha-val">0.70</span></label>
+                                                        style="display:none;">Absorptivity $\alpha_{abs}$:</span> <input type="number" id="par-alpha-num" class="sim-number-input" min="0.0" max="1.0" step="0.05" value="0.70"></label>
                                                 <input type="range" id="par-alpha" min="0.0" max="1.0" step="0.05"
                                                     value="0.70">
                                             </div>
                                             <div class="control-group">
                                                 <label for="par-g"><span class="lang-es">Irradiancia $G$:</span><span
                                                         class="lang-en" style="display:none;">Irradiance $G$:</span>
-                                                    <span id="par-g-val">0</span> W/m²</label>
+                                                    <input type="number" id="par-g-num" class="sim-number-input" min="0" max="1200" step="50" value="0"> W/m²</label>
                                                 <input type="range" id="par-g" min="0" max="1200" step="50" value="0">
                                             </div>
                                         </div>
@@ -6228,8 +6191,7 @@
                                             <div class="control-group">
                                                 <label for="par-k1"><span class="lang-es">Conductividad
                                                         $k_1$:</span><span class="lang-en"
-                                                        style="display:none;">Conductivity $k_1$:</span> <span
-                                                        id="par-k1-val">1.5</span> <span
+                                                        style="display:none;">Conductivity $k_1$:</span> <input type="number" id="par-k1-num" class="sim-number-input" min="0.1" max="400" step="0.1" value="1.5"> <span
                                                         class="lang-es">W/m·K</span><span class="lang-en"
                                                         style="display:none;">W/m·K</span></label>
                                                 <input type="range" id="par-k1" min="0.1" max="400" step="0.1"
@@ -6238,7 +6200,7 @@
                                             <div class="control-group">
                                                 <label for="par-L1"><span class="lang-es">Espesor $L_1$:</span><span
                                                         class="lang-en" style="display:none;">Thickness $L_1$:</span>
-                                                    <span id="par-L1-val">10.0</span> cm</label>
+                                                    <input type="number" id="par-L1-num" class="sim-number-input" min="0.1" max="30.0" step="0.1" value="10.0"> cm</label>
                                                 <input type="range" id="par-L1" min="0.1" max="30.0" step="0.1"
                                                     value="10.0">
                                             </div>
@@ -6254,8 +6216,7 @@
                                             <div class="control-group">
                                                 <label for="par-k2"><span class="lang-es">Conductividad
                                                         $k_2$:</span><span class="lang-en"
-                                                        style="display:none;">Conductivity $k_2$:</span> <span
-                                                        id="par-k2-val">0.5</span> <span
+                                                        style="display:none;">Conductivity $k_2$:</span> <input type="number" id="par-k2-num" class="sim-number-input" min="0.1" max="400" step="0.1" value="0.5"> <span
                                                         class="lang-es">W/m·K</span><span class="lang-en"
                                                         style="display:none;">W/m·K</span></label>
                                                 <input type="range" id="par-k2" min="0.1" max="400" step="0.1"
@@ -6264,7 +6225,7 @@
                                             <div class="control-group">
                                                 <label for="par-L2"><span class="lang-es">Espesor $L_2$:</span><span
                                                         class="lang-en" style="display:none;">Thickness $L_2$:</span>
-                                                    <span id="par-L2-val">8.0</span> cm</label>
+                                                    <input type="number" id="par-L2-num" class="sim-number-input" min="0.1" max="30.0" step="0.1" value="8.0"> cm</label>
                                                 <input type="range" id="par-L2" min="0.1" max="30.0" step="0.1"
                                                     value="8.0">
                                             </div>
@@ -6279,8 +6240,7 @@
                                             <div class="control-group">
                                                 <label for="par-k3"><span class="lang-es">Conductividad
                                                         $k_3$:</span><span class="lang-en"
-                                                        style="display:none;">Conductivity $k_3$:</span> <span
-                                                        id="par-k3-val">1.0</span> <span
+                                                        style="display:none;">Conductivity $k_3$:</span> <input type="number" id="par-k3-num" class="sim-number-input" min="0.1" max="400" step="0.1" value="1.0"> <span
                                                         class="lang-es">W/m·K</span><span class="lang-en"
                                                         style="display:none;">W/m·K</span></label>
                                                 <input type="range" id="par-k3" min="0.1" max="400" step="0.1"
@@ -6289,7 +6249,7 @@
                                             <div class="control-group">
                                                 <label for="par-L3"><span class="lang-es">Espesor $L_3$:</span><span
                                                         class="lang-en" style="display:none;">Thickness $L_3$:</span>
-                                                    <span id="par-L3-val">10.0</span> cm</label>
+                                                    <input type="number" id="par-L3-num" class="sim-number-input" min="0.1" max="30.0" step="0.1" value="10.0"> cm</label>
                                                 <input type="range" id="par-L3" min="0.1" max="30.0" step="0.1"
                                                     value="10.0">
                                             </div>
@@ -6531,7 +6491,7 @@
                                         <div class="control-group">
                                             <label for="kelvin-temp"><span class="lang-es">Temperatura
                                                     $(T)$:</span><span class="lang-en" style="display:none;">Temperature
-                                                    $(T)$:</span> <span id="kelvin-temp-val">20</span> &deg;C / <span
+                                                    $(T)$:</span> <input type="number" id="kelvin-temp-num" class="sim-number-input" min="-273" max="300" step="1" value="20"> &deg;C / <span
                                                     id="kelvin-temp-k-val">293</span> K</label>
                                             <input type="range" id="kelvin-temp" min="-273" max="300" step="1"
                                                 value="20">
@@ -6539,7 +6499,7 @@
                                         <div class="control-group">
                                             <label for="kelvin-pressure"><span class="lang-es">Presión
                                                     $(P)$:</span><span class="lang-en" style="display:none;">Pressure
-                                                    $(P)$:</span> <span id="kelvin-pressure-val">1.00</span> <span
+                                                    $(P)$:</span> <input type="number" id="kelvin-pressure-num" class="sim-number-input" min="0.5" max="3.0" step="0.05" value="1.00"> <span
                                                     class="lang-es">atm</span><span class="lang-en"
                                                     style="display:none;">atm</span></label>
                                             <input type="range" id="kelvin-pressure" min="0.5" max="3.0" step="0.05"
@@ -6548,7 +6508,7 @@
                                         <div class="control-group">
                                             <label for="kelvin-moles"><span class="lang-es">Cantidad de Gas
                                                     $(n)$:</span><span class="lang-en" style="display:none;">Amount of
-                                                    Gas $(n)$:</span> <span id="kelvin-moles-val">0.50</span> <span
+                                                    Gas $(n)$:</span> <input type="number" id="kelvin-moles-num" class="sim-number-input" min="0.1" max="1.0" step="0.05" value="0.50"> <span
                                                     class="lang-es">moles</span><span class="lang-en"
                                                     style="display:none;">moles</span></label>
                                             <input type="range" id="kelvin-moles" min="0.1" max="1.0" step="0.05"
@@ -6666,7 +6626,7 @@
                                         <div class="control-group">
                                             <label for="clausius-n"><span class="lang-es">Número de
                                                     Partículas:</span><span class="lang-en" style="display:none;">Number
-                                                    of Particles:</span> <span id="clausius-n-val">80</span></label>
+                                                    of Particles:</span> <input type="number" id="clausius-n-num" class="sim-number-input" min="20" max="120" step="10" value="80"></label>
                                             <input type="range" id="clausius-n" min="20" max="120" step="10" value="80">
                                         </div>
                                         <div class="control-group">
@@ -6674,6 +6634,7 @@
                                                     Térmica:</span><span class="lang-en" style="display:none;">Thermal
                                                     Speed:</span> <span id="clausius-temp-val">Media</span></label>
                                             <input type="range" id="clausius-temp" min="1" max="3" step="1" value="2">
+                                            <input type="number" id="clausius-temp-num" class="sim-number-input" min="1" max="3" step="1" value="2" style="margin-top:4px;">
                                         </div>
                                     </div>
                                     <table
@@ -6812,7 +6773,7 @@
                                         <div class="control-group">
                                             <label for="cpcv-dt"><span class="lang-es">Incremento Objetivo $(\Delta
                                                     T)$:</span><span class="lang-en" style="display:none;">Target
-                                                    Increment $(\Delta T)$:</span> <span id="cpcv-dt-val">1.0</span>
+                                                    Increment $(\Delta T)$:</span> <input type="number" id="cpcv-dt-num" class="sim-number-input" min="0.5" max="3.0" step="0.1" value="1.0">
                                                 K</label>
                                             <input type="range" id="cpcv-dt" min="0.5" max="3.0" step="0.1" value="1.0">
                                         </div>
@@ -6938,7 +6899,7 @@
                                         <div class="control-group">
                                             <label for="joule-mass"><span class="lang-es">Masa de cada pesa
                                                     $(m)$:</span><span class="lang-en" style="display:none;">Mass of
-                                                    each weight $(m)$:</span> <span id="joule-mass-val">5.0</span>
+                                                    each weight $(m)$:</span> <input type="number" id="joule-mass-num" class="sim-number-input" min="1.0" max="50.0" step="0.5" value="5.0">
                                                 kg</label>
                                             <input type="range" id="joule-mass" min="1.0" max="50.0" step="0.5"
                                                 value="5.0">
@@ -6946,15 +6907,14 @@
                                         <div class="control-group">
                                             <label for="joule-height"><span class="lang-es">Altura de caída
                                                     $(h)$:</span><span class="lang-en" style="display:none;">Drop height
-                                                    $(h)$:</span> <span id="joule-height-val">1.0</span> m</label>
+                                                    $(h)$:</span> <input type="number" id="joule-height-num" class="sim-number-input" min="0.5" max="10.0" step="0.5" value="1.0"> m</label>
                                             <input type="range" id="joule-height" min="0.5" max="10.0" step="0.5"
                                                 value="1.0">
                                         </div>
                                         <div class="control-group">
                                             <label for="joule-water"><span class="lang-es">Masa del agua
                                                     $(M_{agua})$:</span><span class="lang-en" style="display:none;">Mass
-                                                    of water $(M_{water})$:</span> <span
-                                                    id="joule-water-val">0.25</span> kg</label>
+                                                    of water $(M_{water})$:</span> <input type="number" id="joule-water-num" class="sim-number-input" min="0.1" max="1.0" step="0.05" value="0.25"> kg</label>
                                             <input type="range" id="joule-water" min="0.1" max="1.0" step="0.05"
                                                 value="0.25">
                                         </div>
@@ -7168,22 +7128,20 @@
                                             </div>
                                             <div class="control-group">
                                                 <label for="dp-length"><span class="lang-es">Longitud $(L)$:</span><span
-                                                        class="lang-en" style="display:none;">Length $(L)$:</span> <span
-                                                        id="dp-length-val">5.0</span> m</label>
+                                                        class="lang-en" style="display:none;">Length $(L)$:</span> <input type="number" id="dp-length-num" class="sim-number-input" min="1.0" max="100.0" step="0.5" value="5.0"> m</label>
                                                 <input type="range" id="dp-length" min="1.0" max="100.0" step="0.5"
                                                     value="5.0">
                                             </div>
                                             <div class="control-group">
                                                 <label for="dp-di"><span class="lang-es">Diám. Interno
                                                         $(D_i)$:</span><span class="lang-en"
-                                                        style="display:none;">Internal Dia. $(D_i)$:</span> <span
-                                                        id="dp-di-val">20</span> mm</label>
+                                                        style="display:none;">Internal Dia. $(D_i)$:</span> <input type="number" id="dp-di-num" class="sim-number-input" min="10" max="500" step="5" value="20"> mm</label>
                                                 <input type="range" id="dp-di" min="10" max="500" step="5" value="20">
                                             </div>
                                             <div class="control-group">
                                                 <label for="dp-thick"><span class="lang-es">Espesor Pared
                                                         $(t)$:</span><span class="lang-en" style="display:none;">Wall
-                                                        Thickness $(t)$:</span> <span id="dp-thick-val">2.0</span>
+                                                        Thickness $(t)$:</span> <input type="number" id="dp-thick-num" class="sim-number-input" min="0.5" max="10.0" step="0.5" value="2.0">
                                                     mm</label>
                                                 <input type="range" id="dp-thick" min="0.5" max="10.0" step="0.5"
                                                     value="2.0">
@@ -7191,29 +7149,26 @@
                                             <div class="control-group">
                                                 <label for="dp-ds"><span class="lang-es">Diám. Externo
                                                         $(D_{ext})$:</span><span class="lang-en"
-                                                        style="display:none;">External Dia. $(D_{ext})$:</span> <span
-                                                        id="dp-ds-val">60</span> mm</label>
+                                                        style="display:none;">External Dia. $(D_{ext})$:</span> <input type="number" id="dp-ds-num" class="sim-number-input" min="20" max="1000" step="10" value="60"> mm</label>
                                                 <input type="range" id="dp-ds" min="20" max="1000" step="10" value="60">
                                             </div>
                                             <div class="control-group">
                                                 <label for="dp-thi"><span class="lang-es">Temp. Entrada Caliente
                                                         $(T_{h,in})$:</span><span class="lang-en"
-                                                        style="display:none;">Temp. Hot Input $(T_{h,in})$:</span> <span
-                                                        id="dp-thi-val">80</span> °C</label>
+                                                        style="display:none;">Temp. Hot Input $(T_{h,in})$:</span> <input type="number" id="dp-thi-num" class="sim-number-input" min="50" max="95" step="1" value="80"> °C</label>
                                                 <input type="range" id="dp-thi" min="50" max="95" step="1" value="80">
                                             </div>
                                             <div class="control-group">
                                                 <label for="dp-tci"><span class="lang-es">Temp. Entrada Frío
                                                         $(T_{c,in})$:</span><span class="lang-en"
                                                         style="display:none;">Temp. Cold Input $(T_{c,in})$:</span>
-                                                    <span id="dp-tci-val">15</span> °C</label>
+                                                    <input type="number" id="dp-tci-num" class="sim-number-input" min="5" max="40" step="1" value="15"> °C</label>
                                                 <input type="range" id="dp-tci" min="5" max="40" step="1" value="15">
                                             </div>
                                             <div class="control-group">
                                                 <label for="dp-mh"><span class="lang-es">Masa Flujo Caliente
                                                         $(\dot{m}_h)$:</span><span class="lang-en"
-                                                        style="display:none;">Hot Flow Mass $(\dot{m}_h)$:</span> <span
-                                                        id="dp-mh-val">0.30</span> <span
+                                                        style="display:none;">Hot Flow Mass $(\dot{m}_h)$:</span> <input type="number" id="dp-mh-num" class="sim-number-input" min="0.05" max="2.0" step="0.05" value="0.30"> <span
                                                         class="lang-es">kg/s</span><span class="lang-en"
                                                         style="display:none;">kg/s</span></label>
                                                 <input type="range" id="dp-mh" min="0.05" max="2.0" step="0.05"
@@ -7222,8 +7177,7 @@
                                             <div class="control-group">
                                                 <label for="dp-mc"><span class="lang-es">Masa Flujo Frío
                                                         $(\dot{m}_c)$:</span><span class="lang-en"
-                                                        style="display:none;">Cold Flow Mass $(\dot{m}_c)$:</span> <span
-                                                        id="dp-mc-val">0.30</span> <span
+                                                        style="display:none;">Cold Flow Mass $(\dot{m}_c)$:</span> <input type="number" id="dp-mc-num" class="sim-number-input" min="0.05" max="2.0" step="0.05" value="0.30"> <span
                                                         class="lang-es">kg/s</span><span class="lang-en"
                                                         style="display:none;">kg/s</span></label>
                                                 <input type="range" id="dp-mc" min="0.05" max="2.0" step="0.05"
@@ -7884,7 +7838,7 @@
                                     <div class="control-group">
                                         <label for="vortex-u"><span class="lang-es">Velocidad del Flujo
                                                 $(U)$:</span><span class="lang-en" style="display:none;">Flow Velocity
-                                                $(U)$:</span> <span id="vortex-u-val">1.0</span> <span
+                                                $(U)$:</span> <input type="number" id="vortex-u-num" class="sim-number-input" min="0.1" max="2.0" step="0.05" value="1.0"> <span
                                                 class="lang-es">m/s</span><span class="lang-en"
                                                 style="display:none;">m/s</span></label>
                                         <input type="range" id="vortex-u" min="0.1" max="2.0" step="0.05" value="1.0"
@@ -7893,7 +7847,7 @@
                                     <div class="control-group">
                                         <label for="vortex-d"><span class="lang-es">Diámetro del Cilindro
                                                 $(D)$:</span><span class="lang-en" style="display:none;">Cylinder
-                                                Diameter $(D)$:</span> <span id="vortex-d-val">40</span> mm</label>
+                                                Diameter $(D)$:</span> <input type="number" id="vortex-d-num" class="sim-number-input" min="10" max="100" step="5" value="40"> mm</label>
                                         <input type="range" id="vortex-d" min="10" max="100" step="5" value="40"
                                             style="width: 100%;">
                                     </div>
@@ -7906,6 +7860,10 @@
                                                 style="display:none;">m²/s</span></label>
                                         <input type="range" id="vortex-nu" min="1.0" max="50.0" step="0.5" value="15.0"
                                             style="width: 100%;">
+                                        <div style="display:flex; align-items:center; gap:6px; margin-top:4px;">
+                                            <span style="font-size:0.7rem; color:#94a3b8;">Editar (×10⁻⁶ m²/s):</span>
+                                            <input type="number" id="vortex-nu-num" class="sim-number-input" min="1.0" max="50.0" step="0.5" value="15.0">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -8099,8 +8057,7 @@
                                     <div class="control-group" style="flex: 2; min-width: 350px;">
                                         <label for="boiling-dte"><span class="lang-es">Temperatura de Exceso (ΔTe = Ts -
                                                 Tsat):</span><span class="lang-en" style="display:none;">Excess
-                                                Temperature (ΔTe = Ts - Tsat):</span> <span
-                                                id="boiling-dte-val">5.0</span> °C</label>
+                                                Temperature (ΔTe = Ts - Tsat):</span> <input type="number" id="boiling-dte-num" class="sim-number-input" min="0.5" max="350.0" step="0.5" value="5.0"> °C</label>
                                         <input type="range" id="boiling-dte" min="0.5" max="350.0" step="0.5"
                                             value="5.0" style="width: 100%; margin-top: 10px;">
                                         <div
@@ -8390,7 +8347,7 @@
                                                             class="lang-en" style="display:none;">Conductivity</span>
                                                         ($k$):</span>
                                                     <span style="display: flex; align-items: center; gap: 6px;">
-                                                        <strong><span id="transient-k-val">401</span> W/m·K</strong>
+                                                        <strong><input type="number" id="transient-k-num" class="sim-number-input" min="0.001" max="4000" step="0.001" value="401"> W/m·K</strong>
                                                         <span id="transient-k-type"
                                                             style="font-size:0.68rem; padding:1px 7px; border-radius:10px; background:rgba(251,146,60,0.18); color:var(--accent-orange); font-weight:600; white-space:nowrap;">Cobre
                                                             / Plata</span>
@@ -8404,7 +8361,7 @@
                                                     style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                                                     <span><span class="lang-es">Densidad</span><span class="lang-en"
                                                             style="display:none;">Density</span> ($\rho$):</span>
-                                                    <strong><span id="transient-rho-val">8933</span> kg/m³</strong>
+                                                    <strong><input type="number" id="transient-rho-num" class="sim-number-input" min="1" max="20000" step="1" value="8933"> kg/m³</strong>
                                                 </label>
                                                 <input type="range" id="transient-rho" min="1" max="20000" step="1"
                                                     value="8933" style="width: 100%; margin-top: 8px;">
@@ -8415,7 +8372,7 @@
                                                     <span><span class="lang-es">Calor Específico</span><span
                                                             class="lang-en" style="display:none;">Specific Heat</span>
                                                         ($c_p$):</span>
-                                                    <strong><span id="transient-cp-val">385</span> J/kg·K</strong>
+                                                    <strong><input type="number" id="transient-cp-num" class="sim-number-input" min="1" max="5000" step="1" value="385"> J/kg·K</strong>
                                                 </label>
                                                 <input type="range" id="transient-cp" min="1" max="5000" step="1"
                                                     value="385" style="width: 100%; margin-top: 8px;">
@@ -8426,7 +8383,7 @@
                                                     <span><span class="lang-es">Coef. Convección</span><span
                                                             class="lang-en" style="display:none;">Convection
                                                             Coef.</span> ($h$):</span>
-                                                    <strong><span id="transient-h-val">50</span> W/m²K</strong>
+                                                    <strong><input type="number" id="transient-h-num" class="sim-number-input" min="1" max="100000" step="1" value="50"> W/m²K</strong>
                                                 </label>
                                                 <input type="range" id="transient-h" min="1" max="100000" step="1"
                                                     value="50" style="width: 100%; margin-top: 8px;">
@@ -8437,7 +8394,7 @@
                                                     <span><span class="lang-es">Dimensión Característica</span><span
                                                             class="lang-en" style="display:none;">Characteristic
                                                             Dimension</span> ($L_c$):</span>
-                                                    <strong><span id="transient-size-val">0.10</span> m</strong>
+                                                    <strong><input type="number" id="transient-size-num" class="sim-number-input" min="0.001" max="1.0" step="0.001" value="0.10"> m</strong>
                                                 </label>
                                                 <input type="range" id="transient-size" min="0.001" max="1.0"
                                                     step="0.001" value="0.10" style="width: 100%; margin-top: 8px;">
@@ -8448,7 +8405,7 @@
                                                     <span><span class="lang-es">Temp. Inicial</span><span
                                                             class="lang-en" style="display:none;">Initial Temp.</span>
                                                         ($T_i$):</span>
-                                                    <strong><span id="transient-ti-val">100</span> °C</strong>
+                                                    <strong><input type="number" id="transient-ti-num" class="sim-number-input" min="-200" max="2000" step="1" value="100"> °C</strong>
                                                 </label>
                                                 <input type="range" id="transient-ti" min="-200" max="2000" step="1"
                                                     value="100" style="width: 100%; margin-top: 8px;">
@@ -8459,7 +8416,7 @@
                                                     <span><span class="lang-es">Temp. Fluido</span><span class="lang-en"
                                                             style="display:none;">Fluid Temp.</span>
                                                         ($T_\infty$):</span>
-                                                    <strong><span id="transient-tinf-val">20</span> °C</strong>
+                                                    <strong><input type="number" id="transient-tinf-num" class="sim-number-input" min="-200" max="2000" step="1" value="20"> °C</strong>
                                                 </label>
                                                 <input type="range" id="transient-tinf" min="-200" max="2000" step="1"
                                                     value="20" style="width: 100%; margin-top: 8px;">
@@ -8470,7 +8427,7 @@
                                                     <span><span class="lang-es">Velocidad Simulación</span><span
                                                             class="lang-en" style="display:none;">Simulation
                                                             Speed</span>:</span>
-                                                    <strong><span id="transient-speed-val">1</span>x</strong>
+                                                    <strong><input type="number" id="transient-speed-num" class="sim-number-input" min="1" max="200" step="1" value="1">x</strong>
                                                 </label>
                                                 <input type="range" id="transient-speed" min="1" max="200" step="1"
                                                     value="1" style="width: 100%; margin-top: 8px;">
@@ -8687,12 +8644,12 @@
                                         <div class="control-group">
                                             <label for="ins-ts"><span class="lang-es">Temp. Superficie Libre
                                                     $(T_s)$:</span><span class="lang-en" style="display:none;">Temp.
-                                                    Free Surface $(T_s)$:</span> <span id="ins-ts-val">100</span>
+                                                    Free Surface $(T_s)$:</span> <input type="number" id="ins-ts-num" class="sim-number-input" min="0" max="200" step="1" value="100">
                                                 °C</label>
                                             <input type="range" id="ins-ts" min="0" max="200" step="1" value="100">
                                         </div>
                                         <div class="control-group">
-                                            <label for="ins-k">Conductividad $(k)$: <span id="ins-k-val">15</span> <span
+                                            <label for="ins-k">Conductividad $(k)$: <input type="number" id="ins-k-num" class="sim-number-input" min="0.1" max="400" step="0.5" value="15"> <span
                                                     class="lang-es">W/m·K</span><span class="lang-en"
                                                     style="display:none;">W/m·K</span></label>
                                             <input type="range" id="ins-k" min="0.1" max="400" step="0.5" value="15">
@@ -8700,7 +8657,7 @@
                                         <div class="control-group">
                                             <label for="ins-qg"><span class="lang-es">Gen. Calor Interna
                                                     $(q_g)$:</span><span class="lang-en" style="display:none;">Internal
-                                                    Heat Generation $(q_g)$:</span> <span id="ins-qg-val">100</span>
+                                                    Heat Generation $(q_g)$:</span> <input type="number" id="ins-qg-num" class="sim-number-input" min="0" max="1000" step="10" value="100">
                                                 <span class="lang-es">kW/m³</span><span class="lang-en"
                                                     style="display:none;">kW/m³</span></label>
                                             <input type="range" id="ins-qg" min="0" max="1000" step="10" value="100">
@@ -8708,7 +8665,7 @@
                                         <div class="control-group">
                                             <label for="ins-thick"><span class="lang-es">Espesor Placa
                                                     $(L)$:</span><span class="lang-en" style="display:none;">Plate
-                                                    Thickness $(L)$:</span> <span id="ins-thick-val">0.10</span>
+                                                    Thickness $(L)$:</span> <input type="number" id="ins-thick-num" class="sim-number-input" min="0.02" max="0.50" step="0.01" value="0.10">
                                                 m</label>
                                             <input type="range" id="ins-thick" min="0.02" max="0.50" step="0.01"
                                                 value="0.10">
@@ -8898,16 +8855,18 @@
                                             <div id="cm-l-temp-group" class="control-group">
                                                 <label for="cm-l-temp"><span class="lang-es">Temperatura
                                                         $(T_{L})$:</span><span class="lang-en"
-                                                        style="display:none;">Temperature $(T_{L})$:</span> <span
-                                                        id="cm-l-temp-val">100</span> °C</label>
+                                                        style="display:none;">Temperature $(T_{L})$:</span> <input
+                                                        type="number" id="cm-l-temp-num" class="cm-num-sync"
+                                                        min="-273" max="2000" step="1" value="100"> °C</label>
                                                 <input type="range" id="cm-l-temp" min="-273" max="2000" step="1"
                                                     value="100">
                                             </div>
                                             <div id="cm-l-conv-group" class="control-group" style="display: none;">
                                                 <label for="cm-l-h"><span class="lang-es">Coeff. Convección
                                                         $(h_{L})$:</span><span class="lang-en"
-                                                        style="display:none;">Coeff. Convection $(h_{L})$:</span> <span
-                                                        id="cm-l-h-val">20</span> <span
+                                                        style="display:none;">Coeff. Convection $(h_{L})$:</span> <input
+                                                        type="number" id="cm-l-h-num" class="cm-num-sync" min="1"
+                                                        max="10000" step="0.1" value="20"> <span
                                                         class="lang-es">W/m²K</span><span class="lang-en"
                                                         style="display:none;">W/m²K</span></label>
                                                 <input type="range" id="cm-l-h" min="1" max="10000" step="0.1"
@@ -8915,30 +8874,35 @@
                                                 <label for="cm-l-tinf" style="margin-top: 6px;"><span
                                                         class="lang-es">Temp. Fluido $(T_{\infty, L})$:</span><span
                                                         class="lang-en" style="display:none;">Temp. Fluid $(T_{\infty,
-                                                        L})$:</span> <span id="cm-l-tinf-val">150</span> °C</label>
+                                                        L})$:</span> <input type="number" id="cm-l-tinf-num"
+                                                        class="cm-num-sync" min="-273" max="2000" step="1"
+                                                        value="150"> °C</label>
                                                 <input type="range" id="cm-l-tinf" min="-273" max="2000" step="1"
                                                     value="150">
                                             </div>
                                             <div id="cm-l-rad-group" class="control-group" style="display: none;">
                                                 <label for="cm-l-eps"><span class="lang-es">Emisividad
                                                         $(\epsilon_{L})$:</span><span class="lang-en"
-                                                        style="display:none;">Emissivity $(\epsilon_{L})$:</span> <span
-                                                        id="cm-l-eps-val">0.85</span></label>
+                                                        style="display:none;">Emissivity $(\epsilon_{L})$:</span> <input
+                                                        type="number" id="cm-l-eps-num" class="cm-num-sync"
+                                                        min="0.01" max="1.0" step="0.01" value="0.85"></label>
                                                 <input type="range" id="cm-l-eps" min="0.01" max="1.0" step="0.01"
                                                     value="0.85">
                                                 <label for="cm-l-tsur" style="margin-top: 6px;"><span
                                                         class="lang-es">Temp. Alrededores $(T_{sur, L})$:</span><span
                                                         class="lang-en" style="display:none;">Temp. Surroundings
-                                                        $(T_{sur, L})$:</span> <span id="cm-l-tsur-val">150</span>
-                                                    °C</label>
+                                                        $(T_{sur, L})$:</span> <input type="number"
+                                                        id="cm-l-tsur-num" class="cm-num-sync" min="-273" max="2000"
+                                                        step="1" value="150"> °C</label>
                                                 <input type="range" id="cm-l-tsur" min="-273" max="2000" step="1"
                                                     value="150">
                                             </div>
                                             <div id="cm-l-flux-group" class="control-group" style="display: none;">
                                                 <label for="cm-l-flux"><span class="lang-es">Flujo de Calor
                                                         $(q''_{L})$:</span><span class="lang-en"
-                                                        style="display:none;">Heat Flow $(q''_{L})$:</span> <span
-                                                        id="cm-l-flux-val">500</span> W/m²</label>
+                                                        style="display:none;">Heat Flow $(q''_{L})$:</span> <input
+                                                        type="number" id="cm-l-flux-num" class="cm-num-sync"
+                                                        min="-5000" max="5000" step="50" value="500"> W/m²</label>
                                                 <input type="range" id="cm-l-flux" min="-5000" max="5000" step="50"
                                                     value="500">
                                             </div>
@@ -9011,16 +8975,18 @@
                                             <div id="cm-r-temp-group" class="control-group">
                                                 <label for="cm-r-temp"><span class="lang-es">Temperatura
                                                         $(T_{R})$:</span><span class="lang-en"
-                                                        style="display:none;">Temperature $(T_{R})$:</span> <span
-                                                        id="cm-r-temp-val">20</span> °C</label>
+                                                        style="display:none;">Temperature $(T_{R})$:</span> <input
+                                                        type="number" id="cm-r-temp-num" class="cm-num-sync"
+                                                        min="-273" max="2000" step="1" value="20"> °C</label>
                                                 <input type="range" id="cm-r-temp" min="-273" max="2000" step="1"
                                                     value="20">
                                             </div>
                                             <div id="cm-r-conv-group" class="control-group" style="display: none;">
                                                 <label for="cm-r-h"><span class="lang-es">Coeff. Convección
                                                         $(h_{R})$:</span><span class="lang-en"
-                                                        style="display:none;">Coeff. Convection $(h_{R})$:</span> <span
-                                                        id="cm-r-h-val">20</span> <span
+                                                        style="display:none;">Coeff. Convection $(h_{R})$:</span> <input
+                                                        type="number" id="cm-r-h-num" class="cm-num-sync" min="1"
+                                                        max="10000" step="0.1" value="20"> <span
                                                         class="lang-es">W/m²K</span><span class="lang-en"
                                                         style="display:none;">W/m²K</span></label>
                                                 <input type="range" id="cm-r-h" min="1" max="10000" step="0.1"
@@ -9028,30 +8994,35 @@
                                                 <label for="cm-r-tinf" style="margin-top: 6px;"><span
                                                         class="lang-es">Temp. Fluido $(T_{\infty, R})$:</span><span
                                                         class="lang-en" style="display:none;">Temp. Fluid $(T_{\infty,
-                                                        R})$:</span> <span id="cm-r-tinf-val">10</span> °C</label>
+                                                        R})$:</span> <input type="number" id="cm-r-tinf-num"
+                                                        class="cm-num-sync" min="-273" max="2000" step="1"
+                                                        value="10"> °C</label>
                                                 <input type="range" id="cm-r-tinf" min="-273" max="2000" step="1"
                                                     value="10">
                                             </div>
                                             <div id="cm-r-rad-group" class="control-group" style="display: none;">
                                                 <label for="cm-r-eps"><span class="lang-es">Emisividad
                                                         $(\epsilon_{R})$:</span><span class="lang-en"
-                                                        style="display:none;">Emissivity $(\epsilon_{R})$:</span> <span
-                                                        id="cm-r-eps-val">0.85</span></label>
+                                                        style="display:none;">Emissivity $(\epsilon_{R})$:</span> <input
+                                                        type="number" id="cm-r-eps-num" class="cm-num-sync"
+                                                        min="0.01" max="1.0" step="0.01" value="0.85"></label>
                                                 <input type="range" id="cm-r-eps" min="0.01" max="1.0" step="0.01"
                                                     value="0.85">
                                                 <label for="cm-r-tsur" style="margin-top: 6px;"><span
                                                         class="lang-es">Temp. Alrededores $(T_{sur, R})$:</span><span
                                                         class="lang-en" style="display:none;">Temp. Surroundings
-                                                        $(T_{sur, R})$:</span> <span id="cm-r-tsur-val">10</span>
-                                                    °C</label>
+                                                        $(T_{sur, R})$:</span> <input type="number"
+                                                        id="cm-r-tsur-num" class="cm-num-sync" min="-273" max="2000"
+                                                        step="1" value="10"> °C</label>
                                                 <input type="range" id="cm-r-tsur" min="-273" max="2000" step="1"
                                                     value="10">
                                             </div>
                                             <div id="cm-r-flux-group" class="control-group" style="display: none;">
                                                 <label for="cm-r-flux"><span class="lang-es">Flujo de Calor
                                                         $(q''_{R})$:</span><span class="lang-en"
-                                                        style="display:none;">Heat Flow $(q''_{R})$:</span> <span
-                                                        id="cm-r-flux-val">500</span> W/m²</label>
+                                                        style="display:none;">Heat Flow $(q''_{R})$:</span> <input
+                                                        type="number" id="cm-r-flux-num" class="cm-num-sync"
+                                                        min="-5000" max="5000" step="50" value="500"> W/m²</label>
                                                 <input type="range" id="cm-r-flux" min="-5000" max="5000" step="50"
                                                     value="500">
                                             </div>
@@ -9436,19 +9407,18 @@
                                 <div class="control-group">
                                     <label for="carnot-th"><span class="lang-es">Temperatura Fuente Caliente
                                             $(T_H)$:</span><span class="lang-en" style="display:none;">Hot Source
-                                            Temperature $(T_H)$:</span> <span id="carnot-th-val">800</span> K</label>
+                                            Temperature $(T_H)$:</span> <input type="number" id="carnot-th-num" class="sim-number-input" min="300" max="1500" step="10" value="800"> K</label>
                                     <input type="range" id="carnot-th" min="300" max="1500" step="10" value="800">
                                 </div>
                                 <div class="control-group">
                                     <label for="carnot-tc"><span class="lang-es">Temperatura Sumidero Frío
                                             $(T_C)$:</span><span class="lang-en" style="display:none;">Cold Sump
-                                            Temperature $(T_C)$:</span> <span id="carnot-tc-val">300</span> K</label>
+                                            Temperature $(T_C)$:</span> <input type="number" id="carnot-tc-num" class="sim-number-input" min="0" max="600" step="5" value="300"> K</label>
                                     <input type="range" id="carnot-tc" min="0" max="600" step="5" value="300">
                                 </div>
                                 <div class="control-group">
                                     <label for="carnot-qh"><span class="lang-es">Calor Absorbido $(Q_H)$:</span><span
-                                            class="lang-en" style="display:none;">Heat Absorbed $(Q_H)$:</span> <span
-                                            id="carnot-qh-val">1000</span> kJ</label>
+                                            class="lang-en" style="display:none;">Heat Absorbed $(Q_H)$:</span> <input type="number" id="carnot-qh-num" class="sim-number-input" min="100" max="5000" step="50" value="1000"> kJ</label>
                                     <input type="range" id="carnot-qh" min="100" max="5000" step="50" value="1000">
                                 </div>
 
@@ -9788,7 +9758,7 @@
                                     <label style="display:flex; justify-content:space-between;">
                                         <span class="lang-es">Largo (L1):</span><span class="lang-en"
                                             style="display:none;">Length (L1):</span>
-                                        <span><span id="rad-largo-val">1.0</span> m</span>
+                                        <span><input type="number" id="rad-largo-num" class="sim-number-input" min="0.1" max="5.0" step="0.1" value="1.0"> m</span>
                                     </label>
                                     <input type="range" id="rad-largo" min="0.1" max="5.0" step="0.1" value="1.0">
                                 </div>
@@ -9796,7 +9766,7 @@
                                     <label style="display:flex; justify-content:space-between;">
                                         <span class="lang-es">Ancho (L2):</span><span class="lang-en"
                                             style="display:none;">Width (L2):</span>
-                                        <span><span id="rad-ancho-val">1.0</span> m</span>
+                                        <span><input type="number" id="rad-ancho-num" class="sim-number-input" min="0.1" max="5.0" step="0.1" value="1.0"> m</span>
                                     </label>
                                     <input type="range" id="rad-ancho" min="0.1" max="5.0" step="0.1" value="1.0">
                                 </div>
@@ -9804,7 +9774,7 @@
                                     <label style="display:flex; justify-content:space-between;">
                                         <span class="lang-es">Emisividad (ε):</span><span class="lang-en"
                                             style="display:none;">Emissivity (ε):</span>
-                                        <span><span id="rad-emissivity-val">0.80</span></span>
+                                        <span><input type="number" id="rad-emissivity-num" class="sim-number-input" min="0.01" max="1.00" step="0.01" value="0.80"></span>
                                     </label>
                                     <input type="range" id="rad-emissivity" min="0.01" max="1.00" step="0.01"
                                         value="0.80">
@@ -9813,7 +9783,7 @@
                                     <label style="display:flex; justify-content:space-between;">
                                         <span class="lang-es">Temperatura de Superficie (T1):</span><span
                                             class="lang-en" style="display:none;">Surface Temp. (T1):</span>
-                                        <span><span id="rad-t1-val">773</span> K</span>
+                                        <span><input type="number" id="rad-t1-num" class="sim-number-input" min="0" max="3000" step="10" value="773"> K</span>
                                     </label>
                                     <input type="range" id="rad-t1" min="0" max="3000" step="10" value="773">
                                     <div class="auto-conv-hint"
@@ -9826,7 +9796,7 @@
                                     <label style="display:flex; justify-content:space-between;">
                                         <span class="lang-es">Temperatura Alrededores (T2):</span><span class="lang-en"
                                             style="display:none;">Surroundings Temp. (T2):</span>
-                                        <span><span id="rad-t2-val">300</span> K</span>
+                                        <span><input type="number" id="rad-t2-num" class="sim-number-input" min="0" max="5000" step="10" value="300"> K</span>
                                     </label>
                                     <input type="range" id="rad-t2" min="0" max="5000" step="10" value="300">
                                     <div class="auto-conv-hint"
@@ -10107,22 +10077,21 @@
                                 <div class="control-group">
                                     <label for="watt-steam-temp"><span class="lang-es">Temperatura del Vapor de
                                             Entrada:</span><span class="lang-en" style="display:none;">Inlet Steam
-                                            Temperature:</span> <span id="watt-steam-temp-val">180</span> °C</label>
+                                            Temperature:</span> <input type="number" id="watt-steam-temp-num" class="sim-number-input" min="100" max="300" step="5" value="180"> °C</label>
                                     <input type="range" id="watt-steam-temp" min="100" max="300" step="5" value="180"
                                         style="width:100%;">
                                 </div>
                                 <div class="control-group">
                                     <label for="watt-cold-temp"><span class="lang-es">Temperatura Fuente Fría
                                             (Condensador):</span><span class="lang-en" style="display:none;">Cold Source
-                                            Temperature (Condenser):</span> <span id="watt-cold-temp-val">20</span>
+                                            Temperature (Condenser):</span> <input type="number" id="watt-cold-temp-num" class="sim-number-input" min="5" max="80" step="1" value="20">
                                         °C</label>
                                     <input type="range" id="watt-cold-temp" min="5" max="80" step="1" value="20"
                                         style="width:100%;">
                                 </div>
                                 <div class="control-group">
                                     <label for="watt-speed"><span class="lang-es">Velocidad Simulación:</span><span
-                                            class="lang-en" style="display:none;">Simulation Speed:</span> <span
-                                            id="watt-speed-val">1.0</span>×</label>
+                                            class="lang-en" style="display:none;">Simulation Speed:</span> <input type="number" id="watt-speed-num" class="sim-number-input" min="0.2" max="4.0" step="0.2" value="1.0">×</label>
                                     <input type="range" id="watt-speed" min="0.2" max="4.0" step="0.2" value="1.0"
                                         style="width:100%;">
                                 </div>
@@ -10438,8 +10407,7 @@
                                     style="font-size:0.67rem; color:#94a3b8; white-space:nowrap;">r<sub>Otto</sub></span>
                                 <input type="range" id="ottodiesel-r-otto" min="6" max="12" step="0.5" value="8.5"
                                     style="flex:1; height:3px; accent-color:#ef4444;">
-                                <strong id="ottodiesel-r-otto-val"
-                                    style="font-size:0.7rem; color:#fca5a5; min-width:22px; text-align:right;">8.5</strong>
+                                <input type="number" id="ottodiesel-r-otto-num" class="sim-number-input" min="6" max="12" step="0.5" value="8.5">
                             </div>
                             <!-- rDiesel -->
                             <div style="display:flex; align-items:center; gap:6px; flex:1; min-width:150px;">
@@ -10447,8 +10415,7 @@
                                     style="font-size:0.67rem; color:#94a3b8; white-space:nowrap;">r<sub>Diesel</sub></span>
                                 <input type="range" id="ottodiesel-r-diesel" min="12" max="22" step="0.5" value="16.0"
                                     style="flex:1; height:3px; accent-color:#f59e0b;">
-                                <strong id="ottodiesel-r-diesel-val"
-                                    style="font-size:0.7rem; color:#fcd34d; min-width:22px; text-align:right;">16.0</strong>
+                                <input type="number" id="ottodiesel-r-diesel-num" class="sim-number-input" min="12" max="22" step="0.5" value="16.0">
                             </div>
                             <!-- Tmax -->
                             <div style="display:flex; align-items:center; gap:6px; flex:1; min-width:160px;">
@@ -10456,8 +10423,7 @@
                                     style="font-size:0.67rem; color:#94a3b8; white-space:nowrap;">T<sub>max</sub></span>
                                 <input type="range" id="ottodiesel-tmax" min="1200" max="2200" step="50" value="1800"
                                     style="flex:1; height:3px; accent-color:#fb923c;">
-                                <strong id="ottodiesel-tmax-val"
-                                    style="font-size:0.7rem; color:#fb923c; min-width:30px; text-align:right;">1800</strong>
+                                <input type="number" id="ottodiesel-tmax-num" class="sim-number-input" min="1200" max="2200" step="50" value="1800">
                                 <span style="font-size:0.6rem; color:#475569;">K</span>
                             </div>
                             <!-- Speed -->
@@ -10465,8 +10431,7 @@
                                 <span style="font-size:0.67rem; color:#94a3b8; white-space:nowrap;">⚡ Vel.</span>
                                 <input type="range" id="ottodiesel-speed" min="0.25" max="2.0" step="0.05" value="1.0"
                                     style="flex:1; height:3px; accent-color:#6366f1;">
-                                <strong id="ottodiesel-speed-val"
-                                    style="font-size:0.7rem; color:#818cf8; min-width:22px; text-align:right;">1.0</strong>
+                                <input type="number" id="ottodiesel-speed-num" class="sim-number-input" min="0.25" max="2.0" step="0.05" value="1.0">
                                 <span style="font-size:0.6rem; color:#475569;">×</span>
                             </div>
                         </div><!-- end parameters row -->
@@ -11021,7 +10986,7 @@
                                                 <span class="lang-en" style="display:none;">Contact Pressure
                                                     ($P$):</span>
                                             </span>
-                                            <span class="value-badge"><span id="contact-res-pressure-val">2.0</span>
+                                            <span class="value-badge"><input type="number" id="contact-res-pressure-num" class="sim-number-input" min="0" max="50" step="0.5" value="2.0">
                                                 <span id="contact-res-pressure-unit-label">MPa</span></span>
                                         </label>
                                         <input type="range" id="contact-res-pressure" min="0" max="50" step="0.5"
@@ -11085,7 +11050,7 @@
                                                 <span class="lang-en" style="display:none;">Roughness 1
                                                     ($R_{a,1}$):</span>
                                             </span>
-                                            <span class="value-badge"><span id="contact-res-roughness1-val">1.6</span>
+                                            <span class="value-badge"><input type="number" id="contact-res-roughness1-num" class="sim-number-input" min="0.1" max="12.5" step="0.1" value="1.6">
                                                 &micro;m</span>
                                         </label>
                                         <input type="range" id="contact-res-roughness1" min="0.1" max="12.5" step="0.1"
@@ -11099,7 +11064,7 @@
                                                 <span class="lang-en" style="display:none;">Roughness 2
                                                     ($R_{a,2}$):</span>
                                             </span>
-                                            <span class="value-badge"><span id="contact-res-roughness2-val">1.6</span>
+                                            <span class="value-badge"><input type="number" id="contact-res-roughness2-num" class="sim-number-input" min="0.1" max="12.5" step="0.1" value="1.6">
                                                 &micro;m</span>
                                         </label>
                                         <input type="range" id="contact-res-roughness2" min="0.1" max="12.5" step="0.1"
@@ -11113,7 +11078,7 @@
                                                 <span class="lang-en" style="display:none;">Hot End
                                                     ($T_{\text{hot}}$):</span>
                                             </span>
-                                            <span class="value-badge"><span id="contact-res-thot-val">150</span>
+                                            <span class="value-badge"><input type="number" id="contact-res-thot-num" class="sim-number-input" min="0" max="400" step="5" value="150">
                                                 &deg;C</span>
                                         </label>
                                         <input type="range" id="contact-res-thot" min="0" max="400" step="5"
@@ -11127,7 +11092,7 @@
                                                 <span class="lang-en" style="display:none;">Cold End
                                                     ($T_{\text{cold}}$):</span>
                                             </span>
-                                            <span class="value-badge"><span id="contact-res-tcold-val">25</span>
+                                            <span class="value-badge"><input type="number" id="contact-res-tcold-num" class="sim-number-input" min="-20" max="200" step="5" value="25">
                                                 &deg;C</span>
                                         </label>
                                         <input type="range" id="contact-res-tcold" min="-20" max="200" step="5"
@@ -11580,21 +11545,25 @@
                     style="color: var(--accent-orange); text-decoration: none;">felipe.colorado@udea.edu.co</a>
             </p>
             <p style="font-size: 0.75rem; margin-top: 8px; color: var(--text-secondary); opacity: 0.8;"><i
-                    class="far fa-clock"></i> <span class="lang-es">Versión 4.3 - Última actualización: <span
-                        id="last-updated-time">21 de agosto de 2026, 08:39</span> -
-                    Reorganización del panel de controles del laboratorio de Resistencia Térmica por Contacto:
-                    barras deslizantes y selectores agrupados en una sola columna vertical dentro de
-                    #contact-res-sliders-panel; panel ubicado al 50% del ancho del espacio de trabajo en la
-                    presentación inicial (modo pantalla completa sin cambios); ancho uniforme en los 7 controles;
-                    y etiquetas con nombre del parámetro, símbolo de variable y unidades entre paréntesis siempre
-                    en una misma línea, sin cortes.</span><span class="lang-en" style="display:none;">Version 4.3 - Last
-                    update: August 21,
-                    2026, 08:39 -
-                    Reorganized the control panel of the Thermal Contact Resistance lab: sliders and selectors
-                    grouped into a single vertical column inside #contact-res-sliders-panel; panel set to 50% of
-                    the workspace width in the initial layout (fullscreen mode unchanged); uniform width across
-                    all 7 controls; and labels with parameter name, variable symbol, and parenthesized units
-                    always kept on a single line.</span>
+                    class="far fa-clock"></i> <span class="lang-es">Versión v4 (Compilación 2026.08.24) - Última actualización: <span
+                        id="last-updated-time">24 de agosto de 2026, 21:56 (COT)</span> -
+                    Reorganización de categorías: consolidación de la categoría "Conducción" y de la subcategoría
+                    "Motores de Calor" (Newcomen vs. Watt); los laboratorios de Circuitos Térmicos ahora tienen
+                    doble pertenencia y conservan su visibilidad al alternar entre los filtros "Conducción" y
+                    "Circuitos Térmicos". Laboratorio de Pared Multicapa (#multicapa-custom-sim): layout inicial
+                    reestructurado (gráfica T(x) y animación a ancho completo, fronteras de temperatura en 3
+                    columnas) y entrada numérica directa por teclado, sincronizada bidireccionalmente con las
+                    barras deslizantes. Generalización de controles: los inputs numéricos sincronizados en tiempo
+                    real con las barras deslizantes ya están disponibles en toda la plataforma.</span><span class="lang-en" style="display:none;">Version v4 (Build 2026.08.24) - Last
+                    update: August 24,
+                    2026, 21:56 (COT) -
+                    Category reorganization: consolidated the "Conducción" (Conduction) category and the "Motores
+                    de Calor" (Heat Engines) subcategory (Newcomen vs. Watt); Thermal Circuits labs now have dual
+                    membership and keep their visibility when switching between the "Conducción" and "Circuitos
+                    Térmicos" filters. Multilayer Wall lab (#multicapa-custom-sim): restructured initial layout
+                    (full-width T(x) chart and animation, temperature boundaries in 3 columns) and direct keyboard
+                    numeric input, bidirectionally synced with the sliders. Control generalization: numeric inputs
+                    synced in real time with sliders are now available platform-wide.</span>
             </p>
             <div style="margin-top: 15px; text-align: center;">
                 <span class="lang-es"><img

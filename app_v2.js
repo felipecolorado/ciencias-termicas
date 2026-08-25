@@ -452,7 +452,7 @@ var timelineEvents = [
         country_en: "<img src='https://flagcdn.com/w20/us.png' alt='EE.UU.' style='vertical-align: text-bottom; margin-right: 4px;'> USA",
         desc: "La química e ingeniera de refrigeración Mary Engler Pennington fue la jefa fundadora del Laboratorio de Investigación de Alimentos del Departamento de Agricultura de EE.UU. (USDA). Desarrolló los estándares científicos de <strong>transferencia de calor por conducción en paredes compuestas aislantes</strong> ($q'' = \\frac{k}{L}\\Delta T$) para vagones de tren y cuartos fríos, creando la ingeniería moderna de la <strong>Cadena de Frío</strong>.<br><br><strong>Anecdotario:</strong> Para obtener su puesto en el gobierno sin ser rechazada por prejuicios de género, se registró inicialmente como 'M.E. Pennington'. Cuando los funcionarios descubrieron que era una mujer, ¡ya era la investigadora líder indiscutible del departamento!",
         desc_en: "Chemist and refrigeration engineer Mary Engler Pennington pioneered the scientific standards of <strong>convective and conductive heat transfer in composite insulated walls</strong> ($q'' = \\frac{k}{L}\\Delta T$) for refrigerator cars, establishing modern <strong>Cold Chain engineering</strong>.",
-        category: "Otros",
+        category: "Conducción",
         image: "Mary_Engle_Pennington.jpg",
         bio: { name: "Mary Engler Pennington", life: "1872 - 1952", country: "EE.UU." },
         "tab-target": "pennington-sim"
@@ -585,7 +585,7 @@ var timelineEvents = [
         country_en: "<img src='https://flagcdn.com/w20/us.png' alt='EE.UU.' style='vertical-align: text-bottom; margin-right: 4px;'> USA / Hungary",
         desc: "La investigadora del MIT Maria Telkes, conocida como la 'Reina del Sol', diseñó la <em>Dover Sun House</em> (1948), la primera residencia con calefacción solar utilizando materiales de cambio de fase (PCM). Utilizó sal de Glauber (Na₂SO₄·10H₂O) para almacenar energía mediante su <strong>calor latente de fusión ($\\Delta H_f = 251 \\text{ kJ/kg}$) a $32^\\circ\\text{C}$ constante</strong>:<br><br>$$ Q = m \\cdot \\Delta H_f + m \\cdot C_p \\cdot \\Delta T $$<br><br>Demostró que los PCM acumulan hasta 5 veces más calor por volumen que los acumuladores de agua o roca.<br><br><strong>Anecdotario:</strong> Durante la Segunda Guerra Mundial, inventó un kit de desalinización solar inflable de emergencia para pilotos derribados en el mar, que salvó la vida de cientos de aviadores. Fue galardonada con la Medalla de la Society of Women Engineers.",
         desc_en: "MIT researcher Maria Telkes designed the <em>Dover Sun House</em> (1948), the first solar-heated home using phase change materials (PCM) like Glauber salt storing heat via <strong>latent heat of fusion ($\\Delta H_f = 251\\text{ kJ/kg}$) at constant $32^\\circ\\text{C}$</strong>.",
-        category: "Otros",
+        category: "Conducción",
         image: "TELKES-768x539.jpg",
         bio: { name: "Maria Telkes", life: "1900 - 1995", country: "Hungría / EE.UU." },
         "tab-target": "telkes-sim"
@@ -699,6 +699,101 @@ var timelineEvents = [
 
 // Sort timeline events chronologically
 timelineEvents.sort((a, b) => a.year - b.year);
+
+// ============================================================
+// HELPER GLOBAL — Sincronización Bidireccional Slider <-> Number
+// (LOTE 2 de "Entrada Numérica Directa"; ver informe de auditoría LOTE 1
+// para el mapeo previo de patrones). Centraliza, para todos los
+// laboratorios, la lógica que hoy sólo vive duplicada dos veces dentro
+// de #multicapa-custom-sim (bindBcNumberInput / applyLayerL / applyLayerK)
+// — sin tocar ninguna de esas dos implementaciones existentes.
+//
+// Uso: syncSliderAndNumberInput(sliderEl, numberEl, onUpdate)
+//   sliderEl  — <input type="range">, fuente de verdad de min/max/step
+//               (el slider clampa su propio .value de forma nativa).
+//   numberEl  — <input type="number">; hereda min/max/step del slider
+//               si no los trae ya declarados en el HTML.
+//   onUpdate  — callback propio del laboratorio (cálculo/refresco de la
+//               simulación); se invoca con el valor numérico ya
+//               sincronizado, sin duplicar ni tocar ninguna fórmula.
+// ============================================================
+
+// Cuenta los decimales declarados en el atributo `step` (ej. "0.001" -> 3,
+// "5" -> 0, "0.5" -> 1) para redondear el campo numérico de forma
+// consistente con la granularidad propia de cada control.
+function getStepDecimals(stepAttr) {
+    if (!stepAttr) return 0;
+    const s = String(stepAttr);
+    const dotIdx = s.indexOf('.');
+    if (dotIdx === -1) return 0;
+    return s.length - dotIdx - 1;
+}
+
+function syncSliderAndNumberInput(sliderEl, numberEl, onUpdate) {
+    if (!sliderEl || !numberEl || typeof onUpdate !== 'function') return;
+
+    // El número hereda min/max/step del slider si no los trae ya
+    // declarados en el HTML (evita mantenerlos duplicados en dos sitios).
+    ['min', 'max', 'step'].forEach(attr => {
+        if (!numberEl.hasAttribute(attr) && sliderEl.hasAttribute(attr)) {
+            numberEl.setAttribute(attr, sliderEl.getAttribute(attr));
+        }
+    });
+
+    const decimals = getStepDecimals(sliderEl.step || numberEl.step);
+
+    // Clamp explícito a [min,max] — Math.min(max, Math.max(min, val)).
+    function clamp(val) {
+        const min = parseFloat(sliderEl.min);
+        const max = parseFloat(sliderEl.max);
+        if (!isNaN(min)) val = Math.max(min, val);
+        if (!isNaN(max)) val = Math.min(max, val);
+        return val;
+    }
+
+    // Estado inicial: el número refleja el valor actual del slider.
+    numberEl.value = parseFloat(sliderEl.value).toFixed(decimals);
+
+    // Slider -> Number: el slider ya clampa nativamente su .value a
+    // [min,max], así que basta con leerlo y reflejarlo en el número.
+    sliderEl.addEventListener('input', () => {
+        if (document.activeElement !== numberEl) {
+            numberEl.value = parseFloat(sliderEl.value).toFixed(decimals);
+        }
+        if (typeof updateSliderFill === 'function') updateSliderFill(sliderEl);
+        onUpdate(parseFloat(sliderEl.value));
+    });
+
+    // Number -> Slider mientras se escribe (evento 'input'): sin clamp
+    // todavía, para no pisar lo que el usuario está tecleando (un "-" a
+    // medio escribir, un campo vacío mientras borra, etc.) — sólo se
+    // descartan entradas que aún no son un número válido.
+    numberEl.addEventListener('input', () => {
+        const raw = numberEl.value.trim();
+        if (raw === '' || raw === '-' || isNaN(parseFloat(raw))) return; // el usuario sigue escribiendo
+        const val = parseFloat(raw);
+        sliderEl.value = val;
+        if (typeof updateSliderFill === 'function') updateSliderFill(sliderEl);
+        onUpdate(parseFloat(sliderEl.value));
+    });
+
+    // Number -> Slider al confirmar (eventos 'change' y 'blur'): clamp
+    // explícito a [min,max] y formateo final con los decimales de `step`.
+    function commitNumber() {
+        let val = parseFloat(numberEl.value);
+        if (isNaN(val)) val = parseFloat(sliderEl.value); // recupera el último valor válido conocido
+        val = clamp(val);
+        numberEl.value = val.toFixed(decimals);
+        sliderEl.value = val;
+        if (typeof updateSliderFill === 'function') updateSliderFill(sliderEl);
+        onUpdate(parseFloat(sliderEl.value));
+    }
+    numberEl.addEventListener('change', commitNumber);
+    numberEl.addEventListener('blur', commitNumber);
+}
+// ============================================================
+// FIN HELPER GLOBAL — Sincronización Bidireccional Slider <-> Number
+// ============================================================
 
 // Function to start main initializations
 function startApp() {
@@ -2678,6 +2773,21 @@ function initFourierSimulation() {
         return `rgb(${r}, 50, ${b})`;
     }
 
+    // LOTE 3: labelAH.innerHTML se reconstruye por completo cada vez que
+    // cambia la geometría (el texto y la unidad dependen de plano/
+    // cilindro), lo que destruye y recrea el <input type="number"
+    // id="fourier-ah-num"> junto con el resto del label — un nodo DOM
+    // nuevo no conserva los listeners que syncSliderAndNumberInput() le
+    // haya adjuntado antes. Este helper centraliza la reconstrucción y
+    // vuelve a conectar el número recién creado con el mismo slider,
+    // igual que renderLayersConfig() ya hace en #multicapa-custom-sim al
+    // regenerar sus tarjetas de capa.
+    function setLabelAHContent(html) {
+        labelAH.innerHTML = html;
+        const numEl = document.getElementById('fourier-ah-num');
+        if (numEl && sliderAH) syncSliderAndNumberInput(sliderAH, numEl, updateSimulation);
+    }
+
     function updateGeometryUI() {
         const geom = geomSelect.value;
         const formulaDiv = document.getElementById("fourier-analytical-formula");
@@ -2686,9 +2796,11 @@ function initFourierSimulation() {
             r2Container.style.display = "none";
             lContainer.style.display = "block";
             ahContainer.style.display = "block";
-            if (document.getElementById("fourier-l-val")) document.getElementById("fourier-l-val").textContent = sliderL.value;
-            if (document.getElementById("fourier-ah-val")) document.getElementById("fourier-ah-val").textContent = sliderAH.value;
-            labelAH.innerHTML = `Área transversal (A): <span id="fourier-ah-val">${sliderAH.value}</span> m&sup2;`;
+            // LOTE 3: fourier-l-val/fourier-ah-val ahora son <input
+            // type="number"> (fourier-l-num/fourier-ah-num), sincronizados
+            // por syncSliderAndNumberInput() (LOTE 2) — ya no hay badge de
+            // sólo lectura que actualizar aquí.
+            setLabelAHContent(`Área transversal (A): <input type="number" id="fourier-ah-num" class="sim-number-input" min="${sliderAH.min}" max="${sliderAH.max}" step="${sliderAH.step}" value="${sliderAH.value}"> m&sup2;`);
             if (geomStats) geomStats.style.display = "none";
             if (formulaDiv) formulaDiv.innerHTML = "\\[ T(x) = T_1 - (T_1 - T_2) \\frac{x}{L} \\]";
         } else if (geom === "cylinder") {
@@ -2696,7 +2808,7 @@ function initFourierSimulation() {
             r2Container.style.display = "block";
             lContainer.style.display = "none";
             ahContainer.style.display = "block";
-            labelAH.innerHTML = `Longitud cilindro (H): <span id="fourier-ah-val">${sliderAH.value}</span> m`;
+            setLabelAHContent(`Longitud cilindro (H): <input type="number" id="fourier-ah-num" class="sim-number-input" min="${sliderAH.min}" max="${sliderAH.max}" step="${sliderAH.step}" value="${sliderAH.value}"> m`);
             if (geomStats) geomStats.style.display = "flex";
             if (formulaDiv) formulaDiv.innerHTML = "\\[ T(r) = T_1 - (T_1 - T_2) \\frac{\\ln(r/r_1)}{\\ln(r_2/r_1)} \\]";
         } else if (geom === "sphere") {
@@ -2737,13 +2849,13 @@ function initFourierSimulation() {
 
         const AH = sliderAH ? parseFloat(sliderAH.value) : 1.0;
 
-        valT1.textContent = fourierT1;
-        valK.textContent = fourierK;
-
-        if (document.getElementById("fourier-l-val")) document.getElementById("fourier-l-val").textContent = fourierL.toFixed(2);
+        // LOTE 3: fourier-t1-val/fourier-k-val/fourier-l-val/fourier-ah-val
+        // ahora son <input type="number"> (fourier-t1-num/fourier-k-num/
+        // fourier-l-num/fourier-ah-num), sincronizados por
+        // syncSliderAndNumberInput() (LOTE 2) — estas escrituras al badge
+        // de sólo lectura quedaron obsoletas y se retiraron.
         if (valR1) valR1.textContent = r1.toFixed(2);
         if (valR2) valR2.textContent = r2.toFixed(2);
-        if (document.getElementById("fourier-ah-val")) document.getElementById("fourier-ah-val").textContent = AH.toFixed(2);
         if (valCalcL) valCalcL.textContent = fourierL.toFixed(3) + " m";
 
         let R_cond = 0;
@@ -2800,7 +2912,8 @@ function initFourierSimulation() {
 
         if (currentMode === "calc-q") {
             fourierT2 = parseFloat(sliderT2.value);
-            valT2.textContent = fourierT2;
+            // LOTE 3: fourier-t2-val ahora es fourier-t2-num, sincronizado
+            // por syncSliderAndNumberInput().
 
             if (R_cond === 0) {
                 if (fourierT1 === fourierT2) fourierQ = 0;
@@ -2813,7 +2926,8 @@ function initFourierSimulation() {
             resultVal.innerHTML = formatValue(fourierQ, "q");
         } else {
             const qIn_kW = parseFloat(sliderQin.value);
-            valQin.textContent = qIn_kW;
+            // LOTE 3: fourier-q-in-val ahora es fourier-q-in-num,
+            // sincronizado por syncSliderAndNumberInput().
             let tempQ = qIn_kW * 1000;
 
             let computedT2 = fourierT1 - (tempQ * R_cond);
@@ -3072,6 +3186,18 @@ function initFourierSimulation() {
 
     [sliderT1, sliderT2, sliderQin, sliderK, sliderL, sliderR1, sliderR2, sliderAH].forEach(el => {
         if (el) el.addEventListener('input', updateSimulation);
+    });
+
+    // LOTE 3 — entrada numérica directa: conecta cada slider con su
+    // <input type="number"> hermano (mismo id + "-num") vía el helper
+    // global del LOTE 2, reutilizando updateSimulation sin duplicarla.
+    [
+        ['fourier-t1-num', sliderT1], ['fourier-t2-num', sliderT2], ['fourier-q-in-num', sliderQin],
+        ['fourier-k-num', sliderK], ['fourier-l-num', sliderL], ['fourier-r1-num', sliderR1],
+        ['fourier-r2-num', sliderR2], ['fourier-ah-num', sliderAH]
+    ].forEach(([numId, sliderEl]) => {
+        const numEl = document.getElementById(numId);
+        if (numEl && sliderEl) syncSliderAndNumberInput(sliderEl, numEl, updateSimulation);
     });
 
     window.addEventListener('resize', () => {
@@ -4044,7 +4170,6 @@ function initMaxwellSimulation() {
     function updateSimulation() {
         const T = parseFloat(slider.value);
         const M = parseFloat(gasSelect.value); // kg/mol
-        valDisplay.textContent = T;
 
         // Calculate characteristic speeds
         const vrms = Math.sqrt((3 * R * T) / M);
@@ -4091,6 +4216,8 @@ function initMaxwellSimulation() {
 
     slider.addEventListener("input", updateSimulation);
     gasSelect.addEventListener("change", updateSimulation);
+
+    syncSliderAndNumberInput(slider, document.getElementById('maxwell-temp-num'), updateSimulation);
 
     // Initial call
     updateSimulation();
@@ -4281,9 +4408,9 @@ function initPlanckSimulation() {
         }
     });
 
-    slider.addEventListener("input", (e) => {
+    function planckUpdate() {
         const multiplier = parseInt(document.getElementById("planck-multiplier") ? document.getElementById("planck-multiplier").value : 1);
-        const T_val = parseInt(e.target.value) * multiplier;
+        const T_val = parseInt(slider.value) * multiplier;
         valDisplay.textContent = T_val.toLocaleString();
 
         // Mathematically elegant dynamic X-axis scaling: ALWAYS center the peak!
@@ -4341,7 +4468,10 @@ function initPlanckSimulation() {
         }
 
         planckChart.update('none'); // silent update for performance
-    });
+    }
+    slider.addEventListener("input", planckUpdate);
+
+    syncSliderAndNumberInput(slider, document.getElementById('planck-temp-num'), planckUpdate);
 
     // Attach listener for logarithmic scale checkbox
     const logCheckbox = document.getElementById("planck-log-scale");
@@ -4382,6 +4512,9 @@ function initPrandtlSimulation() {
     const cbHydro = document.getElementById("prandtl-show-hydro");
     const cbTherm = document.getElementById("prandtl-show-therm");
     const cbConc = document.getElementById("prandtl-show-conc");
+
+    const numNu = document.getElementById("prandtl-nu-num");
+    const numPr = document.getElementById("prandtl-pr-num");
 
     const valPDisplay = document.getElementById("prandtl-p-val");
     const valUDisplay = document.getElementById("prandtl-u-val");
@@ -4660,6 +4793,8 @@ function initPrandtlSimulation() {
             sliderNu.disabled = false;
             sliderPr.disabled = false;
             sliderSc.disabled = false;
+            if (numNu) numNu.disabled = false;
+            if (numPr) numPr.disabled = false;
 
             nu_val = parseFloat(sliderNu.value) * 1e-5;
             pr_val = parseFloat(sliderPr.value);
@@ -4669,6 +4804,8 @@ function initPrandtlSimulation() {
             document.querySelectorAll('.prandtl-custom-prop').forEach(el => el.style.display = "none");
             sliderNu.disabled = true;
             sliderPr.disabled = true;
+            if (numNu) numNu.disabled = true;
+            if (numPr) numPr.disabled = true;
 
             const props = getFluidProperties(fluid, tf, p_val);
             nu_val = props.nu;
@@ -4683,18 +4820,12 @@ function initPrandtlSimulation() {
             // Update sliders visually to match calculated properties
             sliderNu.value = (nu_val * 1e5).toFixed(2);
             sliderPr.value = pr_val.toFixed(2);
+            // Reflejar el mismo valor calculado en su input numérico hermano,
+            // ya que al estar deshabilitado no recibe eventos de sync propios.
+            if (numNu) numNu.value = sliderNu.value;
+            if (numPr) numPr.value = sliderPr.value;
         }
 
-        valPDisplay.textContent = p_val.toFixed(1);
-        valUDisplay.textContent = u_val.toFixed(1);
-        valNuDisplay.textContent = parseFloat(sliderNu.value).toFixed(2);
-        valXDisplay.textContent = x_val.toFixed(2);
-        valPrDisplay.textContent = parseFloat(sliderPr.value).toFixed(2);
-        valTsDisplay.textContent = ts_val.toString();
-        valTinfDisplay.textContent = tinf_val.toString();
-        valScDisplay.textContent = parseFloat(sliderSc.value).toFixed(2);
-        valCsDisplay.textContent = cs_val.toString();
-        valCinfDisplay.textContent = cinf_val.toString();
 
         const newData = updatePrandtlData(u_val, nu_val, x_val, pr_val, sc_val);
         prandtlChart.data.labels = newData.yPoints;
@@ -4817,7 +4948,6 @@ function initPrandtlSimulation() {
         const elLTitleEn = document.getElementById("prandtl-l-display-title-en");
         if (elLTitleEs) elLTitleEs.textContent = L_val.toFixed(2);
         if (elLTitleEn) elLTitleEn.textContent = L_val.toFixed(2);
-        valLDisplay.textContent = L_val.toFixed(1);
 
         prandtlChart.update('none');
     };
@@ -4838,6 +4968,24 @@ function initPrandtlSimulation() {
     cbHydro.addEventListener("change", updateDisplay);
     cbTherm.addEventListener("change", updateDisplay);
     cbConc.addEventListener("change", updateDisplay);
+
+    syncSliderAndNumberInput(sliderP, document.getElementById('prandtl-p-num'), updateDisplay);
+    syncSliderAndNumberInput(sliderU, document.getElementById('prandtl-u-num'), updateDisplay);
+    syncSliderAndNumberInput(sliderNu, document.getElementById('prandtl-nu-num'), updateDisplay);
+    syncSliderAndNumberInput(sliderX, document.getElementById('prandtl-x-num'), updateDisplay);
+    syncSliderAndNumberInput(sliderL, document.getElementById('prandtl-l-num'), updateDisplay);
+    syncSliderAndNumberInput(sliderPr, document.getElementById('prandtl-pr-num'), updateDisplay);
+    syncSliderAndNumberInput(sliderTs, document.getElementById('prandtl-ts-num'), updateDisplay);
+    syncSliderAndNumberInput(sliderTinf, document.getElementById('prandtl-tinf-num'), updateDisplay);
+    syncSliderAndNumberInput(sliderSc, document.getElementById('prandtl-sc-num'), updateDisplay);
+    syncSliderAndNumberInput(sliderCs, document.getElementById('prandtl-cs-num'), updateDisplay);
+    syncSliderAndNumberInput(sliderCinf, document.getElementById('prandtl-cinf-num'), updateDisplay);
+
+    // Ejecutar una vez al iniciar: sin esto, sliderNu/sliderPr (y sus
+    // inputs numéricos hermanos) quedaban habilitados y con el valor por
+    // defecto del HTML hasta el primer 'change' de fluidSelect, en vez de
+    // reflejar de inmediato el fluido preseleccionado ("Aire").
+    updateDisplay();
 
     // Particle animation logic
     const canvas = document.getElementById("boundaryLayerCanvas");
@@ -5167,8 +5315,6 @@ function initInvSqSimulation() {
     const updateDisplay = () => {
         const p_val = parseInt(sliderPower.value);
         const r_val = parseFloat(sliderDist.value);
-        document.getElementById("invsq-power-val").textContent = p_val;
-        document.getElementById("invsq-dist-val").textContent = r_val.toFixed(1);
 
         const I = calcIntensity(p_val, r_val);
         document.getElementById("invsq-intensity-val").innerHTML = `${I.toFixed(2)} W/m&sup2;`;
@@ -5185,6 +5331,9 @@ function initInvSqSimulation() {
 
     sliderPower.addEventListener("input", updateDisplay);
     sliderDist.addEventListener("input", updateDisplay);
+
+    syncSliderAndNumberInput(sliderPower, document.getElementById('invsq-power-num'), updateDisplay);
+    syncSliderAndNumberInput(sliderDist, document.getElementById('invsq-dist-num'), updateDisplay);
 
     updateDisplay();
 }
@@ -5403,14 +5552,11 @@ function initFinSimulation() {
         const t_val = parseInt(document.getElementById("fin-t").value);
         const shape = document.getElementById("fin-shape").value;
 
-        document.getElementById("fin-d-val").textContent = d_val;
-        document.getElementById("fin-w-val").textContent = w_val;
-        document.getElementById("fin-t-val").textContent = t_val;
-        document.getElementById("fin-length-val").textContent = l_val;
-        document.getElementById("fin-k-val").textContent = k_val;
-        document.getElementById("fin-h-val").textContent = h_val;
-        document.getElementById("fin-tinf-val").textContent = tinf_val;
-        document.getElementById("fin-tl-val").textContent = tl_val;
+        // LOTE 3: los badges de sólo lectura fin-d-val/fin-w-val/fin-t-val/
+        // fin-length-val/fin-k-val/fin-h-val/fin-tinf-val/fin-tl-val fueron
+        // reemplazados por <input type="number"> (ver index.html); su valor
+        // ya lo mantiene sincronizado syncSliderAndNumberInput() (LOTE 2),
+        // así que estas escrituras quedaron obsoletas y se retiraron.
 
         let Ac, P;
         if (shape === 'circular') {
@@ -5452,7 +5598,15 @@ function initFinSimulation() {
             sliderX.max = l_val;
             let x_val = parseFloat(sliderX.value);
             if (x_val > l_val) { x_val = l_val; sliderX.value = l_val; }
-            document.getElementById("fin-x-val").textContent = x_val.toFixed(1);
+            // LOTE 3: fin-x-val ahora es <input type="number"> (fin-x-num),
+            // sincronizado por syncSliderAndNumberInput() — ver arriba. El
+            // "max" del número debe seguir al del slider (que cambia con
+            // fin-length) para no bloquear valores que el slider sí admite.
+            const finXNum = document.getElementById('fin-x-num');
+            if (finXNum) {
+                finXNum.max = l_val;
+                if (document.activeElement !== finXNum) finXNum.value = x_val.toFixed(1);
+            }
 
             const x_m = x_val / 100.0;
             const L_m = l_val / 100.0;
@@ -5533,6 +5687,18 @@ function initFinSimulation() {
     sliderTinf.addEventListener("input", updateDisplay);
     const sliderX = document.getElementById("fin-x");
     if (sliderX) sliderX.addEventListener("input", updateDisplay);
+
+    // LOTE 3 — entrada numérica directa: conecta cada slider con su
+    // <input type="number"> hermano vía el helper global del LOTE 2,
+    // reutilizando updateDisplay sin duplicar lógica.
+    [
+        ['fin-tb-num', sliderTb], ['fin-d-num', sliderD], ['fin-w-num', document.getElementById('fin-w')],
+        ['fin-t-num', document.getElementById('fin-t')], ['fin-length-num', sliderL], ['fin-k-num', sliderK],
+        ['fin-h-num', sliderH], ['fin-tinf-num', sliderTinf], ['fin-tl-num', sliderTL], ['fin-x-num', sliderX]
+    ].forEach(([numId, sliderEl]) => {
+        const numEl = document.getElementById(numId);
+        if (numEl && sliderEl) syncSliderAndNumberInput(sliderEl, numEl, updateDisplay);
+    });
 
     updateDisplay();
 }
@@ -5771,12 +5937,6 @@ function initGenerationSimulation() {
         const w = parseFloat(sliderW.value);
         const L = w / 2;
 
-        valQdot.textContent = sliderQdot.value;
-        valK.textContent = sliderK.value;
-        valH.textContent = sliderH.value;
-        valTinf.textContent = sliderTinf.value;
-        valW.textContent = sliderW.value;
-
         // Pared Plana (n = 1)
         const { Ts, deltaT, Tmax } = calcGenTemps(qdot, L, h, k, Tinf, 1);
         valTs.textContent = Ts.toFixed(1) + " °C";
@@ -5877,6 +6037,12 @@ function initGenerationSimulation() {
     [sliderQdot, sliderK, sliderH, sliderTinf, sliderW].forEach(slider => {
         slider.addEventListener('input', updateSimulation);
     });
+
+    syncSliderAndNumberInput(sliderQdot, document.getElementById('gen-qdot-num'), updateSimulation);
+    syncSliderAndNumberInput(sliderK, document.getElementById('gen-k-num'), updateSimulation);
+    syncSliderAndNumberInput(sliderH, document.getElementById('gen-h-num'), updateSimulation);
+    syncSliderAndNumberInput(sliderTinf, document.getElementById('gen-tinf-num'), updateSimulation);
+    syncSliderAndNumberInput(sliderW, document.getElementById('gen-w-num'), updateSimulation);
 
     window.addEventListener('resize', () => {
         if (document.getElementById('gen-sim').classList.contains('active')) {
@@ -6207,20 +6373,6 @@ function initMultiLayerSimulation() {
         const Tinf2 = parseFloat(sliderTinf2.value);
         const h2 = parseFloat(sliderH2.value);
 
-        valTinf1.textContent = sliderTinf1.value;
-        valH1.textContent = sliderH1.value;
-        valL1.textContent = parseFloat(sliderL1.value).toFixed(2);
-        valK1.textContent = k1.toFixed(2);
-
-        valL2.textContent = parseFloat(sliderL2.value).toFixed(2);
-        valK2.textContent = k2.toFixed(2);
-
-        valL3.textContent = parseFloat(sliderL3.value).toFixed(2);
-        valK3.textContent = k3.toFixed(2);
-
-        valTinf2.textContent = sliderTinf2.value;
-        valH2.textContent = sliderH2.value;
-
         const rConv1 = 1 / h1;
         const rCond1 = L1 / k1;
         const rCond2 = L2 / k2;
@@ -6312,6 +6464,17 @@ function initMultiLayerSimulation() {
     [sliderTinf1, sliderH1, sliderL1, sliderK1, sliderL2, sliderK2, sliderL3, sliderK3, sliderTinf2, sliderH2].forEach(slider => {
         slider.addEventListener('input', updateSimulation);
     });
+
+    syncSliderAndNumberInput(sliderTinf1, document.getElementById('multi-tinf1-num'), updateSimulation);
+    syncSliderAndNumberInput(sliderH1, document.getElementById('multi-h1-num'), updateSimulation);
+    syncSliderAndNumberInput(sliderL1, document.getElementById('multi-l1-num'), updateSimulation);
+    syncSliderAndNumberInput(sliderK1, document.getElementById('multi-k1-num'), updateSimulation);
+    syncSliderAndNumberInput(sliderL2, document.getElementById('multi-l2-num'), updateSimulation);
+    syncSliderAndNumberInput(sliderK2, document.getElementById('multi-k2-num'), updateSimulation);
+    syncSliderAndNumberInput(sliderL3, document.getElementById('multi-l3-num'), updateSimulation);
+    syncSliderAndNumberInput(sliderK3, document.getElementById('multi-k3-num'), updateSimulation);
+    syncSliderAndNumberInput(sliderTinf2, document.getElementById('multi-tinf2-num'), updateSimulation);
+    syncSliderAndNumberInput(sliderH2, document.getElementById('multi-h2-num'), updateSimulation);
 
     window.addEventListener('resize', () => {
         if (document.getElementById('multi-sim').classList.contains('active')) {
@@ -7040,6 +7203,13 @@ function initNewtonSimulation() {
         if (el) el.addEventListener('input', updateSimulationParams);
     });
 
+    syncSliderAndNumberInput(sliderTi, document.getElementById('newton-ti-num'), updateSimulationParams);
+    syncSliderAndNumberInput(sliderTinf, document.getElementById('newton-tinf-num'), updateSimulationParams);
+    syncSliderAndNumberInput(sliderD, document.getElementById('newton-d-num'), updateSimulationParams);
+    syncSliderAndNumberInput(sliderK, document.getElementById('newton-k-num'), updateSimulationParams);
+    syncSliderAndNumberInput(sliderRho, document.getElementById('newton-rho-num'), updateSimulationParams);
+    syncSliderAndNumberInput(sliderCp, document.getElementById('newton-cp-num'), updateSimulationParams);
+
     // Speed buttons event listeners — estilos manejados por CSS (.active en style.css)
     const speedButtons = document.querySelectorAll('.newton-speed-btn');
     speedButtons.forEach(btn => {
@@ -7331,15 +7501,8 @@ function initNusseltSimulation() {
         currentK = parseFloat(kSlider.value);
         currentLc = parseFloat(lcSlider.value);
 
-        uVal.textContent = currentU.toFixed(1);
-        kVal.textContent = currentK.toFixed(2);
-        lcVal.textContent = currentLc.toFixed(2);
-
         currentTs = tsSlider ? parseFloat(tsSlider.value) : 100;
         currentTinf = tinfSlider ? parseFloat(tinfSlider.value) : 20;
-
-        if (tsVal) tsVal.textContent = currentTs.toFixed(0);
-        if (tinfVal) tinfVal.textContent = currentTinf.toFixed(0);
 
         // Propiedades de referencia del fluido (tipo agua)
         const rho = 1000; // kg/m³
@@ -7470,6 +7633,12 @@ function initNusseltSimulation() {
     if (tsSlider) tsSlider.addEventListener("input", updateSimulation);
     if (tinfSlider) tinfSlider.addEventListener("input", updateSimulation);
 
+    syncSliderAndNumberInput(uSlider, document.getElementById('nu-u-num'), updateSimulation);
+    syncSliderAndNumberInput(kSlider, document.getElementById('nu-k-num'), updateSimulation);
+    syncSliderAndNumberInput(lcSlider, document.getElementById('nu-lc-num'), updateSimulation);
+    if (tsSlider) syncSliderAndNumberInput(tsSlider, document.getElementById('nu-ts-num'), updateSimulation);
+    if (tinfSlider) syncSliderAndNumberInput(tinfSlider, document.getElementById('nu-tinf-num'), updateSimulation);
+
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
             updateSimulation();
@@ -7590,9 +7759,6 @@ function initBoundaryLayerSimulation() {
         const Pr = parseFloat(prSlider.value);
         const Sc = parseFloat(scSlider.value);
 
-        prVal.textContent = Pr.toFixed(1);
-        scVal.textContent = Sc.toFixed(1);
-
         const delta_t_ratio = Math.pow(Pr, -1 / 3);
         const delta_c_ratio = Math.pow(Sc, -1 / 3);
         const Le = Sc / Pr;
@@ -7652,6 +7818,9 @@ function initBoundaryLayerSimulation() {
     prSlider.addEventListener('input', updateSimulation);
     scSlider.addEventListener('input', updateSimulation);
     if (tcondSelect) tcondSelect.addEventListener('change', updateSimulation);
+
+    syncSliderAndNumberInput(prSlider, document.getElementById('bl-pr-num'), updateSimulation);
+    syncSliderAndNumberInput(scSlider, document.getElementById('bl-sc-num'), updateSimulation);
 
     updateSimulation();
 }
@@ -7738,17 +7907,11 @@ function initResistanceSimulation() {
         const k3 = parseFloat(sl_k3.value);
         const L3 = parseFloat(sl_L3.value) / 100;
 
-        document.getElementById("res-tinf1-val").textContent = tinf1;
-        document.getElementById("res-h1-val").textContent = h1;
-        document.getElementById("res-tinf2-val").textContent = tinf2;
-        document.getElementById("res-h2-val").textContent = h2;
-
-        document.getElementById("res-k1-val").textContent = k1.toFixed(2);
-        document.getElementById("res-L1-val").textContent = (L1 * 100).toFixed(0);
-        document.getElementById("res-k2-val").textContent = k2.toFixed(2);
-        document.getElementById("res-L2-val").textContent = (L2 * 100).toFixed(0);
-        document.getElementById("res-k3-val").textContent = k3.toFixed(2);
-        document.getElementById("res-L3-val").textContent = (L3 * 100).toFixed(0);
+        // LOTE 3: res-tinf1-val/res-h1-val/res-tinf2-val/res-h2-val/
+        // res-k1-val/res-L1-val/res-k2-val/res-L2-val/res-k3-val/res-L3-val
+        // ahora son <input type="number">, sincronizados por
+        // syncSliderAndNumberInput() (LOTE 2) — estas escrituras al badge
+        // de sólo lectura quedaron obsoletas y se retiraron.
 
         const R_conv1 = 1 / h1;
         const R_cond1 = L1 / k1;
@@ -7925,6 +8088,18 @@ function initResistanceSimulation() {
 
     [sl_tinf1, sl_h1, sl_tinf2, sl_h2, sl_k1, sl_L1, sl_k2, sl_L2, sl_k3, sl_L3].forEach(el => {
         el.addEventListener('input', updateSimulation);
+    });
+
+    // LOTE 3 — entrada numérica directa: conecta cada slider con su
+    // <input type="number"> hermano vía el helper global del LOTE 2,
+    // reutilizando updateSimulation sin duplicarla.
+    [
+        ['res-tinf1-num', sl_tinf1], ['res-h1-num', sl_h1], ['res-tinf2-num', sl_tinf2], ['res-h2-num', sl_h2],
+        ['res-k1-num', sl_k1], ['res-L1-num', sl_L1], ['res-k2-num', sl_k2], ['res-L2-num', sl_L2],
+        ['res-k3-num', sl_k3], ['res-L3-num', sl_L3]
+    ].forEach(([numId, sliderEl]) => {
+        const numEl = document.getElementById(numId);
+        if (numEl && sliderEl) syncSliderAndNumberInput(sliderEl, numEl, updateSimulation);
     });
 
     window.addEventListener('resize', updateSimulation);
@@ -8109,10 +8284,6 @@ function initViewFactorSimulation() {
         const l = parseFloat(sliderL.value);
         const d = parseFloat(sliderD.value);
 
-        document.getElementById("vf-w-val").textContent = w.toFixed(1);
-        document.getElementById("vf-l-val").textContent = l.toFixed(1);
-        document.getElementById("vf-d-val").textContent = d.toFixed(1);
-
         const newData = updateViewFactorData(w, l);
         viewFactorChart.data.labels = newData.d_arr;
         viewFactorChart.data.datasets[0].data = newData.f12_arr;
@@ -8128,6 +8299,10 @@ function initViewFactorSimulation() {
     [sliderW, sliderL, sliderD].forEach(el => {
         el.addEventListener("input", updateDisplay);
     });
+
+    syncSliderAndNumberInput(sliderW, document.getElementById('vf-w-num'), updateDisplay);
+    syncSliderAndNumberInput(sliderL, document.getElementById('vf-l-num'), updateDisplay);
+    syncSliderAndNumberInput(sliderD, document.getElementById('vf-d-num'), updateDisplay);
 
     window.addEventListener("resize", updateDisplay);
 
@@ -8208,18 +8383,11 @@ function initParallelSimulation() {
         const G = parseFloat(sl_g.value);
         const alpha = parseFloat(sl_alpha.value);
 
-        document.getElementById("par-t1-val").textContent = t1;
-        document.getElementById("par-tsurr-val").textContent = tsurr;
-        document.getElementById("par-h-val").textContent = h;
-        document.getElementById("par-eps-val").textContent = eps.toFixed(2);
-        document.getElementById("par-k1-val").textContent = k1.toFixed(1);
-        document.getElementById("par-L1-val").textContent = parseFloat(sl_L1.value).toFixed(1);
-        document.getElementById("par-k2-val").textContent = k2_real.toFixed(1);
-        document.getElementById("par-L2-val").textContent = parseFloat(sl_L2.value).toFixed(1);
-        document.getElementById("par-k3-val").textContent = k3_real.toFixed(1);
-        document.getElementById("par-L3-val").textContent = parseFloat(sl_L3.value).toFixed(1);
-        document.getElementById("par-g-val").textContent = G;
-        document.getElementById("par-alpha-val").textContent = alpha.toFixed(2);
+        // LOTE 3: par-t1-val/par-tsurr-val/par-h-val/par-eps-val/par-k1-val/
+        // par-L1-val/par-k2-val/par-L2-val/par-k3-val/par-L3-val/par-g-val/
+        // par-alpha-val ahora son <input type="number">, sincronizados por
+        // syncSliderAndNumberInput() (LOTE 2) — estas escrituras al badge
+        // de sólo lectura quedaron obsoletas y se retiraron.
 
         const A = 1.0;
         const R1 = L1 / (k1 * A);
@@ -8462,6 +8630,18 @@ function initParallelSimulation() {
     const elements = [sl_t1, sl_tsurr, sl_h, sl_eps, sl_k1, sl_L1, sl_k2, sl_L2, sl_k3, sl_L3, sl_g, sl_alpha];
     elements.forEach(el => {
         if (el) el.addEventListener("input", updateSimulation);
+    });
+
+    // LOTE 3 — entrada numérica directa: conecta cada slider con su
+    // <input type="number"> hermano vía el helper global del LOTE 2,
+    // reutilizando updateSimulation sin duplicarla.
+    [
+        ['par-t1-num', sl_t1], ['par-tsurr-num', sl_tsurr], ['par-h-num', sl_h], ['par-eps-num', sl_eps],
+        ['par-k1-num', sl_k1], ['par-L1-num', sl_L1], ['par-k2-num', sl_k2], ['par-L2-num', sl_L2],
+        ['par-k3-num', sl_k3], ['par-L3-num', sl_L3], ['par-g-num', sl_g], ['par-alpha-num', sl_alpha]
+    ].forEach(([numId, sliderEl]) => {
+        const numEl = document.getElementById(numId);
+        if (numEl && sliderEl) syncSliderAndNumberInput(sliderEl, numEl, updateSimulation);
     });
 
     window.addEventListener("resize", updateSimulation);
@@ -8767,6 +8947,10 @@ function initReynoldsSimulation() {
     }
 
     // Animation loop runs continuously, reading sliders on each frame
+
+    syncSliderAndNumberInput(sliderV, document.getElementById('reynolds-v-num'), draw);
+    syncSliderAndNumberInput(sliderDh, document.getElementById('reynolds-dh-num'), draw);
+    syncSliderAndNumberInput(sliderNu, document.getElementById('reynolds-nu-num'), draw);
 
     // Start loop
     draw();
@@ -9130,6 +9314,10 @@ function initNatConvSimulation() {
         natConvAnimationId = requestAnimationFrame(draw);
     }
 
+    syncSliderAndNumberInput(sliderTs, document.getElementById('natconv-ts-num'), draw);
+    syncSliderAndNumberInput(sliderTinf, document.getElementById('natconv-tinf-num'), draw);
+    syncSliderAndNumberInput(sliderD, document.getElementById('natconv-d-num'), draw);
+
     draw();
 }
 
@@ -9330,10 +9518,7 @@ function initKelvinSimulation() {
         const TK = Math.max(0, Tc + 273.15);
 
         // Update labels
-        valTemp.textContent = Tc;
         valTempK.textContent = TK.toFixed(1);
-        valPressure.textContent = P.toFixed(2);
-        valMoles.textContent = n.toFixed(2);
 
         textTc.textContent = `${Tc.toFixed(1)} °C`;
         textTk.textContent = `${TK.toFixed(2)} K`;
@@ -9473,6 +9658,10 @@ function initKelvinSimulation() {
     sliderPressure.addEventListener('input', updateSimulation);
     sliderMoles.addEventListener('input', updateSimulation);
 
+    syncSliderAndNumberInput(sliderTemp, document.getElementById('kelvin-temp-num'), updateSimulation);
+    syncSliderAndNumberInput(sliderPressure, document.getElementById('kelvin-pressure-num'), updateSimulation);
+    syncSliderAndNumberInput(sliderMoles, document.getElementById('kelvin-moles-num'), updateSimulation);
+
     // Initial run
     updateSimulation();
     renderLoop();
@@ -9594,9 +9783,6 @@ function initJouleSimulation() {
         const m = parseFloat(sliderMass.value);
         const h_val = parseFloat(sliderHeight.value);
         const M_water_kg = parseFloat(sliderWater.value);
-        valMass.textContent = m.toFixed(1);
-        valHeight.textContent = h_val.toFixed(1);
-        valWater.textContent = M_water_kg.toFixed(2);
 
         const Ep = 2 * m * g * h_val;
         const textEp = document.getElementById('joule-ep-val');
@@ -9613,6 +9799,10 @@ function initJouleSimulation() {
     sliderMass.addEventListener('input', updateInputs);
     sliderHeight.addEventListener('input', updateInputs);
     sliderWater.addEventListener('input', updateInputs);
+
+    syncSliderAndNumberInput(sliderMass, document.getElementById('joule-mass-num'), updateInputs);
+    syncSliderAndNumberInput(sliderHeight, document.getElementById('joule-height-num'), updateInputs);
+    syncSliderAndNumberInput(sliderWater, document.getElementById('joule-water-num'), updateInputs);
 
     function dropWeights() {
         if (isFalling || isResetting || massPosition >= 1.0) return;
@@ -10077,8 +10267,6 @@ function initHerschelSimulation() {
         const reg = getRegionInfo(pct);
 
         valPos.textContent = `${reg.name} (${Math.round(reg.wavelength)} nm)`;
-        valInt.textContent = I;
-        valTemp.textContent = Tamb;
 
         lblRegion.textContent = reg.name;
 
@@ -10498,6 +10686,10 @@ function initHerschelSimulation() {
         slider.addEventListener('input', updateSimulation);
     });
 
+    syncSliderAndNumberInput(sliderPos, document.getElementById('herschel-pos-num'), updateSimulation);
+    syncSliderAndNumberInput(sliderInt, document.getElementById('herschel-int-num'), updateSimulation);
+    syncSliderAndNumberInput(sliderTemp, document.getElementById('herschel-temp-num'), updateSimulation);
+
     // Initial run
     updateSimulation();
     renderLoop();
@@ -10660,10 +10852,6 @@ function initMicrochannelSimulation() {
         const V_dot = (parseFloat(sFlow.value) / 60) * 1e-6; // convert to m3/s
         const material = sMaterial.value;
         const isBallistic = cbBallistic.checked;
-
-        valPower.textContent = Q;
-        valWidth.textContent = Math.round(w_c * 1e6);
-        valFlow.textContent = sFlow.value;
 
         // Pitch between channels: assume ribs are as wide as the channels
         const pitch = 2 * w_c;
@@ -10886,6 +11074,10 @@ function initMicrochannelSimulation() {
     });
     cbBallistic.addEventListener('click', calculateThermals);
 
+    syncSliderAndNumberInput(sPower, document.getElementById('mc-power-num'), calculateThermals);
+    syncSliderAndNumberInput(sWidth, document.getElementById('mc-width-num'), calculateThermals);
+    syncSliderAndNumberInput(sFlow, document.getElementById('mc-flow-num'), calculateThermals);
+
     calculateThermals();
     renderLoop();
 }
@@ -11043,9 +11235,6 @@ function initCpCvSimulation() {
         const props = GAS_PROPERTIES[gas];
         const dtTarget = parseFloat(inputDt.value);
 
-        // Show current input value
-        spanDtVal.innerText = dtTarget.toFixed(1);
-
         const dU = props.Cv * currentDT;
         const Wp = props.R * currentDT;
         const Qv = props.Cv * currentDT;
@@ -11077,13 +11266,16 @@ function initCpCvSimulation() {
         calculatePhysics();
     });
 
-    inputDt.addEventListener('input', () => {
+    function cpcvDtReset() {
         currentDT = 0;
         heatingProgress = 0;
         isHeating = false;
         btnCalentar.innerHTML = '<i class="fas fa-play"></i> Iniciar Calentamiento';
         calculatePhysics();
-    });
+    }
+    inputDt.addEventListener('input', cpcvDtReset);
+
+    syncSliderAndNumberInput(inputDt, document.getElementById('cpcv-dt-num'), cpcvDtReset);
 
     btnCalentar.addEventListener('click', () => {
         if (isHeating) {
@@ -11328,8 +11520,6 @@ function initDoublePipeSimulation() {
             }
         }
 
-        spanThi.innerText = inputThi.value;
-        spanTci.innerText = inputTci.value;
         solveSystem();
     }
     const spanThick = document.getElementById('dp-thick-val');
@@ -11511,16 +11701,6 @@ function initDoublePipeSimulation() {
         const mh = parseFloat(inputMh.value);
         const mc = parseFloat(inputMc.value);
         const isCounter = selectFlow.value === 'counter';
-
-        // Update slider labels
-        spanLength.innerText = L.toFixed(1);
-        spanDi.innerText = inputDi.value;
-        spanThick.innerText = inputThick.value;
-        spanDs.innerText = inputDs.value;
-        spanThi.innerText = inputThi.value;
-        spanTci.innerText = inputTci.value;
-        spanMh.innerText = mh.toFixed(2);
-        spanMc.innerText = mc.toFixed(2);
 
         // Polynomial fits for water properties between 0°C and 100°C
         function getWaterProperties(T) {
@@ -12065,6 +12245,15 @@ function initDoublePipeSimulation() {
         }
     });
 
+    syncSliderAndNumberInput(inputLength, document.getElementById('dp-length-num'), solveSystem);
+    syncSliderAndNumberInput(inputDi, document.getElementById('dp-di-num'), solveSystem);
+    syncSliderAndNumberInput(inputThick, document.getElementById('dp-thick-num'), solveSystem);
+    syncSliderAndNumberInput(inputDs, document.getElementById('dp-ds-num'), solveSystem);
+    syncSliderAndNumberInput(inputThi, document.getElementById('dp-thi-num'), solveSystem);
+    syncSliderAndNumberInput(inputTci, document.getElementById('dp-tci-num'), solveSystem);
+    syncSliderAndNumberInput(inputMh, document.getElementById('dp-mh-num'), solveSystem);
+    syncSliderAndNumberInput(inputMc, document.getElementById('dp-mc-num'), solveSystem);
+
     if (selectFluidH) {
         selectFluidH.addEventListener('change', updateTemperatureSliders);
     }
@@ -12479,6 +12668,10 @@ function initVortexSimulation() {
             });
         }
     });
+
+    syncSliderAndNumberInput(inputU, document.getElementById('vortex-u-num'), updateAndRender);
+    syncSliderAndNumberInput(inputD, document.getElementById('vortex-d-num'), () => { initParticles(); updateAndRender(); });
+    syncSliderAndNumberInput(inputNu, document.getElementById('vortex-nu-num'), () => { initParticles(); updateAndRender(); });
 
     let activeAnimId;
     function loop() {
@@ -13359,6 +13552,8 @@ function initBoilingSimulation() {
         updateIndicator();
     });
 
+    syncSliderAndNumberInput(inputDte, document.getElementById('boiling-dte-num'), updateIndicator);
+
     const observer = new MutationObserver(() => {
         initChart();
     });
@@ -13759,23 +13954,13 @@ function initTransientSimulation() {
     function updateUI() {
         const { Bi, Fo } = getAdimensionalNumbers();
 
-        valH.textContent = h;
-        valSize.textContent = size.toFixed(3);
-        valTi.textContent = Ti;
-        valTinf.textContent = Tinf;
-        if (valSpeed && inputSpeed) valSpeed.textContent = inputSpeed.value;
-
-        // k display + dynamic material-type badge
-        if (valKSpan) {
-            const kDisplay = k >= 10 ? k.toFixed(1) : k >= 1 ? k.toFixed(2) : k.toFixed(4);
-            valKSpan.textContent = kDisplay;
-        }
-        if (valRho) {
-            valRho.textContent = rho.toFixed(0);
-        }
-        if (valCp) {
-            valCp.textContent = cp.toFixed(0);
-        }
+        // LOTE 3: transient-h-val/transient-size-val/transient-ti-val/
+        // transient-tinf-val/transient-speed-val/transient-k-val/
+        // transient-rho-val/transient-cp-val ahora son <input
+        // type="number">, sincronizados por syncSliderAndNumberInput()
+        // (LOTE 2) — estas escrituras al badge de sólo lectura quedaron
+        // obsoletas y se retiraron (valKType, el badge de tipo de
+        // material, no se ve afectado: usa un id distinto y sigue vivo).
         if (valKType) {
             const { label, color } = getMaterialType(k);
             valKType.textContent = label;
@@ -13959,64 +14144,94 @@ function initTransientSimulation() {
     resetBtn.addEventListener("click", resetSimulation);
 
     // Sliders dynamic value updates (don't reset simulation — just update state & redraw)
-    inputH.addEventListener("input", () => {
+    // LOTE 3: extraídas a funciones nombradas (antes closures anónimas
+    // inline) para que tanto el slider como su <input type="number">
+    // hermano puedan reutilizarlas como callback del helper del LOTE 2,
+    // sin duplicar lógica. Ningún cuerpo de función cambió — sólo se
+    // nombraron.
+    function handleTransientHInput() {
         h = parseFloat(inputH.value) || 50;
         updateUI();
-    });
-    inputSize.addEventListener("input", () => {
+    }
+    inputH.addEventListener("input", handleTransientHInput);
+
+    function handleTransientSizeInput() {
         size = parseFloat(inputSize.value) || 0.10;
         R  = size / 2.0;
         dr = R / N;
         drawSolid(); // immediate visual feedback
         updateUI();
-    });
-    inputTi.addEventListener("input", () => {
+    }
+    inputSize.addEventListener("input", handleTransientSizeInput);
+
+    function handleTransientTiInput() {
         Ti = parseFloat(inputTi.value) || 100;
         updateUI();
-    });
-    inputTinf.addEventListener("input", () => {
+    }
+    inputTi.addEventListener("input", handleTransientTiInput);
+
+    function handleTransientTinfInput() {
         Tinf = parseFloat(inputTinf.value) || 20;
         updateUI();
-    });
+    }
+    inputTinf.addEventListener("input", handleTransientTinfInput);
+
     // k, rho, cp sliders — live update without resetting simulation
-    if (inputK) {
-        inputK.addEventListener("input", () => {
-            k = parseFloat(inputK.value) || 1.0;
-            if (selectMaterial.value !== 'custom') {
-                selectMaterial.value = 'custom';
-                materialKey = 'custom';
-                updateSlidersDisabledState();
-            }
-            updateUI();
-        });
+    function handleTransientKInput() {
+        k = parseFloat(inputK.value) || 1.0;
+        if (selectMaterial.value !== 'custom') {
+            selectMaterial.value = 'custom';
+            materialKey = 'custom';
+            updateSlidersDisabledState();
+        }
+        updateUI();
     }
-    if (inputRho) {
-        inputRho.addEventListener("input", () => {
-            rho = parseFloat(inputRho.value) || 1000;
-            if (selectMaterial.value !== 'custom') {
-                selectMaterial.value = 'custom';
-                materialKey = 'custom';
-                updateSlidersDisabledState();
-            }
-            updateUI();
-        });
+    if (inputK) inputK.addEventListener("input", handleTransientKInput);
+
+    function handleTransientRhoInput() {
+        rho = parseFloat(inputRho.value) || 1000;
+        if (selectMaterial.value !== 'custom') {
+            selectMaterial.value = 'custom';
+            materialKey = 'custom';
+            updateSlidersDisabledState();
+        }
+        updateUI();
     }
-    if (inputCp) {
-        inputCp.addEventListener("input", () => {
-            cp = parseFloat(inputCp.value) || 1000;
-            if (selectMaterial.value !== 'custom') {
-                selectMaterial.value = 'custom';
-                materialKey = 'custom';
-                updateSlidersDisabledState();
-            }
-            updateUI();
-        });
+    if (inputRho) inputRho.addEventListener("input", handleTransientRhoInput);
+
+    function handleTransientCpInput() {
+        cp = parseFloat(inputCp.value) || 1000;
+        if (selectMaterial.value !== 'custom') {
+            selectMaterial.value = 'custom';
+            materialKey = 'custom';
+            updateSlidersDisabledState();
+        }
+        updateUI();
     }
-    if (inputSpeed) {
-        inputSpeed.addEventListener("input", () => {
-            updateUI();
-        });
+    if (inputCp) inputCp.addEventListener("input", handleTransientCpInput);
+
+    function handleTransientSpeedInput() {
+        updateUI();
     }
+    if (inputSpeed) inputSpeed.addEventListener("input", handleTransientSpeedInput);
+
+    // LOTE 3 — entrada numérica directa: conecta cada slider con su
+    // <input type="number"> hermano vía el helper global del LOTE 2,
+    // reutilizando el mismo handler nombrado que ya usa el slider (ver
+    // arriba) sin duplicar lógica.
+    [
+        ['transient-h-num', inputH, handleTransientHInput],
+        ['transient-size-num', inputSize, handleTransientSizeInput],
+        ['transient-ti-num', inputTi, handleTransientTiInput],
+        ['transient-tinf-num', inputTinf, handleTransientTinfInput],
+        ['transient-k-num', inputK, handleTransientKInput],
+        ['transient-rho-num', inputRho, handleTransientRhoInput],
+        ['transient-cp-num', inputCp, handleTransientCpInput],
+        ['transient-speed-num', inputSpeed, handleTransientSpeedInput]
+    ].forEach(([numId, sliderEl, handler]) => {
+        const numEl = document.getElementById(numId);
+        if (numEl && sliderEl) syncSliderAndNumberInput(sliderEl, numEl, handler);
+    });
 
     selectGeometry.addEventListener("change", resetSimulation);
 
@@ -14367,17 +14582,29 @@ function initInsulatedSimulation() {
     }
 
     // Listeners
+    // LOTE 3: extraída a función nombrada (antes closure anónima inline,
+    // idéntica para los 4 sliders) para que tanto el slider como su
+    // <input type="number"> hermano la reutilicen como callback del
+    // helper del LOTE 2, sin duplicar lógica.
+    function handleInsulatedInput() {
+        updateUI();
+        if (selectMode.value === 'steady') {
+            solveStep();
+            updateUI();
+        }
+    }
     const inputs = [inputTs, inputK, inputQg, inputThick];
     inputs.forEach(el => {
-        if (el) {
-            el.addEventListener('input', () => {
-                updateUI();
-                if (selectMode.value === 'steady') {
-                    solveStep();
-                    updateUI();
-                }
-            });
-        }
+        if (el) el.addEventListener('input', handleInsulatedInput);
+    });
+
+    // LOTE 3 — entrada numérica directa: conecta cada slider con su
+    // <input type="number"> hermano vía el helper global del LOTE 2.
+    [
+        ['ins-ts-num', inputTs], ['ins-k-num', inputK], ['ins-qg-num', inputQg], ['ins-thick-num', inputThick]
+    ].forEach(([numId, sliderEl]) => {
+        const numEl = document.getElementById(numId);
+        if (numEl && sliderEl) syncSliderAndNumberInput(sliderEl, numEl, handleInsulatedInput);
     });
 
     if (selectMode) {
@@ -14510,6 +14737,15 @@ function initMulticapaCustomSimulation() {
         return key;
     }
 
+    // ── Formateador numérico compacto (LOTE) ────────────────────────────────
+    // Elimina ceros decimales no significativos (25.00 → 25, 12.500 → 12.5,
+    // 0.080 → 0.08) en todos los valores dibujados dentro de customMultiCanvas.
+    // Aislado a este laboratorio: no se declara en ámbito global.
+    function formatNumCompact(val, maxDecimals = 2) {
+        if (val === null || val === undefined || isNaN(val)) return '--';
+        return parseFloat(Number(val).toFixed(maxDecimals)).toString();
+    }
+
     // Initialize Chart.js
     function initChart() {
         const bodyStyles = getComputedStyle(document.body);
@@ -14628,14 +14864,18 @@ function initMulticapaCustomSimulation() {
                     <span id="cm-l${idx}-k-badge" class="layer-k-badge"></span>
                 </h4>
                 <div class="control-row">
-                    <label for="cm-layer-L-${idx}">L${subStr}</label>
+                    <div class="control-row-head">
+                        <label for="cm-layer-L-${idx}">L${subStr}</label>
+                        <span class="value-badge"><input type="number" id="cm-l${idx}-L-num" class="cm-layer-L-num cm-num-sync" data-idx="${idx}" min="0.001" max="1.00" step="0.001" value="${layer.L.toFixed(3)}"> m</span>
+                    </div>
                     <input type="range" id="cm-layer-L-${idx}" class="cm-layer-L" data-idx="${idx}" min="0.001" max="1.00" step="0.001" value="${layer.L}">
-                    <span class="value-badge"><span id="cm-l${idx}-L-val">${layer.L.toFixed(3)}</span> m</span>
                 </div>
                 <div class="control-row">
-                    <label for="cm-layer-k-${idx}">k${subStr}</label>
+                    <div class="control-row-head">
+                        <label for="cm-layer-k-${idx}">k${subStr}</label>
+                        <span class="value-badge"><input type="number" id="cm-l${idx}-k-num" class="cm-layer-k-num cm-num-sync" data-idx="${idx}" min="0.001" max="2200" step="0.001" value="${layer.k.toFixed(3)}"> W/mK</span>
+                    </div>
                     <input type="range" id="cm-layer-k-${idx}" class="cm-layer-k" data-idx="${idx}" min="0.001" max="2200" step="0.001" value="${layer.k}">
-                    <span class="value-badge"><span id="cm-l${idx}-k-val">${layer.k.toFixed(3)}</span> W/mK</span>
                 </div>
                 <div class="layer-resistance-row">
                     <span>R${subStr}</span>
@@ -14645,37 +14885,90 @@ function initMulticapaCustomSimulation() {
             layersContainer.appendChild(div);
         });
 
-        // Add event listeners to new elements
+        // Actualiza el estado de una capa (L o k) y refresca resistencia/badge —
+        // función compartida por el slider y el input numérico de esa misma
+        // variable (LOTE — entrada numérica bidireccional) para no duplicar
+        // lógica entre ambos caminos. El guard "activeElement !== numEl" evita
+        // pisar lo que el usuario está escribiendo en el número mientras
+        // escribe (se refleja el valor final ya clampado al perder el foco,
+        // ver el listener 'change' más abajo).
+        function applyLayerL(idx, value) {
+            layers[idx].L = value;
+            const numEl = document.getElementById(`cm-l${idx}-L-num`);
+            if (numEl && document.activeElement !== numEl) numEl.value = layers[idx].L.toFixed(3);
+            document.getElementById(`cm-l${idx}-R-val`).innerText = (layers[idx].L / layers[idx].k).toFixed(4);
+            solveSimulation();
+        }
+
+        function applyLayerK(idx, value) {
+            layers[idx].k = value;
+            const numEl = document.getElementById(`cm-l${idx}-k-num`);
+            if (numEl && document.activeElement !== numEl) numEl.value = layers[idx].k.toFixed(3);
+            document.getElementById(`cm-l${idx}-R-val`).innerText = (layers[idx].L / layers[idx].k).toFixed(4);
+
+            // Update material badge text for common values
+            const kBadge = document.getElementById(`cm-l${idx}-k-badge`);
+            if (kBadge) {
+                if (layers[idx].k < 0.3) kBadge.innerText = "Madera/Aislante";
+                else if (layers[idx].k < 2.0) kBadge.innerText = "Vidrio/Vidrio templado";
+                else if (layers[idx].k > 2000) kBadge.innerText = "Diamante";
+                else if (layers[idx].k > 300) kBadge.innerText = "Cobre/Plata";
+                else if (layers[idx].k > 100) kBadge.innerText = "Aluminio";
+                else if (layers[idx].k > 30) kBadge.innerText = "Acero/Hierro";
+                else kBadge.innerText = "";
+            }
+
+            solveSimulation();
+        }
+
+        // Add event listeners to new elements (sliders)
         document.querySelectorAll('.cm-layer-L').forEach(input => {
             input.addEventListener('input', (e) => {
                 const idx = parseInt(e.target.getAttribute('data-idx'));
-                layers[idx].L = parseFloat(e.target.value);
-                document.getElementById(`cm-l${idx}-L-val`).innerText = layers[idx].L.toFixed(3);
-                document.getElementById(`cm-l${idx}-R-val`).innerText = (layers[idx].L / layers[idx].k).toFixed(4);
-                solveSimulation();
+                applyLayerL(idx, parseFloat(e.target.value));
             });
         });
 
         document.querySelectorAll('.cm-layer-k').forEach(input => {
             input.addEventListener('input', (e) => {
                 const idx = parseInt(e.target.getAttribute('data-idx'));
-                layers[idx].k = parseFloat(e.target.value);
-                document.getElementById(`cm-l${idx}-k-val`).innerText = layers[idx].k.toFixed(3);
-                document.getElementById(`cm-l${idx}-R-val`).innerText = (layers[idx].L / layers[idx].k).toFixed(4);
+                applyLayerK(idx, parseFloat(e.target.value));
+            });
+        });
 
-                // Update material badge text for common values
-                const kBadge = document.getElementById(`cm-l${idx}-k-badge`);
-                if (kBadge) {
-                    if (layers[idx].k < 0.3) kBadge.innerText = "Madera/Aislante";
-                    else if (layers[idx].k < 2.0) kBadge.innerText = "Vidrio/Vidrio templado";
-                    else if (layers[idx].k > 2000) kBadge.innerText = "Diamante";
-                    else if (layers[idx].k > 300) kBadge.innerText = "Cobre/Plata";
-                    else if (layers[idx].k > 100) kBadge.innerText = "Aluminio";
-                    else if (layers[idx].k > 30) kBadge.innerText = "Acero/Hierro";
-                    else kBadge.innerText = "";
-                }
+        // Entrada numérica bidireccional (LOTE): escribir en el número mueve el
+        // slider correspondiente (que clampa internamente a [min,max]) y
+        // dispara el mismo cálculo en tiempo real; al confirmar (blur/Enter) el
+        // número refleja el valor final ya clampado y formateado por el slider.
+        document.querySelectorAll('.cm-layer-L-num').forEach(numInput => {
+            const idx = parseInt(numInput.getAttribute('data-idx'));
+            const rangeEl = document.getElementById(`cm-layer-L-${idx}`);
+            if (!rangeEl) return;
+            numInput.addEventListener('input', () => {
+                const raw = numInput.value.trim();
+                if (raw === '' || raw === '-' || isNaN(parseFloat(raw))) return; // el usuario aún está escribiendo
+                rangeEl.value = raw; // <input type="range"> clampa internamente a [min, max]
+                applyLayerL(idx, parseFloat(rangeEl.value));
+            });
+            numInput.addEventListener('change', () => {
+                numInput.value = parseFloat(rangeEl.value).toFixed(3);
+                applyLayerL(idx, parseFloat(rangeEl.value));
+            });
+        });
 
-                solveSimulation();
+        document.querySelectorAll('.cm-layer-k-num').forEach(numInput => {
+            const idx = parseInt(numInput.getAttribute('data-idx'));
+            const rangeEl = document.getElementById(`cm-layer-k-${idx}`);
+            if (!rangeEl) return;
+            numInput.addEventListener('input', () => {
+                const raw = numInput.value.trim();
+                if (raw === '' || raw === '-' || isNaN(parseFloat(raw))) return; // el usuario aún está escribiendo
+                rangeEl.value = raw; // <input type="range"> clampa internamente a [min, max]
+                applyLayerK(idx, parseFloat(rangeEl.value));
+            });
+            numInput.addEventListener('change', () => {
+                numInput.value = parseFloat(rangeEl.value).toFixed(3);
+                applyLayerK(idx, parseFloat(rangeEl.value));
             });
         });
 
@@ -14697,17 +14990,21 @@ function initMulticapaCustomSimulation() {
         const elRRad = document.getElementById('cm-r-rad-group'); if (elRRad) elRRad.style.display = (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux') ? 'block' : 'none';
         const elRFlux = document.getElementById('cm-r-flux-group'); if (elRFlux) elRFlux.style.display = (typeR === 'flux' || typeR === 'comb-flux') ? 'block' : 'none';
 
-        // Update slider values spans
-        const spansMap = [
-            ['cm-l-temp-val', inputLTemp], ['cm-l-h-val', inputLH], ['cm-l-tinf-val', inputLTinf],
-            ['cm-l-eps-val', inputLEps], ['cm-l-tsur-val', inputLTsur], ['cm-l-flux-val', inputLFlux],
-            ['cm-r-temp-val', inputRTemp], ['cm-r-h-val', inputRH], ['cm-r-tinf-val', inputRTinf],
-            ['cm-r-eps-val', inputREps], ['cm-r-tsur-val', inputRTsur], ['cm-r-flux-val', inputRFlux]
+        // Sincroniza los inputs numéricos editables con el valor actual de
+        // cada slider (LOTE — entrada numérica bidireccional). Se omite el
+        // campo que tiene el foco para no pelear con lo que el usuario está
+        // escribiendo — ver bindBcNumberInput más abajo, que dispara este
+        // mismo camino (updateBcVisibility) al escribir en el número.
+        const numFieldsMap = [
+            ['cm-l-temp-num', inputLTemp], ['cm-l-h-num', inputLH], ['cm-l-tinf-num', inputLTinf],
+            ['cm-l-eps-num', inputLEps], ['cm-l-tsur-num', inputLTsur], ['cm-l-flux-num', inputLFlux],
+            ['cm-r-temp-num', inputRTemp], ['cm-r-h-num', inputRH], ['cm-r-tinf-num', inputRTinf],
+            ['cm-r-eps-num', inputREps], ['cm-r-tsur-num', inputRTsur], ['cm-r-flux-num', inputRFlux]
         ];
 
-        spansMap.forEach(([spanId, input]) => {
-            const span = document.getElementById(spanId);
-            if (span && input) span.innerText = input.value;
+        numFieldsMap.forEach(([numId, input]) => {
+            const numEl = document.getElementById(numId);
+            if (numEl && input && document.activeElement !== numEl) numEl.value = input.value;
         });
 
         solveSimulation();
@@ -14724,6 +15021,33 @@ function initMulticapaCustomSimulation() {
     inputsToBind.forEach(el => {
         if (el) el.addEventListener('input', updateBcVisibility);
     });
+
+    // Entrada numérica bidireccional para las fronteras (LOTE): cada input
+    // numérico mueve su slider correspondiente en tiempo real (el <input
+    // type="range"> clampa internamente a [min, max]) y reutiliza el mismo
+    // camino de actualización (updateBcVisibility → solveSimulation); al
+    // confirmar (blur/Enter) el número refleja el valor final ya clampado.
+    function bindBcNumberInput(numId, rangeEl) {
+        const numEl = document.getElementById(numId);
+        if (!numEl || !rangeEl) return;
+        numEl.value = rangeEl.value;
+        numEl.addEventListener('input', () => {
+            const raw = numEl.value.trim();
+            if (raw === '' || raw === '-' || isNaN(parseFloat(raw))) return; // el usuario aún está escribiendo
+            rangeEl.value = raw;
+            updateBcVisibility();
+        });
+        numEl.addEventListener('change', () => {
+            numEl.value = rangeEl.value; // el range ya tiene el valor válido más cercano
+            updateBcVisibility();
+        });
+    }
+    [
+        ['cm-l-temp-num', inputLTemp], ['cm-l-h-num', inputLH], ['cm-l-tinf-num', inputLTinf],
+        ['cm-l-eps-num', inputLEps], ['cm-l-tsur-num', inputLTsur], ['cm-l-flux-num', inputLFlux],
+        ['cm-r-temp-num', inputRTemp], ['cm-r-h-num', inputRH], ['cm-r-tinf-num', inputRTinf],
+        ['cm-r-eps-num', inputREps], ['cm-r-tsur-num', inputRTsur], ['cm-r-flux-num', inputRFlux]
+    ].forEach(([numId, rangeEl]) => bindBcNumberInput(numId, rangeEl));
 
     if (selectLayersCount) {
         selectLayersCount.addEventListener('change', renderLayersConfig);
@@ -14832,57 +15156,107 @@ function initMulticapaCustomSimulation() {
             return dq;
         }
 
-        // Iteratively solve for T0 and TN
-        let T0_guess = 100.0;
-        let TN_guess = 20.0;
+        // ── Resolución de fronteras (LOTE — corrección Dirichlet exacta) ───
+        // Una frontera 'temp' (Dirichlet) impone su temperatura de superficie
+        // de forma EXACTA — sin resistencia de contacto ni h virtual — por lo
+        // que esa incógnita deja de necesitar iteración. Sólo se itera
+        // (Newton-Raphson) sobre la(s) frontera(s) cuyo tipo requiere resolver
+        // una ecuación no lineal (convección/radiación/flujo/combinada).
+        //   A) Ambas 'temp'      -> solución cerrada exacta, sin iterar.
+        //   B) Sólo izq. 'temp'  -> T0 fijo; Newton-Raphson 1D sólo sobre TN.
+        //   C) Sólo der. 'temp'  -> TN fijo; Newton-Raphson 1D sólo sobre T0.
+        //   D) Ninguna 'temp'    -> Newton-Raphson 2D (comportamiento previo,
+        //      sin cambios).
+        const TL_input = inputLTemp ? parseFloat(inputLTemp.value) : 100;
+        const TR_input = inputRTemp ? parseFloat(inputRTemp.value) : 20;
 
-        // Initialize guesses based on specifications if possible
-        if (typeL === 'temp' && inputLTemp) T0_guess = parseFloat(inputLTemp.value);
-        if (typeR === 'temp' && inputRTemp) TN_guess = parseFloat(inputRTemp.value);
-        if (typeL === 'conv' && inputLTinf) T0_guess = parseFloat(inputLTinf.value);
-        if (typeR === 'conv' && inputRTinf) TN_guess = parseFloat(inputRTinf.value);
+        let T0_guess, TN_guess, converged;
 
-        let converged = false;
-
-        for (let iter = 0; iter < 100; iter++) {
-            // q = (T0 - TN) / Rcond
-            // f1: getFluxLeft(T0) - (T0 - TN)/Rcond = 0
-            // f2: (T0 - TN)/Rcond - getFluxRight(TN) = 0
-            const q_cond = (T0_guess - TN_guess) / Rcond;
-            const f1 = getFluxLeft(T0_guess) - q_cond;
-            const f2 = q_cond - getFluxRight(TN_guess);
-
-            if (Math.abs(f1) < 1e-4 && Math.abs(f2) < 1e-4) {
-                converged = true;
-                break;
+        if (typeL === 'temp' && typeR === 'temp') {
+            // Caso A: Dirichlet/Dirichlet — sin iteración, sin resistencia
+            // de contacto espuria. T(0) y T(Ltot) son exactamente los valores
+            // impuestos por el usuario.
+            T0_guess = TL_input;
+            TN_guess = TR_input;
+            converged = true;
+        } else if (typeL === 'temp') {
+            // Caso B: T0 exacto (Dirichlet); TN es la única incógnita.
+            T0_guess = TL_input;
+            TN_guess = 20.0;
+            if (typeR === 'conv' && inputRTinf) TN_guess = parseFloat(inputRTinf.value);
+            converged = false;
+            for (let iter = 0; iter < 100; iter++) {
+                const q_cond = (T0_guess - TN_guess) / Rcond;
+                const f2 = q_cond - getFluxRight(TN_guess);
+                if (Math.abs(f2) < 1e-4) { converged = true; break; }
+                const df2_dTN = -1.0 / Rcond - getDFluxRightDT(TN_guess);
+                if (Math.abs(df2_dTN) < 1e-12) break;
+                TN_guess -= f2 / df2_dTN;
             }
+        } else if (typeR === 'temp') {
+            // Caso C: TN exacto (Dirichlet); T0 es la única incógnita.
+            TN_guess = TR_input;
+            T0_guess = 100.0;
+            if (typeL === 'conv' && inputLTinf) T0_guess = parseFloat(inputLTinf.value);
+            converged = false;
+            for (let iter = 0; iter < 100; iter++) {
+                const q_cond = (T0_guess - TN_guess) / Rcond;
+                const f1 = getFluxLeft(T0_guess) - q_cond;
+                if (Math.abs(f1) < 1e-4) { converged = true; break; }
+                const df1_dT0 = getDFluxLeftDT(T0_guess) - 1.0 / Rcond;
+                if (Math.abs(df1_dT0) < 1e-12) break;
+                T0_guess -= f1 / df1_dT0;
+            }
+        } else {
+            // Caso D: ninguna frontera es 'temp' — Newton-Raphson 2D original,
+            // sin cambios de comportamiento.
+            T0_guess = 100.0;
+            TN_guess = 20.0;
+            if (typeL === 'conv' && inputLTinf) T0_guess = parseFloat(inputLTinf.value);
+            if (typeR === 'conv' && inputRTinf) TN_guess = parseFloat(inputRTinf.value);
+            converged = false;
 
-            // Jacobian matrix elements
-            // J = [ df1/dT0, df1/dTN ]
-            //     [ df2/dT0, df2/dTN ]
-            const df1_dT0 = getDFluxLeftDT(T0_guess) - 1.0 / Rcond;
-            const df1_dTN = 1.0 / Rcond;
-            const df2_dT0 = 1.0 / Rcond;
-            const df2_dTN = -1.0 / Rcond - getDFluxRightDT(TN_guess);
+            for (let iter = 0; iter < 100; iter++) {
+                // q = (T0 - TN) / Rcond
+                // f1: getFluxLeft(T0) - (T0 - TN)/Rcond = 0
+                // f2: (T0 - TN)/Rcond - getFluxRight(TN) = 0
+                const q_cond = (T0_guess - TN_guess) / Rcond;
+                const f1 = getFluxLeft(T0_guess) - q_cond;
+                const f2 = q_cond - getFluxRight(TN_guess);
 
-            const det = df1_dT0 * df2_dTN - df1_dTN * df2_dT0;
-            if (Math.abs(det) < 1e-12) break;
+                if (Math.abs(f1) < 1e-4 && Math.abs(f2) < 1e-4) {
+                    converged = true;
+                    break;
+                }
 
-            const dT0 = (-f1 * df2_dTN + f2 * df1_dTN) / det;
-            const dTN = (f1 * df2_dT0 - f2 * df1_dT0) / det;
+                // Jacobian matrix elements
+                // J = [ df1/dT0, df1/dTN ]
+                //     [ df2/dT0, df2/dTN ]
+                const df1_dT0 = getDFluxLeftDT(T0_guess) - 1.0 / Rcond;
+                const df1_dTN = 1.0 / Rcond;
+                const df2_dT0 = 1.0 / Rcond;
+                const df2_dTN = -1.0 / Rcond - getDFluxRightDT(TN_guess);
 
-            T0_guess += dT0;
-            TN_guess += dTN;
+                const det = df1_dT0 * df2_dTN - df1_dTN * df2_dT0;
+                if (Math.abs(det) < 1e-12) break;
+
+                const dT0 = (-f1 * df2_dTN + f2 * df1_dTN) / det;
+                const dTN = (f1 * df2_dT0 - f2 * df1_dT0) / det;
+
+                T0_guess += dT0;
+                TN_guess += dTN;
+            }
         }
 
         // Compute all interface temperatures
         T = new Array(N + 1);
-        T[0] = T0_guess;
+        T[0] = typeL === 'temp' ? TL_input : T0_guess;
         qFlux = (T0_guess - TN_guess) / Rcond;
 
         for (let i = 1; i <= N; i++) {
             T[i] = T[i - 1] - qFlux * (layers[i - 1].L / layers[i - 1].k);
         }
+        if (typeR === 'temp') T[N] = TR_input; // fuerza el valor exacto impuesto en la superficie derecha
 
         // Calculate total resistance including boundary layers (if convection/combined is active)
         let Rtot = Rcond;
@@ -15033,8 +15407,12 @@ function initMulticapaCustomSimulation() {
         const h = canvas.height = canvas.clientHeight;
         ctx.clearRect(0, 0, w, h);
 
-        const startX = 80;
-        const widthMax = w - 160;
+        // LOTE — márgenes laterales ampliados de 80px a 120px por lado para dar
+        // cabida a las etiquetas de frontera en tamaño grande (13-15px bold,
+        // ver drawSubscriptText más abajo) y a la ilustración de "Alrededores"
+        // (bóveda radiativa) sin desbordar ni solaparse con las capas.
+        const startX = 120;
+        const widthMax = w - 240;
         const centerY = h / 2 - 10;
         const heightPlate = 140;
 
@@ -15099,6 +15477,64 @@ function initMulticapaCustomSimulation() {
             ctx.restore();
         }
 
+        // Ilustración de "Alrededores" / bóveda radiativa (LOTE): representa
+        // gráficamente el entorno con el que la frontera intercambia
+        // radiación (arco punteado + rayos difusos ondulados) y rotula T_surr
+        // justo junto al ícono, para que se entienda de dónde proviene o
+        // hacia dónde va la radiación neta. Se ancla a la altura vertical
+        // central de la pared (fuera del rango de las etiquetas "Frontera
+        // Izq./Der.", que viven por encima de la pared, y de los rayos
+        // direccionales de radiación, que ocupan una franja horizontal
+        // distinta) para no solaparse con ningún otro elemento del esquema.
+        function drawSurroundingsVault(side, isIncoming, tsurVal) {
+            // La franja vertical libre difiere entre lados porque las
+            // etiquetas "Frontera Izq./Der." (más abajo en esta función) ya
+            // están ancladas de forma asimétrica en el diseño preexistente:
+            // "Frontera Izq." vive por ENCIMA de la pared, "Frontera Der."
+            // vive a la ALTURA CENTRAL. La bóveda usa siempre la franja
+            // contraria a la de su propio texto de frontera para no pisarlo.
+            const cy = side === 'left' ? centerY : Math.max(30, centerY - heightPlate / 2 - 42);
+            const r = 7;
+            const color = isIncoming ? clrRad : clrSur;
+            const cxIcon = side === 'left' ? 20 : w - 20;
+            const textX = side === 'left' ? 8 : w - 8;
+            const textAlignVal = side === 'left' ? 'left' : 'right';
+
+            ctx.save();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 1.4;
+            ctx.globalAlpha = 0.85;
+            ctx.setLineDash([2.5, 2.5]);
+            ctx.beginPath();
+            ctx.arc(cxIcon, cy, r, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Rayos difusos ondulados alrededor del ícono (radiación en todas
+            // direcciones desde/hacia el entorno)
+            ctx.setLineDash([]);
+            for (let ang = 0; ang < Math.PI * 2; ang += Math.PI / 4) {
+                const wig = Math.sin(ang * 3 + animTime * 4) * 1.2;
+                const r1 = r + 2, r2 = r + 6 + wig;
+                ctx.beginPath();
+                ctx.moveTo(cxIcon + Math.cos(ang) * r1, cy + Math.sin(ang) * r1);
+                ctx.lineTo(cxIcon + Math.cos(ang) * r2, cy + Math.sin(ang) * r2);
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1.0;
+            ctx.restore();
+
+            ctx.save();
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+            ctx.shadowBlur = 3;
+            ctx.textAlign = textAlignVal;
+            ctx.fillStyle = color;
+            ctx.font = '8px Inter, sans-serif';
+            ctx.fillText(t('Alrededores'), textX, cy - r - 9);
+            ctx.font = 'bold 9px Inter, sans-serif';
+            ctx.fillText(`T_surr = ${formatNumCompact(tsurVal, 0)}°C`, textX, cy + r + 16);
+            ctx.restore();
+        }
+
         layers.forEach((layer, idx) => {
             const thicknessFrac = layer.L / totalThickness;
             const lWidth = thicknessFrac * widthMax;
@@ -15138,7 +15574,7 @@ function initMulticapaCustomSimulation() {
             // Se desplaza levemente hacia adentro en la primera interfaz para no
             // chocar con el rótulo "Frontera Izq."
             const tempBadgeCx = idx === 0 ? currentX + 12 : currentX;
-            drawValueBadge(tempBadgeCx, centerY - heightPlate / 2 - 16, 64, `${T[idx].toFixed(1)} °C`);
+            drawValueBadge(tempBadgeCx, centerY - heightPlate / 2 - 16, 64, `${formatNumCompact(T[idx], 1)} °C`);
 
             // Valores instantáneos L_i y k_i superpuestos sobre la capa (LOTE 2)
             const layerCenterX = currentX + lWidth / 2;
@@ -15152,8 +15588,8 @@ function initMulticapaCustomSimulation() {
                 narrowLayerCounter++;
             }
             const subLbl = subDigits[idx + 1] || String(idx + 1);
-            const lText = `L${subLbl} = ${layer.L.toFixed(3)} m`;
-            const kText = `k${subLbl} = ${layer.k.toFixed(2)} W/m·K`;
+            const lText = `L${subLbl} = ${formatNumCompact(layer.L, 3)} m`;
+            const kText = `k${subLbl} = ${formatNumCompact(layer.k, 2)} W/m·K`;
 
             drawValueBadge(layerCenterX, centerY - 16 + blockShift, availableWidth, lText);
             drawValueBadge(layerCenterX, centerY + 16 + blockShift, availableWidth, kText);
@@ -15163,7 +15599,7 @@ function initMulticapaCustomSimulation() {
 
         // Badge de temperatura de la última interfase (T_s2 / superficie derecha),
         // desplazado levemente hacia adentro para no chocar con "Frontera Der."
-        drawValueBadge(currentX - 12, centerY - heightPlate / 2 - 16, 64, `${T[N].toFixed(1)} °C`);
+        drawValueBadge(currentX - 12, centerY - heightPlate / 2 - 16, 64, `${formatNumCompact(T[N], 1)} °C`);
 
         // 2. Boundary Condition Animations (Left & Right)
         const typeL = selectBcLType.value;
@@ -15334,6 +15770,7 @@ function initMulticapaCustomSimulation() {
                 ctx.fill();
             }
             ctx.globalAlpha = 1.0;
+            drawSurroundingsVault('left', isLIncoming, parseFloat(inputLTsur.value));
         }
         if (typeL === 'flux' || typeL === 'comb-flux') {
             const qVal = parseFloat(inputLFlux.value);
@@ -15416,6 +15853,7 @@ function initMulticapaCustomSimulation() {
                 ctx.fill();
             }
             ctx.globalAlpha = 1.0;
+            drawSurroundingsVault('right', isRIncoming, parseFloat(inputRTsur.value));
         }
         if (typeR === 'flux' || typeR === 'comb-flux') {
             const qValR = parseFloat(inputRFlux.value);
@@ -15493,7 +15931,7 @@ function initMulticapaCustomSimulation() {
         ctx.fillStyle = '#fbbf24';
         ctx.font = 'bold 11px Inter, sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText(`q'' = ${qFlux.toFixed(1)} W/m²`, startX + widthMax / 2, arrowY + 16);
+        ctx.fillText(`q'' = ${formatNumCompact(qFlux, 1)} W/m²`, startX + widthMax / 2, arrowY + 16);
         ctx.restore();
 
         // 5. Draw interactive boundary condition labels and values
@@ -15506,12 +15944,18 @@ function initMulticapaCustomSimulation() {
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
 
+        // LOTE — etiquetas de frontera agrandadas (antes 9px base / 7px
+        // subíndice) a 13px base/valor + 10px subíndice, ambos en bold, para
+        // que T₁, T∞, h, q'', ε y T_surr sean inmediatamente legibles. Los
+        // márgenes laterales (startX/widthMax, arriba) se ampliaron en
+        // consecuencia para que este texto más grande no se desborde ni se
+        // monte sobre las capas.
         function drawSubscriptText(base, sub, value, unit, x, y, align) {
-            ctx.font = '9px Inter, sans-serif';
+            ctx.font = 'bold 12px Inter, sans-serif';
             const baseW = ctx.measureText(base).width;
-            ctx.font = '7px Inter, sans-serif';
+            ctx.font = 'bold 9px Inter, sans-serif';
             const subW = ctx.measureText(sub).width;
-            ctx.font = '9px Inter, sans-serif';
+            ctx.font = 'bold 12px Inter, sans-serif';
             const valW = ctx.measureText(` = ${value} ${unit}`).width;
             const totalW = baseW + subW + valW;
 
@@ -15525,72 +15969,89 @@ function initMulticapaCustomSimulation() {
             ctx.textAlign = 'left';
 
             // Draw Base
-            ctx.font = '9px Inter, sans-serif';
+            ctx.font = 'bold 12px Inter, sans-serif';
             ctx.fillText(base, startX, y);
-            
+
             // Draw Subscript
-            ctx.font = '7px Inter, sans-serif';
-            ctx.fillText(sub, startX + baseW, y + 2.5);
+            ctx.font = 'bold 9px Inter, sans-serif';
+            ctx.fillText(sub, startX + baseW, y + 3);
 
             // Draw Value & Unit
-            ctx.font = '9px Inter, sans-serif';
+            ctx.font = 'bold 12px Inter, sans-serif';
             ctx.fillText(` = ${value} ${unit}`, startX + baseW + subW, y);
         }
 
         // Left Side
+        // LOTE — "Frontera Izq." vive por ENCIMA de la pared (diseño
+        // preexistente). El offset vertical (antes -26) se amplió para que,
+        // incluso en el caso de 3 líneas ('comb-flux'), el bloque de texto
+        // completo quede por encima del borde superior de la pared (y por
+        // tanto también por encima de la primera fila de rayos de
+        // radiación, que arranca un poco más abajo) y no se solape con ellos.
         ctx.textAlign = 'left';
-        let yOffsetL = centerY - heightPlate / 2 - 20;
-        ctx.font = 'bold 9px Inter, sans-serif';
+        let yOffsetL = Math.max(16, centerY - heightPlate / 2 - 52);
+        ctx.font = 'bold 15px Inter, sans-serif';
         ctx.fillStyle = clrTitle;
         ctx.fillText("Frontera Izq.", 10, yOffsetL);
-        
-        yOffsetL += 12;
+
+        yOffsetL += 17;
         if (typeL === 'temp') {
             ctx.fillStyle = clrCool;
-            drawSubscriptText("T", "L", parseFloat(inputLTemp.value).toFixed(0), "°C", 10, yOffsetL, 'left');
+            drawSubscriptText("T", "L", formatNumCompact(parseFloat(inputLTemp.value), 0), "°C", 10, yOffsetL, 'left');
         }
         if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux') {
             ctx.fillStyle = clrHot;
-            drawSubscriptText("T", "∞,L", parseFloat(inputLTinf.value).toFixed(0), "°C", 10, yOffsetL, 'left');
-            yOffsetL += 11;
+            drawSubscriptText("T", "∞,L", formatNumCompact(parseFloat(inputLTinf.value), 0), "°C", 10, yOffsetL, 'left');
+            yOffsetL += 15;
         }
         if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux') {
             ctx.fillStyle = clrSur;
-            drawSubscriptText("T", "sur,L", parseFloat(inputLTsur.value).toFixed(0), "°C", 10, yOffsetL, 'left');
-            yOffsetL += 11;
+            drawSubscriptText("T", "sur,L", formatNumCompact(parseFloat(inputLTsur.value), 0), "°C", 10, yOffsetL, 'left');
+            yOffsetL += 15;
         }
         if (typeL === 'flux' || typeL === 'comb-flux') {
             ctx.fillStyle = clrRad;
-            drawSubscriptText("q\"", "L", parseFloat(inputLFlux.value).toFixed(0), "W/m²", 10, yOffsetL, 'left');
+            drawSubscriptText("q\"", "L", formatNumCompact(parseFloat(inputLFlux.value), 0), "W/m²", 10, yOffsetL, 'left');
         }
-        
+
         // Right Side
+        // LOTE — a diferencia de "Frontera Izq.", "Frontera Der." vive
+        // DEBAJO de la pared en el diseño preexistente (evita el badge de
+        // T_s2 en la esquina superior derecha). El offset vertical (antes
+        // +24) se amplió para que el bloque completo quede por debajo del
+        // borde inferior de la pared y de todas las animaciones de frontera
+        // (rayos de radiación, flechas de flujo, líneas onduladas de
+        // convección), que ocupan casi toda la altura de la pared.
         ctx.textAlign = 'right';
-        let yOffsetR = centerY + 20;
-        ctx.font = 'bold 9px Inter, sans-serif';
+        // El clamp usa h-60 (en vez de un margen fijo más chico) porque en el
+        // peor caso ('comb-flux', 3 líneas) el bloque completo mide ~50px de
+        // alto por debajo de este punto de anclaje — h-60 deja ese espacio
+        // libre incluso en canvases bajos (ej. contenedores muy compactos).
+        let yOffsetR = Math.min(h - 60, centerY + heightPlate / 2 + 18);
+        ctx.font = 'bold 15px Inter, sans-serif';
         ctx.fillStyle = clrTitle;
         ctx.fillText("Frontera Der.", w - 10, yOffsetR);
-        
-        yOffsetR += 12;
+
+        yOffsetR += 17;
         if (typeR === 'temp') {
             ctx.fillStyle = clrCool;
-            drawSubscriptText("T", "R", parseFloat(inputRTemp.value).toFixed(0), "°C", w - 10, yOffsetR, 'right');
+            drawSubscriptText("T", "R", formatNumCompact(parseFloat(inputRTemp.value), 0), "°C", w - 10, yOffsetR, 'right');
         }
         if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux') {
             ctx.fillStyle = clrHot;
-            drawSubscriptText("T", "∞,R", parseFloat(inputRTinf.value).toFixed(0), "°C", w - 10, yOffsetR, 'right');
-            yOffsetR += 11;
+            drawSubscriptText("T", "∞,R", formatNumCompact(parseFloat(inputRTinf.value), 0), "°C", w - 10, yOffsetR, 'right');
+            yOffsetR += 15;
         }
         if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux') {
             ctx.fillStyle = clrSur;
-            drawSubscriptText("T", "sur,R", parseFloat(inputRTsur.value).toFixed(0), "°C", w - 10, yOffsetR, 'right');
-            yOffsetR += 11;
+            drawSubscriptText("T", "sur,R", formatNumCompact(parseFloat(inputRTsur.value), 0), "°C", w - 10, yOffsetR, 'right');
+            yOffsetR += 15;
         }
         if (typeR === 'flux' || typeR === 'comb-flux') {
             ctx.fillStyle = clrRad;
-            drawSubscriptText("q\"", "R", parseFloat(inputRFlux.value).toFixed(0), "W/m²", w - 10, yOffsetR, 'right');
+            drawSubscriptText("q\"", "R", formatNumCompact(parseFloat(inputRFlux.value), 0), "W/m²", w - 10, yOffsetR, 'right');
         }
-        
+
         ctx.restore();
     }
 
@@ -16635,10 +17096,6 @@ function initCarnotSimulation() {
             state.TC = 0;
             slTC.value = 0;
         }
-        spTH.textContent = state.TH;
-        spTC.textContent = state.TC;
-        spQH.textContent = state.QH;
-
         updateResults();
         drawTS(0);
     }
@@ -16646,6 +17103,10 @@ function initCarnotSimulation() {
     slTH.addEventListener('input', refresh);
     slTC.addEventListener('input', refresh);
     slQH.addEventListener('input', refresh);
+
+    syncSliderAndNumberInput(slTH, document.getElementById('carnot-th-num'), refresh);
+    syncSliderAndNumberInput(slTC, document.getElementById('carnot-tc-num'), refresh);
+    syncSliderAndNumberInput(slQH, document.getElementById('carnot-qh-num'), refresh);
 
     // ── Stop animation when tab is not visible ─────────────────
     const observer = new IntersectionObserver((entries) => {
@@ -17811,20 +18272,18 @@ function initOttoDieselSimulation() {
         state.speed = parseFloat(slSpeed.value);
         state.mode = slMode.value;
 
+        const numRDiesel = document.getElementById('ottodiesel-r-diesel-num');
         if (state.mode === 'equal') {
             slRDiesel.disabled = true;
+            if (numRDiesel) numRDiesel.disabled = true;
             // Force values to match Otto
             state.rDiesel = state.rOtto;
             slRDiesel.value = state.rOtto;
-            spRDiesel.textContent = state.rOtto.toFixed(1) + ' (Forzado)';
+            if (numRDiesel) numRDiesel.value = state.rOtto.toFixed(1);
         } else {
             slRDiesel.disabled = false;
-            spRDiesel.textContent = state.rDiesel.toFixed(1);
+            if (numRDiesel) numRDiesel.disabled = false;
         }
-
-        spROtto.textContent = state.rOtto.toFixed(1);
-        spTMax.textContent = state.Tmax;
-        spSpeed.textContent = state.speed.toFixed(2);
 
         updateResults();
     }
@@ -17834,6 +18293,11 @@ function initOttoDieselSimulation() {
     slRDiesel.addEventListener('input', refresh);
     slTMax.addEventListener('input', refresh);
     slSpeed.addEventListener('input', refresh);
+
+    syncSliderAndNumberInput(slROtto, document.getElementById('ottodiesel-r-otto-num'), refresh);
+    syncSliderAndNumberInput(slRDiesel, document.getElementById('ottodiesel-r-diesel-num'), refresh);
+    syncSliderAndNumberInput(slTMax, document.getElementById('ottodiesel-tmax-num'), refresh);
+    syncSliderAndNumberInput(slSpeed, document.getElementById('ottodiesel-speed-num'), refresh);
 
     // Play/Pause button and cycle phase manual slider listeners
     const slPhase = document.getElementById('ottodiesel-cycle-phase');
@@ -18561,13 +19025,14 @@ function initWattLab() {
         state.steamT = parseInt(slSteam.value);
         state.coldT = parseInt(slCold.value);
         state.speed = parseFloat(slSpeed.value);
-        spSteam.textContent = state.steamT;
-        spCold.textContent = state.coldT;
-        spSpeed.textContent = state.speed.toFixed(1);
     }
     slSteam.addEventListener('input', refresh);
     slCold.addEventListener('input', refresh);
     slSpeed.addEventListener('input', refresh);
+
+    syncSliderAndNumberInput(slSteam, document.getElementById('watt-steam-temp-num'), refresh);
+    syncSliderAndNumberInput(slCold, document.getElementById('watt-cold-temp-num'), refresh);
+    syncSliderAndNumberInput(slSpeed, document.getElementById('watt-speed-num'), refresh);
     refresh();
 
     const simPane = document.getElementById('watt-sim');
@@ -18647,10 +19112,6 @@ function initBernoulliSimulation() {
 
     function updateUI() {
         const { v1, d1, d2, dz } = getParams();
-        ui.v1Val.textContent = v1.toFixed(1);
-        ui.d1Val.textContent = d1.toFixed(1);
-        ui.d2Val.textContent = d2.toFixed(1);
-        ui.dzVal.textContent = dz.toFixed(1);
 
         const A1 = Math.PI * Math.pow(d1 / 100 / 2, 2); // m^2
         const A2 = Math.PI * Math.pow(d2 / 100 / 2, 2); // m^2
@@ -18724,6 +19185,11 @@ function initBernoulliSimulation() {
             }
         });
     });
+
+    syncSliderAndNumberInput(ui.v1, document.getElementById('bernoulli-v1-num'), updateUI);
+    syncSliderAndNumberInput(ui.d1, document.getElementById('bernoulli-d1-num'), updateUI);
+    syncSliderAndNumberInput(ui.d2, document.getElementById('bernoulli-d2-num'), updateUI);
+    syncSliderAndNumberInput(ui.dz, document.getElementById('bernoulli-dz-num'), updateUI);
 
     function getTubeY(xRelative, d1, d2) {
         // xRelative goes 0 to 1
@@ -18998,7 +19464,6 @@ function initClausiusSimulation() {
     function initParticles() {
         particles = [];
         const N = parseInt(sliderN.value);
-        spanN.textContent = N;
 
         const speedSelect = parseInt(sliderTemp.value);
         let baseSpeed = 1.0;
@@ -19258,6 +19723,9 @@ function initClausiusSimulation() {
 
     sliderN.addEventListener('input', initParticles);
     sliderTemp.addEventListener('input', initParticles);
+
+    syncSliderAndNumberInput(sliderN, document.getElementById('clausius-n-num'), initParticles);
+    syncSliderAndNumberInput(sliderTemp, document.getElementById('clausius-temp-num'), initParticles);
 
     // Visibility Observer
     const pane = document.getElementById('clausius-sim');
@@ -20141,21 +20609,25 @@ function initNavierStokesSimulation() {
         animId = requestAnimationFrame(draw);
     }
 
-    sliderAlpha.addEventListener('input', () => {
+    function nsAlphaUpdate() {
         const alpha = parseInt(sliderAlpha.value);
-        spanAlpha.textContent = alpha;
         updateSolidObstacle(alpha);
         updateCoefficients(alpha, parseInt(sliderRe.value));
-    });
+    }
+    sliderAlpha.addEventListener('input', nsAlphaUpdate);
 
-    sliderRe.addEventListener('input', () => {
+    function nsReUpdate() {
         const speedKmh = parseInt(sliderRe.value);
         const speedMs = speedKmh / 3.6;
         const M = speedMs / 340;
         const Re = speedMs * 0.5 / 1.5e-5;
         spanRe.textContent = `${speedKmh} km/h (${speedMs.toFixed(1)} m/s, Re = ${formatRe(Re)}, M = ${M.toFixed(2)})`;
         updateCoefficients(parseInt(sliderAlpha.value), speedKmh);
-    });
+    }
+    sliderRe.addEventListener('input', nsReUpdate);
+
+    syncSliderAndNumberInput(sliderAlpha, document.getElementById('ns-alpha-num'), nsAlphaUpdate);
+    syncSliderAndNumberInput(sliderRe, document.getElementById('ns-re-num'), nsReUpdate);
 
     btnReset.addEventListener('click', initSim);
 
@@ -20193,7 +20665,6 @@ function initNavierStokesSimulation() {
     setTimeout(() => {
         resize();
         initSim();
-        spanAlpha.textContent = sliderAlpha.value;
 
         const speedKmh = parseInt(sliderRe.value);
         const speedMs = speedKmh / 3.6;
@@ -20280,11 +20751,6 @@ function initPeltonSimulation() {
         const h = parseFloat(ui.h.value);
         const d1 = parseFloat(ui.d1.value);
         const d2 = parseFloat(ui.d2.value);
-
-        // Update UI labels
-        ui.hVal.textContent = h.toFixed(1);
-        ui.d1Val.textContent = d1.toFixed(2);
-        ui.d2Val.textContent = d2.toFixed(2);
 
         // Layout and geometry constants
         const tankX = 40;
@@ -20689,6 +21155,10 @@ function initPeltonSimulation() {
     }, { threshold: 0.1 });
     if (pane) observer.observe(pane);
 
+    syncSliderAndNumberInput(ui.h, document.getElementById('pelton-h-num'), render);
+    syncSliderAndNumberInput(ui.d1, document.getElementById('pelton-d1-num'), render);
+    syncSliderAndNumberInput(ui.d2, document.getElementById('pelton-d2-num'), render);
+
     setTimeout(resize, 150);
 }
 
@@ -20885,6 +21355,8 @@ function initCelsiusSimulation() {
     slider.addEventListener('input', updateDOM);
     if (selScale) selScale.addEventListener('change', updateDOM);
     if (selPressure) selPressure.addEventListener('change', updateDOM);
+
+    syncSliderAndNumberInput(slider, document.getElementById('celsius-temp-num'), updateDOM);
 
     window.setCelsiusTemp = function (v) { slider.value = v; updateDOM(); };
 
@@ -21532,6 +22004,15 @@ function initInternalBLSimulation() {
     }
 
     buildParticles();
+
+    syncSliderAndNumberInput(sliderUavg, document.getElementById('ibl-uavg-num'), draw);
+    syncSliderAndNumberInput(sliderDiam, document.getElementById('ibl-diam-num'), draw);
+    syncSliderAndNumberInput(sliderLength, document.getElementById('ibl-length-num'), draw);
+    syncSliderAndNumberInput(sliderPr, document.getElementById('ibl-prandtl-num'), draw);
+    syncSliderAndNumberInput(sliderTfIn, document.getElementById('ibl-tfin-num'), draw);
+    syncSliderAndNumberInput(sliderTs, document.getElementById('ibl-ts-num'), draw);
+    var sliderParticlesCount = document.getElementById('ibl-particles-count');
+    syncSliderAndNumberInput(sliderParticlesCount, document.getElementById('ibl-particles-count-num'), draw);
 
     var pane = document.getElementById('internal-bl-sim');
     if (pane) {
@@ -22735,8 +23216,6 @@ function initInternalBLSimulation() {
             const h_val = hInput ? parseFloat(hInput.value) : 12.0;
             const geom = getCylinderGeometry();
 
-            solarVal.textContent = `${I_sol} W/m²`;
-            tambVal.textContent = `${T_amb} °C`;
             if (hVal) hVal.textContent = `${h_val} W/m²·K`;
             if (vVal) vVal.textContent = `${geom.V_liters.toFixed(1)} L (${geom.V_m3.toFixed(4)} m³)`;
             if (areasVal) areasVal.innerHTML = `<i>A</i><sub>conv</sub> = ${geom.A_conv.toFixed(3)} m² | <i>A</i><sub>rad</sub> = ${geom.A_rad.toFixed(4)} m²`;
@@ -23033,6 +23512,11 @@ function initInternalBLSimulation() {
         tambInput.addEventListener("input", updateDisplays);
         if (hInput) hInput.addEventListener("input", updateDisplays);
         if (vInput) vInput.addEventListener("input", updateDisplays);
+
+        syncSliderAndNumberInput(solarSlider, document.getElementById('foote-solar-irradiance-num'), updateDisplays);
+        syncSliderAndNumberInput(tambInput, document.getElementById('foote-tamb-input-num'), updateDisplays);
+        if (hInput) syncSliderAndNumberInput(hInput, document.getElementById('foote-h-input-num'), updateDisplays);
+        if (vInput) syncSliderAndNumberInput(vInput, document.getElementById('foote-v-input-num'), updateDisplays);
         const selectAllBtn = document.getElementById("foote-select-all");
         const deselectAllBtn = document.getElementById("foote-deselect-all");
 
@@ -23123,8 +23607,6 @@ function initInternalBLSimulation() {
         function updateDisplays() {
             const m = parseFloat(massSlider.value);
             const h = parseFloat(heightSlider.value);
-            massVal.textContent = `${m.toFixed(1)} kg`;
-            heightVal.textContent = `${h.toFixed(1)} m`;
 
             const v = Math.sqrt(2 * 9.81 * h);
             const Ek = 0.5 * m * v * v;
@@ -23359,6 +23841,11 @@ function initInternalBLSimulation() {
 
         massSlider.addEventListener("input", () => { updateDisplays(); initChart(); drawCanvas(); });
         heightSlider.addEventListener("input", () => { updateDisplays(); initChart(); drawCanvas(); });
+
+        function chateletFullUpdate() { updateDisplays(); initChart(); drawCanvas(); }
+        syncSliderAndNumberInput(massSlider, document.getElementById('chatelet-mass-num'), chateletFullUpdate);
+        syncSliderAndNumberInput(heightSlider, document.getElementById('chatelet-height-num'), chateletFullUpdate);
+
         dropBtn.addEventListener("click", dropSphere);
         resetBtn.addEventListener("click", () => {
             isFalling = false;
@@ -23425,8 +23912,10 @@ function initInternalBLSimulation() {
 
         function updateDisplays() {
             const { k, L_m, Text } = getParams();
-            thickVal.textContent = `${(L_m * 100).toFixed(0)} cm`;
-            textVal.textContent = `${Text.toFixed(0)} °C`;
+            // LOTE 3: pennington-thickness-val/pennington-text-val ahora
+            // son <input type="number">, sincronizados por
+            // syncSliderAndNumberInput() (LOTE 2) — ya no hay badge de
+            // sólo lectura que actualizar aquí.
 
             const q_flux = (k / L_m) * (Text - T_cargo);
             qVal.textContent = `${q_flux.toFixed(1)} W/m²`;
@@ -23564,6 +24053,20 @@ function initInternalBLSimulation() {
             window.addEventListener("resize", () => { if (canvas.offsetParent) drawCanvas(); });
             canvas.dataset.resizeAttached = "true";
         }
+
+        // LOTE 3 — entrada numérica directa: estos 2 sliders no tenían
+        // listener 'input' propio (updateDisplays() sólo corría dentro del
+        // loop de animación tras pulsar "Start", o una vez al abrir el
+        // laboratorio) — el helper del LOTE 2 añade la vista previa en
+        // vivo también antes de iniciar la animación, reutilizando
+        // updateDisplays sin duplicar lógica.
+        [
+            ['pennington-thickness-num', thickSlider], ['pennington-text-num', textSlider]
+        ].forEach(([numId, sliderEl]) => {
+            const numEl = document.getElementById(numId);
+            if (numEl && sliderEl) syncSliderAndNumberInput(sliderEl, numEl, updateDisplays);
+        });
+
         updateDisplays();
         initChart();
         drawCanvas();
@@ -23608,8 +24111,9 @@ function initInternalBLSimulation() {
         function updateDisplays() {
             const I_sol = parseFloat(solarSlider.value);
             const m = parseFloat(massSlider.value);
-            solarVal.textContent = `${I_sol} W/m²`;
-            massVal.textContent = `${m} kg`;
+            // LOTE 3: telkes-solar-val/telkes-mass-val ahora son <input
+            // type="number">, sincronizados por syncSliderAndNumberInput()
+            // (LOTE 2) — ya no hay badge de sólo lectura que actualizar aquí.
 
             // Calculate total accumulated Q in MJ
             const Q_sensible = m * Cp_salt * (T_pcm - 20.0);
@@ -23808,6 +24312,18 @@ function initInternalBLSimulation() {
             window.addEventListener("resize", () => { if (canvas.offsetParent) drawCanvas(); });
             canvas.dataset.resizeAttached = "true";
         }
+
+        // LOTE 3 — entrada numérica directa: mismo caso que Pennington
+        // (ver comentario arriba en initPenningtonSimulation) — estos 2
+        // sliders no tenían listener 'input' propio; el helper del LOTE 2
+        // añade la vista previa en vivo reutilizando updateDisplays.
+        [
+            ['telkes-solar-num', solarSlider], ['telkes-mass-num', massSlider]
+        ].forEach(([numId, sliderEl]) => {
+            const numEl = document.getElementById(numId);
+            if (numEl && sliderEl) syncSliderAndNumberInput(sliderEl, numEl, updateDisplays);
+        });
+
         updateDisplays();
         initChart();
         drawCanvas();
@@ -23896,13 +24412,6 @@ function initInternalBLSimulation() {
             const T1_K = parseFloat(inputT1.value);
             const T2_K = parseFloat(inputT2.value);
             const qUnit = selectQUnit.value;
-
-            // Updates display inputs
-            valLargo.textContent = L1.toFixed(1);
-            valAncho.textContent = L2.toFixed(1);
-            valEmissivity.textContent = eps.toFixed(2);
-            valT1.textContent = T1_K.toFixed(0);
-            valT2.textContent = T2_K.toFixed(0);
 
             // Automatic conversions
             const T1_C = T1_K - 273.15;
@@ -24216,6 +24725,12 @@ function initInternalBLSimulation() {
             inp.addEventListener("input", calculateOutputs);
         });
         selectQUnit.addEventListener("change", calculateOutputs);
+
+        syncSliderAndNumberInput(inputLargo, document.getElementById('rad-largo-num'), calculateOutputs);
+        syncSliderAndNumberInput(inputAncho, document.getElementById('rad-ancho-num'), calculateOutputs);
+        syncSliderAndNumberInput(inputEmissivity, document.getElementById('rad-emissivity-num'), calculateOutputs);
+        syncSliderAndNumberInput(inputT1, document.getElementById('rad-t1-num'), calculateOutputs);
+        syncSliderAndNumberInput(inputT2, document.getElementById('rad-t2-num'), calculateOutputs);
 
         // Resize behavior
         resizeCanvas();
@@ -28838,6 +29353,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         [el.materialSelect, el.fluidSelect, el.pressureUnit].forEach(function (sel) {
             if (sel) sel.addEventListener('change', updateAll);
+        });
+
+        // LOTE 3 — entrada numérica directa: conecta cada slider con su
+        // <input type="number"> hermano vía el helper global del LOTE 2,
+        // reutilizando updateAll sin duplicar la orquestación
+        // readState -> computeContactPhysics -> updateBadgesAndLabels.
+        [
+            ['contact-res-pressure-num', el.pressure], ['contact-res-roughness1-num', el.roughness1],
+            ['contact-res-roughness2-num', el.roughness2], ['contact-res-thot-num', el.thot],
+            ['contact-res-tcold-num', el.tcold]
+        ].forEach(function (pair) {
+            var numEl = document.getElementById(pair[0]);
+            if (numEl && pair[1]) syncSliderAndNumberInput(pair[1], numEl, updateAll);
         });
     }
 
