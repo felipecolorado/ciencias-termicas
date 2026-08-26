@@ -13165,6 +13165,18 @@ function initMulticapaCustomSimulation() {
     const selectLayersCount = document.getElementById('cm-layers-count');
     const layersContainer = document.getElementById('cm-layers-container');
 
+    // LOTE 2 — Solver Multigeometría: Selector de geometría + parámetros
+    // radiales (radio interior r1, longitud del cilindro L). geometry/
+    // baseRadius1/cylinderLength son el mismo estado del LOTE 1 (declarado
+    // más abajo junto a `layers`) — estos controles sólo lo conectan a la UI.
+    const selectGeometry = document.getElementById('cm-geometry-select');
+    const geometryParamsGroup = document.getElementById('cm-geometry-params');
+    const inputR1 = document.getElementById('cm-r1');
+    const inputR1Num = document.getElementById('cm-r1-num');
+    const cylLengthGroup = document.getElementById('cm-cyl-length-group');
+    const inputCylLength = document.getElementById('cm-cyl-length');
+    const inputCylLengthNum = document.getElementById('cm-cyl-length-num');
+
     // BC Left Controls
     const selectBcLType = document.getElementById('cm-bc-l-type');
     const inputLTemp = document.getElementById('cm-l-temp');
@@ -13210,8 +13222,30 @@ function initMulticapaCustomSimulation() {
         { L: 0.04, k: 1.5 }   // default concrete
     ];
     const maxLayers = 10;
+
+    // Subíndices unicode compartidos por renderLayersConfig() y por el
+    // refresco ligero de badges de geometría curva (LOTE 2) — hoisted aquí
+    // para no duplicar el array en dos sitios.
+    const layerSubscripts = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉", "₁₀"];
+    function subLabel(n) { return layerSubscripts[n] || String(n); }
+
+    // ── LOTE — Solver Multigeometría (Pared Plana / Cilindro Hueco Multicapa /
+    // Esfera Hueca Multicapa) ───────────────────────────────────────────────
+    // Estado del laboratorio: geometría activa + parámetros geométricos
+    // adicionales que sólo aplican a geometría curva (radio interior de la
+    // capa 1 y, para el cilindro, longitud axial). En geometría 'planar' se
+    // ignoran (A=1 m² por convención, ver areaAt()/computeRadii() más abajo),
+    // preservando exactamente el comportamiento previo del laboratorio.
+    // LOTE 2 conecta esto a la UI (selector de geometría + inputs de r1/L,
+    // ver selectGeometry/inputR1/inputCylLength arriba y updateGeometryVisibility()
+    // más abajo) reutilizando window.MulticapaGeometry (expuesto al final de
+    // esta función) como única superficie de entrada — el solver no se tocó.
+    let geometry = 'planar'; // 'planar' | 'cylindrical' | 'spherical'
+    let baseRadius1 = 0.05;  // r1 (m): radio interior de la capa 1 (sólo cilindro/esfera)
+    let cylinderLength = 1.0; // L (m): longitud axial del cilindro (sólo cilindro)
+
     let T = []; // temperatures at interfaces (size N+1)
-    let qFlux = 0.0;
+    let qFlux = 0.0; // geometría plana: densidad de flujo q'' (W/m²); geometría curva: flujo total Q (W)
     let bcResL = { R: 0, hConv: 0, hRad: 0, isSource: false }; // resistencia/fuente de frontera izq. (LOTE circuito)
     let bcResR = { R: 0, hConv: 0, hRad: 0, isSource: false }; // resistencia/fuente de frontera der. (LOTE circuito)
     let customChart;
@@ -13238,7 +13272,13 @@ function initMulticapaCustomSimulation() {
     //                                  pero con una sola rama resistiva).
     //   • 'irr_rad'                 -> R = 1/h_rad (rama resistiva única, igual que
     //                                  'rad') MÁS la misma fuente α·G (isSource = true).
-    function boundaryResistanceInfo(type, hVal, epsVal, tsurVal, TsVal) {
+    //
+    // LOTE — Solver Multigeometría: recibe además `areaVal` (A1 o A_{N+1},
+    // el área superficial real de esa frontera). En geometría plana A=1 m²
+    // por convención (ver areaAt()), así que R = 1/hTotal como antes; en
+    // geometría curva R = 1/(hTotal·A) — resistencia física real en K/W.
+    function boundaryResistanceInfo(type, hVal, epsVal, tsurVal, TsVal, areaVal) {
+        const A = (areaVal === undefined || areaVal === null || !isFinite(areaVal) || areaVal <= 0) ? 1.0 : areaVal;
         if (type === 'temp') return { R: 0, hConv: 0, hRad: 0, isSource: false };
         let hConv = 0, hRad = 0;
         if (type === 'conv' || type === 'comb' || type === 'comb-flux' || type === 'irr_conv') {
@@ -13251,7 +13291,65 @@ function initMulticapaCustomSimulation() {
         }
         if (type === 'flux') return { R: null, hConv: 0, hRad: 0, isSource: true };
         const hTotal = hConv + hRad;
-        return { R: hTotal > 0 ? 1 / hTotal : null, hConv, hRad, isSource: (type === 'comb-flux' || type === 'irr_conv' || type === 'irr_rad') };
+        return { R: hTotal > 0 ? 1 / (hTotal * A) : null, hConv, hRad, isSource: (type === 'comb-flux' || type === 'irr_conv' || type === 'irr_rad') };
+    }
+
+    // ── LOTE — Solver Multigeometría: áreas y radios ────────────────────────
+    // computeRadii(): radios/posiciones acumuladas en cada interfase i=0..N.
+    // Para geometría plana, radii[0]=0 y radii[i] es la posición x acumulada
+    // (idéntico al xPos/curX que ya usaba el laboratorio) — así layerRcondAt()
+    // y las posiciones de tabla/gráfica pueden compartir la misma fórmula sin
+    // duplicar lógica entre geometrías. Para cilindro/esfera, radii[0]=r1
+    // (baseRadius1) y cada capa suma su espesor L_i como incremento radial.
+    function computeRadii() {
+        const N = layers.length;
+        const r = new Array(N + 1);
+        r[0] = (geometry === 'planar') ? 0.0 : baseRadius1;
+        for (let i = 1; i <= N; i++) r[i] = r[i - 1] + layers[i - 1].L;
+        return r;
+    }
+
+    // areaAt(r): área superficial real en el radio r según la geometría activa.
+    // Plana: A=1 m² (convención de "por unidad de área" ya usada por todo el
+    // laboratorio desde antes de este LOTE — mantiene el comportamiento previo
+    // sin cambios). Cilíndrica: A(r) = 2πrL. Esférica: A(r) = 4πr².
+    function areaAt(r) {
+        if (geometry === 'cylindrical') return 2 * Math.PI * r * cylinderLength;
+        if (geometry === 'spherical') return 4 * Math.PI * r * r;
+        return 1.0; // planar
+    }
+
+    // layerRcondAt(idx, radiiArr): resistencia de conducción de la capa idx
+    // (0-index) según la geometría activa. Ver fórmulas del LOTE:
+    //   Plana:      R = L_i/(k_i·A) = L_i/k_i           (A=1)
+    //   Cilíndrica: R = ln(r_{i+1}/r_i) / (2π k_i L)
+    //   Esférica:   R = (1/r_i - 1/r_{i+1}) / (4π k_i)
+    function layerRcondAt(idx, radiiArr) {
+        const l = layers[idx];
+        const rIn = radiiArr[idx], rOut = radiiArr[idx + 1];
+        if (geometry === 'cylindrical') return Math.log(rOut / rIn) / (2 * Math.PI * l.k * cylinderLength);
+        if (geometry === 'spherical') return (1 / rIn - 1 / rOut) / (4 * Math.PI * l.k);
+        return (rOut - rIn) / l.k; // planar: equivalente a l.L / l.k
+    }
+
+    // LOTE 2 — Solver Multigeometría (UI): refresco ligero (sin reconstruir
+    // el DOM de #cm-layers-container) de "r_i → r_{i+1}" y R_i de TODAS las
+    // capas en geometría curva. Se usa tras arrastrar cualquier control que
+    // desplace radios aguas abajo (L de una capa, o r1/longitud del
+    // cilindro) sin perder el foco/arrastre del control que el usuario está
+    // moviendo — evita el costo/parpadeo de un renderLayersConfig() completo
+    // en cada evento 'input' de un slider. No-op en geometría plana (esas
+    // tarjetas no tienen el div `cm-l{i}-radii-info`).
+    function refreshCurvedLayerBadges() {
+        if (geometry === 'planar') return;
+        const radii = computeRadii();
+        layers.forEach((layer, i) => {
+            const subStr = subLabel(i + 1);
+            const infoEl = document.getElementById(`cm-l${i}-radii-info`);
+            if (infoEl) infoEl.innerHTML = `r${subStr}: ${formatNumCompact(radii[i], 3)} m &rarr; ${formatNumCompact(radii[i + 1], 3)} m`;
+            const rEl = document.getElementById(`cm-l${i}-R-val`);
+            if (rEl) rEl.innerText = layerRcondAt(i, radii).toFixed(4);
+        });
     }
 
     // ── Utilidades de traducción (LOTE 3) ──────────────────────────────────
@@ -13403,19 +13501,34 @@ function initMulticapaCustomSimulation() {
 
         layersContainer.innerHTML = '';
 
+        // LOTE 2 — Solver Multigeometría: en geometría curva, cada tarjeta
+        // de capa muestra además r_i → r_{i+1} (radios reales de esa capa,
+        // acumulados desde r1) y el slider/número de "L" pasa a leerse como
+        // "Δr" (sigue siendo el mismo valor/ID/rango — layers[idx].L —, ver
+        // LOTE 1: en geometría curva ya se interpreta como incremento
+        // radial, sin necesidad de un campo nuevo por capa). La resistencia
+        // R_i mostrada usa layerRcondAt() (LOTE 1) en vez de L/k a secas,
+        // así que es correcta en las tres geometrías.
+        const isCurved = (geometry !== 'planar');
+        const radiiForRender = computeRadii();
+
         layers.forEach((layer, idx) => {
-            const sub = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉", "₁₀"];
-            const subStr = sub[idx + 1] || (idx + 1);
+            const subStr = subLabel(idx + 1);
             const div = document.createElement('div');
             div.className = 'result-card layer-card';
+            const lengthLabel = isCurved ? ('&Delta;r' + subStr) : ('L' + subStr);
+            const radiiInfoHtml = isCurved
+                ? `<div id="cm-l${idx}-radii-info" class="layer-radii-info">r${subStr}: ${formatNumCompact(radiiForRender[idx], 3)} m &rarr; ${formatNumCompact(radiiForRender[idx + 1], 3)} m</div>`
+                : '';
             div.innerHTML = `
                 <h4 class="layer-title">
                     <span>Capa ${idx + 1}</span>
                     <span id="cm-l${idx}-k-badge" class="layer-k-badge"></span>
                 </h4>
+                ${radiiInfoHtml}
                 <div class="control-row">
                     <div class="control-row-head">
-                        <label for="cm-layer-L-${idx}">L${subStr}</label>
+                        <label for="cm-layer-L-${idx}">${lengthLabel}</label>
                         <span class="value-badge"><input type="number" id="cm-l${idx}-L-num" class="cm-layer-L-num cm-num-sync" data-idx="${idx}" min="0.001" max="1.00" step="0.001" value="${layer.L.toFixed(3)}"> m</span>
                     </div>
                     <input type="range" id="cm-layer-L-${idx}" class="cm-layer-L" data-idx="${idx}" min="0.001" max="1.00" step="0.001" value="${layer.L}">
@@ -13429,7 +13542,7 @@ function initMulticapaCustomSimulation() {
                 </div>
                 <div class="layer-resistance-row">
                     <span>R${subStr}</span>
-                    <strong><span id="cm-l${idx}-R-val" style="color: var(--accent-orange);">${(layer.L / layer.k).toFixed(4)}</span> K/W</strong>
+                    <strong><span id="cm-l${idx}-R-val" style="color: var(--accent-orange);">${layerRcondAt(idx, radiiForRender).toFixed(4)}</span> K/W</strong>
                 </div>
             `;
             layersContainer.appendChild(div);
@@ -13446,7 +13559,15 @@ function initMulticapaCustomSimulation() {
             layers[idx].L = value;
             const numEl = document.getElementById(`cm-l${idx}-L-num`);
             if (numEl && document.activeElement !== numEl) numEl.value = layers[idx].L.toFixed(3);
-            document.getElementById(`cm-l${idx}-R-val`).innerText = (layers[idx].L / layers[idx].k).toFixed(4);
+            if (geometry === 'planar') {
+                document.getElementById(`cm-l${idx}-R-val`).innerText = layerRcondAt(idx, computeRadii()).toFixed(4);
+            } else {
+                // LOTE 2: en geometría curva, L de la capa idx es Δr_idx — al
+                // cambiarlo se desplazan los radios de TODAS las capas
+                // siguientes (r_{i+1}=r_i+L_i acumulado), así que hace falta
+                // refrescar "r_i→r_{i+1}" y R_i de todas, no sólo de idx.
+                refreshCurvedLayerBadges();
+            }
             solveSimulation();
         }
 
@@ -13454,7 +13575,8 @@ function initMulticapaCustomSimulation() {
             layers[idx].k = value;
             const numEl = document.getElementById(`cm-l${idx}-k-num`);
             if (numEl && document.activeElement !== numEl) numEl.value = layers[idx].k.toFixed(3);
-            document.getElementById(`cm-l${idx}-R-val`).innerText = (layers[idx].L / layers[idx].k).toFixed(4);
+            // k no desplaza radios de ninguna capa -> sólo su propia R_i cambia.
+            document.getElementById(`cm-l${idx}-R-val`).innerText = layerRcondAt(idx, computeRadii()).toFixed(4);
 
             // Update material badge text for common values
             const kBadge = document.getElementById(`cm-l${idx}-k-badge`);
@@ -13609,6 +13731,120 @@ function initMulticapaCustomSimulation() {
         selectLayersCount.addEventListener('change', renderLayersConfig);
     }
 
+    // ── LOTE — Fronteras Radiales: actualiza dinámicamente los títulos de los
+    // paneles #cm-panel-left-bc y #cm-panel-right-bc según la geometría activa.
+    // En 'planar' restaura el texto original (Izquierda/Derecha); en geometría
+    // curva usa "Superficie Interna (r = r₁)" / "Superficie Externa (r = r_{N+1})".
+    // Respeta el sistema bilingüe vía t(): en 'es' devuelve la clave, en 'en'
+    // busca en window.uiTranslations (translations.js) — mismo patrón del LOTE 3.
+    function updateBcPanelHeaders(g) {
+        const panelL = document.getElementById('cm-panel-left-bc');
+        const panelR = document.getElementById('cm-panel-right-bc');
+        if (!panelL || !panelR) return;
+
+        const h4L = panelL.querySelector('h4.sim-subheading');
+        const h4R = panelR.querySelector('h4.sim-subheading');
+        if (!h4L || !h4R) return;
+
+        const lang = getLang(); // 'es' | 'en'
+
+        if (g === 'planar') {
+            // Restaurar encabezados originales (Pared Plana)
+            const esL = 'Frontera Izquierda <span style="font-size:0.8em;opacity:0.85;">$(x = 0)$</span>';
+            const enL = 'Left Border <span style="font-size:0.8em;opacity:0.85;">$(x = 0)$</span>';
+            const esR = 'Frontera Derecha <span style="font-size:0.8em;opacity:0.85;">$(x = L_{tot})$</span>';
+            const enR = 'Right Border <span style="font-size:0.8em;opacity:0.85;">$(x = L_{tot})$</span>';
+            h4L.innerHTML = `<i class="fas fa-chevron-left"></i> ${lang === 'en' ? enL : esL}`;
+            h4R.innerHTML = `${lang === 'en' ? enR : esR} <i class="fas fa-chevron-right"></i>`;
+        } else {
+            // Geometría curva: terminología radial
+            // Subscript N+1 como superíndice compacto
+            const N = layers.length;
+            const subN1 = N + 1; // número entero, se renderiza como texto
+            const esL = `Frontera Superficie Interna <span style="font-size:0.8em;opacity:0.85;">(r = r₁)</span>`;
+            const enL = `Inner Surface Boundary <span style="font-size:0.8em;opacity:0.85;">(r = r₁)</span>`;
+            const esR = `Frontera Superficie Externa <span style="font-size:0.8em;opacity:0.85;">(r = r<sub>${subN1}</sub>)</span>`;
+            const enR = `Outer Surface Boundary <span style="font-size:0.8em;opacity:0.85;">(r = r<sub>${subN1}</sub>)</span>`;
+            h4L.innerHTML = `<i class="fas fa-circle-dot" style="font-size:0.85em;"></i> ${lang === 'en' ? enL : esL}`;
+            h4R.innerHTML = `${lang === 'en' ? enR : esR} <i class="fas fa-circle" style="font-size:0.85em;opacity:0.6;"></i>`;
+        }
+
+        // Re-renderizar MathJax si está disponible (por los $ ... $ inline)
+        if (window.MathJax && window.MathJax.typesetPromise) {
+            window.MathJax.typesetPromise([panelL, panelR]).catch(() => {});
+        }
+    }
+
+    // ── LOTE 2 — Solver Multigeometría: UI del selector de geometría y de
+    // los parámetros radiales (r1, longitud del cilindro) ──────────────────
+    // Toda mutación de geometry/baseRadius1/cylinderLength pasa por
+    // window.MulticapaGeometry (expuesto al final de esta función, LOTE 1)
+    // — única superficie de entrada, así el solver no se vuelve a tocar.
+    // Por qué es seguro llamar window.MulticapaGeometry aquí aunque se
+    // defina más abajo en el código: estos son listeners — sólo se ejecutan
+    // ante una interacción real del usuario, momento en el que la
+    // inicialización síncrona de la función ya terminó por completo.
+    function updateGeometryVisibility() {
+        if (!selectGeometry) return;
+        const g = selectGeometry.value;
+        window.MulticapaGeometry.setGeometry(g);
+        if (geometryParamsGroup) geometryParamsGroup.style.display = (g === 'planar') ? 'none' : 'flex';
+        if (cylLengthGroup) cylLengthGroup.style.display = (g === 'cylindrical') ? 'block' : 'none';
+        // Reconstrucción completa (no el refresco ligero): el cambio de
+        // geometría altera la plantilla misma de la tarjeta de capa (añade/
+        // quita el div de radios, cambia la etiqueta L↔Δr) — sólo pasa en
+        // el evento 'change' del <select>, no en cada tick de un drag.
+        renderLayersConfig();
+        // Actualizar títulos de paneles de frontera según la nueva geometría
+        updateBcPanelHeaders(g);
+    }
+    if (selectGeometry) {
+        selectGeometry.addEventListener('change', updateGeometryVisibility);
+    }
+
+
+    function applyBaseRadius(value) {
+        window.MulticapaGeometry.setBaseRadius(value);
+        if (inputR1Num && document.activeElement !== inputR1Num) inputR1Num.value = baseRadius1.toFixed(3);
+        refreshCurvedLayerBadges();
+    }
+    if (inputR1) {
+        inputR1.addEventListener('input', (e) => applyBaseRadius(parseFloat(e.target.value)));
+    }
+    if (inputR1Num) {
+        inputR1Num.addEventListener('input', () => {
+            const raw = inputR1Num.value.trim();
+            if (raw === '' || raw === '-' || isNaN(parseFloat(raw))) return; // el usuario aún está escribiendo
+            if (inputR1) inputR1.value = raw; // <input type="range"> clampa internamente a [min, max]
+            applyBaseRadius(parseFloat(inputR1 ? inputR1.value : raw));
+        });
+        inputR1Num.addEventListener('change', () => {
+            if (inputR1) inputR1Num.value = parseFloat(inputR1.value).toFixed(3);
+            applyBaseRadius(parseFloat(inputR1 ? inputR1.value : inputR1Num.value));
+        });
+    }
+
+    function applyCylinderLength(value) {
+        window.MulticapaGeometry.setCylinderLength(value);
+        if (inputCylLengthNum && document.activeElement !== inputCylLengthNum) inputCylLengthNum.value = cylinderLength.toFixed(3);
+        refreshCurvedLayerBadges();
+    }
+    if (inputCylLength) {
+        inputCylLength.addEventListener('input', (e) => applyCylinderLength(parseFloat(e.target.value)));
+    }
+    if (inputCylLengthNum) {
+        inputCylLengthNum.addEventListener('input', () => {
+            const raw = inputCylLengthNum.value.trim();
+            if (raw === '' || raw === '-' || isNaN(parseFloat(raw))) return;
+            if (inputCylLength) inputCylLength.value = raw;
+            applyCylinderLength(parseFloat(inputCylLength ? inputCylLength.value : raw));
+        });
+        inputCylLengthNum.addEventListener('change', () => {
+            if (inputCylLength) inputCylLengthNum.value = parseFloat(inputCylLength.value).toFixed(3);
+            applyCylinderLength(parseFloat(inputCylLength ? inputCylLength.value : inputCylLengthNum.value));
+        });
+    }
+
     // Physics solver
     function solveSimulation() {
         try {
@@ -13617,11 +13853,18 @@ function initMulticapaCustomSimulation() {
             const typeR = selectBcRType.value;
             const N = layers.length;
 
+        // ── LOTE — Solver Multigeometría: radios/posiciones y áreas reales de
+        // frontera. En 'planar' radii/A1/AN1 reproducen exactamente los
+        // valores previos (radii[0]=0, A1=AN1=1) — sin cambio de comportamiento.
+        const radii = computeRadii();
+        const A1 = areaAt(radii[0]);
+        const AN1 = areaAt(radii[N]);
+
         // Calc total wall resistance
         let Rcond = 0.0;
-        layers.forEach(l => {
-            Rcond += l.L / l.k;
-        });
+        for (let i = 0; i < N; i++) {
+            Rcond += layerRcondAt(i, radii);
+        }
 
         // 1. Check for double flux boundary condition
         if (typeL === 'flux' && typeR === 'flux') {
@@ -13632,7 +13875,7 @@ function initMulticapaCustomSimulation() {
                 if (alertBox) alertBox.style.display = 'flex';
                 if (lblRcond) lblRcond.innerText = Rcond.toFixed(4) + ' K/W';
                 if (lblRtot) lblRtot.innerText = '-- K/W';
-                if (lblQ) lblQ.innerText = '-- W/m²';
+                if (lblQ) lblQ.innerText = (geometry === 'planar') ? '-- W/m²' : '-- W';
                 return;
             }
         }
@@ -13644,19 +13887,19 @@ function initMulticapaCustomSimulation() {
             if (typeL === 'temp') {
                 return ((inputLTemp ? parseFloat(inputLTemp.value) : 100) - T0) / 1e-4; // large virtual h
             }
-            let q = 0.0;
+            let qpp = 0.0; // densidad de flujo q'' (W/m²) entrando a la pared en r=r1
             if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv') {
                 const hL = inputLH ? parseFloat(inputLH.value) : 20;
                 const tinfL = inputLTinf ? parseFloat(inputLTinf.value) : 150;
-                q += hL * (tinfL - T0);
+                qpp += hL * (tinfL - T0);
             }
             if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad') {
                 const epsL = inputLEps ? parseFloat(inputLEps.value) : 0.85;
                 const tsurL = inputLTsur ? parseFloat(inputLTsur.value) : 150;
-                q += sigma * epsL * (Math.pow(tsurL + 273.15, 4) - Math.pow(T0 + 273.15, 4));
+                qpp += sigma * epsL * (Math.pow(tsurL + 273.15, 4) - Math.pow(T0 + 273.15, 4));
             }
             if (typeL === 'flux' || typeL === 'comb-flux') {
-                q += inputLFlux ? parseFloat(inputLFlux.value) : 500;
+                qpp += inputLFlux ? parseFloat(inputLFlux.value) : 500;
             }
             if (typeL === 'irr_conv' || typeL === 'irr_rad') {
                 // Irradiación neta absorbida (α·G): fuente de flujo constante
@@ -13664,9 +13907,11 @@ function initMulticapaCustomSimulation() {
                 // ver getDFluxLeftDT: su derivada respecto a T0 es nula.
                 const gL = inputLG ? parseFloat(inputLG.value) : 0;
                 const alphaL = inputLAlpha ? parseFloat(inputLAlpha.value) : 0;
-                q += alphaL * gL;
+                qpp += alphaL * gL;
             }
-            return q;
+            // LOTE — Solver Multigeometría: Q_total = q''·A1 (A1=1 m² en plana,
+            // así que el resultado es idéntico al de antes de este LOTE).
+            return qpp * A1;
         }
 
         // T is in Celsius, return heat flux (W/m^2) leaving wall
@@ -13674,19 +13919,19 @@ function initMulticapaCustomSimulation() {
             if (typeR === 'temp') {
                 return (TN - (inputRTemp ? parseFloat(inputRTemp.value) : 20)) / 1e-4;
             }
-            let q = 0.0;
+            let qpp = 0.0; // densidad de flujo q'' (W/m²) saliendo de la pared en r=r_{N+1}
             if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv') {
                 const hR = inputRH ? parseFloat(inputRH.value) : 20;
                 const tinfR = inputRTinf ? parseFloat(inputRTinf.value) : 10;
-                q += hR * (TN - tinfR);
+                qpp += hR * (TN - tinfR);
             }
             if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad') {
                 const epsR = inputREps ? parseFloat(inputREps.value) : 0.85;
                 const tsurR = inputRTsur ? parseFloat(inputRTsur.value) : 10;
-                q += sigma * epsR * (Math.pow(TN + 273.15, 4) - Math.pow(tsurR + 273.15, 4));
+                qpp += sigma * epsR * (Math.pow(TN + 273.15, 4) - Math.pow(tsurR + 273.15, 4));
             }
             if (typeR === 'flux' || typeR === 'comb-flux') {
-                q += inputRFlux ? parseFloat(inputRFlux.value) : 500;
+                qpp += inputRFlux ? parseFloat(inputRFlux.value) : 500;
             }
             if (typeR === 'irr_conv' || typeR === 'irr_rad') {
                 // Irradiación absorbida (α·G) saliendo de la frontera derecha:
@@ -13697,42 +13942,45 @@ function initMulticapaCustomSimulation() {
                 // isRIncomingFlux: q>0 = saliendo, q<0 = entrando a la pared).
                 const gR = inputRG ? parseFloat(inputRG.value) : 0;
                 const alphaR = inputRAlpha ? parseFloat(inputRAlpha.value) : 0;
-                q -= alphaR * gR;
+                qpp -= alphaR * gR;
             }
-            return q;
+            // LOTE — Solver Multigeometría: Q_total = q''·A_{N+1} (=1 m² en plana).
+            return qpp * AN1;
         }
 
         // Derivatives for Newton-Raphson solver
         function getDFluxLeftDT(T0) {
             if (typeL === 'temp') return -1e4;
-            let dq = 0.0;
+            let dqpp = 0.0;
             if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv') {
                 const hL = inputLH ? parseFloat(inputLH.value) : 20;
-                dq += -hL;
+                dqpp += -hL;
             }
             if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad') {
                 const epsL = inputLEps ? parseFloat(inputLEps.value) : 0.85;
-                dq += -4 * sigma * epsL * Math.pow(T0 + 273.15, 3);
+                dqpp += -4 * sigma * epsL * Math.pow(T0 + 273.15, 3);
             }
             // Nota: la irradiación absorbida (α·G) es una fuente CONSTANTE
             // respecto a T0 -> su derivada es 0, no aporta término aquí.
-            return dq;
+            // LOTE — Solver Multigeometría: A1 es constante respecto a T0, así
+            // que d(Q)/dT0 = A1 · d(q'')/dT0.
+            return dqpp * A1;
         }
 
         function getDFluxRightDT(TN) {
             if (typeR === 'temp') return 1e4;
-            let dq = 0.0;
+            let dqpp = 0.0;
             if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv') {
                 const hR = inputRH ? parseFloat(inputRH.value) : 20;
-                dq += hR;
+                dqpp += hR;
             }
             if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad') {
                 const epsR = inputREps ? parseFloat(inputREps.value) : 0.85;
-                dq += 4 * sigma * epsR * Math.pow(TN + 273.15, 3);
+                dqpp += 4 * sigma * epsR * Math.pow(TN + 273.15, 3);
             }
             // Nota: la irradiación absorbida (α·G) es una fuente CONSTANTE
             // respecto a TN -> su derivada es 0, no aporta término aquí.
-            return dq;
+            return dqpp * AN1;
         }
 
         // ── Resolución de fronteras (LOTE — corrección Dirichlet exacta) ───
@@ -13833,7 +14081,7 @@ function initMulticapaCustomSimulation() {
         qFlux = (T0_guess - TN_guess) / Rcond;
 
         for (let i = 1; i <= N; i++) {
-            T[i] = T[i - 1] - qFlux * (layers[i - 1].L / layers[i - 1].k);
+            T[i] = T[i - 1] - qFlux * layerRcondAt(i - 1, radii);
         }
         if (typeR === 'temp') T[N] = TR_input; // fuerza el valor exacto impuesto en la superficie derecha
 
@@ -13849,14 +14097,16 @@ function initMulticapaCustomSimulation() {
             inputLH ? parseFloat(inputLH.value) : 20,
             inputLEps ? parseFloat(inputLEps.value) : 0.85,
             inputLTsur ? parseFloat(inputLTsur.value) : 150,
-            T[0]
+            T[0],
+            A1
         );
         bcResR = boundaryResistanceInfo(
             typeR,
             inputRH ? parseFloat(inputRH.value) : 20,
             inputREps ? parseFloat(inputREps.value) : 0.85,
             inputRTsur ? parseFloat(inputRTsur.value) : 10,
-            T[N]
+            T[N],
+            AN1
         );
 
         // Calculate total resistance including boundary resistances (0 para
@@ -13866,44 +14116,90 @@ function initMulticapaCustomSimulation() {
         // Update UI metrics
         if (lblRcond) lblRcond.innerText = Rcond.toFixed(4) + ' K/W';
         if (lblRtot) lblRtot.innerText = Rtot.toFixed(4) + ' K/W';
-        if (lblQ) lblQ.innerText = qFlux.toFixed(1) + ' W/m²';
+        // LOTE 4 — Solver Multigeometría: qFlux es densidad de flujo q'' (W/m²)
+        // en geometría plana, pero flujo TOTAL Q (W) en geometría curva (ver
+        // comentario junto a `let qFlux` más arriba) — la unidad mostrada debe
+        // reflejar cuál de las dos magnitudes es en cada caso.
+        if (lblQ) lblQ.innerText = qFlux.toFixed(1) + (geometry === 'planar' ? ' W/m²' : ' W');
         if (lblRbcL) lblRbcL.innerText = bcResL.R === null ? t('Fuente (sin R)') : bcResL.R.toFixed(4) + ' K/W';
         if (lblRbcR) lblRbcR.innerText = bcResR.R === null ? t('Fuente (sin R)') : bcResR.R.toFixed(4) + ' K/W';
 
         // Update Table
+        // LOTE — Solver Multigeometría: la columna "Posición" muestra x (plana)
+        // o r (cilindro/esfera) — ambas ya viven en el mismo array `radii`
+        // (ver computeRadii(): radii[0]=0 en plana, =r1 en curva).
         let tableHtml = '';
-        let xPos = 0.0;
         T.forEach((tVal, idx) => {
             tableHtml += `
                 <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
                     <td style="padding: 6px;">Interfase ${idx}</td>
-                    <td style="padding: 6px;">${xPos.toFixed(3)} m</td>
+                    <td style="padding: 6px;">${radii[idx].toFixed(3)} m</td>
                     <td style="padding: 6px; text-align: right; font-weight: bold; color: var(--accent-cyan);">${tVal.toFixed(1)} °C</td>
                 </tr>
             `;
-            if (idx < N) xPos += layers[idx].L;
         });
         if (tempTableBody) tempTableBody.innerHTML = tableHtml;
 
         // Update Chart
+        // LOTE — Solver Multigeometría: perfil T(x) (plana, lineal — sin
+        // cambios) o T(r) (cilindro: logarítmico: esfera: hiperbólico 1/r).
+        // En geometría plana se conserva exactamente el muestreo previo (un
+        // punto por interfase, recta entre ellos — ya es la solución exacta).
+        // En geometría curva se muestrean varios puntos dentro de cada capa
+        // siguiendo la fórmula analítica de esa capa (ver LOTE, sección 3),
+        // para que la curva dibujada sea la forma real, no una aproximación
+        // lineal entre interfases.
         const chartLabels = [];
         const chartData = [];
-        let curX = 0.0;
-        T.forEach((tVal, idx) => {
-            chartLabels.push(curX);
-            chartData.push(tVal);
-            if (idx < N) curX += layers[idx].L;
-        });
+        if (geometry === 'planar') {
+            T.forEach((tVal, idx) => {
+                chartLabels.push(radii[idx]);
+                chartData.push(tVal);
+            });
+        } else {
+            // LOTE 4 — punto 1: "15-20 puntos discretizados" por capa para que
+            // Chart.js dibuje fielmente la curvatura no lineal logarítmica
+            // (cilindro) / hiperbólica (esfera). Antes: 12 (LOTE 1).
+            const SAMPLES_PER_LAYER = 18;
+            for (let i = 0; i < N; i++) {
+                const rIn = radii[i], rOut = radii[i + 1];
+                const kL = layers[i].k;
+                const startP = (i === 0) ? 0 : 1; // evita duplicar el punto de interfase compartido
+                for (let p = startP; p <= SAMPLES_PER_LAYER; p++) {
+                    const frac = p / SAMPLES_PER_LAYER;
+                    const r = rIn + frac * (rOut - rIn);
+                    let tVal;
+                    if (geometry === 'cylindrical') {
+                        tVal = T[i] - (qFlux / (2 * Math.PI * kL * cylinderLength)) * Math.log(r / rIn);
+                    } else { // spherical
+                        tVal = T[i] - (qFlux / (4 * Math.PI * kL)) * (1 / rIn - 1 / r);
+                    }
+                    chartLabels.push(r);
+                    chartData.push(tVal);
+                }
+            }
+        }
 
         if (customChart && customChart.data && customChart.data.datasets && customChart.data.datasets[0]) {
             customChart.data.datasets[0].data = chartData.map((t, idx) => ({ x: chartLabels[idx], y: t }));
+
+            // Título del eje x: "Posición x (m)" en plana, "Radio r (m)" en
+            // geometría curva (LOTE — Solver Multigeometría).
+            if (customChart.options && customChart.options.scales && customChart.options.scales.x && customChart.options.scales.x.title) {
+                customChart.options.scales.x.title.text = (geometry === 'planar') ? t('Posición x (m)') : t('Radio r (m)');
+            }
 
             // --- Extensión de la capa límite térmica del fluido (fronteras tipo 'Convección') ---
             // Sólo dibuja el tramo del fluido (desde T_infinito hasta T_superficie) cuando la
             // frontera correspondiente está configurada como 'conv' (Convección pura). Perfil
             // suave asintótico (parabólico) con pendiente nula en el borde libre (T_infinito) y
             // pendiente finita en la pared (T_s), continuo con el perfil sólido en ese punto.
-            const L_tot = curX; // espesor total acumulado (idéntico al x.max anterior)
+            // LOTE — Solver Multigeometría: domainStart/domainEnd generalizan el
+            // "0" y "L_tot" que antes se asumían fijos — en plana domainStart=0
+            // (comportamiento idéntico al previo); en curva domainStart=r1>0.
+            const domainStart = radii[0];
+            const domainEnd = radii[N];
+            const L_tot = domainEnd - domainStart; // espesor total (plana) o rango radial total (curva)
             const BL_FRACTION = 0.2; // longitud visual de la capa límite: 20% del espesor total
             const BL_POINTS = 15;
             const T_s1 = T[0];
@@ -13933,7 +14229,7 @@ function initMulticapaCustomSimulation() {
             const hasConvL = (typeL === 'conv' || typeL === 'irr_conv' || typeL === 'comb' || typeL === 'comb-flux');
             const hasConvR = (typeR === 'conv' || typeR === 'irr_conv' || typeR === 'comb' || typeR === 'comb-flux');
 
-            let xMin = 0.0;
+            let xMin = domainStart;
             if (customChart.data.datasets[1]) {
                 if (hasConvL) {
                     const hL_bl = inputLH ? parseFloat(inputLH.value) : 20;
@@ -13942,18 +14238,18 @@ function initMulticapaCustomSimulation() {
                     const leftBLData = [];
                     for (let i = 0; i <= BL_POINTS; i++) {
                         const xi = i / BL_POINTS; // 0 = borde libre (T_inf1) -> 1 = pared (T_s1)
-                        const x = -deltaL + xi * deltaL;
+                        const x = domainStart - deltaL + xi * deltaL;
                         const yVal = T_inf1 + (T_s1 - T_inf1) * (xi * xi);
                         leftBLData.push({ x, y: yVal });
                     }
                     customChart.data.datasets[1].data = leftBLData;
-                    xMin = -deltaL;
+                    xMin = domainStart - deltaL;
                 } else {
                     customChart.data.datasets[1].data = [];
                 }
             }
 
-            let xMax = L_tot;
+            let xMax = domainEnd;
             if (customChart.data.datasets[2]) {
                 if (hasConvR) {
                     const hR_bl = inputRH ? parseFloat(inputRH.value) : 20;
@@ -13962,12 +14258,12 @@ function initMulticapaCustomSimulation() {
                     const rightBLData = [];
                     for (let i = 0; i <= BL_POINTS; i++) {
                         const xi = i / BL_POINTS; // 0 = pared (T_s2) -> 1 = borde libre (T_inf2)
-                        const x = L_tot + xi * deltaR;
+                        const x = domainEnd + xi * deltaR;
                         const yVal = T_inf2 + (T_s2 - T_inf2) * ((1 - xi) * (1 - xi));
                         rightBLData.push({ x, y: yVal });
                     }
                     customChart.data.datasets[2].data = rightBLData;
-                    xMax = L_tot + deltaR;
+                    xMax = domainEnd + deltaR;
                 } else {
                     customChart.data.datasets[2].data = [];
                 }
@@ -14145,6 +14441,276 @@ function initMulticapaCustomSimulation() {
             ctx.restore();
         }
 
+        // ════════════════════════════════════════════════════════════════
+        // LOTE — Sector 45° (Cuña Radial): geometría curva (cilindro/esfera)
+        // ════════════════════════════════════════════════════════════════
+        // Renderizado tipo "porción de pizza": el origen (r=0) se sitúa en el
+        // borde izquierdo del canvas, la bisectriz apunta hacia la derecha (0°),
+        // y el sector abarca ±22.5° (total 45°). Esto maximiza el radio
+        // disponible y deja regiones libres arriba (cotas de T) y abajo (cotas
+        // de r) para etiquetas sin solapamiento. La geometría plana permanece
+        // exactamente igual que antes (rama if(!isCurved), sin tocar).
+        const isCurved = (geometry !== 'planar');
+
+        // ── Parámetros del sector 45° ─────────────────────────────────────
+        // cx_orig / cy_orig: coordenadas del "vértice" de la cuña (r=0),
+        // anclado al borde izquierdo del canvas centrado verticalmente.
+        const cx_orig = 28;
+        const cy_orig = h / 2;
+        const SECTOR_HALF = Math.PI / 8;          // 22.5° en radianes
+        const angStart   = -SECTOR_HALF;           // borde superior del sector
+        const angEnd     = +SECTOR_HALF;           // borde inferior del sector
+        const bisect     = 0;                      // bisectriz → derecha (0°)
+        // Radio máximo: de cx_orig al borde derecho menos margen para etiquetas
+        const RmaxPx = Math.max(80, w - 115);
+        const RinPx  = Math.max(50, Math.round(RmaxPx * 0.12)); // ≥50px
+        const radiiPhys = computeRadii();          // r1..r_{N+1} reales (m) — LOTE 1
+        const rPx = new Array(N + 1);
+        rPx[0] = RinPx;
+        {
+            const availPx = Math.max(18, RmaxPx - RinPx);
+            for (let i = 0; i < N; i++) {
+                rPx[i + 1] = rPx[i] + (layers[i].L / totalThickness) * availPx;
+            }
+        }
+        // polarPt: convierte (radio, ángulo) al sistema del sector
+        // con origen en (cx_orig, cy_orig).
+        function polarPt(r, ang) {
+            return { x: cx_orig + r * Math.cos(ang), y: cy_orig + r * Math.sin(ang) };
+        }
+
+        // ── Dibuja una franja anular del sector (cuña) ─────────────────────
+        // Forma: dos arcos (rIn y rOut) + dos líneas radiales (bordes del sector).
+        function drawAnnulusSector(rIn, rOut, fillStyle, strokeStyle) {
+            ctx.beginPath();
+            // Línea radial superior (angStart): rIn → rOut
+            const p0 = polarPt(rIn,  angStart);
+            const p1 = polarPt(rOut, angStart);
+            ctx.moveTo(p0.x, p0.y);
+            ctx.lineTo(p1.x, p1.y);
+            // Arco exterior: angStart → angEnd
+            ctx.arc(cx_orig, cy_orig, rOut, angStart, angEnd, false);
+            // Línea radial inferior (angEnd): rOut → rIn
+            ctx.lineTo(polarPt(rIn, angEnd).x, polarPt(rIn, angEnd).y);
+            // Arco interior: angEnd → angStart (sentido antihorario)
+            ctx.arc(cx_orig, cy_orig, rIn, angEnd, angStart, true);
+            ctx.closePath();
+            ctx.fillStyle = fillStyle;
+            ctx.fill();
+            ctx.strokeStyle = strokeStyle;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        // ── Icono "Alrededores" en posición arbitraria del canvas ──────────
+        function drawSurroundingsVaultAt(cxIcon, cyIcon, isIncoming, tsurVal) {
+            const rV = 7;
+            const color = isIncoming ? clrRad : clrSur;
+            ctx.save();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 1.4;
+            ctx.globalAlpha = 0.85;
+            ctx.setLineDash([2.5, 2.5]);
+            ctx.beginPath();
+            ctx.arc(cxIcon, cyIcon, rV, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            for (let ang = 0; ang < Math.PI * 2; ang += Math.PI / 4) {
+                const wig = Math.sin(ang * 3 + animTime * 4) * 1.2;
+                const r1v = rV + 2, r2v = rV + 6 + wig;
+                ctx.beginPath();
+                ctx.moveTo(cxIcon + Math.cos(ang) * r1v, cyIcon + Math.sin(ang) * r1v);
+                ctx.lineTo(cxIcon + Math.cos(ang) * r2v, cyIcon + Math.sin(ang) * r2v);
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1.0;
+            ctx.restore();
+            ctx.save();
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+            ctx.shadowBlur = 3;
+            ctx.textAlign = 'center';
+            ctx.fillStyle = color;
+            ctx.font = '8px Inter, sans-serif';
+            ctx.fillText(t('Alrededores'), cxIcon, cyIcon - rV - 9);
+            ctx.font = 'bold 9px Inter, sans-serif';
+            ctx.fillText(`T_surr = ${formatNumCompact(tsurVal, 0)}°C`, cxIcon, cyIcon + rV + 16);
+            ctx.restore();
+        }
+
+        // ── Condiciones de frontera radiales (sector) ─────────────────────
+        // isInterior=true → frontera en r₁ (arco interior del sector)
+        // isInterior=false → frontera en r_{N+1} (arco exterior)
+        // Los efectos convectivos/radiativos/flujo se dibujan en la zona
+        // libre más allá del arco correspondiente, a lo largo de la bisectriz.
+        function drawCurvedBoundary(isInterior, type, hInput, tinfInput, epsInput, tsurInput, fluxInput, gInput, alphaInput, TsVal) {
+            const bandDir = isInterior ? -1 : 1;
+            const wallR   = isInterior ? rPx[0] : rPx[N];
+
+            const hasConvBL = (type === 'conv' || type === 'irr_conv' || type === 'comb' || type === 'comb-flux');
+
+            // Capa límite convectiva: anillo gradiente dentro/fuera del arco
+            if (hasConvBL) {
+                const TinfV = parseFloat(tinfInput.value);
+                const blColor = TinfV > TsVal ? clrHot : clrCool;
+                const hV = hInput ? parseFloat(hInput.value) : 20;
+                const maxBand = isInterior ? Math.max(8, wallR - 8) : 52;
+                const bandW = Math.max(6, maxBand * filmWidthFraction(hV));
+                const rNear = wallR, rFar = wallR + bandDir * bandW;
+
+                ctx.save();
+                ctx.globalAlpha = 0.20;
+                const grad = ctx.createRadialGradient(cx_orig, cy_orig, Math.min(rNear, rFar), cx_orig, cy_orig, Math.max(rNear, rFar));
+                if (isInterior) { grad.addColorStop(0, blColor); grad.addColorStop(1, 'rgba(0,0,0,0)'); }
+                else { grad.addColorStop(0, 'rgba(0,0,0,0)'); grad.addColorStop(1, blColor); }
+                ctx.beginPath();
+                ctx.arc(cx_orig, cy_orig, Math.max(rNear, rFar), angStart, angEnd, false);
+                ctx.arc(cx_orig, cy_orig, Math.min(rNear, rFar), angEnd, angStart, true);
+                ctx.closePath();
+                ctx.fillStyle = grad;
+                ctx.fill();
+                ctx.globalAlpha = 1.0;
+
+                // Arco punteado de la capa límite
+                ctx.strokeStyle = blColor;
+                ctx.lineWidth = 1.6;
+                ctx.setLineDash([4, 3]);
+                ctx.beginPath();
+                ctx.arc(cx_orig, cy_orig, rFar, angStart, angEnd, false);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.restore();
+
+                // Etiqueta h sobre la bisectriz
+                const hLabelPt = polarPt(rFar, bisect);
+                ctx.save();
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+                ctx.shadowBlur = 3;
+                ctx.textAlign = isInterior ? 'right' : 'left';
+                ctx.fillStyle = isLightTheme ? '#0284c7' : '#38bdf8';
+                ctx.font = 'bold 9px Inter, sans-serif';
+                const hLabel = `h${isInterior ? subDigits[1] : subDigits[2]}=${formatNumCompact(hV, 1)} W/m²K`;
+                ctx.fillText(hLabel, hLabelPt.x + (isInterior ? -4 : 4), hLabelPt.y);
+                ctx.restore();
+
+                // Líneas onduladas de convección a lo largo de la bisectriz
+                ctx.strokeStyle = blColor;
+                ctx.lineWidth = 2.2;
+                ctx.globalAlpha = 0.5;
+                [0, 8, 16].forEach(off => {
+                    const rr = wallR + bandDir * (8 + off);
+                    ctx.beginPath();
+                    const step = (angEnd - angStart) / 32;
+                    for (let a = angStart; a <= angEnd + 0.001; a += step) {
+                        const wig = Math.sin(a * 12 + animTime * 3) * 2.5;
+                        const pp = polarPt(rr + wig, a);
+                        if (a === angStart) ctx.moveTo(pp.x, pp.y); else ctx.lineTo(pp.x, pp.y);
+                    }
+                    ctx.stroke();
+                });
+                ctx.globalAlpha = 1.0;
+            }
+
+            // Fluido / temperatura prescrita: sombreado suave
+            if (type === 'temp') {
+                const wallColor = TsVal > 50 ? 'rgba(239,68,68,0.28)' : 'rgba(59,130,246,0.28)';
+                const rNear2 = wallR, rFar2 = wallR + bandDir * 18;
+                ctx.save();
+                const gr = ctx.createRadialGradient(cx_orig, cy_orig, Math.min(rNear2, rFar2), cx_orig, cy_orig, Math.max(rNear2, rFar2));
+                if (isInterior) { gr.addColorStop(0, wallColor); gr.addColorStop(1, 'rgba(0,0,0,0)'); }
+                else { gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, wallColor); }
+                ctx.beginPath();
+                ctx.arc(cx_orig, cy_orig, Math.max(rNear2, rFar2), angStart, angEnd, false);
+                ctx.arc(cx_orig, cy_orig, Math.min(rNear2, rFar2), angEnd, angStart, true);
+                ctx.closePath();
+                ctx.fillStyle = gr;
+                ctx.fill();
+                ctx.restore();
+            }
+
+            // Flechas de radiación: tres ángulos dentro del sector
+            const animAngles = [angStart * 0.75, bisect, angEnd * 0.75];
+
+            if (type === 'rad' || type === 'comb' || type === 'comb-flux' || type === 'irr_rad') {
+                const tsurV = parseFloat(tsurInput.value);
+                const isIncoming = tsurV > TsVal;
+                ctx.strokeStyle = isIncoming ? clrRad : clrSur;
+                ctx.fillStyle   = isIncoming ? clrRad : clrSur;
+                ctx.lineWidth = 1.8;
+                ctx.globalAlpha = 0.6;
+                animAngles.forEach(ang => {
+                    const pNear = polarPt(wallR + bandDir * 6,  ang);
+                    const pFar  = polarPt(wallR + bandDir * 32, ang);
+                    ctx.beginPath();
+                    ctx.moveTo(pFar.x, pFar.y);
+                    ctx.lineTo(pNear.x, pNear.y);
+                    ctx.stroke();
+                    const dirAng = isIncoming
+                        ? Math.atan2(pNear.y - pFar.y, pNear.x - pFar.x)
+                        : Math.atan2(pFar.y  - pNear.y, pFar.x  - pNear.x);
+                    const tip = isIncoming ? pNear : pFar;
+                    ctx.beginPath();
+                    ctx.moveTo(tip.x, tip.y);
+                    ctx.lineTo(tip.x - 7 * Math.cos(dirAng - 0.4), tip.y - 7 * Math.sin(dirAng - 0.4));
+                    ctx.lineTo(tip.x - 7 * Math.cos(dirAng + 0.4), tip.y - 7 * Math.sin(dirAng + 0.4));
+                    ctx.closePath();
+                    ctx.fill();
+                });
+                ctx.globalAlpha = 1.0;
+                const vp = polarPt(wallR + bandDir * 48, bisect);
+                drawSurroundingsVaultAt(vp.x, vp.y, isIncoming, tsurV);
+            }
+
+            if (type === 'flux' || type === 'comb-flux') {
+                const qValB = parseFloat(fluxInput.value);
+                if (Math.abs(qValB) > 1.0) {
+                    const isIncomingFlux = isInterior ? (qValB > 0) : (qValB < 0);
+                    ctx.strokeStyle = qValB > 0 ? clrHot : clrCool;
+                    ctx.fillStyle   = qValB > 0 ? clrHot : clrCool;
+                    ctx.lineWidth = 2.4;
+                    animAngles.forEach(ang => {
+                        const pNear = polarPt(wallR + bandDir * 6,  ang);
+                        const pFar  = polarPt(wallR + bandDir * 32, ang);
+                        ctx.beginPath();
+                        ctx.moveTo(pFar.x, pFar.y);
+                        ctx.lineTo(pNear.x, pNear.y);
+                        ctx.stroke();
+                        const tip   = isIncomingFlux ? pNear : pFar;
+                        const other = isIncomingFlux ? pFar  : pNear;
+                        const dirAng = Math.atan2(tip.y - other.y, tip.x - other.x);
+                        ctx.beginPath();
+                        ctx.moveTo(tip.x, tip.y);
+                        ctx.lineTo(tip.x - 7 * Math.cos(dirAng - 0.4), tip.y - 7 * Math.sin(dirAng - 0.4));
+                        ctx.lineTo(tip.x - 7 * Math.cos(dirAng + 0.4), tip.y - 7 * Math.sin(dirAng + 0.4));
+                        ctx.closePath();
+                        ctx.fill();
+                    });
+                }
+            }
+
+            if (type === 'irr_conv' || type === 'irr_rad') {
+                ctx.strokeStyle = clrSolar; ctx.fillStyle = clrSolar;
+                ctx.lineWidth = 2; ctx.globalAlpha = 0.85;
+                animAngles.forEach(ang => {
+                    const pFar  = polarPt(wallR + bandDir * 64, ang);
+                    const pNear = polarPt(wallR + bandDir * 42, ang);
+                    ctx.beginPath();
+                    ctx.moveTo(pFar.x, pFar.y);
+                    ctx.lineTo(pNear.x, pNear.y);
+                    ctx.stroke();
+                    const dirAng = Math.atan2(pNear.y - pFar.y, pNear.x - pFar.x);
+                    ctx.beginPath();
+                    ctx.moveTo(pNear.x, pNear.y);
+                    ctx.lineTo(pNear.x - 8 * Math.cos(dirAng - 0.35), pNear.y - 8 * Math.sin(dirAng - 0.35));
+                    ctx.lineTo(pNear.x - 8 * Math.cos(dirAng + 0.35), pNear.y - 8 * Math.sin(dirAng + 0.35));
+                    ctx.closePath();
+                    ctx.fill();
+                });
+                ctx.globalAlpha = 1.0;
+            }
+        }
+
+
+        if (!isCurved) {
         layers.forEach((layer, idx) => {
             const thicknessFrac = layer.L / totalThickness;
             const lWidth = thicknessFrac * widthMax;
@@ -14210,11 +14776,172 @@ function initMulticapaCustomSimulation() {
         // Badge de temperatura de la última interfase (T_s2 / superficie derecha),
         // desplazado levemente hacia adentro para no chocar con "Frontera Der."
         drawValueBadge(currentX - 12, centerY - heightPlate / 2 - 16, 64, `${formatNumCompact(T[N], 1)} °C`);
+        } else {
+            // ── Geometría curva: cuña radial de 45° (LOTE Sector) ───────────
+            const highContrastPalette = [
+                { fill: '#1e40af', border: '#3b82f6' },
+                { fill: '#b45309', border: '#f59e0b' },
+                { fill: '#047857', border: '#10b981' },
+                { fill: '#6d28d9', border: '#a78bfa' },
+                { fill: '#9d174d', border: '#f472b6' },
+                { fill: '#155e75', border: '#22d3ee' },
+                { fill: '#854d0e', border: '#fde047' },
+                { fill: '#7f1d1d', border: '#f87171' },
+                { fill: '#3730a3', border: '#818cf8' },
+                { fill: '#14532d', border: '#4ade80' }
+            ];
+            // Umbral de ancho de franja para decidir si usar callout externo
+            const CALLOUT_MIN_PX = 22;
+            // ── Dibujar franjas de cada capa ──────────────────────────────
+            layers.forEach((layer, idx) => {
+                const rIn  = rPx[idx];
+                const rOut = rPx[idx + 1];
+                const layerColors = highContrastPalette[idx % highContrastPalette.length];
+                drawAnnulusSector(rIn, rOut, layerColors.fill, layerColors.border);
+            });
+
+            // ── Rótulo del origen (r=0 / eje) a la izquierda ─────────────
+            ctx.save();
+            ctx.shadowColor = 'rgba(0,0,0,0.9)'; ctx.shadowBlur = 3;
+            ctx.fillStyle = clrTitle;
+            ctx.font = 'bold 9px Inter, sans-serif';
+            ctx.textAlign = 'center';
+            // Punto de origen: vértice de la cuña
+            ctx.beginPath();
+            ctx.arc(cx_orig, cy_orig, 4, 0, Math.PI * 2);
+            ctx.fillStyle = clrTitle;
+            ctx.globalAlpha = 0.5;
+            ctx.fill();
+            ctx.globalAlpha = 1.0;
+            ctx.restore();
+
+            // ── Etiquetas de capa (Δrᵢ / kᵢ) sobre la bisectriz ─────────
+            // Para capas suficientemente anchas: texto en punto medio radial
+            // sobre la bisectriz (ángulo 0). Para capas estrechas: callout
+            // perpendicular a la bisectriz con línea guía.
+            ctx.save();
+            ctx.shadowColor = 'rgba(0,0,0,0.85)'; ctx.shadowBlur = 3;
+            layers.forEach((layer, idx) => {
+                const rIn  = rPx[idx];
+                const rOut = rPx[idx + 1];
+                const rMid = (rIn + rOut) / 2;
+                const ringW = rOut - rIn;
+                const layerColors = highContrastPalette[idx % highContrastPalette.length];
+                const subLbl = subDigits[idx + 1] || String(idx + 1);
+                const lText  = `Δr${subLbl}=${formatNumCompact(layer.L, 3)} m`;
+                const kText  = `k${subLbl}=${formatNumCompact(layer.k, 2)} W/m·K`;
+
+                if (ringW >= CALLOUT_MIN_PX) {
+                    // Espacio suficiente: texto centrado en la bisectriz
+                    const pMid = { x: cx_orig + rMid, y: cy_orig };
+                    const avW  = Math.min(78, Math.max(40, ringW + 12));
+                    drawValueBadge(pMid.x, cy_orig - 10, avW, lText);
+                    drawValueBadge(pMid.x, cy_orig + 10, avW, kText);
+                } else {
+                    // Capa estrecha: callout perpendicular hacia arriba/abajo
+                    // Alterna: capas par → arriba del sector, impar → abajo
+                    const goUp = (idx % 2 === 0);
+                    const pAnchor = { x: cx_orig + rMid, y: cy_orig };
+                    // Punto de callout fuera del sector (perpendicular a bisectriz)
+                    const calloutY = goUp
+                        ? cy_orig + (cx_orig + rMid) * Math.tan(SECTOR_HALF) - 10 - idx * 12
+                        : cy_orig - (cx_orig + rMid) * Math.tan(SECTOR_HALF) + 10 + idx * 12;
+                    // Línea guía
+                    ctx.save();
+                    ctx.strokeStyle = layerColors.border;
+                    ctx.lineWidth = 1;
+                    ctx.globalAlpha = 0.55;
+                    ctx.setLineDash([2, 2]);
+                    ctx.beginPath();
+                    ctx.moveTo(pAnchor.x, pAnchor.y);
+                    ctx.lineTo(pAnchor.x, calloutY);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    ctx.restore();
+                    // Punto de ancla
+                    ctx.save();
+                    ctx.fillStyle = layerColors.border;
+                    ctx.globalAlpha = 0.75;
+                    ctx.beginPath();
+                    ctx.arc(pAnchor.x, pAnchor.y, 2, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                    // Badges apilados
+                    const avW = 72;
+                    drawValueBadge(pAnchor.x, calloutY - (goUp ? 8 : -8), avW, lText);
+                    drawValueBadge(pAnchor.x, calloutY + (goUp ? 8 : -8), avW, kText);
+                }
+            });
+            ctx.restore();
+
+            // ── Cotas de temperatura Tᵢ — borde SUPERIOR del sector ───────
+            // Líneas de cota punteadas desde el borde angStart (−22.5°) de
+            // cada interfase hacia arriba, con badge escalonado para evitar
+            // solapamiento horizontal entre interfases próximas.
+            ctx.save();
+            ctx.shadowColor = 'rgba(0,0,0,0.85)'; ctx.shadowBlur = 3;
+            for (let i = 0; i <= N; i++) {
+                const anchorX = cx_orig + rPx[i] * Math.cos(angStart);
+                const anchorY = cy_orig + rPx[i] * Math.sin(angStart); // arriba (angStart < 0)
+                // Escalonar verticalmente para interfases con rPx muy próximas
+                const cotaY = anchorY - 18 - (i % 2) * 14;
+                // Línea de cota
+                ctx.strokeStyle = clrTitle;
+                ctx.lineWidth = 1;
+                ctx.globalAlpha = 0.6;
+                ctx.setLineDash([2, 2]);
+                ctx.beginPath();
+                ctx.moveTo(anchorX, anchorY);
+                ctx.lineTo(anchorX, cotaY - 8);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.globalAlpha = 1.0;
+                // Pequeña marca horizontal en el ancla
+                ctx.lineWidth = 1.4;
+                ctx.beginPath();
+                ctx.moveTo(anchorX - 3, anchorY);
+                ctx.lineTo(anchorX + 3, anchorY);
+                ctx.stroke();
+                // Badge de temperatura
+                drawValueBadge(anchorX, cotaY, 64, `${formatNumCompact(T[i], 1)} °C`);
+            }
+            ctx.restore();
+
+            // ── Cotas de radio rᵢ — borde INFERIOR del sector ────────────
+            // Líneas de cota desde el borde angEnd (+22.5°) hacia abajo,
+            // con el valor de radio físico en metros.
+            ctx.save();
+            ctx.shadowColor = 'rgba(0,0,0,0.85)'; ctx.shadowBlur = 3;
+            for (let i = 0; i <= N; i++) {
+                const anchorX = cx_orig + rPx[i] * Math.cos(angEnd);
+                const anchorY = cy_orig + rPx[i] * Math.sin(angEnd); // abajo (angEnd > 0)
+                const cotaY   = anchorY + 18 + (i % 2) * 14;
+                ctx.strokeStyle = clrTitle;
+                ctx.lineWidth = 1;
+                ctx.globalAlpha = 0.6;
+                ctx.setLineDash([2, 2]);
+                ctx.beginPath();
+                ctx.moveTo(anchorX, anchorY);
+                ctx.lineTo(anchorX, cotaY + 8);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.globalAlpha = 1.0;
+                ctx.lineWidth = 1.4;
+                ctx.beginPath();
+                ctx.moveTo(anchorX - 3, anchorY);
+                ctx.lineTo(anchorX + 3, anchorY);
+                ctx.stroke();
+                const subLblR = subDigits[i] || String(i);
+                drawValueBadge(anchorX, cotaY, 80, `r${subLblR}=${formatNumCompact(radiiPhys[i], 3)} m`);
+            }
+            ctx.restore();
+        }
 
         // 2. Boundary Condition Animations (Left & Right)
         const typeL = selectBcLType.value;
         const typeR = selectBcRType.value;
 
+        if (!isCurved) {
         // 2.1 Capa Límite Térmica del fluido (zona exterior) — LOTE 2, extendido
         // por el LOTE de Visualización Dinámica de h a 'comb'/'comb-flux'
         // (Convección + Radiación combinadas): T_s1/T_s2 (=T[0]/T[N]) ya vienen
@@ -14614,6 +15341,65 @@ function initMulticapaCustomSimulation() {
         ctx.textAlign = 'center';
         ctx.fillText(`q'' = ${formatNumCompact(qFlux, 1)} W/m²`, startX + widthMax / 2, arrowY + 16);
         ctx.restore();
+        } else {
+            // ── Geometría curva: fronteras radiales, flechas de flujo y
+            // partículas en la cuña de 45° ────────────────────────────────
+            drawCurvedBoundary(true,  typeL, inputLH, inputLTinf, inputLEps, inputLTsur, inputLFlux, inputLG, inputLAlpha, T[0]);
+            drawCurvedBoundary(false, typeR, inputRH, inputRTinf, inputREps, inputRTsur, inputRFlux, inputRG, inputRAlpha, T[N]);
+
+            // Flechas de flujo de calor radiales — a lo largo de la bisectriz
+            // (ángulo = 0) y adicionalmente a ±15° para mostrar flujo divergente.
+            const flowColor = qFlux >= 0 ? '#ef4444' : '#3b82f6';
+            const arrowRIn  = rPx[0] + (rPx[N] - rPx[0]) * 0.28;
+            const arrowROut = rPx[0] + (rPx[N] - rPx[0]) * 0.80;
+            const flowAngles = [bisect - SECTOR_HALF * 0.5, bisect, bisect + SECTOR_HALF * 0.5];
+            ctx.save();
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+            ctx.shadowBlur = 3;
+            flowAngles.forEach(ang => {
+                const pFrom = polarPt(qFlux >= 0 ? arrowRIn  : arrowROut, ang);
+                const pTo   = polarPt(qFlux >= 0 ? arrowROut : arrowRIn,  ang);
+                ctx.strokeStyle = flowColor;
+                ctx.fillStyle   = flowColor;
+                ctx.lineWidth = 2.2;
+                ctx.beginPath();
+                ctx.moveTo(pFrom.x, pFrom.y);
+                ctx.lineTo(pTo.x, pTo.y);
+                ctx.stroke();
+                const headAng = Math.atan2(pTo.y - pFrom.y, pTo.x - pFrom.x);
+                ctx.beginPath();
+                ctx.moveTo(pTo.x, pTo.y);
+                ctx.lineTo(pTo.x - 7 * Math.cos(headAng - 0.4), pTo.y - 7 * Math.sin(headAng - 0.4));
+                ctx.lineTo(pTo.x - 7 * Math.cos(headAng + 0.4), pTo.y - 7 * Math.sin(headAng + 0.4));
+                ctx.closePath();
+                ctx.fill();
+            });
+            ctx.restore();
+
+            // Partículas de flujo distribuidas dentro de la cuña
+            ctx.globalAlpha = 0.7;
+            particles.forEach(p => {
+                p.update();
+                const rP   = rPx[0] + p.x * (rPx[N] - rPx[0]);
+                const angP = angStart + p.y * (angEnd - angStart);
+                const pp   = polarPt(rP, angP);
+                ctx.fillStyle = qFlux >= 0 ? '#ef4444' : '#3b82f6';
+                ctx.beginPath();
+                ctx.arc(pp.x, pp.y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1.0;
+
+            // Valor numérico de Q junto al vértice de la cuña (origen)
+            ctx.save();
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+            ctx.shadowBlur = 5;
+            ctx.fillStyle = '#fbbf24';
+            ctx.font = 'bold 11px Inter, sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText(`Q = ${formatNumCompact(qFlux, 1)} W`, cx_orig + 6, cy_orig + RinPx + 18);
+            ctx.restore();
+        }
 
         // 5. Draw interactive boundary condition labels and values
         ctx.save();
@@ -14662,7 +15448,8 @@ function initMulticapaCustomSimulation() {
             ctx.fillText(` = ${value} ${unit}`, startX + baseW + subW, y);
         }
 
-        // Left Side
+        // Left Side (Planar: "Frontera Izq." / Curved: ver bloque else)
+        if (!isCurved) {
         // LOTE — "Frontera Izq." vive por ENCIMA de la pared (diseño
         // preexistente). El offset vertical (antes -26) se amplió para que,
         // incluso en el caso de 3 líneas ('comb-flux'), el bloque de texto
@@ -14747,6 +15534,98 @@ function initMulticapaCustomSimulation() {
             drawSubscriptText("α", "R", formatNumCompact(parseFloat(inputRAlpha.value), 2), "", w - 10, yOffsetR, 'right');
         }
 
+        } else {
+        // ── Geometría curva: etiquetas de frontera radial (LOTE) ─────────────
+        // Superficie Interna (r = r₁): etiquetas en esquina sup.izq. del canvas,
+        // sobre el espacio libre a la izquierda del vértice de la cuña (cx_orig).
+        // Superficie Externa (r = r_{N+1}): etiquetas en esquina inf.der.
+        // para no solaparse con las cotas de radio y badges de temperatura.
+        const lang = getLang();
+
+        // ── Superficie Interna (frontera izquierda / r₁) ──────────────────
+        const lblIn = lang === 'en' ? 'Inner Surf.' : 'Sup. Interna';
+        ctx.textAlign = 'left';
+        let yIn = 16;
+        ctx.font = 'bold 13px Inter, sans-serif';
+        ctx.fillStyle = clrTitle;
+        ctx.fillText(lblIn, 8, yIn);
+        ctx.font = '9px Inter, sans-serif';
+        ctx.fillStyle = clrTitle;
+        ctx.fillText(`(r = r₁)`, 8, yIn + 12);
+        yIn += 28;
+
+        if (typeL === 'temp') {
+            ctx.fillStyle = clrCool;
+            drawSubscriptText("T", "s,in", formatNumCompact(parseFloat(inputLTemp.value), 0), "°C", 8, yIn, 'left');
+        }
+        if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv') {
+            ctx.fillStyle = clrHot;
+            drawSubscriptText("T", "∞,in", formatNumCompact(parseFloat(inputLTinf.value), 0), "°C", 8, yIn, 'left');
+            yIn += 15;
+            ctx.fillStyle = isLightTheme ? '#0284c7' : '#38bdf8';
+            drawSubscriptText("h", "in", formatNumCompact(parseFloat(inputLH ? inputLH.value : '20'), 1), "W/m²K", 8, yIn, 'left');
+            yIn += 15;
+        }
+        if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad') {
+            ctx.fillStyle = clrSur;
+            drawSubscriptText("T", "sur,in", formatNumCompact(parseFloat(inputLTsur.value), 0), "°C", 8, yIn, 'left');
+            yIn += 15;
+        }
+        if (typeL === 'flux' || typeL === 'comb-flux') {
+            ctx.fillStyle = clrRad;
+            drawSubscriptText("q\"", "in", formatNumCompact(parseFloat(inputLFlux.value), 0), "W/m²", 8, yIn, 'left');
+            yIn += 15;
+        }
+        if (typeL === 'irr_conv' || typeL === 'irr_rad') {
+            ctx.fillStyle = clrSolar;
+            drawSubscriptText("G", "in", formatNumCompact(parseFloat(inputLG.value), 0), "W/m²", 8, yIn, 'left');
+            yIn += 15;
+            drawSubscriptText("α", "in", formatNumCompact(parseFloat(inputLAlpha.value), 2), "", 8, yIn, 'left');
+        }
+
+        // ── Superficie Externa (frontera derecha / r_{N+1}) ───────────────
+        const lblOut = lang === 'en' ? 'Outer Surf.' : 'Sup. Externa';
+        const subNp1 = layers.length + 1;
+        ctx.textAlign = 'right';
+        let yOut = Math.min(h - 80, h * 0.55); // esquina inferior-derecha, lejos del hueco
+        ctx.font = 'bold 13px Inter, sans-serif';
+        ctx.fillStyle = clrTitle;
+        ctx.fillText(lblOut, w - 8, yOut);
+        ctx.font = '9px Inter, sans-serif';
+        ctx.fillStyle = clrTitle;
+        ctx.fillText(`(r = r${subNp1})`, w - 8, yOut + 12);
+        yOut += 28;
+
+        if (typeR === 'temp') {
+            ctx.fillStyle = clrCool;
+            drawSubscriptText("T", "s,out", formatNumCompact(parseFloat(inputRTemp.value), 0), "°C", w - 8, yOut, 'right');
+        }
+        if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv') {
+            ctx.fillStyle = clrHot;
+            drawSubscriptText("T", "∞,out", formatNumCompact(parseFloat(inputRTinf.value), 0), "°C", w - 8, yOut, 'right');
+            yOut += 15;
+            ctx.fillStyle = isLightTheme ? '#0284c7' : '#38bdf8';
+            drawSubscriptText("h", "out", formatNumCompact(parseFloat(inputRH ? inputRH.value : '20'), 1), "W/m²K", w - 8, yOut, 'right');
+            yOut += 15;
+        }
+        if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad') {
+            ctx.fillStyle = clrSur;
+            drawSubscriptText("T", "sur,out", formatNumCompact(parseFloat(inputRTsur.value), 0), "°C", w - 8, yOut, 'right');
+            yOut += 15;
+        }
+        if (typeR === 'flux' || typeR === 'comb-flux') {
+            ctx.fillStyle = clrRad;
+            drawSubscriptText("q\"", "out", formatNumCompact(parseFloat(inputRFlux.value), 0), "W/m²", w - 8, yOut, 'right');
+            yOut += 15;
+        }
+        if (typeR === 'irr_conv' || typeR === 'irr_rad') {
+            ctx.fillStyle = clrSolar;
+            drawSubscriptText("G", "out", formatNumCompact(parseFloat(inputRG.value), 0), "W/m²", w - 8, yOut, 'right');
+            yOut += 15;
+            drawSubscriptText("α", "out", formatNumCompact(parseFloat(inputRAlpha.value), 2), "", w - 8, yOut, 'right');
+        }
+        } // end if (!isCurved) / else
+
         ctx.restore();
     }
 
@@ -14786,6 +15665,13 @@ function initMulticapaCustomSimulation() {
         const typeL = selectBcLType.value;
         const typeR = selectBcRType.value;
         const N = layers.length;
+
+        // LOTE 3 — Solver Multigeometría (Circuito): radios reales para que
+        // R_i use layerRcondAt() (correcta en las 3 geometrías) en vez de
+        // L_i/k_i a secas (sólo válido en plana). Prefijo de la etiqueta de
+        // resistencia por capa: R (plana), Rcil (cilíndrica), Resf (esférica).
+        const radiiCircuit = computeRadii();
+        const rPrefix = (geometry === 'cylindrical') ? 'Rcil' : (geometry === 'spherical') ? 'Resf' : 'R';
 
         const margin = 12;
         const wireY = ch * 0.5;
@@ -15014,8 +15900,8 @@ function initMulticapaCustomSimulation() {
             drawZigzag(segX0, segX1, wireY, resColor);
             drawNode(segX0, wireY, nodeColor);
             const sub = subDigits[i + 1] || String(i + 1);
-            if (!veryCompact) label(`R${sub}`, (segX0 + segX1) / 2, wireY - 14, resColor);
-            label(formatNumCompact(layers[i].L / layers[i].k, 3), (segX0 + segX1) / 2, wireY + 18, resColor, veryCompact ? '7px Inter, sans-serif' : 'bold 9px Inter, sans-serif');
+            if (!veryCompact) label(`${rPrefix}${sub}`, (segX0 + segX1) / 2, wireY - 14, resColor);
+            label(formatNumCompact(layerRcondAt(i, radiiCircuit), 3), (segX0 + segX1) / 2, wireY + 18, resColor, veryCompact ? '7px Inter, sans-serif' : 'bold 9px Inter, sans-serif');
             // Temperatura de interfase: alternando arriba/abajo para no chocar entre
             // nodos consecutivos. Se omite i===0 cuando typeL==='temp': ese nodo
             // (xL) ya lo rotula drawBoundary() con su propio texto "T impuesta" —
@@ -15212,6 +16098,39 @@ function initMulticapaCustomSimulation() {
     // para que el primer frame de render() no lea temperaturas indefinidas)
     renderLayersConfig();
     updateBcVisibility();
+
+    // ── LOTE — Solver Multigeometría: gancho de control externo ─────────────
+    // Este LOTE es sólo de solver (sin selector propio en la UI todavía) —
+    // window.MulticapaGeometry permite a un LOTE futuro (o a la consola, para
+    // pruebas) cambiar geometry/baseRadius1/cylinderLength y disparar
+    // solveSimulation() sin tocar de nuevo la física del laboratorio. No
+    // reemplaza layers/T/qFlux (siguen siendo estado interno del closure de
+    // initMulticapaCustomSimulation), sólo la geometría activa.
+    window.MulticapaGeometry = {
+        setGeometry: function (g) {
+            if (g !== 'planar' && g !== 'cylindrical' && g !== 'spherical') return false;
+            geometry = g;
+            solveSimulation();
+            return true;
+        },
+        setBaseRadius: function (r) {
+            const rv = parseFloat(r);
+            if (isNaN(rv) || rv <= 0) return false;
+            baseRadius1 = rv;
+            solveSimulation();
+            return true;
+        },
+        setCylinderLength: function (len) {
+            const lv = parseFloat(len);
+            if (isNaN(lv) || lv <= 0) return false;
+            cylinderLength = lv;
+            solveSimulation();
+            return true;
+        },
+        getGeometry: function () { return geometry; },
+        getBaseRadius: function () { return baseRadius1; },
+        getCylinderLength: function () { return cylinderLength; }
+    };
 
     // Loop
     function animLoop() {

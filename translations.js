@@ -1679,6 +1679,21 @@ window.uiTranslations = {
   "Capa Límite Térmica": "Thermal Boundary Layer",
   "Perfil en el Fluido": "Fluid Profile",
 
+  // LOTE — Multicapa Custom: Solver Multigeometría — título del eje x del
+  // Chart.js T(x)/T(r) (ver solveSimulation() en app_v2.js: alterna entre
+  // estas dos claves según `geometry`).
+  "Posición x (m)": "Position x (m)",
+  "Radio r (m)": "Radius r (m)",
+
+  // LOTE 4 — Multicapa Custom: Solver Multigeometría — nombres de geometría
+  // y parámetros radiales (r1, Δr) para uso bilingüe fuera de las <option>
+  // combinadas ES/EN ya existentes en #cm-geometry-select — ver LOTE 2).
+  "Pared Plana": "Plane Wall",
+  "Cilindro Hueco": "Hollow Cylinder",
+  "Esfera Hueca": "Hollow Sphere",
+  "Radio Interior (r₁)": "Inner Radius (r₁)",
+  "Espesor Radial (Δr)": "Radial Thickness (Δr)",
+
   // LOTE — Multicapa Custom: Condiciones de Frontera con Irradiación Externa
   // (Irradiación + Convección / Irradiación + Radiación). Las dos primeras
   // traducen el texto plano de <option> en #cm-bc-l-type/#cm-bc-r-type (ver
@@ -1688,4 +1703,16 @@ window.uiTranslations = {
   "Irradiación + Radiación": "Irradiation + Radiation",
   "Irradiación (G)": "Irradiation (G)",
   "Absortividad (α)": "Absorptivity (α)",
+
+  // LOTE — Multicapa Custom: Fronteras Radiales (Cilindro Hueco / Esfera Hueca)
+  // Usadas por updateBcPanelHeaders() en app_v2.js para renombrar dinámicamente
+  // los paneles #cm-panel-left-bc y #cm-panel-right-bc al cambiar geometría.
+  "Frontera Superficie Interna": "Inner Surface Boundary",
+  "Frontera Superficie Externa": "Outer Surface Boundary",
+  "Radio Interno": "Inner Radius",
+  "Radio Externo": "Outer Radius",
+  "Sup. Interna": "Inner Surf.",
+  "Sup. Externa": "Outer Surf.",
+  "Frontera Interna": "Inner Boundary",
+  "Frontera Externa": "Outer Boundary",
 };
