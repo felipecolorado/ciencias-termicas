@@ -3556,6 +3556,52 @@ body.multicapa-lab-open {
   line-height: 1.55;
 }
 
+/* ── Tarjeta Teórica y Supuestos del Modelo Físico (#cm-theory-card) ── */
+#multicapa-custom-sim .theory-card {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+#multicapa-custom-sim .cm-theory-tab-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-muted, #94a3b8);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+#multicapa-custom-sim .cm-theory-tab-btn:hover {
+  background: rgba(6, 182, 212, 0.1);
+  border-color: rgba(6, 182, 212, 0.4);
+  color: var(--accent-cyan, #06b6d4);
+}
+
+#multicapa-custom-sim .cm-theory-tab-btn.active {
+  background: rgba(6, 182, 212, 0.18);
+  border-color: var(--accent-cyan, #06b6d4);
+  color: var(--accent-cyan, #06b6d4);
+  font-weight: 600;
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
+}
+
+#multicapa-custom-sim .cm-formula-box {
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+#multicapa-custom-sim .cm-formula-box:hover {
+  border-color: rgba(6, 182, 212, 0.3) !important;
+}
+
+#multicapa-custom-sim #cm-panel-assumptions summary:hover {
+  color: var(--accent-cyan) !important;
+}
+
 /* ── Fila 5 (Tabulación + Gráfica Paramétrica): evita desbordamientos
    horizontales de la tabla dentro del track del grid responsivo ── */
 #multicapa-custom-sim .cm-row-5 > #cm-panel-tabulation,
@@ -3771,6 +3817,20 @@ body.multicapa-lab-open {
   align-items: center;
 }
 
+/* ── LOTE 2 — Solver Multigeometría: "r_i → r_{i+1}" dentro de cada
+   tarjeta de capa (sólo se inserta en el HTML cuando geometry !==
+   'planar', ver renderLayersConfig() en app_v2.js). Mismo lenguaje visual
+   compacto que .layer-resistance-row pero sin borde propio (va justo
+   debajo del título, antes de los sliders). */
+#multicapa-custom-sim .layer-card .layer-radii-info {
+  font-size: 0.66rem;
+  color: var(--accent-cyan);
+  opacity: 0.85;
+  white-space: nowrap;
+  overflow-x: auto;
+  margin-bottom: 1px;
+}
+
 /* Responsive: por debajo de 700px la mini-grid de 3 capas colapsa a 1
    columna para no comprimir en exceso los sliders en pantallas angostas */
 @media (max-width: 700px) {
@@ -3789,6 +3849,51 @@ body.multicapa-lab-open {
    angosto (no sólo 1025-1100px), así que la excepción puntual quedó
    obsoleta y se retiró. No restaurar si aparece en algún commit/
    backup antiguo. */
+
+/* ============================================================
+   LOTE 2 — SOLVER MULTIGEOMETRÍA: Selector de geometría + parámetros
+   radiales (r1, longitud del cilindro) en #multicapa-custom-sim.
+   (No confundir con el "LOTE 2 — FULLSCREEN STYLES" de más abajo — esa
+   es la numeración histórica del rollout de pantalla completa de otros
+   laboratorios, sin relación con este.)
+   ============================================================ */
+
+/* Caja del selector de geometría en la cabecera de #cm-panel-canvas — ya
+   comparte estilos inline con la caja gemela de "Número de Capas" (mismo
+   fondo/borde/padding, ver index.html); aquí sólo se ajusta el <select>
+   en sí para que combine con el resto de los <select> compactos del
+   laboratorio (mismo patrón que #cm-layers-count). */
+#multicapa-custom-sim #cm-geometry-select {
+  font-size: 0.8rem;
+}
+
+/* Fila de parámetros radiales (r1 / longitud del cilindro): la propia
+   visibilidad (display:none↔flex) la controla el estilo inline de
+   index.html + updateGeometryVisibility() en app_v2.js — aquí sólo se
+   ajustan sus hijos para que se acomoden uno junto al otro cuando hay
+   espacio y apilen sin desbordar en los anchos angostos del laboratorio
+   (Regla #9: min-width:0 evita que un value-badge de ancho fijo empuje
+   el layout). */
+#multicapa-custom-sim #cm-geometry-params .control-group {
+  min-width: 0;
+}
+#multicapa-custom-sim #cm-geometry-params label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 700px) {
+  #multicapa-custom-sim #cm-geometry-params {
+    flex-direction: column;
+  }
+  #multicapa-custom-sim #cm-geometry-params .control-group {
+    min-width: 100%;
+  }
+}
 
 /* ============================================================
    LOTE 2 — FULLSCREEN STYLES
@@ -5644,150 +5749,293 @@ body.light-theme .downloads-panel-list a {
    de nodos ya existentes vía id="foote-*" añadidos en index.html.
    ============================================================ */
 
-/* ── Flatten wrapper cards so their children join the outer grid ──
-   (mismo patrón ya usado en #multicapa-custom-sim.fullscreen .cm-row) */
+/* ── Flatten wrapper cards so their children join the outer grid ── */
 #foote-sim.fullscreen #foote-controls-card,
 #foote-sim.fullscreen #foote-params-grid,
 #foote-sim.fullscreen #foote-animation-card {
   display: contents !important;
 }
 
-/* ── Outer 2-column grid: Izquierda = Animación (gas panel + canvas),
-   Derecha = Gráfica + Controles ──
-   Filas "auto": cada bloque de la columna derecha (gráfica, controles,
-   tabla, cita) se dimensiona según su propio contenido — evita que la
-   gráfica (antes con fila elástica 1fr + height:100%) invada visualmente
-   el espacio de la tabla que la sigue. */
+/* ── Outer 2-column grid ──────────────────────────────────────────────────
+   COLUMNA 1 (izquierda, visual 50 % / 50 %):
+     • fila 1 → #foote-canvas-container  (animación cilindros)
+     • fila 2 → #foote-chart-wrapper     (gráfica T(t), ≥ 320 px)
+
+   COLUMNA 2 (derecha, controles apilados verticalmente):
+     • fila 1 → #foote-gas-col     (panel de checkboxes de gases)
+     • fila 2 → #foote-sliders-col (sliders + areas-info + botones)
+     • fila auto → #foote-summary-table  (tabla resumen)
+     • fila auto → #foote-quote-banner   (cita histórica)
+
+   Las 2 filas declaradas son 1fr / 1fr  → 50 % / 50 % para la izquierda.
+   grid-auto-rows: auto genera filas sin altura mínima para ítems extra
+   de la columna derecha. grid-auto-flow: row dense evita huecos.
+   ─────────────────────────────────────────────────────────────────────── */
 #foote-sim.fullscreen .simulation-workspace {
   display: grid !important;
-  grid-template-columns: 190px minmax(0, 1.1fr) minmax(0, 1fr);
-  grid-template-rows: auto auto auto auto;
-  grid-template-areas:
-    "gas canvas chart"
-    "gas canvas controls"
-    "gas canvas summary"
-    "gas canvas quote";
-  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: 1fr 1fr;
+  grid-auto-rows: auto;
+  grid-auto-flow: row dense;
+  gap: 12px;
   width: 100%;
+  height: calc(100% - 0px);
   align-items: stretch;
+  overflow: hidden;
 }
 
-/* Sub-panel de gases: vertical, compacto, inmediatamente a la izquierda del
-   canvas. Sin overflow forzado ni altura 100% — se dimensiona a su propio
-   contenido (cero scrollbars internos). */
-#foote-sim.fullscreen #foote-gas-col {
-  grid-area: gas;
-  overflow: visible;
-  padding-right: 2px;
-}
-
-#foote-sim.fullscreen #foote-gas-col .control-group {
-  height: auto;
-  min-height: fit-content;
-  display: flex;
-  flex-direction: column;
-  padding: 6px 6px;
-  gap: 6px;
-}
-
-/* Encabezado "Gases a Comparar…" + botones Todos/Ninguno: en 190px se
-   apilan verticalmente para no truncar texto ni disparar scroll horizontal */
-#foote-sim.fullscreen #foote-gas-col > .control-group > div[style*="justify-content:space-between"] {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  margin-bottom: 2px !important;
-}
-
-#foote-sim.fullscreen #foote-gas-col > .control-group > div[style*="justify-content:space-between"] > label {
-  font-size: 0.82rem;
-  line-height: 1.25;
-}
-
-#foote-sim.fullscreen #foote-gas-col > .control-group > div[style*="justify-content:space-between"] > div[style*="gap:6px"] {
-  flex-wrap: wrap;
-  gap: 5px !important;
-}
-
-/* Lista de gases: una sola columna compacta, sin scroll ni bordes extra */
-#foote-sim.fullscreen #foote-gas-col > .control-group > div[style*="grid-template-columns"] {
-  grid-template-columns: 1fr !important;
-  overflow: visible !important;
-  gap: 5px !important;
-  padding: 6px !important;
-  height: auto !important;
-}
-
-#foote-sim.fullscreen #foote-gas-col label[style*="font-size:0.78rem"] {
-  font-size: 0.82rem !important;
-  gap: 6px !important;
-  padding: 1px 0;
-  line-height: 1.3;
-}
-
-/* Escenario de la animación (cilindros de vidrio): estira para igualar la
-   altura total de la columna derecha (gráfica + controles + tabla + cita) */
+/* ── Col. IZQUIERDA — fila 1: Animación de cilindros ── */
 #foote-sim.fullscreen #foote-canvas-container {
-  grid-area: canvas;
+  grid-column: 1;
+  grid-row: 1;
   height: 100% !important;
   min-height: 260px;
   max-height: none !important;
+  align-self: stretch;
+  overflow: hidden;
 }
 
-/* Gráfica de temperatura, agrupada en la columna derecha.
-   Altura FIJA (no porcentual ni ligada a una fila elástica 1fr): evita el
-   desfase de temporización con Chart.js que provocaba que el canvas
-   quedara sobredimensionado y se montara visualmente sobre la tabla de
-   resultados que va justo debajo. */
+/* ── Col. IZQUIERDA — fila 2: Gráfica de temperatura ── */
 #foote-sim.fullscreen #foote-chart-wrapper {
-  grid-area: chart;
-  height: min(46vh, 440px) !important;
-  max-height: min(46vh, 440px) !important;
-  min-height: 260px;
+  grid-column: 1;
+  grid-row: 2;
+  height: 100% !important;
+  max-height: none !important;
+  min-height: 320px;
   overflow: hidden;
   margin: 0;
   position: relative;
+  align-self: stretch;
 }
 
-/* Barra de parámetros compacta, justo debajo de la gráfica */
-#foote-sim.fullscreen #foote-sliders-col {
-  grid-area: controls;
+/* ══════════════════════════════════════════════════════════════════════
+   COLUMNA DERECHA — los 4 ítems directos del grid se apilan en col. 2
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── Col. DERECHA — fila 1: Panel de selección de gases ── */
+#foote-sim.fullscreen #foote-gas-col {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 2px;
+  align-self: stretch;
+  min-height: 0;
+}
+
+/* Tarjeta interna del panel de gases */
+#foote-sim.fullscreen #foote-gas-col > .control-group {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 6px 8px;
+  gap: 5px;
+  overflow: hidden;
+}
+
+/* Fila "Gases a Comparar…" + botones Todos/Ninguno */
+#foote-sim.fullscreen #foote-gas-col > .control-group > div[style*="justify-content:space-between"],
+#foote-sim.fullscreen #foote-gas-col > .control-group > div[style*="justify-content: space-between"] {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px !important;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+#foote-sim.fullscreen #foote-gas-col > .control-group > div > label {
+  font-size: 0.80rem;
+  line-height: 1.25;
+  white-space: normal;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+#foote-sim.fullscreen #foote-gas-col > .control-group > div > div[style*="gap:6px"],
+#foote-sim.fullscreen #foote-gas-col > .control-group > div > div[style*="gap: 6px"] {
   display: flex !important;
   flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 8px 12px;
+  gap: 4px !important;
+  flex-shrink: 0;
+}
+
+/* Botones Todos/Ninguno: tamaño compacto */
+#foote-sim.fullscreen #foote-select-all,
+#foote-sim.fullscreen #foote-deselect-all {
+  font-size: 0.72rem !important;
+  padding: 2px 7px !important;
+  white-space: nowrap;
+}
+
+/* Cuadrícula de checkboxes de gases: 2 col. auto-fill, scroll interno si desborda */
+#foote-sim.fullscreen #foote-gas-col > .control-group > div[style*="grid-template-columns"],
+#foote-sim.fullscreen #foote-gas-col > .control-group > div[style*="display:grid"],
+#foote-sim.fullscreen #foote-gas-col > .control-group > div[style*="display: grid"] {
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  gap: 4px !important;
+  padding: 5px !important;
+  height: auto !important;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Etiquetas de cada gas: texto compacto, sin desbordamiento */
+#foote-sim.fullscreen #foote-gas-col label[style*="font-size:0.78rem"],
+#foote-sim.fullscreen #foote-gas-col label[style*="font-size: 0.78rem"] {
+  font-size: 0.80rem !important;
+  gap: 5px !important;
+  padding: 1px 0;
+  line-height: 1.3;
+  white-space: normal;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ── Col. DERECHA — fila 2: Sliders de parámetros ── */
+#foote-sim.fullscreen #foote-sliders-col {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex !important;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  align-self: stretch;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+}
+
+/* Cada .control-group de slider: padding reducido, sin margin-bottom extra */
+#foote-sim.fullscreen #foote-sliders-col > .control-group {
+  padding: 4px 8px !important;
+  margin-bottom: 0 !important;
+  flex-shrink: 0;
+}
+
+/* Labels de sliders: flex, sin desbordamiento, texto compacto */
+#foote-sim.fullscreen #foote-sliders-col > .control-group > label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px;
+  font-size: 0.80rem;
+  line-height: 1.3;
+  white-space: normal;
+  min-width: 0;
+  margin-bottom: 3px;
+}
+
+/* Sliders: track delgado, sin overflow lateral */
+#foote-sim.fullscreen #foote-sliders-col > .control-group > input[type="range"] {
+  width: 100% !important;
+  height: 4px;
   margin: 0;
 }
 
-#foote-sim.fullscreen #foote-sliders-col > .control-group {
-  flex: 1 1 165px;
-  min-width: 150px;
-  margin-bottom: 0 !important;
+/* Input numérico alineado dentro del label */
+#foote-sim.fullscreen #foote-sliders-col .sim-number-input {
+  width: 52px !important;
+  padding: 1px 3px !important;
+  font-size: 0.78rem !important;
+  flex-shrink: 0;
 }
 
+#foote-sim.fullscreen #foote-sliders-col .sim-number-unit {
+  font-size: 0.75rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Áreas geométricas: padding compacto, sin altura fija */
 #foote-sim.fullscreen #foote-areas-info {
-  flex: 1 1 100%;
-  margin-bottom: 0 !important;
+  display: flex !important;
+  gap: 8px !important;
+  margin: 0 !important;
+  padding: 5px 8px !important;
+  font-size: 0.77rem !important;
+  flex-shrink: 0;
+  height: auto !important;
+  overflow: visible;
 }
 
+#foote-sim.fullscreen #foote-areas-info strong {
+  font-size: 0.77rem;
+  white-space: nowrap;
+}
+
+/* Botones Encender Sol / Reiniciar: compactos */
 #foote-sim.fullscreen #foote-action-buttons {
-  flex: 1 1 100%;
-  margin-top: 0 !important;
+  display: flex !important;
+  gap: 6px !important;
+  margin: 4px 8px 0 !important;
+  flex-shrink: 0;
 }
 
-/* Tabla resumen y cita histórica: siguen agrupadas en la columna derecha */
+#foote-sim.fullscreen #foote-action-buttons #foote-start-btn {
+  padding: 7px 10px !important;
+  font-size: 0.82rem !important;
+}
+
+#foote-sim.fullscreen #foote-action-buttons #foote-reset-btn {
+  padding: 7px 10px !important;
+  font-size: 0.82rem !important;
+}
+
+/* ── Col. DERECHA — filas auto: Tabla resumen ── */
 #foote-sim.fullscreen #foote-summary-table {
-  grid-area: summary;
-  margin-top: 0 !important;
+  grid-column: 2;
+  grid-row: auto;
+  margin: 0 !important;
+  padding: 5px 6px !important;
+  align-self: start;
+  font-size: 0.75rem !important;
+  overflow-x: auto;
+  overflow-y: visible;
 }
 
+/* Celdas de la tabla resumen generada dinámicamente por JS */
+#foote-sim.fullscreen #foote-summary-table table {
+  font-size: 0.75rem !important;
+  white-space: nowrap;
+}
+
+#foote-sim.fullscreen #foote-summary-table td,
+#foote-sim.fullscreen #foote-summary-table th {
+  padding: 2px 4px !important;
+  font-size: 0.75rem !important;
+}
+
+/* ── Col. DERECHA — filas auto: Cita histórica / conclusión ── */
 #foote-sim.fullscreen #foote-quote-banner {
-  grid-area: quote;
-  margin-top: 0 !important;
+  grid-column: 2;
+  grid-row: auto;
+  margin: 0 !important;
+  padding: 6px 10px !important;
+  align-self: start;
 }
 
-/* Encabezados redundantes: se conservan para lectores de pantalla mediante
-   la misma técnica que .sr-only, sin ocupar espacio visual */
+#foote-sim.fullscreen #foote-quote-banner p {
+  font-size: 0.82rem !important;
+  line-height: 1.35 !important;
+  margin-bottom: 5px !important;
+}
+
+#foote-sim.fullscreen #foote-quote-banner #foote-conclusion-delta {
+  font-size: 0.78rem !important;
+  padding: 5px 8px !important;
+  line-height: 1.35;
+}
+
+/* ── Encabezados redundantes → .sr-only visual (accesibilidad) ── */
 #foote-sim.fullscreen #foote-controls-heading,
 #foote-sim.fullscreen #foote-animation-heading {
   position: absolute;
@@ -5801,20 +6049,16 @@ body.light-theme .downloads-panel-list a {
   border: 0;
 }
 
-/* Introducción teórica: se compacta en fullscreen para dejar más espacio
-   a la animación, la gráfica y los controles. Sin scrollbar interno: el
-   texto y las fórmulas fluyen a su altura natural (el fallback de scroll,
-   si hiciera falta, lo aporta #foote-sim.fullscreen a nivel de modal). */
+/* ── Introducción teórica: ocultar lista en fullscreen ── */
 #foote-sim.fullscreen .sim-intro {
-  padding: 0.5rem 0.75rem;
-  margin-bottom: 10px;
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 8px;
   height: auto;
   max-height: none;
   overflow: visible;
 }
 
 #foote-sim.fullscreen .sim-intro h3 {
-  font-size: 1rem;
   margin-bottom: 0.25rem;
 }
 
@@ -5822,32 +6066,27 @@ body.light-theme .downloads-panel-list a {
   display: none;
 }
 
-/* ── Responsive: pantallas medianas (tablet) — 2 columnas, gas panel más angosto ── */
+/* ── Responsive: pantallas medianas (tablet ≤ 1100 px) ──
+   Se mantienen las 2 columnas visuales. Las filas del grid mantienen
+   el tamaño mínimo proporcional al viewport. */
 @media (max-width: 1100px) {
   #foote-sim.fullscreen .simulation-workspace {
-    grid-template-columns: 140px minmax(0, 1fr);
-    grid-template-areas:
-      "gas canvas"
-      "gas chart"
-      "gas controls"
-      "gas summary"
-      "gas quote";
-    grid-template-rows: minmax(200px, 34vh) auto auto auto auto;
-    overflow-y: visible;
+    grid-template-rows: minmax(180px, 34vh) minmax(180px, 34vh);
   }
 
   #foote-sim.fullscreen #foote-canvas-container {
     height: 100% !important;
-    min-height: 220px;
+    min-height: 180px;
   }
 
   #foote-sim.fullscreen #foote-chart-wrapper {
-    height: min(38vh, 360px) !important;
-    max-height: min(38vh, 360px) !important;
+    height: 100% !important;
+    max-height: none !important;
+    min-height: 180px;
   }
 }
 
-/* ── Responsive: móvil — vuelve al flujo normal en una sola columna ── */
+/* ── Responsive: móvil (≤ 768 px) — vuelve al flujo normal en 1 columna ── */
 @media (max-width: 768px) {
   #foote-sim.fullscreen #foote-controls-card,
   #foote-sim.fullscreen #foote-params-grid,
@@ -5863,16 +6102,33 @@ body.light-theme .downloads-panel-list a {
     overflow: visible;
   }
 
-  #foote-sim.fullscreen #foote-gas-col {
-    overflow-y: visible;
+  /* Restablecer posicionamiento de grid a valores por defecto en móvil */
+  #foote-sim.fullscreen #foote-canvas-container,
+  #foote-sim.fullscreen #foote-chart-wrapper,
+  #foote-sim.fullscreen #foote-gas-col,
+  #foote-sim.fullscreen #foote-sliders-col,
+  #foote-sim.fullscreen #foote-summary-table,
+  #foote-sim.fullscreen #foote-quote-banner {
+    grid-column: unset;
+    grid-row: unset;
+    align-self: unset;
   }
 
   #foote-sim.fullscreen #foote-canvas-container {
     height: 220px !important;
+    min-height: 0;
   }
 
   #foote-sim.fullscreen #foote-chart-wrapper {
     height: 300px !important;
+    max-height: none !important;
+    min-height: 0;
+  }
+
+  #foote-sim.fullscreen #foote-gas-col {
+    overflow-y: visible;
+    overflow-x: visible;
+    display: block;
   }
 
   #foote-sim.fullscreen #foote-sliders-col {

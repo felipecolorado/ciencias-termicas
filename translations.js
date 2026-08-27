@@ -1715,4 +1715,11 @@ window.uiTranslations = {
   "Sup. Externa": "Outer Surf.",
   "Frontera Interna": "Inner Boundary",
   "Frontera Externa": "Outer Boundary",
+
+  // LOTE — Multicapa Custom: Fórmulas de Resistencias Térmicas y Supuestos del Modelo
+  "Resistencias Térmicas y Formulación Matemática": "Thermal Resistances and Mathematical Formulation",
+  "Supuestos Físicos del Modelo": "Physical Model Assumptions",
+  "Supuestos Físicos del Modelo (8 Puntos)": "Physical Model Assumptions (8 Points)",
+  "Resistencias Térmicas por Geometría": "Thermal Resistances by Geometry",
 };
+

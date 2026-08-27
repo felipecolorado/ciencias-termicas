@@ -13797,9 +13797,55 @@ function initMulticapaCustomSimulation() {
         renderLayersConfig();
         // Actualizar títulos de paneles de frontera según la nueva geometría
         updateBcPanelHeaders(g);
+        // Sincronizar pestaña activa en la tarjeta teórica (#cm-theory-card)
+        updateTheoryGeometryTab(g);
     }
     if (selectGeometry) {
         selectGeometry.addEventListener('change', updateGeometryVisibility);
+    }
+
+    // LOTE — Sincronización de pestañas teóricas de geometría en #cm-theory-card
+    function updateTheoryGeometryTab(geom) {
+        const card = document.getElementById('cm-theory-card');
+        if (!card) return;
+        const buttons = card.querySelectorAll('.cm-theory-tab-btn');
+        const panes = card.querySelectorAll('.cm-theory-pane');
+
+        buttons.forEach(btn => {
+            const tab = btn.getAttribute('data-geom-tab');
+            if (tab === geom) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        panes.forEach(pane => {
+            const pTab = pane.getAttribute('data-geom-pane');
+            if (pTab === geom) {
+                pane.style.display = 'block';
+                pane.classList.add('active');
+            } else {
+                pane.style.display = 'none';
+                pane.classList.remove('active');
+            }
+        });
+
+        if (window.MathJax && typeof MathJax.typesetPromise === 'function') {
+            MathJax.typesetPromise([card]).catch(() => {});
+        }
+    }
+
+    // Listener para clics manuales en las pestañas de teoría
+    const cmTheoryCardEl = document.getElementById('cm-theory-card');
+    if (cmTheoryCardEl) {
+        cmTheoryCardEl.addEventListener('click', (e) => {
+            const btn = e.target.closest('.cm-theory-tab-btn');
+            if (btn) {
+                const targetTab = btn.getAttribute('data-geom-tab');
+                updateTheoryGeometryTab(targetTab);
+            }
+        });
     }
 
 
@@ -23455,6 +23501,9 @@ function initInternalBLSimulation() {
             window.addEventListener("resize", () => { if (canvas.offsetParent) drawCanvas(); });
             canvas.dataset.resizeAttached = "true";
         }
+        // Exponer drawCanvas para que el IIFE FooteLab pueda llamarla desde resizeAssets()
+        // al abrir/cerrar fullscreen, garantizando resolución correcta en el nuevo tamaño.
+        window.FooteDrawCanvas = drawCanvas;
         resetSim();
         loop();
     }
@@ -27426,12 +27475,19 @@ document.addEventListener('DOMContentLoaded', () => {
     var CFG = { modalId: 'foote-sim', openBtnId: 'foote-lab-open-btn', closeBtnId: 'foote-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'foote-lab-open', transitionMs: 300 };
     function resizeAssets() {
         var sl = document.getElementById('foote-solar-irradiance'); if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); }
+        // Redimensionar Chart.js del gráfico de temperatura
         var canvas = document.getElementById('footeTempChart');
         if (canvas && window.Chart) {
             var chart = null;
             if (typeof Chart.getChart === 'function') chart = Chart.getChart(canvas);
             else if (Chart.instances) chart = Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
             if (chart) { try { chart.resize(); chart.update('none'); } catch (e) { } }
+        }
+        // Redimensionar canvas de animación (cilindros de Eunice Foote).
+        // drawCanvas() lee clientWidth/clientHeight del contenedor en cada llamada,
+        // por lo que una invocación inmediata sincroniza la resolución sin borrosidad.
+        if (typeof window.FooteDrawCanvas === 'function') {
+            try { window.FooteDrawCanvas(); } catch (e) { }
         }
     }
     function forceDelayedResize() { setTimeout(resizeAssets, 80); }
