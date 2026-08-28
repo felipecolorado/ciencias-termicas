@@ -22363,6 +22363,15 @@ function initInternalBLSimulation() {
     let commentCurrentPage = 1;
     let firebaseDb = null;
     let activeCommentsList = [];
+    // 2026-08-28 (robustez de registro): true mientras handleAuthSubmit (rama
+    // register) está guardando el perfil nuevo en /users tras crear la cuenta
+    // en Firebase Auth. Mientras esté en true, handleAuthStateUser (disparado
+    // por el listener global onAuthStateChanged, que Firebase activa apenas
+    // createUserWithEmailAndPassword tiene éxito) no debe adelantarse a
+    // mostrar el estado "logeado" — evita que la interfaz marque el registro
+    // como terminado antes de que el perfil realmente se haya guardado. Ver
+    // LOTE_stats_userCount_incremento_atomico / hallazgo de cuentas huérfanas.
+    let isRegisteringProfile = false;
 
     // Initialize Firebase Realtime Database Engine
     const firebaseConfig = {
@@ -22394,6 +22403,15 @@ function initInternalBLSimulation() {
         if (!firebaseUser) {
             currentUser = null;
             showLoggedOutState();
+            return;
+        }
+
+        // 2026-08-28 (robustez de registro): ver declaración de
+        // isRegisteringProfile más arriba. handleAuthSubmit llama a esta misma
+        // función explícitamente una vez que el perfil ya quedó guardado en
+        // /users, así que mientras el flag esté activo simplemente no se hace
+        // nada aquí (ni se actualiza currentUser ni se cambia la interfaz).
+        if (isRegisteringProfile) {
             return;
         }
 
@@ -22796,8 +22814,40 @@ function initInternalBLSimulation() {
                     role: "Estudiante"
                 };
 
+                // 2026-08-28 (robustez de registro): antes de esto, el listener
+                // global onAuthStateChanged (disparado por Firebase apenas
+                // createUserWithEmailAndPassword tiene éxito, en paralelo a este
+                // flujo) marcaba el registro como "listo" en la interfaz sin
+                // esperar a que el perfil se guardara en /users. Si el usuario
+                // cerraba la pestaña o había un problema de red justo en ese
+                // instante, quedaba una cuenta de Firebase Auth "huérfana" (con
+                // login pero sin perfil) — encontrado en producción: 11 de 19
+                // cuentas registradas. isRegisteringProfile le indica a
+                // handleAuthStateUser que espere a que este flujo termine.
+                isRegisteringProfile = true;
+
                 if (db) {
-                    await db.ref("users/" + userKey).set(newUser);
+                    try {
+                        await db.ref("users/" + userKey).set(newUser);
+                    } catch (profileErr) {
+                        console.error("No se pudo guardar el perfil tras el registro:", profileErr);
+                        // Revertir la cuenta de Firebase Auth recién creada para no
+                        // dejar una cuenta huérfana (con login pero sin perfil): el
+                        // registro debe quedar todo-o-nada.
+                        try {
+                            await firebaseUser.delete();
+                        } catch (deleteErr) {
+                            console.error("No se pudo revertir la cuenta de Auth tras el fallo de perfil:", deleteErr);
+                        }
+                        isRegisteringProfile = false;
+                        if (errorMsg) {
+                            errorMsg.textContent = window.currentLanguage === 'en'
+                                ? "Your account could not be fully created (profile save failed). Please try registering again."
+                                : "No se pudo completar tu registro (falló el guardado de tu perfil). Por favor, inténtalo de nuevo.";
+                            errorMsg.style.display = "block";
+                        }
+                        return;
+                    }
 
                     // Incrementar de forma atómica el contador público de usuarios
                     // (stats/userCount, leído por fetchRealUserCount()). Antes este
@@ -22810,9 +22860,15 @@ function initInternalBLSimulation() {
                         console.warn('No se pudo incrementar stats/userCount:', err);
                     });
                 }
-                // onAuthStateChanged (ver handleAuthStateUser) ya se encarga de
-                // actualizar currentUser y la interfaz tras un registro exitoso.
+
+                // El perfil ya quedó guardado con éxito en /users: recién ahora se
+                // marca el registro como terminado y se actualiza la interfaz
+                // (reemplaza la dependencia únicamente del onAuthStateChanged
+                // global, que corría antes de que el perfil existiera).
+                isRegisteringProfile = false;
+                handleAuthStateUser(firebaseUser);
             } catch (e) {
+                isRegisteringProfile = false;
                 console.error("Firebase register error:", e);
                 if (errorMsg) {
                     errorMsg.textContent = window.currentLanguage === 'en' ? "Error saving user to cloud." : "Error registrando usuario en la nube.";
