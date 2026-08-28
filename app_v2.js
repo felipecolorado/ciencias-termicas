@@ -22798,6 +22798,17 @@ function initInternalBLSimulation() {
 
                 if (db) {
                     await db.ref("users/" + userKey).set(newUser);
+
+                    // Incrementar de forma atómica el contador público de usuarios
+                    // (stats/userCount, leído por fetchRealUserCount()). Antes este
+                    // nodo solo se actualizaba a mano vía
+                    // firebase/scripts/syncUserCount.js (Admin SDK), por lo que se
+                    // desfasaba con cada registro nuevo.
+                    db.ref('stats/userCount').transaction(function (currentCount) {
+                        return (currentCount || 0) + 1;
+                    }).catch(function (err) {
+                        console.warn('No se pudo incrementar stats/userCount:', err);
+                    });
                 }
                 // onAuthStateChanged (ver handleAuthStateUser) ya se encarga de
                 // actualizar currentUser y la interfaz tras un registro exitoso.
