@@ -987,9 +987,17 @@ const REGISTRATION_DELAY_MS = 5 * 60 * 1000; // 5 minutos (300,000 ms)
 
 // Función para manejar el bloqueo de registro y contador de usuarios
 function initGatekeeper() {
-    // Auto-unlock for local development
-    if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' || window.location.protocol === 'file:') {
+    const isLocalEnv = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' || window.location.protocol === 'file:');
+    // Permite forzar la prueba del temporizador en local añadiendo ?testGatekeeper=1
+    // a la URL (ej. file:///.../index.html?testGatekeeper=1), sin tocar código.
+    const forceTest = new URLSearchParams(window.location.search).get('testGatekeeper') === '1';
+
+    // Auto-unlock for local development (se salta si se pide la prueba explícita)
+    if (isLocalEnv && !forceTest) {
+        console.log("[Auth] Entorno local detectado (" + (window.location.protocol === 'file:' ? 'file://' : window.location.hostname) + "). gatekeeper_registered=true automático → el modal NO se mostrará. Añade ?testGatekeeper=1 a la URL para probar el temporizador real.");
         localStorage.setItem("gatekeeper_registered", "true");
+    } else if (isLocalEnv && forceTest) {
+        console.log("[Auth] Modo de prueba forzado (?testGatekeeper=1): se ignora el auto-desbloqueo local.");
     }
 
     // Consultar siempre el total de usuarios reales registrados en Firebase
