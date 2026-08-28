@@ -3987,113 +3987,11 @@
                                                         class="fas fa-redo"></i></button>
                                             </div>
                                         </div>
-
-                                        <div id="foote-gas-col">
-                                            <div class="control-group" style="margin-bottom: 8px;">
-                                                <div
-                                                    style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                                                    <label style="margin:0;"><span class="lang-es">Gases a Comparar en
-                                                            el Experimento:</span><span class="lang-en"
-                                                            style="display:none;">Gases to Compare in
-                                                            Experiment:</span></label>
-                                                    <div style="display:flex; gap:6px;">
-                                                        <button id="foote-select-all" type="button"
-                                                            style="background:rgba(56,189,248,0.15); color:#38bdf8; border:1px solid rgba(56,189,248,0.3); border-radius:4px; padding:2px 8px; font-size:0.75rem; cursor:pointer;"><i
-                                                                class="fas fa-check-double"></i> <span
-                                                                class="lang-es">Todos</span><span class="lang-en"
-                                                                style="display:none;">All</span></button>
-                                                        <button id="foote-deselect-all" type="button"
-                                                            style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); border-radius:4px; padding:2px 8px; font-size:0.75rem; cursor:pointer;"><i
-                                                                class="fas fa-times"></i> <span
-                                                                class="lang-es">Ninguno</span><span class="lang-en"
-                                                                style="display:none;">None</span></button>
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    style="display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap:6px; margin-top:4px; background: rgba(0,0,0,0.25); padding:8px; border-radius:6px; border:1px solid rgba(255,255,255,0.08);">
-                                                    <label
-                                                        style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#ec4899; cursor:pointer;">
-                                                        <input type="checkbox" class="foote-gas-check" value="co2"
-                                                            checked> CO₂ (Dióxido)
-                                                    </label>
-                                                    <label
-                                                        style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#0284c7; cursor:pointer;">
-                                                        <input type="checkbox" class="foote-gas-check" value="h2o"
-                                                            checked> H₂O (Vapor de Agua)
-                                                    </label>
-                                                    <label
-                                                        style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#e11d48; cursor:pointer;">
-                                                        <input type="checkbox" class="foote-gas-check" value="o3"
-                                                            checked> O₃ (Ozono)
-                                                    </label>
-                                                    <label
-                                                        style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#6366f1; cursor:pointer;">
-                                                        <input type="checkbox" class="foote-gas-check" value="n2"> N₂
-                                                        (Nitrógeno)
-                                                    </label>
-                                                    <label
-                                                        style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#38bdf8; cursor:pointer;">
-                                                        <input type="checkbox" class="foote-gas-check" value="o2"> O₂
-                                                        (Oxígeno)
-                                                    </label>
-                                                    <label
-                                                        style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#3b82f6; cursor:pointer;">
-                                                        <input type="checkbox" class="foote-gas-check" value="air"
-                                                            checked> Aire Seco
-                                                    </label>
-                                                    <label
-                                                        style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#06b6d4; cursor:pointer;">
-                                                        <input type="checkbox" class="foote-gas-check" value="h2">
-                                                        Hidrógeno (H₂)
-                                                    </label>
-                                                    <label
-                                                        style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#10b981; cursor:pointer;">
-                                                        <input type="checkbox" class="foote-gas-check" value="ch4">
-                                                        Metano (CH₄)
-                                                    </label>
-                                                    <label
-                                                        style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#94a3b8; cursor:pointer;">
-                                                        <input type="checkbox" class="foote-gas-check" value="ar"
-                                                            checked> Argón (Ar)
-                                                    </label>
-                                                    <label
-                                                        style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#f59e0b; cursor:pointer;">
-                                                        <input type="checkbox" class="foote-gas-check" value="sf6"
-                                                            checked> SF₆ (Hexafluoruro)
-                                                    </label>
-                                                    <label
-                                                        style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#a855f7; cursor:pointer;">
-                                                        <input type="checkbox" class="foote-gas-check" value="n2o"
-                                                            checked> N₂O (Óxido Nitroso)
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
 
                                     <div id="foote-summary-table"
                                         style="margin-top: 12px; padding: 8px; background: rgba(15,23,42,0.5); border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); font-size: 0.75rem; overflow-x:auto;">
                                         <!-- Dynamic gas comparison table -->
-                                    </div>
-                                </div>
-
-                                <div class="animation-card" id="foote-animation-card"
-                                    style="width:100%; display:flex; flex-direction:column; gap:12px;">
-                                    <h4 class="sim-subheading" id="foote-animation-heading"><i class="fas fa-vial"></i>
-                                        <span class="lang-es">Cilindros de Vidrio Simultáneos de Eunice Foote &
-                                            Radiación
-                                            Infrarroja</span><span class="lang-en" style="display:none;">Eunice Foote's
-                                            Simultaneous Glass Cylinders & Infrared Radiation</span>
-                                    </h4>
-                                    <div class="canvas-container" id="foote-canvas-container"
-                                        style="position:relative; height:240px; background:#060d1a; border-radius:8px; overflow:hidden; border:1px solid rgba(236,72,153,0.3);">
-                                        <canvas id="footeCanvas"
-                                            style="width:100%; height:100%; display:block;"></canvas>
-                                    </div>
-
-                                    <div id="foote-chart-wrapper"
-                                        style="background: rgba(15,23,42,0.3); border-radius: 8px; padding: 12px; border: 1px solid rgba(255,255,255,0.05); height: 420px;">
-                                        <canvas id="footeTempChart" style="width:100%; height:100%;"></canvas>
                                     </div>
 
                                     <div id="foote-quote-banner"
@@ -4110,6 +4008,110 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="animation-card" id="foote-animation-card"
+                                    style="width:100%; display:flex; flex-direction:column; gap:12px;">
+                                    <h4 class="sim-subheading" id="foote-animation-heading"><i class="fas fa-vial"></i>
+                                        <span class="lang-es">Cilindros de Vidrio Simultáneos de Eunice Foote &
+                                            Radiación
+                                            Infrarroja</span><span class="lang-en" style="display:none;">Eunice Foote's
+                                            Simultaneous Glass Cylinders & Infrared Radiation</span>
+                                    </h4>
+
+                                    <div id="foote-gas-col">
+                                        <div class="control-group" style="margin-bottom: 8px;">
+                                            <div
+                                                style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                                <label style="margin:0;"><span class="lang-es">Gases a Comparar en
+                                                        el Experimento:</span><span class="lang-en"
+                                                        style="display:none;">Gases to Compare in
+                                                        Experiment:</span></label>
+                                                <div style="display:flex; gap:6px;">
+                                                    <button id="foote-select-all" type="button"
+                                                        style="background:rgba(56,189,248,0.15); color:#38bdf8; border:1px solid rgba(56,189,248,0.3); border-radius:4px; padding:2px 8px; font-size:0.75rem; cursor:pointer;"><i
+                                                            class="fas fa-check-double"></i> <span
+                                                            class="lang-es">Todos</span><span class="lang-en"
+                                                            style="display:none;">All</span></button>
+                                                    <button id="foote-deselect-all" type="button"
+                                                        style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); border-radius:4px; padding:2px 8px; font-size:0.75rem; cursor:pointer;"><i
+                                                            class="fas fa-times"></i> <span
+                                                            class="lang-es">Ninguno</span><span class="lang-en"
+                                                            style="display:none;">None</span></button>
+                                                </div>
+                                            </div>
+                                            <div
+                                                style="display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap:6px; margin-top:4px; background: rgba(0,0,0,0.25); padding:8px; border-radius:6px; border:1px solid rgba(255,255,255,0.08);">
+                                                <label
+                                                    style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#ec4899; cursor:pointer;">
+                                                    <input type="checkbox" class="foote-gas-check" value="co2"
+                                                        checked> CO₂ (Dióxido)
+                                                </label>
+                                                <label
+                                                    style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#0284c7; cursor:pointer;">
+                                                    <input type="checkbox" class="foote-gas-check" value="h2o"
+                                                        checked> H₂O (Vapor de Agua)
+                                                </label>
+                                                <label
+                                                    style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#e11d48; cursor:pointer;">
+                                                    <input type="checkbox" class="foote-gas-check" value="o3"
+                                                        checked> O₃ (Ozono)
+                                                </label>
+                                                <label
+                                                    style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#6366f1; cursor:pointer;">
+                                                    <input type="checkbox" class="foote-gas-check" value="n2"> N₂
+                                                    (Nitrógeno)
+                                                </label>
+                                                <label
+                                                    style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#38bdf8; cursor:pointer;">
+                                                    <input type="checkbox" class="foote-gas-check" value="o2"> O₂
+                                                    (Oxígeno)
+                                                </label>
+                                                <label
+                                                    style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#3b82f6; cursor:pointer;">
+                                                    <input type="checkbox" class="foote-gas-check" value="air"
+                                                        checked> Aire Seco
+                                                </label>
+                                                <label
+                                                    style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#06b6d4; cursor:pointer;">
+                                                    <input type="checkbox" class="foote-gas-check" value="h2">
+                                                    Hidrógeno (H₂)
+                                                </label>
+                                                <label
+                                                    style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#10b981; cursor:pointer;">
+                                                    <input type="checkbox" class="foote-gas-check" value="ch4">
+                                                    Metano (CH₄)
+                                                </label>
+                                                <label
+                                                    style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#94a3b8; cursor:pointer;">
+                                                    <input type="checkbox" class="foote-gas-check" value="ar"
+                                                        checked> Argón (Ar)
+                                                </label>
+                                                <label
+                                                    style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#f59e0b; cursor:pointer;">
+                                                    <input type="checkbox" class="foote-gas-check" value="sf6"
+                                                        checked> SF₆ (Hexafluoruro)
+                                                </label>
+                                                <label
+                                                    style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#a855f7; cursor:pointer;">
+                                                    <input type="checkbox" class="foote-gas-check" value="n2o"
+                                                        checked> N₂O (Óxido Nitroso)
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="canvas-container" id="foote-canvas-container"
+                                        style="position:relative; height:240px; background:#060d1a; border-radius:8px; overflow:hidden; border:1px solid rgba(236,72,153,0.3);">
+                                        <canvas id="footeCanvas"
+                                            style="width:100%; height:100%; display:block;"></canvas>
+                                    </div>
+
+                                    <div id="foote-chart-wrapper"
+                                        style="background: rgba(15,23,42,0.3); border-radius: 8px; padding: 12px; border: 1px solid rgba(255,255,255,0.05); height: 420px;">
+                                        <canvas id="footeTempChart" style="width:100%; height:100%;"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -7874,6 +7876,219 @@
                                 style="display:none;">An iterative numerical solver calculates the heat flux and
                                 resulting temperatures at each interface in real time.</span></p>
 
+                                     <div class="theory-card" id="cm-theory-card" style="margin-top: 10px; background: rgba(15, 23, 42, 0.4); padding: 14px 16px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08); width: 100%;">
+                                         
+                                         <!-- Head: Title -->
+                                         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+                                             <h4 style="margin: 0; font-size: 0.95rem; color: var(--accent-cyan); display: flex; align-items: center; gap: 8px;">
+                                                 <i class="fas fa-book-open"></i>
+                                                 <span class="lang-es">Resistencias Térmicas y Formulación Matemática</span>
+                                                 <span class="lang-en" style="display:none;">Thermal Resistances and Mathematical Formulation</span>
+                                             </h4>
+                                             <span style="font-size: 0.75rem; color: var(--text-muted); font-style: italic;">
+                                                 <span class="lang-es">Sincronizado con la geometría activa</span>
+                                                 <span class="lang-en" style="display:none;">Synchronized with active geometry</span>
+                                             </span>
+                                         </div>
+
+                                         <!-- Tabs Header for Geometries -->
+                                         <div class="cm-theory-tabs" style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px;">
+                                             <button type="button" class="cm-theory-tab-btn active" data-geom-tab="planar">
+                                                 <i class="fas fa-square-full" style="font-size: 0.75rem;"></i>
+                                                 <span class="lang-es">Pared Plana (1D)</span>
+                                                 <span class="lang-en" style="display:none;">Flat Plate (1D)</span>
+                                             </button>
+                                             <button type="button" class="cm-theory-tab-btn" data-geom-tab="cylindrical">
+                                                 <i class="fas fa-circle-notch" style="font-size: 0.75rem;"></i>
+                                                 <span class="lang-es">Cilindro Hueco Coaxial</span>
+                                                 <span class="lang-en" style="display:none;">Hollow Cylinder</span>
+                                             </button>
+                                             <button type="button" class="cm-theory-tab-btn" data-geom-tab="spherical">
+                                                 <i class="fas fa-globe" style="font-size: 0.75rem;"></i>
+                                                 <span class="lang-es">Esfera Hueca Concéntrica</span>
+                                                 <span class="lang-en" style="display:none;">Hollow Sphere</span>
+                                             </button>
+                                             <button type="button" class="cm-theory-tab-btn" data-geom-tab="general">
+                                                 <i class="fas fa-diagram-project" style="font-size: 0.75rem;"></i>
+                                                 <span class="lang-es">Fronteras & Resistencia Total</span>
+                                                 <span class="lang-en" style="display:none;">Boundaries & Total Resistance</span>
+                                             </button>
+                                         </div>
+
+                                         <!-- Tab Panes -->
+                                         <div class="cm-theory-content">
+                                             <!-- Pane 1: Planar -->
+                                             <div class="cm-theory-pane active" data-geom-pane="planar">
+                                                 <div class="cm-formula-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px;">
+                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                                                         <strong style="color: var(--accent-blue); font-size: 0.82rem; display: block; margin-bottom: 4px;">
+                                                             <span class="lang-es">Conducción Térmica por Capa (Plana):</span>
+                                                             <span class="lang-en" style="display:none;">Layer Thermal Conduction (Planar):</span>
+                                                         </strong>
+                                                         <div style="overflow: visible; font-size: 0.88rem; text-align: center; margin: 4px 0;">
+                                                             $$R_{\text{cond}, i} = \frac{L_i}{k_i \cdot A} \quad \left[\frac{\text{K}}{\text{W}}\right] \quad \text{o} \quad R''_{\text{cond}, i} = \frac{L_i}{k_i} \quad \left[\frac{\text{m}^2\cdot\text{K}}{\text{W}}\right]$$
+                                                         </div>
+                                                     </div>
+                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                                                         <strong style="color: var(--accent-cyan); font-size: 0.82rem; display: block; margin-bottom: 4px;">
+                                                             <span class="lang-es">Convección Térmica de Frontera:</span>
+                                                             <span class="lang-en" style="display:none;">Boundary Convection Thermal Resistance:</span>
+                                                         </strong>
+                                                         <div style="overflow: visible; font-size: 0.88rem; text-align: center; margin: 4px 0;">
+                                                             $$R_{\text{conv}} = \frac{1}{h \cdot A} \quad \left[\frac{\text{K}}{\text{W}}\right] \quad \text{o} \quad R''_{\text{conv}} = \frac{1}{h} \quad \left[\frac{\text{m}^2\cdot\text{K}}{\text{W}}\right]$$
+                                                         </div>
+                                                     </div>
+                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); grid-column: 1 / -1;">
+                                                         <strong style="color: var(--accent-orange); font-size: 0.82rem; display: block; margin-bottom: 4px;">
+                                                             <span class="lang-es">Radiación Térmica de Frontera (Coeficiente Linealizado $h_{\text{rad}}$):</span>
+                                                             <span class="lang-en" style="display:none;">Boundary Radiation Resistance (Linearized Coeff. $h_{\text{rad}}$):</span>
+                                                         </strong>
+                                                         <div style="overflow: visible; font-size: 0.88rem; text-align: center; margin: 4px 0;">
+                                                             $$R_{\text{rad}} = \frac{1}{h_{\text{rad}} \cdot A}, \quad \text{donde } h_{\text{rad}} = \varepsilon \sigma (T_s + T_{\text{surr}})(T_s^2 + T_{\text{surr}}^2) \quad \left[\frac{\text{W}}{\text{m}^2\cdot\text{K}}\right]$$
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+
+                                             <!-- Pane 2: Cylindrical -->
+                                             <div class="cm-theory-pane" data-geom-pane="cylindrical" style="display: none;">
+                                                 <div class="cm-formula-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px;">
+                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); grid-column: 1 / -1;">
+                                                         <strong style="color: var(--accent-blue); font-size: 0.82rem; display: block; margin-bottom: 4px;">
+                                                             <span class="lang-es">Conducción en Capa Anular Cilíndrica (Longitud $L$, radios $r_i \to r_{i+1}$):</span>
+                                                             <span class="lang-en" style="display:none;">Conduction in Annular Cylindrical Layer (Length $L$, radii $r_i \to r_{i+1}$):</span>
+                                                         </strong>
+                                                         <div style="overflow: visible; font-size: 0.88rem; text-align: center; margin: 4px 0;">
+                                                             $$R_{\text{cond}, i} = \frac{\ln(r_{i+1} / r_i)}{2\pi k_i L} \quad \left[\frac{\text{K}}{\text{W}}\right]$$
+                                                         </div>
+                                                     </div>
+                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                                                         <strong style="color: var(--accent-cyan); font-size: 0.82rem; display: block; margin-bottom: 4px;">
+                                                             <span class="lang-es">Convección Interior ($r_1$) y Exterior ($r_{N+1}$):</span>
+                                                             <span class="lang-en" style="display:none;">Inner ($r_1$) and Outer ($r_{N+1}$) Convection:</span>
+                                                         </strong>
+                                                         <div style="overflow: visible; font-size: 0.85rem; text-align: center; margin: 4px 0;">
+                                                             $$R_{\text{conv, in}} = \frac{1}{h_{\text{in}} (2\pi r_1 L)}, \qquad R_{\text{conv, out}} = \frac{1}{h_{\text{out}} (2\pi r_{N+1} L)}$$
+                                                         </div>
+                                                     </div>
+                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                                                         <strong style="color: var(--accent-orange); font-size: 0.82rem; display: block; margin-bottom: 4px;">
+                                                             <span class="lang-es">Radiación Interior ($r_1$) y Exterior ($r_{N+1}$):</span>
+                                                             <span class="lang-en" style="display:none;">Inner ($r_1$) and Outer ($r_{N+1}$) Radiation:</span>
+                                                         </strong>
+                                                         <div style="overflow: visible; font-size: 0.85rem; text-align: center; margin: 4px 0;">
+                                                             $$R_{\text{rad, in}} = \frac{1}{h_{\text{rad, in}} (2\pi r_1 L)}, \qquad R_{\text{rad, out}} = \frac{1}{h_{\text{rad, out}} (2\pi r_{N+1} L)}$$
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+
+                                             <!-- Pane 3: Spherical -->
+                                             <div class="cm-theory-pane" data-geom-pane="spherical" style="display: none;">
+                                                 <div class="cm-formula-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px;">
+                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); grid-column: 1 / -1;">
+                                                         <strong style="color: var(--accent-blue); font-size: 0.82rem; display: block; margin-bottom: 4px;">
+                                                             <span class="lang-es">Conducción en Cascarón Esférico (Radios $r_i \to r_{i+1}$):</span>
+                                                             <span class="lang-en" style="display:none;">Conduction in Spherical Shell (Radii $r_i \to r_{i+1}$):</span>
+                                                         </strong>
+                                                         <div style="overflow: visible; font-size: 0.88rem; text-align: center; margin: 4px 0;">
+                                                             $$R_{\text{cond}, i} = \frac{1}{4\pi k_i} \left( \frac{1}{r_i} - \frac{1}{r_{i+1}} \right) = \frac{r_{i+1} - r_i}{4\pi k_i r_i r_{i+1}} \quad \left[\frac{\text{K}}{\text{W}}\right]$$
+                                                         </div>
+                                                     </div>
+                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                                                         <strong style="color: var(--accent-cyan); font-size: 0.82rem; display: block; margin-bottom: 4px;">
+                                                             <span class="lang-es">Convección Interior ($r_1$) y Exterior ($r_{N+1}$):</span>
+                                                             <span class="lang-en" style="display:none;">Inner ($r_1$) and Outer ($r_{N+1}$) Convection:</span>
+                                                         </strong>
+                                                         <div style="overflow: visible; font-size: 0.85rem; text-align: center; margin: 4px 0;">
+                                                             $$R_{\text{conv, in}} = \frac{1}{h_{\text{in}} (4\pi r_1^2)}, \qquad R_{\text{conv, out}} = \frac{1}{h_{\text{out}} (4\pi r_{N+1}^2)}$$
+                                                         </div>
+                                                     </div>
+                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                                                         <strong style="color: var(--accent-orange); font-size: 0.82rem; display: block; margin-bottom: 4px;">
+                                                             <span class="lang-es">Radiación Interior ($r_1$) y Exterior ($r_{N+1}$):</span>
+                                                             <span class="lang-en" style="display:none;">Inner ($r_1$) and Outer ($r_{N+1}$) Radiation:</span>
+                                                         </strong>
+                                                         <div style="overflow: visible; font-size: 0.85rem; text-align: center; margin: 4px 0;">
+                                                             $$R_{\text{rad, in}} = \frac{1}{h_{\text{rad, in}} (4\pi r_1^2)}, \qquad R_{\text{rad, out}} = \frac{1}{h_{\text{rad, out}} (4\pi r_{N+1}^2)}$$
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+
+                                             <!-- Pane 4: General / Combined / Total -->
+                                             <div class="cm-theory-pane" data-geom-pane="general" style="display: none;">
+                                                 <div class="cm-formula-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px;">
+                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                                                         <strong style="color: var(--accent-purple, #a855f7); font-size: 0.82rem; display: block; margin-bottom: 4px;">
+                                                             <span class="lang-es">Fronteras Combinadas en Paralelo (Convección + Radiación):</span>
+                                                             <span class="lang-en" style="display:none;">Combined Parallel Boundaries (Convection + Radiation):</span>
+                                                         </strong>
+                                                         <div style="overflow: visible; font-size: 0.88rem; text-align: center; margin: 4px 0;">
+                                                             $$R_{\text{eq, frontera}} = \left( \frac{1}{R_{\text{conv}}} + \frac{1}{R_{\text{rad}}} \right)^{-1} = \frac{R_{\text{conv}} \cdot R_{\text{rad}}}{R_{\text{conv}} + R_{\text{rad}}}$$
+                                                         </div>
+                                                     </div>
+                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                                                         <strong style="color: var(--accent-green, #10b981); font-size: 0.82rem; display: block; margin-bottom: 4px;">
+                                                             <span class="lang-es">Resistencia Térmica Total y Flujo Global ($q$):</span>
+                                                             <span class="lang-en" style="display:none;">Total Thermal Resistance and Global Heat Rate ($q$):</span>
+                                                         </strong>
+                                                         <div style="overflow: visible; font-size: 0.85rem; text-align: center; margin: 4px 0;">
+                                                             $$R_{\text{tot}} = R_{\text{frontera, in}} + \sum_{i=1}^{N} R_{\text{cond}, i} + R_{\text{frontera, out}}, \qquad q = \frac{\Delta T_{\text{global}}}{R_{\text{tot}}}$$
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+
+
+                                         <!-- Acordeón: Supuestos del Modelo Físico (8 Puntos) -->
+                                         <details id="cm-panel-assumptions"
+                                             style="margin-top: 14px; background: rgba(255,255,255,0.02); padding: 10px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); width: 100%;">
+                                             <summary
+                                                 style="cursor: pointer; font-weight: bold; color: var(--accent-orange); outline: none; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
+                                                 <i class="fas fa-circle-info"></i>
+                                                 <span class="lang-es">Supuestos Físicos del Modelo (8 Puntos)</span>
+                                                 <span class="lang-en" style="display:none;">Physical Model Assumptions (8 Points)</span>
+                                             </summary>
+                                             
+                                             <ol style="margin: 10px 0 0.5rem 20px; font-size: 0.84rem; color: var(--text-muted); line-height: 1.55; padding-left: 10px;">
+                                                 <li style="margin-bottom: 6px;">
+                                                     <span class="lang-es"><strong>Estado Estacionario ($\partial T / \partial t = 0$):</strong> Las temperaturas y flujos de calor son independientes del tiempo en todas las capas y fronteras.</span>
+                                                     <span class="lang-en" style="display:none;"><strong>Steady State ($\partial T / \partial t = 0$):</strong> Temperatures and heat rates are time-independent across all layers and boundaries.</span>
+                                                 </li>
+                                                 <li style="margin-bottom: 6px;">
+                                                     <span class="lang-es"><strong>Transferencia Unidimensional (1D):</strong> Plana $T = T(x)$; Cilíndrica $T = T(r)$ (simetría axial y angular); Esférica $T = T(r)$ (simetría esférica completa sin gradientes secundarios).</span>
+                                                     <span class="lang-en" style="display:none;"><strong>One-Dimensional (1D) Heat Transfer:</strong> Planar $T = T(x)$; Cylindrical $T = T(r)$ (axial/angular symmetry); Spherical $T = T(r)$ (full spherical symmetry).</span>
+                                                 </li>
+                                                 <li style="margin-bottom: 6px;">
+                                                     <span class="lang-es"><strong>Generación Interna Nula ($\dot{q} = 0$):</strong> No existen fuentes ni sumideros de calor en el sólido; el flujo térmico global $q$ permanece constante a través de la serie de resistencias.</span>
+                                                     <span class="lang-en" style="display:none;"><strong>Zero Internal Heat Generation ($\dot{q} = 0$):</strong> No thermal sources or sinks exist in the solid; total heat rate $q$ remains constant across the series circuit.</span>
+                                                 </li>
+                                                 <li style="margin-bottom: 6px;">
+                                                     <span class="lang-es"><strong>Propiedades Térmicas Homogéneas e Isótropas:</strong> La conductividad térmica $k_i$ de cada material es uniforme y constante (no depende de $T$ ni de la posición).</span>
+                                                     <span class="lang-en" style="display:none;"><strong>Homogeneous & Isotropic Properties:</strong> Thermal conductivity $k_i$ of each material is uniform and constant (independent of $T$ and position).</span>
+                                                 </li>
+                                                 <li style="margin-bottom: 6px;">
+                                                     <span class="lang-es"><strong>Contacto Térmico Perfecto ($R_{tc} = 0$):</strong> Continuidad exacta de temperatura y flujo en las interfases internas ($T_{s,i}^- = T_{s,i}^+$), sin resistencia térmica por rugosidad o huelgo.</span>
+                                                     <span class="lang-en" style="display:none;"><strong>Perfect Thermal Contact ($R_{tc} = 0$):</strong> Exact continuity of temperature and heat flux at internal interfaces ($T_{s,i}^- = T_{s,i}^+$), with zero contact resistance.</span>
+                                                 </li>
+                                                 <li style="margin-bottom: 6px;">
+                                                     <span class="lang-es"><strong>Medio Circundante No Participante:</strong> El fluido o gas adyacente es ópticamente transparente a la radiación térmica (sin absorción, emisión ni dispersión del medio gaseoso).</span>
+                                                     <span class="lang-en" style="display:none;"><strong>Non-Participating Medium:</strong> The surrounding fluid or gas is optically transparent to thermal radiation (no gaseous absorption, emission, or scattering).</span>
+                                                 </li>
+                                                 <li style="margin-bottom: 6px;">
+                                                     <span class="lang-es"><strong>Radiación Superficie-Alrededores:</strong> Las superficies se consideran grises y difusas intercambiando radiación con un entorno cerrado de gran tamaño a temperatura $T_{\text{surr}}$ (factor de forma $F_{s \to \text{surr}} \approx 1$).</span>
+                                                     <span class="lang-en" style="display:none;"><strong>Surface-to-Surroundings Radiation:</strong> Surfaces are gray and diffuse, exchanging radiation with large surroundings at uniform $T_{\text{surr}}$ (view factor $F_{s \to \text{surr}} \approx 1$).</span>
+                                                 </li>
+                                                 <li style="margin-bottom: 6px;">
+                                                     <span class="lang-es"><strong>Desacople Óptico en Irradiación Externa ($G$):</strong> La absorción de energía radiante externa/solar depende de la absortividad $\alpha$, mientras que la auto-emisión térmica hacia $T_{\text{surr}}$ depende de la emisividad infrarroja $\varepsilon$ (no se fuerza $\alpha = \varepsilon$).</span>
+                                                     <span class="lang-en" style="display:none;"><strong>Optical Decoupling in External Irradiation ($G$):</strong> External/solar radiation absorption depends on absorptivity $\alpha$, whereas thermal self-emission toward $T_{\text{surr}}$ depends on infrared emissivity $\varepsilon$ ($\alpha = \varepsilon$ is not forced).</span>
+                                                 </li>
+                                             </ol>
+                                         </details>
+                                     </div>
+
                             <div style="margin-top: 15px;">
                                 <p class="sim-instruction"
                                     style="font-size: 0.9rem; color: var(--text-secondary); margin: 0; border-left: 3px solid var(--accent-blue); background: rgba(59, 130, 246, 0.05); padding: 10px 15px; border-radius: 0 8px 8px 0; width: 100%;">
@@ -8359,249 +8574,13 @@
                                      </p>
 
                                      <!-- LOTE — Fórmulas de Resistencias Térmicas Multigeometría y Supuestos del Modelo -->
-                                     <div class="theory-card" id="cm-theory-card" style="margin-top: 10px; background: rgba(15, 23, 42, 0.4); padding: 14px 16px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08); width: 100%;">
-                                         
-                                         <!-- Head: Title -->
-                                         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 8px; flex-wrap: wrap; gap: 8px;">
-                                             <h4 style="margin: 0; font-size: 0.95rem; color: var(--accent-cyan); display: flex; align-items: center; gap: 8px;">
-                                                 <i class="fas fa-book-open"></i>
-                                                 <span class="lang-es">Resistencias Térmicas y Formulación Matemática</span>
-                                                 <span class="lang-en" style="display:none;">Thermal Resistances and Mathematical Formulation</span>
-                                             </h4>
-                                             <span style="font-size: 0.75rem; color: var(--text-muted); font-style: italic;">
-                                                 <span class="lang-es">Sincronizado con la geometría activa</span>
-                                                 <span class="lang-en" style="display:none;">Synchronized with active geometry</span>
-                                             </span>
-                                         </div>
-
-                                         <!-- Tabs Header for Geometries -->
-                                         <div class="cm-theory-tabs" style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px;">
-                                             <button type="button" class="cm-theory-tab-btn active" data-geom-tab="planar">
-                                                 <i class="fas fa-square-full" style="font-size: 0.75rem;"></i>
-                                                 <span class="lang-es">Pared Plana (1D)</span>
-                                                 <span class="lang-en" style="display:none;">Flat Plate (1D)</span>
-                                             </button>
-                                             <button type="button" class="cm-theory-tab-btn" data-geom-tab="cylindrical">
-                                                 <i class="fas fa-circle-notch" style="font-size: 0.75rem;"></i>
-                                                 <span class="lang-es">Cilindro Hueco Coaxial</span>
-                                                 <span class="lang-en" style="display:none;">Hollow Cylinder</span>
-                                             </button>
-                                             <button type="button" class="cm-theory-tab-btn" data-geom-tab="spherical">
-                                                 <i class="fas fa-globe" style="font-size: 0.75rem;"></i>
-                                                 <span class="lang-es">Esfera Hueca Concéntrica</span>
-                                                 <span class="lang-en" style="display:none;">Hollow Sphere</span>
-                                             </button>
-                                             <button type="button" class="cm-theory-tab-btn" data-geom-tab="general">
-                                                 <i class="fas fa-diagram-project" style="font-size: 0.75rem;"></i>
-                                                 <span class="lang-es">Fronteras & Resistencia Total</span>
-                                                 <span class="lang-en" style="display:none;">Boundaries & Total Resistance</span>
-                                             </button>
-                                         </div>
-
-                                         <!-- Tab Panes -->
-                                         <div class="cm-theory-content">
-                                             <!-- Pane 1: Planar -->
-                                             <div class="cm-theory-pane active" data-geom-pane="planar">
-                                                 <div class="cm-formula-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px;">
-                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
-                                                         <strong style="color: var(--accent-blue); font-size: 0.82rem; display: block; margin-bottom: 4px;">
-                                                             <span class="lang-es">Conducción Térmica por Capa (Plana):</span>
-                                                             <span class="lang-en" style="display:none;">Layer Thermal Conduction (Planar):</span>
-                                                         </strong>
-                                                         <div style="overflow-x: auto; font-size: 0.88rem; text-align: center; margin: 4px 0;">
-                                                             $$R_{\text{cond}, i} = \frac{L_i}{k_i \cdot A} \quad \left[\frac{\text{K}}{\text{W}}\right] \quad \text{o} \quad R''_{\text{cond}, i} = \frac{L_i}{k_i} \quad \left[\frac{\text{m}^2\cdot\text{K}}{\text{W}}\right]$$
-                                                         </div>
-                                                     </div>
-                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
-                                                         <strong style="color: var(--accent-cyan); font-size: 0.82rem; display: block; margin-bottom: 4px;">
-                                                             <span class="lang-es">Convección Térmica de Frontera:</span>
-                                                             <span class="lang-en" style="display:none;">Boundary Convection Thermal Resistance:</span>
-                                                         </strong>
-                                                         <div style="overflow-x: auto; font-size: 0.88rem; text-align: center; margin: 4px 0;">
-                                                             $$R_{\text{conv}} = \frac{1}{h \cdot A} \quad \left[\frac{\text{K}}{\text{W}}\right] \quad \text{o} \quad R''_{\text{conv}} = \frac{1}{h} \quad \left[\frac{\text{m}^2\cdot\text{K}}{\text{W}}\right]$$
-                                                         </div>
-                                                     </div>
-                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); grid-column: 1 / -1;">
-                                                         <strong style="color: var(--accent-orange); font-size: 0.82rem; display: block; margin-bottom: 4px;">
-                                                             <span class="lang-es">Radiación Térmica de Frontera (Coeficiente Linealizado $h_{\text{rad}}$):</span>
-                                                             <span class="lang-en" style="display:none;">Boundary Radiation Resistance (Linearized Coeff. $h_{\text{rad}}$):</span>
-                                                         </strong>
-                                                         <div style="overflow-x: auto; font-size: 0.88rem; text-align: center; margin: 4px 0;">
-                                                             $$R_{\text{rad}} = \frac{1}{h_{\text{rad}} \cdot A}, \quad \text{donde } h_{\text{rad}} = \varepsilon \sigma (T_s + T_{\text{surr}})(T_s^2 + T_{\text{surr}}^2) \quad \left[\frac{\text{W}}{\text{m}^2\cdot\text{K}}\right]$$
-                                                         </div>
-                                                     </div>
-                                                 </div>
-                                             </div>
-
-                                             <!-- Pane 2: Cylindrical -->
-                                             <div class="cm-theory-pane" data-geom-pane="cylindrical" style="display: none;">
-                                                 <div class="cm-formula-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px;">
-                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); grid-column: 1 / -1;">
-                                                         <strong style="color: var(--accent-blue); font-size: 0.82rem; display: block; margin-bottom: 4px;">
-                                                             <span class="lang-es">Conducción en Capa Anular Cilíndrica (Longitud $L$, radios $r_i \to r_{i+1}$):</span>
-                                                             <span class="lang-en" style="display:none;">Conduction in Annular Cylindrical Layer (Length $L$, radii $r_i \to r_{i+1}$):</span>
-                                                         </strong>
-                                                         <div style="overflow-x: auto; font-size: 0.88rem; text-align: center; margin: 4px 0;">
-                                                             $$R_{\text{cond}, i} = \frac{\ln(r_{i+1} / r_i)}{2\pi k_i L} \quad \left[\frac{\text{K}}{\text{W}}\right]$$
-                                                         </div>
-                                                     </div>
-                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
-                                                         <strong style="color: var(--accent-cyan); font-size: 0.82rem; display: block; margin-bottom: 4px;">
-                                                             <span class="lang-es">Convección Interior ($r_1$) y Exterior ($r_{N+1}$):</span>
-                                                             <span class="lang-en" style="display:none;">Inner ($r_1$) and Outer ($r_{N+1}$) Convection:</span>
-                                                         </strong>
-                                                         <div style="overflow-x: auto; font-size: 0.85rem; text-align: center; margin: 4px 0;">
-                                                             $$R_{\text{conv, in}} = \frac{1}{h_{\text{in}} (2\pi r_1 L)}, \qquad R_{\text{conv, out}} = \frac{1}{h_{\text{out}} (2\pi r_{N+1} L)}$$
-                                                         </div>
-                                                     </div>
-                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
-                                                         <strong style="color: var(--accent-orange); font-size: 0.82rem; display: block; margin-bottom: 4px;">
-                                                             <span class="lang-es">Radiación Interior ($r_1$) y Exterior ($r_{N+1}$):</span>
-                                                             <span class="lang-en" style="display:none;">Inner ($r_1$) and Outer ($r_{N+1}$) Radiation:</span>
-                                                         </strong>
-                                                         <div style="overflow-x: auto; font-size: 0.85rem; text-align: center; margin: 4px 0;">
-                                                             $$R_{\text{rad, in}} = \frac{1}{h_{\text{rad, in}} (2\pi r_1 L)}, \qquad R_{\text{rad, out}} = \frac{1}{h_{\text{rad, out}} (2\pi r_{N+1} L)}$$
-                                                         </div>
-                                                     </div>
-                                                 </div>
-                                             </div>
-
-                                             <!-- Pane 3: Spherical -->
-                                             <div class="cm-theory-pane" data-geom-pane="spherical" style="display: none;">
-                                                 <div class="cm-formula-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px;">
-                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); grid-column: 1 / -1;">
-                                                         <strong style="color: var(--accent-blue); font-size: 0.82rem; display: block; margin-bottom: 4px;">
-                                                             <span class="lang-es">Conducción en Cascarón Esférico (Radios $r_i \to r_{i+1}$):</span>
-                                                             <span class="lang-en" style="display:none;">Conduction in Spherical Shell (Radii $r_i \to r_{i+1}$):</span>
-                                                         </strong>
-                                                         <div style="overflow-x: auto; font-size: 0.88rem; text-align: center; margin: 4px 0;">
-                                                             $$R_{\text{cond}, i} = \frac{1}{4\pi k_i} \left( \frac{1}{r_i} - \frac{1}{r_{i+1}} \right) = \frac{r_{i+1} - r_i}{4\pi k_i r_i r_{i+1}} \quad \left[\frac{\text{K}}{\text{W}}\right]$$
-                                                         </div>
-                                                     </div>
-                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
-                                                         <strong style="color: var(--accent-cyan); font-size: 0.82rem; display: block; margin-bottom: 4px;">
-                                                             <span class="lang-es">Convección Interior ($r_1$) y Exterior ($r_{N+1}$):</span>
-                                                             <span class="lang-en" style="display:none;">Inner ($r_1$) and Outer ($r_{N+1}$) Convection:</span>
-                                                         </strong>
-                                                         <div style="overflow-x: auto; font-size: 0.85rem; text-align: center; margin: 4px 0;">
-                                                             $$R_{\text{conv, in}} = \frac{1}{h_{\text{in}} (4\pi r_1^2)}, \qquad R_{\text{conv, out}} = \frac{1}{h_{\text{out}} (4\pi r_{N+1}^2)}$$
-                                                         </div>
-                                                     </div>
-                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
-                                                         <strong style="color: var(--accent-orange); font-size: 0.82rem; display: block; margin-bottom: 4px;">
-                                                             <span class="lang-es">Radiación Interior ($r_1$) y Exterior ($r_{N+1}$):</span>
-                                                             <span class="lang-en" style="display:none;">Inner ($r_1$) and Outer ($r_{N+1}$) Radiation:</span>
-                                                         </strong>
-                                                         <div style="overflow-x: auto; font-size: 0.85rem; text-align: center; margin: 4px 0;">
-                                                             $$R_{\text{rad, in}} = \frac{1}{h_{\text{rad, in}} (4\pi r_1^2)}, \qquad R_{\text{rad, out}} = \frac{1}{h_{\text{rad, out}} (4\pi r_{N+1}^2)}$$
-                                                         </div>
-                                                     </div>
-                                                 </div>
-                                             </div>
-
-                                             <!-- Pane 4: General / Combined / Total -->
-                                             <div class="cm-theory-pane" data-geom-pane="general" style="display: none;">
-                                                 <div class="cm-formula-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px;">
-                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
-                                                         <strong style="color: var(--accent-purple, #a855f7); font-size: 0.82rem; display: block; margin-bottom: 4px;">
-                                                             <span class="lang-es">Fronteras Combinadas en Paralelo (Convección + Radiación):</span>
-                                                             <span class="lang-en" style="display:none;">Combined Parallel Boundaries (Convection + Radiation):</span>
-                                                         </strong>
-                                                         <div style="overflow-x: auto; font-size: 0.88rem; text-align: center; margin: 4px 0;">
-                                                             $$R_{\text{eq, frontera}} = \left( \frac{1}{R_{\text{conv}}} + \frac{1}{R_{\text{rad}}} \right)^{-1} = \frac{R_{\text{conv}} \cdot R_{\text{rad}}}{R_{\text{conv}} + R_{\text{rad}}}$$
-                                                         </div>
-                                                     </div>
-                                                     <div class="cm-formula-box" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
-                                                         <strong style="color: var(--accent-green, #10b981); font-size: 0.82rem; display: block; margin-bottom: 4px;">
-                                                             <span class="lang-es">Resistencia Térmica Total y Flujo Global ($q$):</span>
-                                                             <span class="lang-en" style="display:none;">Total Thermal Resistance and Global Heat Rate ($q$):</span>
-                                                         </strong>
-                                                         <div style="overflow-x: auto; font-size: 0.85rem; text-align: center; margin: 4px 0;">
-                                                             $$R_{\text{tot}} = R_{\text{frontera, in}} + \sum_{i=1}^{N} R_{\text{cond}, i} + R_{\text{frontera, out}}, \qquad q = \frac{\Delta T_{\text{global}}}{R_{\text{tot}}}$$
-                                                         </div>
-                                                     </div>
-                                                 </div>
-                                             </div>
-                                         </div>
-
-                                         <!-- Acordeón: Supuestos del Modelo Físico (8 Puntos) -->
-                                         <details id="cm-panel-assumptions"
-                                             style="margin-top: 14px; background: rgba(255,255,255,0.02); padding: 10px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); width: 100%;">
-                                             <summary
-                                                 style="cursor: pointer; font-weight: bold; color: var(--accent-orange); outline: none; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
-                                                 <i class="fas fa-circle-info"></i>
-                                                 <span class="lang-es">Supuestos Físicos del Modelo (8 Puntos)</span>
-                                                 <span class="lang-en" style="display:none;">Physical Model Assumptions (8 Points)</span>
-                                             </summary>
-                                             
-                                             <ol style="margin: 10px 0 0.5rem 20px; font-size: 0.84rem; color: var(--text-muted); line-height: 1.55; padding-left: 10px;">
-                                                 <li style="margin-bottom: 6px;">
-                                                     <span class="lang-es"><strong>Estado Estacionario ($\partial T / \partial t = 0$):</strong> Las temperaturas y flujos de calor son independientes del tiempo en todas las capas y fronteras.</span>
-                                                     <span class="lang-en" style="display:none;"><strong>Steady State ($\partial T / \partial t = 0$):</strong> Temperatures and heat rates are time-independent across all layers and boundaries.</span>
-                                                 </li>
-                                                 <li style="margin-bottom: 6px;">
-                                                     <span class="lang-es"><strong>Transferencia Unidimensional (1D):</strong> Plana $T = T(x)$; Cilíndrica $T = T(r)$ (simetría axial y angular); Esférica $T = T(r)$ (simetría esférica completa sin gradientes secundarios).</span>
-                                                     <span class="lang-en" style="display:none;"><strong>One-Dimensional (1D) Heat Transfer:</strong> Planar $T = T(x)$; Cylindrical $T = T(r)$ (axial/angular symmetry); Spherical $T = T(r)$ (full spherical symmetry).</span>
-                                                 </li>
-                                                 <li style="margin-bottom: 6px;">
-                                                     <span class="lang-es"><strong>Generación Interna Nula ($\dot{q} = 0$):</strong> No existen fuentes ni sumideros de calor en el sólido; el flujo térmico global $q$ permanece constante a través de la serie de resistencias.</span>
-                                                     <span class="lang-en" style="display:none;"><strong>Zero Internal Heat Generation ($\dot{q} = 0$):</strong> No thermal sources or sinks exist in the solid; total heat rate $q$ remains constant across the series circuit.</span>
-                                                 </li>
-                                                 <li style="margin-bottom: 6px;">
-                                                     <span class="lang-es"><strong>Propiedades Térmicas Homogéneas e Isótropas:</strong> La conductividad térmica $k_i$ de cada material es uniforme y constante (no depende de $T$ ni de la posición).</span>
-                                                     <span class="lang-en" style="display:none;"><strong>Homogeneous & Isotropic Properties:</strong> Thermal conductivity $k_i$ of each material is uniform and constant (independent of $T$ and position).</span>
-                                                 </li>
-                                                 <li style="margin-bottom: 6px;">
-                                                     <span class="lang-es"><strong>Contacto Térmico Perfecto ($R_{tc} = 0$):</strong> Continuidad exacta de temperatura y flujo en las interfases internas ($T_{s,i}^- = T_{s,i}^+$), sin resistencia térmica por rugosidad o huelgo.</span>
-                                                     <span class="lang-en" style="display:none;"><strong>Perfect Thermal Contact ($R_{tc} = 0$):</strong> Exact continuity of temperature and heat flux at internal interfaces ($T_{s,i}^- = T_{s,i}^+$), with zero contact resistance.</span>
-                                                 </li>
-                                                 <li style="margin-bottom: 6px;">
-                                                     <span class="lang-es"><strong>Medio Circundante No Participante:</strong> El fluido o gas adyacente es ópticamente transparente a la radiación térmica (sin absorción, emisión ni dispersión del medio gaseoso).</span>
-                                                     <span class="lang-en" style="display:none;"><strong>Non-Participating Medium:</strong> The surrounding fluid or gas is optically transparent to thermal radiation (no gaseous absorption, emission, or scattering).</span>
-                                                 </li>
-                                                 <li style="margin-bottom: 6px;">
-                                                     <span class="lang-es"><strong>Radiación Superficie-Alrededores:</strong> Las superficies se consideran grises y difusas intercambiando radiación con un entorno cerrado de gran tamaño a temperatura $T_{\text{surr}}$ (factor de forma $F_{s \to \text{surr}} \approx 1$).</span>
-                                                     <span class="lang-en" style="display:none;"><strong>Surface-to-Surroundings Radiation:</strong> Surfaces are gray and diffuse, exchanging radiation with large surroundings at uniform $T_{\text{surr}}$ (view factor $F_{s \to \text{surr}} \approx 1$).</span>
-                                                 </li>
-                                                 <li style="margin-bottom: 6px;">
-                                                     <span class="lang-es"><strong>Desacople Óptico en Irradiación Externa ($G$):</strong> La absorción de energía radiante externa/solar depende de la absortividad $\alpha$, mientras que la auto-emisión térmica hacia $T_{\text{surr}}$ depende de la emisividad infrarroja $\varepsilon$ (no se fuerza $\alpha = \varepsilon$).</span>
-                                                     <span class="lang-en" style="display:none;"><strong>Optical Decoupling in External Irradiation ($G$):</strong> External/solar radiation absorption depends on absorptivity $\alpha$, whereas thermal self-emission toward $T_{\text{surr}}$ depends on infrared emissivity $\varepsilon$ ($\alpha = \varepsilon$ is not forced).</span>
-                                                 </li>
-                                             </ol>
-                                         </details>
-                                     </div>
                                  </div>
 
                                 </div>
-
-                                <!-- Row 4.5: Guía Didáctica — Fórmulas de Resistencias Térmicas Multigeometría y Supuestos del Modelo -->
-                                <div id="cm-panel-guide" style="width: 100%;">
-                                    </p>
-
-                                                    $F=1$).</span><span class="lang-en" style="display:none;"><strong>Surface-to-surroundings
-                                                        radiation in a transparent medium:</strong> the
-                                                    surrounding fluid/medium neither absorbs nor emits
-                                                    radiation (surface-to-surroundings view factor
-                                                    $F=1$).</span></li>
-                                            <li><span class="lang-es"><strong>Absortividad ($\alpha$) vs.
-                                                        emisividad ($\varepsilon$):</strong> son propiedades
-                                                    físicamente distintas. $\alpha$ gobierna cuánta irradiación
-                                                    incidente $G$ absorbe la superficie ($\alpha \cdot G$,
-                                                    fronteras "Irradiación + Convección/Radiación"); $\varepsilon$
-                                                    gobierna cuánto emite la propia superficie hacia $T_{surr}$
-                                                    (fronteras "Radiación"/"Combinado"). No se asume
-                                                    $\alpha=\varepsilon$.</span><span class="lang-en"
-                                                    style="display:none;"><strong>Absorptivity ($\alpha$) vs.
-                                                        emissivity ($\varepsilon$):</strong> these are
-                                                    physically distinct properties. $\alpha$ governs how much
-                                                    incident irradiation $G$ the surface absorbs ($\alpha \cdot
-                                                    G$, "Irradiation + Convection/Radiation" boundaries);
-                                                    $\varepsilon$ governs how much the surface itself emits
-                                                    toward $T_{surr}$ ("Radiation"/"Combined" boundaries). $\alpha=\varepsilon$
-                                                    is not assumed.</span></li>
-                                        </ul>
-                                    </details>
-                                </div>
+                            </div>
+                            <!-- /#cm-panel-results (cierre correctivo: el div original quedaba
+                                 sin cerrar, arrastrando la Guía Didáctica huérfana y la fila de
+                                 Tabulación dentro de la tarjeta de Resultados) -->
 
                                 <!-- Row 5: Data Tabulation and Graphing -->
                                 <div class="cm-row cm-row-5"
@@ -8629,6 +8608,24 @@
                                                 </button>
                                             </div>
                                         </h4>
+                                        <p id="cm-tabulation-intro" class="sim-instruction"
+                                            style="font-size: 0.85rem; color: var(--text-secondary); margin: 0; border-left: 3px solid var(--accent-cyan); background: rgba(6, 182, 212, 0.06); padding: 8px 12px; border-radius: 0 8px 8px 0; width: 100%;">
+                                            <span class="lang-es"><i class="fas fa-lightbulb"
+                                                    style="color: var(--accent-cyan); margin-right: 5px;"></i>Esta
+                                                sección te permite graficar y analizar soluciones personalizadas:
+                                                selecciona qué variable ubicar en el eje horizontal y vertical, varía
+                                                cualquier parámetro del sistema y registra tus resultados. Podrás
+                                                exportar los datos en formato CSV para su análisis en Excel o
+                                                visualizar las tendencias de manera instantánea a través del gráfico
+                                                paramétrico interactivo.</span>
+                                            <span class="lang-en" style="display:none;"><i class="fas fa-lightbulb"
+                                                    style="color: var(--accent-cyan); margin-right: 5px;"></i>This
+                                                section lets you plot and analyze custom solutions: choose which
+                                                variable to place on the horizontal and vertical axes, vary any
+                                                system parameter, and record your results. You can export the data
+                                                as a CSV file for analysis in Excel, or instantly visualize trends
+                                                through the interactive parametric chart.</span>
+                                        </p>
                                         <button id="multicapa-add-point-btn"
                                             style="width: 100%; padding: 8px; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.35); color: #60a5fa; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 4px; transition: background 0.2s;">
                                             <i class="fas fa-thumbtack"></i> <span class="lang-es">Registrar Punto
@@ -8705,6 +8702,10 @@
                             </div>
                         </div>
                     </div>
+
+                    </div>
+                    <!-- /#multicapa-custom-sim (cierre correctivo: faltaba el
+                         </div> de cierre de este tab-pane) -->
 
                     <!-- =====================================================
                          LAB 28: MOTOR DE CARNOT (1824) - Sadi Carnot

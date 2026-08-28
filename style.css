@@ -3449,6 +3449,36 @@ body.multicapa-lab-open {
   width: 100%;
 }
 
+/* LOTE — Altura ampliada del esquema en geometría curva: el div que
+   envuelve #customMultiCanvas (index.html) trae "height: 320px" fijo en el
+   atributo style= en línea, sin id/clase propia — un estilo en línea
+   siempre gana sobre una regla de hoja de estilos salvo que ésta use
+   !important, de ahí su uso aquí. La clase se activa/desactiva por JS en
+   cada frame de render() (app_v2.js), según la geometría activa
+   (cilíndrica/esférica), para dar cabida a las cotas de radio y
+   temperatura del casquete más exterior sin recortarlas. Se aplica tanto
+   en modo normal como en pantalla completa: ambos comparten el mismo div,
+   cuya altura no depende de la fila del grid (display:flex propio con
+   alto fijo), así que el recorte podía ocurrir en cualquiera de los dos
+   modos.
+
+   LOTE — +30% adicional de altura vertical (Cilindros/Esferas
+   Concéntricas): 460px → 598px (460 × 1.3, exacto), padding vertical
+   22px → 29px (22 × 1.3, redondeado) para mantener la misma proporción
+   de "aire" interno. render() (app_v2.js) ya lee canvas.clientHeight en
+   cada frame y centra la cuña radial con cy_orig = h / 2 y las cotas
+   exteriores de temperatura/radio (Tᵢ arriba, rᵢ abajo) se posicionan en
+   relación a cy_orig — no hay valores de alto en px "quemados" en el
+   JS — así que el 30% extra se traduce automáticamente en más margen
+   vertical libre para esas etiquetas sin tocar render()/renderCircuit().
+   Sigue sin afectar Pared Plana (geometry === 'planar' nunca activa esta
+   clase). */
+#multicapa-custom-sim .cm-canvas-tall {
+  height: 598px !important;
+  padding-top: 29px !important;
+  padding-bottom: 29px !important;
+}
+
 #multicapa-custom-sim:not(.fullscreen) #cm-panel-chart {
   grid-area: chart;
   grid-column: 1 / -1;
@@ -3466,6 +3496,17 @@ body.multicapa-lab-open {
 
 #multicapa-custom-sim:not(.fullscreen) .cm-row-5 {
   grid-area: row5;
+  /* LOTE — Depuración de contenido y maquetación (Registro y Tabulación):
+     refuerzo explícito de ancho completo (ya lo daba "row5 row5 row5" en
+     grid-template-areas, ver arriba, pero se deja explícito siguiendo el
+     mismo patrón redundante ya usado en #cm-panel-canvas/#cm-panel-chart/
+     #cm-panel-results) + separación visual clara respecto de los paneles
+     superiores (Fronteras/Esquema/Perfil T(x)/Resultados/Guía). */
+  grid-column: 1 / -1;
+  width: 100%;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 #multicapa-custom-sim:not(.fullscreen) #cm-layers-container {
@@ -3596,6 +3637,51 @@ body.multicapa-lab-open {
 
 #multicapa-custom-sim .cm-formula-box:hover {
   border-color: rgba(6, 182, 212, 0.3) !important;
+}
+
+/* LOTE — Corrige solapamiento de las tarjetas de fórmulas de resistencias
+   en pantalla completa (#multicapa-custom-sim.fullscreen): .cm-formula-grid
+   traía "display:grid; grid-template-columns: repeat(auto-fit,
+   minmax(280px,1fr))" en línea (index.html) — con el track de la columna
+   "guide" del grid maestro de fullscreen (#cm-layout-wrapper, más arriba)
+   angosto, una tarjeta quedaba por debajo de los 280px del minmax() y su
+   ecuación MathJax ($$...$$, envuelta en un div interior con
+   "overflow: visible" también en línea) se salía del borde de la tarjeta
+   e invadía visualmente la tarjeta vecina/siguiente fila. Se fuerza un
+   layout fluido de una sola columna (flex column, ancho completo,
+   box-sizing: border-box) para que cada bloque matemático reserve su
+   propio espacio vertical sin colapsar con el de al lado, y se limita el
+   overflow de la ecuación a scroll horizontal (en vez de invisible/
+   desbordado) para las fórmulas más anchas (p. ej. R_tot con la suma de
+   resistencias). !important necesario para vencer los estilos en línea
+   existentes sin tocar index.html. Alcance exclusivo a .fullscreen: en
+   modo normal la cuadrícula de 2-3 columnas ya funciona bien y no se
+   toca. */
+#multicapa-custom-sim.fullscreen .cm-formula-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+#multicapa-custom-sim.fullscreen .cm-formula-box {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  flex: 0 0 auto !important;
+}
+
+#multicapa-custom-sim.fullscreen .cm-formula-box > div {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  max-width: 100%;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+}
+
+#multicapa-custom-sim.fullscreen .cm-formula-box mjx-container {
+  max-width: 100%;
 }
 
 #multicapa-custom-sim #cm-panel-assumptions summary:hover {
@@ -5742,130 +5828,462 @@ body.light-theme .downloads-panel-list a {
 }
 
 /* ============================================================
-   EUNICE FOOTE LAB — FULLSCREEN 2-COLUMN LAYOUT
+   EUNICE FOOTE LAB — FULLSCREEN LAYOUT v9: SCROLL VERTICAL LIBRE
+   (v8 "altura dominante" queda como base estructural sin cambios —
+   grid 2 columnas / 3 filas, display:contents, grid-template-areas.
+   v9 SÓLO cambia la estrategia de encaje vertical: v8 intentaba que
+   TODO cupiera sin scroll, comprimiendo el piso de botellas/gráfica
+   hasta 90px en viewports bajos ≤820px de alto — ESE es el recorte
+   reportado por el usuario. v9 permite scroll vertical libre en
+   `#foote-sim.fullscreen` y fija un piso ALTO y CONSTANTE de 450px
+   para botellas/gráfica en todos los tamaños de pantalla; si el
+   contenido total no cabe en el viewport, se hace scroll en vez de
+   recortar. Si v8 "altura dominante" (breakpoints de 280/180/90px)
+   reaparece en un commit/backup futuro, es estado obsoleto — no
+   restaurarlo.)
    Alcance exclusivo: #foote-sim.fullscreen (no afecta a ningún
-   otro laboratorio ni al modo normal en ventana). No modifica
-   IDs globales ni lógica de cálculo — sólo redistribución CSS
-   de nodos ya existentes vía id="foote-*" añadidos en index.html.
+   otro laboratorio ni al modo normal en ventana). No modifica IDs
+   globales ni lógica de cálculo — sólo redistribución CSS.
+
+   ── Qué cambia respecto a v7 y por qué ──
+   v7 ya lograba altura IGUAL para botellas (esquema) y gráfica
+   (grafica) por construcción (misma fila de grid), pero esa fila
+   elástica era `minmax(48px, 1fr)`: un piso mínimo demasiado bajo.
+   Como las filas 1 (gases/controles) y 3 (tabla/conclusión) eran
+   `auto` sin techo, al seleccionar más gases la tabla de resultados
+   (una fila <tr> por gas activo, hasta 11) crecía en altura real, y
+   como esa fila del grid es COMPARTIDA por las dos columnas, el
+   crecimiento de la tabla (columna izquierda) empujaba la fila 3
+   completa hacia abajo, robándole espacio a la fila elástica 2 —
+   comprimiendo también la gráfica (columna derecha), aunque su
+   contenido no había cambiado. Esta es la causa raíz del bug.
+
+   La solución NO requiere separar el grid compartido en dos grids
+   físicamente independientes por columna (lo que exigiría mover
+   `#foote-summary-table` y `#foote-chart-wrapper` fuera de sus
+   tarjetas `#foote-controls-card` / `#foote-animation-card` de
+   origen — un cambio de DOM real que alteraría también el modo
+   normal en ventana, donde esas tarjetas dependen de contener esos
+   hijos para dibujar su fondo/borde de "card"; se evaluó y se
+   descartó por ese riesgo). En su lugar, se logra el mismo
+   resultado —altura de botellas/gráfica fija y garantizada,
+   inmune al número de gases— con 3 cambios puramente CSS sobre el
+   mismo grid compartido, ya aplanado vía `display:contents`
+   (Regla #8 de project_context.md):
+
+   1) Fila 2 (esquema/grafica) sube su piso de 48px a 280px:
+      `grid-template-rows: auto minmax(280px, 1fr) auto;` — nunca
+      baja de 280px pase lo que pase en las filas vecinas.
+   2) Fila 3 (tabla/conclusión) deja de ser `auto` sin techo para
+      la tabla: `#foote-summary-table` recibe `max-height:140px` +
+      `overflow-y:auto` — con 11 gases seleccionados, el EXCESO de
+      filas se desplaza con scroll INTERNO propio de la tabla (la
+      única excepción deliberada, pedida explícitamente este LOTE,
+      a la regla general de "cero scrollbars"), pero el alto que la
+      tabla le exige a la fila 3 del grid queda fijo en ~140px
+      pase lo que pase.
+   3) Fila 1 (gases/controles): `#foote-gas-col` recibe el mismo
+      tipo de techo (`max-height` + `overflow-y:auto` de respaldo)
+      para blindar la fila también por ese lado, aunque los 11
+      checkboxes de gas ya son estáticos en el HTML (marcar/
+      desmarcar "Todos" sólo cambia su estado `checked`, no agrega
+      ni quita nodos), así que en la práctica esta fila ya era de
+      altura constante — el techo es una red de seguridad adicional.
+
+   Con las filas 1 y 3 acotadas a una altura máxima fija, y la fila
+   2 con un piso de 280px, el bloque de botellas+gráfica mide
+   SIEMPRE lo mismo (dominante, 60-65% del alto de columna en la
+   mayoría de resoluciones reales) sin importar si hay 4 o 11 gases
+   activos — se verificó programáticamente que la diferencia de
+   altura de `#foote-canvas-container` y `#foote-chart-wrapper`
+   entre el escenario "7 gases por defecto" y "11 gases (Todos)" es
+   0px en todas las resoluciones de escritorio probadas (≥1024×768).
+
+   La fila 1 (gases/controles) también recibe un piso propio
+   (`minmax(240px, auto)`, 325px en anchos ≤1100px donde los sliders
+   pasan a 1 columna) — sin esto, CSS Grid comprime una fila `auto`
+   por debajo de la altura real de su contenido en cuanto la fila 2
+   compite por espacio, y eso recortaba el panel de Controles y
+   Parámetros (requisito más antiguo del proyecto: nunca se recorta,
+   nunca genera scroll). En viewports de poca altura (≤820px) tres
+   media queries por breakpoint de ancho/alto reducen el piso de la
+   fila 2 (280px → 180px → 90px en el caso más extremo) para que todo
+   siga cabiendo sin recortar los controles ni superponer paneles —
+   ver bloques `@media (max-height: 820px)` más abajo. El piso de la
+   fila 2 sigue siendo constante frente al número de gases
+   seleccionados en cualquiera de estos breakpoints; sólo cambia por
+   tamaño de pantalla, igual que el resto de reglas responsive ya
+   existentes en este archivo.
+   Cero cambios de HTML: se mantiene exactamente la misma jerarquía
+   de v6/v7 (`.sim-intro` hermana de `.simulation-workspace`,
+   `#foote-controls-card`/`#foote-animation-card` aplanadas vía
+   `display:contents`, 6 elementos reales posicionados por
+   `grid-area`).
    ============================================================ */
 
-/* ── Flatten wrapper cards so their children join the outer grid ── */
+#foote-sim.fullscreen {
+  /* !important necesario: la regla compartida "LOTE 8" fija
+     "display: block !important" para todos los labs del lote. */
+  display: flex !important;
+  flex-direction: column;
+  height: 100vh;
+  max-height: 100vh;
+  width: 100vw;
+  /* v9: se abandona la estrategia "quepa todo sin scroll" — en
+     viewports bajos ese enfoque obligaba a recortar el piso de
+     botellas/gráfica hasta 90px (ver breakpoints de altura
+     eliminados más abajo). Ahora el contenedor raíz permite scroll
+     vertical libre y las visualizaciones se muestran siempre a su
+     altura completa, cómoda; el usuario recorre el resto de paneles
+     con scroll natural en vez de ver contenido comprimido. */
+  overflow-y: auto;       /* permite scroll vertical libre */
+  overflow-x: hidden;     /* evita scroll horizontal indeseado */
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+  padding: 8px 12px 40px; /* padding-bottom ampliado: cierre cómodo bajo tabla/conclusión al hacer scroll */
+  gap: 8px;
+}
+
+/* El botón "Abrir en Pantalla Completa" no tiene sentido estando ya
+   dentro del modo fullscreen — ocultarlo libera espacio vertical
+   que antes quedaba vacío/redundante encima de todo lo demás. */
+#foote-sim.fullscreen #foote-lab-fullscreen-anchor {
+  display: none !important;
+}
+
+/* ── Posición 0: Encabezado ancho completo — texto histórico
+   COMPLETO de Eunice Foote (título + párrafo + fórmulas + lista de
+   gases). `.sim-intro` ya es hermana de `.simulation-workspace` y
+   va ANTES en el DOM, así que sólo necesita dejar de comprimirse:
+   `flex-shrink:0` = mide exactamente lo que su contenido necesita,
+   nunca se recorta ni genera scroll interno. ── */
+#foote-sim.fullscreen .sim-intro {
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 12px;
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.3;
+  height: auto;
+  max-height: none;
+  overflow: hidden; /* red de seguridad — nunca debería activarse en uso normal */
+  position: relative;
+  background: rgba(15, 23, 42, 0.35);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+#foote-sim.fullscreen .sim-intro h3 {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+}
+
+#foote-sim.fullscreen .sim-intro p {
+  font-size: 0.82rem;
+  line-height: 1.3;
+  margin: 0 0 6px;
+}
+
+#foote-sim.fullscreen .sim-intro #foote-math-panel {
+  display: flex !important; /* pisa el display:flex inline — se mantiene, sólo se compacta */
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 6px 18px !important;
+  width: 100%;
+  margin: 6px 0 !important;
+  padding: 6px 10px !important;
+  height: auto !important;
+  max-height: none !important;
+  align-items: center;
+}
+
+#foote-sim.fullscreen .sim-intro #foote-math-panel > div {
+  font-size: 0.78rem !important;
+  line-height: 1.2;
+  margin: 0 !important;
+}
+
+#foote-sim.fullscreen .sim-intro ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 24px;
+  font-size: 0.78rem;
+  line-height: 1.25;
+  margin: 0;
+  padding-left: 18px;
+}
+
+#foote-sim.fullscreen .sim-intro ul li {
+  margin-bottom: 2px;
+}
+
+/* ── Contenedor Principal de Columnas (Posiciones 1-6): grid maestro
+   de 2 columnas × 3 filas. `.simulation-workspace` es la única pieza
+   elástica del flex raíz (flex:1, min-height:0) — absorbe todo el
+   alto que deja libre el encabezado de ancho completo. ── */
+#foote-sim.fullscreen .simulation-workspace {
+  display: grid !important;
+  flex: 1 1 auto;
+  /* v9: se retira `min-height:0`. Ese min-height forzaba a este
+     elemento a encogerse por debajo de la altura real de su
+     contenido cuando no cabía en el 1fr disponible del flex raíz —
+     el mecanismo que producía el recorte de botellas/gráfica. Sin
+     él, `.simulation-workspace` mide su alto de contenido real
+     (nunca menos que los pisos `minmax` de abajo) y, si excede el
+     viewport, es el contenedor raíz (`#foote-sim.fullscreen`, ahora
+     `overflow-y:auto`) quien scrollea — nunca se recorta nada. */
+  width: 100%;
+  box-sizing: border-box;
+  gap: 10px !important; /* vence el gap:15px inline heredado del modo normal */
+  overflow: visible; /* v9: ya no recorta contenido; el scroll vive en el contenedor raíz */
+  grid-template-columns: 1fr 1fr;
+  /* v8: fila 1 (gases/controles) ahora lleva SU PROPIO piso
+     (minmax(240px, auto)) — no sólo la fila 2 lo tiene. Es
+     imprescindible: bajo presión de espacio, CSS Grid puede
+     comprimir una fila `auto` por debajo de la altura real que su
+     contenido necesita (a diferencia de una fila `minmax(X, 1fr)`,
+     cuyo piso X sí es infranqueable). Sin este piso propio, el panel
+     de Controles y Parámetros —que NUNCA debe recortarse ni generar
+     scroll, requisito vigente desde el LOTE anterior— quedaba
+     comprimido por debajo de su contenido real en resoluciones de
+     laptop comunes (1366×768, 1280×800) en cuanto la fila 2 subía su
+     piso a 280px, robándole espacio. 240px cubre el alto real de los
+     4 sliders en grid 2×2 + info de áreas + botones en ese rango de
+     anchos; en ≤1100px de ancho los sliders pasan a 1 columna (regla
+     ya existente más abajo) y necesitan más alto — la media query
+     "@media (max-width:1100px)" al final de este bloque sube ese
+     piso a 325px para cubrirlo. La fila 2 (esquema/grafica) sigue
+     siendo la única fila verdaderamente elástica (1fr): en pantallas
+     altas absorbe todo el espacio libre por encima de 280px; bajo
+     presión de espacio (viewports bajos) se reduce primero que la
+     fila 1, mediante los mismos media queries. La fila 3
+     (tabla/conclusión) se mantiene `auto` sin piso propio a
+     propósito: la tabla ya tiene su scroll interno garantizado
+     (`#foote-summary-table { max-height / overflow-y:auto }` más
+     abajo), así que comprimirse un poco ahí nunca oculta
+     información — sólo activa antes su scroll interno. */
+  /* v9: fila 2 pasa de `minmax(280px, 1fr)` (elástica, se comprimía
+     bajo presión de espacio) a `minmax(450px, auto)` — piso alto y
+     fijo, mide su contenido real con un mínimo garantizado de 450px
+     SIEMPRE, sin importar la altura del viewport. Ya no es "elástica"
+     porque ya no necesita ceder espacio a las filas vecinas: el
+     contenedor raíz scrollea si el total no cabe. */
+  grid-template-rows: minmax(240px, auto) minmax(450px, auto) auto;
+  grid-template-areas:
+    "gases      controles"
+    "esquema    grafica"
+    "tabla      quote";
+  padding-bottom: 40px; /* cierre cómodo: tabla/conclusión no quedan pegadas al borde inferior al hacer scroll */
+}
+
+/* Aplana las 2 tarjetas envolventes: sus hijos reales pasan a ser
+   ítems directos del grid maestro, posicionados por grid-area. Cero
+   cambio de HTML. */
 #foote-sim.fullscreen #foote-controls-card,
-#foote-sim.fullscreen #foote-params-grid,
 #foote-sim.fullscreen #foote-animation-card {
   display: contents !important;
 }
 
-/* ── Outer 2-column grid ──────────────────────────────────────────────────
-   COLUMNA 1 (izquierda, visual 50 % / 50 %):
-     • fila 1 → #foote-canvas-container  (animación cilindros)
-     • fila 2 → #foote-chart-wrapper     (gráfica T(t), ≥ 320 px)
+/* ── Asignación de área a cada panel real ── */
+#foote-sim.fullscreen #foote-gas-col          { grid-area: gases; }
+#foote-sim.fullscreen #foote-params-grid      { grid-area: controles; }
+#foote-sim.fullscreen #foote-canvas-container { grid-area: esquema; }
+#foote-sim.fullscreen #foote-chart-wrapper    { grid-area: grafica; }
+#foote-sim.fullscreen #foote-summary-table    { grid-area: tabla; }
+#foote-sim.fullscreen #foote-quote-banner     { grid-area: quote; }
 
-   COLUMNA 2 (derecha, controles apilados verticalmente):
-     • fila 1 → #foote-gas-col     (panel de checkboxes de gases)
-     • fila 2 → #foote-sliders-col (sliders + areas-info + botones)
-     • fila auto → #foote-summary-table  (tabla resumen)
-     • fila auto → #foote-quote-banner   (cita histórica)
-
-   Las 2 filas declaradas son 1fr / 1fr  → 50 % / 50 % para la izquierda.
-   grid-auto-rows: auto genera filas sin altura mínima para ítems extra
-   de la columna derecha. grid-auto-flow: row dense evita huecos.
-   ─────────────────────────────────────────────────────────────────────── */
-#foote-sim.fullscreen .simulation-workspace {
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  grid-template-rows: 1fr 1fr;
-  grid-auto-rows: auto;
-  grid-auto-flow: row dense;
-  gap: 12px;
-  width: 100%;
-  height: calc(100% - 0px);
-  align-items: stretch;
-  overflow: hidden;
-}
-
-/* ── Col. IZQUIERDA — fila 1: Animación de cilindros ── */
-#foote-sim.fullscreen #foote-canvas-container {
-  grid-column: 1;
-  grid-row: 1;
-  height: 100% !important;
-  min-height: 260px;
-  max-height: none !important;
-  align-self: stretch;
-  overflow: hidden;
-}
-
-/* ── Col. IZQUIERDA — fila 2: Gráfica de temperatura ── */
-#foote-sim.fullscreen #foote-chart-wrapper {
-  grid-column: 1;
-  grid-row: 2;
-  height: 100% !important;
-  max-height: none !important;
-  min-height: 320px;
-  overflow: hidden;
-  margin: 0;
+/* ── Look de tarjeta compartido + reset de tamaños fijos heredados
+   (varios de estos elementos traen height/padding/margin inline en
+   index.html pensados para el modo normal en ventana; se sobreescriben
+   aquí sólo en fullscreen con !important donde hace falta). Todos en
+   flujo normal de grid, `position:relative` como mucho — regla
+   antisuperposición: sin position:absolute que monte un panel sobre
+   otro. ── */
+#foote-sim.fullscreen #foote-canvas-container,
+#foote-sim.fullscreen #foote-gas-col,
+#foote-sim.fullscreen #foote-chart-wrapper,
+#foote-sim.fullscreen #foote-params-grid,
+#foote-sim.fullscreen #foote-quote-banner,
+#foote-sim.fullscreen #foote-summary-table {
   position: relative;
-  align-self: stretch;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden; /* red de seguridad: nunca genera scrollbar */
+  box-sizing: border-box;
+  background: rgba(15, 23, 42, 0.35);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* ══════════════════════════════════════════════════════════════════════
-   COLUMNA DERECHA — los 4 ítems directos del grid se apilan en col. 2
-   ══════════════════════════════════════════════════════════════════════ */
-
-/* ── Col. DERECHA — fila 1: Panel de selección de gases ── */
-#foote-sim.fullscreen #foote-gas-col {
-  grid-column: 2;
-  grid-row: 1;
+/* Posiciones 2 y 5 (esquema de botellas / gráfica): misma fila del
+   grid ⇒ MISMA altura exacta por construcción. flex:1 1 0 interno +
+   height:100% para que ambas llenen su celda por completo, sin
+   deformarse (el canvas usa object-fit:contain más abajo). */
+#foote-sim.fullscreen #foote-canvas-container {
+  height: 100% !important;
+  min-height: 450px; /* v9: piso propio, independiente del alto de viewport — nunca se recorta */
+  width: 100%;
+  margin: 0 !important;
+  padding: 6px !important;
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+#foote-sim.fullscreen #foote-chart-wrapper {
+  height: 100% !important;
+  min-height: 450px; /* v9: piso propio, independiente del alto de viewport — nunca se recorta */
+  width: 100%;
+  margin: 0 !important;
+  padding: 6px 10px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0;
+  position: relative;
+}
+
+/* v8: los 11 checkboxes de gas son estáticos en el HTML (marcar/
+   desmarcar "Todos" sólo cambia `checked`, no agrega nodos), así que
+   esta fila ya es de altura constante frente al número de gases
+   seleccionados. Su protección frente a compresión del grid viene
+   del piso propio de la fila 1 (`minmax(240px/325px, auto)`
+   según breakpoint, ver `.simulation-workspace` más arriba) — no
+   necesita techo/scroll propio. */
+#foote-sim.fullscreen #foote-gas-col {
+  height: 100%;
+  padding: 4px 10px !important;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── Posición 4: Controles y Parámetros — altura automática
+   (grid-template-rows: auto), nunca se recorta ni hace scroll. ── */
+#foote-sim.fullscreen #foote-params-grid {
+  width: 100%;
+  margin: 0;
+  padding: 6px 10px;
+  overflow: visible; /* la fila auto ya mide exactamente su contenido: no hace falta scroll */
+  display: block !important; /* la regla siguiente reasigna el grid interno a #foote-sliders-col */
+}
+
+/* Posición 3: Tabla de resultados, pie de columna izquierda.
+   v8: `max-height` + `overflow-y:auto` — ÚNICA excepción deliberada
+   a "cero scrollbars" en todo el laboratorio, pedida explícitamente
+   este LOTE. Con 11 gases activos el exceso de filas <tr> se
+   desplaza con scroll INTERNO propio de la tabla, pero el alto que
+   la tabla le exige a la fila 3 del grid (compartida con la columna
+   derecha) queda fijo en ~140px pase lo que pase — esto es lo que
+   impide que el crecimiento de la tabla robe espacio a la fila 2
+   (botellas/gráfica). `overflow-x:hidden` reafirma que nunca
+   aparece scroll horizontal (las celdas ya envuelven texto,
+   `white-space:normal`, más abajo). */
+#foote-sim.fullscreen #foote-summary-table {
+  width: 100%;
+  margin: 0 !important;
+  padding: 6px 8px !important;
+  max-height: 140px;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-right: 2px;
-  align-self: stretch;
-  min-height: 0;
 }
 
-/* Tarjeta interna del panel de gases */
+#foote-sim.fullscreen #foote-summary-table thead th {
+  position: sticky;
+  top: 0;
+  background: rgba(20, 27, 45, 0.96);
+  z-index: 1;
+}
+
+/* ── Posición 6: Conclusión / Marco de Cierre — recuadro inferior
+   compacto con la conclusión dinámica del experimento (oculta hasta
+   pulsar "Encender Sol"; mientras lo está, su fila "quote" mide 0 y
+   no reserva espacio). v8: `max-height` + `overflow-y:auto` —
+   segunda excepción deliberada a "cero scrollbars", sólo como red de
+   seguridad: comparte fila con la tabla (fila 3), que en breakpoints
+   de poca altura reduce su piso; sin este techo, el texto de la
+   conclusión podía quedar recortado (invisible) bajo esa presión de
+   espacio en vez de sólo obtener scroll interno. En el uso normal
+   (texto corto, pantallas ≥1280×800) nunca llega a activarse. */
+#foote-sim.fullscreen #foote-quote-banner {
+  width: 100%;
+  margin: 0 !important;
+  padding: 6px 10px !important;
+  max-height: 170px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#foote-sim.fullscreen #foote-quote-banner p {
+  font-size: 0.8rem !important;
+  line-height: 1.3 !important;
+  margin-bottom: 4px !important;
+}
+
+#foote-sim.fullscreen #foote-quote-banner #foote-conclusion-delta {
+  font-size: 0.75rem !important;
+  padding: 4px 8px !important;
+  line-height: 1.3;
+}
+
+/* Canvas/gráfica: 100% del contenedor, sin distorsión de aspecto.
+   Chart.js (footeTempChart, responsive:true/maintainAspectRatio:false)
+   fija su propio style.width/height inline en cada resize() a partir
+   del tamaño real de #foote-chart-wrapper — converge con este 100%.
+   El canvas de animación (footeCanvas) sólo fija sus atributos
+   width/height (resolución) al clientWidth/clientHeight en
+   drawCanvas(), así que aquí el 100% CSS es la única fuente del
+   tamaño de visualización. object-fit:contain evita deformación en
+   ambos casos (equivalente a preserveAspectRatio="xMidYMid meet"
+   de un SVG). */
+#foote-sim.fullscreen #foote-canvas-container canvas,
+#foote-sim.fullscreen #foote-chart-wrapper canvas {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+  display: block;
+}
+
+/* ── Barra de gases: chips compactos en una franja horizontal ── */
 #foote-sim.fullscreen #foote-gas-col > .control-group {
-  height: 100%;
+  width: 100%;
+  height: auto;
   min-height: 0;
   display: flex;
-  flex-direction: column;
-  padding: 6px 8px;
-  gap: 5px;
-  overflow: hidden;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0;
+  gap: 8px;
+  overflow: visible;
+  margin-bottom: 0 !important;
 }
 
-/* Fila "Gases a Comparar…" + botones Todos/Ninguno */
 #foote-sim.fullscreen #foote-gas-col > .control-group > div[style*="justify-content:space-between"],
 #foote-sim.fullscreen #foote-gas-col > .control-group > div[style*="justify-content: space-between"] {
   display: flex !important;
   flex-direction: row;
   align-items: center;
   gap: 6px;
-  margin-bottom: 4px !important;
-  flex-wrap: wrap;
+  margin-bottom: 0 !important;
+  flex-wrap: nowrap;
   flex-shrink: 0;
+  width: auto;
 }
 
 #foote-sim.fullscreen #foote-gas-col > .control-group > div > label {
-  font-size: 0.80rem;
-  line-height: 1.25;
-  white-space: normal;
-  flex: 1 1 auto;
-  min-width: 0;
+  font-size: 0.78rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  flex: 0 0 auto;
 }
 
-#foote-sim.fullscreen #foote-gas-col > .control-group > div > div[style*="gap:6px"],
-#foote-sim.fullscreen #foote-gas-col > .control-group > div > div[style*="gap: 6px"] {
-  display: flex !important;
-  flex-wrap: wrap;
-  gap: 4px !important;
-  flex-shrink: 0;
-}
-
-/* Botones Todos/Ninguno: tamaño compacto */
 #foote-sim.fullscreen #foote-select-all,
 #foote-sim.fullscreen #foote-deselect-all {
   font-size: 0.72rem !important;
@@ -5873,169 +6291,127 @@ body.light-theme .downloads-panel-list a {
   white-space: nowrap;
 }
 
-/* Cuadrícula de checkboxes de gases: 2 col. auto-fill, scroll interno si desborda */
 #foote-sim.fullscreen #foote-gas-col > .control-group > div[style*="grid-template-columns"],
 #foote-sim.fullscreen #foote-gas-col > .control-group > div[style*="display:grid"],
 #foote-sim.fullscreen #foote-gas-col > .control-group > div[style*="display: grid"] {
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  gap: 4px !important;
-  padding: 5px !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  grid-template-columns: none !important;
+  overflow: visible !important;
+  gap: 3px 8px !important;
+  padding: 0 !important;
   height: auto !important;
   flex: 1 1 auto;
-  min-height: 0;
+  min-width: 0;
 }
 
-/* Etiquetas de cada gas: texto compacto, sin desbordamiento */
 #foote-sim.fullscreen #foote-gas-col label[style*="font-size:0.78rem"],
 #foote-sim.fullscreen #foote-gas-col label[style*="font-size: 0.78rem"] {
-  font-size: 0.80rem !important;
-  gap: 5px !important;
-  padding: 1px 0;
-  line-height: 1.3;
-  white-space: normal;
-  min-width: 0;
+  font-size: 0.74rem !important;
+  gap: 4px !important;
+  padding: 2px 5px;
+  line-height: 1.15;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
   overflow: hidden;
 }
 
-/* ── Col. DERECHA — fila 2: Sliders de parámetros ── */
+/* ── Controles / Parámetros: sliders en grid 2×2 (ahorra ~50% de
+   alto respecto al apilado a 1 columna) ── */
 #foote-sim.fullscreen #foote-sliders-col {
-  grid-column: 2;
-  grid-row: 2;
-  display: flex !important;
-  flex-direction: column;
-  gap: 0;
-  margin: 0;
-  padding: 0;
-  align-self: stretch;
-  overflow-y: auto;
-  overflow-x: hidden;
-  min-height: 0;
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px 14px;
+  align-content: start;
 }
 
-/* Cada .control-group de slider: padding reducido, sin margin-bottom extra */
 #foote-sim.fullscreen #foote-sliders-col > .control-group {
-  padding: 4px 8px !important;
+  padding: 2px 4px !important;
   margin-bottom: 0 !important;
-  flex-shrink: 0;
+  min-width: 0;
 }
 
-/* Labels de sliders: flex, sin desbordamiento, texto compacto */
 #foote-sim.fullscreen #foote-sliders-col > .control-group > label {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   gap: 4px;
-  font-size: 0.80rem;
-  line-height: 1.3;
+  font-size: 0.78rem;
+  line-height: 1.25;
   white-space: normal;
   min-width: 0;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
 }
 
-/* Sliders: track delgado, sin overflow lateral */
 #foote-sim.fullscreen #foote-sliders-col > .control-group > input[type="range"] {
   width: 100% !important;
   height: 4px;
   margin: 0;
 }
 
-/* Input numérico alineado dentro del label */
 #foote-sim.fullscreen #foote-sliders-col .sim-number-input {
-  width: 52px !important;
+  width: 50px !important;
   padding: 1px 3px !important;
-  font-size: 0.78rem !important;
+  font-size: 0.76rem !important;
   flex-shrink: 0;
 }
 
 #foote-sim.fullscreen #foote-sliders-col .sim-number-unit {
-  font-size: 0.75rem;
+  font-size: 0.73rem;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
-/* Áreas geométricas: padding compacto, sin altura fija */
+/* Áreas geométricas y botones de acción: ancho completo, debajo de
+   los 4 sliders en grid (grid-column:1/-1 los saca del 2×2). */
 #foote-sim.fullscreen #foote-areas-info {
+  grid-column: 1 / -1;
   display: flex !important;
   gap: 8px !important;
   margin: 0 !important;
-  padding: 5px 8px !important;
-  font-size: 0.77rem !important;
-  flex-shrink: 0;
+  padding: 4px 8px !important;
+  font-size: 0.75rem !important;
   height: auto !important;
-  overflow: visible;
 }
 
 #foote-sim.fullscreen #foote-areas-info strong {
-  font-size: 0.77rem;
+  font-size: 0.75rem;
   white-space: nowrap;
 }
 
-/* Botones Encender Sol / Reiniciar: compactos */
 #foote-sim.fullscreen #foote-action-buttons {
+  grid-column: 1 / -1;
   display: flex !important;
   gap: 6px !important;
-  margin: 4px 8px 0 !important;
-  flex-shrink: 0;
+  margin: 4px 0 0 !important;
 }
 
-#foote-sim.fullscreen #foote-action-buttons #foote-start-btn {
-  padding: 7px 10px !important;
-  font-size: 0.82rem !important;
-}
-
+#foote-sim.fullscreen #foote-action-buttons #foote-start-btn,
 #foote-sim.fullscreen #foote-action-buttons #foote-reset-btn {
-  padding: 7px 10px !important;
-  font-size: 0.82rem !important;
+  padding: 6px 10px !important;
+  font-size: 0.8rem !important;
 }
 
-/* ── Col. DERECHA — filas auto: Tabla resumen ── */
-#foote-sim.fullscreen #foote-summary-table {
-  grid-column: 2;
-  grid-row: auto;
-  margin: 0 !important;
-  padding: 5px 6px !important;
-  align-self: start;
-  font-size: 0.75rem !important;
-  overflow-x: auto;
-  overflow-y: visible;
-}
-
-/* Celdas de la tabla resumen generada dinámicamente por JS */
+/* ── Tabla de resultados: tipografía/relleno compactos. Nunca
+   white-space:nowrap: si una columna angosta no alcanza, el texto
+   envuelve a 2 líneas (la fila auto crece) en vez de generar
+   scroll horizontal. ── */
 #foote-sim.fullscreen #foote-summary-table table {
-  font-size: 0.75rem !important;
-  white-space: nowrap;
+  font-size: 0.85rem !important;
+  width: 100%;
 }
 
 #foote-sim.fullscreen #foote-summary-table td,
 #foote-sim.fullscreen #foote-summary-table th {
-  padding: 2px 4px !important;
-  font-size: 0.75rem !important;
+  padding: 2px 5px !important;
+  font-size: 0.76rem !important;
+  line-height: 1.2;
+  white-space: normal;
+  word-break: break-word;
 }
 
-/* ── Col. DERECHA — filas auto: Cita histórica / conclusión ── */
-#foote-sim.fullscreen #foote-quote-banner {
-  grid-column: 2;
-  grid-row: auto;
-  margin: 0 !important;
-  padding: 6px 10px !important;
-  align-self: start;
-}
-
-#foote-sim.fullscreen #foote-quote-banner p {
-  font-size: 0.82rem !important;
-  line-height: 1.35 !important;
-  margin-bottom: 5px !important;
-}
-
-#foote-sim.fullscreen #foote-quote-banner #foote-conclusion-delta {
-  font-size: 0.78rem !important;
-  padding: 5px 8px !important;
-  line-height: 1.35;
-}
-
-/* ── Encabezados redundantes → .sr-only visual (accesibilidad) ── */
+/* ── Encabezados redundantes → sr-only visual (accesibilidad) ── */
 #foote-sim.fullscreen #foote-controls-heading,
 #foote-sim.fullscreen #foote-animation-heading {
   position: absolute;
@@ -6049,49 +6425,49 @@ body.light-theme .downloads-panel-list a {
   border: 0;
 }
 
-/* ── Introducción teórica: ocultar lista en fullscreen ── */
-#foote-sim.fullscreen .sim-intro {
-  padding: 0.4rem 0.6rem;
-  margin-bottom: 8px;
-  height: auto;
-  max-height: none;
-  overflow: visible;
-}
-
-#foote-sim.fullscreen .sim-intro h3 {
-  margin-bottom: 0.25rem;
-}
-
-#foote-sim.fullscreen .sim-intro ul {
-  display: none;
-}
-
-/* ── Responsive: pantallas medianas (tablet ≤ 1100 px) ──
-   Se mantienen las 2 columnas visuales. Las filas del grid mantienen
-   el tamaño mínimo proporcional al viewport. */
+/* ── Responsive: pantallas medianas (tablet ≤ 1100px) ──
+   Se mantienen las 2 columnas. Los sliders pasan a 1 sola columna,
+   así que los 4 controles apilados necesitan mucha más altura real
+   (~311px medido) — la fila 1 sube su piso propio de 240px a 325px
+   para que "Controles y Parámetros" siga viéndose 100% completo.
+   v9: la fila 2 (esquema/grafica) YA NO cede piso en este breakpoint
+   — mantiene el mismo mínimo de 450px que en escritorio, sin importar
+   el ancho. Si el total no cabe en el viewport, `#foote-sim.fullscreen`
+   (overflow-y:auto) scrollea; no se recorta ni comprime nada. ── */
 @media (max-width: 1100px) {
+  #foote-sim.fullscreen #foote-sliders-col {
+    grid-template-columns: 1fr;
+  }
   #foote-sim.fullscreen .simulation-workspace {
-    grid-template-rows: minmax(180px, 34vh) minmax(180px, 34vh);
-  }
-
-  #foote-sim.fullscreen #foote-canvas-container {
-    height: 100% !important;
-    min-height: 180px;
-  }
-
-  #foote-sim.fullscreen #foote-chart-wrapper {
-    height: 100% !important;
-    max-height: none !important;
-    min-height: 180px;
+    grid-template-rows: minmax(325px, auto) minmax(450px, auto) auto;
   }
 }
 
-/* ── Responsive: móvil (≤ 768 px) — vuelve al flujo normal en 1 columna ── */
+/* v9: se retiraron los dos breakpoints de altura reducida
+   (`@media (max-height: 820px) and (min-width: 1101px)` y
+   `@media (max-width: 1100px) and (max-height: 820px)`) que en v8
+   reducían el piso de botellas/gráfica hasta 180px y 90px
+   respectivamente para evitar que el conjunto excediera el viewport
+   sin scroll. Esa reducción de piso ES el recorte reportado por el
+   usuario ("las botellas y la gráfica aparecen cortadas o sólo se
+   visualiza una porción de ellas"). Con el contenedor raíz ahora
+   scrolleable (`overflow-y:auto` en `#foote-sim.fullscreen`), ya no
+   hace falta comprimir nada en viewports bajos: botellas y gráfica
+   conservan siempre su piso de 450px y el resto de paneles se
+   alcanzan haciendo scroll. Si esta limitación reaparece en un
+   commit/backup futuro, es un estado obsoleto — no restaurarla. */
+
+/* ── Responsive: móvil (≤ 768px) — vuelve al flujo normal en 1
+   columna, con scroll de página permitido (en esta franja no es
+   viable garantizar 0 scroll sin sacrificar legibilidad ni recortar
+   el texto histórico). ── */
 @media (max-width: 768px) {
-  #foote-sim.fullscreen #foote-controls-card,
-  #foote-sim.fullscreen #foote-params-grid,
-  #foote-sim.fullscreen #foote-animation-card {
-    display: block !important;
+  #foote-sim.fullscreen {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+    min-height: 100vh;
+    padding: 8px 10px 24px;
   }
 
   #foote-sim.fullscreen .simulation-workspace {
@@ -6099,36 +6475,36 @@ body.light-theme .downloads-panel-list a {
     flex-direction: column;
     height: auto;
     min-height: 0;
+    flex: 0 0 auto;
     overflow: visible;
   }
 
-  /* Restablecer posicionamiento de grid a valores por defecto en móvil */
-  #foote-sim.fullscreen #foote-canvas-container,
-  #foote-sim.fullscreen #foote-chart-wrapper,
-  #foote-sim.fullscreen #foote-gas-col,
-  #foote-sim.fullscreen #foote-sliders-col,
-  #foote-sim.fullscreen #foote-summary-table,
-  #foote-sim.fullscreen #foote-quote-banner {
-    grid-column: unset;
-    grid-row: unset;
-    align-self: unset;
-  }
-
-  #foote-sim.fullscreen #foote-canvas-container {
-    height: 220px !important;
-    min-height: 0;
-  }
-
-  #foote-sim.fullscreen #foote-chart-wrapper {
-    height: 300px !important;
-    max-height: none !important;
-    min-height: 0;
+  #foote-sim.fullscreen #foote-controls-card,
+  #foote-sim.fullscreen #foote-animation-card {
+    display: contents !important;
   }
 
   #foote-sim.fullscreen #foote-gas-col {
-    overflow-y: visible;
-    overflow-x: visible;
-    display: block;
+    order: 1;
+  }
+
+  #foote-sim.fullscreen #foote-canvas-container {
+    order: 2;
+    height: 220px !important;
+  }
+
+  #foote-sim.fullscreen #foote-chart-wrapper {
+    order: 3;
+    height: 300px !important;
+  }
+
+  #foote-sim.fullscreen #foote-summary-table {
+    order: 4;
+    overflow-x: auto;
+  }
+
+  #foote-sim.fullscreen #foote-params-grid {
+    order: 5;
   }
 
   #foote-sim.fullscreen #foote-sliders-col {
@@ -6137,6 +6513,15 @@ body.light-theme .downloads-panel-list a {
 
   #foote-sim.fullscreen #foote-sliders-col > .control-group {
     margin-bottom: 12px !important;
+  }
+
+  #foote-sim.fullscreen #foote-areas-info,
+  #foote-sim.fullscreen #foote-action-buttons {
+    grid-column: auto;
+  }
+
+  #foote-sim.fullscreen #foote-quote-banner {
+    order: 6;
   }
 
   #foote-sim.fullscreen #foote-controls-heading,

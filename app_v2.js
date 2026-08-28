@@ -13332,6 +13332,71 @@ function initMulticapaCustomSimulation() {
         return (rOut - rIn) / l.k; // planar: equivalente a l.L / l.k
     }
 
+    // ── LOTE — Escala Proporcional del Circuito de Resistencias ────────────
+    // collectCircuitResistanceValues(): recopila la magnitud (K/W) de CADA
+    // resistencia realmente dibujada en el circuito actual — las N
+    // resistencias de capa (layerRcondAt) más las ramas resistivas de
+    // frontera realmente activas (R_conv=1/hConv y/o R_rad=1/hRad, según el
+    // tipo de frontera de cada lado; 'temp' y 'flux' puro no aportan
+    // resistencia, son nodo fijo o fuente pura). Se usa como referencia
+    // (R_min..R_max del circuito) para normalizar el tamaño visual de cada
+    // símbolo de resistencia en computeResistorVisualScale().
+    function collectCircuitResistanceValues() {
+        const vals = [];
+        const radii = computeRadii();
+        for (let i = 0; i < layers.length; i++) {
+            const r = layerRcondAt(i, radii);
+            if (isFinite(r) && r > 0) vals.push(r);
+        }
+        [bcResL, bcResR].forEach(bc => {
+            if (!bc) return;
+            if (bc.hConv > 0) vals.push(1 / bc.hConv);
+            if (bc.hRad > 0) vals.push(1 / bc.hRad);
+        });
+        return vals;
+    }
+
+    // computeResistorVisualScale(rValue, allValues, opts): normaliza
+    // rValue respecto al conjunto allValues (típicamente el resultado de
+    // collectCircuitResistanceValues()) usando escala LOGARÍTMICA min-max
+    // — no lineal R_i/R_max: en este laboratorio R puede variar varios
+    // órdenes de magnitud entre capas delgadas de alta k y fronteras de h
+    // bajo, y una escala lineal dejaría casi invisibles las resistencias
+    // pequeñas frente a una grande. Devuelve { t, ampl, lineWidth }, con
+    // `ampl` (altura del zigzag, px) y `lineWidth` (grosor del trazo, px)
+    // interpolados entre un mínimo y máximo visual predefinidos
+    // (configurables vía opts) — a mayor R_i relativo dentro del circuito
+    // actual, mayor el símbolo dibujado. Con un solo valor o rango
+    // degenerado (todas las R casi iguales) devuelve el tamaño medio.
+    function computeResistorVisualScale(rValue, allValues, opts) {
+        opts = opts || {};
+        // LOTE — Homogenización visual: rango ampliado (antes 4-11px / 1.2-
+        // 2.8px) para que la escala proporcional del Lote 2 sea claramente
+        // perceptible entre la resistencia más pequeña y la más grande del
+        // circuito actual, ahora que las etiquetas también crecieron
+        // (drawResistorBadge) — un símbolo más chico junto a una etiqueta
+        // grande se veía desproporcionado.
+        const amplMin = opts.amplMin !== undefined ? opts.amplMin : 3.5;
+        const amplMax = opts.amplMax !== undefined ? opts.amplMax : 13;
+        const lineWidthMin = opts.lineWidthMin !== undefined ? opts.lineWidthMin : 1.3;
+        const lineWidthMax = opts.lineWidthMax !== undefined ? opts.lineWidthMax : 3.4;
+        const valid = (allValues || []).filter(v => typeof v === 'number' && isFinite(v) && v > 0);
+        let t = 0.5; // sin datos suficientes o rango degenerado -> tamaño medio
+        if (isFinite(rValue) && rValue > 0 && valid.length > 0) {
+            const logs = valid.map(v => Math.log10(v));
+            const logMin = Math.min(...logs);
+            const logMax = Math.max(...logs);
+            if (logMax - logMin > 1e-9) {
+                t = Math.min(1, Math.max(0, (Math.log10(rValue) - logMin) / (logMax - logMin)));
+            }
+        }
+        return {
+            t,
+            ampl: amplMin + t * (amplMax - amplMin),
+            lineWidth: lineWidthMin + t * (lineWidthMax - lineWidthMin)
+        };
+    }
+
     // LOTE 2 — Solver Multigeometría (UI): refresco ligero (sin reconstruir
     // el DOM de #cm-layers-container) de "r_i → r_{i+1}" y R_i de TODAS las
     // capas en geometría curva. Se usa tras arrastrar cualquier control que
@@ -13348,7 +13413,7 @@ function initMulticapaCustomSimulation() {
             const infoEl = document.getElementById(`cm-l${i}-radii-info`);
             if (infoEl) infoEl.innerHTML = `r${subStr}: ${formatNumCompact(radii[i], 3)} m &rarr; ${formatNumCompact(radii[i + 1], 3)} m`;
             const rEl = document.getElementById(`cm-l${i}-R-val`);
-            if (rEl) rEl.innerText = layerRcondAt(i, radii).toFixed(4);
+            if (rEl) rEl.innerText = formatEngineeringNumber(layerRcondAt(i, radii));
         });
     }
 
@@ -13374,6 +13439,31 @@ function initMulticapaCustomSimulation() {
     function formatNumCompact(val, maxDecimals = 2) {
         if (val === null || val === undefined || isNaN(val)) return '--';
         return parseFloat(Number(val).toFixed(maxDecimals)).toString();
+    }
+
+    // ── LOTE — Formato Numérico de Resistencias (Notación Científica
+    // Automática): |valor| >= 0.001 -> decimal estándar con la precisión
+    // pedida por el llamador (3-4 decimales típico); |valor| < 0.001 (y
+    // != 0) -> notación científica "mantisa × 10^exponente" con
+    // superíndices unicode, para no mostrar "0.0000" en resistencias muy
+    // pequeñas (frecuentes en capas delgadas de alta k, sobre todo en
+    // geometría cilíndrica/esférica). Se usa tanto en las etiquetas del
+    // panel de resultados (DOM) como en las etiquetas de resistencia del
+    // circuito (Canvas, renderCircuit()) — NO sustituye a
+    // formatNumCompact(), que sigue formateando T, h, L, k, radios, flujo,
+    // etc. sin cambios.
+    const SUPERSCRIPT_DIGITS = { '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹', '-': '⁻', '+': '' };
+    function toSuperscript(str) {
+        return String(str).split('').map(ch => (SUPERSCRIPT_DIGITS[ch] !== undefined ? SUPERSCRIPT_DIGITS[ch] : ch)).join('');
+    }
+    function formatEngineeringNumber(value, decimals = 4, sciDecimals = 2) {
+        if (value === null || value === undefined || isNaN(value) || !isFinite(value)) return '--';
+        const absVal = Math.abs(value);
+        if (absVal !== 0 && absVal < 0.001) {
+            const [mantissa, exponent] = value.toExponential(sciDecimals).split('e');
+            return `${mantissa} × 10${toSuperscript(parseInt(exponent, 10))}`;
+        }
+        return value.toFixed(decimals);
     }
 
     // ── Espesor aparente de la película térmica en función de h (LOTE —
@@ -13542,7 +13632,7 @@ function initMulticapaCustomSimulation() {
                 </div>
                 <div class="layer-resistance-row">
                     <span>R${subStr}</span>
-                    <strong><span id="cm-l${idx}-R-val" style="color: var(--accent-orange);">${layerRcondAt(idx, radiiForRender).toFixed(4)}</span> K/W</strong>
+                    <strong><span id="cm-l${idx}-R-val" style="color: var(--accent-orange);">${formatEngineeringNumber(layerRcondAt(idx, radiiForRender))}</span> K/W</strong>
                 </div>
             `;
             layersContainer.appendChild(div);
@@ -13560,7 +13650,7 @@ function initMulticapaCustomSimulation() {
             const numEl = document.getElementById(`cm-l${idx}-L-num`);
             if (numEl && document.activeElement !== numEl) numEl.value = layers[idx].L.toFixed(3);
             if (geometry === 'planar') {
-                document.getElementById(`cm-l${idx}-R-val`).innerText = layerRcondAt(idx, computeRadii()).toFixed(4);
+                document.getElementById(`cm-l${idx}-R-val`).innerText = formatEngineeringNumber(layerRcondAt(idx, computeRadii()));
             } else {
                 // LOTE 2: en geometría curva, L de la capa idx es Δr_idx — al
                 // cambiarlo se desplazan los radios de TODAS las capas
@@ -13576,7 +13666,7 @@ function initMulticapaCustomSimulation() {
             const numEl = document.getElementById(`cm-l${idx}-k-num`);
             if (numEl && document.activeElement !== numEl) numEl.value = layers[idx].k.toFixed(3);
             // k no desplaza radios de ninguna capa -> sólo su propia R_i cambia.
-            document.getElementById(`cm-l${idx}-R-val`).innerText = layerRcondAt(idx, computeRadii()).toFixed(4);
+            document.getElementById(`cm-l${idx}-R-val`).innerText = formatEngineeringNumber(layerRcondAt(idx, computeRadii()));
 
             // Update material badge text for common values
             const kBadge = document.getElementById(`cm-l${idx}-k-badge`);
@@ -13919,7 +14009,7 @@ function initMulticapaCustomSimulation() {
             if (Math.abs(qL - qR) > 1.0) {
                 // Unstable / no steady state
                 if (alertBox) alertBox.style.display = 'flex';
-                if (lblRcond) lblRcond.innerText = Rcond.toFixed(4) + ' K/W';
+                if (lblRcond) lblRcond.innerText = formatEngineeringNumber(Rcond) + ' K/W';
                 if (lblRtot) lblRtot.innerText = '-- K/W';
                 if (lblQ) lblQ.innerText = (geometry === 'planar') ? '-- W/m²' : '-- W';
                 return;
@@ -14160,15 +14250,15 @@ function initMulticapaCustomSimulation() {
         let Rtot = Rcond + (bcResL.R || 0) + (bcResR.R || 0);
 
         // Update UI metrics
-        if (lblRcond) lblRcond.innerText = Rcond.toFixed(4) + ' K/W';
-        if (lblRtot) lblRtot.innerText = Rtot.toFixed(4) + ' K/W';
+        if (lblRcond) lblRcond.innerText = formatEngineeringNumber(Rcond) + ' K/W';
+        if (lblRtot) lblRtot.innerText = formatEngineeringNumber(Rtot) + ' K/W';
         // LOTE 4 — Solver Multigeometría: qFlux es densidad de flujo q'' (W/m²)
         // en geometría plana, pero flujo TOTAL Q (W) en geometría curva (ver
         // comentario junto a `let qFlux` más arriba) — la unidad mostrada debe
         // reflejar cuál de las dos magnitudes es en cada caso.
-        if (lblQ) lblQ.innerText = qFlux.toFixed(1) + (geometry === 'planar' ? ' W/m²' : ' W');
-        if (lblRbcL) lblRbcL.innerText = bcResL.R === null ? t('Fuente (sin R)') : bcResL.R.toFixed(4) + ' K/W';
-        if (lblRbcR) lblRbcR.innerText = bcResR.R === null ? t('Fuente (sin R)') : bcResR.R.toFixed(4) + ' K/W';
+        if (lblQ) lblQ.innerText = formatEngineeringNumber(qFlux, 1) + (geometry === 'planar' ? ' W/m²' : ' W');
+        if (lblRbcL) lblRbcL.innerText = bcResL.R === null ? t('Fuente (sin R)') : formatEngineeringNumber(bcResL.R) + ' K/W';
+        if (lblRbcR) lblRbcR.innerText = bcResR.R === null ? t('Fuente (sin R)') : formatEngineeringNumber(bcResR.R) + ' K/W';
 
         // Update Table
         // LOTE — Solver Multigeometría: la columna "Posición" muestra x (plana)
@@ -14353,6 +14443,19 @@ function initMulticapaCustomSimulation() {
 
     function render() {
         if (canvas.offsetParent === null) return; // invisible
+
+        // LOTE — Altura del contenedor para geometrías curvas: el div que
+        // envuelve #customMultiCanvas (index.html) trae una altura fija de
+        // 320px en línea, sin id/clase propia. En cilíndrica/esférica las
+        // cotas de radio y temperatura del casquete más exterior (rama
+        // isCurved más abajo) necesitan más alto disponible que en plana —
+        // se alterna una clase CSS (.cm-canvas-tall, ver style.css) según
+        // la geometría activa en cada frame, sin tocar el marcado HTML. El
+        // toggle se hace ANTES de leer clientWidth/clientHeight para que el
+        // reflow forzado por esa misma lectura ya reporte el alto nuevo.
+        if (canvas.parentElement) {
+            canvas.parentElement.classList.toggle('cm-canvas-tall', geometry !== 'planar');
+        }
 
         const w = canvas.width = canvas.clientWidth;
         const h = canvas.height = canvas.clientHeight;
@@ -15719,6 +15822,12 @@ function initMulticapaCustomSimulation() {
         const radiiCircuit = computeRadii();
         const rPrefix = (geometry === 'cylindrical') ? 'Rcil' : (geometry === 'spherical') ? 'Resf' : 'R';
 
+        // LOTE — Escala Proporcional del Circuito: magnitudes (K/W) de
+        // TODAS las resistencias que se van a dibujar en este frame
+        // (capas + fronteras activas), usadas como referencia R_min..R_max
+        // para el tamaño visual de cada símbolo (computeResistorVisualScale).
+        const allCircuitRValues = collectCircuitResistanceValues();
+
         const margin = 12;
         const wireY = ch * 0.5;
         const bcZoneW = Math.min(115, Math.max(72, cw * 0.15));
@@ -15748,7 +15857,7 @@ function initMulticapaCustomSimulation() {
             circuitCtx.fill();
         }
 
-        function drawZigzag(x1, x2, y, color) {
+        function drawZigzag(x1, x2, y, color, scale) {
             const len = x2 - x1;
             if (len <= 0) return;
             const lead = Math.min(9, len * 0.18);
@@ -15756,9 +15865,16 @@ function initMulticapaCustomSimulation() {
             const zigLen = Math.max(4, zigEnd - zigStart);
             const humps = veryCompact ? 3 : (compact ? 4 : 6);
             const step = zigLen / humps;
-            const ampl = veryCompact ? 5 : 7;
+            // LOTE — Escala Proporcional del Circuito: si el llamador pasa
+            // `scale` (computeResistorVisualScale), la amplitud del zigzag
+            // y el grosor de línea representan la magnitud relativa de R
+            // dentro del circuito actual; si no, se usan los valores fijos
+            // originales (compatibilidad con cualquier llamador que no la
+            // use, p. ej. ramas que no son resistencias).
+            const ampl = (scale && isFinite(scale.ampl)) ? scale.ampl : (veryCompact ? 5 : 7);
+            const lineW = (scale && isFinite(scale.lineWidth)) ? scale.lineWidth : 1.8;
             circuitCtx.strokeStyle = color || resColor;
-            circuitCtx.lineWidth = 1.8;
+            circuitCtx.lineWidth = lineW;
             circuitCtx.beginPath();
             circuitCtx.moveTo(x1, y);
             circuitCtx.lineTo(zigStart, y);
@@ -15811,6 +15927,50 @@ function initMulticapaCustomSimulation() {
             circuitCtx.restore();
         }
 
+        // LOTE — Homogenización de Etiquetas de Resistencia: mismo lenguaje
+        // visual que drawValueBadge() del esquema térmico principal
+        // (render(), más arriba en este mismo archivo) — texto en negrita
+        // Inter, blanco de alto contraste, sobre una píldora oscura
+        // semitransparente. El borde de la píldora conserva el color de
+        // categoría (ámbar=capa, naranja=radiación, etc.) para no perder la
+        // distinción visual entre ramas que sí aportaba el color de texto
+        // anterior. Se usa exclusivamente para las etiquetas de resistencias
+        // térmicas (nombre R_i/R_conv/R_rad y su valor numérico) — el resto
+        // de etiquetas del circuito (T∞, T_sur, T impuesta, q'', αG, nodos)
+        // sigue usando label() sin cambios, tal como antes.
+        function drawResistorBadge(text, cx, cy, accentColor, maxWidth) {
+            maxWidth = maxWidth || 90;
+            const maxFont = veryCompact ? 9 : (compact ? 10 : 12);
+            const minFont = 8;
+            const paddingX = 5, paddingY = 2.5;
+            let fontSize = maxFont, textW = 0;
+            for (fontSize = maxFont; fontSize >= minFont; fontSize--) {
+                circuitCtx.font = `bold ${fontSize}px Inter, sans-serif`;
+                textW = circuitCtx.measureText(text).width;
+                if (textW + paddingX * 2 <= maxWidth || fontSize === minFont) break;
+            }
+            const badgeW = textW + paddingX * 2;
+            const badgeH = fontSize + paddingY * 2;
+
+            circuitCtx.save();
+            circuitCtx.beginPath();
+            const bx = cx - badgeW / 2, by = cy - badgeH / 2, radius = badgeH / 2;
+            if (circuitCtx.roundRect) circuitCtx.roundRect(bx, by, badgeW, badgeH, radius);
+            else circuitCtx.rect(bx, by, badgeW, badgeH);
+            circuitCtx.fillStyle = 'rgba(0,0,0,0.68)';
+            circuitCtx.fill();
+            circuitCtx.strokeStyle = accentColor || wireColor;
+            circuitCtx.lineWidth = 1.2;
+            circuitCtx.stroke();
+
+            circuitCtx.fillStyle = '#ffffff';
+            circuitCtx.font = `bold ${fontSize}px Inter, sans-serif`;
+            circuitCtx.textAlign = 'center';
+            circuitCtx.textBaseline = 'middle';
+            circuitCtx.fillText(text, cx, cy + 0.5);
+            circuitCtx.restore();
+        }
+
         // ==================== FRONTERA (izquierda o derecha, espejadas) ====================
         function drawBoundary(side, type, bcInfo, hInput, tinfInput, epsInput, tsurInput, fluxInput, TsVal) {
             const isLeft = side === 'left';
@@ -15850,10 +16010,15 @@ function initMulticapaCustomSimulation() {
                 // superficie xNode — topología correcta de R_conv ∥ R_rad.
                 const yTop = wireY - 16, yBot = wireY + 16;
                 const branchLo = Math.min(xOuter, xNode), branchHi = Math.max(xOuter, xNode);
+                // LOTE — Escala Proporcional del Circuito: R_conv y R_rad son
+                // dos ramas resistivas independientes; cada una se escala
+                // según su propia magnitud dentro de allCircuitRValues.
+                const rConvValComb = bcInfo.hConv > 0 ? 1 / bcInfo.hConv : 0;
+                const rRadValComb = bcInfo.hRad > 0 ? 1 / bcInfo.hRad : 0;
                 drawNode(xOuter, yTop, tempColor);
                 drawNode(xOuter, yBot, radColor);
-                drawZigzag(branchLo, branchHi, yTop, resColor);
-                drawZigzag(branchLo, branchHi, yBot, radColor);
+                drawZigzag(branchLo, branchHi, yTop, resColor, computeResistorVisualScale(rConvValComb, allCircuitRValues));
+                drawZigzag(branchLo, branchHi, yBot, radColor, computeResistorVisualScale(rRadValComb, allCircuitRValues));
                 drawWireV(xNode, yTop, wireY);
                 drawWireV(xNode, yBot, wireY);
                 drawNode(xNode, wireY, tempColor);
@@ -15863,8 +16028,8 @@ function initMulticapaCustomSimulation() {
                 label(`T_sur=${formatNumCompact(parseFloat(tsurInput.value), 0)}°`, xOuter, yBot + 28, radColor);
                 circuitCtx.textAlign = 'center';
                 if (!compact) {
-                    label(`R_conv=${formatNumCompact(bcInfo.hConv > 0 ? 1 / bcInfo.hConv : 0, 3)}`, xMid, yTop - 10, resColor);
-                    label(`R_rad=${formatNumCompact(bcInfo.hRad > 0 ? 1 / bcInfo.hRad : 0, 3)}`, xMid, yBot + 16, radColor);
+                    drawResistorBadge(`R_conv=${formatEngineeringNumber(rConvValComb, 3)}`, xMid, yTop - 12, resColor, bcZoneW * 0.98);
+                    drawResistorBadge(`R_rad=${formatEngineeringNumber(rRadValComb, 3)}`, xMid, yBot + 18, radColor, bcZoneW * 0.98);
                 }
                 if (type === 'comb-flux') {
                     // Fuente de flujo tapeada al mismo nodo de superficie (xNode),
@@ -15888,13 +16053,14 @@ function initMulticapaCustomSimulation() {
                 // 'comb-flux' (arriba), pero con una sola rama resistiva en
                 // vez de dos en paralelo.
                 const isRad = type === 'irr_rad';
-                drawNode(xOuter, wireY, tempColor);
-                drawZigzag(Math.min(xOuter, xNode), Math.max(xOuter, xNode), wireY, isRad ? radColor : resColor);
-                drawNode(xNode, wireY, tempColor);
                 const rValIrr = isRad ? (bcInfo.hRad > 0 ? 1 / bcInfo.hRad : 0) : (bcInfo.hConv > 0 ? 1 / bcInfo.hConv : 0);
+                drawNode(xOuter, wireY, tempColor);
+                drawZigzag(Math.min(xOuter, xNode), Math.max(xOuter, xNode), wireY, isRad ? radColor : resColor, computeResistorVisualScale(rValIrr, allCircuitRValues));
+                drawNode(xNode, wireY, tempColor);
                 circuitCtx.textAlign = 'center';
-                if (!veryCompact) label(isRad ? 'R_rad' : 'R_conv', xMid, wireY - 14, isRad ? radColor : resColor);
-                label(formatNumCompact(rValIrr, 3), xMid, wireY + 18, isRad ? radColor : resColor, 'bold 9px Inter, sans-serif');
+                const irrAccent = isRad ? radColor : resColor;
+                if (!veryCompact) drawResistorBadge(isRad ? 'R_rad' : 'R_conv', xMid, wireY - 16, irrAccent, bcZoneW * 0.9);
+                drawResistorBadge(formatEngineeringNumber(rValIrr, 3), xMid, wireY + 20, irrAccent, bcZoneW * 0.9);
                 circuitCtx.textAlign = isLeft ? 'left' : 'right';
                 const outerTextIrr = isRad
                     ? `T_sur=${formatNumCompact(parseFloat(tsurInput.value), 0)}°`
@@ -15919,13 +16085,14 @@ function initMulticapaCustomSimulation() {
             }
 
             // 'conv' o 'rad' puro: una sola rama resistiva
-            drawNode(xOuter, wireY, tempColor);
-            drawZigzag(Math.min(xOuter, xNode), Math.max(xOuter, xNode), wireY, type === 'rad' ? radColor : resColor);
-            drawNode(xNode, wireY, tempColor);
             const rVal = type === 'rad' ? (bcInfo.hRad > 0 ? 1 / bcInfo.hRad : 0) : (bcInfo.hConv > 0 ? 1 / bcInfo.hConv : 0);
+            drawNode(xOuter, wireY, tempColor);
+            drawZigzag(Math.min(xOuter, xNode), Math.max(xOuter, xNode), wireY, type === 'rad' ? radColor : resColor, computeResistorVisualScale(rVal, allCircuitRValues));
+            drawNode(xNode, wireY, tempColor);
             circuitCtx.textAlign = 'center';
-            if (!veryCompact) label(type === 'rad' ? 'R_rad' : 'R_conv', xMid, wireY - 14, type === 'rad' ? radColor : resColor);
-            label(formatNumCompact(rVal, 3), xMid, wireY + 18, type === 'rad' ? radColor : resColor, 'bold 9px Inter, sans-serif');
+            const pureAccent = type === 'rad' ? radColor : resColor;
+            if (!veryCompact) drawResistorBadge(type === 'rad' ? 'R_rad' : 'R_conv', xMid, wireY - 16, pureAccent, bcZoneW * 0.9);
+            drawResistorBadge(formatEngineeringNumber(rVal, 3), xMid, wireY + 20, pureAccent, bcZoneW * 0.9);
             circuitCtx.textAlign = isLeft ? 'left' : 'right';
             const outerText = type === 'rad'
                 ? `T_sur=${formatNumCompact(parseFloat(tsurInput.value), 0)}°`
@@ -15940,28 +16107,42 @@ function initMulticapaCustomSimulation() {
         // ==================== CAPAS (RESISTENCIAS EN SERIE) ====================
         const subDigits = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉", "₁₀"];
         circuitCtx.textAlign = 'center';
+        // LOTE — Tipografía de Temperaturas de Nodo/Interfase (T₁…Tₙ): el
+        // literal previo ('7px Inter, sans-serif', sin negrita) quedaba muy
+        // por debajo del tamaño de las píldoras de resistencia
+        // (drawResistorBadge: 8-12px bold) y era ilegible en pantalla
+        // completa/proyección. Se sube a bold 9-13px (misma escala
+        // compact/veryCompact que el resto del circuito) para que sea
+        // legible y conserve jerarquía visual clara frente a los valores
+        // de R (que siguen siendo ligeramente más grandes, 8-12px bold,
+        // pero ahora ambos en el mismo rango tipográfico).
+        const tNodeFont = veryCompact
+            ? 'bold 9px Inter, sans-serif'
+            : (compact ? 'bold 11px Inter, sans-serif' : 'bold 13px Inter, sans-serif');
         for (let i = 0; i < N; i++) {
             const segX0 = xL + i * layerW;
             const segX1 = xL + (i + 1) * layerW;
-            drawZigzag(segX0, segX1, wireY, resColor);
+            const rLayerVal = layerRcondAt(i, radiiCircuit);
+            drawZigzag(segX0, segX1, wireY, resColor, computeResistorVisualScale(rLayerVal, allCircuitRValues));
             drawNode(segX0, wireY, nodeColor);
             const sub = subDigits[i + 1] || String(i + 1);
-            if (!veryCompact) label(`${rPrefix}${sub}`, (segX0 + segX1) / 2, wireY - 14, resColor);
-            label(formatNumCompact(layerRcondAt(i, radiiCircuit), 3), (segX0 + segX1) / 2, wireY + 18, resColor, veryCompact ? '7px Inter, sans-serif' : 'bold 9px Inter, sans-serif');
+            const midXLayer = (segX0 + segX1) / 2;
+            if (!veryCompact) drawResistorBadge(`${rPrefix}${sub}`, midXLayer, wireY - 16, resColor, layerW * 0.92);
+            drawResistorBadge(formatEngineeringNumber(rLayerVal, 3), midXLayer, wireY + 20, resColor, layerW * 0.96);
             // Temperatura de interfase: alternando arriba/abajo para no chocar entre
             // nodos consecutivos. Se omite i===0 cuando typeL==='temp': ese nodo
             // (xL) ya lo rotula drawBoundary() con su propio texto "T impuesta" —
             // evita una etiqueta duplicada sobre el mismo punto.
             if (i > 0 || typeL !== 'temp') {
                 const belowRow = (i % 2 === 0);
-                label(`${formatNumCompact(T[i], 1)}°`, segX0, belowRow ? wireY - 26 : wireY + 30, tempColor, '7px Inter, sans-serif');
+                label(`${formatNumCompact(T[i], 1)}°`, segX0, belowRow ? wireY - 26 : wireY + 30, tempColor, tNodeFont);
             }
         }
         drawNode(xR, wireY, nodeColor);
         if (typeR !== 'temp') {
             // El nodo T_s,N+1 ya lo rotula drawBoundary() en modo 'temp'; en los
             // demás tipos se etiqueta aquí junto con la serie de capas.
-            label(`${formatNumCompact(T[N], 1)}°`, xR, (N % 2 === 0) ? wireY - 26 : wireY + 30, tempColor, '7px Inter, sans-serif');
+            label(`${formatNumCompact(T[N], 1)}°`, xR, (N % 2 === 0) ? wireY - 26 : wireY + 30, tempColor, tNodeFont);
         }
     }
 
