@@ -13207,13 +13207,93 @@ function initMulticapaCustomSimulation() {
     const lblRtot = document.getElementById('cm-rtot-val');
     const lblQ = document.getElementById('cm-q-val');
     const alertBox = document.getElementById('cm-alert-box');
-    const tempTableBody = document.getElementById('cm-temp-table-body');
+    let tempTableBody = document.getElementById('cm-temp-table-body');
 
     // ── Circuito de Resistencias Térmicas Equivalentes (LOTE) ──────────────
     const circuitCanvas = document.getElementById('customMultiCircuitCanvas');
     const circuitCtx = circuitCanvas ? circuitCanvas.getContext('2d') : null;
     const lblRbcL = document.getElementById('cm-rbcl-val');
     const lblRbcR = document.getElementById('cm-rbcr-val');
+
+    // ── LOTE — Tabla de Interfases (T_i) + Coeficiente Global U/UA ──────────
+    // El markup de #cm-panel-results sólo conserva hoy el bloque de
+    // "Métricas Globales" (Rbc,L / Rcond / Rbc,R / Rtot / q''): el bloque de
+    // la tabla de interfases que `cm-temp-table-body` referenciaba ya no
+    // existe en index.html (se perdió en un ajuste de cierre de divs
+    // anterior — ver comentario "cierre correctivo" junto a #cm-panel-guide
+    // en el HTML), así que `tempTableBody` quedaba `null` y la tabla nunca
+    // se dibujaba. Por alcance de este LOTE (sólo JS, sin tocar index.html),
+    // ambos bloques faltantes (fila de U/UA + tabla de T_i con selector de
+    // unidad °C/K) se construyen aquí una sola vez, exclusivamente dentro de
+    // #cm-panel-results de este laboratorio.
+    let cmTempUnit = 'C'; // 'C' | 'K' — unidad activa elegida por el usuario en el toggle de abajo
+    let lblUGlobal = document.getElementById('cm-u-val');
+    let unitToggleWrap = document.getElementById('cm-temp-unit-toggle');
+    // El bloque "Métricas Globales" (padre de alertBox) y el bloque
+    // "#cm-panel-guide" son ambos hijos directos del mismo contenedor
+    // flex-wrap dentro de #cm-panel-results (verificado en vivo — insertar
+    // como hijo de #cm-panel-results directamente falla porque
+    // #cm-panel-guide NO es hijo directo suyo, sino de este contenedor
+    // intermedio). Se deriva de alertBox.parentElement, igual que
+    // globalMetricsBlock más abajo, para no depender de otro selector.
+    const cmGlobalMetricsBlock = (alertBox && alertBox.parentElement) ? alertBox.parentElement : null;
+    const cmResultsFlexContainer = cmGlobalMetricsBlock ? cmGlobalMetricsBlock.parentElement : null;
+    const cmGuidePanel = document.getElementById('cm-panel-guide');
+
+    if (!lblUGlobal && alertBox && alertBox.parentElement) {
+        const globalMetricsBlock = alertBox.parentElement;
+        const uRow = document.createElement('div');
+        uRow.style.cssText = 'margin-top:6px; padding-top:6px; border-top:1px dashed rgba(255,255,255,0.08); font-size:0.8rem;';
+        uRow.innerHTML =
+            '<div style="color: var(--text-secondary); margin-bottom:4px;">' +
+                '<span class="lang-es">Coeficiente Global de Transferencia (U, UA):</span>' +
+                '<span class="lang-en" style="display:none;">Overall Heat Transfer Coefficient (U, UA):</span>' +
+            '</div>' +
+            '<div id="cm-u-val" style="color: var(--accent-cyan); font-weight:bold; display:flex; flex-direction:column; gap:2px;">--</div>';
+        globalMetricsBlock.insertBefore(uRow, alertBox);
+        lblUGlobal = uRow.querySelector('#cm-u-val');
+    }
+
+    if (!tempTableBody && cmResultsFlexContainer) {
+        const ifBlock = document.createElement('div');
+        ifBlock.id = 'cm-panel-interfaces';
+        ifBlock.style.cssText = 'width:100%; margin-top:12px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.08); display:flex; flex-direction:column; gap:8px;';
+        ifBlock.innerHTML =
+            '<div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">' +
+                '<h5 style="margin:0; color: var(--text-secondary); font-size:0.85rem; font-weight:bold;">' +
+                    '<i class="fas fa-thermometer-half"></i> <span class="lang-es">Temperaturas de Interfase</span><span class="lang-en" style="display:none;">Interface Temperatures</span>' +
+                '</h5>' +
+                '<span id="cm-temp-unit-toggle" style="display:flex; gap:4px; font-size:0.7rem;">' +
+                    '<button type="button" data-unit="C" class="cm-unit-btn" style="padding:2px 8px; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background: var(--accent-cyan); color:#04222c; cursor:pointer; font-weight:bold;">°C</button>' +
+                    '<button type="button" data-unit="K" class="cm-unit-btn" style="padding:2px 8px; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:transparent; color: var(--text-secondary); cursor:pointer; font-weight:bold;">K</button>' +
+                '</span>' +
+            '</div>' +
+            '<table style="width:100%; border-collapse:collapse; font-size:0.78rem;">' +
+                '<thead>' +
+                    '<tr style="text-align:left; color: var(--text-secondary); border-bottom:1px solid rgba(255,255,255,0.15);">' +
+                        '<th style="padding:4px 6px; font-weight:normal;"><span class="lang-es">Interfase</span><span class="lang-en" style="display:none;">Interface</span></th>' +
+                        '<th style="padding:4px 6px; font-weight:normal;"><span class="lang-es">Posición</span><span class="lang-en" style="display:none;">Position</span></th>' +
+                        '<th style="padding:4px 6px; font-weight:normal; text-align:right;"><span class="lang-es">Temperatura</span><span class="lang-en" style="display:none;">Temperature</span></th>' +
+                    '</tr>' +
+                '</thead>' +
+                '<tbody id="cm-temp-table-body"></tbody>' +
+            '</table>';
+        const cmGuideIsSibling = cmGuidePanel && cmGuidePanel.parentElement === cmResultsFlexContainer;
+        cmResultsFlexContainer.insertBefore(ifBlock, cmGuideIsSibling ? cmGuidePanel : null);
+        tempTableBody = ifBlock.querySelector('#cm-temp-table-body');
+        unitToggleWrap = ifBlock.querySelector('#cm-temp-unit-toggle');
+        unitToggleWrap.querySelectorAll('.cm-unit-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                cmTempUnit = btn.getAttribute('data-unit');
+                unitToggleWrap.querySelectorAll('.cm-unit-btn').forEach(b => {
+                    const active = b === btn;
+                    b.style.background = active ? 'var(--accent-cyan)' : 'transparent';
+                    b.style.color = active ? '#04222c' : 'var(--text-secondary)';
+                });
+                solveSimulation();
+            });
+        });
+    }
 
     // Simulation variables
     let layers = [
@@ -14264,17 +14344,46 @@ function initMulticapaCustomSimulation() {
         // LOTE — Solver Multigeometría: la columna "Posición" muestra x (plana)
         // o r (cilindro/esfera) — ambas ya viven en el mismo array `radii`
         // (ver computeRadii(): radii[0]=0 en plana, =r1 en curva).
+        // LOTE — Temperaturas de Interfase (T_i): unidad activa (°C/K, toggle
+        // cm-temp-unit-toggle construido arriba) + formato numérico estándar
+        // con caída a notación científica para |valor| < 0.001
+        // (formatEngineeringNumber, ya usado por Rcond/Rtot/q — reutilizado
+        // aquí por consistencia).
         let tableHtml = '';
         T.forEach((tVal, idx) => {
+            const dispVal = cmTempUnit === 'K' ? (tVal + 273.15) : tVal;
+            const unitLabel = cmTempUnit === 'K' ? 'K' : '°C';
             tableHtml += `
                 <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <td style="padding: 6px;">Interfase ${idx}</td>
+                    <td style="padding: 6px;">T${subLabel(idx)}</td>
                     <td style="padding: 6px;">${radii[idx].toFixed(3)} m</td>
-                    <td style="padding: 6px; text-align: right; font-weight: bold; color: var(--accent-cyan);">${tVal.toFixed(1)} °C</td>
+                    <td style="padding: 6px; text-align: right; font-weight: bold; color: var(--accent-cyan);">${formatEngineeringNumber(dispVal, 1)} ${unitLabel}</td>
                 </tr>
             `;
         });
         if (tempTableBody) tempTableBody.innerHTML = tableHtml;
+
+        // ── LOTE — Coeficiente Global de Transferencia de Calor (U / UA) ───
+        // UA = 1/Rtot [W/K] es válido siempre (Rtot ya incluye resistencias de
+        // frontera + conducción, ver arriba). En geometría plana A1=AN1=1 m²
+        // (convención del solver, ver areaAt()/computeRadii()), así que U y UA
+        // coinciden numéricamente y se muestran como densidad [W/(m²·K)]. En
+        // geometría curva (cilindro/esfera) A1 (área interna) ≠ AN1 (área
+        // externa), así que además de UA se muestran U_i y U_o referenciados
+        // a cada área — mismo formatEngineeringNumber (decimal/científico).
+        if (lblUGlobal) {
+            const UA_global = (Rtot > 0 && isFinite(Rtot)) ? (1 / Rtot) : NaN;
+            if (geometry === 'planar') {
+                lblUGlobal.innerHTML = `<div>U = ${formatEngineeringNumber(UA_global, 3)} W/(m²·K)</div>`;
+            } else {
+                const U_inner = (isFinite(UA_global) && A1 > 0) ? UA_global / A1 : NaN;
+                const U_outer = (isFinite(UA_global) && AN1 > 0) ? UA_global / AN1 : NaN;
+                lblUGlobal.innerHTML =
+                    `<div>UA = ${formatEngineeringNumber(UA_global, 3)} W/K</div>` +
+                    `<div style="font-weight:normal; font-size:0.75rem; color: var(--text-secondary);">Uᵢ (r₁, interior) = ${formatEngineeringNumber(U_inner, 3)} W/(m²·K)</div>` +
+                    `<div style="font-weight:normal; font-size:0.75rem; color: var(--text-secondary);">Uₒ (r${subLabel(N)}, exterior) = ${formatEngineeringNumber(U_outer, 3)} W/(m²·K)</div>`;
+            }
+        }
 
         // Update Chart
         // LOTE — Solver Multigeometría: perfil T(x) (plana, lineal — sin
@@ -14898,8 +15007,32 @@ function initMulticapaCustomSimulation() {
             // garantizar lectura sobre cualquier fondo de proyección (LOTE 3).
             // Se desplaza levemente hacia adentro en la primera interfaz para no
             // chocar con el rótulo "Frontera Izq."
+            // LOTE — Alternancia de Etiquetas de Interfase: con capas delgadas o
+            // numerosas, apilar todas las T_i en la misma franja (siempre arriba)
+            // las hace solaparse entre sí (hallazgo documentado previamente). Se
+            // alternan arriba/abajo según la paridad del índice (idx par → arriba,
+            // posición original; idx impar → abajo, reflejada verticalmente con
+            // clamp `h - 14` para no tocar el borde inferior del canvas), y cada
+            // badge suma una línea guía punteada corta hacia el borde de la pared
+            // para que quede clara la interfase a la que apunta.
             const tempBadgeCx = idx === 0 ? currentX + 12 : currentX;
-            drawValueBadge(tempBadgeCx, centerY - heightPlate / 2 - 16, 64, `${formatNumCompact(T[idx], 1)} °C`);
+            const tempBadgeTop = (idx % 2 === 0);
+            const tempBadgeY = tempBadgeTop
+                ? centerY - heightPlate / 2 - 16
+                : Math.min(h - 14, centerY + heightPlate / 2 + 16);
+            ctx.save();
+            ctx.strokeStyle = clrTitle;
+            ctx.lineWidth = 1;
+            ctx.globalAlpha = 0.5;
+            ctx.setLineDash([2, 2]);
+            ctx.beginPath();
+            ctx.moveTo(tempBadgeCx, tempBadgeTop ? centerY - heightPlate / 2 : centerY + heightPlate / 2);
+            ctx.lineTo(tempBadgeCx, tempBadgeY + (tempBadgeTop ? 8 : -8));
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.globalAlpha = 1.0;
+            ctx.restore();
+            drawValueBadge(tempBadgeCx, tempBadgeY, 64, `${formatNumCompact(T[idx], 1)} °C`);
 
             // Valores instantáneos L_i y k_i superpuestos sobre la capa (LOTE 2)
             const layerCenterX = currentX + lWidth / 2;
@@ -14924,7 +15057,26 @@ function initMulticapaCustomSimulation() {
 
         // Badge de temperatura de la última interfase (T_s2 / superficie derecha),
         // desplazado levemente hacia adentro para no chocar con "Frontera Der."
-        drawValueBadge(currentX - 12, centerY - heightPlate / 2 - 16, 64, `${formatNumCompact(T[N], 1)} °C`);
+        // LOTE — Alternancia de Etiquetas de Interfase: misma regla de paridad
+        // (arriba/abajo) que las interfases interiores, aplicada a su índice N,
+        // con la misma línea guía punteada hacia el borde de la pared.
+        const lastTempTop = (N % 2 === 0);
+        const lastTempY = lastTempTop
+            ? centerY - heightPlate / 2 - 16
+            : Math.min(h - 14, centerY + heightPlate / 2 + 16);
+        ctx.save();
+        ctx.strokeStyle = clrTitle;
+        ctx.lineWidth = 1;
+        ctx.globalAlpha = 0.5;
+        ctx.setLineDash([2, 2]);
+        ctx.beginPath();
+        ctx.moveTo(currentX - 12, lastTempTop ? centerY - heightPlate / 2 : centerY + heightPlate / 2);
+        ctx.lineTo(currentX - 12, lastTempY + (lastTempTop ? 8 : -8));
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.globalAlpha = 1.0;
+        ctx.restore();
+        drawValueBadge(currentX - 12, lastTempY, 64, `${formatNumCompact(T[N], 1)} °C`);
         } else {
             // ── Geometría curva: cuña radial de 45° (LOTE Sector) ───────────
             const highContrastPalette = [
@@ -15465,7 +15617,16 @@ function initMulticapaCustomSimulation() {
         ctx.strokeStyle = qFlux >= 0 ? '#ef4444' : '#3b82f6';
         ctx.lineWidth = 3;
         ctx.beginPath();
-        const arrowY = centerY + heightPlate / 2 + 18;
+        // LOTE — Reubicación Vertical de la Flecha de Flujo (q): con la
+        // alternancia arriba/abajo de T_i (ver forEach de capas más arriba),
+        // las interfases de índice impar ya ocupan la franja inmediatamente
+        // debajo de la pared (`bottomBadgeY`, mismo clamp `h - 14` que usan
+        // esos badges) — la flecha se calcula a partir de esa misma posición
+        // real (no de un offset fijo) para quedar siempre por debajo de ella,
+        // con margen adicional, sin colisionar ni con los badges ni con su
+        // línea guía, y sin salirse del canvas en contenedores bajos.
+        const bottomBadgeY = Math.min(h - 14, centerY + heightPlate / 2 + 16);
+        const arrowY = Math.min(h - 10, bottomBadgeY + 28);
         if (qFlux >= 0) {
             ctx.moveTo(startX + 10, arrowY);
             ctx.lineTo(startX + widthMax - 10, arrowY);
@@ -15488,7 +15649,7 @@ function initMulticapaCustomSimulation() {
         ctx.fillStyle = '#fbbf24';
         ctx.font = 'bold 11px Inter, sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText(`q'' = ${formatNumCompact(qFlux, 1)} W/m²`, startX + widthMax / 2, arrowY + 16);
+        ctx.fillText(`q'' = ${formatNumCompact(qFlux, 1)} W/m²`, startX + widthMax / 2, Math.min(h - 4, arrowY + 16));
         ctx.restore();
         } else {
             // ── Geometría curva: fronteras radiales, flechas de flujo y
