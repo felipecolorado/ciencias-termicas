@@ -978,6 +978,13 @@ if (document.readyState === 'loading') {
     startApp();
 }
 
+// ============================================================
+// GATEKEEPER — Aviso de registro a los 5 minutos (tiempo absoluto)
+// ============================================================
+// Tiempo objetivo antes de mostrar el modal de registro.
+const REGISTRATION_DELAY_MS = 5 * 60 * 1000; // 5 minutos (300,000 ms)
+// const REGISTRATION_DELAY_MS = 10 * 1000;   // Descomentar para pruebas locales rápidas (10s)
+
 // Función para manejar el bloqueo de registro y contador de usuarios
 function initGatekeeper() {
     // Auto-unlock for local development
@@ -1011,30 +1018,41 @@ function initGatekeeper() {
     // Si ya está concedido el acceso, salir de inmediato
     if (checkRegistration()) return;
 
-    // Si no está registrado localmente, dar un margen de espera de 2 segundos 
+    // Si no está registrado localmente, dar un margen de espera de 2 segundos
     // para que la autenticación asíncrona de Firebase intente restaurar la sesión antes de bloquear.
     setTimeout(() => {
         if (checkRegistration()) return; // Concedido tras restaurar sesión
 
-        // Temporizador de 5 minutos (300,000 ms)
-        let startTime = localStorage.getItem("gatekeeper_start_time");
-        if (!startTime) {
-            startTime = Date.now().toString();
-            localStorage.setItem("gatekeeper_start_time", startTime);
+        // --- Temporizador robusto basado en tiempo absoluto (Date.now()) ---
+        // Se guarda en sessionStorage: mide el tiempo REAL de permanencia en la
+        // pestaña actual, sin depender de mouse/teclado y sobreviviendo a
+        // regargas de la misma pestaña (no se reinicia con cada interacción).
+        let sessionStartTime = sessionStorage.getItem("gatekeeper_session_start");
+        if (!sessionStartTime) {
+            sessionStartTime = Date.now().toString();
+            sessionStorage.setItem("gatekeeper_session_start", sessionStartTime);
         }
+        sessionStartTime = parseInt(sessionStartTime, 10);
 
-        const elapsed = Date.now() - parseInt(startTime);
-        const timeLimit = 5 * 60 * 1000; // 5 minutos
+        console.log("[Auth] Temporizador de registro iniciado. Tiempo objetivo: " + (REGISTRATION_DELAY_MS / 1000) + "s");
 
-        if (elapsed >= timeLimit) {
-            showGatekeeperModal();
-        } else {
-            const remaining = timeLimit - elapsed;
-            setTimeout(() => {
-                if (checkRegistration()) return;
+        // Comprobación periódica cada 5s (independiente de eventos de mouse/teclado).
+        const gatekeeperInterval = setInterval(() => {
+            if (checkRegistration()) {
+                console.log("[Auth] Registro/login detectado. Deteniendo temporizador.");
+                clearInterval(gatekeeperInterval);
+                return;
+            }
+
+            const elapsedMs = Date.now() - sessionStartTime;
+            console.log("[Auth] Tiempo transcurrido: " + Math.round(elapsedMs / 1000) + "s");
+
+            if (elapsedMs >= REGISTRATION_DELAY_MS) {
+                console.log("[Auth] Límite de " + (REGISTRATION_DELAY_MS / 1000) + "s alcanzado. Mostrando modal de registro.");
                 showGatekeeperModal();
-            }, remaining);
-        }
+                clearInterval(gatekeeperInterval);
+            }
+        }, 5000);
     }, 2000);
 }
 
@@ -1447,9 +1465,37 @@ function initOnlinePresence() {
 
 function showGatekeeperModal() {
     const gatekeeperModal = document.getElementById("gatekeeper-modal");
-    if (gatekeeperModal) {
-        gatekeeperModal.style.display = "flex";
+    if (!gatekeeperModal) {
+        console.warn("[Auth] No se encontró #gatekeeper-modal en el DOM.");
+        return;
     }
+
+    // Garantiza visibilidad: quita cualquier clase que pudiera ocultarlo y
+    // fuerza el display correcto (por si algún estilo externo lo dejó en "none").
+    gatekeeperModal.classList.remove("hidden", "d-none");
+    gatekeeperModal.style.display = "flex";
+
+    // Los laboratorios usan pantalla completa "falsa" vía la clase .lab-fullscreen
+    // (position:fixed; z-index:999999 !important), y el navegador puede además
+    // estar en Fullscreen API real (document.fullscreenElement). En ambos casos
+    // el contenedor del laboratorio puede pintarse por encima del modal si éste
+    // se queda como hijo de <body>. Lo reubicamos dentro del contenedor activo
+    // para garantizar que quede al frente.
+    const activeLabFullscreen = document.querySelector('.lab-fullscreen');
+    const fsTarget = document.fullscreenElement || activeLabFullscreen;
+
+    if (fsTarget && gatekeeperModal.parentElement !== fsTarget) {
+        if (!gatekeeperModal.dataset.gatekeeperHomeMarker) {
+            // Marca temporal para poder devolverlo a <body> si se necesita en el futuro.
+            gatekeeperModal.dataset.gatekeeperHomeMarker = "body";
+        }
+        fsTarget.appendChild(gatekeeperModal);
+    } else if (!fsTarget && gatekeeperModal.parentElement !== document.body) {
+        // Ya no hay ningún laboratorio en pantalla completa: devolver el modal a <body>.
+        document.body.appendChild(gatekeeperModal);
+    }
+
+    console.log("[Auth] Modal de registro mostrado (display:flex, z-index reforzado).");
 }
 
 window.submitGatekeeper = function (event) {
