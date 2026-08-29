@@ -22363,6 +22363,17 @@ function initInternalBLSimulation() {
     let commentCurrentPage = 1;
     let firebaseDb = null;
     let activeCommentsList = [];
+    // 2026-08-29: caché en vivo UID -> avatar actual, para que si un
+    // usuario cambia su avatar (selector propio o foto de Google) ese
+    // cambio se refleje también en sus comentarios ya publicados, para
+    // TODOS los visitantes — no solo en los comentarios nuevos que
+    // publique de ahora en adelante. Se indexa por UID de Firebase Auth
+    // (no por email) porque "/users" está bloqueado a lectura completa a
+    // propósito (expondría el email de todos los usuarios); "avatarsByUid"
+    // es un nodo público nuevo que SOLO guarda avatar por UID (UID es
+    // opaco, no revela el email). Se puebla en setupCloudListeners() y se
+    // usa en drawComments() (ver getCommentAvatar/mirrorPublicAvatar).
+    let liveUserAvatarByUid = {};
     // 2026-08-28 (robustez de registro): true mientras handleAuthSubmit (rama
     // register) está guardando el perfil nuevo en /users tras crear la cuenta
     // en Firebase Auth. Mientras esté en true, handleAuthStateUser (disparado
@@ -22492,6 +22503,12 @@ function initInternalBLSimulation() {
                         role: role
                     }).catch((e) => console.warn("Advertencia al guardar usuario en RTDB:", e));
                 }
+
+                // 2026-08-29: mantiene el espejo público "avatarsByUid" al día con
+                // el avatar VIGENTE ya resuelto arriba (Google fresco, elección
+                // propia con avatarCustomized, o el guardado en /users) — así los
+                // comentarios de este usuario se ven con su avatar actual.
+                mirrorPublicAvatar(currentUser.id, currentUser.avatar);
             }).catch((err) => {
                 console.warn("Advertencia al leer perfil de usuario en RTDB:", err);
             });
@@ -22642,6 +22659,47 @@ function initInternalBLSimulation() {
 
             drawComments();
         });
+
+        // 2026-08-29: mantiene liveUserAvatarByUid sincronizado con el nodo
+        // público "avatarsByUid" (ver mirrorPublicAvatar más abajo y
+        // database.rules.json), para que los comentarios ya publicados
+        // muestren siempre el avatar VIGENTE de su autor (ver
+        // getCommentAvatar / drawComments) y no el que tenía en el momento
+        // de comentar. No se puede leer "/users" completo desde el cliente
+        // (bloqueado a propósito, expondría el email de todos los usuarios)
+        // por eso este espejo separado, indexado por UID.
+        db.ref("avatarsByUid").on("value", (snapshot) => {
+            liveUserAvatarByUid = snapshot.val() || {};
+            drawComments();
+        });
+    }
+
+    // 2026-08-29: escribe/actualiza el espejo público "avatarsByUid/{uid}"
+    // (solo el string del avatar, sin email ni ningún otro dato) cada vez
+    // que se conoce el avatar VIGENTE de un usuario logeado — al iniciar
+    // sesión, al registrarse, o al elegir un avatar propio en el perfil.
+    // Esto es lo que permite que getCommentAvatar() muestre el avatar
+    // actual en comentarios ya publicados, para cualquier visitante.
+    function mirrorPublicAvatar(uid, avatarUrl) {
+        if (!uid || !avatarUrl) return;
+        const db = getDb();
+        if (!db) return;
+        db.ref("avatarsByUid/" + uid).set(avatarUrl)
+            .catch((e) => console.warn("No se pudo sincronizar avatarsByUid:", e));
+    }
+
+    // 2026-08-29: devuelve el avatar que debe mostrarse para un comentario —
+    // el avatar ACTUAL del autor si lo conocemos (vía liveUserAvatarByUid,
+    // solo disponible para comentarios que ya tienen authorUid), o si no,
+    // el avatar que quedó guardado en el comentario en el momento de
+    // publicarlo (fallback para comentarios antiguos sin authorUid, hasta
+    // que se corran/publiquen los cambios y/o el script de migración).
+    function getCommentAvatar(comment) {
+        const uid = comment.authorUid;
+        if (uid && liveUserAvatarByUid[uid]) {
+            return liveUserAvatarByUid[uid];
+        }
+        return comment.avatar;
     }
 
     function initCommentSystem() {
@@ -22817,6 +22875,10 @@ function initInternalBLSimulation() {
             db.ref("users/" + userKey).update({ avatar: avatarUrl, avatarCustomized: true })
                 .catch((e) => console.warn("No se pudo guardar el avatar elegido:", e));
         }
+
+        // 2026-08-29: refleja el nuevo avatar también en los comentarios ya
+        // publicados por este usuario (ver mirrorPublicAvatar/getCommentAvatar).
+        mirrorPublicAvatar(currentUser.id, avatarUrl);
     };
 
     window.handleAuthSubmit = async function (event, type) {
@@ -23021,6 +23083,11 @@ function initInternalBLSimulation() {
             // verdadero autor (o un admin) — evita que alguien falsifique el
             // nombre o el rol mostrado en un comentario ajeno.
             authorEmail: currentUser.email,
+            // 2026-08-29: permite que getCommentAvatar() muestre siempre el
+            // avatar VIGENTE del autor (vía el espejo público
+            // "avatarsByUid"), en vez de congelar para siempre el avatar
+            // que tenía en el momento de comentar.
+            authorUid: currentUser.id,
             avatar: currentUser.avatar || selectedAvatar,
             role: currentUser.role || "Estudiante",
             text: commentText,
@@ -23168,8 +23235,10 @@ function initInternalBLSimulation() {
                 card.dataset.commentId = commIdStr;
             }
 
+            const displayAvatar = getCommentAvatar(comment);
+
             const newInnerHTML = `
-                <img class="comment-card-avatar" src="${comment.avatar}" alt="Avatar" />
+                <img class="comment-card-avatar" src="${displayAvatar}" alt="Avatar" />
                 <div class="comment-card-content">
                     <div class="comment-card-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                         <div style="display: flex; align-items: center; flex-wrap: wrap;">
