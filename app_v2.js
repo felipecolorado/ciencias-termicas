@@ -22456,7 +22456,19 @@ function initInternalBLSimulation() {
                         currentUser.name = uData.name;
                         updated = true;
                     }
-                    if (!hasFreshGooglePhoto && uData.avatar && uData.avatar !== currentUser.avatar) {
+                    if (uData.avatarCustomized) {
+                        // 2026-08-29: el usuario eligió su propio avatar manualmente (ver
+                        // window.selectProfileAvatar) — esa elección tiene prioridad
+                        // siempre, incluso sobre una foto de Google "fresca". Sin este
+                        // caso, cada login con Google volvía a pisar el avatar elegido
+                        // con firebaseUser.photoURL (que además, en cuentas de Google
+                        // Workspace institucionales, suele ser un ícono genérico porque
+                        // la organización restringe la visibilidad pública de la foto).
+                        if (uData.avatar && uData.avatar !== currentUser.avatar) {
+                            currentUser.avatar = uData.avatar;
+                            updated = true;
+                        }
+                    } else if (!hasFreshGooglePhoto && uData.avatar && uData.avatar !== currentUser.avatar) {
                         currentUser.avatar = uData.avatar;
                         updated = true;
                     } else if (hasFreshGooglePhoto && uData.avatar !== currentUser.avatar) {
@@ -22740,6 +22752,71 @@ function initInternalBLSimulation() {
         document.querySelectorAll(".avatar-option").forEach(opt => opt.classList.remove("selected"));
         element.classList.add("selected");
         selectedAvatar = avatarUrl;
+    };
+
+    // 2026-08-29: avatar propio del perfil, independiente de Google — para
+    // cualquier usuario ya logeado (por correo o por Google), reutiliza el
+    // mismo catálogo de retratos históricos que ya usa el selector de
+    // registro (#register-avatar-selector), pero en su propio contenedor
+    // (#profile-avatar-selector) y con su propio manejador de selección que
+    // persiste el cambio en /users/{userKey} marcando avatarCustomized:true
+    // (ver el bloque nuevo en handleAuthStateUser más arriba).
+    function buildProfileAvatarPicker() {
+        const container = document.getElementById("profile-avatar-selector");
+        if (!container) return;
+        container.innerHTML = "";
+        const seenImages = new Set();
+        if (typeof timelineEvents !== 'undefined' && Array.isArray(timelineEvents)) {
+            timelineEvents.forEach((ev) => {
+                if (ev.image && ev.surname && !seenImages.has(ev.image)) {
+                    seenImages.add(ev.image);
+                    const img = document.createElement("img");
+                    img.className = "avatar-option" + (currentUser && currentUser.avatar === ev.image ? " selected" : "");
+                    img.src = ev.image;
+                    img.title = ev.surname;
+                    img.addEventListener("click", () => {
+                        window.selectProfileAvatar(img, ev.image);
+                    });
+                    container.appendChild(img);
+                }
+            });
+        }
+    }
+
+    window.toggleAvatarPicker = function () {
+        const container = document.getElementById("profile-avatar-selector");
+        if (!container) return;
+        const isHidden = container.style.display === "none" || !container.style.display;
+        if (isHidden) {
+            buildProfileAvatarPicker();
+            container.style.display = "grid";
+        } else {
+            container.style.display = "none";
+        }
+    };
+
+    window.selectProfileAvatar = function (element, avatarUrl) {
+        if (!currentUser) return;
+
+        document.querySelectorAll("#profile-avatar-selector .avatar-option").forEach(opt => opt.classList.remove("selected"));
+        if (element) element.classList.add("selected");
+
+        currentUser.avatar = avatarUrl;
+        const avatarElem = document.getElementById("user-profile-avatar");
+        if (avatarElem) {
+            avatarElem.onerror = function () {
+                avatarElem.onerror = null;
+                avatarElem.src = selectedAvatar;
+            };
+            avatarElem.src = avatarUrl;
+        }
+
+        const db = getDb();
+        if (db && currentUser.email) {
+            const userKey = currentUser.email.replace(/\./g, "_at_");
+            db.ref("users/" + userKey).update({ avatar: avatarUrl, avatarCustomized: true })
+                .catch((e) => console.warn("No se pudo guardar el avatar elegido:", e));
+        }
     };
 
     window.handleAuthSubmit = async function (event, type) {

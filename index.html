@@ -10764,6 +10764,16 @@
                                 <p id="user-profile-role"
                                     style="font-size: 0.78rem; color: var(--accent-blue); margin: 4px 0 15px 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
                                 </p>
+                                <!-- 2026-08-29: avatar propio, independiente de Google (ver
+                                     window.toggleAvatarPicker / window.selectProfileAvatar en app_v2.js) -->
+                                <button type="button" onclick="window.toggleAvatarPicker()" class="btn-clear"
+                                    style="width:100%; font-weight:600; background: rgba(255,255,255,0.06); color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.1); padding: 7px; border-radius: 8px; font-size: 0.78rem; cursor:pointer; margin-bottom: 8px;"><span
+                                        class="lang-es">Cambiar Avatar</span><span class="lang-en"
+                                        style="display:none;">Change Avatar</span></button>
+                                <div id="profile-avatar-selector" class="avatar-selector"
+                                    style="display: none; max-height: 160px; overflow-y: auto; padding: 6px; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; background: rgba(15,23,42,0.4); grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 10px;">
+                                    <!-- Dynamic avatars -->
+                                </div>
                                 <button onclick="window.handleLogOut()" class="btn-clear"
                                     style="width:100%; font-weight:700; background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.25); padding: 8px; border-radius: 8px; font-size: 0.8rem; cursor:pointer; transition: all 0.2s;"><span
                                         class="lang-es">Cerrar Sesión</span><span class="lang-en"
@@ -10949,25 +10959,25 @@
                     style="color: var(--accent-orange); text-decoration: none;">felipe.colorado@udea.edu.co</a>
             </p>
             <p style="font-size: 0.75rem; margin-top: 8px; color: var(--text-secondary); opacity: 0.8;"><i
-                    class="far fa-clock"></i> <span class="lang-es">Versión 4.5 (Compilación 2026.08.28) - Última actualización: <span
-                        id="last-updated-time">28 de agosto de 2026, 08:30 (COT)</span> -
-                    Laboratorio de Pared Multicapa Personalizada (#multicapa-custom-sim): se incorporaron las
-                    temperaturas de interfase (Tᵢ) y el coeficiente global de transferencia de calor (U) a la
-                    tabla de resultados; las etiquetas de temperatura del esquema térmico ahora se distribuyen de
-                    forma alternada (superior/inferior) para evitar superposiciones entre capas delgadas o
-                    numerosas; se reubicó verticalmente la flecha de flujo de calor (q) para que no colisione con
-                    dichas etiquetas; la sección de "Registro y Tabulación" se expandió a ancho completo con un
-                    nuevo texto introductorio; y se depuraron textos residuales, optimizando el layout general del
-                    laboratorio.</span><span class="lang-en" style="display:none;">Version 4.5 (Build 2026.08.28) - Last
+                    class="far fa-clock"></i> <span class="lang-es">Versión 4.6 (Compilación 2026.08.28) - Última actualización: <span
+                        id="last-updated-time">28 de agosto de 2026, 19:40 (COT)</span> -
+                    Sistema de cuentas de usuario: el contador público de usuarios registrados ahora se actualiza
+                    de forma automática con cada registro nuevo (antes había que resembrarlo a mano); se corrigió
+                    una condición de carrera en el registro que podía dejar cuentas creadas en Firebase sin su
+                    perfil correspondiente guardado, y se migraron las cuentas ya afectadas por este problema; y
+                    se agregó un selector de avatar propio en el panel de perfil, disponible tanto para quienes
+                    inician sesión con Google como por correo/contraseña, independiente de las restricciones de
+                    privacidad de fotos de perfil de las cuentas institucionales de Google
+                    Workspace.</span><span class="lang-en" style="display:none;">Version 4.6 (Build 2026.08.28) - Last
                     update: August 28,
-                    2026, 08:30 (COT) -
-                    Custom Multilayer Wall lab (#multicapa-custom-sim): interface temperatures (Tᵢ) and the
-                    overall heat transfer coefficient (U) were added to the results table; temperature labels in
-                    the thermal schematic are now distributed alternately (top/bottom) to avoid overlap between
-                    thin or numerous layers; the heat flux arrow (q) was repositioned vertically so it no longer
-                    collides with those labels; the "Logging & Tabulation" section was expanded to full width with
-                    new introductory text; and residual text was cleaned up, optimizing the lab's overall
-                    layout.</span>
+                    2026, 19:40 (COT) -
+                    User account system: the public registered-users counter now updates automatically with each
+                    new registration (previously required manual reseeding); fixed a race condition in the
+                    registration flow that could leave accounts created in Firebase without a corresponding saved
+                    profile, and migrated the accounts already affected by this issue; and added a self-service
+                    avatar picker in the profile panel, available for both Google and email/password sign-in,
+                    independent of the profile-photo privacy restrictions on institutional Google Workspace
+                    accounts.</span>
             </p>
             <div style="margin-top: 15px; text-align: center;">
                 <span class="lang-es"><img
