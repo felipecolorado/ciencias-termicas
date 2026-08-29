@@ -13382,6 +13382,10 @@ function initMulticapaCustomSimulation() {
     let qFlux = 0.0; // geometría plana: densidad de flujo q'' (W/m²); geometría curva: flujo total Q (W)
     let bcResL = { R: 0, hConv: 0, hRad: 0, isSource: false }; // resistencia/fuente de frontera izq. (LOTE circuito)
     let bcResR = { R: 0, hConv: 0, hRad: 0, isSource: false }; // resistencia/fuente de frontera der. (LOTE circuito)
+    let Rtot = 0; // resistencia total del circuito (Rcond + R_bc,L + R_bc,R), actualizada al final de solveSimulation()
+                  // (LOTE — Registro Dinámico de Interfases/Resistencias): se persiste aquí (antes sólo vivía
+                  // como `let` local dentro de solveSimulation) para que "Registrar Punto Actual" pueda leer el
+                  // R_tot ya correcto (multigeometría + radiación + Dirichlet exacto) sin recalcularlo desde cero.
     let customChart;
 
     const sigma = 5.67e-8; // Stefan-Boltzmann W/m^2K^4
@@ -13869,6 +13873,19 @@ function initMulticapaCustomSimulation() {
         });
 
         solveSimulation();
+
+        // LOTE — Selector Dinámico del Eje Y (Registro/Tabulación): el número de
+        // interfases (T_0..T_N) y de resistencias de capa (R_cond_1..R_cond_N)
+        // depende de N = layers.length, así que cada vez que renderLayersConfig()
+        // termina de ajustar `layers` al nuevo conteo hay que resincronizar
+        // #cm-graph-y. `updateCustomGraphVarSelectors` está definida más abajo
+        // (sección "Data Tabulation and Parametric Graphing") pero es una
+        // function declaration hoisted dentro del mismo closure de
+        // initMulticapaCustomSimulation, así que ya es invocable aquí — se
+        // dispara automáticamente en el 'change' de #cm-layers-count y en la
+        // carga inicial (ver la llamada a renderLayersConfig() más abajo), sin
+        // necesidad de un listener nuevo.
+        if (typeof updateCustomGraphVarSelectors === 'function') updateCustomGraphVarSelectors();
     }
 
     // Toggle BC inputs visibility
@@ -14381,7 +14398,7 @@ function initMulticapaCustomSimulation() {
 
         // Calculate total resistance including boundary resistances (0 para
         // 'temp' -exacto-, null/sin sumar para 'flux' -fuente pura-)
-        let Rtot = Rcond + (bcResL.R || 0) + (bcResR.R || 0);
+        Rtot = Rcond + (bcResL.R || 0) + (bcResR.R || 0);
 
         // Update UI metrics
         if (lblRcond) lblRcond.innerText = formatEngineeringNumber(Rcond) + ' K/W';
@@ -16472,18 +16489,52 @@ function initMulticapaCustomSimulation() {
         customParamChart.update('none');
     }
 
+    // ── LOTE — Selector Dinámico del Eje Y (Registro y Tabulación) ─────────
+    // Reconstruye #cm-graph-y con: q/Q, R_tot, R_bc_L, R_cond_1..R_cond_N (una
+    // por capa activa), R_bc_R, y T_0..T_N (todas las interfases del sistema,
+    // con etiqueta "Front. Izq./Der." en los extremos). Usa las mismas claves
+    // de valor (T_i / R_cond_i / R_bc_L / R_bc_R / R_tot / q) que el objeto
+    // `pt` construido por "Registrar Punto Actual" (ver btnAddPoint más abajo)
+    // — así updateParametricGraph() (pt[xKey]/pt[yKey]) sigue funcionando sin
+    // lógica adicional. Conserva la opción previamente seleccionada si sigue
+    // existiendo en el nuevo conteo de capas; si no, cae a 'q'. Se invoca desde
+    // renderLayersConfig() justo después de fijar `layers.length` al nuevo
+    // conteo (dispara automáticamente en el 'change' de #cm-layers-count y en
+    // la carga inicial, sin listener propio).
+    function updateCustomGraphVarSelectors() {
+        if (!selGraphY) return;
+        const N = layers.length;
+        const prevVal = selGraphY.value;
+
+        const opts = [];
+        opts.push({ value: 'q', label: (geometry === 'planar') ? "q'' [W/m²]" : 'Q [W]' });
+        opts.push({ value: 'R_tot', label: 'R_tot [K/W]' });
+        opts.push({ value: 'R_bc_L', label: 'R_bc,L [K/W]' });
+        for (let i = 1; i <= N; i++) {
+            opts.push({ value: `R_cond_${i}`, label: `R_cond,${i} [K/W]` });
+        }
+        opts.push({ value: 'R_bc_R', label: 'R_bc,R [K/W]' });
+        for (let i = 0; i <= N; i++) {
+            let label = `T_${i} [°C]`;
+            if (i === 0) label = 'T_0 (Front. Izq.) [°C]';
+            else if (i === N) label = `T_${N} (Front. Der.) [°C]`;
+            opts.push({ value: `T_${i}`, label });
+        }
+
+        selGraphY.innerHTML = opts.map(o => `<option value="${o.value}">${o.label}</option>`).join('');
+
+        const stillValid = opts.some(o => o.value === prevVal);
+        selGraphY.value = stillValid ? prevVal : 'q';
+
+        updateParametricGraph();
+    }
+
     if (btnAddPoint) {
         let pointCounter = 1;
         btnAddPoint.addEventListener('click', () => {
+            const N = layers.length;
             const L_tot = layers.reduce((acc, l) => acc + l.L, 0);
-            
-            // Calculate R_tot from scratch for the data point to match UI calculation
-            let R_tot_current = 0;
-            layers.forEach(l => {
-                R_tot_current += l.L / l.k;
-            });
-            if (selectBcLType.value === 'conv' || selectBcLType.value === 'comb' || selectBcLType.value === 'comb-flux' || selectBcLType.value === 'irr_conv') R_tot_current += 1.0 / parseFloat(inputLH.value);
-            if (selectBcRType.value === 'conv' || selectBcRType.value === 'comb' || selectBcRType.value === 'comb-flux' || selectBcRType.value === 'irr_conv') R_tot_current += 1.0 / parseFloat(inputRH.value);
+            const radiiSnap = computeRadii();
 
             const pt = {
                 id: pointCounter++,
@@ -16491,12 +16542,34 @@ function initMulticapaCustomSimulation() {
                 k1: layers[0] ? layers[0].k : 0,
                 k2: layers[1] ? layers[1].k : 0,
                 q: qFlux,
-                R_tot: R_tot_current,
+                // LOTE — Registro Dinámico de Interfases/Resistencias: R_tot se lee
+                // directamente del snapshot que solveSimulation() ya calculó y persiste
+                // en el closure (Rcond + R_bc,L + R_bc,R — correcto en las 3 geometrías,
+                // con radiación y con fronteras Dirichlet exactas). Ya NO se recalcula
+                // "desde cero" aquí: el cálculo anterior sólo sumaba L_i/k_i + 1/h de
+                // convección e ignoraba radiación/irradiación/multigeometría.
+                R_tot: Rtot,
                 T_L: T[0],
-                T_R: T[layers.length],
+                T_R: T[N],
+                // Conservados por compatibilidad con el Eje X clásico; el Eje Y nuevo
+                // usa T_0..T_N (ver abajo) en su lugar.
                 T_int1: T[1] !== undefined ? T[1] : 0,
-                T_int2: T[2] !== undefined ? T[2] : 0
+                T_int2: T[2] !== undefined ? T[2] : 0,
+                // Resistencias de frontera de ESTA corrida.
+                R_bc_L: bcResL.R || 0,
+                R_bc_R: bcResR.R || 0,
+                // Metadatos de capas (L_i, k_i) de ESTA corrida — usados por el export CSV
+                // para saber cuántas columnas R_cond_i le corresponden a este punto cuando
+                // se mezclan configuraciones distintas de número de capas entre puntos.
+                layers: layers.map(l => ({ L: l.L, k: l.k }))
             };
+
+            // Temperaturas de TODAS las interfases (T_0..T_N) y resistencia de
+            // conducción de CADA capa (R_cond_1..R_cond_N) — mismas claves que
+            // genera updateCustomGraphVarSelectors() para el Eje Y.
+            for (let i = 0; i <= N; i++) pt['T_' + i] = T[i];
+            for (let i = 0; i < N; i++) pt['R_cond_' + (i + 1)] = layerRcondAt(i, radiiSnap);
+
             customTabulatedData.push(pt);
             renderTabulationTable();
             updateParametricGraph();
@@ -16517,9 +16590,31 @@ function initMulticapaCustomSimulation() {
                 alert("No hay datos para exportar.");
                 return;
             }
-            let csv = "ID,L_tot,k1,k2,q,R_tot,T_L,T_R,T_int1,T_int2\n";
+            // LOTE — Tabulación Completa al Registrar Punto: columnas R_bc_L, R_bc_R,
+            // R_cond_1..R_cond_maxN, T_0..T_maxN en vez de los T_int1/T_int2 fijos
+            // (insuficientes para N>3 capas). maxN = máximo número de capas entre
+            // TODOS los puntos registrados en la sesión (no sólo la configuración
+            // actual), para no perder columnas si se mezclan configuraciones
+            // distintas de capas entre puntos.
+            const maxN = customTabulatedData.reduce((mx, pt) => Math.max(mx, pt.layers ? pt.layers.length : 0), 0);
+
+            let header = "ID,L_tot,k1,k2,q,R_tot,T_L,T_R,R_bc_L,R_bc_R";
+            for (let i = 1; i <= maxN; i++) header += `,R_cond_${i}`;
+            for (let i = 0; i <= maxN; i++) header += `,T_${i}`;
+            header += "\n";
+
+            let csv = header;
             customTabulatedData.forEach(pt => {
-                csv += `${pt.id},${pt.L_tot.toFixed(4)},${pt.k1.toFixed(3)},${pt.k2.toFixed(3)},${pt.q.toFixed(2)},${pt.R_tot.toFixed(4)},${pt.T_L.toFixed(2)},${pt.T_R.toFixed(2)},${pt.T_int1.toFixed(2)},${pt.T_int2.toFixed(2)}\n`;
+                let row = `${pt.id},${pt.L_tot.toFixed(4)},${pt.k1.toFixed(3)},${pt.k2.toFixed(3)},${pt.q.toFixed(2)},${pt.R_tot.toFixed(4)},${pt.T_L.toFixed(2)},${pt.T_R.toFixed(2)},${(pt.R_bc_L || 0).toFixed(4)},${(pt.R_bc_R || 0).toFixed(4)}`;
+                for (let i = 1; i <= maxN; i++) {
+                    const val = pt['R_cond_' + i];
+                    row += ',' + (val !== undefined ? val.toFixed(4) : '');
+                }
+                for (let i = 0; i <= maxN; i++) {
+                    const val = pt['T_' + i];
+                    row += ',' + (val !== undefined ? val.toFixed(2) : '');
+                }
+                csv += row + "\n";
             });
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const url = window.URL.createObjectURL(blob);
