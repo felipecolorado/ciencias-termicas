@@ -3247,15 +3247,83 @@ body.multicapa-lab-open {
 }
 
 /* Custom Grid Layout for Fullscreen Multicapa Lab */
+/* LOTE — Reubicación vertical de #cm-panel-layers y #cm-panel-results en
+   #multicapa-custom-sim.fullscreen (exclusivo de pantalla completa; el modo
+   normal / :not(.fullscreen) no se toca). Regla #8: se reordena únicamente
+   la matriz grid-template-areas, sin tocar index.html.
+
+   "canvas" (Esquema Térmico + Circuito de Resistencias) ahora se declara en
+   dos filas consecutivas de la columna central -> se convierte en un grid
+   item que abarca (spans) las filas 1 y 2. Esto permite que el exceso de
+   alto de "canvas" (columna central, intrínsecamente más alta que las
+   columnas laterales) se reparta entre esas dos filas en vez de forzar
+   entera la fila 1 -> "layers"/"results" quedan pegados justo debajo de
+   "left-bc"/"right-bc" en vez de dejar un hueco vacío grande antes de
+   aparecer. "chart" pasa a su propia fila 3, en la misma columna central
+   (celdas laterales nulas "."), preservando exactamente su mismo ancho y
+   su misma posición relativa (justo debajo de "canvas"): la columna
+   central no cambia de tamaño ni de orden, sólo se reparte en 3 filas de
+   grid en vez de 2.
+
+   LOTE 2 — "Registro y Tabulación" (fila .cm-row-5) justo debajo de
+   "chart" (Perfil de Temperatura T(x)): se intercambió el orden de las
+   filas "guide" y "tabulation/custom-graph" respecto de la versión
+   anterior. Antes: chart -> guide -> tabulation/custom-graph. Ahora:
+   chart -> tabulation/custom-graph -> guide. Ningún ancho cambia:
+   "tabulation"/"custom-graph"/"guide" conservan exactamente las mismas
+   columnas que ocupaban antes, sólo se reordenan como filas.
+
+   LOTE 3 — Fila "spacer" extra de "canvas" (sin contenido en columnas
+   laterales, ".") insertada ENTRE la fila de layers/results y la fila de
+   chart. "canvas" ahora hace span de 3 filas en vez de 2. Motivo: el
+   algoritmo de reparto de alto de CSS Grid para un item que hace span de
+   varias filas ("Increase Sizes to Accommodate Spanning Items", spec
+   §11.5) reparte el exceso de alto necesitado priorizando las filas con
+   MENOS contenido propio ya establecido (las "más vacías" crecen
+   primero). Con sólo 2 filas (layers/results | chart), el algoritmo
+   volcaba una porción notable del exceso de "canvas" en la fila
+   compartida con layers/results (~88px de hueco medido). Al añadir una
+   3ª fila dedicada exclusivamente a "canvas" (sin ningún otro contenido:
+   celdas laterales nulas "."), esa fila queda como la "más vacía" y el
+   algoritmo le asigna la mayor parte del exceso de altura de "canvas" a
+   ELLA en vez de a la fila de layers/results — dejando layers/results
+   prácticamente pegados a left-bc/right-bc (~15px, el gap:20px propio
+   del grid) sin sacrificar que "chart" siga exactamente pegado debajo de
+   "canvas" (mismo resultado que antes, sin cambios). Verificado con
+   Playwright (ver LOTE en docs del proyecto). */
 #multicapa-custom-sim.fullscreen #cm-layout-wrapper {
   display: grid !important;
   grid-template-columns: minmax(240px, 1fr) minmax(360px, 1.6fr) minmax(240px, 1fr);
   grid-template-areas:
-    "left-bc canvas right-bc"
-    "layers chart results"
-    "guide guide guide"
-    "tabulation custom-graph custom-graph";
-  gap: 20px;
+    "left-bc canvas  right-bc"
+    "layers  canvas  results"
+    ".       canvas  ."
+    ".       chart   ."
+    "tabulation custom-graph custom-graph"
+    "guide   guide   guide";
+  /* LOTE 4 — row-gap reducido a 0.5rem (8px) para compactar la
+     separación vertical entre TODAS las filas del grid maestro de
+     fullscreen (incluida canvas -> chart, que ya no llevaba margin/
+     padding propio que recortar: #cm-circuit-container y
+     .chart-container-cm no tienen ninguna regla CSS fullscreen que les
+     agregue espacio extra, sólo su padding interno inline de 10px,
+     que es parte de su propia tarjeta visual y no debe tocarse). El
+     column-gap horizontal (izq/centro/der) se deja en 20px, sin cambios,
+     porque no fue reportado como problema.
+
+     !important es NECESARIO aquí (a diferencia del resto de la regla):
+     #cm-layout-wrapper trae en index.html el atributo inline
+     style="...gap: 15px;...". Un estilo inline vence a CUALQUIER regla
+     de hoja de estilos externa sin !important, sin importar cuántos
+     #id tenga el selector — por eso los "gap:20px"/"gap:20px 0.5rem"
+     de LOTEs anteriores nunca se aplicaron en realidad: el gap
+     verdaderamente activo siempre fue el inline de 15px. Confirmado
+     con getComputedStyle(#cm-layout-wrapper).rowGap antes de este
+     cambio = "15px", no "20px". No se toca index.html (restricción del
+     usuario) — !important es la única vía 100% CSS para vencer un
+     inline sin tocar el HTML. */
+  row-gap: 0.5rem !important;
+  column-gap: 20px !important;
   align-items: start;
 }
 
@@ -3272,6 +3340,27 @@ body.multicapa-lab-open {
   grid-area: canvas;
 }
 
+/* LOTE — Ampliación vertical exclusiva de Pared Plana (geometry==='planar')
+   en pantalla completa. .cm-canvas-planar-xl es alternada por render()
+   (app_v2.js, dentro de initMulticapaCustomSimulation) ÚNICAMENTE cuando
+   geometry==='planar' Y #multicapa-custom-sim tiene la clase .fullscreen —
+   nunca en modo normal (por eso el selector empieza con
+   #multicapa-custom-sim.fullscreen, no sólo #multicapa-custom-sim) ni en
+   geometrías curvas (cilíndrica/esférica siguen usando exclusivamente
+   .cm-canvas-tall, arriba en este archivo, sin ningún cambio). El div que
+   envuelve #customMultiCanvas no tiene id/clase propia en index.html —
+   trae inline style="...height:320px...", por lo que !important es
+   necesario para vencerlo sin tocar el HTML (mismo motivo que
+   .cm-canvas-tall ya usa !important). El padding inline de 10px no se
+   toca: toda la altura extra pasa directo al canvas (width:100%;
+   height:100% de su contenedor), y heightPlate en render() escala en la
+   misma proporción (140/320) para agrandar el dibujo de la pared en vez
+   de sólo añadir aire alrededor — ver comentario junto a "heightPlate" en
+   app_v2.js. */
+#multicapa-custom-sim.fullscreen .cm-canvas-planar-xl {
+  height: 460px !important;
+}
+
 #multicapa-custom-sim.fullscreen #cm-panel-right-bc {
   grid-area: right-bc;
 }
@@ -3282,6 +3371,11 @@ body.multicapa-lab-open {
 
 #multicapa-custom-sim.fullscreen #cm-panel-chart {
   grid-area: chart;
+  /* Explícito por seguridad: sin align-self:end/stretch que lo empuje
+     al fondo de su fila — hereda align-items:start del wrapper, pero se
+     fija aquí también para blindar contra cualquier regla futura que
+     intente sobreescribirlo. */
+  align-self: start;
 }
 
 #multicapa-custom-sim.fullscreen #cm-panel-results {

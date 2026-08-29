@@ -7841,40 +7841,136 @@
                                     Boundary Conditions</span>
                             </h3>
                             <p>
-                                <span class="lang-es">Este laboratorio interactivo modela la transferencia de calor por
-                                    conducción en estado estable a través de una placa plana (pared) compuesta de hasta
-                                    <strong>10 capas personalizables</strong>. El usuario puede definir el espesor
-                                    $(L_i)$ y la conductividad térmica $(k_i)$ de cada capa, así como seleccionar
-                                    libremente el tipo de condición de frontera en los extremos izquierdo $(x = 0)$ y
-                                    derecho $(x = L_{tot})$.</span>
-                                <span class="lang-en" style="display:none;">This interactive lab models steady-state
-                                    conductive heat transfer through a flat plate (wall) composed of up to <strong>10
-                                        customizable layers</strong>. The user can define the thickness $(L_i)$ and
-                                    thermal conductivity $(k_i)$ of each layer, as well as freely select the type of
-                                    boundary condition at the left $(x = 0)$ and right $(x = L_{tot})$
-                                    boundaries.</span>
+                                <span class="lang-es">Este es un <strong>laboratorio interactivo avanzado de paredes
+                                        compuestas</strong> que modela la transferencia de calor por conducción en
+                                    estado estable, permitiéndote seleccionar y simular tres geometrías
+                                    fundamentales: <strong>Paredes Planas</strong>, <strong>Cilindros Huecos
+                                        Multicapa</strong> y <strong>Esferas Huecas Multicapa</strong>. Puedes
+                                    personalizar hasta <strong>10 capas</strong>, definiendo la dimensión
+                                    característica de cada una (espesor $L_i$ en pared plana, o radio $r_i$ en
+                                    cilindro/esfera) junto con su conductividad térmica $(k_i)$, así como
+                                    condiciones de frontera completamente independientes en la superficie extrema
+                                    izquierda ($x = 0$ o $r = r_0$) y en la superficie extrema derecha ($x = L$ o
+                                    $r = r_N$).</span>
+                                <span class="lang-en" style="display:none;">This is an <strong>advanced interactive
+                                        composite-wall laboratory</strong> that models steady-state conductive heat
+                                    transfer, letting you select and simulate three fundamental geometries:
+                                    <strong>Flat Plates</strong>, <strong>Multilayer Hollow Cylinders</strong>, and
+                                    <strong>Multilayer Hollow Spheres</strong>. You can customize up to <strong>10
+                                        layers</strong>, defining each one's characteristic dimension (thickness
+                                    $L_i$ for a flat plate, or radius $r_i$ for a cylinder/sphere) together with its
+                                    thermal conductivity $(k_i)$, as well as fully independent boundary conditions
+                                    at the leftmost surface ($x = 0$ or $r = r_0$) and the rightmost surface
+                                    ($x = L$ or $r = r_N$).</span>
                             </p>
-                            <p><span class="lang-es">El flujo de calor en estado estable a través de las capas está dado
-                                    por:
-                                    $$ q'' = \frac{T_0 - T_N}{R_{wall}} \quad , \quad R_{wall} = \sum_{i=1}^N
-                                    \frac{L_i}{k_i} $$
-                                    Las condiciones de frontera seleccionables incluyen:</span><span class="lang-en"
-                                    style="display:none;">The steady state heat flux through the layers is given
-                                    by:</span>
-                            <ul>
-                                <li><strong>Temperatura Específica:</strong> $T = T_{spec}$</li>
-                                <li><strong>Convección:</strong> $q'' = h (T_\infty - T)$</li>
-                                <li><strong>Radiación:</strong> $q'' = \sigma \epsilon (T_{surr}^4 - T^4)$</li>
-                                <li><strong>Flujo de Calor Específico:</strong> $q'' = q''_{spec}$</li>
-                                <li><strong>Combinado (Convección + Radiación):</strong> $q'' = h (T_\infty - T) +
-                                    \sigma \epsilon (T_{surr}^4 - T^4)$</li>
-                                <li><strong>Combinado Triple (Convección + Radiación + Flujo):</strong> $q'' = h
-                                    (T_\infty - T) + \sigma \epsilon (T_{surr}^4 - T^4) + q''_{spec}$</li>
-                            </ul>
-                            <span class="lang-es">Un resolvedor numérico iterativo calcula en tiempo real el flujo de
-                                calor y las temperaturas resultantes en cada interfase.</span><span class="lang-en"
-                                style="display:none;">An iterative numerical solver calculates the heat flux and
-                                resulting temperatures at each interface in real time.</span></p>
+
+                            <div class="cm-formula-grid"
+                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; margin: 14px 0;">
+                                <div class="cm-formula-box"
+                                    style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); grid-column: 1 / -1;">
+                                    <strong style="color: var(--accent-cyan); font-size: 0.85rem;">
+                                        <span class="lang-es">Ecuaciones Fundamentales de Transferencia de Calor por
+                                            Geometría (Estado Estable)</span>
+                                        <span class="lang-en" style="display:none;">Fundamental Steady-State Heat
+                                            Transfer Equations by Geometry</span>
+                                    </strong>
+                                </div>
+                                <div class="cm-formula-box"
+                                    style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                                    <strong style="color: var(--accent-blue); font-size: 0.82rem; display: block; margin-bottom: 4px;">
+                                        <span class="lang-es">Pared Plana — Flujo de Calor Total $q_x$ [W]:</span>
+                                        <span class="lang-en" style="display:none;">Flat Plate — Total Heat Rate
+                                            $q_x$ [W]:</span>
+                                    </strong>
+                                    <div style="overflow: visible; font-size: 0.88rem; text-align: center; margin: 4px 0;">
+                                        $$q_x = \frac{T_{s,1} - T_{s,N+1}}{\sum_{i=1}^{N} \frac{L_i}{k_i A}}$$
+                                    </div>
+                                    <div style="font-size: 0.78rem; color: var(--text-muted);">
+                                        <span class="lang-es">donde $R_{th,i} = \dfrac{L_i}{k_i A}$ es la resistencia
+                                            térmica de conducción de la capa $i$.</span>
+                                        <span class="lang-en" style="display:none;">where $R_{th,i} =
+                                            \dfrac{L_i}{k_i A}$ is the conduction thermal resistance of layer
+                                            $i$.</span>
+                                    </div>
+                                </div>
+                                <div class="cm-formula-box"
+                                    style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                                    <strong style="color: var(--accent-cyan); font-size: 0.82rem; display: block; margin-bottom: 4px;">
+                                        <span class="lang-es">Cilindro Hueco Multicapa — Flujo de Calor Total $q_r$
+                                            [W]:</span>
+                                        <span class="lang-en" style="display:none;">Multilayer Hollow Cylinder —
+                                            Total Heat Rate $q_r$ [W]:</span>
+                                    </strong>
+                                    <div style="overflow: visible; font-size: 0.88rem; text-align: center; margin: 4px 0;">
+                                        $$q_r = \frac{2 \pi L (T_{s,1} - T_{s,N+1})}{\sum_{i=1}^{N} \frac{\ln(r_{i+1}
+                                        / r_i)}{k_i}}$$
+                                    </div>
+                                    <div style="font-size: 0.78rem; color: var(--text-muted);">
+                                        <span class="lang-es">donde $R_{th,i} = \dfrac{\ln(r_{i+1} / r_i)}{2 \pi k_i
+                                            L}$ es la resistencia térmica cilíndrica de la capa $i$.</span>
+                                        <span class="lang-en" style="display:none;">where $R_{th,i} =
+                                            \dfrac{\ln(r_{i+1} / r_i)}{2 \pi k_i L}$ is the cylindrical thermal
+                                            resistance of layer $i$.</span>
+                                    </div>
+                                </div>
+                                <div class="cm-formula-box"
+                                    style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                                    <strong style="color: var(--accent-orange); font-size: 0.82rem; display: block; margin-bottom: 4px;">
+                                        <span class="lang-es">Esfera Hueca Multicapa — Flujo de Calor Total $q_r$
+                                            [W]:</span>
+                                        <span class="lang-en" style="display:none;">Multilayer Hollow Sphere — Total
+                                            Heat Rate $q_r$ [W]:</span>
+                                    </strong>
+                                    <div style="overflow: visible; font-size: 0.88rem; text-align: center; margin: 4px 0;">
+                                        $$q_r = \frac{4 \pi (T_{s,1} - T_{s,N+1})}{\sum_{i=1}^{N} \frac{r_{i+1} -
+                                        r_i}{k_i r_i r_{i+1}}}$$
+                                    </div>
+                                    <div style="font-size: 0.78rem; color: var(--text-muted);">
+                                        <span class="lang-es">donde $R_{th,i} = \dfrac{r_{i+1} - r_i}{4 \pi k_i r_i
+                                            r_{i+1}}$ es la resistencia térmica esférica de la capa $i$.</span>
+                                        <span class="lang-en" style="display:none;">where $R_{th,i} =
+                                            \dfrac{r_{i+1} - r_i}{4 \pi k_i r_i r_{i+1}}$ is the spherical thermal
+                                            resistance of layer $i$.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>
+                                <span class="lang-es">En cada extremo puede imponerse de forma independiente
+                                    cualquiera de <strong>8 condiciones de frontera</strong> — Temperatura Específica,
+                                    Flujo de Calor Específico, Convección, Radiación, Combinada
+                                    (Convección+Radiación), Combinada Triple (Convección+Radiación+Flujo
+                                    Externo), Irradiación + Convección, o Irradiación + Radiación — formalizadas
+                                    matemáticamente en el acordeón "Formalización de las 8 Condiciones de
+                                    Frontera" más abajo.</span>
+                                <span class="lang-en" style="display:none;">Either endpoint can independently impose
+                                    any of <strong>8 boundary conditions</strong> — Specified Temperature, Specified
+                                    Heat Flux, Convection, Radiation, Combined (Convection+Radiation), Triple
+                                    Combined (Convection+Radiation+External Flux), Irradiation + Convection, or
+                                    Irradiation + Radiation — formalized mathematically in the "Formalization of
+                                    the 8 Boundary Conditions" accordion below.</span>
+                            </p>
+
+                            <p class="sim-instruction"
+                                style="font-size: 0.86rem; color: var(--text-secondary); margin: 0 0 10px 0; border-left: 3px solid var(--accent-orange); background: rgba(249, 115, 22, 0.05); padding: 10px 15px; border-radius: 0 8px 8px 0; width: 100%;">
+                                <span class="lang-es"><i class="fas fa-microchip"
+                                        style="color: var(--accent-orange); margin-right: 5px;"></i>
+                                    <strong>Resolvedor Numérico Interno:</strong> El acoplamiento no lineal que
+                                    introduce el término de radiación ($T^4$) en las fronteras se resuelve mediante
+                                    un resolvedor numérico iterativo en tiempo real (tipo Newton-Raphson / punto
+                                    fijo), garantizando en todo momento la conservación de la energía a través del
+                                    circuito de resistencias ($\nabla \cdot \mathbf{q} = 0$, flujo $q$ constante en
+                                    serie) y la continuidad exacta de temperatura en cada interfase interna
+                                    ($T_{i,\text{der}} = T_{i+1,\text{izq}}$).</span>
+                                <span class="lang-en" style="display:none;"><i class="fas fa-microchip"
+                                        style="color: var(--accent-orange); margin-right: 5px;"></i>
+                                    <strong>Internal Numerical Solver:</strong> The nonlinear coupling introduced by
+                                    the radiation term ($T^4$) at the boundaries is solved in real time with an
+                                    iterative numerical solver (Newton-Raphson / fixed-point type), always
+                                    guaranteeing energy conservation across the resistance circuit ($\nabla \cdot
+                                    \mathbf{q} = 0$, constant series heat rate $q$) and exact temperature continuity
+                                    at every internal interface ($T_{i,\text{right}} = T_{i+1,\text{left}}$).</span>
+                            </p>
 
                                      <div class="theory-card" id="cm-theory-card" style="margin-top: 10px; background: rgba(15, 23, 42, 0.4); padding: 14px 16px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08); width: 100%;">
                                          
@@ -8041,6 +8137,88 @@
                                              </div>
                                          </div>
 
+
+                                         <!-- Acordeón: Formalización de las 8 Condiciones de Frontera -->
+                                         <details id="cm-panel-boundary-conditions" open
+                                             style="margin-top: 14px; background: rgba(255,255,255,0.02); padding: 10px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); width: 100%;">
+                                             <summary
+                                                 style="cursor: pointer; font-weight: bold; color: var(--accent-cyan); outline: none; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
+                                                 <i class="fas fa-arrows-left-right-to-line"></i>
+                                                 <span class="lang-es">Formalización de las 8 Condiciones de Frontera ($s = $ izq, der)</span>
+                                                 <span class="lang-en" style="display:none;">Formalization of the 8 Boundary Conditions ($s = $ left, right)</span>
+                                             </summary>
+
+                                             <ol style="margin: 10px 0 0.5rem 20px; font-size: 0.84rem; color: var(--text-muted); line-height: 1.6; padding-left: 10px;">
+                                                 <li style="margin-bottom: 8px;">
+                                                     <span class="lang-es"><strong>Temperatura Específica (Dirichlet):</strong>
+                                                         $$T_s = T_{\text{prescrita}}$$</span>
+                                                     <span class="lang-en" style="display:none;"><strong>Specified Temperature (Dirichlet):</strong>
+                                                         $$T_s = T_{\text{prescribed}}$$</span>
+                                                 </li>
+                                                 <li style="margin-bottom: 8px;">
+                                                     <span class="lang-es"><strong>Flujo de Calor Específico (Neumann):</strong>
+                                                         $$q'' = q''_{\text{prescrito}} \quad \Rightarrow \quad q = q'' \cdot A$$</span>
+                                                     <span class="lang-en" style="display:none;"><strong>Specified Heat Flux (Neumann):</strong>
+                                                         $$q'' = q''_{\text{prescribed}} \quad \Rightarrow \quad q = q'' \cdot A$$</span>
+                                                 </li>
+                                                 <li style="margin-bottom: 8px;">
+                                                     <span class="lang-es"><strong>Convección (Robin / Ley de Enfriamiento de Newton):</strong>
+                                                         $$q = h A (T_{\infty} - T_s) \quad \Rightarrow \quad R_{\text{conv}} = \frac{1}{h A}$$</span>
+                                                     <span class="lang-en" style="display:none;"><strong>Convection (Robin / Newton's Law of Cooling):</strong>
+                                                         $$q = h A (T_{\infty} - T_s) \quad \Rightarrow \quad R_{\text{conv}} = \frac{1}{h A}$$</span>
+                                                 </li>
+                                                 <li style="margin-bottom: 8px;">
+                                                     <span class="lang-es"><strong>Radiación (Ley de Stefan-Boltzmann):</strong>
+                                                         $$q = \epsilon \sigma A (T_{\text{alred}}^4 - T_s^4) = h_r A (T_{\text{alred}} - T_s)$$
+                                                         donde el coeficiente linealizado de radiación es
+                                                         $$h_r = \epsilon \sigma (T_s + T_{\text{alred}})(T_s^2 + T_{\text{alred}}^2)$$</span>
+                                                     <span class="lang-en" style="display:none;"><strong>Radiation (Stefan-Boltzmann Law):</strong>
+                                                         $$q = \epsilon \sigma A (T_{\text{surr}}^4 - T_s^4) = h_r A (T_{\text{surr}} - T_s)$$
+                                                         where the linearized radiation coefficient is
+                                                         $$h_r = \epsilon \sigma (T_s + T_{\text{surr}})(T_s^2 + T_{\text{surr}}^2)$$</span>
+                                                 </li>
+                                                 <li style="margin-bottom: 8px;">
+                                                     <span class="lang-es"><strong>Combinado (Convección + Radiación):</strong>
+                                                         $$q = h A (T_{\infty} - T_s) + \epsilon \sigma A (T_{\text{alred}}^4 - T_s^4)$$</span>
+                                                     <span class="lang-en" style="display:none;"><strong>Combined (Convection + Radiation):</strong>
+                                                         $$q = h A (T_{\infty} - T_s) + \epsilon \sigma A (T_{\text{surr}}^4 - T_s^4)$$</span>
+                                                 </li>
+                                                 <li style="margin-bottom: 8px;">
+                                                     <span class="lang-es"><strong>Combinado Triple (Convección + Radiación + Flujo Implícito/Externo):</strong>
+                                                         $$q = h A (T_{\infty} - T_s) + \epsilon \sigma A (T_{\text{alred}}^4 - T_s^4) + q''_{\text{ext}} A$$</span>
+                                                     <span class="lang-en" style="display:none;"><strong>Triple Combined (Convection + Radiation + Implicit/External Flux):</strong>
+                                                         $$q = h A (T_{\infty} - T_s) + \epsilon \sigma A (T_{\text{surr}}^4 - T_s^4) + q''_{\text{ext}} A$$</span>
+                                                 </li>
+                                                 <li style="margin-bottom: 8px;">
+                                                     <span class="lang-es"><strong>Irradiación + Convección:</strong> resistencia
+                                                         de sólo convección, $R_{\text{conv}} = \dfrac{1}{h A}$, más una
+                                                         fuente de irradiación absorbida $\alpha G$ superpuesta (constante,
+                                                         no depende de $T_s$):
+                                                         $$q = h A (T_{\infty} - T_s) + \alpha G A$$
+                                                         donde $G$ es la irradiación incidente [W/m²] y $\alpha$ la
+                                                         absortividad de la superficie.</span>
+                                                     <span class="lang-en" style="display:none;"><strong>Irradiation + Convection:</strong> a
+                                                         convection-only resistance, $R_{\text{conv}} = \dfrac{1}{h A}$,
+                                                         plus a superimposed absorbed-irradiation source $\alpha G$
+                                                         (constant, independent of $T_s$):
+                                                         $$q = h A (T_{\infty} - T_s) + \alpha G A$$
+                                                         where $G$ is the incident irradiation [W/m²] and $\alpha$ the
+                                                         surface absorptivity.</span>
+                                                 </li>
+                                                 <li style="margin-bottom: 2px;">
+                                                     <span class="lang-es"><strong>Irradiación + Radiación:</strong> resistencia
+                                                         de sólo radiación, $R_{\text{rad}} = \dfrac{1}{h_r A}$ (con
+                                                         $h_r$ definido como en la condición de Radiación), más la misma
+                                                         fuente de irradiación absorbida $\alpha G$:
+                                                         $$q = \epsilon \sigma A (T_{\text{alred}}^4 - T_s^4) + \alpha G A = h_r A (T_{\text{alred}} - T_s) + \alpha G A$$</span>
+                                                     <span class="lang-en" style="display:none;"><strong>Irradiation + Radiation:</strong> a
+                                                         radiation-only resistance, $R_{\text{rad}} = \dfrac{1}{h_r A}$
+                                                         (with $h_r$ as defined in the Radiation condition), plus the
+                                                         same absorbed-irradiation source $\alpha G$:
+                                                         $$q = \epsilon \sigma A (T_{\text{surr}}^4 - T_s^4) + \alpha G A = h_r A (T_{\text{surr}} - T_s) + \alpha G A$$</span>
+                                                 </li>
+                                             </ol>
+                                         </details>
 
                                          <!-- Acordeón: Supuestos del Modelo Físico (8 Puntos) -->
                                          <details id="cm-panel-assumptions"

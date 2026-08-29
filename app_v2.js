@@ -13579,6 +13579,30 @@ function initMulticapaCustomSimulation() {
         return parseFloat(Number(val).toFixed(maxDecimals)).toString();
     }
 
+    // ── LOTE — Formateo Inteligente de Espesor Visual (Esquema Térmico,
+    // Pared Plana): SOLO afecta el TEXTO mostrado en las etiquetas L_i del
+    // esquema — el motor físico/numérico (layer.L, cálculo de resistencias,
+    // perfil de temperatura, etc.) sigue operando estrictamente en metros y
+    // NUNCA se toca aquí. Conversión estricta a la unidad más legible según
+    // el orden de magnitud:
+    //   • < 0.01 m (ej. 0.001, 0.005) -> milímetros ("1 mm", "5 mm").
+    //   • < 0.1 m, es decir entre 0.01 y 0.1 (ej. 0.01, 0.05) -> centímetros
+    //     ("1 cm", "5 cm").
+    //   • >= 0.1 m — con decimales o metro entero (ej. 0.5, 1.1, 1) -> se
+    //     mantiene en metros ("0.5 m", "1.1 m", "1 m").
+    function formatThickness(Lm) {
+        if (Lm === null || Lm === undefined || isNaN(Lm)) return '--';
+        if (Lm === 0) return '0 m';
+        const absL = Math.abs(Lm);
+        if (absL < 0.01) {
+            return `${formatNumCompact(Lm * 1000, 2)} mm`;
+        }
+        if (absL < 0.1) {
+            return `${formatNumCompact(Lm * 100, 2)} cm`;
+        }
+        return `${formatNumCompact(Lm, 3)} m`;
+    }
+
     // ── LOTE — Formato Numérico de Resistencias (Notación Científica
     // Automática): |valor| >= 0.001 -> decimal estándar con la precisión
     // pedida por el llamador (3-4 decimales típico); |valor| < 0.001 (y
@@ -14633,8 +14657,21 @@ function initMulticapaCustomSimulation() {
         // la geometría activa en cada frame, sin tocar el marcado HTML. El
         // toggle se hace ANTES de leer clientWidth/clientHeight para que el
         // reflow forzado por esa misma lectura ya reporte el alto nuevo.
+        //
+        // LOTE — Ampliación de Pared Plana en pantalla completa: mismo
+        // mecanismo (clase CSS alternada antes de leer clientWidth/Height),
+        // pero con .cm-canvas-planar-xl (ver style.css, scoped a
+        // #multicapa-custom-sim.fullscreen) y sólo cuando geometry==='planar'
+        // Y el modal está en fullscreen — nunca en modo normal, nunca para
+        // cilíndrica/esférica (esas siguen su propio camino con
+        // cm-canvas-tall, sin ningún cambio aquí).
+        const multicapaModalEl = document.getElementById('multicapa-custom-sim');
+        const isPlanarFullscreenXL = (geometry === 'planar') &&
+            !!(multicapaModalEl && multicapaModalEl.classList.contains('fullscreen'));
+
         if (canvas.parentElement) {
             canvas.parentElement.classList.toggle('cm-canvas-tall', geometry !== 'planar');
+            canvas.parentElement.classList.toggle('cm-canvas-planar-xl', isPlanarFullscreenXL);
         }
 
         const w = canvas.width = canvas.clientWidth;
@@ -14648,7 +14685,18 @@ function initMulticapaCustomSimulation() {
         const startX = 120;
         const widthMax = w - 240;
         const centerY = h / 2 - 10;
-        const heightPlate = 140;
+        // heightPlate: alto (px) del rectángulo que representa la pared en el
+        // esquema. Fijo en 140 (proporción original 140/320 del contenedor
+        // base de 320px) salvo en Pared Plana + pantalla completa
+        // (isPlanarFullscreenXL), donde .cm-canvas-planar-xl ya hizo crecer
+        // el contenedor (y por tanto `h`, leído arriba) — aquí se escala
+        // heightPlate en la MISMA proporción 140/320 para agrandar el
+        // dibujo real de la pared (no sólo el aire alrededor), sin
+        // distorsionar sus proporciones. Sólo se usa dentro de la rama
+        // if(!isCurved) más abajo — geometrías curvas (isCurved) no leen
+        // esta constante, así que cilíndrica/esférica quedan exactamente
+        // iguales.
+        const heightPlate = isPlanarFullscreenXL ? Math.round(h * (140 / 320)) : 140;
 
         // Modo proyector / alto contraste en Light & Dark Theme: algunos colores
         // pensados para fondo oscuro pierden contraste sobre el fondo casi blanco
@@ -14709,6 +14757,75 @@ function initMulticapaCustomSimulation() {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText(text, cx, cy + 0.5);
+            ctx.restore();
+        }
+
+        // ── LOTE — Badge vertical MULTILÍNEA (texto rotado -90°, "de abajo
+        // hacia arriba"), usado SÓLO para las etiquetas internas de cada capa
+        // en el Esquema Térmico de Pared Plana (rama !isCurved más abajo):
+        // un solo badge por capa con DOS renglones independientes (espesor y
+        // k), en vez de una sola línea contigua. Misma pastilla oscura +
+        // auto-ajuste de fuente que drawValueBadge(), pero con los ejes
+        // intercambiados: `maxRun` es el espacio disponible a lo LARGO del
+        // texto ya rotado (aquí, verticalmente dentro de la franja de la
+        // capa), en vez del ancho horizontal. `lines` = [renglón1, renglón2].
+        // Tras `ctx.rotate(-Math.PI/2)`, el eje local +x (a lo largo del cual
+        // se mide el ancho del texto) queda apuntando hacia arriba en
+        // pantalla — de ahí la lectura vertical de abajo hacia arriba — y el
+        // eje local +y (perpendicular) queda apuntando hacia la derecha en
+        // pantalla: por eso el desplazamiento entre renglones (`rowPitch`,
+        // el yOffset pedido) se aplica sobre el eje LOCAL y, para que ambos
+        // renglones aparezcan uno junto al otro (no superpuestos) sin perder
+        // el centrado horizontal sobre el eje de la capa (cx). No sustituye
+        // a drawValueBadge() — las etiquetas de temperatura de interfase,
+        // las de geometría curva (cilíndrica/esférica) y las cotas de radio
+        // siguen usando drawValueBadge() sin cambios.
+        function drawValueBadgeVerticalMultiline(cx, cy, maxRun, lines) {
+            const maxFont = 13, minFont = 8;
+            const paddingX = 6, paddingY = 3;
+            const rowGap = 2; // separación extra entre renglones, además del alto de fuente
+
+            // Un único tamaño de fuente para ambos renglones (uniformidad visual):
+            // se reduce hasta que el más largo de los dos quepa en maxRun.
+            let fontSize = maxFont, widths = [0, 0];
+            for (fontSize = maxFont; fontSize >= minFont; fontSize--) {
+                ctx.font = `bold ${fontSize}px Inter, sans-serif`;
+                widths = [ctx.measureText(lines[0]).width, ctx.measureText(lines[1]).width];
+                if (Math.max(widths[0], widths[1]) + paddingX * 2 <= maxRun || fontSize === minFont) break;
+            }
+            const badgeLen = Math.max(widths[0], widths[1]) + paddingX * 2; // extensión a lo largo del texto (vertical en pantalla)
+            const rowPitch = fontSize + paddingY + rowGap; // yOffset: separación centro-a-centro entre renglones
+            const badgeThick = rowPitch + fontSize + paddingY * 2; // grosor perpendicular total (horizontal en pantalla) para 2 renglones
+
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(-Math.PI / 2); // -90°: el eje +x local queda apuntando hacia arriba en pantalla
+
+            // Recorte al espacio vertical disponible: el texto nunca invade la
+            // capa vecina ni se sale de la franja de la pared
+            ctx.beginPath();
+            ctx.rect(-maxRun / 2 - 2, -badgeThick, maxRun + 4, badgeThick * 2);
+            ctx.clip();
+
+            ctx.beginPath();
+            const bx = -badgeLen / 2, by = -badgeThick / 2, radius = Math.min(badgeThick, badgeLen) / 4;
+            if (ctx.roundRect) ctx.roundRect(bx, by, badgeLen, badgeThick, radius);
+            else ctx.rect(bx, by, badgeLen, badgeThick);
+            ctx.fillStyle = 'rgba(0,0,0,0.65)';
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(255,255,255,0.55)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = `bold ${fontSize}px Inter, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            // Renglón 1 (espesor) y Renglón 2 (k) desplazados ±rowPitch/2 sobre
+            // el eje local y (perpendicular al texto) para no encimarse,
+            // ambos centrados sobre el mismo eje de la capa.
+            ctx.fillText(lines[0], 0, -rowPitch / 2 + 0.5);
+            ctx.fillText(lines[1], 0, rowPitch / 2 + 0.5);
             ctx.restore();
         }
 
@@ -15105,23 +15222,114 @@ function initMulticapaCustomSimulation() {
             ctx.restore();
             drawValueBadge(tempBadgeCx, tempBadgeY, 64, `${formatNumCompact(T[idx], 1)} °C`);
 
-            // Valores instantáneos L_i y k_i superpuestos sobre la capa (LOTE 2)
+            // Valores instantáneos L_i y k_i superpuestos sobre la capa (LOTE 2).
+            // LOTE — Formato de espesor (mm/cm/m) + badge vertical multilínea:
+            // el motor físico sigue en metros sin cambios (layer.L intacto;
+            // sólo el TEXTO usa formatThickness(), ver definición arriba).
+            // LOTE — Sistema de Llamadas Externas (Callouts) para capas
+            // delgadas: por debajo de CALLOUT_MIN_PX_PLANAR px de ancho en
+            // pantalla, el badge vertical multilínea interno ya no cabe de
+            // forma legible dentro de la franja de la capa (el texto rotado
+            // -90° se recortaría o quedaría ilegible), así que en su lugar
+            // se traza una línea guía hacia AFUERA de la figura (arriba o
+            // abajo, alternando entre capas delgadas consecutivas por
+            // paridad de secuencia — no por índice real de capa, para que
+            // dos delgadas consecutivas SIEMPRE queden en lados opuestos) y
+            // un recuadro de 2 renglones (espesor, k) al final de la línea.
+            // Capas >= al umbral: comportamiento estándar sin cambios
+            // (texto rotado -90°, 2 renglones, centrado dentro de la capa,
+            // vía drawValueBadgeVerticalMultiline()). Sólo aplica a esta
+            // rama plana (!isCurved) — cilíndrica/esférica (rama else, más
+            // abajo, con su propio CALLOUT_MIN_PX y mecanismo análogo ya
+            // existente) no se toca. No se altera layer.L/layer.k ni ningún
+            // cálculo del solver: sólo el texto (formatThickness /
+            // formatNumCompact) y su posición en pantalla.
+            const CALLOUT_MIN_PX_PLANAR = 30;
             const layerCenterX = currentX + lWidth / 2;
-            const availableWidth = Math.max(lWidth - 8, 16);
-            const isNarrowLayer = lWidth < 55;
-            let blockShift = 0;
-            if (isNarrowLayer) {
-                // Escalonado vertical entre capas angostas consecutivas para evitar
-                // que sus etiquetas colapsen visualmente entre sí
-                blockShift = (narrowLayerCounter % 2 === 0) ? -14 : 14;
-                narrowLayerCounter++;
-            }
             const subLbl = subDigits[idx + 1] || String(idx + 1);
-            const lText = `L${subLbl} = ${formatNumCompact(layer.L, 3)} m`;
+            const lText = `L${subLbl} = ${formatThickness(layer.L)}`;
             const kText = `k${subLbl} = ${formatNumCompact(layer.k, 2)} W/m·K`;
 
-            drawValueBadge(layerCenterX, centerY - 16 + blockShift, availableWidth, lText);
-            drawValueBadge(layerCenterX, centerY + 16 + blockShift, availableWidth, kText);
+            if (lWidth >= CALLOUT_MIN_PX_PLANAR) {
+                // ── Comportamiento estándar (sin cambios) ──────────────────
+                // Espacio vertical disponible para el badge combinado: de
+                // cerca del borde superior de la franja hasta justo encima
+                // del rótulo "Capa N" (evita pisarlo), derivado de
+                // heightPlate/centerY (no de constantes mágicas).
+                const vTopEdge = centerY - heightPlate / 2 + 8;
+                const vBottomEdge = (centerY + heightPlate / 2 - 10) - 10;
+                const vRun = Math.max(28, vBottomEdge - vTopEdge);
+                drawValueBadgeVerticalMultiline(layerCenterX, (vTopEdge + vBottomEdge) / 2, vRun, [lText, kText]);
+            } else {
+                // ── Modo "Llamada Externa" (Callout) ───────────────────────
+                // Alternancia arriba/abajo por PARIDAD DE LA SECUENCIA de
+                // capas delgadas encontradas hasta ahora (narrowLayerCounter,
+                // 0-based e independiente del índice real `idx`): la 1ª capa
+                // delgada de este render (secuencia par) va ARRIBA de la
+                // figura, la 2ª (impar) va ABAJO, la 3ª vuelve arriba, etc.
+                // stackDepth escalona hacia afuera las capas delgadas que
+                // comparten lado (1ª y 3ª arriba, 2ª y 4ª abajo, ...) para
+                // que no se encimen entre sí.
+                const seqIdx = narrowLayerCounter;
+                const goUp = (seqIdx % 2 === 0);
+                const stackDepth = Math.floor(seqIdx / 2);
+                narrowLayerCounter++;
+
+                // Punto de anclaje: centro geométrico de la capa delgada
+                // (intersección de su eje horizontal con el eje vertical
+                // medio de la pared, centerY).
+                const anchorX = layerCenterX;
+                const anchorY = centerY;
+
+                // Longitud/desplazamiento dinámico de la línea guía: arranca
+                // más allá de la franja donde ya viven los badges T_i de
+                // interfase (heightPlate/2 + 16px ± ~10px de badge, ver
+                // arriba) para no encimarse con ellos ni con sus líneas de
+                // cota, y crece con stackDepth (calloutStagger) para separar
+                // capas delgadas sucesivas del mismo lado. Clamp final contra
+                // los bordes superior/inferior reales del canvas (0 / h) —
+                // "ni con los bordes del Canvas".
+                const calloutBase = 46;
+                const calloutStagger = 40;
+                const rawCalloutY = goUp
+                    ? centerY - heightPlate / 2 - calloutBase - stackDepth * calloutStagger
+                    : centerY + heightPlate / 2 + calloutBase + stackDepth * calloutStagger;
+                const calloutY = goUp
+                    ? Math.max(20, rawCalloutY)
+                    : Math.min(h - 20, rawCalloutY);
+
+                // Línea guía punteada (color de borde de la propia capa, para
+                // asociar visualmente el recuadro con su franja de origen).
+                ctx.save();
+                ctx.strokeStyle = layerColors.border;
+                ctx.lineWidth = 1.2;
+                ctx.globalAlpha = 0.65;
+                ctx.setLineDash([2, 2]);
+                ctx.beginPath();
+                ctx.moveTo(anchorX, anchorY);
+                ctx.lineTo(anchorX, calloutY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.restore();
+
+                // Punto de anclaje visible (marca el centro exacto de la capa).
+                ctx.save();
+                ctx.fillStyle = layerColors.border;
+                ctx.globalAlpha = 0.85;
+                ctx.beginPath();
+                ctx.arc(anchorX, anchorY, 2.2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+
+                // Recuadro con la información, 2 renglones (Renglón 1:
+                // espesor vía formatThickness(); Renglón 2: k). Clamp
+                // horizontal para no salirse del canvas en capas muy
+                // cercanas al borde izquierdo/derecho del esquema.
+                const avW = Math.min(84, Math.max(50, widthMax * 0.16));
+                const calloutCx = Math.min(w - avW / 2 - 4, Math.max(avW / 2 + 4, anchorX));
+                drawValueBadge(calloutCx, calloutY - 9, avW, lText);
+                drawValueBadge(calloutCx, calloutY + 9, avW, kText);
+            }
 
             currentX += lWidth;
         });
