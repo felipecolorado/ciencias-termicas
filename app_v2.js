@@ -13244,6 +13244,19 @@ function initMulticapaCustomSimulation() {
     // reutilizan de inputLH/inputLTinf y inputLEps/inputLTsur (arriba).
     const inputLG = document.getElementById('cm-l-g');
     const inputLAlpha = document.getElementById('cm-l-alpha');
+    // LOTE — Superficie Aletada (Convección + Aletas Rectangulares): h/T∞
+    // propios de esta frontera (independientes de inputLH/inputLTinf, que
+    // pertenecen a 'conv'/'comb'/etc. — cada tipo de frontera conserva su
+    // propio estado, igual que 'rad' e 'irr' ya lo hacían antes).
+    const inputLFinH = document.getElementById('cm-l-fin-h');
+    const inputLFinTinf = document.getElementById('cm-l-fin-tinf');
+    const inputLFinN = document.getElementById('cm-l-fin-n');
+    const inputLFinLf = document.getElementById('cm-l-fin-lf');
+    const inputLFinTf = document.getElementById('cm-l-fin-tf');
+    const inputLFinW = document.getElementById('cm-l-fin-w');
+    const inputLFinKf = document.getElementById('cm-l-fin-kf');
+    const selectLFinTip = document.getElementById('cm-l-fin-tip');
+    const inputLFinTL = document.getElementById('cm-l-fin-tl');
 
     // BC Right Controls
     const selectBcRType = document.getElementById('cm-bc-r-type');
@@ -13255,6 +13268,16 @@ function initMulticapaCustomSimulation() {
     const inputRFlux = document.getElementById('cm-r-flux');
     const inputRG = document.getElementById('cm-r-g');
     const inputRAlpha = document.getElementById('cm-r-alpha');
+    // LOTE — Superficie Aletada: espejo derecho de los controles cm-l-fin-*.
+    const inputRFinH = document.getElementById('cm-r-fin-h');
+    const inputRFinTinf = document.getElementById('cm-r-fin-tinf');
+    const inputRFinN = document.getElementById('cm-r-fin-n');
+    const inputRFinLf = document.getElementById('cm-r-fin-lf');
+    const inputRFinTf = document.getElementById('cm-r-fin-tf');
+    const inputRFinW = document.getElementById('cm-r-fin-w');
+    const inputRFinKf = document.getElementById('cm-r-fin-kf');
+    const selectRFinTip = document.getElementById('cm-r-fin-tip');
+    const inputRFinTL = document.getElementById('cm-r-fin-tl');
 
     // Metrics Spans
     const lblRcond = document.getElementById('cm-rcond-val');
@@ -13268,6 +13291,14 @@ function initMulticapaCustomSimulation() {
     const circuitCtx = circuitCanvas ? circuitCanvas.getContext('2d') : null;
     const lblRbcL = document.getElementById('cm-rbcl-val');
     const lblRbcR = document.getElementById('cm-rbcr-val');
+    // LOTE — Sincronización de Notación de Resistencias: refs opcionales
+    // (pueden no existir si index.html no trae el markup nuevo — ver
+    // updateBoundaryResistanceLabel() más abajo, que ya guarda null-checks
+    // en todos ellos, igual que el resto de labels de este bloque).
+    const lblRbcLLabel = document.getElementById('cm-rbcl-label');
+    const lblRbcRLabel = document.getElementById('cm-rbcr-label');
+    const rbclBreakdown = document.getElementById('cm-rbcl-breakdown');
+    const rbcrBreakdown = document.getElementById('cm-rbcr-breakdown');
 
     // ── LOTE — Tabla de Interfases (T_i) + Coeficiente Global U/UA ──────────
     // El markup de #cm-panel-results sólo conserva hoy el bloque de
@@ -13328,6 +13359,12 @@ function initMulticapaCustomSimulation() {
                         '<th style="padding:4px 6px; font-weight:normal;"><span class="lang-es">Interfase</span><span class="lang-en" style="display:none;">Interface</span></th>' +
                         '<th style="padding:4px 6px; font-weight:normal;"><span class="lang-es">Posición</span><span class="lang-en" style="display:none;">Position</span></th>' +
                         '<th style="padding:4px 6px; font-weight:normal; text-align:right;"><span class="lang-es">Temperatura</span><span class="lang-en" style="display:none;">Temperature</span></th>' +
+                        // LOTE — Sincronización de Notación de Resistencias: columna
+                        // adicional con la resistencia de capa R₁..Rₙ (misma notación
+                        // que renderCircuit()/drawResistorBadge(), vía rPrefix — ver
+                        // el bucle T.forEach() más abajo) — no altera las 3 columnas
+                        // preexistentes ni su contenido.
+                        '<th style="padding:4px 6px; font-weight:normal; text-align:right;"><span class="lang-es">R Capa</span><span class="lang-en" style="display:none;">Layer R</span></th>' +
                     '</tr>' +
                 '</thead>' +
                 '<tbody id="cm-temp-table-body"></tbody>' +
@@ -13347,6 +13384,106 @@ function initMulticapaCustomSimulation() {
                 solveSimulation();
             });
         });
+    }
+
+    // ── LOTE — Sincronización de Notación de Resistencias con el Diagrama
+    // de Circuito ────────────────────────────────────────────────────────
+    // updateBoundaryResistanceLabel(bc, lblVal, lblLabel, breakdownEl,
+    // sideSuffix, sideLetter): NO recalcula ni altera ninguna resistencia
+    // — `bc` es exactamente el mismo objeto bcResL/bcResR que ya produce
+    // boundaryResistanceInfo()/computeFinBoundaryInfo() (sin tocar), y las
+    // únicas magnitudes mostradas (1/bc.hConv, 1/bc.hRad, bc.fin.Runfin,
+    // bc.fin.Rfins) son las MISMAS que ya usa collectCircuitResistanceValues()
+    // (línea ~13650) y drawBoundary() (dentro de renderCircuit(), más abajo)
+    // para dibujar el diagrama — aquí sólo se REUTILIZAN para que la tabla
+    // de resultados hable el mismo idioma. lblVal.innerText sigue mostrando
+    // exactamente bc.R (el valor combinado que sí entra en Rtot), sin
+    // ningún cambio respecto al comportamiento anterior.
+    //
+    // LOTE — Corrección de Renderizado MathJax/HTML: esta función se llama
+    // desde solveSimulation() (línea ~14730 más abajo) en CADA resolución —
+    // es decir, potencialmente muchas veces por segundo mientras el usuario
+    // arrastra un slider (reactividad en tiempo real, requisito ya vigente
+    // desde el LOTE original de este laboratorio). La versión anterior
+    // escribía las etiquetas con delimitadores LaTeX ($...$) vía
+    // `lblLabel.innerHTML = ...` SIN invocar después
+    // `MathJax.typesetPromise()` — por eso el usuario veía literalmente el
+    // código fuente sin procesar (p.ej. "$(R_{bc,L})$") en vez de la
+    // fracción/subíndice renderizado: el contenido estático original de
+    // index.html sí se tipografía una vez al cargar la página (llamada
+    // global de MathJax en el arranque), pero esa primera resolución de
+    // solveSimulation() ocurre casi de inmediato y sobrescribe ese HTML ya
+    // renderizado con LaTeX crudo, que nunca vuelve a pasar por MathJax.
+    // Invocar MathJax.typesetPromise() en cada resolución sería costoso y
+    // parpadeante en este hot-path (mismo motivo por el que el bloque U/UA
+    // y las filas de desglose de abajo YA evitaban LaTeX desde el LOTE
+    // anterior) — así que, en vez de eso, se elimina LaTeX de esta etiqueta
+    // también: ahora usa el mismo lenguaje HTML plano con <sub> que ya
+    // usaban las filas de desglose, que se renderiza instantáneamente sin
+    // depender de MathJax en absoluto. El fallback estático de index.html
+    // (antes de la primera resolución) se actualizó igual, por consistencia
+    // visual — ver comentario junto a cm-rbcl-label en index.html.
+    //
+    // Notación por tipo de frontera (idéntica a drawResistorBadge() en el
+    // diagrama, con sufijo ,izq/,der añadido porque la tabla — a diferencia
+    // del diagrama — no distingue el lado por posición espacial):
+    //   'conv'/'irr_conv'        -> R_conv,{lado}   (rama única)
+    //   'rad'/'irr_rad'          -> R_rad,{lado}    (rama única)
+    //   'comb'/'comb-flux'       -> R_conv,{lado} ∥ R_rad,{lado}  (desglose)
+    //   'fin'                    -> R_unfin,{lado} ∥ R_fins,{lado} (desglose)
+    //   'temp' (R=0) / 'flux' (fuente pura) -> rótulo genérico R_bc,{L|R}
+    //                                (sin rama individual que nombrar)
+    function updateBoundaryResistanceLabel(bc, lblVal, lblLabel, breakdownEl, sideSuffix, sideLetter) {
+        if (!bc) return;
+        if (lblVal) {
+            lblVal.innerText = bc.R === null ? t('Fuente (sin R)') : formatEngineeringNumber(bc.R) + ' K/W';
+        }
+
+        const sideEsWord = sideLetter === 'L' ? 'Izq.' : 'Der.';
+        const sideEnWord = sideLetter === 'L' ? 'Left' : 'Right';
+        let labelEs, labelEn;
+        const breakdownRows = [];
+
+        if (bc.fin) {
+            labelEs = `Resistencia Equivalente Frontera Aletada ${sideEsWord} (R<sub>bc,${sideLetter}</sub>):`;
+            labelEn = `${sideEnWord} Finned Boundary Equivalent Resistance (R<sub>bc,${sideLetter}</sub>):`;
+            if (isFinite(bc.fin.Runfin) && bc.fin.Runfin > 0) {
+                breakdownRows.push({ label: `R<sub>unfin,${sideSuffix}</sub>`, val: bc.fin.Runfin });
+            }
+            if (isFinite(bc.fin.Rfins) && bc.fin.Rfins > 0) {
+                breakdownRows.push({ label: `R<sub>fins,${sideSuffix}</sub>`, val: bc.fin.Rfins });
+            }
+        } else if (bc.hConv > 0 && bc.hRad > 0) {
+            labelEs = `Resistencia Equivalente Frontera ${sideEsWord} (R<sub>bc,${sideLetter}</sub>):`;
+            labelEn = `${sideEnWord} Boundary Equivalent Resistance (R<sub>bc,${sideLetter}</sub>):`;
+            breakdownRows.push({ label: `R<sub>conv,${sideSuffix}</sub>`, val: 1 / bc.hConv });
+            breakdownRows.push({ label: `R<sub>rad,${sideSuffix}</sub>`, val: 1 / bc.hRad });
+        } else if (bc.hConv > 0) {
+            labelEs = `Resistencia Convectiva Frontera ${sideEsWord} (R<sub>conv,${sideSuffix}</sub>):`;
+            labelEn = `${sideEnWord} Convective Boundary Resistance (R<sub>conv,${sideSuffix}</sub>):`;
+        } else if (bc.hRad > 0) {
+            labelEs = `Resistencia Radiativa Frontera ${sideEsWord} (R<sub>rad,${sideSuffix}</sub>):`;
+            labelEn = `${sideEnWord} Radiative Boundary Resistance (R<sub>rad,${sideSuffix}</sub>):`;
+        } else {
+            // 'temp' (cortocircuito, R=0) o 'flux' (fuente pura, sin R) —
+            // mismo rótulo genérico que existía antes de este LOTE.
+            labelEs = `Resistencia Frontera ${sideEsWord} (R<sub>bc,${sideLetter}</sub>):`;
+            labelEn = `${sideEnWord} Boundary Resistance (R<sub>bc,${sideLetter}</sub>):`;
+        }
+
+        if (lblLabel) {
+            lblLabel.innerHTML =
+                `<span class="lang-es">${labelEs}</span>` +
+                `<span class="lang-en" style="display:none;">${labelEn}</span>`;
+        }
+        if (breakdownEl) {
+            breakdownEl.innerHTML = breakdownRows.map(row =>
+                `<div style="display:flex; justify-content:space-between; gap:8px; color: var(--text-secondary);">` +
+                    `<span>${row.label}:</span>` +
+                    `<span style="color: var(--accent-blue); font-weight:600;">${formatEngineeringNumber(row.val)} K/W</span>` +
+                `</div>`
+            ).join('');
+        }
     }
 
     // Simulation variables
@@ -13432,6 +13569,144 @@ function initMulticapaCustomSimulation() {
         return { R: hTotal > 0 ? 1 / (hTotal * A) : null, hConv, hRad, isSource: (type === 'comb-flux' || type === 'irr_conv' || type === 'irr_rad') };
     }
 
+    // ── LOTE — Superficie Aletada (Convección + Aletas Rectangulares) ──────
+    // Formalismo estándar Incropera/Cengel de aletas rectangulares en
+    // paralelo térmico con la zona sin aletear de una frontera. No toca
+    // boundaryResistanceInfo() (fronteras estándar) en absoluto — es un
+    // camino de cálculo 100% nuevo y paralelo, sólo activo cuando
+    // typeL/typeR === 'fin'.
+    //
+    // Parámetro de aleta:            m  = sqrt(h P / (k_f A_c))
+    // Área de aleta / conductancia homogénea C1 [W/K] según la punta:
+    //   Adiabática   (dT/dx=0 en x=Lf):     η_f = tanh(mLf)/(mLf)              Af = P·Lf   C1 = M·tanh(mLf)
+    //   Infinita     (aleta muy larga):     η_f = 1/(mLf)                       Af = P·Lf   C1 = M   (idéntico a M·tanh(mLf) en el límite; ver nota abajo)
+    //   Convección   (Lc = Lf + tf/2):      η_f = tanh(mLc)/(mLc)               Af = P·Lc   C1 = M·tanh(mLc)
+    //   T_L prescrita (solución exacta):    η_f = q_f/(h·Af·θb) (afín, no homogénea)   Af = P·Lf
+    // donde M = sqrt(h P k_f A_c) = m·k_f·A_c.
+    //
+    // Para las tres primeras puntas (a/b/c) la relación q_fin = C1·θb es
+    // HOMOGÉNEA (proporcional a θb = T_b - T∞) — por eso la superficie
+    // aletada completa se comporta exactamente como una convección pura con
+    // un coeficiente efectivo h_eff = G/A_total, y se integra en
+    // getFluxLeft/Right EXACTAMENTE con la misma forma que 'conv'.
+    //
+    // Para la punta a T_L prescrita la solución exacta es AFÍN:
+    //   q_f = sqrt(hPk_fA_c)·[cosh(mLf) - θL/θb] / sinh(mLf) = C1·θb - C2
+    // con C1 = M·coth(mLf) y C2 = M·θL/sinh(mLf) (θL = T_L - T∞, constante
+    // fija por el usuario). El término -C2 es una FUENTE de flujo constante
+    // superpuesta al nodo de superficie — mismo patrón ya usado por
+    // 'irr_conv'/'irr_rad' (α·G) y 'comb-flux' (q'' externo) — ver
+    // isSource más abajo.
+    //
+    // Nota de infinita: fijar C1=M en vez de M·tanh(mLf) es EXACTO cuando
+    // Af=P·Lf y η_f=1/(mLf) (piden explícitamente estas fórmulas en el
+    // enunciado): η_f·h·Af = (1/(mLf))·h·P·Lf = hP/m = sqrt(hPk_fA_c) = M,
+    // independiente de Lf — comportamiento característico de aleta "muy
+    // larga" (la longitud finita ya no importa).
+    //
+    // area_L = A1 (frontera izquierda) o AN1 (frontera derecha) — el área
+    // TOTAL real de esa cara del sólido (=1 m² en plana por convención,
+    // igual que el resto del solver — ver areaAt()).
+    function computeFinLinearParams(side, areaTotal) {
+        const isL = side === 'L';
+        const hIn = isL ? inputLFinH : inputRFinH;
+        const tinfIn = isL ? inputLFinTinf : inputRFinTinf;
+        const nIn = isL ? inputLFinN : inputRFinN;
+        const lfIn = isL ? inputLFinLf : inputRFinLf;
+        const tfIn = isL ? inputLFinTf : inputRFinTf;
+        const wIn = isL ? inputLFinW : inputRFinW;
+        const kfIn = isL ? inputLFinKf : inputRFinKf;
+        const tipSel = isL ? selectLFinTip : selectRFinTip;
+        const tlIn = isL ? inputLFinTL : inputRFinTL;
+
+        const h = hIn ? parseFloat(hIn.value) : 25;
+        const Tinf = tinfIn ? parseFloat(tinfIn.value) : 25;
+        const Nf = nIn ? Math.max(0, Math.round(parseFloat(nIn.value) || 0)) : 0;
+        const Lf = Math.max(1e-6, lfIn ? parseFloat(lfIn.value) : 0.025);
+        const tf = Math.max(1e-6, tfIn ? parseFloat(tfIn.value) : 0.002);
+        const w = Math.max(1e-6, wIn ? parseFloat(wIn.value) : 1.0);
+        const kf = Math.max(1e-6, kfIn ? parseFloat(kfIn.value) : 200);
+        const tip = tipSel ? tipSel.value : 'adiabatic';
+        const TL = tlIn ? parseFloat(tlIn.value) : Tinf;
+
+        const P = 2 * (w + tf);
+        const Ac = w * tf;
+        const m = Math.sqrt(Math.max(h * P / (kf * Ac), 0));
+        const M = Math.sqrt(Math.max(h * P * kf * Ac, 0)); // = m·k_f·A_c
+
+        const mLf = Math.max(m * Lf, 1e-9); // piso numérico: evita div/0 con h→0, N→0 o Lf→0
+        let Lc = Lf, Af, C1, C2 = 0, etaFHomog;
+
+        if (tip === 'infinite') {
+            Af = P * Lf;
+            etaFHomog = 1 / mLf;
+            C1 = M; // ver nota "infinita" arriba — exacto para Af=P·Lf, η_f=1/(mLf)
+        } else if (tip === 'convective') {
+            Lc = Lf + tf / 2; // longitud corregida (aproximación estándar Incropera/Cengel)
+            const mLc = Math.max(m * Lc, 1e-9);
+            Af = P * Lc;
+            etaFHomog = Math.tanh(mLc) / mLc;
+            C1 = M * Math.tanh(mLc);
+        } else if (tip === 'prescribed') {
+            Af = P * Lf;
+            const shmLf = Math.sinh(mLf);
+            const chmLf = Math.cosh(mLf);
+            C1 = M * (chmLf / shmLf); // M·coth(mLf)
+            const thetaL = TL - Tinf;
+            C2 = shmLf > 1e-12 ? (M * thetaL / shmLf) : 0;
+            etaFHomog = (h * Af) > 0 ? C1 / (h * Af) : 0; // parte homogénea (θL=0); ver etaF real post-resolución
+        } else { // 'adiabatic' (default)
+            Af = P * Lf;
+            etaFHomog = Math.tanh(mLf) / mLf;
+            C1 = M * Math.tanh(mLf);
+        }
+
+        const Aunfin = Math.max(areaTotal - Nf * Ac, 0);
+        const finsFitWarning = (Nf * Ac) > areaTotal; // las N aletas exceden el área total de la frontera
+        const G = h * Aunfin + Nf * C1;      // conductancia total de la frontera aletada [W/K]
+        const Qsrc = Nf * C2;                 // fuente de flujo constante total [W] (0 salvo punta prescrita)
+        const Runfin = Aunfin > 0 ? 1 / (h * Aunfin) : Infinity;
+        const Rfins = (Nf > 0 && C1 > 0) ? 1 / (Nf * C1) : Infinity;
+
+        return {
+            side, h, Tinf, Nf, Lf, tf, w, kf, tip, TL, areaTotal,
+            P, Ac, m, M, Lc, Af, C1, C2, Aunfin, G, Qsrc, Runfin, Rfins,
+            etaFHomog, finsFitWarning
+        };
+    }
+
+    // computeFinBoundaryInfo(): construye el objeto bcResL/bcResR (mismas
+    // claves R/hConv/hRad/isSource que boundaryResistanceInfo(), MÁS un
+    // sub-objeto `fin` con los detalles para el circuito/UI) una vez que la
+    // temperatura de superficie Ts ya está resuelta — necesario porque en
+    // la punta a T_L prescrita η_f y η_o son afines en θb=Ts-T∞ y sólo
+    // pueden reportarse correctamente con la Ts final del circuito (mismo
+    // principio que boundaryResistanceInfo() ya aplicaba para R_rad, que
+    // depende de Ts).
+    function computeFinBoundaryInfo(finParams, TsVal) {
+        const thetaB = TsVal - finParams.Tinf;
+        const qFinsTotal = finParams.Nf * finParams.C1 * thetaB - finParams.Qsrc; // W, >0 saliendo de la pared hacia el fluido vía aletas
+        const qUnfinTotal = finParams.h * finParams.Aunfin * thetaB;              // W, >0 saliendo vía zona sin aletear
+        const qBoundaryTotal = qFinsTotal + qUnfinTotal;                          // = G·θb - Qsrc
+
+        const denomFin = finParams.h * finParams.Af * thetaB;
+        const etaF = Math.abs(denomFin) > 1e-9
+            ? (qFinsTotal / Math.max(finParams.Nf, 1)) / denomFin
+            : finParams.etaFHomog;
+
+        const denomO = finParams.h * finParams.areaTotal * thetaB;
+        const etaO = Math.abs(denomO) > 1e-9
+            ? qBoundaryTotal / denomO
+            : (finParams.G / (finParams.h * finParams.areaTotal));
+
+        return {
+            R: finParams.G > 0 ? 1 / finParams.G : null,
+            hConv: 0, hRad: 0,
+            isSource: Math.abs(finParams.Qsrc) > 1e-9,
+            fin: Object.assign({}, finParams, { TsVal, thetaB, qFinsTotal, qUnfinTotal, qBoundaryTotal, etaF, etaO })
+        };
+    }
+
     // ── LOTE — Solver Multigeometría: áreas y radios ────────────────────────
     // computeRadii(): radios/posiciones acumuladas en cada interfase i=0..N.
     // Para geometría plana, radii[0]=0 y radii[i] es la posición x acumulada
@@ -13490,6 +13765,14 @@ function initMulticapaCustomSimulation() {
             if (!bc) return;
             if (bc.hConv > 0) vals.push(1 / bc.hConv);
             if (bc.hRad > 0) vals.push(1 / bc.hRad);
+            // LOTE — Superficie Aletada: las dos ramas resistivas reales del
+            // nodo aletado (R_unfin ∥ R_fins) — bc.hConv/bc.hRad quedan en 0
+            // para este tipo (ver computeFinBoundaryInfo), así que se
+            // agregan aquí explícitamente para la escala del circuito.
+            if (bc.fin) {
+                if (isFinite(bc.fin.Runfin) && bc.fin.Runfin > 0) vals.push(bc.fin.Runfin);
+                if (isFinite(bc.fin.Rfins) && bc.fin.Rfins > 0) vals.push(bc.fin.Rfins);
+            }
         });
         return vals;
     }
@@ -13921,6 +14204,12 @@ function initMulticapaCustomSimulation() {
         const elLRad = document.getElementById('cm-l-rad-group'); if (elLRad) elLRad.style.display = (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad') ? 'block' : 'none';
         const elLFlux = document.getElementById('cm-l-flux-group'); if (elLFlux) elLFlux.style.display = (typeL === 'flux' || typeL === 'comb-flux') ? 'block' : 'none';
         const elLIrr = document.getElementById('cm-l-irr-group'); if (elLIrr) elLIrr.style.display = (typeL === 'irr_conv' || typeL === 'irr_rad') ? 'block' : 'none';
+        // LOTE — Superficie Aletada: grupo completo visible sólo con
+        // typeL==='fin'; dentro de él, el sub-grupo T_L sólo se muestra si
+        // la punta seleccionada es "Temperatura Prescrita".
+        const elLFin = document.getElementById('cm-l-fin-group'); if (elLFin) elLFin.style.display = (typeL === 'fin') ? 'block' : 'none';
+        const elLFinTL = document.getElementById('cm-l-fin-tl-group');
+        if (elLFinTL) elLFinTL.style.display = (typeL === 'fin' && selectLFinTip && selectLFinTip.value === 'prescribed') ? 'block' : 'none';
 
         const typeR = selectBcRType.value;
         const elRTemp = document.getElementById('cm-r-temp-group'); if (elRTemp) elRTemp.style.display = typeR === 'temp' ? 'block' : 'none';
@@ -13928,6 +14217,10 @@ function initMulticapaCustomSimulation() {
         const elRRad = document.getElementById('cm-r-rad-group'); if (elRRad) elRRad.style.display = (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad') ? 'block' : 'none';
         const elRFlux = document.getElementById('cm-r-flux-group'); if (elRFlux) elRFlux.style.display = (typeR === 'flux' || typeR === 'comb-flux') ? 'block' : 'none';
         const elRIrr = document.getElementById('cm-r-irr-group'); if (elRIrr) elRIrr.style.display = (typeR === 'irr_conv' || typeR === 'irr_rad') ? 'block' : 'none';
+        // LOTE — Superficie Aletada: espejo derecho (ver comentario análogo arriba).
+        const elRFin = document.getElementById('cm-r-fin-group'); if (elRFin) elRFin.style.display = (typeR === 'fin') ? 'block' : 'none';
+        const elRFinTL = document.getElementById('cm-r-fin-tl-group');
+        if (elRFinTL) elRFinTL.style.display = (typeR === 'fin' && selectRFinTip && selectRFinTip.value === 'prescribed') ? 'block' : 'none';
 
         // Sincroniza los inputs numéricos editables con el valor actual de
         // cada slider (LOTE — entrada numérica bidireccional). Se omite el
@@ -13940,7 +14233,14 @@ function initMulticapaCustomSimulation() {
             ['cm-l-g-num', inputLG], ['cm-l-alpha-num', inputLAlpha],
             ['cm-r-temp-num', inputRTemp], ['cm-r-h-num', inputRH], ['cm-r-tinf-num', inputRTinf],
             ['cm-r-eps-num', inputREps], ['cm-r-tsur-num', inputRTsur], ['cm-r-flux-num', inputRFlux],
-            ['cm-r-g-num', inputRG], ['cm-r-alpha-num', inputRAlpha]
+            ['cm-r-g-num', inputRG], ['cm-r-alpha-num', inputRAlpha],
+            // LOTE — Superficie Aletada
+            ['cm-l-fin-h-num', inputLFinH], ['cm-l-fin-tinf-num', inputLFinTinf], ['cm-l-fin-n-num', inputLFinN],
+            ['cm-l-fin-lf-num', inputLFinLf], ['cm-l-fin-tf-num', inputLFinTf], ['cm-l-fin-w-num', inputLFinW],
+            ['cm-l-fin-kf-num', inputLFinKf], ['cm-l-fin-tl-num', inputLFinTL],
+            ['cm-r-fin-h-num', inputRFinH], ['cm-r-fin-tinf-num', inputRFinTinf], ['cm-r-fin-n-num', inputRFinN],
+            ['cm-r-fin-lf-num', inputRFinLf], ['cm-r-fin-tf-num', inputRFinTf], ['cm-r-fin-w-num', inputRFinW],
+            ['cm-r-fin-kf-num', inputRFinKf], ['cm-r-fin-tl-num', inputRFinTL]
         ];
 
         numFieldsMap.forEach(([numId, input]) => {
@@ -13957,10 +14257,19 @@ function initMulticapaCustomSimulation() {
     }
     const inputsToBind = [
         inputLTemp, inputLH, inputLTinf, inputLEps, inputLTsur, inputLFlux, inputLG, inputLAlpha,
-        inputRTemp, inputRH, inputRTinf, inputREps, inputRTsur, inputRFlux, inputRG, inputRAlpha
+        inputRTemp, inputRH, inputRTinf, inputREps, inputRTsur, inputRFlux, inputRG, inputRAlpha,
+        // LOTE — Superficie Aletada
+        inputLFinH, inputLFinTinf, inputLFinN, inputLFinLf, inputLFinTf, inputLFinW, inputLFinKf, inputLFinTL,
+        inputRFinH, inputRFinTinf, inputRFinN, inputRFinLf, inputRFinTf, inputRFinW, inputRFinKf, inputRFinTL
     ];
     inputsToBind.forEach(el => {
         if (el) el.addEventListener('input', updateBcVisibility);
+    });
+    // LOTE — Superficie Aletada: el selector de condición de punta también
+    // debe disparar updateBcVisibility (cambia qué grupo de campos se
+    // muestra -T_L- y qué rama del solver se usa).
+    [selectLFinTip, selectRFinTip].forEach(el => {
+        if (el) el.addEventListener('change', updateBcVisibility);
     });
 
     // Entrada numérica bidireccional para las fronteras (LOTE): cada input
@@ -13989,7 +14298,14 @@ function initMulticapaCustomSimulation() {
         ['cm-l-g-num', inputLG], ['cm-l-alpha-num', inputLAlpha],
         ['cm-r-temp-num', inputRTemp], ['cm-r-h-num', inputRH], ['cm-r-tinf-num', inputRTinf],
         ['cm-r-eps-num', inputREps], ['cm-r-tsur-num', inputRTsur], ['cm-r-flux-num', inputRFlux],
-        ['cm-r-g-num', inputRG], ['cm-r-alpha-num', inputRAlpha]
+        ['cm-r-g-num', inputRG], ['cm-r-alpha-num', inputRAlpha],
+        // LOTE — Superficie Aletada
+        ['cm-l-fin-h-num', inputLFinH], ['cm-l-fin-tinf-num', inputLFinTinf], ['cm-l-fin-n-num', inputLFinN],
+        ['cm-l-fin-lf-num', inputLFinLf], ['cm-l-fin-tf-num', inputLFinTf], ['cm-l-fin-w-num', inputLFinW],
+        ['cm-l-fin-kf-num', inputLFinKf], ['cm-l-fin-tl-num', inputLFinTL],
+        ['cm-r-fin-h-num', inputRFinH], ['cm-r-fin-tinf-num', inputRFinTinf], ['cm-r-fin-n-num', inputRFinN],
+        ['cm-r-fin-lf-num', inputRFinLf], ['cm-r-fin-tf-num', inputRFinTf], ['cm-r-fin-w-num', inputRFinW],
+        ['cm-r-fin-kf-num', inputRFinKf], ['cm-r-fin-tl-num', inputRFinTL]
     ].forEach(([numId, rangeEl]) => bindBcNumberInput(numId, rangeEl));
 
     if (selectLayersCount) {
@@ -14177,6 +14493,13 @@ function initMulticapaCustomSimulation() {
             Rcond += layerRcondAt(i, radii);
         }
 
+        // LOTE — Superficie Aletada: parámetros lineales (G, Qsrc, etc.) de
+        // cada frontera 'fin', calculados UNA sola vez por resolución (no
+        // dependen de T0/TN — ver computeFinLinearParams arriba), y
+        // reutilizados por getFluxLeft/Right + sus derivadas más abajo.
+        const finParamsL = (typeL === 'fin') ? computeFinLinearParams('L', A1) : null;
+        const finParamsR = (typeR === 'fin') ? computeFinLinearParams('R', AN1) : null;
+
         // 1. Check for double flux boundary condition
         if (typeL === 'flux' && typeR === 'flux') {
             const qL = inputLFlux ? parseFloat(inputLFlux.value) : 0;
@@ -14220,6 +14543,13 @@ function initMulticapaCustomSimulation() {
                 const alphaL = inputLAlpha ? parseFloat(inputLAlpha.value) : 0;
                 qpp += alphaL * gL;
             }
+            if (typeL === 'fin') {
+                // Superficie Aletada: G_L·(T∞-T0) es la parte resistiva pura
+                // (idéntica en forma a 'conv' con h_eff=G_L/A1), Qsrc_L/A1 es
+                // la fuente constante afín (sólo ≠0 en punta a T_L prescrita
+                // — ver computeFinLinearParams). Mismo patrón que α·G arriba.
+                qpp += (finParamsL.G / A1) * (finParamsL.Tinf - T0) + (finParamsL.Qsrc / A1);
+            }
             // LOTE — Solver Multigeometría: Q_total = q''·A1 (A1=1 m² en plana,
             // así que el resultado es idéntico al de antes de este LOTE).
             return qpp * A1;
@@ -14255,6 +14585,13 @@ function initMulticapaCustomSimulation() {
                 const alphaR = inputRAlpha ? parseFloat(inputRAlpha.value) : 0;
                 qpp -= alphaR * gR;
             }
+            if (typeR === 'fin') {
+                // Superficie Aletada (frontera derecha, convención "saliendo
+                // de la pared" — ver comentario análogo en getFluxLeft):
+                // G_R·(TN-T∞) resistivo puro + fuente Qsrc_R restando (mismo
+                // signo opuesto que usa irr_conv/irr_rad arriba).
+                qpp += (finParamsR.G / AN1) * (TN - finParamsR.Tinf) - (finParamsR.Qsrc / AN1);
+            }
             // LOTE — Solver Multigeometría: Q_total = q''·A_{N+1} (=1 m² en plana).
             return qpp * AN1;
         }
@@ -14270,6 +14607,11 @@ function initMulticapaCustomSimulation() {
             if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad') {
                 const epsL = inputLEps ? parseFloat(inputLEps.value) : 0.85;
                 dqpp += -4 * sigma * epsL * Math.pow(T0 + 273.15, 3);
+            }
+            if (typeL === 'fin') {
+                // G_L es independiente de T0 (calculado una sola vez arriba),
+                // Qsrc_L es constante -> no aporta derivada. Misma forma que 'conv'.
+                dqpp += -(finParamsL.G / A1);
             }
             // Nota: la irradiación absorbida (α·G) es una fuente CONSTANTE
             // respecto a T0 -> su derivada es 0, no aporta término aquí.
@@ -14288,6 +14630,9 @@ function initMulticapaCustomSimulation() {
             if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad') {
                 const epsR = inputREps ? parseFloat(inputREps.value) : 0.85;
                 dqpp += 4 * sigma * epsR * Math.pow(TN + 273.15, 3);
+            }
+            if (typeR === 'fin') {
+                dqpp += (finParamsR.G / AN1);
             }
             // Nota: la irradiación absorbida (α·G) es una fuente CONSTANTE
             // respecto a TN -> su derivada es 0, no aporta término aquí.
@@ -14321,7 +14666,8 @@ function initMulticapaCustomSimulation() {
             // Caso B: T0 exacto (Dirichlet); TN es la única incógnita.
             T0_guess = TL_input;
             TN_guess = 20.0;
-            if ((typeR === 'conv' || typeR === 'irr_conv') && inputRTinf) TN_guess = parseFloat(inputRTinf.value);
+            if (typeR === 'fin') TN_guess = finParamsR.Tinf;
+            else if ((typeR === 'conv' || typeR === 'irr_conv') && inputRTinf) TN_guess = parseFloat(inputRTinf.value);
             converged = false;
             for (let iter = 0; iter < 100; iter++) {
                 const q_cond = (T0_guess - TN_guess) / Rcond;
@@ -14335,7 +14681,8 @@ function initMulticapaCustomSimulation() {
             // Caso C: TN exacto (Dirichlet); T0 es la única incógnita.
             TN_guess = TR_input;
             T0_guess = 100.0;
-            if ((typeL === 'conv' || typeL === 'irr_conv') && inputLTinf) T0_guess = parseFloat(inputLTinf.value);
+            if (typeL === 'fin') T0_guess = finParamsL.Tinf;
+            else if ((typeL === 'conv' || typeL === 'irr_conv') && inputLTinf) T0_guess = parseFloat(inputLTinf.value);
             converged = false;
             for (let iter = 0; iter < 100; iter++) {
                 const q_cond = (T0_guess - TN_guess) / Rcond;
@@ -14350,8 +14697,10 @@ function initMulticapaCustomSimulation() {
             // sin cambios de comportamiento.
             T0_guess = 100.0;
             TN_guess = 20.0;
-            if ((typeL === 'conv' || typeL === 'irr_conv') && inputLTinf) T0_guess = parseFloat(inputLTinf.value);
-            if ((typeR === 'conv' || typeR === 'irr_conv') && inputRTinf) TN_guess = parseFloat(inputRTinf.value);
+            if (typeL === 'fin') T0_guess = finParamsL.Tinf;
+            else if ((typeL === 'conv' || typeL === 'irr_conv') && inputLTinf) T0_guess = parseFloat(inputLTinf.value);
+            if (typeR === 'fin') TN_guess = finParamsR.Tinf;
+            else if ((typeR === 'conv' || typeR === 'irr_conv') && inputRTinf) TN_guess = parseFloat(inputRTinf.value);
             converged = false;
 
             for (let iter = 0; iter < 100; iter++) {
@@ -14403,22 +14752,30 @@ function initMulticapaCustomSimulation() {
         // contribución radiativa incluso en fronteras 'rad' puras) por la
         // fórmula general R_tot = R_bc,izq + R_cond,tot + R_bc,der, con
         // R_bc = (1/R_conv + 1/R_rad)⁻¹ cuando ambos mecanismos coexisten.
-        bcResL = boundaryResistanceInfo(
-            typeL,
-            inputLH ? parseFloat(inputLH.value) : 20,
-            inputLEps ? parseFloat(inputLEps.value) : 0.85,
-            inputLTsur ? parseFloat(inputLTsur.value) : 150,
-            T[0],
-            A1
-        );
-        bcResR = boundaryResistanceInfo(
-            typeR,
-            inputRH ? parseFloat(inputRH.value) : 20,
-            inputREps ? parseFloat(inputREps.value) : 0.85,
-            inputRTsur ? parseFloat(inputRTsur.value) : 10,
-            T[N],
-            AN1
-        );
+        // LOTE — Superficie Aletada: camino de cálculo separado (no toca
+        // boundaryResistanceInfo(), reservada a las 8 fronteras estándar).
+        // Se evalúa con T[0]/T[N] ya resueltos, igual que R_rad, porque en la
+        // punta a T_L prescrita η_f/η_o son afines en la Ts final.
+        bcResL = (typeL === 'fin')
+            ? computeFinBoundaryInfo(finParamsL, T[0])
+            : boundaryResistanceInfo(
+                typeL,
+                inputLH ? parseFloat(inputLH.value) : 20,
+                inputLEps ? parseFloat(inputLEps.value) : 0.85,
+                inputLTsur ? parseFloat(inputLTsur.value) : 150,
+                T[0],
+                A1
+            );
+        bcResR = (typeR === 'fin')
+            ? computeFinBoundaryInfo(finParamsR, T[N])
+            : boundaryResistanceInfo(
+                typeR,
+                inputRH ? parseFloat(inputRH.value) : 20,
+                inputREps ? parseFloat(inputREps.value) : 0.85,
+                inputRTsur ? parseFloat(inputRTsur.value) : 10,
+                T[N],
+                AN1
+            );
 
         // Calculate total resistance including boundary resistances (0 para
         // 'temp' -exacto-, null/sin sumar para 'flux' -fuente pura-)
@@ -14432,8 +14789,13 @@ function initMulticapaCustomSimulation() {
         // comentario junto a `let qFlux` más arriba) — la unidad mostrada debe
         // reflejar cuál de las dos magnitudes es en cada caso.
         if (lblQ) lblQ.innerText = formatEngineeringNumber(qFlux, 1) + (geometry === 'planar' ? ' W/m²' : ' W');
-        if (lblRbcL) lblRbcL.innerText = bcResL.R === null ? t('Fuente (sin R)') : formatEngineeringNumber(bcResL.R) + ' K/W';
-        if (lblRbcR) lblRbcR.innerText = bcResR.R === null ? t('Fuente (sin R)') : formatEngineeringNumber(bcResR.R) + ' K/W';
+        // LOTE — Sincronización de Notación de Resistencias: sustituye las
+        // dos líneas `lblRbcL/R.innerText = ...` que vivían aquí por la
+        // misma asignación MÁS el rótulo/desglose sincronizado con el
+        // diagrama de circuito — ver updateBoundaryResistanceLabel() más
+        // arriba (no altera bcResL.R/bcResR.R en absoluto).
+        updateBoundaryResistanceLabel(bcResL, lblRbcL, lblRbcLLabel, rbclBreakdown, 'izq', 'L');
+        updateBoundaryResistanceLabel(bcResR, lblRbcR, lblRbcRLabel, rbcrBreakdown, 'der', 'R');
 
         // Update Table
         // LOTE — Solver Multigeometría: la columna "Posición" muestra x (plana)
@@ -14444,15 +14806,33 @@ function initMulticapaCustomSimulation() {
         // con caída a notación científica para |valor| < 0.001
         // (formatEngineeringNumber, ya usado por Rcond/Rtot/q — reutilizado
         // aquí por consistencia).
+        // LOTE — Sincronización de Notación de Resistencias: mismo prefijo
+        // (R / Rcil / Resf) que rPrefix dentro de renderCircuit() (línea
+        // ~16665, sin tocar) — no se reutiliza esa constante directamente
+        // porque vive en el scope local de renderCircuit(); se recalcula
+        // aquí con la MISMA expresión para que la columna "R Capa" hable
+        // el mismo idioma que el diagrama en las 3 geometrías.
+        const rPrefixTable = (geometry === 'cylindrical') ? 'Rcil' : (geometry === 'spherical') ? 'Resf' : 'R';
         let tableHtml = '';
         T.forEach((tVal, idx) => {
             const dispVal = cmTempUnit === 'K' ? (tVal + 273.15) : tVal;
             const unitLabel = cmTempUnit === 'K' ? 'K' : '°C';
+            // R_idx = resistencia de la capa que TERMINA en este nodo (capa
+            // idx-1, 0-indexada) — idéntico mapeo que usa el diagrama
+            // (layer i -> badge R_{i+1}, ver rPrefix+subDigits[i+1] en
+            // renderCircuit()). El primer nodo (idx=0, frontera izquierda)
+            // no tiene capa "entrante" que mostrar aquí — esa resistencia ya
+            // se reporta por separado en Rbc,L / el desglose de la
+            // frontera, arriba.
+            const rCellHtml = idx > 0
+                ? `${rPrefixTable}${subLabel(idx)} = ${formatEngineeringNumber(layerRcondAt(idx - 1, radii))} K/W`
+                : '—';
             tableHtml += `
                 <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
                     <td style="padding: 6px;">T${subLabel(idx)}</td>
                     <td style="padding: 6px;">${radii[idx].toFixed(3)} m</td>
                     <td style="padding: 6px; text-align: right; font-weight: bold; color: var(--accent-cyan);">${formatEngineeringNumber(dispVal, 1)} ${unitLabel}</td>
+                    <td style="padding: 6px; text-align: right; color: var(--accent-orange); font-size:0.72rem;">${rCellHtml}</td>
                 </tr>
             `;
         });
@@ -14620,6 +15000,19 @@ function initMulticapaCustomSimulation() {
 
     // Canvas particle anim and flow diagram
     let particles = [];
+
+    // LOTE — Animación de Aletas en Frontera: estado de interpolación ligera
+    // (Canvas 2D, sin DOM/SVG — ver drawFronteraFins() dentro de render())
+    // que persiste ENTRE frames de animLoop() para que el tamaño dibujado de
+    // la aleta (largo/espesor en px) se deslice suavemente hacia el valor
+    // objetivo cuando cambian L_f/t_f, en vez de saltar de golpe. Vive aquí
+    // (closure de initMulticapaCustomSimulation, no dentro de render()) para
+    // sobrevivir entre invocaciones de render() — null = "sin inicializar
+    // todavía" (primer frame con frontera 'fin' activa, sin animación).
+    let finVisualState = {
+        left: { LfPx: null, TfPx: null },
+        right: { LfPx: null, TfPx: null }
+    };
     class FlowParticle {
         constructor() {
             this.reset();
@@ -14757,6 +15150,241 @@ function initMulticapaCustomSimulation() {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText(text, cx, cy + 0.5);
+            ctx.restore();
+        }
+
+        // ── LOTE — Animación de Aletas en Frontera (Superficie Aletada) ─────
+        // drawFronteraFins(ctx, side, params): dibuja las aletas rectangulares
+        // de la frontera 'fin' sobre el Esquema Térmico (canvas physical, NO
+        // el circuito de resistencias — ese ya tiene su propio render en
+        // drawBoundary() dentro de renderCircuit(), sin tocar). Sólo se llama
+        // desde las ramas "Left/Right Boundary Animations" más abajo, cuando
+        // typeL/typeR === 'fin' — no altera el dibujo de capas ni de la red
+        // de resistencias (restricción #2 del LOTE).
+        //
+        // Regla de conteo visual: máx. 5 aletas dibujadas siempre, aunque N
+        // sea mayor — con badge flotante "Vista simplificada (N=…)" si se
+        // recorta. `spacing = H/(visibleFins+1)` reparte las aletas visibles
+        // a lo alto de la frontera (H = heightPlate, la misma franja vertical
+        // que ocupa la pared), dejando medio hueco arriba/abajo (no pegadas
+        // a las esquinas).
+        //
+        // Escala física→píxel + interpolación: L_f/t_f (metros, rango real
+        // de los sliders cm-l/r-fin-lf/tf en index.html) se mapean a px con
+        // una raíz cuadrada (crecimiento visualmente suave, nunca invisible
+        // en el extremo inferior, nunca desbordante en el superior), y el
+        // valor DIBUJADO se desliza cada frame hacia ese objetivo (ease
+        // exponencial sobre `finVisualState`, declarado arriba junto a
+        // `particles` para persistir entre frames de animLoop()) — sustituye
+        // a una transición CSS, que no aplica aquí por ser Canvas 2D puro.
+        function drawFronteraFins(ctx, side, params) {
+            const isLeft = side === 'left';
+            const { N, Lf, tf, Tinf, TwallVal } = params;
+            const H = heightPlate;
+            if (!(N > 0) || !(Lf > 0) || !(tf > 0)) return; // nada que animar/dibujar todavía
+
+            const visibleFins = Math.min(N, 5);
+            const spacing = H / (visibleFins + 1);
+            const yTop = centerY - H / 2;
+            const wallX = isLeft ? startX : endX;
+            const dir = isLeft ? -1 : 1;
+
+            // Escala física → píxeles (raíz cuadrada, saturada a los límites
+            // reales de los sliders — ver min/max de cm-l/r-fin-lf/tf).
+            const LF_MIN = 0.001, LF_MAX = 0.5, LF_PX_MIN = 12, LF_PX_MAX = 70;
+            const TF_MIN = 0.0005, TF_MAX = 0.05, TF_PX_MIN = 2.5, TF_PX_MAX = 16;
+            const clamp01 = (v) => Math.max(0, Math.min(1, v));
+            const targetLfPx = LF_PX_MIN + (LF_PX_MAX - LF_PX_MIN) * Math.sqrt(clamp01((Lf - LF_MIN) / (LF_MAX - LF_MIN)));
+            const targetTfPx = TF_PX_MIN + (TF_PX_MAX - TF_PX_MIN) * Math.sqrt(clamp01((tf - TF_MIN) / (TF_MAX - TF_MIN)));
+
+            const st = finVisualState[isLeft ? 'left' : 'right'];
+            if (st.LfPx == null) {
+                st.LfPx = targetLfPx;
+                st.TfPx = targetTfPx;
+            } else {
+                const ease = 0.18; // ~10-12 frames @20fps para asentarse, sin salto abrupto
+                st.LfPx += (targetLfPx - st.LfPx) * ease;
+                st.TfPx += (targetTfPx - st.TfPx) * ease;
+            }
+            const LfPx = st.LfPx, TfPx = st.TfPx;
+
+            // Color: mismo criterio hot/cool que la convección pura (rojo si
+            // el fluido está más caliente que la base de la aleta, azul si
+            // más frío) — consistente con el resto de fronteras del canvas.
+            const finColor = Tinf > TwallVal ? clrHot : clrCool;
+
+            ctx.save();
+            for (let i = 1; i <= visibleFins; i++) {
+                const cy = yTop + spacing * i;
+                const x0 = wallX;
+                const x1 = wallX + dir * LfPx;
+                const rx = Math.min(x0, x1);
+                const ry = cy - TfPx / 2;
+                const rw = Math.abs(x1 - x0);
+
+                ctx.globalAlpha = 0.85;
+                ctx.fillStyle = finColor;
+                ctx.fillRect(rx, ry, rw, TfPx);
+                ctx.globalAlpha = 1.0;
+                ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(rx, ry, rw, TfPx);
+
+                // Línea guía tenue desde la pared hasta la punta (ayuda a leer
+                // L_f cuando la aleta es muy delgada en pantalla).
+                ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+                ctx.beginPath();
+                ctx.moveTo(wallX, cy);
+                ctx.lineTo(x1, cy);
+                ctx.stroke();
+            }
+
+            // ── LOTE — Disposición Vertical Unificada de Metadatos de Aletas ──
+            // Antes había DOS ubicaciones/orientaciones distintas para
+            // información del mismo arreglo: una etiqueta HORIZONTAL
+            // "N=… · Lf=…mm" siempre visible sobre la pared (yTop-8), y una
+            // píldora VERTICAL aparte "Vista simplificada" (sólo N>5) junto
+            // a la punta de las aletas. Se unifican en UNA sola píldora
+            // vertical multilínea "de frente" a la punta del arreglo —mismo
+            // ancla que ya usaba "Vista simplificada": justo más allá de
+            // LF_PX_MAX, centrada en centerY (ver LOTE anterior para por qué
+            // esa posición evita la colisión con "Frontera Izq./Der." y con
+            // la flecha de flujo de calor)— con hasta 3 renglones apilados
+            // en el orden pedido:
+            //   1. "Vista simplificada"/"Simplified view" (sólo si N>5,
+            //      misma regla de siempre — no tiene sentido mostrarlo si no
+            //      se está simplificando nada).
+            //   2. "N = valor".
+            //   3. "Lf = valor m" (L con subíndice f real, mismo patrón
+            //      main+sub+baseline-shift que el resto del canvas — y ahora
+            //      en metros, no milímetros, para que la unidad viva junto a
+            //      un valor de utilidad general aunque Lf sea grande).
+            // Cada renglón se mide por separado ANTES de rotar (measureText
+            // no depende de translate/rotate) para que el ancho de la
+            // píldora sea siempre el del renglón más largo. El GROSOR
+            // (pillThick, perpendicular a la pared) escala con la cantidad
+            // real de renglones — pero el margen lateral del canvas
+            // (`startX`, fijo en 120px, compartido con "Frontera Izq./Der."
+            // y con el alcance máximo de la propia aleta LF_PX_MAX=70px) es
+            // un presupuesto FIJO, no elástico: con 3 renglones (N>5,
+            // incluyendo "Vista simplificada") a tamaño completo el grosor
+            // resultante (~50px) sumado a LF_PX_MAX+gap (~84px) excede ese
+            // margen y la píldora se recorta contra el borde del canvas
+            // (bug real, encontrado con Playwright — `startX` es un valor
+            // absoluto, no proporcional al ancho, así que esto ocurre en
+            // CUALQUIER ancho de canvas). Se corrige con reducción
+            // progresiva de tamaño de fuente (mismo patrón ya usado por
+            // drawResistorBadge()/drawValueBadgeVerticalMultiline(): probar
+            // del tamaño máximo al mínimo hasta que el grosor quepa en el
+            // presupuesto real) — calculada con la cantidad REAL de
+            // renglones de este llamado (2 con N≤5, 3 con N>5), así que el
+            // caso común N≤5 conserva el tamaño completo (12px) y sólo N>5
+            // reduce lo estrictamente necesario.
+            const rowCount = (N > 5 ? 1 : 0) + 2;
+            const gapFromTip = 10;
+            const padAlong = 6, padThick = 4;
+            const thickBudget = Math.max(24, startX - LF_PX_MAX - gapFromTip);
+            // LOTE — Homologación Tipográfica Exacta de Aletas: el techo/piso
+            // de este shrink-to-fit ahora son LITERALMENTE los mismos valores
+            // (13/8) que usa drawValueBadgeVerticalMultiline() (más abajo en
+            // este archivo, líneas ~15398-15410) para los badges de espesor
+            // (L_i) y conductividad (k_i) de cada capa — antes eran 12/7,
+            // un techo/piso propio que por 1px nunca podía igualar
+            // exactamente el tamaño de esas etiquetas ni siquiera en el caso
+            // común (2 renglones, sin recorte). Con el mismo techo/piso Y la
+            // misma familia/peso (`bold ${fontSize}px Inter, sans-serif`,
+            // ya idéntico antes), ambas etiquetas convergen al mismo tamaño
+            // real en el caso típico — sólo divergen si el propio contenido
+            // de una de las dos fuerza más reducción que la otra, igual que
+            // ya le pasa a L_i/k_i entre capas de distinto ancho de texto.
+            let fontSize = 13;
+            const minFontSize = 8;
+            let rowPitch = fontSize + 3;
+            for (fontSize = 13; fontSize >= minFontSize; fontSize--) {
+                rowPitch = fontSize + 3;
+                const thick = rowCount * rowPitch + padThick * 2;
+                if (thick <= thickBudget || fontSize === minFontSize) break;
+            }
+            const rowFontMain = `bold ${fontSize}px Inter, sans-serif`;
+            const rowFontSub = `bold ${Math.max(6, fontSize - 3)}px Inter, sans-serif`;
+            const rowFontSimplified = `bold ${Math.max(7, fontSize - 1)}px Inter, sans-serif`;
+
+            const finMetaRows = [];
+            if (N > 5) {
+                finMetaRows.push({ kind: 'plain', text: t('Vista simplificada'), font: rowFontSimplified });
+            }
+            finMetaRows.push({ kind: 'plain', text: `N = ${N}`, font: rowFontMain });
+            finMetaRows.push({
+                kind: 'sub', prefix: 'L', sub: 'f',
+                suffix: ` = ${formatNumCompact(Lf, 3)} m`,
+                mainFont: rowFontMain, subFont: rowFontSub
+            });
+
+            let finMetaMaxW = 0;
+            finMetaRows.forEach(r => {
+                if (r.kind === 'plain') {
+                    ctx.font = r.font;
+                    r._w = ctx.measureText(r.text).width;
+                } else {
+                    ctx.font = r.mainFont;
+                    r._prefixW = ctx.measureText(r.prefix).width;
+                    ctx.font = r.subFont;
+                    r._subW = ctx.measureText(r.sub).width;
+                    ctx.font = r.mainFont;
+                    r._suffixW = ctx.measureText(r.suffix).width;
+                    r._w = r._prefixW + r._subW + r._suffixW;
+                }
+                if (r._w > finMetaMaxW) finMetaMaxW = r._w;
+            });
+
+            const pillLen = finMetaMaxW + padAlong * 2;                 // extensión vertical en pantalla, tras rotar
+            const pillThick = finMetaRows.length * rowPitch + padThick * 2; // grosor horizontal en pantalla, tras rotar
+
+            // Centro de la píldora: justo más allá de la punta de la aleta
+            // más larga posible, "de frente" al arreglo — mismo centro
+            // vertical (centerY) que el banco de aletas.
+            const cx = wallX + dir * (LF_PX_MAX + gapFromTip + pillThick / 2);
+            const cy = centerY;
+
+            ctx.save();
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+            ctx.shadowBlur = 3;
+            ctx.translate(cx, cy);
+            ctx.rotate(-Math.PI / 2); // +x local → arriba en pantalla (lectura de abajo hacia arriba)
+            ctx.beginPath();
+            if (ctx.roundRect) ctx.roundRect(-pillLen / 2, -pillThick / 2, pillLen, pillThick, 4);
+            else ctx.rect(-pillLen / 2, -pillThick / 2, pillLen, pillThick);
+            ctx.fillStyle = 'rgba(0,0,0,0.7)';
+            ctx.fill();
+            ctx.strokeStyle = finColor;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            ctx.shadowColor = 'transparent';
+            ctx.fillStyle = '#ffffff';
+            ctx.textBaseline = 'middle';
+
+            finMetaRows.forEach((r, idx) => {
+                // Renglones centrados como bloque sobre el eje local y=0
+                // (perpendicular a la lectura, "grosor" de la píldora).
+                const oy = (idx - (finMetaRows.length - 1) / 2) * rowPitch;
+                if (r.kind === 'plain') {
+                    ctx.font = r.font;
+                    ctx.textAlign = 'center';
+                    ctx.fillText(r.text, 0, oy + 0.5);
+                } else {
+                    const startX = -r._w / 2;
+                    ctx.textAlign = 'left';
+                    ctx.font = r.mainFont;
+                    ctx.fillText(r.prefix, startX, oy + 0.5);
+                    ctx.font = r.subFont;
+                    ctx.fillText(r.sub, startX + r._prefixW, oy + 0.5 + 3);
+                    ctx.font = r.mainFont;
+                    ctx.fillText(r.suffix, startX + r._prefixW + r._subW, oy + 0.5);
+                }
+            });
+            ctx.textBaseline = 'alphabetic';
+            ctx.restore();
+
             ctx.restore();
         }
 
@@ -15549,6 +16177,29 @@ function initMulticapaCustomSimulation() {
             return blBandBottom - frac * (blBandBottom - blBandTop);
         }
 
+        // LOTE — Refinamiento Tipográfico: etiqueta "Capa Límite Térmica"
+        // subida de 7px (sin negrita) a 12px bold, con una pastilla
+        // semitransparente detrás para asegurar contraste incluso cuando el
+        // texto cruza las líneas del gradiente de fondo (claro u oscuro). El
+        // halo de sombra existente (shadowColor/shadowBlur, ya activo en el
+        // ctx.save() del llamador) se conserva como refuerzo adicional.
+        function drawBoundaryLayerLabel(text, cx, y) {
+            ctx.font = 'bold 12px Inter, sans-serif';
+            const padX = 5, padY = 3;
+            const textW = ctx.measureText(text).width;
+            const boxW = textW + padX * 2, boxH = 15;
+            ctx.save();
+            ctx.shadowColor = 'transparent';
+            ctx.fillStyle = isLightTheme ? 'rgba(255, 255, 255, 0.72)' : 'rgba(15, 23, 42, 0.62)';
+            ctx.beginPath();
+            if (ctx.roundRect) ctx.roundRect(cx - boxW / 2, y - boxH + 4, boxW, boxH, 4);
+            else ctx.rect(cx - boxW / 2, y - boxH + 4, boxW, boxH);
+            ctx.fill();
+            ctx.restore();
+            ctx.font = 'bold 12px Inter, sans-serif';
+            ctx.fillText(text, cx, y);
+        }
+
         const hasConvBL_L = (typeL === 'conv' || typeL === 'irr_conv' || typeL === 'comb' || typeL === 'comb-flux');
         const hasConvBL_R = (typeR === 'conv' || typeR === 'irr_conv' || typeR === 'comb' || typeR === 'comb-flux');
 
@@ -15603,10 +16254,9 @@ function initMulticapaCustomSimulation() {
             ctx.shadowBlur = 3;
             ctx.textAlign = 'center';
             ctx.fillStyle = blLabelColor;
-            ctx.font = 'bold 9px Inter, sans-serif';
+            ctx.font = 'bold 11px Inter, sans-serif';
             ctx.fillText(`h${subDigits[1]}=${formatNumCompact(hL, 1)} W/m²K`, (zoneL0Full + zoneL1) / 2, blBandTop - 4);
-            ctx.font = '7px Inter, sans-serif';
-            ctx.fillText(t('Capa Límite Térmica') + ' (δₜ)', (zoneL0Full + zoneL1) / 2, blBandBottom + 12);
+            drawBoundaryLayerLabel(t('Capa Límite Térmica') + ' (δₜ)', (zoneL0Full + zoneL1) / 2, blBandBottom + 12);
             ctx.restore();
         }
 
@@ -15651,10 +16301,9 @@ function initMulticapaCustomSimulation() {
             ctx.shadowBlur = 3;
             ctx.textAlign = 'center';
             ctx.fillStyle = blLabelColor;
-            ctx.font = 'bold 9px Inter, sans-serif';
+            ctx.font = 'bold 11px Inter, sans-serif';
             ctx.fillText(`h${subDigits[2]}=${formatNumCompact(hR, 1)} W/m²K`, (zoneR0 + zoneR1Full) / 2, blBandTop - 4);
-            ctx.font = '7px Inter, sans-serif';
-            ctx.fillText(t('Capa Límite Térmica') + ' (δₜ)', (zoneR0 + zoneR1Full) / 2, blBandBottom + 12);
+            drawBoundaryLayerLabel(t('Capa Límite Térmica') + ' (δₜ)', (zoneR0 + zoneR1Full) / 2, blBandBottom + 12);
             ctx.restore();
         }
 
@@ -15765,6 +16414,19 @@ function initMulticapaCustomSimulation() {
             }
             ctx.globalAlpha = 1.0;
         }
+        if (typeL === 'fin') {
+            // LOTE — Animación de Aletas en Frontera: lee los sliders propios
+            // de esta frontera directamente del DOM (mismo patrón que
+            // 'conv'/'rad'/etc. arriba, que tampoco reutilizan ningún valor
+            // persistido del solver) — ver drawFronteraFins() más arriba.
+            drawFronteraFins(ctx, 'left', {
+                N: inputLFinN ? Math.max(0, Math.round(parseFloat(inputLFinN.value) || 0)) : 0,
+                Lf: inputLFinLf ? parseFloat(inputLFinLf.value) : 0,
+                tf: inputLFinTf ? parseFloat(inputLFinTf.value) : 0,
+                Tinf: inputLFinTinf ? parseFloat(inputLFinTinf.value) : 25,
+                TwallVal: T[0]
+            });
+        }
 
         // Right Boundary Animations (x > endX)
         if (typeR === 'temp') {
@@ -15869,6 +16531,15 @@ function initMulticapaCustomSimulation() {
                 ctx.fill();
             }
             ctx.globalAlpha = 1.0;
+        }
+        if (typeR === 'fin') {
+            drawFronteraFins(ctx, 'right', {
+                N: inputRFinN ? Math.max(0, Math.round(parseFloat(inputRFinN.value) || 0)) : 0,
+                Lf: inputRFinLf ? parseFloat(inputRFinLf.value) : 0,
+                tf: inputRFinTf ? parseFloat(inputRFinTf.value) : 0,
+                Tinf: inputRFinTinf ? parseFloat(inputRFinTinf.value) : 25,
+                TwallVal: T[N]
+            });
         }
 
         // 3. Animate heat flux particles through the wall
@@ -16007,11 +16678,18 @@ function initMulticapaCustomSimulation() {
         // consecuencia para que este texto más grande no se desborde ni se
         // monte sobre las capas.
         function drawSubscriptText(base, sub, value, unit, x, y, align) {
-            ctx.font = 'bold 12px Inter, sans-serif';
+            // LOTE — Refinamiento Tipográfico (Esquema Térmico): tamaño base
+            // subido de 12px a 14px y subíndice de 9px a 11px (antes ya se
+            // había subido de un 11px original a 12px en un LOTE previo) para
+            // mejorar la legibilidad de los parámetros de frontera (T_L, h_L,
+            // T∞, ε, G, etc.) en proyector/pantalla completa. El baseline
+            // offset del subíndice pasa de +3 a +4 para mantener la misma
+            // proporción visual respecto al nuevo tamaño base.
+            ctx.font = 'bold 14px Inter, sans-serif';
             const baseW = ctx.measureText(base).width;
-            ctx.font = 'bold 9px Inter, sans-serif';
+            ctx.font = 'bold 11px Inter, sans-serif';
             const subW = ctx.measureText(sub).width;
-            ctx.font = 'bold 12px Inter, sans-serif';
+            ctx.font = 'bold 14px Inter, sans-serif';
             const valW = ctx.measureText(` = ${value} ${unit}`).width;
             const totalW = baseW + subW + valW;
 
@@ -16025,15 +16703,15 @@ function initMulticapaCustomSimulation() {
             ctx.textAlign = 'left';
 
             // Draw Base
-            ctx.font = 'bold 12px Inter, sans-serif';
+            ctx.font = 'bold 14px Inter, sans-serif';
             ctx.fillText(base, startX, y);
 
             // Draw Subscript
-            ctx.font = 'bold 9px Inter, sans-serif';
-            ctx.fillText(sub, startX + baseW, y + 3);
+            ctx.font = 'bold 11px Inter, sans-serif';
+            ctx.fillText(sub, startX + baseW, y + 4);
 
             // Draw Value & Unit
-            ctx.font = 'bold 12px Inter, sans-serif';
+            ctx.font = 'bold 14px Inter, sans-serif';
             ctx.fillText(` = ${value} ${unit}`, startX + baseW + subW, y);
         }
 
@@ -16059,12 +16737,12 @@ function initMulticapaCustomSimulation() {
         if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv') {
             ctx.fillStyle = clrHot;
             drawSubscriptText("T", "∞,L", formatNumCompact(parseFloat(inputLTinf.value), 0), "°C", 10, yOffsetL, 'left');
-            yOffsetL += 15;
+            yOffsetL += 17;
         }
         if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad') {
             ctx.fillStyle = clrSur;
             drawSubscriptText("T", "sur,L", formatNumCompact(parseFloat(inputLTsur.value), 0), "°C", 10, yOffsetL, 'left');
-            yOffsetL += 15;
+            yOffsetL += 17;
         }
         if (typeL === 'flux' || typeL === 'comb-flux') {
             ctx.fillStyle = clrRad;
@@ -16075,7 +16753,7 @@ function initMulticapaCustomSimulation() {
             // drawSubscriptText() que el resto de fronteras (ver arriba).
             ctx.fillStyle = clrSolar;
             drawSubscriptText("G", "L", formatNumCompact(parseFloat(inputLG.value), 0), "W/m²", 10, yOffsetL, 'left');
-            yOffsetL += 15;
+            yOffsetL += 17;
             drawSubscriptText("α", "L", formatNumCompact(parseFloat(inputLAlpha.value), 2), "", 10, yOffsetL, 'left');
         }
 
@@ -16105,12 +16783,12 @@ function initMulticapaCustomSimulation() {
         if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv') {
             ctx.fillStyle = clrHot;
             drawSubscriptText("T", "∞,R", formatNumCompact(parseFloat(inputRTinf.value), 0), "°C", w - 10, yOffsetR, 'right');
-            yOffsetR += 15;
+            yOffsetR += 17;
         }
         if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad') {
             ctx.fillStyle = clrSur;
             drawSubscriptText("T", "sur,R", formatNumCompact(parseFloat(inputRTsur.value), 0), "°C", w - 10, yOffsetR, 'right');
-            yOffsetR += 15;
+            yOffsetR += 17;
         }
         if (typeR === 'flux' || typeR === 'comb-flux') {
             ctx.fillStyle = clrRad;
@@ -16119,7 +16797,7 @@ function initMulticapaCustomSimulation() {
         if (typeR === 'irr_conv' || typeR === 'irr_rad') {
             ctx.fillStyle = clrSolar;
             drawSubscriptText("G", "R", formatNumCompact(parseFloat(inputRG.value), 0), "W/m²", w - 10, yOffsetR, 'right');
-            yOffsetR += 15;
+            yOffsetR += 17;
             drawSubscriptText("α", "R", formatNumCompact(parseFloat(inputRAlpha.value), 2), "", w - 10, yOffsetR, 'right');
         }
 
@@ -16150,25 +16828,25 @@ function initMulticapaCustomSimulation() {
         if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv') {
             ctx.fillStyle = clrHot;
             drawSubscriptText("T", "∞,in", formatNumCompact(parseFloat(inputLTinf.value), 0), "°C", 8, yIn, 'left');
-            yIn += 15;
+            yIn += 17;
             ctx.fillStyle = isLightTheme ? '#0284c7' : '#38bdf8';
             drawSubscriptText("h", "in", formatNumCompact(parseFloat(inputLH ? inputLH.value : '20'), 1), "W/m²K", 8, yIn, 'left');
-            yIn += 15;
+            yIn += 17;
         }
         if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad') {
             ctx.fillStyle = clrSur;
             drawSubscriptText("T", "sur,in", formatNumCompact(parseFloat(inputLTsur.value), 0), "°C", 8, yIn, 'left');
-            yIn += 15;
+            yIn += 17;
         }
         if (typeL === 'flux' || typeL === 'comb-flux') {
             ctx.fillStyle = clrRad;
             drawSubscriptText("q\"", "in", formatNumCompact(parseFloat(inputLFlux.value), 0), "W/m²", 8, yIn, 'left');
-            yIn += 15;
+            yIn += 17;
         }
         if (typeL === 'irr_conv' || typeL === 'irr_rad') {
             ctx.fillStyle = clrSolar;
             drawSubscriptText("G", "in", formatNumCompact(parseFloat(inputLG.value), 0), "W/m²", 8, yIn, 'left');
-            yIn += 15;
+            yIn += 17;
             drawSubscriptText("α", "in", formatNumCompact(parseFloat(inputLAlpha.value), 2), "", 8, yIn, 'left');
         }
 
@@ -16192,25 +16870,25 @@ function initMulticapaCustomSimulation() {
         if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv') {
             ctx.fillStyle = clrHot;
             drawSubscriptText("T", "∞,out", formatNumCompact(parseFloat(inputRTinf.value), 0), "°C", w - 8, yOut, 'right');
-            yOut += 15;
+            yOut += 17;
             ctx.fillStyle = isLightTheme ? '#0284c7' : '#38bdf8';
             drawSubscriptText("h", "out", formatNumCompact(parseFloat(inputRH ? inputRH.value : '20'), 1), "W/m²K", w - 8, yOut, 'right');
-            yOut += 15;
+            yOut += 17;
         }
         if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad') {
             ctx.fillStyle = clrSur;
             drawSubscriptText("T", "sur,out", formatNumCompact(parseFloat(inputRTsur.value), 0), "°C", w - 8, yOut, 'right');
-            yOut += 15;
+            yOut += 17;
         }
         if (typeR === 'flux' || typeR === 'comb-flux') {
             ctx.fillStyle = clrRad;
             drawSubscriptText("q\"", "out", formatNumCompact(parseFloat(inputRFlux.value), 0), "W/m²", w - 8, yOut, 'right');
-            yOut += 15;
+            yOut += 17;
         }
         if (typeR === 'irr_conv' || typeR === 'irr_rad') {
             ctx.fillStyle = clrSolar;
             drawSubscriptText("G", "out", formatNumCompact(parseFloat(inputRG.value), 0), "W/m²", w - 8, yOut, 'right');
-            yOut += 15;
+            yOut += 17;
             drawSubscriptText("α", "out", formatNumCompact(parseFloat(inputRAlpha.value), 2), "", w - 8, yOut, 'right');
         }
         } // end if (!isCurved) / else
@@ -16286,6 +16964,116 @@ function initMulticapaCustomSimulation() {
         const layerW = N > 0 ? Math.max(8, (xR - xL) / N) : 0;
         const compact = layerW < 46;          // demasiadas capas / canvas angosto: simplifica etiquetas
         const veryCompact = layerW < 26;
+        // LOTE — Despeje de Etiquetas: umbral INDEPENDIENTE de compact/
+        // veryCompact para el prefijo "T_i=" de los nodos de interfase (ver
+        // más abajo, sección CAPAS). compact/veryCompact (46px/26px) se
+        // calibraron para el ancho de las PÍLDORAS de resistencia y el bare
+        // number que los nodos de temperatura ya mostraban; el nuevo prefijo
+        // "T_i=" es más ancho que el número solo y, verificado visualmente
+        // (Playwright, N=8 capas en ancho "amplio"/fullscreen ~805px,
+        // layerW≈69px — techo NO compacto según ese umbral de 46px), ese
+        // prefijo empieza a montarse sobre la píldora de valor de la capa
+        // vecina (ambos viven en la misma franja vertical, separados sólo
+        // horizontalmente por layerW/2) mucho antes de que layerW cruce el
+        // umbral `compact` general. 90px da margen de sobra verificado sin
+        // solape en N=3 (layerW≈183, prefijo visible) y cae a "sólo el
+        // número" en N=8 (layerW≈69) igual que ya hacía veryCompact antes de
+        // este LOTE — sin regresión, sólo un umbral más conservador para
+        // este texto en particular.
+        const tLabelPrefixFits = layerW > 90;
+
+        // ════════════════════════════════════════════════════════════════
+        // LOTE — Uniformidad Tipográfica del Circuito de Resistencias
+        // ════════════════════════════════════════════════════════════════
+        // Única fuente de verdad para TODOS los tamaños/pesos de fuente del
+        // diagrama. Antes existían varios literales de fuente dispersos y
+        // ligeramente distintos entre sí para el mismo propósito (el
+        // ternario de label() usaba 7/8/9px SIN negrita en compact/
+        // veryCompact pero SÍ negrita en tamaño completo; drawResistorBadge()
+        // tenía su propio ternario 9/10/12px; tNodeFont un tercer ternario
+        // 9/11/13px; y '7px Inter, sans-serif' aparecía repetido como literal
+        // suelto en 3 sitios para las anotaciones de fuente/irradiación) —
+        // se homogeneiza todo en un solo objeto con tres escalas
+        // (normal/compact/veryCompact, el mismo criterio de colapso
+        // progresivo ya vigente por el ancho de capa `layerW`) y SIEMPRE en
+        // negrita, para que la jerarquía visual sea idéntica sin importar
+        // cuántas capas o cuán angosto esté el canvas:
+        //   labelMain -> símbolo principal en las píldoras de resistencia (R, η, T)
+        //   labelSub  -> subíndice matemático estructurado (conv, rad, fins, unfin, o, f, N=..)
+        //   valMain   -> valor numérico dentro de la píldora ("= 0.050") y T_i de nodo
+        //   valSub    -> unidad/subíndice pequeño dentro de valores compuestos
+        //   unit      -> etiquetas de una sola línea fuera de píldora (T∞=…, "Fuente", q''=…)
+        // LOTE — Uniformidad Tipográfica de Textos Descriptivos de Frontera:
+        // nueva escala `boundary`, usada exclusivamente por los textos de UNA
+        // sola línea que describen el tipo/valor de frontera fuera de píldora
+        // ("T impuesta", "Fuente", "T∞=…", "T_sur=…", "q''=…", "αG=…"). Antes
+        // todos estos textos caían por defecto en `unit` (7-9px, la escala
+        // MÁS PEQUEÑA de todo el diagrama, pensada originalmente para
+        // anotaciones secundarias de una sola línea) — visualmente en
+        // desventaja frente a los nombres/valores de resistencia (labelMain/
+        // valMain, 9-12px). `boundary` reutiliza el mismo px que labelMain en
+        // cada escala (9/10/12) para igualar tamaños exactamente, pero en
+        // semibold (600) en vez de bold (700) — perceptible como texto
+        // descriptivo, no como el símbolo formal de una resistencia/nodo.
+        const CIRCUIT_FONT = veryCompact ? {
+            labelMain: 'bold 9px Inter, sans-serif',
+            labelSub: 'bold 7px Inter, sans-serif',
+            valMain: 'bold 9px Inter, sans-serif',
+            valSub: 'bold 7px Inter, sans-serif',
+            unit: 'bold 7px Inter, sans-serif',
+            boundary: '600 9px Inter, sans-serif'
+        } : compact ? {
+            labelMain: 'bold 10px Inter, sans-serif',
+            labelSub: 'bold 8px Inter, sans-serif',
+            valMain: 'bold 10px Inter, sans-serif',
+            valSub: 'bold 8px Inter, sans-serif',
+            unit: 'bold 8px Inter, sans-serif',
+            boundary: '600 10px Inter, sans-serif'
+        } : {
+            labelMain: 'bold 12px Inter, sans-serif',
+            labelSub: 'bold 9px Inter, sans-serif',
+            valMain: 'bold 12px Inter, sans-serif',
+            valSub: 'bold 9px Inter, sans-serif',
+            unit: 'bold 9px Inter, sans-serif',
+            boundary: '600 12px Inter, sans-serif'
+        };
+        // Tamaños numéricos (px) derivados de CIRCUIT_FONT — únicos usados por
+        // los bucles de reducción progresiva (shrink-to-fit) de
+        // drawResistorBadge()/drawResistorBadgeSub(), para que el techo de
+        // tamaño de esos bucles nunca diverja del resto de la tipografía.
+        function parseFontPx(fontStr) {
+            const m = /([\d.]+)px/.exec(fontStr);
+            return m ? parseFloat(m[1]) : 12;
+        }
+        const CIRCUIT_FONT_PX = {
+            labelMain: parseFontPx(CIRCUIT_FONT.labelMain),
+            labelSub: parseFontPx(CIRCUIT_FONT.labelSub),
+            valMain: parseFontPx(CIRCUIT_FONT.valMain),
+            valSub: parseFontPx(CIRCUIT_FONT.valSub)
+        };
+
+        // ════════════════════════════════════════════════════════════════
+        // LOTE — Badges Verticales Distintivos: Interfase vs. Frontera
+        // ════════════════════════════════════════════════════════════════
+        // Dos paletas separadas para las píldoras verticales de temperatura
+        // (drawNodeTempLabelV(), más abajo) según qué representan:
+        //   NODE_TEMP_*     -> T_0…T_N, temperatura CALCULADA de interfase/
+        //                      superficie (azul celeste, fondo casi opaco).
+        //   BOUNDARY_TEMP_* -> T∞, T_sur/T_alr, T_sup,imp — temperatura de
+        //                      ENTRADA de la propia frontera (ámbar/naranja,
+        //                      fondo con tinte sutil), para que salte a la
+        //                      vista la diferencia entre "dato de entrada" y
+        //                      "resultado calculado" con sólo mirar el color.
+        const NODE_TEMP_BORDER = isLightTheme ? '#0284c7' : '#38bdf8';
+        const NODE_TEMP_BG = isLightTheme ? 'rgba(241,245,249,0.95)' : 'rgba(15,23,42,0.92)';
+        const BOUNDARY_TEMP_BORDER = isLightTheme ? '#ea580c' : '#f97316';
+        const BOUNDARY_TEMP_BG = isLightTheme ? 'rgba(234,88,12,0.14)' : 'rgba(249,115,22,0.12)';
+        // LOTE — Escala Tipográfica de Temperaturas: 13-14px en la escala
+        // normal (antes reutilizaba CIRCUIT_FONT_PX.valMain, 12px — la misma
+        // que el VALOR de una resistencia, sin resaltar frente al resto).
+        // Sigue colapsando en compact/veryCompact con el mismo criterio que
+        // el resto de la tipografía del circuito.
+        const NODE_TEMP_FONT_PX = veryCompact ? 10 : compact ? 12 : 14;
 
         circuitCtx.textAlign = 'center';
         circuitCtx.lineCap = 'round';
@@ -16362,7 +17150,11 @@ function initMulticapaCustomSimulation() {
             circuitCtx.shadowColor = 'rgba(0,0,0,0.85)';
             circuitCtx.shadowBlur = 3;
             circuitCtx.fillStyle = color || wireColor;
-            circuitCtx.font = font || (veryCompact ? '7px Inter, sans-serif' : (compact ? '8px Inter, sans-serif' : 'bold 9px Inter, sans-serif'));
+            // LOTE — Uniformidad Tipográfica: antes el tamaño "de catálogo" no
+            // llevaba negrita en compact/veryCompact (sólo en tamaño completo),
+            // una discrepancia de peso tipográfico entre densidades. Ahora
+            // siempre toma CIRCUIT_FONT.unit (negrita en las 3 escalas).
+            circuitCtx.font = font || CIRCUIT_FONT.unit;
             circuitCtx.fillText(text, x, y);
             circuitCtx.restore();
         }
@@ -16380,7 +17172,11 @@ function initMulticapaCustomSimulation() {
         // sigue usando label() sin cambios, tal como antes.
         function drawResistorBadge(text, cx, cy, accentColor, maxWidth) {
             maxWidth = maxWidth || 90;
-            const maxFont = veryCompact ? 9 : (compact ? 10 : 12);
+            // LOTE — Uniformidad Tipográfica: el techo/piso de este bucle de
+            // reducción progresiva ahora sale de CIRCUIT_FONT_PX (antes era un
+            // ternario propio, 9/10/12, que por coincidencia igualaba el de
+            // CIRCUIT_FONT — ahora es imposible que diverjan).
+            const maxFont = CIRCUIT_FONT_PX.valMain;
             const minFont = 8;
             const paddingX = 5, paddingY = 2.5;
             let fontSize = maxFont, textW = 0;
@@ -16411,6 +17207,305 @@ function initMulticapaCustomSimulation() {
             circuitCtx.restore();
         }
 
+        // LOTE — Formato Formal de Ecuaciones (Subíndice Matemático
+        // Estructurado): píldora de resistencia/eficiencia compuesta por
+        // HASTA TRES fragmentos tipográficamente distintos —símbolo
+        // principal (R, η), subíndice matemático real (conv, rad, fins,
+        // unfin, o, f — más chico y con línea de base desplazada hacia
+        // abajo, igual que un subíndice LaTeX/Word, NO texto plano pegado
+        // con guion bajo como antes: "R_conv", "η_f=0.85") y, opcionalmente,
+        // el valor numérico ("= 0.050 K/W"). Sustituye a la concatenación de
+        // texto plano que usaban comb/comb-flux/irr_conv/irr_rad/fin para
+        // sus nombres de resistencia — mismo lenguaje visual de píldora
+        // (fondo oscuro semitransparente + borde de color de categoría) que
+        // drawResistorBadge(), sólo que compone tres tamaños de fuente en
+        // vez de uno. `subText` puede ser null/vacío (p.ej. para los nodos
+        // de temperatura o donde no aplica) y `valueText` puede omitirse
+        // (p.ej. la fila de sólo-nombre en 'conv'/'rad' puro, que ya
+        // dibujaba el valor en una fila aparte).
+        function drawResistorBadgeSub(mainText, subText, valueText, cx, cy, accentColor, maxWidth) {
+            maxWidth = maxWidth || 100;
+            const subRatio = CIRCUIT_FONT_PX.labelSub / CIRCUIT_FONT_PX.labelMain; // misma proporción main/sub que el resto del circuito
+            const minMain = 7;
+            const paddingX = 5, paddingY = 2.5;
+            const valStr = valueText ? ` = ${valueText}` : '';
+
+            let mainSize = CIRCUIT_FONT_PX.labelMain, subSize = 0, mainW = 0, subW = 0, valW = 0;
+            for (mainSize = CIRCUIT_FONT_PX.labelMain; mainSize >= minMain; mainSize--) {
+                subSize = Math.max(6, Math.round(mainSize * subRatio));
+                circuitCtx.font = `${CIRCUIT_FONT.labelMain.replace(/[\d.]+px/, mainSize + 'px')}`;
+                mainW = circuitCtx.measureText(mainText).width;
+                if (subText) {
+                    circuitCtx.font = `${CIRCUIT_FONT.labelSub.replace(/[\d.]+px/, subSize + 'px')}`;
+                    subW = circuitCtx.measureText(subText).width;
+                } else {
+                    subW = 0;
+                }
+                if (valueText) {
+                    circuitCtx.font = `${CIRCUIT_FONT.valMain.replace(/[\d.]+px/, mainSize + 'px')}`;
+                    valW = circuitCtx.measureText(valStr).width;
+                } else {
+                    valW = 0;
+                }
+                const totalW = mainW + subW + valW;
+                if (totalW + paddingX * 2 <= maxWidth || mainSize === minMain) break;
+            }
+
+            const totalW = mainW + subW + valW;
+            const badgeW = totalW + paddingX * 2;
+            const badgeH = mainSize + paddingY * 2;
+
+            circuitCtx.save();
+            circuitCtx.beginPath();
+            const bx = cx - badgeW / 2, by = cy - badgeH / 2, radius = badgeH / 2;
+            if (circuitCtx.roundRect) circuitCtx.roundRect(bx, by, badgeW, badgeH, radius);
+            else circuitCtx.rect(bx, by, badgeW, badgeH);
+            circuitCtx.fillStyle = 'rgba(0,0,0,0.68)';
+            circuitCtx.fill();
+            circuitCtx.strokeStyle = accentColor || wireColor;
+            circuitCtx.lineWidth = 1.2;
+            circuitCtx.stroke();
+
+            circuitCtx.fillStyle = '#ffffff';
+            circuitCtx.textAlign = 'left';
+            circuitCtx.textBaseline = 'middle';
+            let runX = cx - totalW / 2;
+            circuitCtx.font = `${CIRCUIT_FONT.labelMain.replace(/[\d.]+px/, mainSize + 'px')}`;
+            circuitCtx.fillText(mainText, runX, cy + 0.5);
+            runX += mainW;
+            if (subText) {
+                circuitCtx.font = `${CIRCUIT_FONT.labelSub.replace(/[\d.]+px/, subSize + 'px')}`;
+                // Subíndice matemático real: línea de base desplazada hacia
+                // abajo (misma convención que drawSubscriptText() del esquema
+                // físico, más arriba en este archivo).
+                circuitCtx.fillText(subText, runX, cy + 0.5 + mainSize * 0.22);
+                runX += subW;
+            }
+            if (valueText) {
+                circuitCtx.font = `${CIRCUIT_FONT.valMain.replace(/[\d.]+px/, mainSize + 'px')}`;
+                circuitCtx.fillText(valStr, runX, cy + 0.5);
+            }
+            circuitCtx.textAlign = 'center';
+            circuitCtx.restore();
+        }
+
+        // ════════════════════════════════════════════════════════════════
+        // LOTE — Etiquetas Verticales de Temperatura con Flecha Guía
+        // ════════════════════════════════════════════════════════════════
+        // Antes cada T_i se escribía HORIZONTAL, centrada en el nodo y
+        // simplemente desplazada ±26/30px en Y (alternando arriba/abajo entre
+        // interfases consecutivas) — con canvas angostos o fronteras que ya
+        // dibujan su propio texto T∞=/T_sur= muy cerca del mismo nodo (xNode
+        // coincide o queda muy próximo a xOuter cuando bcZoneW es chico), el
+        // ANCHO del texto horizontal invadía directamente esa otra etiqueta
+        // (visualmente: "T∞=25°T₀=162.9°" superpuestos — confirmado en
+        // captura headless antes de este LOTE). Ahora la etiqueta es una
+        // píldora VERTICAL (mismo criterio de rotación que
+        // drawValueBadgeVerticalMultiline() del esquema físico: -90°, eje
+        // local +x apunta hacia arriba en pantalla) conectada al nodo por una
+        // línea guía corta con punta de flecha — su huella horizontal se
+        // reduce al grosor de una sola línea de texto (~10-16px) en vez del
+        // ancho completo de la cadena ("T₁=162.9°" ~60-70px), eliminando la
+        // colisión por ancho contra el texto de frontera vecino. `dir`:
+        // -1 = píldora hacia ARRIBA de wireY, +1 = hacia ABAJO.
+        // LOTE — Badges Verticales Distintivos: `color` sigue siendo el
+        // color de borde/flecha (compatibilidad con todos los llamadores
+        // existentes); `bgFill`/`textColor` son NUEVOS y opcionales — si se
+        // omiten, se preserva el aspecto original (fondo casi opaco neutro
+        // `rgba(0,0,0,0.68)`, texto blanco). Los llamadores de temperatura
+        // de interfase/frontera SÍ los pasan explícitamente (ver
+        // NODE_TEMP_*/BOUNDARY_TEMP_* más arriba) para que el color de
+        // fondo y del propio texto —no sólo el borde— formen parte de la
+        // distinción visual pedida entre "calculado" (cian) y "dato de
+        // frontera" (ámbar).
+        function drawNodeTempLabelV(xNode, yNode, text, color, fontPxBase, dir, leadIn, bgFill, textColor) {
+            const minFont = 7;
+            const paddingX = 4, paddingY = 2.5;
+            const nodeGap = 5;    // separación entre el nodo y la punta de flecha
+            const labelGap = 4;   // separación entre el asta y el borde cercano de la píldora
+            // LOTE — Despeje de Etiquetas: `leadIn` es la distancia fija
+            // (asta + separaciones) entre el nodo y el borde cercano de la
+            // píldora — el llamador la calibra según qué otra píldora vive
+            // más cerca de wireY en ESE lado (p.ej. el nombre/valor de una
+            // resistencia a wireY∓16/+20, o la fila R_unfin/R_conv de
+            // 'fin'/'comb-flux' a wireY-28, más lejos) para que el badge de
+            // temperatura empiece SIEMPRE más allá de ese obstáculo, en vez
+            // de un valor fijo que sólo por casualidad despejaba algunos
+            // casos y colisionaba en otros (confirmado con captura headless
+            // antes de este ajuste: "42.7°"/"278.6°" se montaban sobre la
+            // píldora de valor de capa vecina en 8 capas a ancho moderado).
+            leadIn = leadIn || 18;
+            const shaftLen = Math.max(4, leadIn - nodeGap - labelGap);
+
+            // Reducción progresiva (mismo patrón que drawResistorBadge()):
+            // si el canvas es bajo (poca altura disponible entre wireY y el
+            // borde), se encoge la fuente antes de dejar que la píldora se
+            // recorte contra el borde del canvas.
+            const availableReach = Math.max(leadIn + 10, (dir < 0 ? yNode : (ch - yNode)) - 6);
+            let fontPx = fontPxBase, textW = 0, badgeLen = 0;
+            for (fontPx = fontPxBase; fontPx >= minFont; fontPx--) {
+                circuitCtx.font = `bold ${fontPx}px Inter, sans-serif`;
+                textW = circuitCtx.measureText(text).width;
+                badgeLen = textW + paddingX * 2;
+                const reach = leadIn + badgeLen;
+                if (reach <= availableReach || fontPx === minFont) break;
+            }
+            const badgeThick = fontPx + paddingY * 2;
+
+            const tipY = yNode + dir * nodeGap;
+            const tailY = tipY + dir * shaftLen;
+            const badgeCenterY = tailY + dir * (labelGap + badgeLen / 2);
+
+            circuitCtx.save();
+            circuitCtx.strokeStyle = color;
+            circuitCtx.fillStyle = color;
+            circuitCtx.lineWidth = 1.3;
+            circuitCtx.beginPath();
+            circuitCtx.moveTo(xNode, tailY);
+            circuitCtx.lineTo(xNode, tipY);
+            circuitCtx.stroke();
+            const headW = 3, headL = 5;
+            circuitCtx.beginPath();
+            circuitCtx.moveTo(xNode, tipY);
+            circuitCtx.lineTo(xNode - headW, tipY - dir * headL);
+            circuitCtx.lineTo(xNode + headW, tipY - dir * headL);
+            circuitCtx.closePath();
+            circuitCtx.fill();
+            circuitCtx.restore();
+
+            circuitCtx.save();
+            circuitCtx.translate(xNode, badgeCenterY);
+            circuitCtx.rotate(-Math.PI / 2);
+            circuitCtx.beginPath();
+            const bx = -badgeLen / 2, by = -badgeThick / 2, radius = Math.min(badgeThick, badgeLen) / 4;
+            if (circuitCtx.roundRect) circuitCtx.roundRect(bx, by, badgeLen, badgeThick, radius);
+            else circuitCtx.rect(bx, by, badgeLen, badgeThick);
+            circuitCtx.fillStyle = bgFill || 'rgba(0,0,0,0.68)';
+            circuitCtx.fill();
+            circuitCtx.strokeStyle = color;
+            circuitCtx.lineWidth = 1;
+            circuitCtx.stroke();
+            circuitCtx.fillStyle = textColor || '#ffffff';
+            circuitCtx.font = `bold ${fontPx}px Inter, sans-serif`;
+            circuitCtx.textAlign = 'center';
+            circuitCtx.textBaseline = 'middle';
+            circuitCtx.fillText(text, 0, 0.5);
+            circuitCtx.restore();
+        }
+
+        // LOTE — Metadatos Dinámicos en Frontera con Aletas: variante
+        // MULTI-RENGLÓN de drawNodeTempLabelV() de arriba — misma mecánica
+        // de flecha guía + píldora rotada -90°, pero admite varias líneas de
+        // texto en una sola píldora (aquí: "h=valor" + "T∞=valor°") y
+        // siempre usa la paleta ámbar de frontera (BOUNDARY_TEMP_*), ya que
+        // exclusivamente reporta datos de ENTRADA de la frontera, nunca un
+        // resultado calculado. Los valores se leen del objeto `fin` en cada
+        // llamada (fin.h/fin.Tinf, ya calculados por computeFinLinearParams()
+        // a partir de los sliders cm-l-fin-h/cm-l-fin-tinf — o los del lado
+        // derecho), así que son dinámicos por construcción: cualquier
+        // 'input'/'change' en esos controles ya dispara solveSimulation() ->
+        // renderCircuit() (mecanismo existente, sin tocar), y esta función
+        // simplemente pinta lo que `fin` trae en ESE frame.
+        function drawBoundaryInfoBadgeV(xNode, yNode, lines, fontPxBase, dir, leadIn) {
+            const minFont = 7;
+            const paddingX = 4, paddingY = 2.5, rowGap = 2;
+            const nodeGap = 5, labelGap = 4;
+            leadIn = leadIn || 18;
+            const shaftLen = Math.max(4, leadIn - nodeGap - labelGap);
+            const nRows = lines.length;
+
+            const availableReach = Math.max(leadIn + 10, (dir < 0 ? yNode : (ch - yNode)) - 6);
+            let fontPx = fontPxBase, widths = [], badgeLen = 0;
+            for (fontPx = fontPxBase; fontPx >= minFont; fontPx--) {
+                circuitCtx.font = `bold ${fontPx}px Inter, sans-serif`;
+                widths = lines.map(l => circuitCtx.measureText(l).width);
+                badgeLen = Math.max.apply(null, widths) + paddingX * 2;
+                const reach = leadIn + badgeLen;
+                if (reach <= availableReach || fontPx === minFont) break;
+            }
+            const rowPitch = fontPx + rowGap;
+            const badgeThick = nRows * fontPx + (nRows - 1) * rowGap + paddingY * 2;
+
+            const tipY = yNode + dir * nodeGap;
+            const tailY = tipY + dir * shaftLen;
+            const badgeCenterY = tailY + dir * (labelGap + badgeLen / 2);
+
+            circuitCtx.save();
+            circuitCtx.strokeStyle = BOUNDARY_TEMP_BORDER;
+            circuitCtx.fillStyle = BOUNDARY_TEMP_BORDER;
+            circuitCtx.lineWidth = 1.3;
+            circuitCtx.beginPath();
+            circuitCtx.moveTo(xNode, tailY);
+            circuitCtx.lineTo(xNode, tipY);
+            circuitCtx.stroke();
+            const headW = 3, headL = 5;
+            circuitCtx.beginPath();
+            circuitCtx.moveTo(xNode, tipY);
+            circuitCtx.lineTo(xNode - headW, tipY - dir * headL);
+            circuitCtx.lineTo(xNode + headW, tipY - dir * headL);
+            circuitCtx.closePath();
+            circuitCtx.fill();
+            circuitCtx.restore();
+
+            circuitCtx.save();
+            circuitCtx.translate(xNode, badgeCenterY);
+            circuitCtx.rotate(-Math.PI / 2);
+            circuitCtx.beginPath();
+            const bx = -badgeLen / 2, by = -badgeThick / 2, radius = Math.min(badgeThick, badgeLen) / 4;
+            if (circuitCtx.roundRect) circuitCtx.roundRect(bx, by, badgeLen, badgeThick, radius);
+            else circuitCtx.rect(bx, by, badgeLen, badgeThick);
+            circuitCtx.fillStyle = BOUNDARY_TEMP_BG;
+            circuitCtx.fill();
+            circuitCtx.strokeStyle = BOUNDARY_TEMP_BORDER;
+            circuitCtx.lineWidth = 1;
+            circuitCtx.stroke();
+            circuitCtx.fillStyle = BOUNDARY_TEMP_BORDER;
+            circuitCtx.font = `bold ${fontPx}px Inter, sans-serif`;
+            circuitCtx.textAlign = 'center';
+            circuitCtx.textBaseline = 'middle';
+            const startOffset = -((nRows - 1) * rowPitch) / 2;
+            for (let r = 0; r < nRows; r++) {
+                circuitCtx.fillText(lines[r], 0, startOffset + r * rowPitch + 0.5);
+            }
+            circuitCtx.restore();
+        }
+
+        // LOTE — Despeje de Etiquetas de Aletas: dirección vertical PREFERIDA
+        // para la etiqueta de temperatura del nodo de superficie contiguo a
+        // cada frontera, elegida para no competir por el mismo tramo vertical
+        // que otros elementos que esa frontera YA dibuja sobre el propio
+        // xNode. 'irr_conv'/'irr_rad' cuelgan su fuente de irradiación
+        // absorbida (αG) hacia abajo desde xNode; 'comb-flux' y 'fin' cuelgan
+        // (cuando aplica) su fuente de flujo/punta prescrita de la misma
+        // forma — para esas fronteras la etiqueta de temperatura se fuerza
+        // hacia ARRIBA (-1), dejando el margen libre mínimo pedido (≥25-30px,
+        // sobra de sobra al quedar en el lado opuesto) entre la cota de la
+        // aleta (R_unfin/R_fins/η, ancladas en xMid, no en xNode) y el badge
+        // de temperatura. El resto de fronteras ('conv', 'rad', 'flux',
+        // 'comb') no cuelgan nada de xNode hacia abajo, así que se deja hacia
+        // ABAJO (+1) — sin colisión posible con su propio texto T∞=/T_sur=,
+        // que vive en xOuter, no en xNode.
+        function dirForBoundaryNode(type) {
+            return (type === 'irr_conv' || type === 'irr_rad' || type === 'comb-flux' || type === 'fin') ? -1 : 1;
+        }
+
+        // `leadIn` (ver drawNodeTempLabelV) para el nodo de superficie
+        // contiguo a cada frontera: 'conv'/'rad'/'irr_conv'/'irr_rad'/'flux'
+        // dibujan (cuando la dibujan) su única fila de resistencia a
+        // wireY∓16 — comparte tier con el nombre/valor de capa, despejada
+        // con leadIn=34. 'comb'/'comb-flux'/'fin' en cambio dibujan SUS DOS
+        // ramas (R_conv/R_unfin arriba en yTop-12=wireY-28, R_rad/R_fins
+        // abajo en yBot+18=wireY+34 — más lejos en AMBOS lados, no sólo el
+        // que usa dirForBoundaryNode) y necesitan más margen (42) sin
+        // importar hacia qué lado caiga finalmente la etiqueta. Bug real
+        // encontrado con la captura headless: 'comb' quedaba con leadIn=34
+        // (heredado del caso por defecto) mientras su propia R_rad vive en
+        // wireY+34 — el badge de T0/T_N se montaba directamente sobre
+        // "Rrad=…"/"T_sur=…".
+        function leadInForBoundaryNode(type) {
+            return (type === 'fin' || type === 'comb-flux' || type === 'comb') ? 42 : 34;
+        }
+
         // ==================== FRONTERA (izquierda o derecha, espejadas) ====================
         function drawBoundary(side, type, bcInfo, hInput, tinfInput, epsInput, tsurInput, fluxInput, TsVal) {
             const isLeft = side === 'left';
@@ -16421,8 +17516,12 @@ function initMulticapaCustomSimulation() {
             if (type === 'temp') {
                 drawNode(xNode, wireY, tempColor);
                 circuitCtx.textAlign = 'center';
-                label(t('T impuesta'), xNode, wireY - 20, tempColor);
-                label(`${formatNumCompact(TsVal, 1)}°C`, xNode, wireY + 22, tempColor, 'bold 10px Inter, sans-serif');
+                label(t('T impuesta'), xNode, wireY - 20, BOUNDARY_TEMP_BORDER, CIRCUIT_FONT.boundary);
+                // LOTE — Badges Verticales Distintivos: T_sup,imp es un DATO
+                // DE FRONTERA (impuesto por el usuario, no calculado por el
+                // solver) — paleta ámbar (BOUNDARY_TEMP_*), igual que T∞/
+                // T_sur en el resto de fronteras, NO la cian de T_0…T_N.
+                drawNodeTempLabelV(xNode, wireY, `${formatNumCompact(TsVal, 1)}°C`, BOUNDARY_TEMP_BORDER, NODE_TEMP_FONT_PX, 1, 18, BOUNDARY_TEMP_BG, BOUNDARY_TEMP_BORDER);
                 circuitCtx.textAlign = 'center';
                 return;
             }
@@ -16438,8 +17537,8 @@ function initMulticapaCustomSimulation() {
                 circuitCtx.stroke();
                 drawNode(xNode, wireY, sourceColor);
                 circuitCtx.textAlign = 'center';
-                label(`q''=${formatNumCompact(parseFloat(fluxInput.value), 0)}`, xIcon, wireY - 20, sourceColor);
-                label(t('Fuente'), xIcon, wireY + 22, sourceColor);
+                label(`q''=${formatNumCompact(parseFloat(fluxInput.value), 0)}`, xIcon, wireY - 20, sourceColor, CIRCUIT_FONT.boundary);
+                label(t('Fuente'), xIcon, wireY + 22, sourceColor, CIRCUIT_FONT.boundary);
                 circuitCtx.textAlign = 'center';
                 return;
             }
@@ -16463,13 +17562,19 @@ function initMulticapaCustomSimulation() {
                 drawWireV(xNode, yBot, wireY);
                 drawNode(xNode, wireY, tempColor);
 
-                circuitCtx.textAlign = isLeft ? 'left' : 'right';
-                label(`T∞=${formatNumCompact(parseFloat(tinfInput.value), 0)}°`, xOuter, yTop - 20, tempColor);
-                label(`T_sur=${formatNumCompact(parseFloat(tsurInput.value), 0)}°`, xOuter, yBot + 28, radColor);
-                circuitCtx.textAlign = 'center';
+                // LOTE — Badges Verticales Distintivos: T∞/T_sur son DATOS
+                // DE ENTRADA de la propia frontera (no calculados por el
+                // solver) — píldora vertical ámbar (BOUNDARY_TEMP_*) con
+                // flecha apuntando al nodo exterior correspondiente
+                // (xOuter,yTop)/(xOuter,yBot), reemplaza el texto horizontal
+                // plano anterior.
+                drawNodeTempLabelV(xOuter, yTop, `T∞=${formatNumCompact(parseFloat(tinfInput.value), 0)}°`, BOUNDARY_TEMP_BORDER, NODE_TEMP_FONT_PX, -1, 18, BOUNDARY_TEMP_BG, BOUNDARY_TEMP_BORDER);
+                drawNodeTempLabelV(xOuter, yBot, `T_sur=${formatNumCompact(parseFloat(tsurInput.value), 0)}°`, BOUNDARY_TEMP_BORDER, NODE_TEMP_FONT_PX, 1, 18, BOUNDARY_TEMP_BG, BOUNDARY_TEMP_BORDER);
                 if (!compact) {
-                    drawResistorBadge(`R_conv=${formatEngineeringNumber(rConvValComb, 3)}`, xMid, yTop - 12, resColor, bcZoneW * 0.98);
-                    drawResistorBadge(`R_rad=${formatEngineeringNumber(rRadValComb, 3)}`, xMid, yBot + 18, radColor, bcZoneW * 0.98);
+                    // LOTE — Subíndice matemático estructurado (antes "R_conv=…"/
+                    // "R_rad=…" horneado como texto plano en un solo tamaño).
+                    drawResistorBadgeSub('R', 'conv', formatEngineeringNumber(rConvValComb, 3), xMid, yTop - 12, resColor, bcZoneW * 0.98);
+                    drawResistorBadgeSub('R', 'rad', formatEngineeringNumber(rRadValComb, 3), xMid, yBot + 18, radColor, bcZoneW * 0.98);
                 }
                 if (type === 'comb-flux') {
                     // Fuente de flujo tapeada al mismo nodo de superficie (xNode),
@@ -16479,7 +17584,7 @@ function initMulticapaCustomSimulation() {
                     const ySrc = wireY + 58;
                     drawWireV(xNode, wireY, ySrc - 8);
                     drawFluxSource(xNode, ySrc, parseFloat(fluxInput.value), sourceColor);
-                    label(`q''=${formatNumCompact(parseFloat(fluxInput.value), 0)} (${t('Fuente')})`, xNode, ySrc + 16, sourceColor, '7px Inter, sans-serif');
+                    label(`q''=${formatNumCompact(parseFloat(fluxInput.value), 0)} (${t('Fuente')})`, xNode, ySrc + 16, sourceColor, CIRCUIT_FONT.boundary);
                 }
                 return;
             }
@@ -16499,14 +17604,15 @@ function initMulticapaCustomSimulation() {
                 drawNode(xNode, wireY, tempColor);
                 circuitCtx.textAlign = 'center';
                 const irrAccent = isRad ? radColor : resColor;
-                if (!veryCompact) drawResistorBadge(isRad ? 'R_rad' : 'R_conv', xMid, wireY - 16, irrAccent, bcZoneW * 0.9);
+                if (!veryCompact) drawResistorBadgeSub('R', isRad ? 'rad' : 'conv', null, xMid, wireY - 16, irrAccent, bcZoneW * 0.9);
                 drawResistorBadge(formatEngineeringNumber(rValIrr, 3), xMid, wireY + 20, irrAccent, bcZoneW * 0.9);
-                circuitCtx.textAlign = isLeft ? 'left' : 'right';
                 const outerTextIrr = isRad
                     ? `T_sur=${formatNumCompact(parseFloat(tsurInput.value), 0)}°`
                     : `T∞=${formatNumCompact(parseFloat(tinfInput.value), 0)}°`;
-                label(outerTextIrr, xOuter, wireY - 24, tempColor);
-                circuitCtx.textAlign = 'center';
+                // LOTE — Badges Verticales Distintivos: dato de entrada de
+                // frontera -> ámbar, hacia arriba (mismo lado que usaba el
+                // texto horizontal anterior, wireY-26).
+                drawNodeTempLabelV(xOuter, wireY, outerTextIrr, BOUNDARY_TEMP_BORDER, NODE_TEMP_FONT_PX, -1, 18, BOUNDARY_TEMP_BG, BOUNDARY_TEMP_BORDER);
 
                 // Fuente de irradiación absorbida α·G, tapeada al nodo de
                 // superficie, desplazada por debajo de la rama resistiva
@@ -16520,7 +17626,90 @@ function initMulticapaCustomSimulation() {
                 const ySrc = wireY + 44;
                 drawWireV(xNode, wireY, ySrc - 8);
                 drawFluxSource(xNode, ySrc, absorbedQ, sourceColor);
-                label(`αG=${formatNumCompact(absorbedQ, 0)}`, xNode, ySrc + 16, sourceColor, '7px Inter, sans-serif');
+                label(`αG=${formatNumCompact(absorbedQ, 0)}`, xNode, ySrc + 16, sourceColor, CIRCUIT_FONT.boundary);
+                return;
+            }
+
+            if (type === 'fin') {
+                // LOTE — Superficie Aletada: dos ramas resistivas INDEPENDIENTES
+                // que parten del mismo nodo exterior T∞ (mismo potencial —a
+                // diferencia de 'comb', donde T∞ y T_sur son nodos distintos)
+                // y convergen en el nodo de superficie xNode — topología
+                // R_unfin ∥ R_fins, mismo patrón visual que 'comb' pero con
+                // un único nodo exterior compartido.
+                const fin = bcInfo.fin;
+                const yTop = wireY - 16, yBot = wireY + 16;
+                const branchLo = Math.min(xOuter, xNode), branchHi = Math.max(xOuter, xNode);
+                const rUnfinVal = (fin && isFinite(fin.Runfin)) ? fin.Runfin : 0;
+                const rFinsVal = (fin && isFinite(fin.Rfins)) ? fin.Rfins : 0;
+                drawNode(xOuter, wireY, tempColor);
+                drawWireV(xOuter, wireY, yTop);
+                drawWireV(xOuter, wireY, yBot);
+                drawZigzag(branchLo, branchHi, yTop, resColor, computeResistorVisualScale(rUnfinVal, allCircuitRValues));
+                drawZigzag(branchLo, branchHi, yBot, resColor, computeResistorVisualScale(rFinsVal, allCircuitRValues));
+                drawWireV(xNode, yTop, wireY);
+                drawWireV(xNode, yBot, wireY);
+                drawNode(xNode, wireY, tempColor);
+
+                // LOTE — Metadatos Dinámicos en Frontera con Aletas: antes
+                // sólo T∞; ahora también el coeficiente de convección h
+                // (fin.h/fin.Tinf ya vienen de los sliders cm-*-fin-h/
+                // cm-*-fin-tinf vía computeFinLinearParams(), así que
+                // reflejan el valor actual en cada frame — reactivo por
+                // construcción, sin lógica adicional de eventos). Píldora
+                // ámbar de 2 renglones (drawBoundaryInfoBadgeV) en vez de
+                // una sola línea de T∞. Dos ajustes sobre el badge de 1
+                // renglón anterior: (1) `leadIn=42` (no el default 18) para
+                // despejar R_unfin, que en 'fin' vive en yTop-12=wireY-28,
+                // igual que el resto de badges de este lado (ver
+                // leadInForBoundaryNode()); (2) ancla desplazada 10px hacia
+                // el centro del canvas — a 2 renglones el grosor de la
+                // píldora rotada (~33px, mitad ~16.5px) excede el margen
+                // fijo del canvas (12px) y se recortaba contra el borde
+                // izquierdo/derecho (bug real, visto con Playwright antes de
+                // este ajuste) — con 1 sólo renglón (grosor ~19px, mitad
+                // ~9.5px) cabía de sobra, por eso no se notó hasta agregar
+                // la 2ª línea.
+                const xFinInfo = isLeft ? xOuter + 10 : xOuter - 10;
+                drawBoundaryInfoBadgeV(xFinInfo, wireY, [
+                    `h=${formatNumCompact(fin ? fin.h : 0, 0)}`,
+                    `T∞=${formatNumCompact(fin ? fin.Tinf : 0, 0)}°`
+                ], NODE_TEMP_FONT_PX, -1, 42);
+                // LOTE — Desglose en 2 Renglones para Aletas: antes R_fins, N y
+                // η_f venían horneados en UNA sola cadena larga
+                // ("R_fins (N=.., η_f=..)=valor"), que el shrink-to-fit de
+                // drawResistorBadge() terminaba encogiendo hasta el tamaño
+                // mínimo (8px) para que cupiera — resultando en el texto más
+                // denso e ilegible de todo el diagrama, justo en el caso con
+                // más información que comunicar. Ahora son dos píldoras
+                // independientes, cada una con su propio subíndice matemático
+                // estructurado: Renglón 1 = R_fins (con su valor); Renglón 2 =
+                // η_f (con N como parte del subíndice, más chico, y su valor).
+                // rFinsRow2Y también desplaza hacia abajo la fuente de flujo de
+                // la punta prescrita (ySrc, más abajo) para que la fila nueva
+                // nunca se solape con su ícono.
+                let finRowsExtra = 0;
+                if (!compact) {
+                    drawResistorBadgeSub('R', 'unfin', formatEngineeringNumber(rUnfinVal, 3), xMid, yTop - 12, resColor, bcZoneW * 0.98);
+                    const rFinsRow1Y = yBot + 18;
+                    const rFinsRow2Y = rFinsRow1Y + 16;
+                    drawResistorBadgeSub('R', 'fins', formatEngineeringNumber(rFinsVal, 3), xMid, rFinsRow1Y, resColor, bcZoneW * 0.98);
+                    drawResistorBadgeSub('η', `f, N=${fin ? fin.Nf : 0}`, fin ? fin.etaF.toFixed(2) : '0.00', xMid, rFinsRow2Y, resColor, bcZoneW * 0.98);
+                    finRowsExtra = 16; // una fila más que antes de este LOTE: empuja ySrc más abajo
+                } else if (!veryCompact) {
+                    drawResistorBadgeSub('η', 'o', fin ? fin.etaO.toFixed(2) : '0.00', xMid, wireY + 30, resColor, bcZoneW * 0.9);
+                }
+                if (bcInfo.isSource && fin) {
+                    // Punta a T_L prescrita: fuente de flujo constante Qsrc
+                    // superpuesta al nodo de superficie — mismo patrón visual
+                    // que 'comb-flux'/'irr_conv'. Desplazada `finRowsExtra` px
+                    // adicionales cuando el desglose de dos renglones (R_fins +
+                    // η_f) está activo, para no solaparse con la fila nueva.
+                    const ySrc = wireY + 58 + finRowsExtra;
+                    drawWireV(xNode, wireY, ySrc - 8);
+                    drawFluxSource(xNode, ySrc, fin.Qsrc, sourceColor);
+                    label(`T_L=${formatNumCompact(fin.TL, 0)}° (${t('Fuente')})`, xNode, ySrc + 16, sourceColor, CIRCUIT_FONT.boundary);
+                }
                 return;
             }
 
@@ -16531,14 +17720,14 @@ function initMulticapaCustomSimulation() {
             drawNode(xNode, wireY, tempColor);
             circuitCtx.textAlign = 'center';
             const pureAccent = type === 'rad' ? radColor : resColor;
-            if (!veryCompact) drawResistorBadge(type === 'rad' ? 'R_rad' : 'R_conv', xMid, wireY - 16, pureAccent, bcZoneW * 0.9);
+            if (!veryCompact) drawResistorBadgeSub('R', type === 'rad' ? 'rad' : 'conv', null, xMid, wireY - 16, pureAccent, bcZoneW * 0.9);
             drawResistorBadge(formatEngineeringNumber(rVal, 3), xMid, wireY + 20, pureAccent, bcZoneW * 0.9);
-            circuitCtx.textAlign = isLeft ? 'left' : 'right';
             const outerText = type === 'rad'
                 ? `T_sur=${formatNumCompact(parseFloat(tsurInput.value), 0)}°`
                 : `T∞=${formatNumCompact(parseFloat(tinfInput.value), 0)}°`;
-            label(outerText, xOuter, wireY - 24, tempColor);
-            circuitCtx.textAlign = 'center';
+            // LOTE — Badges Verticales Distintivos: dato de entrada de
+            // frontera -> ámbar, con flecha al nodo exterior.
+            drawNodeTempLabelV(xOuter, wireY, outerText, BOUNDARY_TEMP_BORDER, NODE_TEMP_FONT_PX, -1, 18, BOUNDARY_TEMP_BG, BOUNDARY_TEMP_BORDER);
         }
 
         drawBoundary('left', typeL, bcResL, inputLH, inputLTinf, inputLEps, inputLTsur, inputLFlux, T[0]);
@@ -16547,18 +17736,28 @@ function initMulticapaCustomSimulation() {
         // ==================== CAPAS (RESISTENCIAS EN SERIE) ====================
         const subDigits = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉", "₁₀"];
         circuitCtx.textAlign = 'center';
-        // LOTE — Tipografía de Temperaturas de Nodo/Interfase (T₁…Tₙ): el
-        // literal previo ('7px Inter, sans-serif', sin negrita) quedaba muy
-        // por debajo del tamaño de las píldoras de resistencia
-        // (drawResistorBadge: 8-12px bold) y era ilegible en pantalla
-        // completa/proyección. Se sube a bold 9-13px (misma escala
-        // compact/veryCompact que el resto del circuito) para que sea
-        // legible y conserve jerarquía visual clara frente a los valores
-        // de R (que siguen siendo ligeramente más grandes, 8-12px bold,
-        // pero ahora ambos en el mismo rango tipográfico).
-        const tNodeFont = veryCompact
-            ? 'bold 9px Inter, sans-serif'
-            : (compact ? 'bold 11px Inter, sans-serif' : 'bold 13px Inter, sans-serif');
+        // LOTE — Tipografía de Temperaturas de Nodo/Interfase (T₁…Tₙ): antes
+        // un ternario 9/11/13px propio (independiente de CIRCUIT_FONT, con
+        // valores ligeramente distintos a los de las píldoras de resistencia
+        // — 8-12px bold). LOTE — Uniformidad Tipográfica: ahora reutiliza
+        // directamente CIRCUIT_FONT.valMain (mismo rango 9-12px bold que el
+        // resto de valores numéricos del circuito), eliminando la última
+        // escala tipográfica dispersa que quedaba en este archivo.
+        const tNodeFont = CIRCUIT_FONT.valMain;
+        // LOTE — Etiquetas Verticales de Temperatura con Flecha Guía: la
+        // dirección (arriba/abajo) del nodo i=0 ahora la decide la propia
+        // frontera izquierda (dirForBoundaryNode(typeL) — ver definición más
+        // arriba, evita colisión con lo que esa frontera cuelga de xNode
+        // hacia abajo, p.ej. la fuente de irr_conv/irr_rad/comb-flux o el
+        // desglose de 2 renglones de 'fin'), y el resto de interfases
+        // continúan alternando a partir de ahí (mismo criterio de
+        // alternación i%2 ya vigente, sólo con el punto de partida
+        // desplazado) para que nunca dos nodos consecutivos caigan del mismo
+        // lado. Cuando typeL==='temp' el nodo i=0 no se dibuja aquí (lo
+        // rotula drawBoundary()), así que dir0=-1 sólo fija la fase de la
+        // alternación restante — comportamiento IDÉNTICO al que ya tenía
+        // esta sección antes de este LOTE (i=1 impar→abajo, i=2 par→arriba…).
+        const dir0 = (typeL !== 'temp') ? dirForBoundaryNode(typeL) : -1;
         for (let i = 0; i < N; i++) {
             const segX0 = xL + i * layerW;
             const segX1 = xL + (i + 1) * layerW;
@@ -16574,15 +17773,58 @@ function initMulticapaCustomSimulation() {
             // (xL) ya lo rotula drawBoundary() con su propio texto "T impuesta" —
             // evita una etiqueta duplicada sobre el mismo punto.
             if (i > 0 || typeL !== 'temp') {
-                const belowRow = (i % 2 === 0);
-                label(`${formatNumCompact(T[i], 1)}°`, segX0, belowRow ? wireY - 26 : wireY + 30, tempColor, tNodeFont);
+                // LOTE — Formato Formal de Ecuaciones (T_0…T_N): antes sólo el
+                // número ("23.4°"), sin identificar la variable. Se antepone
+                // "T" + subíndice unicode (mismo mecanismo ya usado por los
+                // nombres de capa R₁/Rcil₁/Resf₁, arriba) — gated por
+                // `tLabelPrefixFits` (ver definición más arriba), NO por
+                // veryCompact: el prefijo es más ancho que el número solo y
+                // empieza a solaparse con la píldora de valor vecina con
+                // canvases todavía "no compactos" según el umbral general.
+                // OJO: usa subDigits[i] (índice de INTERFASE, 0-based, mismas
+                // claves T_0..T_N que updateCustomGraphVarSelectors()/"Registrar
+                // Punto Actual" más abajo) — NO `sub` (=subDigits[i+1], el
+                // índice de CAPA 1-based usado por el nombre R_i de arriba;
+                // son numeraciones distintas que no deben confundirse).
+                const subTi = subDigits[i] || String(i);
+                const tLabelText = tLabelPrefixFits
+                    ? `T${subTi}=${formatNumCompact(T[i], 1)}°`
+                    : `${formatNumCompact(T[i], 1)}°`;
+                // LOTE — Etiquetas Verticales de Temperatura con Flecha Guía:
+                // reemplaza el texto horizontal plano (que se solapaba con
+                // T∞=/T_sur= de la propia frontera en canvases angostos, ver
+                // comentario de drawNodeTempLabelV más arriba) por una
+                // píldora vertical rotada -90° con línea guía + punta de
+                // flecha apuntando exactamente a (segX0, wireY).
+                const dirI = (i === 0) ? dir0 : ((i % 2 === 0) ? dir0 : -dir0);
+                // leadIn: los nodos interiores sólo deben despejar la fila de
+                // nombre/valor de capa (wireY∓16/+20 → 34); el nodo i=0 puede
+                // además ser el nodo de superficie de una frontera 'fin'/
+                // 'comb-flux', cuya fila equivalente vive más lejos (42, ver
+                // leadInForBoundaryNode()).
+                const leadInI = (i === 0) ? leadInForBoundaryNode(typeL) : 34;
+                // LOTE — Badges Verticales Distintivos: T_0…T_N son
+                // temperaturas CALCULADAS por el solver (interfase/
+                // superficie) — paleta cian (NODE_TEMP_*), distinta de la
+                // ámbar de T∞/T_sur/T_sup,imp (datos de ENTRADA de la
+                // frontera, ver más abajo en drawBoundary()) — y tipografía
+                // aumentada (NODE_TEMP_FONT_PX, 13-14px en escala normal).
+                drawNodeTempLabelV(segX0, wireY, tLabelText, NODE_TEMP_BORDER, NODE_TEMP_FONT_PX, dirI, leadInI, NODE_TEMP_BG, NODE_TEMP_BORDER);
             }
         }
         drawNode(xR, wireY, nodeColor);
         if (typeR !== 'temp') {
             // El nodo T_s,N+1 ya lo rotula drawBoundary() en modo 'temp'; en los
-            // demás tipos se etiqueta aquí junto con la serie de capas.
-            label(`${formatNumCompact(T[N], 1)}°`, xR, (N % 2 === 0) ? wireY - 26 : wireY + 30, tempColor, tNodeFont);
+            // demás tipos se etiqueta aquí junto con la serie de capas. La
+            // dirección la decide la frontera derecha (dirForBoundaryNode(typeR)),
+            // igual que dir0 para el nodo i=0 de la frontera izquierda —
+            // independiente de la alternación interior (es una frontera
+            // distinta, con sus propios elementos que evitar bajo xNode).
+            const subN = subDigits[N] || String(N);
+            const tEndLabelText = tLabelPrefixFits
+                ? `T${subN}=${formatNumCompact(T[N], 1)}°`
+                : `${formatNumCompact(T[N], 1)}°`;
+            drawNodeTempLabelV(xR, wireY, tEndLabelText, NODE_TEMP_BORDER, NODE_TEMP_FONT_PX, dirForBoundaryNode(typeR), leadInForBoundaryNode(typeR), NODE_TEMP_BG, NODE_TEMP_BORDER);
         }
     }
 
@@ -30137,4 +31379,155 @@ document.addEventListener('DOMContentLoaded', () => {
         syncInitialLanguage();
     }
 
+})();
+
+/* ============================================================
+   MULTICAPA CUSTOM — SINCRONIZACIÓN DINÁMICA DEL HUECO
+   "Circuito de Resistencias" -> "Perfil de Temperatura T(x)"
+   (#multicapa-custom-sim.fullscreen, sólo escritorio > 1100px)
+   ============================================================
+   DIAGNÓSTICO (medido con Playwright, contenido real vía
+   #multicapa-lab-open-btn -> initMulticapaCustomSimulation()):
+   #cm-panel-canvas ("Esquema Térmico" + "Circuito de Resistencias")
+   y #cm-panel-chart ("Perfil de Temperatura T(x)") NO son hermanos
+   de DOM (viven en filas de grid distintas de #cm-layout-wrapper:
+   canvas hace grid-row-span a través de la fila compartida con
+   #cm-panel-layers/#cm-panel-results). Cuando esa fila compartida
+   es más alta que #cm-panel-canvas -algo que ocurre con normalidad
+   en producción: 3 capas + condiciones de frontera por defecto ya
+   mide 48px de hueco; con más capas o fronteras "Superficie
+   Aletada" en ambos lados se midieron hasta ~740px de hueco real-
+   el algoritmo de reparto de alto de CSS Grid para ítems con
+   row-span dedica el excedente A ESA FILA (que no es visible
+   porque #cm-panel-canvas no se estira, align-items:start), dejando
+   un hueco invisible de tamaño VARIABLE antes de #cm-panel-chart.
+   Un margin-top negativo fijo en CSS (como el -0.5rem usado antes)
+   sólo cancela el row-gap constante de 8px del grid maestro: nunca
+   pudo cancelar ese hueco variable, que depende del contenido real
+   de "Configuración de las Capas de la Pared" y "Resultados de la
+   Simulación" (número de capas, tipo de frontera elegido, etc.) y
+   por tanto no es conocible en tiempo de escritura de la hoja de
+   estilos. No existe una solución 100% CSS estática para este
+   caso: el desfase real sólo se puede medir en tiempo de ejecución.
+
+   SOLUCIÓN: tras cada cambio de tamaño de los paneles relevantes
+   (ResizeObserver — se dispara con cualquier causa: abrir
+   fullscreen, cambiar el número de capas, cambiar el tipo de
+   frontera, redimensionar la ventana, cambiar de geometría, etc.,
+   sin necesidad de enganchar cada handler existente uno por uno),
+   se mide el hueco real entre el borde inferior de #cm-panel-canvas
+   y el borde superior de #cm-panel-chart y se cancela exactamente
+   con un margin-top negativo calculado — nunca un valor fijo.
+
+   Alcance: SÓLO cuando #multicapa-custom-sim tiene la clase
+   .fullscreen y el viewport es > 1100px (donde ambos paneles son
+   vecinos de fila en el grid maestro — ver grid-template-areas en
+   style.css). En los breakpoints de 1100px/768px, #cm-panel-chart
+   ya NO es la fila siguiente a #cm-panel-canvas (se interpone
+   #cm-panel-layers/#cm-panel-results, o el layout pasa a flex-
+   columna apilado) — ahí se respeta el margin-top:0 propio de esas
+   media queries en style.css, sin tocarlo. No modifica index.html
+   ni ninguna otra simulación/laboratorio; no corre en modo normal
+   (siempre exige .fullscreen).
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var modal = null, chartPanel = null, canvasPanel = null;
+    var ro = null, rafPending = false;
+
+    function syncGap() {
+        rafPending = false;
+        modal = modal || document.getElementById('multicapa-custom-sim');
+        chartPanel = chartPanel || document.getElementById('cm-panel-chart');
+        canvasPanel = canvasPanel || document.getElementById('cm-panel-canvas');
+        if (!modal || !chartPanel || !canvasPanel) return;
+        if (!modal.classList.contains('fullscreen')) {
+            // Se salió de fullscreen: nunca dejar un margin-top inline
+            // heredado del cálculo dinámico contaminando el modo normal.
+            chartPanel.style.removeProperty('margin-top');
+            return;
+        }
+
+        // Fuera de este rango los paneles no son vecinos de fila — se
+        // devuelve el control a la hoja de estilos (que ya fija
+        // margin-top:0 en esos breakpoints) en vez de dejar clavado un
+        // valor inline stale de un ancho de ventana anterior.
+        if (window.innerWidth <= 1100) {
+            chartPanel.style.removeProperty('margin-top');
+            return;
+        }
+
+        // Se resetea antes de medir para no acumular el ajuste de la
+        // medición anterior sobre sí mismo.
+        chartPanel.style.setProperty('margin-top', '0px', 'important');
+
+        var canvasRect = canvasPanel.getBoundingClientRect();
+        var chartRect = chartPanel.getBoundingClientRect();
+        var gap = chartRect.top - canvasRect.bottom;
+
+        // Sólo se cancela un hueco positivo real; nunca se empuja chart
+        // hacia arriba si por algún motivo ya estuviera pegado o solapado.
+        if (gap > 0.5) {
+            chartPanel.style.setProperty('margin-top', (-gap) + 'px', 'important');
+        }
+    }
+
+    function scheduleSync() {
+        if (rafPending) return;
+        rafPending = true;
+        requestAnimationFrame(syncGap);
+    }
+
+    function setupObservers() {
+        var ids = ['cm-panel-left-bc', 'cm-panel-right-bc', 'cm-panel-layers',
+            'cm-panel-results', 'cm-panel-canvas', 'cm-panel-chart', 'cm-layout-wrapper'];
+        var targets = ids.map(function (id) { return document.getElementById(id); })
+            .filter(Boolean);
+        if (!targets.length) return;
+
+        if (typeof ResizeObserver === 'function') {
+            ro = new ResizeObserver(scheduleSync);
+            targets.forEach(function (el) { ro.observe(el); });
+        }
+        window.addEventListener('resize', scheduleSync);
+
+        // Refuerzo directo en la apertura del laboratorio: garantiza el primer
+        // cálculo inmediatamente (doble rAF, mismo patrón robusto que
+        // forceDelayedResize en este archivo) más un respaldo con timeout por
+        // si MathJax/Chart.js siguen asentando layout.
+        if (window.MulticapaLab && typeof window.MulticapaLab.open === 'function') {
+            var originalOpen = window.MulticapaLab.open;
+            window.MulticapaLab.open = function () {
+                var result = originalOpen.apply(this, arguments);
+                scheduleSync();
+                requestAnimationFrame(function () { requestAnimationFrame(scheduleSync); });
+                setTimeout(scheduleSync, 200);
+                setTimeout(scheduleSync, 600);
+                return result;
+            };
+        }
+        if (window.MulticapaLab && typeof window.MulticapaLab.close === 'function') {
+            var originalClose = window.MulticapaLab.close;
+            window.MulticapaLab.close = function () {
+                // Limpia el ajuste inline ANTES de que la clase .fullscreen
+                // se retire (syncGap() comprueba esa clase para decidir si
+                // debe limpiar) — así el modo normal nunca hereda el último
+                // margin-top calculado en pantalla completa.
+                var cp = chartPanel || document.getElementById('cm-panel-chart');
+                if (cp) cp.style.removeProperty('margin-top');
+                return originalClose.apply(this, arguments);
+            };
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupObservers);
+    } else {
+        setupObservers();
+    }
+
+    // Expuesto por si algún flujo futuro (cambio de geometría, idioma, etc.)
+    // necesita forzar el recálculo manualmente.
+    window.MulticapaCenterGapSync = { sync: scheduleSync };
 })();

@@ -3338,6 +3338,18 @@ body.multicapa-lab-open {
 
 #multicapa-custom-sim.fullscreen #cm-panel-canvas {
   grid-area: canvas;
+  /* LOTE — Panel Unificado de 3 Figuras (Esquema Térmico + Circuito de
+     Resistencias + Perfil T(x)), exclusivo de fullscreen: "Esquema
+     Térmico y Flujo de Calor" y "Circuito de Resistencias Térmicas
+     Equivalentes" ya son hijos del MISMO elemento (#cm-panel-canvas,
+     flex-column) — sólo se reduce su `gap` interno (antes 10px inline)
+     al mínimo legible para que ambas figuras (y el título "Circuito de
+     Resistencias..." entre ellas) queden lo más pegadas posible, sin
+     tocar el ancho/alto de ninguna de las 2 cajas de figura (el div que
+     envuelve #customMultiCanvas y #cm-circuit-container conservan su
+     padding/height inline intactos). No afecta el modo normal
+     (selector exclusivo .fullscreen) ni ningún otro laboratorio. */
+  gap: 6px !important;
 }
 
 /* LOTE — Ampliación vertical exclusiva de Pared Plana (geometry==='planar')
@@ -3361,6 +3373,30 @@ body.multicapa-lab-open {
   height: 460px !important;
 }
 
+/* LOTE — Expansión Vertical del Circuito de Resistencias Térmicas (+30%):
+   #cm-circuit-container trae en index.html el atributo inline
+   style="...height:200px..." (mismo elemento en modo normal Y en
+   fullscreen — no hay ninguna regla previa que lo distinga por modo, a
+   diferencia de #customMultiCanvas/.cm-canvas-planar-xl arriba). Un estilo
+   inline vence a cualquier regla externa sin !important sin importar la
+   especificidad del selector, así que !important es necesario aquí (mismo
+   motivo ya documentado para .cm-canvas-planar-xl y #cm-layout-wrapper más
+   arriba en este archivo) — no se toca index.html.
+   200px * 1.30 = 260px. En app_v2.js, renderCircuit() lee
+   `circuitCanvas.clientHeight` en cada frame y centra la línea del
+   circuito en `wireY = ch * 0.5` — al crecer el contenedor un 30% con
+   wireY siempre en el 50% exacto, el espacio nuevo se reparte
+   automáticamente 15% arriba / 15% abajo de la línea media, sin tocar
+   ninguna constante de renderCircuit() (todas las etiquetas/ramas ya se
+   posicionan como offsets relativos a wireY, no a un alto fijo). Aplica a
+   AMBOS modos (normal y fullscreen): el circuito ya se veía apretado en
+   200px incluso en la pestaña normal (confirmado con las capturas headless
+   del LOTE anterior, donde varias combinaciones de frontera dejaban muy
+   poco margen contra el borde superior/inferior del canvas). */
+#cm-circuit-container {
+  height: 260px !important;
+}
+
 #multicapa-custom-sim.fullscreen #cm-panel-right-bc {
   grid-area: right-bc;
 }
@@ -3376,6 +3412,44 @@ body.multicapa-lab-open {
      fija aquí también para blindar contra cualquier regla futura que
      intente sobreescribirlo. */
   align-self: start;
+  /* LOTE — Panel Unificado de 3 Figuras: "Perfil de Temperatura T(x)"
+     (#cm-panel-chart) es un elemento DISTINTO de #cm-panel-canvas (vive
+     en #cm-center-left-col, no es hermano de DOM) — en la matriz de
+     escritorio de 3 columnas de #cm-layout-wrapper queda exactamente en
+     la fila de grid siguiente a la de "canvas" (ver grid-template-areas
+     arriba: "... canvas ." -> ". chart ."). Su gap interno (título
+     "Perfil de Temperatura T(x)" -> figura) se reduce al mismo mínimo
+     que #cm-panel-canvas, por consistencia visual del panel unificado.
+
+     LOTE — Corrección definitiva del hueco Circuito->Perfil: un
+     margin-top negativo FIJO en CSS (usado en un LOTE anterior,
+     -0.5rem, sólo cancelaba el row-gap constante del grid maestro,
+     0.5rem/8px) resultó INSUFICIENTE — medido con Playwright usando
+     contenido real (vía #multicapa-lab-open-btn, no mocks): con las 3
+     capas y la frontera por defecto ya quedan 48px de hueco real; con
+     más capas o fronteras "Superficie Aletada" en ambos lados el hueco
+     real medido llegó a ~740px. Causa: #cm-panel-canvas hace grid-row-
+     span a través de la fila que comparte con #cm-panel-layers/
+     #cm-panel-results (ver grid-template-areas arriba); cuando esa fila
+     compartida es más alta que #cm-panel-canvas —algo que depende del
+     contenido real de las capas/resultados y varía en cada simulación—
+     el algoritmo de reparto de alto de CSS Grid para ítems con row-span
+     dedica el excedente A ESA FILA, invisible porque #cm-panel-canvas
+     no se estira (align-items:start) — no es un valor que se pueda
+     conocer en tiempo de escritura de la hoja de estilos.
+     margin-top:0 aquí es sólo el valor de reposo/seguridad (por si el
+     script no llega a cargar); el cierre real del hueco lo hace en
+     TIEMPO DE EJECUCIÓN el bloque "MULTICAPA CUSTOM — SINCRONIZACIÓN
+     DINÁMICA DEL HUECO" al final de app_v2.js (ResizeObserver sobre
+     los paneles relevantes + getBoundingClientRect, con
+     style.setProperty('margin-top', ..., 'important') — un !important
+     inline vence a cualquier !important de hoja de estilos, así que
+     esta regla actúa sólo como piso, nunca en conflicto con el script).
+     Ese script ya respeta él mismo la restricción de los breakpoints de
+     abajo (limpia el margin-top inline por debajo de 1100px o fuera de
+     fullscreen) — sin tocar index.html ni ningún otro laboratorio. */
+  gap: 6px !important;
+  margin-top: 0 !important;
 }
 
 #multicapa-custom-sim.fullscreen #cm-panel-results {
@@ -3405,6 +3479,17 @@ body.multicapa-lab-open {
       "guide guide"
       "tabulation custom-graph";
   }
+
+  /* LOTE — Panel Unificado de 3 Figuras: en esta matriz de 2 columnas,
+     "chart" ya NO es la fila inmediatamente siguiente a "canvas" (se
+     interpone "layers results") — el margin-top:-0.5rem de la regla de
+     escritorio (más arriba) asumía esa adyacencia y aquí arrastraría
+     "chart" sobre "layers"/"results" en vez de cerrar la grieta con
+     "canvas". Se neutraliza a 0 para restaurar el row-gap normal del
+     grid (0.5rem) en este breakpoint, sin tocar nada más. */
+  #multicapa-custom-sim.fullscreen #cm-panel-chart {
+    margin-top: 0 !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -3416,6 +3501,17 @@ body.multicapa-lab-open {
   #multicapa-custom-sim.fullscreen .cm-row {
     display: flex !important;
     flex-direction: column !important;
+  }
+
+  /* LOTE — Panel Unificado de 3 Figuras: aquí .cm-row deja de ser
+     display:contents (cada fila pasa a ser su propio bloque flex
+     apilado) — "chart" (dentro de #cm-row-center) ya no es adyacente a
+     "canvas" (dentro de #cm-row-top; "right-bc" queda entre ambas
+     filas), así que el margin-top:-0.5rem de la regla de escritorio se
+     neutraliza igual que en el breakpoint de 1100px, por la misma
+     razón. */
+  #multicapa-custom-sim.fullscreen #cm-panel-chart {
+    margin-top: 0 !important;
   }
 }
 
@@ -3803,6 +3899,35 @@ body.multicapa-lab-open {
   margin-bottom: 6px !important;
   gap: 4px !important;
   min-width: 0;
+}
+
+/* ============================================================
+   LOTE — Superficie Aletada (Convección + Aletas Rectangulares)
+   Alcance exclusivo: #cm-l-fin-group / #cm-r-fin-group (frontera
+   opcional de aletas dentro de #multicapa-custom-sim). El grupo ya
+   hereda todo el layout de `.control-group` de arriba (padding,
+   gap, tamaño de labels, etc.) — estas dos reglas sólo añaden el
+   separador visual hacia el resto de campos de la frontera (mismo
+   patrón visual que ya usan otros grupos largos de este laboratorio,
+   ej. `#cm-panel-boundary-conditions`) y el indentado del sub-grupo
+   T_L (sólo visible con punta "Temperatura Prescrita", ver
+   updateBcVisibility() en app_v2.js). No afecta ningún otro
+   laboratorio ni ninguna otra frontera de éste. ============ */
+#multicapa-custom-sim .cm-fin-group {
+  border-top: 1px dashed rgba(255, 255, 255, 0.12);
+  margin-top: 4px !important;
+  padding-top: 10px !important;
+}
+body.light-theme #multicapa-custom-sim .cm-fin-group {
+  border-top-color: rgba(0, 0, 0, 0.12);
+}
+#multicapa-custom-sim .cm-fin-tl-group {
+  margin-top: 6px;
+  padding-left: 8px;
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
+}
+body.light-theme #multicapa-custom-sim .cm-fin-tl-group {
+  border-left-color: rgba(0, 0, 0, 0.1);
 }
 
 #multicapa-custom-sim label {

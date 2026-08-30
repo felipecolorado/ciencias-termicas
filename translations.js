@@ -2,6 +2,8 @@ window.uiTranslations = {
   "Alrededores": "Surroundings",
   "T impuesta": "T imposed",
   "Fuente": "Source",
+  "Vista simplificada": "Simplified view",
+  "aletas": "fins",
   "Muro de Comentarios": "Comment Wall",
   "Ver Detalles": "View Details",
   "Elige tu Avatar de Científico": "Choose your Scientist Avatar",

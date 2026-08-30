@@ -7937,18 +7937,20 @@
 
                             <p>
                                 <span class="lang-es">En cada extremo puede imponerse de forma independiente
-                                    cualquiera de <strong>8 condiciones de frontera</strong> — Temperatura Específica,
+                                    cualquiera de <strong>9 condiciones de frontera</strong> — Temperatura Específica,
                                     Flujo de Calor Específico, Convección, Radiación, Combinada
                                     (Convección+Radiación), Combinada Triple (Convección+Radiación+Flujo
-                                    Externo), Irradiación + Convección, o Irradiación + Radiación — formalizadas
-                                    matemáticamente en el acordeón "Formalización de las 8 Condiciones de
+                                    Externo), Irradiación + Convección, Irradiación + Radiación, o Superficie
+                                    Aletada (Convección + Aletas Rectangulares) — formalizadas
+                                    matemáticamente en el acordeón "Formalización de las 9 Condiciones de
                                     Frontera" más abajo.</span>
                                 <span class="lang-en" style="display:none;">Either endpoint can independently impose
-                                    any of <strong>8 boundary conditions</strong> — Specified Temperature, Specified
+                                    any of <strong>9 boundary conditions</strong> — Specified Temperature, Specified
                                     Heat Flux, Convection, Radiation, Combined (Convection+Radiation), Triple
-                                    Combined (Convection+Radiation+External Flux), Irradiation + Convection, or
-                                    Irradiation + Radiation — formalized mathematically in the "Formalization of
-                                    the 8 Boundary Conditions" accordion below.</span>
+                                    Combined (Convection+Radiation+External Flux), Irradiation + Convection,
+                                    Irradiation + Radiation, or Finned Surface (Convection + Rectangular Fins) —
+                                    formalized mathematically in the "Formalization of
+                                    the 9 Boundary Conditions" accordion below.</span>
                             </p>
 
                             <p class="sim-instruction"
@@ -8144,8 +8146,8 @@
                                              <summary
                                                  style="cursor: pointer; font-weight: bold; color: var(--accent-cyan); outline: none; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
                                                  <i class="fas fa-arrows-left-right-to-line"></i>
-                                                 <span class="lang-es">Formalización de las 8 Condiciones de Frontera ($s = $ izq, der)</span>
-                                                 <span class="lang-en" style="display:none;">Formalization of the 8 Boundary Conditions ($s = $ left, right)</span>
+                                                 <span class="lang-es">Formalización de las 9 Condiciones de Frontera ($s = $ izq, der)</span>
+                                                 <span class="lang-en" style="display:none;">Formalization of the 9 Boundary Conditions ($s = $ left, right)</span>
                                              </summary>
 
                                              <ol style="margin: 10px 0 0.5rem 20px; font-size: 0.84rem; color: var(--text-muted); line-height: 1.6; padding-left: 10px;">
@@ -8216,6 +8218,62 @@
                                                          (with $h_r$ as defined in the Radiation condition), plus the
                                                          same absorbed-irradiation source $\alpha G$:
                                                          $$q = \epsilon \sigma A (T_{\text{surr}}^4 - T_s^4) + \alpha G A = h_r A (T_{\text{surr}} - T_s) + \alpha G A$$</span>
+                                                 </li>
+                                                 <li style="margin-bottom: 2px;">
+                                                     <!-- LOTE — Superficie Aletada (Convección + Aletas Rectangulares):
+                                                          formalización de η_f (4 condiciones de punta), η_o y R_eq,frontera.
+                                                          Ver boundaryResistanceInfoFin()/computeFinLinearParams() en
+                                                          app_v2.js para la implementación exacta de estas fórmulas. -->
+                                                     <span class="lang-es"><strong>Superficie Aletada (Convección + Aletas Rectangulares):</strong>
+                                                         zona sin aletas ($A_{\text{unfin}} = A_{\text{total}} - N A_c$) en
+                                                         paralelo térmico con las $N$ aletas rectangulares
+                                                         ($A_c = w\,t_f$, $P = 2(w+t_f)$, parámetro de aleta
+                                                         $m = \sqrt{h P /(k_f A_c)}$):
+                                                         $$\frac{1}{R_{\text{eq,frontera}}} = \frac{1}{R_{\text{unfin}}} + \frac{1}{R_{\text{fins}}}, \quad
+                                                         R_{\text{unfin}} = \frac{1}{h A_{\text{unfin}}}, \quad
+                                                         R_{\text{fins}} = \frac{1}{N \eta_f h A_f}$$
+                                                         con la eficiencia de aleta $\eta_f$ según la condición de punta
+                                                         seleccionada:
+                                                         $$\eta_f = \begin{cases}
+                                                         \dfrac{\tanh(mL_f)}{mL_f} & \text{Punta Adiabática}\\[6pt]
+                                                         \dfrac{1}{mL_f} & \text{Punta Infinita}\\[6pt]
+                                                         \dfrac{\tanh(mL_c)}{mL_c}, \; L_c = L_f + t_f/2 & \text{Punta a Convección}\\[6pt]
+                                                         \dfrac{q_f}{h A_f (T_b - T_\infty)}, \; q_f = \sqrt{hPk_fA_c}\;\dfrac{\cosh(mL_f) - \theta_L/\theta_b}{\sinh(mL_f)} & \text{Punta a } T_L \text{ Prescrita}
+                                                         \end{cases}$$
+                                                         y la eficiencia global de la superficie aletada
+                                                         $$\eta_o = \frac{A_{\text{unfin}} + N \eta_f A_f}{A_{\text{total}}}
+                                                         \;\; \Rightarrow \;\; R_{\text{eq,frontera}} = \frac{1}{\eta_o h A_{\text{total}}}$$
+                                                         (en la punta a temperatura prescrita, $q_f$ es afín — no
+                                                         estrictamente proporcional a $\theta_b = T_b - T_\infty$ — por
+                                                         lo que $\eta_f$ y $\eta_o$ se reevalúan con la $T_b$ ya resuelta
+                                                         del circuito, y se superpone además una fuente de flujo
+                                                         constante $N\,\sqrt{hPk_fA_c}\,\theta_L/\sinh(mL_f)$, del mismo
+                                                         modo que la irradiación $\alpha G$ en las fronteras de
+                                                         Irradiación).</span>
+                                                     <span class="lang-en" style="display:none;"><strong>Finned Surface (Convection + Rectangular Fins):</strong>
+                                                         unfinned zone ($A_{\text{unfin}} = A_{\text{total}} - N A_c$) in
+                                                         thermal parallel with the $N$ rectangular fins
+                                                         ($A_c = w\,t_f$, $P = 2(w+t_f)$, fin parameter
+                                                         $m = \sqrt{h P /(k_f A_c)}$):
+                                                         $$\frac{1}{R_{\text{eq,boundary}}} = \frac{1}{R_{\text{unfin}}} + \frac{1}{R_{\text{fins}}}, \quad
+                                                         R_{\text{unfin}} = \frac{1}{h A_{\text{unfin}}}, \quad
+                                                         R_{\text{fins}} = \frac{1}{N \eta_f h A_f}$$
+                                                         with fin efficiency $\eta_f$ per the selected tip condition:
+                                                         $$\eta_f = \begin{cases}
+                                                         \dfrac{\tanh(mL_f)}{mL_f} & \text{Adiabatic Tip}\\[6pt]
+                                                         \dfrac{1}{mL_f} & \text{Infinite Tip}\\[6pt]
+                                                         \dfrac{\tanh(mL_c)}{mL_c}, \; L_c = L_f + t_f/2 & \text{Convective Tip}\\[6pt]
+                                                         \dfrac{q_f}{h A_f (T_b - T_\infty)}, \; q_f = \sqrt{hPk_fA_c}\;\dfrac{\cosh(mL_f) - \theta_L/\theta_b}{\sinh(mL_f)} & \text{Prescribed } T_L \text{ Tip}
+                                                         \end{cases}$$
+                                                         and overall surface efficiency
+                                                         $$\eta_o = \frac{A_{\text{unfin}} + N \eta_f A_f}{A_{\text{total}}}
+                                                         \;\; \Rightarrow \;\; R_{\text{eq,boundary}} = \frac{1}{\eta_o h A_{\text{total}}}$$
+                                                         (for the prescribed-tip case, $q_f$ is affine — not strictly
+                                                         proportional to $\theta_b = T_b - T_\infty$ — so $\eta_f$ and
+                                                         $\eta_o$ are re-evaluated at the solved circuit $T_b$, with a
+                                                         constant flux source $N\,\sqrt{hPk_fA_c}\,\theta_L/\sinh(mL_f)$
+                                                         superimposed, the same way $\alpha G$ is superimposed on the
+                                                         Irradiation boundaries).</span>
                                                  </li>
                                              </ol>
                                          </details>
@@ -8321,6 +8379,7 @@
                                                     <option value="comb-flux">Combinado (Conv + Rad + Flujo)</option>
                                                     <option value="irr_conv">Irradiación + Convección</option>
                                                     <option value="irr_rad">Irradiación + Radiación</option>
+                                                    <option value="fin">Superficie Aletada (Conv. + Aletas)</option>
                                                 </select>
                                             </div>
                                             <!-- Dynamic fields will show/hide via JS -->
@@ -8399,6 +8458,91 @@
                                                         min="0" max="1.0" step="0.05" value="0.7"></label>
                                                 <input type="range" id="cm-l-alpha" min="0" max="1.0" step="0.05"
                                                     value="0.7">
+                                            </div>
+                                            <!-- LOTE — Superficie Aletada (Convección + Aletas Rectangulares):
+                                                 h, T∞, N, L_f, t_f, w, k_f + selector de condición de punta;
+                                                 T_L sólo se muestra cuando la punta es "Temperatura Prescrita"
+                                                 (ver cm-l-fin-tl-group, controlado por updateBcVisibility() en
+                                                 app_v2.js). Mismo patrón slider+número (cm-num-sync) que el resto
+                                                 de fronteras — ver bindBcNumberInput(). -->
+                                            <div id="cm-l-fin-group" class="control-group cm-fin-group" style="display: none;">
+                                                <label for="cm-l-fin-h"><span class="lang-es">Coeff. Convección
+                                                        $(h_{L})$:</span><span class="lang-en"
+                                                        style="display:none;">Coeff. Convection $(h_{L})$:</span> <input
+                                                        type="number" id="cm-l-fin-h-num" class="cm-num-sync" min="1"
+                                                        max="10000" step="0.1" value="25"> <span
+                                                        class="lang-es">W/m²K</span><span class="lang-en"
+                                                        style="display:none;">W/m²K</span></label>
+                                                <input type="range" id="cm-l-fin-h" min="1" max="10000" step="0.1"
+                                                    value="25">
+                                                <label for="cm-l-fin-tinf" style="margin-top: 6px;"><span
+                                                        class="lang-es">Temp. Fluido $(T_{\infty, L})$:</span><span
+                                                        class="lang-en" style="display:none;">Fluid Temp. $(T_{\infty,
+                                                        L})$:</span> <input type="number" id="cm-l-fin-tinf-num"
+                                                        class="cm-num-sync" min="-273" max="2000" step="1"
+                                                        value="25"> °C</label>
+                                                <input type="range" id="cm-l-fin-tinf" min="-273" max="2000" step="1"
+                                                    value="25">
+                                                <label for="cm-l-fin-n" style="margin-top: 6px;"><span
+                                                        class="lang-es">Número de Aletas $(N)$:</span><span
+                                                        class="lang-en" style="display:none;">Number of Fins
+                                                        $(N)$:</span> <input type="number" id="cm-l-fin-n-num"
+                                                        class="cm-num-sync" min="0" max="500" step="1"
+                                                        value="10"></label>
+                                                <input type="range" id="cm-l-fin-n" min="0" max="500" step="1"
+                                                    value="10">
+                                                <label for="cm-l-fin-lf" style="margin-top: 6px;"><span
+                                                        class="lang-es">Longitud de Aleta $(L_{f})$:</span><span
+                                                        class="lang-en" style="display:none;">Fin Length
+                                                        $(L_{f})$:</span> <input type="number" id="cm-l-fin-lf-num"
+                                                        class="cm-num-sync" min="0.001" max="0.5" step="0.001"
+                                                        value="0.025"> m</label>
+                                                <input type="range" id="cm-l-fin-lf" min="0.001" max="0.5" step="0.001"
+                                                    value="0.025">
+                                                <label for="cm-l-fin-tf" style="margin-top: 6px;"><span
+                                                        class="lang-es">Espesor de Aleta $(t_{f})$:</span><span
+                                                        class="lang-en" style="display:none;">Fin Thickness
+                                                        $(t_{f})$:</span> <input type="number" id="cm-l-fin-tf-num"
+                                                        class="cm-num-sync" min="0.0005" max="0.05" step="0.0005"
+                                                        value="0.002"> m</label>
+                                                <input type="range" id="cm-l-fin-tf" min="0.0005" max="0.05"
+                                                    step="0.0005" value="0.002">
+                                                <label for="cm-l-fin-w" style="margin-top: 6px;"><span
+                                                        class="lang-es">Ancho/Profundidad $(w)$:</span><span
+                                                        class="lang-en" style="display:none;">Width/Depth
+                                                        $(w)$:</span> <input type="number" id="cm-l-fin-w-num"
+                                                        class="cm-num-sync" min="0.001" max="5" step="0.001"
+                                                        value="1.0"> m</label>
+                                                <input type="range" id="cm-l-fin-w" min="0.001" max="5" step="0.001"
+                                                    value="1.0">
+                                                <label for="cm-l-fin-kf" style="margin-top: 6px;"><span
+                                                        class="lang-es">Conductividad Aleta $(k_{f})$:</span><span
+                                                        class="lang-en" style="display:none;">Fin Conductivity
+                                                        $(k_{f})$:</span> <input type="number" id="cm-l-fin-kf-num"
+                                                        class="cm-num-sync" min="0.1" max="500" step="0.1"
+                                                        value="200"> <span class="lang-es">W/mK</span><span
+                                                        class="lang-en" style="display:none;">W/mK</span></label>
+                                                <input type="range" id="cm-l-fin-kf" min="0.1" max="500" step="0.1"
+                                                    value="200">
+                                                <label for="cm-l-fin-tip" style="margin-top: 8px;"><span
+                                                        class="lang-es">Condición de Punta:</span><span
+                                                        class="lang-en" style="display:none;">Tip Condition:</span></label>
+                                                <select id="cm-l-fin-tip" class="filter-select"
+                                                    style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-primary); border-radius: 8px; width:100%; padding: 6px;">
+                                                    <option value="adiabatic" selected>Punta Adiabática (dT/dx=0)</option>
+                                                    <option value="infinite">Punta Infinita / Aleta Muy Larga</option>
+                                                    <option value="convective">Punta a Convección (h_L=h)</option>
+                                                    <option value="prescribed">Punta a Temperatura Específica (T_L)</option>
+                                                </select>
+                                                <div id="cm-l-fin-tl-group" class="cm-fin-tl-group" style="display:none;">
+                                                    <label for="cm-l-fin-tl"><span class="lang-es">Temp. en la Punta
+                                                            $(T_{L})$:</span><span class="lang-en"
+                                                            style="display:none;">Tip Temperature $(T_{L})$:</span>
+                                                        <input type="number" id="cm-l-fin-tl-num" class="cm-num-sync"
+                                                            min="-273" max="2000" step="1" value="30"> °C</label>
+                                                    <input type="range" id="cm-l-fin-tl" min="-273" max="2000"
+                                                        step="1" value="30">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -8524,6 +8668,7 @@
                                                     <option value="comb-flux">Combinado (Conv + Rad + Flujo)</option>
                                                     <option value="irr_conv">Irradiación + Convección</option>
                                                     <option value="irr_rad">Irradiación + Radiación</option>
+                                                    <option value="fin">Superficie Aletada (Conv. + Aletas)</option>
                                                 </select>
                                             </div>
                                             <!-- Dynamic fields will show/hide via JS -->
@@ -8600,6 +8745,87 @@
                                                 <input type="range" id="cm-r-alpha" min="0" max="1.0" step="0.05"
                                                     value="0.7">
                                             </div>
+                                            <!-- LOTE — Superficie Aletada (Convección + Aletas Rectangulares):
+                                                 espejo de cm-l-fin-group (ver comentario allí). -->
+                                            <div id="cm-r-fin-group" class="control-group cm-fin-group" style="display: none;">
+                                                <label for="cm-r-fin-h"><span class="lang-es">Coeff. Convección
+                                                        $(h_{R})$:</span><span class="lang-en"
+                                                        style="display:none;">Coeff. Convection $(h_{R})$:</span> <input
+                                                        type="number" id="cm-r-fin-h-num" class="cm-num-sync" min="1"
+                                                        max="10000" step="0.1" value="25"> <span
+                                                        class="lang-es">W/m²K</span><span class="lang-en"
+                                                        style="display:none;">W/m²K</span></label>
+                                                <input type="range" id="cm-r-fin-h" min="1" max="10000" step="0.1"
+                                                    value="25">
+                                                <label for="cm-r-fin-tinf" style="margin-top: 6px;"><span
+                                                        class="lang-es">Temp. Fluido $(T_{\infty, R})$:</span><span
+                                                        class="lang-en" style="display:none;">Fluid Temp. $(T_{\infty,
+                                                        R})$:</span> <input type="number" id="cm-r-fin-tinf-num"
+                                                        class="cm-num-sync" min="-273" max="2000" step="1"
+                                                        value="25"> °C</label>
+                                                <input type="range" id="cm-r-fin-tinf" min="-273" max="2000" step="1"
+                                                    value="25">
+                                                <label for="cm-r-fin-n" style="margin-top: 6px;"><span
+                                                        class="lang-es">Número de Aletas $(N)$:</span><span
+                                                        class="lang-en" style="display:none;">Number of Fins
+                                                        $(N)$:</span> <input type="number" id="cm-r-fin-n-num"
+                                                        class="cm-num-sync" min="0" max="500" step="1"
+                                                        value="10"></label>
+                                                <input type="range" id="cm-r-fin-n" min="0" max="500" step="1"
+                                                    value="10">
+                                                <label for="cm-r-fin-lf" style="margin-top: 6px;"><span
+                                                        class="lang-es">Longitud de Aleta $(L_{f})$:</span><span
+                                                        class="lang-en" style="display:none;">Fin Length
+                                                        $(L_{f})$:</span> <input type="number" id="cm-r-fin-lf-num"
+                                                        class="cm-num-sync" min="0.001" max="0.5" step="0.001"
+                                                        value="0.025"> m</label>
+                                                <input type="range" id="cm-r-fin-lf" min="0.001" max="0.5" step="0.001"
+                                                    value="0.025">
+                                                <label for="cm-r-fin-tf" style="margin-top: 6px;"><span
+                                                        class="lang-es">Espesor de Aleta $(t_{f})$:</span><span
+                                                        class="lang-en" style="display:none;">Fin Thickness
+                                                        $(t_{f})$:</span> <input type="number" id="cm-r-fin-tf-num"
+                                                        class="cm-num-sync" min="0.0005" max="0.05" step="0.0005"
+                                                        value="0.002"> m</label>
+                                                <input type="range" id="cm-r-fin-tf" min="0.0005" max="0.05"
+                                                    step="0.0005" value="0.002">
+                                                <label for="cm-r-fin-w" style="margin-top: 6px;"><span
+                                                        class="lang-es">Ancho/Profundidad $(w)$:</span><span
+                                                        class="lang-en" style="display:none;">Width/Depth
+                                                        $(w)$:</span> <input type="number" id="cm-r-fin-w-num"
+                                                        class="cm-num-sync" min="0.001" max="5" step="0.001"
+                                                        value="1.0"> m</label>
+                                                <input type="range" id="cm-r-fin-w" min="0.001" max="5" step="0.001"
+                                                    value="1.0">
+                                                <label for="cm-r-fin-kf" style="margin-top: 6px;"><span
+                                                        class="lang-es">Conductividad Aleta $(k_{f})$:</span><span
+                                                        class="lang-en" style="display:none;">Fin Conductivity
+                                                        $(k_{f})$:</span> <input type="number" id="cm-r-fin-kf-num"
+                                                        class="cm-num-sync" min="0.1" max="500" step="0.1"
+                                                        value="200"> <span class="lang-es">W/mK</span><span
+                                                        class="lang-en" style="display:none;">W/mK</span></label>
+                                                <input type="range" id="cm-r-fin-kf" min="0.1" max="500" step="0.1"
+                                                    value="200">
+                                                <label for="cm-r-fin-tip" style="margin-top: 8px;"><span
+                                                        class="lang-es">Condición de Punta:</span><span
+                                                        class="lang-en" style="display:none;">Tip Condition:</span></label>
+                                                <select id="cm-r-fin-tip" class="filter-select"
+                                                    style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-primary); border-radius: 8px; width:100%; padding: 6px;">
+                                                    <option value="adiabatic" selected>Punta Adiabática (dT/dx=0)</option>
+                                                    <option value="infinite">Punta Infinita / Aleta Muy Larga</option>
+                                                    <option value="convective">Punta a Convección (h_L=h)</option>
+                                                    <option value="prescribed">Punta a Temperatura Específica (T_L)</option>
+                                                </select>
+                                                <div id="cm-r-fin-tl-group" class="cm-fin-tl-group" style="display:none;">
+                                                    <label for="cm-r-fin-tl"><span class="lang-es">Temp. en la Punta
+                                                            $(T_{L})$:</span><span class="lang-en"
+                                                            style="display:none;">Tip Temperature $(T_{L})$:</span>
+                                                        <input type="number" id="cm-r-fin-tl-num" class="cm-num-sync"
+                                                            min="-273" max="2000" step="1" value="30"> °C</label>
+                                                    <input type="range" id="cm-r-fin-tl" min="-273" max="2000"
+                                                        step="1" value="30">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -8671,16 +8897,34 @@
                                                         style="display:none;">Global
                                                         Metrics</span>
                                                 </h5>
-                                                <div
+                                                <div id="cm-rbcl-row"
                                                     style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px; font-size: 0.8rem;">
-                                                    <span><span class="lang-es">Resistencia Frontera Izq.
-                                                            $(R_{bc,L})$:</span><span class="lang-en"
+                                                    <!-- LOTE — Corrección de Renderizado MathJax/HTML: este rótulo
+                                                         (cm-rbcl-label) se sobrescribe casi de inmediato por
+                                                         updateBoundaryResistanceLabel() en app_v2.js, que lo
+                                                         re-ejecuta en cada resolución (varias veces por segundo al
+                                                         arrastrar un slider) SIN pasar por MathJax — por eso usa
+                                                         aquí el mismo marcado HTML plano con <sub> (en vez de
+                                                         $(R_{bc,L})$ en LaTeX) que esa función escribe, evitando
+                                                         que quede texto LaTeX sin procesar visible incluso en el
+                                                         instante antes de la primera resolución. -->
+                                                    <span id="cm-rbcl-label"><span class="lang-es">Resistencia Frontera Izq.
+                                                            (R<sub>bc,L</sub>):</span><span class="lang-en"
                                                             style="display:none;">Left Boundary Resistance
-                                                            $(R_{bc,L})$:</span></span>
+                                                            (R<sub>bc,L</sub>):</span></span>
                                                     <strong><span id="cm-rbcl-val"
                                                             style="color: var(--accent-blue);">--
                                                             K/W</span></strong>
                                                 </div>
+                                                <!-- LOTE — Sincronización de Notación de Resistencias: desglose
+                                                     adicional (R_conv/R_rad o R_unfin/R_fins, misma notación que el
+                                                     diagrama de circuito) para fronteras de dos ramas ('comb',
+                                                     'comb-flux', 'fin') — poblado dinámicamente por
+                                                     updateBoundaryResistanceLabel() en app_v2.js; queda vacío (sin
+                                                     alterar el layout) para las demás fronteras. No sustituye a
+                                                     cm-rbcl-val (que conserva el valor combinado, sin cambios). -->
+                                                <div id="cm-rbcl-breakdown"
+                                                    style="display:flex; flex-direction:column; gap:2px; font-size:0.72rem; padding-left:6px;"></div>
                                                 <div
                                                     style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px; font-size: 0.8rem;">
                                                     <span><span class="lang-es">Resistencia Conducción Total
@@ -8691,22 +8935,29 @@
                                                             style="color: var(--accent-cyan);">--
                                                             K/W</span></strong>
                                                 </div>
-                                                <div
+                                                <div id="cm-rbcr-row"
                                                     style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px; font-size: 0.8rem;">
-                                                    <span><span class="lang-es">Resistencia Frontera Der.
-                                                            $(R_{bc,R})$:</span><span class="lang-en"
+                                                    <!-- LOTE — Corrección de Renderizado MathJax/HTML: ver
+                                                         comentario junto a cm-rbcl-label (misma razón, lado
+                                                         derecho). -->
+                                                    <span id="cm-rbcr-label"><span class="lang-es">Resistencia Frontera Der.
+                                                            (R<sub>bc,R</sub>):</span><span class="lang-en"
                                                             style="display:none;">Right Boundary Resistance
-                                                            $(R_{bc,R})$:</span></span>
+                                                            (R<sub>bc,R</sub>):</span></span>
                                                     <strong><span id="cm-rbcr-val"
                                                             style="color: var(--accent-blue);">--
                                                             K/W</span></strong>
                                                 </div>
+                                                <!-- LOTE — Sincronización de Notación de Resistencias: ver
+                                                     comentario en cm-rbcl-breakdown (misma lógica, lado derecho). -->
+                                                <div id="cm-rbcr-breakdown"
+                                                    style="display:flex; flex-direction:column; gap:2px; font-size:0.72rem; padding-left:6px;"></div>
                                                 <div
                                                     style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px; font-size: 0.8rem;">
                                                     <span><span class="lang-es">Resistencia Total del Circuito
-                                                            $(R_{tot})$:</span><span class="lang-en"
+                                                            $(R_{total})$:</span><span class="lang-en"
                                                             style="display:none;">Total Circuit Resistance
-                                                            $(R_{tot})$:</span></span>
+                                                            $(R_{total})$:</span></span>
                                                     <strong><span id="cm-rtot-val" style="color: var(--accent-cyan);">--
                                                             K/W</span></strong>
                                                 </div>
