@@ -8249,7 +8249,12 @@
                                                          del circuito, y se superpone además una fuente de flujo
                                                          constante $N\,\sqrt{hPk_fA_c}\,\theta_L/\sinh(mL_f)$, del mismo
                                                          modo que la irradiación $\alpha G$ en las fronteras de
-                                                         Irradiación).</span>
+                                                         Irradiación). En pared plana ($x$), $A_{\text{total}} = H \cdot W$,
+                                                         con $W$ = profundidad de la aleta (igualada automáticamente a la
+                                                         profundidad de TODA la pared, incluidas sus capas de
+                                                         conducción) y $H$ = altura/ancho de la placa donde se monta el
+                                                         arreglo — reemplaza la convención $A=1\,\text{m}^2$ que aplica
+                                                         al resto de las fronteras estándar de esta pared.</span>
                                                      <span class="lang-en" style="display:none;"><strong>Finned Surface (Convection + Rectangular Fins):</strong>
                                                          unfinned zone ($A_{\text{unfin}} = A_{\text{total}} - N A_c$) in
                                                          thermal parallel with the $N$ rectangular fins
@@ -8273,7 +8278,12 @@
                                                          $\eta_o$ are re-evaluated at the solved circuit $T_b$, with a
                                                          constant flux source $N\,\sqrt{hPk_fA_c}\,\theta_L/\sinh(mL_f)$
                                                          superimposed, the same way $\alpha G$ is superimposed on the
-                                                         Irradiation boundaries).</span>
+                                                         Irradiation boundaries). For a plane wall, $A_{\text{total}} =
+                                                         H \cdot W$, where $W$ is the fin depth (automatically matched
+                                                         to the depth of the ENTIRE wall, including its conduction
+                                                         layers) and $H$ is the plate height/width where the array is
+                                                         mounted — replacing the $A=1\,\text{m}^2$ convention used by
+                                                         this wall's other standard boundaries.</span>
                                                  </li>
                                              </ol>
                                          </details>
@@ -8508,13 +8518,17 @@
                                                 <input type="range" id="cm-l-fin-tf" min="0.0005" max="0.05"
                                                     step="0.0005" value="0.002">
                                                 <label for="cm-l-fin-w" style="margin-top: 6px;"><span
-                                                        class="lang-es">Ancho/Profundidad $(w)$:</span><span
-                                                        class="lang-en" style="display:none;">Width/Depth
-                                                        $(w)$:</span> <input type="number" id="cm-l-fin-w-num"
+                                                        class="lang-es">Profundidad de la Pared $(W)$:</span><span
+                                                        class="lang-en" style="display:none;">Wall Depth
+                                                        $(W)$:</span> <input type="number" id="cm-l-fin-w-num"
                                                         class="cm-num-sync" min="0.001" max="5" step="0.001"
                                                         value="1.0"> m</label>
                                                 <input type="range" id="cm-l-fin-w" min="0.001" max="5" step="0.001"
                                                     value="1.0">
+                                                <div style="font-size: 0.68rem; color: var(--text-secondary); margin-top: -2px; opacity: 0.85;">
+                                                    <span class="lang-es">Se iguala automáticamente a la profundidad de toda la pared (A_base = H·W). Si ambas fronteras usan aletas, este valor se sincroniza con el del lado derecho.</span><span
+                                                        class="lang-en" style="display:none;">Automatically matches the depth of the entire wall (A_base = H·W). If both boundaries use fins, this value stays synced with the right side.</span>
+                                                </div>
                                                 <label for="cm-l-fin-kf" style="margin-top: 6px;"><span
                                                         class="lang-es">Conductividad Aleta $(k_{f})$:</span><span
                                                         class="lang-en" style="display:none;">Fin Conductivity
@@ -8625,6 +8639,26 @@
                                                         min="0.05" max="20" step="0.05" value="1.0"> m</label>
                                                 <input type="range" id="cm-cyl-length" min="0.05" max="20" step="0.05"
                                                     value="1.0">
+                                            </div>
+                                        </div>
+                                        <!-- LOTE — Consistencia de Profundidad (W) y Ancho/Alto de Placa (H) en
+                                             Fronteras con Aletas: visible sólo en geometría plana con al menos una
+                                             frontera 'fin' activa (ver updatePlateHVisibility() en app_v2.js). H es
+                                             la dimensión transversal de la placa donde se monta el arreglo de
+                                             aletas; junto con W (los sliders cm-l/r-fin-w, ahora sincronizados y
+                                             promovidos a profundidad real de toda la pared) define el área base
+                                             real A_base = H·W que reemplaza la convención "A=1 m²" del resto del
+                                             solver sólo en este caso. -->
+                                        <div id="cm-plate-h-group" class="control-group" style="display: none; margin-bottom: 2px;">
+                                            <label for="cm-plate-h"><span class="lang-es">Altura/Ancho de la Placa
+                                                    $(H)$:</span><span class="lang-en" style="display:none;">Plate
+                                                    Height/Width $(H)$:</span> <input type="number" id="cm-plate-h-num"
+                                                    class="cm-num-sync" min="0.01" max="20" step="0.01"
+                                                    value="1.0"> m</label>
+                                            <input type="range" id="cm-plate-h" min="0.01" max="20" step="0.01"
+                                                value="1.0">
+                                            <div id="cm-plate-area-info"
+                                                style="margin-top: 6px; font-size: 0.72rem; line-height: 1.5; color: var(--text-secondary); display:none; flex-direction:column; gap:1px;">
                                             </div>
                                         </div>
                                         <div
@@ -8790,13 +8824,17 @@
                                                 <input type="range" id="cm-r-fin-tf" min="0.0005" max="0.05"
                                                     step="0.0005" value="0.002">
                                                 <label for="cm-r-fin-w" style="margin-top: 6px;"><span
-                                                        class="lang-es">Ancho/Profundidad $(w)$:</span><span
-                                                        class="lang-en" style="display:none;">Width/Depth
-                                                        $(w)$:</span> <input type="number" id="cm-r-fin-w-num"
+                                                        class="lang-es">Profundidad de la Pared $(W)$:</span><span
+                                                        class="lang-en" style="display:none;">Wall Depth
+                                                        $(W)$:</span> <input type="number" id="cm-r-fin-w-num"
                                                         class="cm-num-sync" min="0.001" max="5" step="0.001"
                                                         value="1.0"> m</label>
                                                 <input type="range" id="cm-r-fin-w" min="0.001" max="5" step="0.001"
                                                     value="1.0">
+                                                <div style="font-size: 0.68rem; color: var(--text-secondary); margin-top: -2px; opacity: 0.85;">
+                                                    <span class="lang-es">Se iguala automáticamente a la profundidad de toda la pared (A_base = H·W). Si ambas fronteras usan aletas, este valor se sincroniza con el del lado izquierdo.</span><span
+                                                        class="lang-en" style="display:none;">Automatically matches the depth of the entire wall (A_base = H·W). If both boundaries use fins, this value stays synced with the left side.</span>
+                                                </div>
                                                 <label for="cm-r-fin-kf" style="margin-top: 6px;"><span
                                                         class="lang-es">Conductividad Aleta $(k_{f})$:</span><span
                                                         class="lang-en" style="display:none;">Fin Conductivity
@@ -8963,7 +9001,7 @@
                                                 </div>
                                                 <div
                                                     style="display: flex; justify-content: space-between; font-size: 0.8rem;">
-                                                    <span>Flujo de Calor Resultante $(q'')$:</span>
+                                                    <span>Flujo de Calor Resultante $(q)$:</span>
                                                     <strong><span id="cm-q-val" style="color: var(--accent-orange);">--
                                                             W/m²</span></strong>
                                                 </div>

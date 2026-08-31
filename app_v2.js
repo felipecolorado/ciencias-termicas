@@ -13230,6 +13230,15 @@ function initMulticapaCustomSimulation() {
     const cylLengthGroup = document.getElementById('cm-cyl-length-group');
     const inputCylLength = document.getElementById('cm-cyl-length');
     const inputCylLengthNum = document.getElementById('cm-cyl-length-num');
+    // LOTE — Consistencia W/H en Fronteras con Aletas (pared plana): H es la
+    // altura/ancho de la placa donde se monta el arreglo de aletas (dimensión
+    // GLOBAL, compartida por ambas fronteras — no confundir con
+    // inputLFinH/inputRFinH, que son el coeficiente de convección h de cada
+    // frontera aletada). Ver updatePlanarFinAreaBase()/updatePlateHVisibility()
+    // más abajo.
+    const inputPlateH = document.getElementById('cm-plate-h');
+    const plateHGroup = document.getElementById('cm-plate-h-group');
+    const plateAreaInfoEl = document.getElementById('cm-plate-area-info');
 
     // BC Left Controls
     const selectBcLType = document.getElementById('cm-bc-l-type');
@@ -13525,6 +13534,22 @@ function initMulticapaCustomSimulation() {
                   // R_tot ya correcto (multigeometría + radiación + Dirichlet exacto) sin recalcularlo desde cero.
     let customChart;
 
+    // ── LOTE — Consistencia de Profundidad (W) y Ancho/Alto de Placa (H) en
+    // Fronteras con Aletas (pared plana) ────────────────────────────────────
+    // Cuando geometry==='planar' Y al menos una frontera es 'fin', la
+    // convención histórica "A=1 m² por unidad de área" (ver areaAt()) deja de
+    // aplicar a ESTA pared (ambas fronteras + todas las capas de conducción):
+    // la profundidad de la aleta activa (w, sliders cm-l/r-fin-w — ver
+    // sincronización en updateBcVisibility()) se convierte en la profundidad
+    // real W de toda la pared, el usuario define además la altura/ancho H de
+    // la placa (slider global cm-plate-h), y A_base = H·W pasa a ser el área
+    // real usada por layerRcondAt()/areaAt() en lugar de 1.0. Sin frontera
+    // 'fin' activa, o en geometría curva, planarAreaBase permanece en 1.0 —
+    // comportamiento IDÉNTICO a todos los LOTEs anteriores (regresión
+    // verificada, ver test/fin_area_consistency_test.js).
+    let planarAreaBase = 1.0; // A_base real [m²] cuando aplica; 1.0 en cualquier otro caso (legacy)
+    let planarFinAreaInfo = null; // { H, W, A_base, side } — null si no aplica (sin 'fin' activo en geometría plana)
+
     const sigma = 5.67e-8; // Stefan-Boltzmann W/m^2K^4
 
     // ── Resistencia/fuente equivalente de una frontera (LOTE — Circuito de
@@ -13550,8 +13575,11 @@ function initMulticapaCustomSimulation() {
     //
     // LOTE — Solver Multigeometría: recibe además `areaVal` (A1 o A_{N+1},
     // el área superficial real de esa frontera). En geometría plana A=1 m²
-    // por convención (ver areaAt()), así que R = 1/hTotal como antes; en
-    // geometría curva R = 1/(hTotal·A) — resistencia física real en K/W.
+    // por convención (ver areaAt()), así que R = 1/hTotal como antes — SALVO
+    // que la OTRA frontera de esta misma pared sea 'fin' (LOTE — Consistencia
+    // W/H), caso en el que A=planarAreaBase=H·W (misma pared, misma área en
+    // ambas caras) y R = 1/(hTotal·A) ya es la resistencia real; en geometría
+    // curva R = 1/(hTotal·A) — resistencia física real en K/W, sin cambios.
     function boundaryResistanceInfo(type, hVal, epsVal, tsurVal, TsVal, areaVal) {
         const A = (areaVal === undefined || areaVal === null || !isFinite(areaVal) || areaVal <= 0) ? 1.0 : areaVal;
         if (type === 'temp') return { R: 0, hConv: 0, hRad: 0, isSource: false };
@@ -13605,8 +13633,12 @@ function initMulticapaCustomSimulation() {
     // larga" (la longitud finita ya no importa).
     //
     // area_L = A1 (frontera izquierda) o AN1 (frontera derecha) — el área
-    // TOTAL real de esa cara del sólido (=1 m² en plana por convención,
-    // igual que el resto del solver — ver areaAt()).
+    // TOTAL real de esa cara del sólido. En plana normalmente =1 m² por
+    // convención (ver areaAt()) salvo que ESTA MISMA frontera sea 'fin'
+    // (siempre es el caso cuando se llama a computeFinLinearParams — ver
+    // solveSimulation()), caso en el que =planarAreaBase=A_base=H·W (LOTE —
+    // Consistencia W/H: W=profundidad de la aleta=profundidad real de la
+    // pared, H=altura/ancho de la placa, slider global cm-plate-h).
     function computeFinLinearParams(side, areaTotal) {
         const isL = side === 'L';
         const hIn = isL ? inputLFinH : inputRFinH;
@@ -13723,18 +13755,19 @@ function initMulticapaCustomSimulation() {
     }
 
     // areaAt(r): área superficial real en el radio r según la geometría activa.
-    // Plana: A=1 m² (convención de "por unidad de área" ya usada por todo el
-    // laboratorio desde antes de este LOTE — mantiene el comportamiento previo
-    // sin cambios). Cilíndrica: A(r) = 2πrL. Esférica: A(r) = 4πr².
+    // Plana: A=planarAreaBase — 1 m² por convención de "por unidad de área"
+    // (comportamiento histórico, sin cambios) SALVO que haya frontera 'fin'
+    // activa, caso en el que planarAreaBase=H·W (ver updatePlanarFinAreaBase(),
+    // LOTE — Consistencia W/H). Cilíndrica: A(r) = 2πrL. Esférica: A(r) = 4πr².
     function areaAt(r) {
         if (geometry === 'cylindrical') return 2 * Math.PI * r * cylinderLength;
         if (geometry === 'spherical') return 4 * Math.PI * r * r;
-        return 1.0; // planar
+        return planarAreaBase; // planar
     }
 
     // layerRcondAt(idx, radiiArr): resistencia de conducción de la capa idx
     // (0-index) según la geometría activa. Ver fórmulas del LOTE:
-    //   Plana:      R = L_i/(k_i·A) = L_i/k_i           (A=1)
+    //   Plana:      R = L_i/(k_i·A_base)   (A_base=1 salvo frontera 'fin' activa — ver arriba)
     //   Cilíndrica: R = ln(r_{i+1}/r_i) / (2π k_i L)
     //   Esférica:   R = (1/r_i - 1/r_{i+1}) / (4π k_i)
     function layerRcondAt(idx, radiiArr) {
@@ -13742,7 +13775,36 @@ function initMulticapaCustomSimulation() {
         const rIn = radiiArr[idx], rOut = radiiArr[idx + 1];
         if (geometry === 'cylindrical') return Math.log(rOut / rIn) / (2 * Math.PI * l.k * cylinderLength);
         if (geometry === 'spherical') return (1 / rIn - 1 / rOut) / (4 * Math.PI * l.k);
-        return (rOut - rIn) / l.k; // planar: equivalente a l.L / l.k
+        return (rOut - rIn) / (l.k * planarAreaBase); // planar: L_i/(k_i·A_base)
+    }
+
+    // updatePlanarFinAreaBase(typeL, typeR): recalcula planarAreaBase/
+    // planarFinAreaInfo — se llama UNA vez, al principio de solveSimulation(),
+    // ANTES de computeRadii()/areaAt()/layerRcondAt(), para que todo el resto
+    // del ciclo de resolución+render (Rcond, A1/AN1, fin params, tabla,
+    // circuito, U/UA, "Registrar Punto") vea el mismo valor consistente.
+    // Legacy exacto (planarAreaBase=1.0, planarFinAreaInfo=null) salvo que
+    // geometry==='planar' Y (typeL==='fin' || typeR==='fin') — restringido a
+    // pared plana según el enunciado de este LOTE; geometría curva no se toca.
+    function updatePlanarFinAreaBase(typeL, typeR) {
+        if (geometry !== 'planar' || !(typeL === 'fin' || typeR === 'fin')) {
+            planarAreaBase = 1.0;
+            planarFinAreaInfo = null;
+            return;
+        }
+        // W = profundidad de la aleta activa = profundidad real de TODA la
+        // pared. Si ambas fronteras son 'fin', updateBcVisibility() ya las
+        // mantiene sincronizadas al mismo valor antes de que solveSimulation()
+        // llegue aquí — se usa L como autoridad si está activo, si no R.
+        const wSide = (typeL === 'fin') ? 'L' : 'R';
+        const wIn = (wSide === 'L') ? inputLFinW : inputRFinW;
+        const W = Math.max(1e-6, wIn ? parseFloat(wIn.value) : 1.0);
+        const H = Math.max(1e-6, inputPlateH ? parseFloat(inputPlateH.value) : 1.0);
+        planarAreaBase = H * W;
+        planarFinAreaInfo = {
+            H, W, A_base: planarAreaBase,
+            side: (typeL === 'fin' && typeR === 'fin') ? 'LR' : wSide
+        };
     }
 
     // ── LOTE — Escala Proporcional del Circuito de Resistencias ────────────
@@ -14195,6 +14257,17 @@ function initMulticapaCustomSimulation() {
         if (typeof updateCustomGraphVarSelectors === 'function') updateCustomGraphVarSelectors();
     }
 
+    // LOTE — Consistencia W/H: visibilidad del control global de altura/ancho
+    // de placa (H) — sólo con geometría plana y al menos una frontera 'fin'
+    // activa. Invocada desde updateBcVisibility() (cambio de tipo de
+    // frontera) y desde updateGeometryVisibility() (cambio de geometría).
+    function updatePlateHVisibility() {
+        if (!plateHGroup) return;
+        const typeL = selectBcLType ? selectBcLType.value : null;
+        const typeR = selectBcRType ? selectBcRType.value : null;
+        plateHGroup.style.display = (geometry === 'planar' && (typeL === 'fin' || typeR === 'fin')) ? 'block' : 'none';
+    }
+
     // Toggle BC inputs visibility
     function updateBcVisibility() {
         if (!selectBcLType || !selectBcRType) return;
@@ -14222,6 +14295,24 @@ function initMulticapaCustomSimulation() {
         const elRFinTL = document.getElementById('cm-r-fin-tl-group');
         if (elRFinTL) elRFinTL.style.display = (typeR === 'fin' && selectRFinTip && selectRFinTip.value === 'prescribed') ? 'block' : 'none';
 
+        // LOTE — Consistencia W/H: si AMBAS fronteras son 'fin' simultáneamente
+        // deben compartir la MISMA profundidad de pared (W) — el slider que el
+        // usuario NO está editando activamente se sincroniza con el que sí
+        // (mismo criterio document.activeElement que numFieldsMap más abajo).
+        if (typeL === 'fin' && typeR === 'fin' && inputLFinW && inputRFinW) {
+            const wLNum = document.getElementById('cm-l-fin-w-num');
+            const wRNum = document.getElementById('cm-r-fin-w-num');
+            if (document.activeElement === inputRFinW || document.activeElement === wRNum) {
+                inputLFinW.value = inputRFinW.value;
+            } else {
+                inputRFinW.value = inputLFinW.value;
+            }
+        }
+        // Visibilidad del control global de altura/ancho de placa (H) — ver
+        // updatePlateHVisibility() (también invocada desde updateGeometryVisibility(),
+        // por si el cambio de geometría por sí solo debe ocultar/mostrar el grupo).
+        updatePlateHVisibility();
+
         // Sincroniza los inputs numéricos editables con el valor actual de
         // cada slider (LOTE — entrada numérica bidireccional). Se omite el
         // campo que tiene el foco para no pelear con lo que el usuario está
@@ -14240,7 +14331,9 @@ function initMulticapaCustomSimulation() {
             ['cm-l-fin-kf-num', inputLFinKf], ['cm-l-fin-tl-num', inputLFinTL],
             ['cm-r-fin-h-num', inputRFinH], ['cm-r-fin-tinf-num', inputRFinTinf], ['cm-r-fin-n-num', inputRFinN],
             ['cm-r-fin-lf-num', inputRFinLf], ['cm-r-fin-tf-num', inputRFinTf], ['cm-r-fin-w-num', inputRFinW],
-            ['cm-r-fin-kf-num', inputRFinKf], ['cm-r-fin-tl-num', inputRFinTL]
+            ['cm-r-fin-kf-num', inputRFinKf], ['cm-r-fin-tl-num', inputRFinTL],
+            // LOTE — Consistencia W/H: altura/ancho de placa (global, no por lado)
+            ['cm-plate-h-num', inputPlateH]
         ];
 
         numFieldsMap.forEach(([numId, input]) => {
@@ -14260,7 +14353,9 @@ function initMulticapaCustomSimulation() {
         inputRTemp, inputRH, inputRTinf, inputREps, inputRTsur, inputRFlux, inputRG, inputRAlpha,
         // LOTE — Superficie Aletada
         inputLFinH, inputLFinTinf, inputLFinN, inputLFinLf, inputLFinTf, inputLFinW, inputLFinKf, inputLFinTL,
-        inputRFinH, inputRFinTinf, inputRFinN, inputRFinLf, inputRFinTf, inputRFinW, inputRFinKf, inputRFinTL
+        inputRFinH, inputRFinTinf, inputRFinN, inputRFinLf, inputRFinTf, inputRFinW, inputRFinKf, inputRFinTL,
+        // LOTE — Consistencia W/H
+        inputPlateH
     ];
     inputsToBind.forEach(el => {
         if (el) el.addEventListener('input', updateBcVisibility);
@@ -14305,7 +14400,9 @@ function initMulticapaCustomSimulation() {
         ['cm-l-fin-kf-num', inputLFinKf], ['cm-l-fin-tl-num', inputLFinTL],
         ['cm-r-fin-h-num', inputRFinH], ['cm-r-fin-tinf-num', inputRFinTinf], ['cm-r-fin-n-num', inputRFinN],
         ['cm-r-fin-lf-num', inputRFinLf], ['cm-r-fin-tf-num', inputRFinTf], ['cm-r-fin-w-num', inputRFinW],
-        ['cm-r-fin-kf-num', inputRFinKf], ['cm-r-fin-tl-num', inputRFinTL]
+        ['cm-r-fin-kf-num', inputRFinKf], ['cm-r-fin-tl-num', inputRFinTL],
+        // LOTE — Consistencia W/H
+        ['cm-plate-h-num', inputPlateH]
     ].forEach(([numId, rangeEl]) => bindBcNumberInput(numId, rangeEl));
 
     if (selectLayersCount) {
@@ -14380,6 +14477,10 @@ function initMulticapaCustomSimulation() {
         updateBcPanelHeaders(g);
         // Sincronizar pestaña activa en la tarjeta teórica (#cm-theory-card)
         updateTheoryGeometryTab(g);
+        // LOTE — Consistencia W/H: el control de H sólo aplica en geometría
+        // plana — ocultarlo/mostrarlo también ante un cambio de geometría
+        // (no sólo ante un cambio de tipo de frontera).
+        updatePlateHVisibility();
     }
     if (selectGeometry) {
         selectGeometry.addEventListener('change', updateGeometryVisibility);
@@ -14480,9 +14581,16 @@ function initMulticapaCustomSimulation() {
             const typeR = selectBcRType.value;
             const N = layers.length;
 
+        // LOTE — Consistencia W/H: recalcula planarAreaBase/planarFinAreaInfo
+        // ANTES de computeRadii()/areaAt() — ver updatePlanarFinAreaBase().
+        updatePlanarFinAreaBase(typeL, typeR);
+
         // ── LOTE — Solver Multigeometría: radios/posiciones y áreas reales de
         // frontera. En 'planar' radii/A1/AN1 reproducen exactamente los
-        // valores previos (radii[0]=0, A1=AN1=1) — sin cambio de comportamiento.
+        // valores previos (radii[0]=0, A1=AN1=1) SALVO frontera 'fin' activa,
+        // caso en el que A1=AN1=planarAreaBase=H·W (LOTE — Consistencia W/H,
+        // ver updatePlanarFinAreaBase() arriba) — sin cambio de comportamiento
+        // en ningún otro caso.
         const radii = computeRadii();
         const A1 = areaAt(radii[0]);
         const AN1 = areaAt(radii[N]);
@@ -14788,7 +14896,16 @@ function initMulticapaCustomSimulation() {
         // en geometría plana, pero flujo TOTAL Q (W) en geometría curva (ver
         // comentario junto a `let qFlux` más arriba) — la unidad mostrada debe
         // reflejar cuál de las dos magnitudes es en cada caso.
-        if (lblQ) lblQ.innerText = formatEngineeringNumber(qFlux, 1) + (geometry === 'planar' ? ' W/m²' : ' W');
+        // LOTE — Consistencia W/H: cuando hay frontera(s) 'fin' activa(s) en
+        // pared plana, planarAreaBase=A_base=H·W ya no es 1 m² (ver
+        // updatePlanarFinAreaBase() arriba) — Rcond/A1/AN1 son ahora
+        // magnitudes REALES (no "por unidad de área"), así que qFlux pasa a
+        // ser el flujo TOTAL q [W] = ΔT_global/R_tot, exactamente como ya
+        // ocurría en geometría curva — se muestra 'W' (no 'W/m²') en ese
+        // caso, y el desglose de áreas + q''=q/A_base se añade abajo en
+        // #cm-plate-area-info.
+        const isPlanarUnitArea = (geometry === 'planar') && (planarAreaBase === 1.0);
+        if (lblQ) lblQ.innerText = formatEngineeringNumber(qFlux, 1) + (isPlanarUnitArea ? ' W/m²' : ' W');
         // LOTE — Sincronización de Notación de Resistencias: sustituye las
         // dos líneas `lblRbcL/R.innerText = ...` que vivían aquí por la
         // misma asignación MÁS el rótulo/desglose sincronizado con el
@@ -14840,16 +14957,25 @@ function initMulticapaCustomSimulation() {
 
         // ── LOTE — Coeficiente Global de Transferencia de Calor (U / UA) ───
         // UA = 1/Rtot [W/K] es válido siempre (Rtot ya incluye resistencias de
-        // frontera + conducción, ver arriba). En geometría plana A1=AN1=1 m²
-        // (convención del solver, ver areaAt()/computeRadii()), así que U y UA
+        // frontera + conducción, ver arriba). En geometría plana SIN frontera
+        // 'fin' activa, A1=AN1=1 m² (convención del solver), así que U y UA
         // coinciden numéricamente y se muestran como densidad [W/(m²·K)]. En
         // geometría curva (cilindro/esfera) A1 (área interna) ≠ AN1 (área
         // externa), así que además de UA se muestran U_i y U_o referenciados
-        // a cada área — mismo formatEngineeringNumber (decimal/científico).
+        // a cada área. LOTE — Consistencia W/H: con frontera(s) 'fin' activa(s)
+        // en pared plana, A1=AN1=planarAreaBase=A_base=H·W (misma área en
+        // ambas caras — es la MISMA pared), así que se muestra UA [W/K] +
+        // U=UA/A_base [W/(m²·K)] (un solo valor, sin distinción interior/
+        // exterior — no aplica en geometría plana).
         if (lblUGlobal) {
             const UA_global = (Rtot > 0 && isFinite(Rtot)) ? (1 / Rtot) : NaN;
-            if (geometry === 'planar') {
+            if (isPlanarUnitArea) {
                 lblUGlobal.innerHTML = `<div>U = ${formatEngineeringNumber(UA_global, 3)} W/(m²·K)</div>`;
+            } else if (geometry === 'planar') {
+                const U_base = (isFinite(UA_global) && A1 > 0) ? UA_global / A1 : NaN;
+                lblUGlobal.innerHTML =
+                    `<div>UA = ${formatEngineeringNumber(UA_global, 3)} W/K</div>` +
+                    `<div style="font-weight:normal; font-size:0.75rem; color: var(--text-secondary);">U (A<sub>base</sub>=H·W) = ${formatEngineeringNumber(U_base, 3)} W/(m²·K)</div>`;
             } else {
                 const U_inner = (isFinite(UA_global) && A1 > 0) ? UA_global / A1 : NaN;
                 const U_outer = (isFinite(UA_global) && AN1 > 0) ? UA_global / AN1 : NaN;
@@ -14857,6 +14983,38 @@ function initMulticapaCustomSimulation() {
                     `<div>UA = ${formatEngineeringNumber(UA_global, 3)} W/K</div>` +
                     `<div style="font-weight:normal; font-size:0.75rem; color: var(--text-secondary);">Uᵢ (r₁, interior) = ${formatEngineeringNumber(U_inner, 3)} W/(m²·K)</div>` +
                     `<div style="font-weight:normal; font-size:0.75rem; color: var(--text-secondary);">Uₒ (r${subLabel(N)}, exterior) = ${formatEngineeringNumber(U_outer, 3)} W/(m²·K)</div>`;
+            }
+        }
+
+        // ── LOTE — Consistencia W/H: Desglose de Áreas (A_base/A_aleteada/
+        // A_libre/A_t) + q''=q/A_base — sólo relevante con frontera(s) 'fin'
+        // activa(s) en pared plana (planarFinAreaInfo≠null); oculto en
+        // cualquier otro caso (curva, o plana sin aletas) — ver
+        // updatePlanarFinAreaBase() arriba.
+        if (plateAreaInfoEl) {
+            if (planarFinAreaInfo) {
+                const lang = getLang();
+                const rows = [];
+                rows.push(`<div><strong>A<sub>base</sub></strong> = H·W = ${formatEngineeringNumber(planarFinAreaInfo.A_base, 4)} m²</div>`);
+                if (finParamsL) {
+                    const Aaleteada = finParamsL.Nf * finParamsL.Af;
+                    const Alibre = finParamsL.Aunfin;
+                    const label = lang === 'en' ? 'Left' : 'Izq.';
+                    rows.push(`<div style="padding-left:6px;">${label}: A<sub>aleteada</sub>=${formatEngineeringNumber(Aaleteada, 4)} m² · A<sub>libre</sub>=${formatEngineeringNumber(Alibre, 4)} m² · A<sub>t</sub>=${formatEngineeringNumber(Aaleteada + Alibre, 4)} m²</div>`);
+                }
+                if (finParamsR) {
+                    const Aaleteada = finParamsR.Nf * finParamsR.Af;
+                    const Alibre = finParamsR.Aunfin;
+                    const label = lang === 'en' ? 'Right' : 'Der.';
+                    rows.push(`<div style="padding-left:6px;">${label}: A<sub>aleteada</sub>=${formatEngineeringNumber(Aaleteada, 4)} m² · A<sub>libre</sub>=${formatEngineeringNumber(Alibre, 4)} m² · A<sub>t</sub>=${formatEngineeringNumber(Aaleteada + Alibre, 4)} m²</div>`);
+                }
+                const qppBase = planarAreaBase > 0 ? qFlux / planarAreaBase : NaN;
+                rows.push(`<div>q'' = q/A<sub>base</sub> = ${formatEngineeringNumber(qppBase, 1)} W/m²</div>`);
+                plateAreaInfoEl.innerHTML = rows.join('');
+                plateAreaInfoEl.style.display = 'flex';
+            } else {
+                plateAreaInfoEl.innerHTML = '';
+                plateAreaInfoEl.style.display = 'none';
             }
         }
 
@@ -15012,6 +15170,25 @@ function initMulticapaCustomSimulation() {
     let finVisualState = {
         left: { LfPx: null, TfPx: null },
         right: { LfPx: null, TfPx: null }
+    };
+
+    // LOTE — Animación de Aletas en Casquetes Cilíndricos/Esféricos (Directiva
+    // 2026-08-30): estado de crecimiento persistente EXCLUSIVO de la vista de
+    // cuña radial (geometry==='cylindrical'/'spherical'), separado a propósito
+    // de `finVisualState` (pared plana) para no acoplar ambas animaciones —
+    // ver drawCurvedFin()/resetCurvedFinState() dentro de render(). A
+    // diferencia de `finVisualState` (que arranca en `null` y SALTA directo
+    // al valor objetivo en su primer frame), aquí LfPx/TfPx arrancan siempre
+    // en 0 para que la aleta crezca visiblemente desde L=0 hasta L_max
+    // (requisito de la directiva) tanto al activar la frontera 'fin' como al
+    // cambiar de geometría con la frontera ya activa. `geomTag` recuerda con
+    // qué geometría se calculó el último frame — si no coincide con la
+    // geometría activa (cambio cilíndrico↔esférico), el estado se reinicia a
+    // 0 antes de dibujar, evitando cualquier mezcla visual entre la aleta
+    // rectangular anterior y la aleta de pin nueva (o viceversa).
+    let finCurvedVisualState = {
+        left: { LfPx: 0, TfPx: 0, geomTag: null },
+        right: { LfPx: 0, TfPx: 0, geomTag: null }
     };
     class FlowParticle {
         constructor() {
@@ -15783,6 +15960,181 @@ function initMulticapaCustomSimulation() {
             }
         }
 
+        // ══════════════════════════════════════════════════════════════════
+        // LOTE — Animación de Aletas en Casquetes Cilíndricos y Esféricos
+        // (Directiva 2026-08-30)
+        //
+        // drawCurvedBoundary() (justo arriba) NO tenía ningún caso para
+        // type==='fin' — la única animación de aletas existente hasta ahora,
+        // drawFronteraFins() (más arriba en este mismo render(), dentro de
+        // `if (!isCurved) {…}`), es EXCLUSIVA de la pared plana y nunca se
+        // invoca en geometría curva. Con frontera 'fin' + geometría
+        // cilíndrica/esférica seleccionadas, el Esquema Térmico no dibujaba
+        // ninguna aleta. Esta función es ADITIVA: no modifica
+        // drawCurvedBoundary(), drawFronteraFins() ni ningún otro laboratorio
+        // — sólo se invoca desde la rama `else` (isCurved) de la sección
+        // "2. Boundary Condition Animations" más abajo.
+        //
+        // Geometría de aleta por tipo de casquete (aislamiento estricto de
+        // forma según la geometría activa — nunca una aleta rectangular
+        // plana sobre un casquete esférico):
+        //   - Cilíndrico ('cylindrical'): aletas LONGITUDINALES
+        //     RECTANGULARES. En este corte 2D (cuña de 45°, ver cx_orig/
+        //     angStart/angEnd/polarPt arriba), el eje angular del sector
+        //     representa la posición circunferencial (θ) alrededor del eje
+        //     del cilindro — repartir N aletas en ángulo y dibujar cada una
+        //     como un rectángulo cuyo eje largo sigue la dirección radial
+        //     (=normal real a la superficie cilíndrica en ese ángulo) es la
+        //     proyección correcta de aletas longitudinales reales.
+        //   - Esférico ('spherical'): aletas de AGUJA/PIN de sección
+        //     circular, mismo reparto angular pero dibujadas como una
+        //     cápsula de extremos redondeados (ctx.lineCap='round' +
+        //     lineWidth=diámetro, más un contorno circular en la punta) en
+        //     vez de un rectángulo de esquinas vivas — geométricamente
+        //     distintas de las aletas del cilindro, nunca intercambiables.
+        //   - Cualquier otro valor de geometry (no debería ocurrir; esta
+        //     función sólo se llama desde la rama isCurved): no dibuja nada
+        //     — exclusión explícita, nunca cae a un rectángulo por defecto.
+        //
+        // Animación de crecimiento (L: 0 → L_max) y manejo de estados: ver
+        // `finCurvedVisualState` (declarado junto a `finVisualState`/
+        // `particles`, fuera de render(), para persistir entre frames de
+        // animLoop()). Al ser Canvas 2D puro — cada frame se limpia por
+        // completo con ctx.clearRect() (inicio de render()) y se redibuja
+        // desde cero — no existen buffers de malla persistentes que puedan
+        // filtrarse por creación repetida de geometría; el único estado que
+        // sobrevive entre frames son los dos números (LfPx/TfPx) + la
+        // etiqueta de geometría (geomTag) por lado, reinicializados
+        // explícitamente por resetCurvedFinState() en cuanto ese lado deja
+        // de ser 'fin', y por el propio drawCurvedFin() en cuanto la
+        // geometría activa cambia respecto al frame anterior.
+        function drawCurvedFin(isInterior, params) {
+            const side = isInterior ? 'left' : 'right';
+            const st = finCurvedVisualState[side];
+            const { N: nFins, Lf, tf, Tinf, TwallVal } = params; // nFins: nunca reusar `N` (capas) del closure de render()
+
+            // Reinicio limpio ante cambio de geometría (cilíndrico↔esférico)
+            // con 'fin' todavía activo en este lado — evita mezclar la forma
+            // de aleta anterior con la nueva a mitad de una transición.
+            if (st.geomTag !== geometry) {
+                st.LfPx = 0;
+                st.TfPx = 0;
+                st.geomTag = geometry;
+            }
+
+            if (!(nFins > 0) || !(Lf > 0) || !(tf > 0)) {
+                // Nada que animar/dibujar todavía — se deja el estado en 0
+                // para que, si se reactiva más tarde, la aleta vuelva a
+                // crecer desde L=0 en vez de reaparecer de golpe.
+                st.LfPx = 0;
+                st.TfPx = 0;
+                return;
+            }
+
+            // Exclusión explícita (requisito #2 de la directiva): esta
+            // función sólo sabe dibujar 'cylindrical' (rectangular) o
+            // 'spherical' (pin) — cualquier otro valor no dibuja nada.
+            const isCylinderFin = geometry === 'cylindrical';
+            const isSphereFin = geometry === 'spherical';
+            if (!isCylinderFin && !isSphereFin) return;
+
+            // Escala física → píxeles: misma raíz cuadrada normalizada que
+            // usa drawFronteraFins() en pared plana (límites reales de los
+            // sliders cm-l/r-fin-lf/tf), acotada además al radio interior
+            // disponible (rPx[0]) para que la aleta nunca cruce el vértice
+            // de la cuña en radios interiores pequeños.
+            const LF_MIN = 0.001, LF_MAX = 0.5, LF_PX_MIN = 10;
+            const LF_PX_MAX = Math.max(24, Math.min(70, rPx[0] * 0.9));
+            const TF_MIN = 0.0005, TF_MAX = 0.05, TF_PX_MIN = 2.5, TF_PX_MAX = 14;
+            const clamp01 = (v) => Math.max(0, Math.min(1, v));
+            const targetLfPx = LF_PX_MIN + (LF_PX_MAX - LF_PX_MIN) * Math.sqrt(clamp01((Lf - LF_MIN) / (LF_MAX - LF_MIN)));
+            const targetTfPx = TF_PX_MIN + (TF_PX_MAX - TF_PX_MIN) * Math.sqrt(clamp01((tf - TF_MIN) / (TF_MAX - TF_MIN)));
+
+            // Easing de crecimiento — arranca siempre en 0 (ver reinicio más
+            // arriba), mismo ritmo (~10-12 frames a 20fps) que la
+            // interpolación equivalente de la pared plana, sin saltos ni
+            // parpadeos entre frames.
+            const ease = 0.12;
+            st.LfPx += (targetLfPx - st.LfPx) * ease;
+            st.TfPx += (targetTfPx - st.TfPx) * ease;
+            if (st.LfPx < 0.05) st.LfPx = 0; // evita artefactos de redondeo con longitud ~0
+
+            const LfPx = st.LfPx, TfPx = st.TfPx;
+            if (LfPx <= 0) return;
+
+            const finColor = Tinf > TwallVal ? clrHot : clrCool;
+            const bandDir = isInterior ? -1 : 1;
+            const wallR = isInterior ? rPx[0] : rPx[N];
+
+            // Reparto angular dentro del sector — máx. 5 aletas visibles,
+            // repartidas con medio hueco a cada extremo (mismo criterio de
+            // `visibleFins`/`spacing` que drawFronteraFins(), aquí sobre el
+            // eje angular del sector en vez del eje vertical de la pared).
+            const visibleFins = Math.min(nFins, 5);
+            const angSpacing = (angEnd - angStart) / (visibleFins + 1);
+
+            ctx.save();
+            for (let i = 1; i <= visibleFins; i++) {
+                const ang = angStart + angSpacing * i;
+                const base = polarPt(wallR, ang);
+                const tip = polarPt(wallR + bandDir * LfPx, ang);
+
+                if (isCylinderFin) {
+                    // Aleta longitudinal rectangular: rectángulo alineado con
+                    // la dirección radial (normal a la superficie cilíndrica
+                    // en este ángulo); espesor TfPx a lo largo de la
+                    // tangente local al arco.
+                    const tanX = -Math.sin(ang), tanY = Math.cos(ang);
+                    const hw = TfPx / 2;
+                    ctx.beginPath();
+                    ctx.moveTo(base.x - tanX * hw, base.y - tanY * hw);
+                    ctx.lineTo(base.x + tanX * hw, base.y + tanY * hw);
+                    ctx.lineTo(tip.x + tanX * hw, tip.y + tanY * hw);
+                    ctx.lineTo(tip.x - tanX * hw, tip.y - tanY * hw);
+                    ctx.closePath();
+                    ctx.globalAlpha = 0.85;
+                    ctx.fillStyle = finColor;
+                    ctx.fill();
+                    ctx.globalAlpha = 1.0;
+                    ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                } else {
+                    // Aleta de aguja/pin (sección circular): cápsula —
+                    // segmento grueso de extremos redondeados + contorno
+                    // circular en la punta, nunca un rectángulo de esquinas
+                    // vivas (exclusión explícita de la directiva).
+                    ctx.globalAlpha = 0.9;
+                    ctx.strokeStyle = finColor;
+                    ctx.lineWidth = Math.max(2, TfPx);
+                    ctx.lineCap = 'round';
+                    ctx.beginPath();
+                    ctx.moveTo(base.x, base.y);
+                    ctx.lineTo(tip.x, tip.y);
+                    ctx.stroke();
+                    ctx.lineCap = 'butt';
+                    ctx.globalAlpha = 1.0;
+                    ctx.beginPath();
+                    ctx.arc(tip.x, tip.y, Math.max(1.4, TfPx / 2), 0, Math.PI * 2);
+                    ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+            }
+            ctx.restore();
+        }
+
+        // resetCurvedFinState(side): limpia el estado de animación de aletas
+        // curvas de un lado ('left'/'right') — invocado quando ese lado deja
+        // de tener frontera 'fin' activa (ver rama isCurved más abajo), para
+        // que la próxima activación crezca de nuevo desde L=0 en vez de
+        // reaparecer con el último tamaño alcanzado.
+        function resetCurvedFinState(side) {
+            const st = finCurvedVisualState[side];
+            st.LfPx = 0;
+            st.TfPx = 0;
+            st.geomTag = null;
+        }
 
         if (!isCurved) {
         layers.forEach((layer, idx) => {
@@ -16606,6 +16958,36 @@ function initMulticapaCustomSimulation() {
             // partículas en la cuña de 45° ────────────────────────────────
             drawCurvedBoundary(true,  typeL, inputLH, inputLTinf, inputLEps, inputLTsur, inputLFlux, inputLG, inputLAlpha, T[0]);
             drawCurvedBoundary(false, typeR, inputRH, inputRTinf, inputREps, inputRTsur, inputRFlux, inputRG, inputRAlpha, T[N]);
+
+            // LOTE — Animación de Aletas en Casquetes Cilíndricos/Esféricos:
+            // drawCurvedBoundary() (arriba) no tiene caso para 'fin' — se
+            // añade aquí sin tocarla, mismo patrón que las ramas typeL/typeR
+            // === 'fin' de la pared plana (ver drawFronteraFins() más
+            // arriba). Cuando el lado NO es 'fin' se limpia su estado de
+            // animación (resetCurvedFinState) para que la próxima activación
+            // crezca de nuevo desde L=0.
+            if (typeL === 'fin') {
+                drawCurvedFin(true, {
+                    N: inputLFinN ? Math.max(0, Math.round(parseFloat(inputLFinN.value) || 0)) : 0,
+                    Lf: inputLFinLf ? parseFloat(inputLFinLf.value) : 0,
+                    tf: inputLFinTf ? parseFloat(inputLFinTf.value) : 0,
+                    Tinf: inputLFinTinf ? parseFloat(inputLFinTinf.value) : 25,
+                    TwallVal: T[0]
+                });
+            } else {
+                resetCurvedFinState('left');
+            }
+            if (typeR === 'fin') {
+                drawCurvedFin(false, {
+                    N: inputRFinN ? Math.max(0, Math.round(parseFloat(inputRFinN.value) || 0)) : 0,
+                    Lf: inputRFinLf ? parseFloat(inputRFinLf.value) : 0,
+                    tf: inputRFinTf ? parseFloat(inputRFinTf.value) : 0,
+                    Tinf: inputRFinTinf ? parseFloat(inputRFinTinf.value) : 25,
+                    TwallVal: T[N]
+                });
+            } else {
+                resetCurvedFinState('right');
+            }
 
             // Flechas de flujo de calor radiales — a lo largo de la bisectriz
             // (ángulo = 0) y adicionalmente a ±15° para mostrar flujo divergente.
@@ -18008,6 +18390,11 @@ function initMulticapaCustomSimulation() {
                 // Resistencias de frontera de ESTA corrida.
                 R_bc_L: bcResL.R || 0,
                 R_bc_R: bcResR.R || 0,
+                // LOTE — Consistencia W/H: área base real de la pared en ESTA
+                // corrida (=1 m² por convención salvo frontera 'fin' activa
+                // en geometría plana, caso en el que =H·W — ver
+                // updatePlanarFinAreaBase()/planarAreaBase).
+                A_base: planarAreaBase,
                 // Metadatos de capas (L_i, k_i) de ESTA corrida — usados por el export CSV
                 // para saber cuántas columnas R_cond_i le corresponden a este punto cuando
                 // se mezclan configuraciones distintas de número de capas entre puntos.
@@ -18048,14 +18435,17 @@ function initMulticapaCustomSimulation() {
             // distintas de capas entre puntos.
             const maxN = customTabulatedData.reduce((mx, pt) => Math.max(mx, pt.layers ? pt.layers.length : 0), 0);
 
-            let header = "ID,L_tot,k1,k2,q,R_tot,T_L,T_R,R_bc_L,R_bc_R";
+            // LOTE — Consistencia W/H: columna A_base adicional (área real de
+            // la pared en esa corrida — 1 m² salvo frontera 'fin' activa en
+            // geometría plana, caso en el que =H·W).
+            let header = "ID,L_tot,k1,k2,q,R_tot,T_L,T_R,R_bc_L,R_bc_R,A_base";
             for (let i = 1; i <= maxN; i++) header += `,R_cond_${i}`;
             for (let i = 0; i <= maxN; i++) header += `,T_${i}`;
             header += "\n";
 
             let csv = header;
             customTabulatedData.forEach(pt => {
-                let row = `${pt.id},${pt.L_tot.toFixed(4)},${pt.k1.toFixed(3)},${pt.k2.toFixed(3)},${pt.q.toFixed(2)},${pt.R_tot.toFixed(4)},${pt.T_L.toFixed(2)},${pt.T_R.toFixed(2)},${(pt.R_bc_L || 0).toFixed(4)},${(pt.R_bc_R || 0).toFixed(4)}`;
+                let row = `${pt.id},${pt.L_tot.toFixed(4)},${pt.k1.toFixed(3)},${pt.k2.toFixed(3)},${pt.q.toFixed(2)},${pt.R_tot.toFixed(4)},${pt.T_L.toFixed(2)},${pt.T_R.toFixed(2)},${(pt.R_bc_L || 0).toFixed(4)},${(pt.R_bc_R || 0).toFixed(4)},${(pt.A_base !== undefined ? pt.A_base : 1).toFixed(4)}`;
                 for (let i = 1; i <= maxN; i++) {
                     const val = pt['R_cond_' + i];
                     row += ',' + (val !== undefined ? val.toFixed(4) : '');
