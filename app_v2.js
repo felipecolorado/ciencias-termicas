@@ -5492,6 +5492,15 @@ function initNewtonSimulation() {
     let lastTimestamp = 0;
     let isPlaying = false;
 
+    // LOTE rendimiento 2026-09-04: muestreo temporal para chartInstance.update()
+    // y resTime.innerHTML, igual al patrón ya usado en watt-sim (CHART_SAMPLE_MS).
+    // Antes ambos se recalculaban/reescribían en los 60 frames/s; el ojo humano
+    // no distingue una actualización de texto/gráfica a 60 Hz de una a ~12 Hz,
+    // y encadenar chartInstance.update() (animado, sin 'none') en cada frame
+    // reiniciaba la transición interna de Chart.js 60 veces por segundo.
+    const NEWTON_CHART_SAMPLE_MS = 80;
+    let _newtonLastChartSample = 0;
+
     let simSpeedMultiplier = 1;
 
     let currentTi, currentTinf, currentD, currentK, currentRho, currentCp;
@@ -5962,7 +5971,11 @@ function initNewtonSimulation() {
         }
         lastTimestamp = timestamp;
 
-        if (resTime) resTime.innerHTML = simTime.toFixed(1) + " s";
+        // LOTE rendimiento 2026-09-04: throttle a NEWTON_CHART_SAMPLE_MS (ver
+        // declaración arriba) — el texto de tiempo transcurrido no necesita
+        // reescribirse 60 veces por segundo.
+        const _newtonShouldSampleNow = (timestamp - _newtonLastChartSample) >= NEWTON_CHART_SAMPLE_MS;
+        if (resTime && _newtonShouldSampleNow) resTime.innerHTML = simTime.toFixed(1) + " s";
 
         // ── Resize guard ────────────────────────────────────────────────────
         // Leer SIEMPRE desde el shell (padre con height CSS fijo: 280 px).
@@ -6070,7 +6083,11 @@ function initNewtonSimulation() {
         }
 
         // Update current time vertical line on the chart
-        if (chartInstance) {
+        // LOTE rendimiento 2026-09-04: muestreado a NEWTON_CHART_SAMPLE_MS y con
+        // update('none') — antes se llamaba sin 'none' en cada uno de los 60
+        // frames/s, lo que reiniciaba la transición animada interna de Chart.js
+        // 60 veces por segundo (ver informe de diagnóstico 2026-09-04, hallazgo 1.2).
+        if (chartInstance && _newtonShouldSampleNow) {
             chartInstance.data.datasets[4].data = [
                 { x: simTime, y: chartInstance.options.scales.y.min },
                 { x: simTime, y: chartInstance.options.scales.y.max }
@@ -6081,7 +6098,8 @@ function initNewtonSimulation() {
                 return { x: simTime, y: T };
             });
             chartInstance.data.datasets[5].data = statePoints;
-            chartInstance.update();
+            chartInstance.update('none');
+            _newtonLastChartSample = timestamp;
         }
 
         if (isPlaying || simTime === 0) {
@@ -6960,6 +6978,15 @@ function initReynoldsSimulation() {
         });
     }
 
+    // LOTE rendimiento 2026-09-04: los 7 nodos de texto + 1 style.color de
+    // abajo se reescribían en cada uno de los 60 frames/s aunque V/Dh/nu
+    // (y por tanto Re/régimen) solo cambian cuando el usuario mueve un
+    // slider. Se cachea el último valor efectivamente escrito y solo se
+    // toca el DOM cuando cambia — el dibujo del canvas (línea de tinta,
+    // partículas) sigue corriendo cada frame sin cambios (ver informe de
+    // diagnóstico, hallazgo #17).
+    let _lastReynoldsText = { v: null, dh: null, displayStr: null, re: null, regime: null, behavior: null };
+
     // LOTE anti-layout-thrashing: resize disparado solo desde
     // resize/init/reanudación, nunca dentro de draw().
     function resizeReynoldsCanvas() {
@@ -6991,15 +7018,29 @@ function initReynoldsSimulation() {
         const base = Nu_real / Math.pow(10, exponent);
         const displayStr = `${base.toFixed(2)} &times; 10<sup>${exponent}</sup>`;
 
-        // Update label texts
-        if (valV) valV.textContent = V.toFixed(2);
-        if (valDh) valDh.textContent = Dh_mm;
-        if (valNuDisplay) valNuDisplay.innerHTML = displayStr;
-        if (valNu) valNu.innerHTML = displayStr;
+        // Update label texts — solo si cambiaron desde el frame anterior
+        // (LOTE rendimiento 2026-09-04, ver declaración de _lastReynoldsText)
+        const _vStr = V.toFixed(2);
+        if (_vStr !== _lastReynoldsText.v) {
+            if (valV) valV.textContent = _vStr;
+            _lastReynoldsText.v = _vStr;
+        }
+        if (Dh_mm !== _lastReynoldsText.dh) {
+            if (valDh) valDh.textContent = Dh_mm;
+            _lastReynoldsText.dh = Dh_mm;
+        }
+        if (displayStr !== _lastReynoldsText.displayStr) {
+            if (valNuDisplay) valNuDisplay.innerHTML = displayStr;
+            if (valNu) valNu.innerHTML = displayStr;
+            _lastReynoldsText.displayStr = displayStr;
+        }
 
         // Calculate Reynolds: Re = V * D_h / nu_real
         const Re = Math.round((V * (Dh_mm / 1000.0)) / Nu_real);
-        if (valReCalc) valReCalc.textContent = Re.toLocaleString();
+        if (Re !== _lastReynoldsText.re) {
+            if (valReCalc) valReCalc.textContent = Re.toLocaleString();
+            _lastReynoldsText.re = Re;
+        }
 
         // Dynamic pipe height scales with Hydraulic Diameter
         const pipeH = Math.round(30 + (Dh_mm / 100.0) * 80);
@@ -7028,12 +7069,18 @@ function initReynoldsSimulation() {
             behavior = "Dispersión caótica y mezcla completa";
         }
 
-        if (displayRegime) {
-            displayRegime.textContent = regime;
-            displayRegime.style.color = color;
+        if (regime !== _lastReynoldsText.regime) {
+            if (displayRegime) {
+                displayRegime.textContent = regime;
+                displayRegime.style.color = color;
+            }
+            _lastReynoldsText.regime = regime;
         }
-        if (displayBehavior) {
-            displayBehavior.textContent = behavior;
+        if (behavior !== _lastReynoldsText.behavior) {
+            if (displayBehavior) {
+                displayBehavior.textContent = behavior;
+            }
+            _lastReynoldsText.behavior = behavior;
         }
 
         // 2. Draw background flow particles (Water)
@@ -7419,6 +7466,13 @@ function initNatConvSimulation() {
     let time = 0;
     let natConvAnimationId = null;
     let lastTimestamp = null; // para getClampedDelta() — paso de tiempo real acotado del loop
+    // LOTE rendimiento 2026-09-04: los 7 nodos de texto de abajo (Ts, Tinf,
+    // D, Ra, Nu, h, q') se reescribían en cada uno de los 60 frames/s aunque
+    // solo dependen de 3 sliders — se cachean los últimos valores de esos 3
+    // sliders y las escrituras de texto se saltan cuando ninguno cambió
+    // desde el frame anterior (el dibujo del penacho de convección sigue
+    // corriendo cada frame sin cambios; ver informe de diagnóstico, hallazgo #18).
+    let _lastNatConvInputs = { Ts: null, Tinf: null, D_mm: null };
 
     function draw(ts) {
         if (!window.LabAnimationManager.isLabVisible('nat-conv-sim')) {
@@ -7447,10 +7501,20 @@ function initNatConvSimulation() {
         const dT = Ts - Tinf;
         const isHot = dT >= 0;
 
+        // LOTE rendimiento 2026-09-04: ver _lastNatConvInputs arriba.
+        const _natConvInputsChanged = (Ts !== _lastNatConvInputs.Ts || Tinf !== _lastNatConvInputs.Tinf || D_mm !== _lastNatConvInputs.D_mm);
+        if (_natConvInputsChanged) {
+            _lastNatConvInputs.Ts = Ts;
+            _lastNatConvInputs.Tinf = Tinf;
+            _lastNatConvInputs.D_mm = D_mm;
+        }
+
         // Update slider values texts
-        if (valTs) valTs.textContent = Ts;
-        if (valTinf) valTinf.textContent = Tinf;
-        if (valD) valD.textContent = D_mm;
+        if (_natConvInputsChanged) {
+            if (valTs) valTs.textContent = Ts;
+            if (valTinf) valTinf.textContent = Tinf;
+            if (valD) valD.textContent = D_mm;
+        }
 
         // 1. Physical properties of Air at Film Temperature Tf = (Ts + Tinf)/2
         const Tf = (Ts + Tinf) / 2;
@@ -7467,7 +7531,7 @@ function initNatConvSimulation() {
 
         // Rayleigh Number
         const Ra = (g * beta * Math.abs(dT) * Math.pow(D_m, 3)) / (nu * alpha);
-        if (valRa) {
+        if (_natConvInputsChanged && valRa) {
             if (Math.abs(dT) === 0) {
                 valRa.textContent = "0";
             } else {
@@ -7482,15 +7546,15 @@ function initNatConvSimulation() {
             const den = Math.pow(1 + Math.pow(0.559 / Pr, 9 / 16), 8 / 27);
             Nu_val = Math.pow(0.60 + num / den, 2);
         }
-        if (valNu) valNu.textContent = Nu_val.toFixed(2);
+        if (_natConvInputsChanged && valNu) valNu.textContent = Nu_val.toFixed(2);
 
         // Convection Coefficient: h = Nu * k / D
         const h_coef = (Nu_val * k) / D_m;
-        if (valH) valH.textContent = `${h_coef.toFixed(2)} W/m²K`;
+        if (_natConvInputsChanged && valH) valH.textContent = `${h_coef.toFixed(2)} W/m²K`;
 
         // Heat Loss per unit length: q' = h * pi * D * dT
         const q_loss = h_coef * Math.PI * D_m * dT;
-        if (valQ) valQ.textContent = `${q_loss.toFixed(1)} W/m`;
+        if (_natConvInputsChanged && valQ) valQ.textContent = `${q_loss.toFixed(1)} W/m`;
 
         // Dynamic visual cylinder radius (scaled for canvas representation)
         const baseR = (D_mm / 100) * 45 + 15;
@@ -7884,10 +7948,18 @@ function initKelvinSimulation() {
 
     let currentPistonY = canvas.height / 2;
 
+    // LOTE rendimiento 2026-09-04: antes renderLoop() arrancaba sin condición
+    // al final de initKelvinSimulation() (ver llamado más abajo) y, aunque
+    // oculto, nunca llamaba a cancelAnimationFrame — solo se auto-limitaba
+    // con offsetParent/data-canvas-paused, leyendo layout forzado 60
+    // veces/s para siempre (ver informe de diagnóstico, hallazgo #1). Ahora
+    // se conecta a window.LabAnimationManager, igual que watt-sim/foote-sim:
+    // el bucle se cancela de verdad al perder visibilidad y solo se
+    // reanuda cuando el laboratorio vuelve a estar activo.
     function renderLoop() {
-        if (!canvas.offsetParent || canvas.hasAttribute('data-canvas-paused')) {
-            // Tab is not visible
-            animationId = requestAnimationFrame(renderLoop);
+        if (!window.LabAnimationManager.isLabVisible('kelvin-sim')) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
             return;
         }
 
@@ -7961,7 +8033,13 @@ function initKelvinSimulation() {
 
     // Initial run
     updateSimulation();
-    renderLoop();
+
+    window.LabAnimationManager.register('kelvin-sim', function resumeKelvin() {
+        resizeCanvas();
+        if (animationId == null) animationId = requestAnimationFrame(renderLoop);
+    }, function pauseKelvin() {
+        if (animationId) { cancelAnimationFrame(animationId); animationId = null; }
+    });
 }
 
 function initJouleSimulation() {
@@ -8177,9 +8255,13 @@ function initJouleSimulation() {
     // Initial button state
     btnReset.disabled = true;
 
+    // LOTE rendimiento 2026-09-04: ver comentario equivalente en
+    // initKelvinSimulation — mismo patrón de bucle huérfano, misma
+    // corrección (conectar a LabAnimationManager).
     function renderLoop() {
-        if (!canvas.offsetParent || canvas.hasAttribute('data-canvas-paused')) {
-            animationId = requestAnimationFrame(renderLoop);
+        if (!window.LabAnimationManager.isLabVisible('joule-sim')) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
             return;
         }
 
@@ -8452,7 +8534,13 @@ function initJouleSimulation() {
 
     // Initial setup
     updateInputs();
-    renderLoop();
+
+    window.LabAnimationManager.register('joule-sim', function resumeJoule() {
+        resizeCanvas();
+        if (animationId == null) animationId = requestAnimationFrame(renderLoop);
+    }, function pauseJoule() {
+        if (animationId) { cancelAnimationFrame(animationId); animationId = null; }
+    });
 }
 
 function initHerschelSimulation() {
@@ -8640,9 +8728,13 @@ function initHerschelSimulation() {
     }
     window.addEventListener('resize', resizeHerschelCanvas);
 
+    // LOTE rendimiento 2026-09-04: ver comentario equivalente en
+    // initKelvinSimulation — mismo patrón de bucle huérfano, misma
+    // corrección (conectar a LabAnimationManager).
     function renderLoop() {
-        if (!canvas.offsetParent || canvas.hasAttribute('data-canvas-paused')) {
-            animationId = requestAnimationFrame(renderLoop);
+        if (!window.LabAnimationManager.isLabVisible('herschel-sim')) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
             return;
         }
 
@@ -8993,7 +9085,13 @@ function initHerschelSimulation() {
     // Initial run
     resizeHerschelCanvas();
     updateSimulation();
-    renderLoop();
+
+    window.LabAnimationManager.register('herschel-sim', function resumeHerschel() {
+        resizeHerschelCanvas();
+        if (animationId == null) animationId = requestAnimationFrame(renderLoop);
+    }, function pauseHerschel() {
+        if (animationId) { cancelAnimationFrame(animationId); animationId = null; }
+    });
 }
 
 /* =========================================================================
@@ -9234,9 +9332,13 @@ function initMicrochannelSimulation() {
     }
     window.addEventListener('resize', resizeMicrochannelCanvas);
 
+    // LOTE rendimiento 2026-09-04: ver comentario equivalente en
+    // initKelvinSimulation — mismo patrón de bucle huérfano, misma
+    // corrección (conectar a LabAnimationManager).
     function renderLoop() {
-        if (!canvas.offsetParent || canvas.hasAttribute('data-canvas-paused')) {
-            animationId = requestAnimationFrame(renderLoop);
+        if (!window.LabAnimationManager.isLabVisible('microchannel-sim')) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
             return;
         }
 
@@ -9385,7 +9487,13 @@ function initMicrochannelSimulation() {
 
     resizeMicrochannelCanvas();
     calculateThermals();
-    renderLoop();
+
+    window.LabAnimationManager.register('microchannel-sim', function resumeMicrochannel() {
+        resizeMicrochannelCanvas();
+        if (animationId == null) animationId = requestAnimationFrame(renderLoop);
+    }, function pauseMicrochannel() {
+        if (animationId) { cancelAnimationFrame(animationId); animationId = null; }
+    });
 }
 
 // ============================================================================
@@ -9607,9 +9715,13 @@ function initCpCvSimulation() {
     }
     window.addEventListener('resize', resizeCpCvCanvas);
 
+    // LOTE rendimiento 2026-09-04: ver comentario equivalente en
+    // initKelvinSimulation — mismo patrón de bucle huérfano, misma
+    // corrección (conectar a LabAnimationManager).
     function renderLoop() {
-        if (!canvas.offsetParent || canvas.hasAttribute('data-canvas-paused')) {
-            animationId = requestAnimationFrame(renderLoop);
+        if (!window.LabAnimationManager.isLabVisible('cpcv-sim')) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
             return;
         }
 
@@ -9767,7 +9879,13 @@ function initCpCvSimulation() {
     // Start simulation loops
     resizeCpCvCanvas();
     calculatePhysics();
-    renderLoop();
+
+    window.LabAnimationManager.register('cpcv-sim', function resumeCpCv() {
+        resizeCpCvCanvas();
+        if (animationId == null) animationId = requestAnimationFrame(renderLoop);
+    }, function pauseCpCv() {
+        if (animationId) { cancelAnimationFrame(animationId); animationId = null; }
+    });
 }
 
 // ============================================================================
@@ -20403,6 +20521,15 @@ function initOttoDieselSimulation() {
     }
 
     // ── Animation Loop ───────────────────────────────────────
+    // LOTE rendimiento 2026-09-04: antes esta función (a) volvía a buscar con
+    // getElementById los mismos 5 nodos ya guardados en processElements, y
+    // (b) reescribía backgroundColor/borderColor/boxShadow en los 5 nodos en
+    // cada uno de los 60 frames/s aunque la etapa activa (activeIdx) solo
+    // cambia 4 veces por ciclo completo. Ahora se reutiliza processElements
+    // (mismo orden: admisión, compresión, combustión, fuerza, escape) y el
+    // bloque de estilos solo corre cuando activeIdx cambió desde el frame
+    // anterior (ver informe de diagnóstico, hallazgo #16).
+    let _lastOttoActiveIdx = -1;
     function animate() {
         if (state.isPlaying) {
             state.animPhase = (state.animPhase + 0.0018 * state.speed) % 1;
@@ -20412,28 +20539,6 @@ function initOttoDieselSimulation() {
             }
         }
         const ph = state.animPhase;
-
-        // Clear styles of all process blocks
-        processElements.forEach(el => {
-            if (el) {
-                el.style.backgroundColor = 'rgba(255, 255, 255, 0.01)';
-                el.style.borderColor = 'transparent';
-                el.style.boxShadow = 'none';
-            }
-        });
-
-        // Restore dashed border for different stages, solid for identical stages
-        const pAdm = document.getElementById('p-admision');
-        const pComp = document.getElementById('p-compresion');
-        const pComb = document.getElementById('p-combustion');
-        const pFuer = document.getElementById('p-fuerza');
-        const pEsc = document.getElementById('p-escape');
-
-        if (pAdm) pAdm.style.borderColor = 'rgba(239, 68, 68, 0.25)';
-        if (pComp) pComp.style.borderColor = 'rgba(239, 68, 68, 0.25)';
-        if (pComb) pComb.style.borderColor = 'rgba(239, 68, 68, 0.25)';
-        if (pFuer) pFuer.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-        if (pEsc) pEsc.style.borderColor = 'rgba(255, 255, 255, 0.08)';
 
         // Determine active index
         let activeIdx = 0;
@@ -20449,19 +20554,41 @@ function initOttoDieselSimulation() {
             activeIdx = 0; // Admisión
         }
 
-        const activeEl = processElements[activeIdx];
-        if (activeEl) {
-            const isDifferent = activeIdx <= 2;
-            if (isDifferent) {
-                // Highlight different stage with blue-purple glow
-                activeEl.style.backgroundColor = 'rgba(99, 102, 241, 0.15)';
-                activeEl.style.borderColor = 'rgba(99, 102, 241, 0.45)';
-                activeEl.style.boxShadow = '0 0 10px rgba(99, 102, 241, 0.2)';
-            } else {
-                // Highlight identical stage with green-emerald glow
-                activeEl.style.backgroundColor = 'rgba(16, 185, 129, 0.15)';
-                activeEl.style.borderColor = 'rgba(16, 185, 129, 0.45)';
-                activeEl.style.boxShadow = '0 0 10px rgba(16, 185, 129, 0.2)';
+        if (activeIdx !== _lastOttoActiveIdx) {
+            _lastOttoActiveIdx = activeIdx;
+
+            // Clear styles of all process blocks
+            processElements.forEach(el => {
+                if (el) {
+                    el.style.backgroundColor = 'rgba(255, 255, 255, 0.01)';
+                    el.style.borderColor = 'transparent';
+                    el.style.boxShadow = 'none';
+                }
+            });
+
+            // Restore dashed border for different stages, solid for identical stages
+            // (orden de processElements: admisión, compresión, combustión, fuerza, escape)
+            const [pAdm, pComp, pComb, pFuer, pEsc] = processElements;
+            if (pAdm) pAdm.style.borderColor = 'rgba(239, 68, 68, 0.25)';
+            if (pComp) pComp.style.borderColor = 'rgba(239, 68, 68, 0.25)';
+            if (pComb) pComb.style.borderColor = 'rgba(239, 68, 68, 0.25)';
+            if (pFuer) pFuer.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+            if (pEsc) pEsc.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+
+            const activeEl = processElements[activeIdx];
+            if (activeEl) {
+                const isDifferent = activeIdx <= 2;
+                if (isDifferent) {
+                    // Highlight different stage with blue-purple glow
+                    activeEl.style.backgroundColor = 'rgba(99, 102, 241, 0.15)';
+                    activeEl.style.borderColor = 'rgba(99, 102, 241, 0.45)';
+                    activeEl.style.boxShadow = '0 0 10px rgba(99, 102, 241, 0.2)';
+                } else {
+                    // Highlight identical stage with green-emerald glow
+                    activeEl.style.backgroundColor = 'rgba(16, 185, 129, 0.15)';
+                    activeEl.style.borderColor = 'rgba(16, 185, 129, 0.45)';
+                    activeEl.style.boxShadow = '0 0 10px rgba(16, 185, 129, 0.2)';
+                }
             }
         }
 
@@ -20576,6 +20703,38 @@ function initWattLab() {
     const spCold = document.getElementById('watt-cold-temp-val');
     const spSpeed = document.getElementById('watt-speed-val');
 
+    // LOTE rendimiento 2026-09-04: cachear las 11 referencias que
+    // updateMetrics() escribe — antes se volvían a buscar con
+    // getElementById en cada uno de los 60 frames/s (ver informe de
+    // diagnóstico, hallazgo #14). Los nodos no cambian durante la vida del
+    // laboratorio, así que basta con resolverlos una sola vez aquí.
+    const metricEls = {
+        newcomenTcyl: document.getElementById('watt-newcomen-tcyl'),
+        newcomenCoal: document.getElementById('watt-newcomen-coal'),
+        newcomenWaste: document.getElementById('watt-newcomen-waste'),
+        newcomenEff: document.getElementById('watt-newcomen-eff'),
+        wattTcyl: document.getElementById('watt-watt-tcyl'),
+        wattCoal: document.getElementById('watt-watt-coal'),
+        wattWaste: document.getElementById('watt-watt-waste'),
+        wattEff: document.getElementById('watt-watt-eff'),
+        coalSaving: document.getElementById('watt-coal-saving'),
+        effRatio: document.getElementById('watt-eff-ratio'),
+        carnotLimit: document.getElementById('watt-carnot-limit')
+    };
+
+    // LOTE rendimiento 2026-09-04: cachear los CanvasGradient cuyos colores
+    // son fijos y cuya geometría depende únicamente del alto del canvas (H)
+    // — se recrean solo cuando H cambia (redimensionamiento), no en cada uno
+    // de los 60 frames/s (ver informe de diagnóstico, hallazgo #15/1.4). Los
+    // gradientes cuyo color depende del estado térmico en vivo (p. ej. el
+    // cilindro coloreado por temperatura, o la llama animada) NO se cachean
+    // aquí: recalcularlos en cada frame es el comportamiento correcto.
+    const _gradCache = {
+        newcomenBoilerH: null, newcomenBoilerGrad: null,
+        wattBgH: null, wattBgGrad: null,
+        wattBoilerH: null, wattBoilerGrad: null
+    };
+
     const state = {
         steamT: 180, coldT: 20, speed: 1.0, phase: 0, animId: null,
         newcomenCylT: 180, wattCylT: 180,
@@ -20631,8 +20790,15 @@ function initWattLab() {
 
         // Boiler
         const bx = 28, by = H * 0.55, bw = 52, bh = 68;
-        const bG = ctx.createLinearGradient(bx, by, bx, by + bh);
-        bG.addColorStop(0, '#7f1d1d'); bG.addColorStop(1, '#450a0a');
+        let bG;
+        if (_gradCache.newcomenBoilerH === H) {
+            bG = _gradCache.newcomenBoilerGrad;
+        } else {
+            bG = ctx.createLinearGradient(bx, by, bx, by + bh);
+            bG.addColorStop(0, '#7f1d1d'); bG.addColorStop(1, '#450a0a');
+            _gradCache.newcomenBoilerH = H;
+            _gradCache.newcomenBoilerGrad = bG;
+        }
         ctx.fillStyle = bG; ctx.beginPath(); ctx.roundRect(bx, by, bw, bh, 6); ctx.fill();
         ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2; ctx.stroke();
         ctx.fillStyle = '#fca5a5'; ctx.font = 'bold 8px Inter'; ctx.textAlign = 'center';
@@ -20707,9 +20873,16 @@ function initWattLab() {
         ctx.clearRect(0, 0, W, H);
 
         // ── Background ──────────────────────────────────────────
-        const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
-        bgGrad.addColorStop(0, '#070d1a');
-        bgGrad.addColorStop(1, '#0a1020');
+        let bgGrad;
+        if (_gradCache.wattBgH === H) {
+            bgGrad = _gradCache.wattBgGrad;
+        } else {
+            bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+            bgGrad.addColorStop(0, '#070d1a');
+            bgGrad.addColorStop(1, '#0a1020');
+            _gradCache.wattBgH = H;
+            _gradCache.wattBgGrad = bgGrad;
+        }
         ctx.fillStyle = bgGrad;
         ctx.fillRect(0, 0, W, H);
 
@@ -20762,10 +20935,17 @@ function initWattLab() {
         // 1. BOILER (left side)
         // ═══════════════════════════════════════════════════════
         const bx = 14, by = H * 0.62, bw = 52, bh = H * 0.22;
-        const boilerGrad = ctx.createLinearGradient(bx, by, bx, by + bh);
-        boilerGrad.addColorStop(0, '#1e3a6e');
-        boilerGrad.addColorStop(0.6, '#0f2040');
-        boilerGrad.addColorStop(1, '#070d1a');
+        let boilerGrad;
+        if (_gradCache.wattBoilerH === H) {
+            boilerGrad = _gradCache.wattBoilerGrad;
+        } else {
+            boilerGrad = ctx.createLinearGradient(bx, by, bx, by + bh);
+            boilerGrad.addColorStop(0, '#1e3a6e');
+            boilerGrad.addColorStop(0.6, '#0f2040');
+            boilerGrad.addColorStop(1, '#070d1a');
+            _gradCache.wattBoilerH = H;
+            _gradCache.wattBoilerGrad = boilerGrad;
+        }
         ctx.fillStyle = boilerGrad;
         ctx.beginPath(); ctx.roundRect(bx, by, bw, bh, 8); ctx.fill();
         ctx.strokeStyle = '#3b82f6'; ctx.lineWidth = 2; ctx.stroke();
@@ -21201,17 +21381,17 @@ function initWattLab() {
         const cN = coalKgH(effN), cW = coalKgH(effW);
         const saving = cN > 0 ? (cN - cW) / cN * 100 : 0;
 
-        document.getElementById('watt-newcomen-tcyl').textContent = `${state.newcomenCylT.toFixed(0)} °C`;
-        document.getElementById('watt-newcomen-coal').textContent = `${cN.toFixed(1)} kg/h`;
-        document.getElementById('watt-newcomen-waste').textContent = `${(100 - effN).toFixed(1)} %`;
-        document.getElementById('watt-newcomen-eff').textContent = `${effN.toFixed(2)} %`;
-        document.getElementById('watt-watt-tcyl').textContent = `${state.wattCylT.toFixed(0)} °C`;
-        document.getElementById('watt-watt-coal').textContent = `${cW.toFixed(1)} kg/h`;
-        document.getElementById('watt-watt-waste').textContent = `${(100 - effW).toFixed(1)} %`;
-        document.getElementById('watt-watt-eff').textContent = `${effW.toFixed(2)} %`;
-        document.getElementById('watt-coal-saving').textContent = `${saving.toFixed(1)} %`;
-        document.getElementById('watt-eff-ratio').textContent = `${(effW / Math.max(effN, 0.001)).toFixed(1)} ×`;
-        document.getElementById('watt-carnot-limit').textContent = `${carnot.toFixed(1)} %`;
+        if (metricEls.newcomenTcyl) metricEls.newcomenTcyl.textContent = `${state.newcomenCylT.toFixed(0)} °C`;
+        if (metricEls.newcomenCoal) metricEls.newcomenCoal.textContent = `${cN.toFixed(1)} kg/h`;
+        if (metricEls.newcomenWaste) metricEls.newcomenWaste.textContent = `${(100 - effN).toFixed(1)} %`;
+        if (metricEls.newcomenEff) metricEls.newcomenEff.textContent = `${effN.toFixed(2)} %`;
+        if (metricEls.wattTcyl) metricEls.wattTcyl.textContent = `${state.wattCylT.toFixed(0)} °C`;
+        if (metricEls.wattCoal) metricEls.wattCoal.textContent = `${cW.toFixed(1)} kg/h`;
+        if (metricEls.wattWaste) metricEls.wattWaste.textContent = `${(100 - effW).toFixed(1)} %`;
+        if (metricEls.wattEff) metricEls.wattEff.textContent = `${effW.toFixed(2)} %`;
+        if (metricEls.coalSaving) metricEls.coalSaving.textContent = `${saving.toFixed(1)} %`;
+        if (metricEls.effRatio) metricEls.effRatio.textContent = `${(effW / Math.max(effN, 0.001)).toFixed(1)} ×`;
+        if (metricEls.carnotLimit) metricEls.carnotLimit.textContent = `${carnot.toFixed(1)} %`;
     }
 
     let lastTimestamp = null;
@@ -21254,11 +21434,18 @@ function initWattLab() {
             tempChart.data.datasets[0].data = state.tHistory.map(d => d.n);
             tempChart.data.datasets[1].data = state.tHistory.map(d => d.w);
             tempChart.update('none');
+
+            // LOTE rendimiento 2026-09-04: updateMetrics() reescribía 11 nodos de
+            // texto en cada uno de los 60 frames/s aunque los valores mostrados
+            // (eficiencias, consumo de carbón) cambian de forma imperceptible de
+            // un frame al siguiente. Se reutiliza el mismo muestreo temporal ya
+            // usado para la gráfica (CHART_SAMPLE_MS) — ver informe de
+            // diagnóstico, hallazgo #14.
+            updateMetrics();
         }
 
         drawNewcomen(nCtx, newcomenCanvas, state.phase, state.newcomenCylT, state.steamT, state.coldT);
         drawWattEngine(wCtx, wattCanvas, state.phase, state.wattCylT, state.steamT, state.coldT);
-        updateMetrics();
 
         state.animId = requestAnimationFrame(animate);
     }
@@ -25794,15 +25981,31 @@ function initInternalBLSimulation() {
 
             updateDisplays();
             initChart();
-            drawCanvas();
+            drawCanvas(true);
         }
 
-        function drawCanvas() {
+        // LOTE rendimiento 2026-09-04: cachear el tamaño leído de
+        // canvas.parentElement — antes drawCanvas() leía clientWidth/
+        // clientHeight (layout forzado) en cada uno de los 60 frames/s del
+        // bucle, exista o no cambio real de tamaño (ver informe de
+        // diagnóstico, hallazgo 1.3). Ahora solo se re-lee del DOM cuando
+        // forceResize es true (llamadas puntuales: init, resize, último
+        // frame de equilibrio) o cada RESIZE_CHECK_MS como red de seguridad
+        // para el bucle continuo.
+        let _cachedCanvasW = 0, _cachedCanvasH = 0, _lastResizeCheck = 0;
+        const RESIZE_CHECK_MS = 250;
+        function drawCanvas(forceResize) {
             if (!canvas.parentElement) return;
-            const w = canvas.parentElement.clientWidth;
-            const h = canvas.parentElement.clientHeight;
+            const _now = performance.now();
+            if (forceResize || _cachedCanvasW === 0 || _cachedCanvasH === 0 || (_now - _lastResizeCheck) >= RESIZE_CHECK_MS) {
+                _lastResizeCheck = _now;
+                _cachedCanvasW = canvas.parentElement.clientWidth;
+                _cachedCanvasH = canvas.parentElement.clientHeight;
+            }
+            const w = _cachedCanvasW;
+            const h = _cachedCanvasH;
             if (w === 0 || h === 0) {
-                requestAnimationFrame(drawCanvas);
+                requestAnimationFrame(() => drawCanvas(true));
                 return;
             }
             if (canvas.width !== w || canvas.height !== h) {
@@ -25961,7 +26164,7 @@ function initInternalBLSimulation() {
 
                     showEuniceQuoteAndConclusion();
                     updateDisplays(); // refleja el estado final congelado en la tabla
-                    drawCanvas(); // último frame con las temperaturas de equilibrio
+                    drawCanvas(true); // último frame con las temperaturas de equilibrio
 
                     if (animationId !== null) {
                         cancelAnimationFrame(animationId);
@@ -26052,7 +26255,7 @@ function initInternalBLSimulation() {
         resetBtn.addEventListener("click", resetSim);
 
         if (!canvas.dataset.resizeAttached) {
-            window.addEventListener("resize", () => { if (canvas.offsetParent) drawCanvas(); });
+            window.addEventListener("resize", () => { if (canvas.offsetParent) drawCanvas(true); });
             canvas.dataset.resizeAttached = "true";
         }
         // Exponer drawCanvas para que el IIFE FooteLab pueda llamarla desde resizeAssets()
@@ -26172,12 +26375,28 @@ function initInternalBLSimulation() {
             });
         }
 
-        function drawCanvas() {
+        // LOTE rendimiento 2026-09-04: cachear el tamaño leído de
+        // canvas.parentElement — antes drawCanvas() leía clientWidth/
+        // clientHeight (layout forzado) en cada uno de los 60 frames/s del
+        // bucle, exista o no cambio real de tamaño (ver informe de
+        // diagnóstico, hallazgo 1.3). Ahora solo se re-lee del DOM cuando
+        // forceResize es true (llamadas puntuales: init, resize, último
+        // frame) o cada RESIZE_CHECK_MS como red de seguridad para el bucle
+        // continuo.
+        let _cachedCanvasW = 0, _cachedCanvasH = 0, _lastResizeCheck = 0;
+        const RESIZE_CHECK_MS = 250;
+        function drawCanvas(forceResize) {
             if (!canvas.parentElement) return;
-            const w = canvas.parentElement.clientWidth;
-            const h = canvas.parentElement.clientHeight;
+            const _now = performance.now();
+            if (forceResize || _cachedCanvasW === 0 || _cachedCanvasH === 0 || (_now - _lastResizeCheck) >= RESIZE_CHECK_MS) {
+                _lastResizeCheck = _now;
+                _cachedCanvasW = canvas.parentElement.clientWidth;
+                _cachedCanvasH = canvas.parentElement.clientHeight;
+            }
+            const w = _cachedCanvasW;
+            const h = _cachedCanvasH;
             if (w === 0 || h === 0) {
-                requestAnimationFrame(drawCanvas);
+                requestAnimationFrame(() => drawCanvas(true));
                 return;
             }
             if (canvas.width !== w || canvas.height !== h) {
@@ -26337,16 +26556,16 @@ function initInternalBLSimulation() {
                     craterWidth = Math.min(50, 10 + m_kg * 4 + (craterDepth * 0.5));
 
                     updateDisplays();
-                    drawCanvas();
+                    drawCanvas(true);
                 }
             }
             fallLoop();
         }
 
-        massSlider.addEventListener("input", () => { updateDisplays(); initChart(); drawCanvas(); });
-        heightSlider.addEventListener("input", () => { updateDisplays(); initChart(); drawCanvas(); });
+        massSlider.addEventListener("input", () => { updateDisplays(); initChart(); drawCanvas(true); });
+        heightSlider.addEventListener("input", () => { updateDisplays(); initChart(); drawCanvas(true); });
 
-        function chateletFullUpdate() { updateDisplays(); initChart(); drawCanvas(); }
+        function chateletFullUpdate() { updateDisplays(); initChart(); drawCanvas(true); }
         syncSliderAndNumberInput(massSlider, document.getElementById('chatelet-mass-num'), chateletFullUpdate);
         syncSliderAndNumberInput(heightSlider, document.getElementById('chatelet-height-num'), chateletFullUpdate);
 
@@ -26358,30 +26577,35 @@ function initInternalBLSimulation() {
             craterWidth = 0;
             if (animationId) cancelAnimationFrame(animationId);
             updateDisplays();
-            drawCanvas();
+            drawCanvas(true);
         });
 
         if (!canvas.dataset.resizeAttached) {
-            window.addEventListener("resize", () => { if (canvas.offsetParent) drawCanvas(); });
+            window.addEventListener("resize", () => { if (canvas.offsetParent) drawCanvas(true); });
             canvas.dataset.resizeAttached = "true";
         }
 
-        // Si el laboratorio se oculta mientras la esfera está cayendo, se cancela
-        // el loop (evita seguir animando en segundo plano). fallLoop() vive dentro
-        // de dropSphere() y no es re-invocable desde aquí, así que en vez de
-        // intentar retomar la caída a mitad de camino se resetea isFalling: al
-        // volver, el botón "Soltar" queda listo para una nueva caída limpia.
-        const chateletVisObserver = new IntersectionObserver((entries) => {
-            if (!entries[0].isIntersecting) {
-                if (animationId) cancelAnimationFrame(animationId);
-                isFalling = false;
-            }
+        // LOTE rendimiento 2026-09-04: antes este laboratorio usaba su propio
+        // IntersectionObserver ad-hoc para pausar fallLoop() al perder
+        // visibilidad; se reemplaza por el registro estándar en
+        // LabAnimationManager, igual que el resto de laboratorios migrados,
+        // para no mantener varios sistemas de visibilidad distintos en el
+        // mismo archivo (ver informe de diagnóstico, hallazgo #1). fallLoop()
+        // vive dentro de dropSphere() y no es re-invocable desde aquí, así
+        // que en vez de intentar retomar la caída a mitad de camino se
+        // resetea isFalling: al volver, el botón "Soltar" queda listo para
+        // una nueva caída limpia (mismo comportamiento que antes).
+        window.LabAnimationManager.register('chatelet-sim', function resumeChatelet() {
+            // No hay animación que retomar automáticamente: el usuario
+            // vuelve a pulsar "Soltar" para una nueva caída.
+        }, function pauseChatelet() {
+            if (animationId) { cancelAnimationFrame(animationId); animationId = null; }
+            isFalling = false;
         });
-        chateletVisObserver.observe(canvas);
 
         updateDisplays();
         initChart();
-        drawCanvas();
+        drawCanvas(true);
     }
     window.initChateletSimulation = initChateletSimulation;
 
@@ -26468,12 +26692,28 @@ function initInternalBLSimulation() {
             });
         }
 
-        function drawCanvas() {
+        // LOTE rendimiento 2026-09-04: cachear el tamaño leído de
+        // canvas.parentElement — antes drawCanvas() leía clientWidth/
+        // clientHeight (layout forzado) en cada uno de los 60 frames/s del
+        // bucle, exista o no cambio real de tamaño (ver informe de
+        // diagnóstico, hallazgo 1.3). Ahora solo se re-lee del DOM cuando
+        // forceResize es true (llamadas puntuales: init, resize, último
+        // frame) o cada RESIZE_CHECK_MS como red de seguridad para el bucle
+        // continuo.
+        let _cachedCanvasW = 0, _cachedCanvasH = 0, _lastResizeCheck = 0;
+        const RESIZE_CHECK_MS = 250;
+        function drawCanvas(forceResize) {
             if (!canvas.parentElement) return;
-            const w = canvas.parentElement.clientWidth;
-            const h = canvas.parentElement.clientHeight;
+            const _now = performance.now();
+            if (forceResize || _cachedCanvasW === 0 || _cachedCanvasH === 0 || (_now - _lastResizeCheck) >= RESIZE_CHECK_MS) {
+                _lastResizeCheck = _now;
+                _cachedCanvasW = canvas.parentElement.clientWidth;
+                _cachedCanvasH = canvas.parentElement.clientHeight;
+            }
+            const w = _cachedCanvasW;
+            const h = _cachedCanvasH;
             if (w === 0 || h === 0) {
-                requestAnimationFrame(drawCanvas);
+                requestAnimationFrame(() => drawCanvas(true));
                 return;
             }
             if (canvas.width !== w || canvas.height !== h) {
@@ -26515,7 +26755,14 @@ function initInternalBLSimulation() {
             }
         }
 
+        // LOTE rendimiento 2026-09-04: ver comentario equivalente en
+        // initKelvinSimulation — se conecta a LabAnimationManager en vez del
+        // IntersectionObserver ad-hoc (ver más abajo).
         function loop() {
+            if (!window.LabAnimationManager.isLabVisible('pennington-sim')) {
+                if (animationId) { cancelAnimationFrame(animationId); animationId = null; }
+                return;
+            }
             if (isRunning) {
                 const { k, L_m, Text } = getParams();
                 const q_flux = (k / L_m) * (Text - T_cargo);
@@ -26566,24 +26813,23 @@ function initInternalBLSimulation() {
             if (animationId) cancelAnimationFrame(animationId);
             updateDisplays();
             initChart();
-            drawCanvas();
+            drawCanvas(true);
         });
 
         if (!canvas.dataset.resizeAttached) {
-            window.addEventListener("resize", () => { if (canvas.offsetParent) drawCanvas(); });
+            window.addEventListener("resize", () => { if (canvas.offsetParent) drawCanvas(true); });
             canvas.dataset.resizeAttached = "true";
         }
 
         // Pausa/reanuda el loop de animación según visibilidad del laboratorio
-        // (sin tocar isRunning: si estaba corriendo al salir, retoma solo al volver)
-        const penningtonVisObserver = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                if (isRunning) animationId = requestAnimationFrame(loop);
-            } else {
-                if (animationId) cancelAnimationFrame(animationId);
-            }
+        // (sin tocar isRunning: si estaba corriendo al salir, retoma solo al
+        // volver) — vía LabAnimationManager en vez de un IntersectionObserver
+        // ad-hoc (LOTE rendimiento 2026-09-04, ver comentario en loop() arriba).
+        window.LabAnimationManager.register('pennington-sim', function resumePennington() {
+            if (isRunning && animationId == null) animationId = requestAnimationFrame(loop);
+        }, function pausePennington() {
+            if (animationId) { cancelAnimationFrame(animationId); animationId = null; }
         });
-        penningtonVisObserver.observe(canvas);
 
         // LOTE 3 — entrada numérica directa: estos 2 sliders no tenían
         // listener 'input' propio (updateDisplays() sólo corría dentro del
@@ -26600,7 +26846,7 @@ function initInternalBLSimulation() {
 
         updateDisplays();
         initChart();
-        drawCanvas();
+        drawCanvas(true);
     }
     window.initPenningtonSimulation = initPenningtonSimulation;
 
@@ -26703,12 +26949,28 @@ function initInternalBLSimulation() {
             });
         }
 
-        function drawCanvas() {
+        // LOTE rendimiento 2026-09-04: cachear el tamaño leído de
+        // canvas.parentElement — antes drawCanvas() leía clientWidth/
+        // clientHeight (layout forzado) en cada uno de los 60 frames/s del
+        // bucle, exista o no cambio real de tamaño (ver informe de
+        // diagnóstico, hallazgo 1.3). Ahora solo se re-lee del DOM cuando
+        // forceResize es true (llamadas puntuales: init, resize, último
+        // frame) o cada RESIZE_CHECK_MS como red de seguridad para el bucle
+        // continuo.
+        let _cachedCanvasW = 0, _cachedCanvasH = 0, _lastResizeCheck = 0;
+        const RESIZE_CHECK_MS = 250;
+        function drawCanvas(forceResize) {
             if (!canvas.parentElement) return;
-            const w = canvas.parentElement.clientWidth;
-            const h = canvas.parentElement.clientHeight;
+            const _now = performance.now();
+            if (forceResize || _cachedCanvasW === 0 || _cachedCanvasH === 0 || (_now - _lastResizeCheck) >= RESIZE_CHECK_MS) {
+                _lastResizeCheck = _now;
+                _cachedCanvasW = canvas.parentElement.clientWidth;
+                _cachedCanvasH = canvas.parentElement.clientHeight;
+            }
+            const w = _cachedCanvasW;
+            const h = _cachedCanvasH;
             if (w === 0 || h === 0) {
-                requestAnimationFrame(drawCanvas);
+                requestAnimationFrame(() => drawCanvas(true));
                 return;
             }
             if (canvas.width !== w || canvas.height !== h) {
@@ -26764,7 +27026,14 @@ function initInternalBLSimulation() {
             }
         }
 
+        // LOTE rendimiento 2026-09-04: ver comentario equivalente en
+        // initKelvinSimulation — se conecta a LabAnimationManager en vez del
+        // IntersectionObserver ad-hoc (ver más abajo).
         function loop() {
+            if (!window.LabAnimationManager.isLabVisible('telkes-sim')) {
+                if (animationId) { cancelAnimationFrame(animationId); animationId = null; }
+                return;
+            }
             if (isRunning) {
                 const I_sol = parseFloat(solarSlider.value);
                 const m = parseFloat(massSlider.value);
@@ -26838,24 +27107,23 @@ function initInternalBLSimulation() {
             if (animationId) cancelAnimationFrame(animationId);
             updateDisplays();
             initChart();
-            drawCanvas();
+            drawCanvas(true);
         });
 
         if (!canvas.dataset.resizeAttached) {
-            window.addEventListener("resize", () => { if (canvas.offsetParent) drawCanvas(); });
+            window.addEventListener("resize", () => { if (canvas.offsetParent) drawCanvas(true); });
             canvas.dataset.resizeAttached = "true";
         }
 
         // Pausa/reanuda el loop de animación según visibilidad del laboratorio
-        // (sin tocar isRunning: si estaba corriendo al salir, retoma solo al volver)
-        const telkesVisObserver = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                if (isRunning) animationId = requestAnimationFrame(loop);
-            } else {
-                if (animationId) cancelAnimationFrame(animationId);
-            }
+        // (sin tocar isRunning: si estaba corriendo al salir, retoma solo al
+        // volver) — vía LabAnimationManager en vez de un IntersectionObserver
+        // ad-hoc (LOTE rendimiento 2026-09-04, ver comentario en loop() arriba).
+        window.LabAnimationManager.register('telkes-sim', function resumeTelkes() {
+            if (isRunning && animationId == null) animationId = requestAnimationFrame(loop);
+        }, function pauseTelkes() {
+            if (animationId) { cancelAnimationFrame(animationId); animationId = null; }
         });
-        telkesVisObserver.observe(canvas);
 
         // LOTE 3 — entrada numérica directa: mismo caso que Pennington
         // (ver comentario arriba en initPenningtonSimulation) — estos 2
@@ -26870,7 +27138,7 @@ function initInternalBLSimulation() {
 
         updateDisplays();
         initChart();
-        drawCanvas();
+        drawCanvas(true);
     }
     window.initTelkesSimulation = initTelkesSimulation;
 
@@ -27033,14 +27301,41 @@ function initInternalBLSimulation() {
             }
         }
 
+        // LOTE rendimiento 2026-09-04: ver comentario equivalente en
+        // initKelvinSimulation — mismo patrón de bucle huérfano, misma
+        // corrección (conectar a LabAnimationManager). Antes también se
+        // apoyaba en un listener de clic sobre TODOS los .tab-btn del sitio
+        // (ver más abajo) para cancelar el bucle al cambiar de pestaña; ese
+        // listener redundante se retira en favor de isLabVisible().
         function draw() {
-            if (!canvas.offsetParent || canvas.hasAttribute('data-canvas-paused')) {
-                animationFrameId = requestAnimationFrame(draw);
+            if (!window.LabAnimationManager.isLabVisible('lab-radiacion-placa-plana')) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
                 return;
             }
 
             const w = canvas.width / window.devicePixelRatio;
             const h = canvas.height / window.devicePixelRatio;
+
+            // FIX rendimiento 2026-09-04: resumeRadPlacaPlana() (LabAnimationManager)
+            // llama a resizeCanvas() de forma síncrona durante setActiveTab(), que
+            // corre ANTES de que switchTab() le agregue la clase "active" al
+            // tab-pane más abajo en esa misma función — en ese instante
+            // canvas.getBoundingClientRect() todavía puede devolver 0x0 (pestaña
+            // aún oculta), dejando canvas.width/height en 0 para este primer
+            // frame. Sin este guard, domeRadius (más abajo) sale en 0 y
+            // ctx.createRadialGradient(..., domeRadius - 30, ...) revienta con
+            // "IndexSizeError: r0 provided is less than 0", matando el bucle
+            // rAF por completo (el throw ocurre antes de volver a pedir el
+            // siguiente frame). Si el canvas todavía no tiene tamaño real, no
+            // dibujamos este frame pero SÍ seguimos pidiendo el siguiente: en
+            // cuanto el layout real se aplique (unos ms después) el frame
+            // siguiente ya tendrá w/h correctos y la animación arranca normal.
+            if (w <= 0 || h <= 0) {
+                animationFrameId = requestAnimationFrame(draw);
+                return;
+            }
+
             ctx.clearRect(0, 0, w, h);
 
             const { L1, L2, T1_C, T1_K, T2_K, Q_rad } = calculateOutputs();
@@ -27104,7 +27399,9 @@ function initInternalBLSimulation() {
             const domeColor = getColorForTemp(T2_K - 273.15);
 
             // Radial gradient for the dome
-            const domeGrad = ctx.createRadialGradient(cx, cy - 10, domeRadius - 30, cx, cy - 10, domeRadius);
+            // Math.max(0, ...): domeRadius puede ser menor a 30px en layouts muy
+            // angostos; createRadialGradient no acepta un radio interior negativo.
+            const domeGrad = ctx.createRadialGradient(cx, cy - 10, Math.max(0, domeRadius - 30), cx, cy - 10, domeRadius);
             domeGrad.addColorStop(0, 'rgba(15, 23, 42, 0)');
             domeGrad.addColorStop(0.8, domeColor.replace('rgb', 'rgba').replace(')', ', 0.1)'));
             domeGrad.addColorStop(1, domeColor.replace('rgb', 'rgba').replace(')', ', 0.3)'));
@@ -27279,19 +27576,20 @@ function initInternalBLSimulation() {
         // Resize behavior
         resizeCanvas();
         calculateOutputs();
-        draw();
 
-        // Safe cleanup when switching tabs
-        const tabBtns = document.querySelectorAll(".tab-btn");
-        tabBtns.forEach(btn => {
-            btn.addEventListener("click", () => {
-                if (btn.getAttribute("data-target") !== "lab-radiacion-placa-plana") {
-                    if (animationFrameId) {
-                        cancelAnimationFrame(animationFrameId);
-                        animationFrameId = null;
-                    }
-                }
-            });
+        // LOTE rendimiento 2026-09-04: antes este bloque escuchaba clics en
+        // TODOS los .tab-btn del sitio para cancelar el bucle al salir de
+        // esta pestaña — funcionaba, pero solo si el usuario llegaba a otro
+        // laboratorio haciendo clic en un botón de pestaña (no por URL,
+        // enlace o tarjeta), y mientras tanto el bucle ya corría desde el
+        // arranque de la página. Se reemplaza por el registro estándar en
+        // LabAnimationManager (ver draw() arriba), igual que el resto de
+        // laboratorios ya migrados.
+        window.LabAnimationManager.register('lab-radiacion-placa-plana', function resumeRadPlacaPlana() {
+            resizeCanvas();
+            if (animationFrameId == null) animationFrameId = requestAnimationFrame(draw);
+        }, function pauseRadPlacaPlana() {
+            if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; }
         });
 
         window.addEventListener("resize", () => {
@@ -30477,8 +30775,18 @@ document.addEventListener('DOMContentLoaded', () => {
     'use strict';
     var CFG = { modalId: 'psychrometry-lab-sim', openBtnId: 'psychrometry-lab-open-btn', closeBtnId: 'psychrometry-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'psychrometry-lab-open', transitionMs: 300 };
     function resizeAssets() {
-        // SVG and DOM based; triggering a global resize is enough for internal reflow
-        window.dispatchEvent(new Event('resize'));
+        // SVG/DOM-based content reflows on its own via CSS; no JS-driven resize needed
+        // (PsychrometryLab's own files register no 'resize' listener).
+        // FIX rendimiento 2026-09-04: esta función SOLÍA re-emitir
+        // `window.dispatchEvent(new Event('resize'))`. Como más abajo este mismo
+        // IIFE se suscribe a `window`'s 'resize' event para volver a llamar a
+        // `resizeAssets()`, ese auto-disparo creaba un bucle de retroalimentación
+        // infinito: cualquier resize real (o el resize sintético que `switchTab()`
+        // emite 50ms después de cada cambio de pestaña) quedaba re-disparando este
+        // handler cada ~80ms para siempre, en segundo plano, sin importar qué
+        // pestaña estuviera activa — el mismo patrón de "bucle fantasma" que el
+        // resto de este LOTE corrige para los rAF de los laboratorios, pero a
+        // nivel de evento global. Ver claude/LOTE_correcciones_informe_rendimiento_2026-09-04.md.
     }
     function forceDelayedResize() { setTimeout(resizeAssets, 80); }
     function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
@@ -30540,6 +30848,15 @@ document.addEventListener('DOMContentLoaded', () => {
     var _paused = false;
     var _state = null;              // últimas lecturas de UI (ver readState())
     var _results = null;            // última salida de computeContactPhysics()
+    // LOTE rendimiento 2026-09-04: throttle del chequeo de tamaño dentro de
+    // draw() — antes resizeContactResCanvas() leía container.clientWidth/
+    // clientHeight (layout forzado) en cada uno de los 60 frames/s, exista o
+    // no cambio real de tamaño (ver informe de diagnóstico, hallazgo 1.3).
+    // Se sigue llamando en el arranque del loop y en cada resize/fullscreen
+    // explícito (resizeContactResAssets, sin cambios); dentro de draw() ahora
+    // solo se revisa cada RESIZE_CHECK_MS como red de seguridad.
+    var _lastResizeCheck = 0;
+    var RESIZE_CHECK_MS = 250;
 
     // ══════════════════════════════════════════════════════════════════════
     // 1. BASE DE DATOS DE PROPIEDADES TÉRMICAS Y MECÁNICAS
@@ -31433,7 +31750,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (_paused) { _rafId = null; return; }
         if (!el.canvas || !el.ctx) { _rafId = null; return; }
 
-        resizeContactResCanvas();
+        // LOTE rendimiento 2026-09-04: ya no se lee clientWidth/clientHeight en
+        // cada frame — ver RESIZE_CHECK_MS arriba.
+        var _nowForResize = (typeof timestamp === 'number') ? timestamp : performance.now();
+        if (_nowForResize - _lastResizeCheck >= RESIZE_CHECK_MS) {
+            _lastResizeCheck = _nowForResize;
+            resizeContactResCanvas();
+        }
 
         var dtMs = getClampedDelta(timestamp, _lastFrameTime, 100); // cap de 100 ms (mismo criterio ya usado aquí)
         _lastFrameTime = timestamp || 0;
@@ -31461,6 +31784,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (_rafId == null) {
             _paused = false;
             _lastFrameTime = null;
+            resizeContactResCanvas(); // lectura inmediata al reanudar, sin esperar RESIZE_CHECK_MS
+            _lastResizeCheck = performance.now();
             _rafId = requestAnimationFrame(draw);
         }
     }
