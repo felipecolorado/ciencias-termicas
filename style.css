@@ -6171,6 +6171,62 @@ body.light-theme .downloads-panel-list a {
 }
 
 /* ============================================================
+   EUNICE FOOTE LAB — MODO NORMAL (ventana, sin fullscreen):
+   Conclusión / cita histórica (`#foote-quote-banner`) como ÚLTIMO
+   panel visual de todo el laboratorio.
+   Alcance exclusivo: `#foote-sim:not(.fullscreen)` — no toca en
+   absoluto `#foote-sim.fullscreen` (bloque siguiente), que ya
+   posiciona `#foote-quote-banner` en su propia `grid-area: quote`
+   dedicada, siempre al final de la columna derecha.
+
+   Problema: en el DOM, `#foote-quote-banner` es el ÚLTIMO hijo de
+   `#foote-controls-card` (tras `#foote-params-grid` y
+   `#foote-summary-table`), pero `#foote-controls-card` completo
+   antecede a `#foote-animation-card` (cilindros + gráfica) como
+   hermano dentro de `.simulation-workspace`. Resultado visual: la
+   conclusión aparecía ANTES del bloque de animación/gráfica, no al
+   fondo de todo el laboratorio.
+
+   Solución (Regla #8 de project_context.md — reordenamiento visual
+   vía CSS, cero cambios de DOM): `.simulation-workspace` ya es
+   `display:flex; flex-direction:column` (clase base + estilo
+   inline en index.html). `#foote-controls-card` no tiene fondo,
+   borde ni padding propio en esta hoja (`.controls-card`/`.glass`
+   no están definidas como clases CSS — sólo agrupan en el DOM), así
+   que aplanarlo con `display:contents` no cambia el aspecto visual
+   de ningún panel; sólo libera a sus hijos reales para competir por
+   `order` directamente en el flex raíz junto a `#foote-animation-card`.
+   Orden visual resultante: encabezado de controles → grid de
+   parámetros → tabla resumen de gases → tarjeta de animación
+   (cilindros + gráfica) → conclusión/cita histórica (siempre última,
+   `order:99` + `margin-top:auto`, patrón estándar de este proyecto
+   para "empujar al fondo" dentro de un flex column). ── */
+#foote-sim:not(.fullscreen) #foote-controls-card {
+  display: contents;
+}
+
+#foote-sim:not(.fullscreen) #foote-controls-heading {
+  order: 1;
+}
+
+#foote-sim:not(.fullscreen) #foote-params-grid {
+  order: 2;
+}
+
+#foote-sim:not(.fullscreen) #foote-summary-table {
+  order: 3;
+}
+
+#foote-sim:not(.fullscreen) #foote-animation-card {
+  order: 4;
+}
+
+#foote-sim:not(.fullscreen) #foote-quote-banner {
+  order: 99;
+  margin-top: auto;
+}
+
+/* ============================================================
    EUNICE FOOTE LAB — FULLSCREEN LAYOUT v9: SCROLL VERTICAL LIBRE
    (v8 "altura dominante" queda como base estructural sin cambios —
    grid 2 columnas / 3 filas, display:contents, grid-template-areas.
@@ -6411,8 +6467,31 @@ body.light-theme .downloads-panel-list a {
      fijo, mide su contenido real con un mínimo garantizado de 450px
      SIEMPRE, sin importar la altura del viewport. Ya no es "elástica"
      porque ya no necesita ceder espacio a las filas vecinas: el
-     contenedor raíz scrollea si el total no cabe. */
-  grid-template-rows: minmax(240px, auto) minmax(450px, auto) auto;
+     contenedor raíz scrollea si el total no cabe.
+     v10 (fix crecimiento vertical desmedido/inestable al redimensionar
+     la ventana, reportado por el usuario): `minmax(450px, auto)` es un
+     techo "auto", es decir, sin techo real — su tamaño lo determina el
+     contenido de `#foote-canvas-container`/`#foote-chart-wrapper`, pero
+     ambos fijan `height:100%` sobre una fila cuyo alto todavía no es
+     definido ("auto"): un `height:100%` cuya referencia (el alto de la
+     fila) es en sí misma indefinida se resuelve como `auto` de vuelta
+     (círculo), y ninguna de las dos celdas aporta una altura de
+     contenido propia (ambas son cajas flex vacías centradas) que rompa
+     el círculo — a diferencia de la fila 1, donde `#foote-params-grid`
+     sí mide su contenido real y ancla la fila. Ese círculo es la causa
+     raíz de la inestabilidad: cada redimensión de ventana dispara un
+     nuevo ciclo de layout que puede resolver el alto de forma distinta.
+     v10 rompe el círculo dándole a la fila un techo EXPLÍCITO y
+     definido (`48vh`, no basado en contenido), a la vez que baja el
+     piso de 450px a 260px para que pueda encogerse con elegancia en
+     viewports bajos en vez de generar tanto scroll. Con ambos límites
+     definidos (260px / 48vh) la fila deja de depender del contenido —
+     dimensiona de forma determinista en cada resize, sin bucles.
+     `#foote-canvas-container`/`#foote-chart-wrapper` reciben el mismo
+     `max-height:48vh` (ver más abajo) como red de seguridad redundante
+     y explícita, tal como pide la regla de contención vertical
+     estricta de este LOTE. */
+  grid-template-rows: minmax(240px, auto) minmax(260px, 48vh) auto;
   grid-template-areas:
     "gases      controles"
     "esquema    grafica"
@@ -6465,7 +6544,8 @@ body.light-theme .downloads-panel-list a {
    deformarse (el canvas usa object-fit:contain más abajo). */
 #foote-sim.fullscreen #foote-canvas-container {
   height: 100% !important;
-  min-height: 450px; /* v9: piso propio, independiente del alto de viewport — nunca se recorta */
+  max-height: 48vh; /* v10: techo explícito — ver nota de contención vertical junto a grid-template-rows arriba */
+  min-height: 260px; /* v10: antes 450px; baja para poder encogerse con elegancia en viewports bajos */
   width: 100%;
   margin: 0 !important;
   padding: 6px !important;
@@ -6478,7 +6558,8 @@ body.light-theme .downloads-panel-list a {
 
 #foote-sim.fullscreen #foote-chart-wrapper {
   height: 100% !important;
-  min-height: 450px; /* v9: piso propio, independiente del alto de viewport — nunca se recorta */
+  max-height: 48vh; /* v10: techo explícito — ver nota de contención vertical junto a grid-template-rows arriba */
+  min-height: 260px; /* v10: antes 450px; baja para poder encogerse con elegancia en viewports bajos */
   width: 100%;
   margin: 0 !important;
   padding: 6px 10px !important;
@@ -6589,6 +6670,8 @@ body.light-theme .downloads-panel-list a {
 #foote-sim.fullscreen #foote-chart-wrapper canvas {
   width: 100% !important;
   height: 100% !important;
+  max-width: 100% !important; /* v10: red de seguridad redundante — el contenedor ya tiene max-height:48vh */
+  max-height: 100% !important; /* v10: red de seguridad redundante — el contenedor ya tiene max-height:48vh */
   object-fit: contain;
   display: block;
 }
@@ -6782,7 +6865,8 @@ body.light-theme .downloads-panel-list a {
     grid-template-columns: 1fr;
   }
   #foote-sim.fullscreen .simulation-workspace {
-    grid-template-rows: minmax(325px, auto) minmax(450px, auto) auto;
+    /* v10: misma fila 2 acotada (260px–48vh) que en escritorio — ver nota de contención vertical más arriba */
+    grid-template-rows: minmax(325px, auto) minmax(260px, 48vh) auto;
   }
 }
 
