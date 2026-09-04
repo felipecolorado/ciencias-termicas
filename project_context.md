@@ -328,10 +328,223 @@ if (tabId === 'multicapa-custom-sim') {
 6. **Trabajo por lotes**: La implementación del fullscreen en laboratorios restantes se hará por lotes según indicación del usuario. Actualizar la tabla de inventario (✅/⬜) en este documento al completar cada lote.
 7. **Firebase/seguridad**: Nunca reintroducir el guardado de `password` en texto plano en RTDB, el respaldo de login que compara contraseñas en el cliente, ni la auto-asignación de `role: "Administrador"` por email hardcodeado — estas prácticas ya fueron eliminadas de `app_v2.js` y bloqueadas por `database.rules.json` (`.validate: false` en `password`). Ver sección "🔐 Backend y Seguridad" arriba y `firebase/MIGRATION_PLAN.md` antes de tocar `handleAuthSubmit`, `handlePostComment`, `fetchRealUserCount` o cualquier archivo de `v4/firebase/`. Nunca subir `firebase/scripts/serviceAccountKey.json` (ni JSON equivalentes) a ningún repositorio.
 8. **Regla #8 — Reordenamientos de layout vía CSS Grid, no vía DOM**: cuando un laboratorio ya usa el patrón `.simulation-workspace { display: contents; }` + `grid-template-areas` nombradas (ver ejemplos: `multicapa-custom-sim`, `foote-sim`, `contact-res-sim`), cualquier reordenamiento visual pedido debe resolverse reescribiendo únicamente los nombres de área de `grid-template-areas` (y el `grid-area` de los paneles afectados si cambia su nombre de área) — nunca reordenando el HTML. Esto preserva el orden del documento (importante para accesibilidad/lectores de pantalla) y minimiza el diff. Para un panel que deba pasar a "ancho completo" en un grid de 2 columnas, su área debe repetirse en ambos nombres de columna en la misma fila (ej. `"chart chart"`), reforzado opcionalmente con `width:100%` explícito.
+9. **Regla #9 — Todo simulador nuevo con `requestAnimationFrame` debe registrarse en `window.LabAnimationManager`**: ver la sección "⏱️ Política de Suspensión de Animaciones en Segundo Plano y Pantalla Completa" más abajo. No implementar un `IntersectionObserver` ad-hoc nuevo para pausar/reanudar un laboratorio — usar el manager centralizado.
 
 ---
 
-## 🎨 Refinamientos de Layout Específicos por Laboratorio (Post-Lote)
+## ⏱️ Política de Suspensión de Animaciones en Segundo Plano y Pantalla Completa
+
+### Qué problema resuelve
+
+La auditoría de rendimiento del 2026-08-31 (ver histórico de LOTEs) encontró que varios laboratorios lanzaban su bucle `requestAnimationFrame` de forma incondicional al cargar la página y nunca lo detenían, sin importar si el usuario estaba viendo esa pestaña — hasta 5+ bucles de física + Canvas/Chart.js corriendo en paralelo a 60 fps en el hilo principal en todo momento. `window.LabAnimationManager` (definido en `app_v2.js`, justo después del array `timelineEvents`, antes de cualquier función `initXxxSimulation`) es el despachador centralizado creado para resolver esto: decide en un único lugar qué laboratorio debe tener su `rAF` corriendo — la pestaña activa (`activeTabId`) o, si hay uno en pantalla completa, ese laboratorio en exclusiva (`fullscreenLabId` manda sobre `activeTabId`) — y cancela el de cualquier otro.
+
+### La API
+
+```javascript
+window.LabAnimationManager = {
+  activeTabId: null,        // id de la pestaña normal actualmente visible (o null)
+  fullscreenLabId: null,    // id del laboratorio en pantalla completa (o null)
+  registeredLoops: {},      // { labId: { resume, pause, isRunning } }
+
+  register(labId, resumeFn, pauseFn),
+  // Se llama UNA VEZ por laboratorio, al final de su initXxxSimulation().
+  // resumeFn: reinicia el bucle (típicamente `animId = requestAnimationFrame(draw)`).
+  // pauseFn: lo detiene (típicamente `cancelAnimationFrame(animId)`).
+  // No arranca nada por sí solo — sólo registra los callbacks.
+
+  isLabVisible(labId),
+  // true si `labId` es quien debería estar animando ahora mismo, según la regla:
+  // si fullscreenLabId está definido, sólo ese id es visible (todos los demás no,
+  // aunque coincidan con activeTabId); si no, sólo activeTabId es visible.
+  // Se usa como GUARDIA DENTRO del propio callback de frame (ver patrón abajo) —
+  // es la defensa primaria, independiente de que pause()/resume() se hayan
+  // invocado correctamente.
+
+  setActiveTab(tabId),
+  // Actualiza activeTabId y llama a syncAll(). Debe invocarse cuando el usuario
+  // cambia de pestaña normal (fuera de pantalla completa).
+
+  setFullscreen(labIdOrNull),
+  // Actualiza fullscreenLabId y llama a syncAll(). Se invoca con el id al ABRIR
+  // pantalla completa, y con `null` al CERRARLA (momento en el que se reanuda
+  // exclusivamente el laboratorio que sigue siendo activeTabId, no todos).
+
+  syncAll()
+  // Interno — recorre registeredLoops y para cada uno compara isLabVisible(labId)
+  // contra su isRunning actual: si debería correr y no corre, llama resume() y
+  // marca isRunning=true; si no debería correr y corre, llama pause() y marca
+  // isRunning=false. No se llama nunca directamente fuera del manager.
+};
+```
+
+### Patrón de uso en un laboratorio (el que ya siguen los 9 laboratorios conectados)
+
+```javascript
+function initXxxSimulation() {
+    const canvas = document.getElementById('xxxCanvas');
+    let animId;
+    // ... setup ...
+
+    function draw(ts) {
+        // Guardia primaria: si este laboratorio no debería estar visible, se
+        // cancela el propio rAF en vez de reprogramarse — el bucle se DETIENE
+        // de verdad, no sigue despachando frames vacíos en segundo plano.
+        if (!window.LabAnimationManager.isLabVisible('xxx-sim')) {
+            cancelAnimationFrame(animId);
+            return;
+        }
+        // ... trabajo de dibujo/física ...
+        animId = requestAnimationFrame(draw);
+    }
+
+    window.LabAnimationManager.register('xxx-sim',
+        function resumeXxx() { animId = requestAnimationFrame(draw); },
+        function pauseXxx() { cancelAnimationFrame(animId); }
+    );
+}
+```
+
+**Laboratorios ya conectados (9):** `nat-conv-sim`, `vortex-sim`, `watt-sim`, `bernoulli-sim`, `ns-sim`, `pelton-sim`, `internal-bl-sim`, `foote-sim`, `contact-res-sim`. `foote-sim` y `contact-res-sim` se registran de forma perezosa (sólo al abrir su pestaña por primera vez, no en `DOMContentLoaded`); los otros 7 se registran de inmediato al cargar la página.
+
+### ⚠️ Estado actual (verificado 2026-09-03) — el manager NO está conectado a la navegación real todavía
+
+Esto es lo más importante de esta sección para cualquier desarrollador (humano o IA) que trabaje después: **`setActiveTab()` y `setFullscreen()` tienen 0 puntos de llamada en todo `app_v2.js` fuera de su propia definición.** Verificado por `grep` exhaustivo y confirmado con Playwright:
+
+- Hacer clic en las pestañas reales del sitio (`switchTab()`, `app_v2.js` ~línea 2303) **no** invoca `setActiveTab()`. `activeTabId` permanece `null` todo el tiempo.
+- Abrir cualquier laboratorio en pantalla completa (cada uno con su propio controlador IIFE `open()/close()`, ver sección "Patrón de Visualización en Pantalla Completa" arriba) **no** invoca `setFullscreen()`. `fullscreenLabId` permanece `null` todo el tiempo.
+- Consecuencia real, verificada con Playwright: como `resume()` sólo se dispara desde `syncAll()`, y `syncAll()` sólo se dispara desde `setActiveTab()`/`setFullscreen()`, **el bucle de ninguno de los 9 laboratorios registrados arranca nunca en el sitio real hoy** — no es que se pausen correctamente al cambiar de pestaña; es que jamás llegan a animar. `isRunning` se mantiene en `false` para los 9, siempre, independientemente de qué pestaña esté abierta.
+- La mecánica interna del manager (`register`/`setActiveTab`/`setFullscreen`/`syncAll`/`isLabVisible`) **sí es correcta y fue validada exhaustivamente** invocándola directamente (no vía UI): `setActiveTab('watt-sim')` arranca su dibujo (confirmado contando llamadas reales a `fillRect`) y dejó `isRunning=true` sólo en ese laboratorio; `setActiveTab('bernoulli-sim')` pausó `watt-sim` (0 llamadas a `fillRect` en segundo plano) y arrancó `bernoulli-sim` en exclusiva; `setFullscreen('contact-res-sim')` puso `fullscreenLabId` y dejó `isRunning=true` únicamente en ese laboratorio, pausando todos los demás (incluido el que era `activeTabId`); `setFullscreen(null)` reanudó exclusivamente el `activeTabId` vigente, no todos los laboratorios. El problema no está en el diseño del manager — está en que nada del código de producción lo invoca todavía.
+
+**Trabajo pendiente (no iniciado, siguiente LOTE lógico):** conectar `switchTab(tabId, ...)` (`app_v2.js` ~línea 2303) para que llame `window.LabAnimationManager.setActiveTab(tabId)`, y conectar cada controlador `open()/close()` de pantalla completa (ver `window.XxxLab.open/close`, ya expuestos para 38/39 laboratorios) para que llame `window.LabAnimationManager.setFullscreen('xxx-sim')`/`setFullscreen(null)` respectivamente. Hasta que eso se haga, los 9 laboratorios conectados al manager dependen únicamente del fail-safe genérico de `data-canvas-paused` (ver más abajo) para no consumir recursos en segundo plano — que sí funciona hoy, pero no reinicia su animación automáticamente (ver siguiente sección).
+
+### Relación con el fail-safe genérico de `IntersectionObserver` (`data-canvas-paused`)
+
+Además del manager, existe un `IntersectionObserver` global (mismo archivo, justo después de `window.LabAnimationManager`) que observa **todos** los `<canvas>` dentro de cualquier `.tab-pane` y marca el atributo `data-canvas-paused="true"` cuando el canvas deja de intersecar el viewport, independientemente de si ese laboratorio está o no conectado al manager. Es una segunda capa de protección, más tosca (se basa en visibilidad de viewport, no en el estado explícito de pestaña/fullscreen) pero universal — cubre también a los laboratorios que **no** están conectados al manager. Los laboratorios que ya usaban el patrón `if (!canvas.offsetParent) { ...; return; }` (Kelvin, Joule, Herschel, Microchannel, CpCv, Radiación Placa Plana) y los que no tenían ninguna protección (`DoublePipe`, `multicapa-custom-sim`) fueron adaptados para consultar también `data-canvas-paused` — ver `claude/LOTE_failsafe_IntersectionObserver_global_content_visibility.md` en el histórico de sesión. Un laboratorio nuevo conectado al manager **no** necesita además este mecanismo (la Regla #9 de arriba basta); este fail-safe es sólo para lo que quede fuera del manager o como red de seguridad adicional.
+
+### Regla para desarrolladores futuros (humanos o IA)
+
+Cualquier laboratorio nuevo que use un bucle `requestAnimationFrame` continuo (no una gráfica estática de Chart.js que sólo se redibuja en `input`) **debe**:
+
+1. Al final de su `initXxxSimulation()`, llamar `window.LabAnimationManager.register('xxx-sim', resumeFn, pauseFn)` con el mismo `id` que usa su `.tab-pane`/botón de pestaña (`data-target`).
+2. Dentro del propio callback de frame, empezar con `if (!window.LabAnimationManager.isLabVisible('xxx-sim')) { cancelAnimationFrame(animId); return; }` — esta guardia es la que de verdad detiene el bucle; `pause()`/`resume()` son el mecanismo que el manager usa para arrancar/detener desde fuera, pero la guardia dentro del propio frame es lo que garantiza que, aunque algo falle en la sincronización externa, el laboratorio nunca siga dibujando indefinidamente en segundo plano.
+3. **No** escribir un `IntersectionObserver` propio nuevo para pausar/reanudar — usar el manager. Si en el futuro se conecta `switchTab()`/los controladores de fullscreen (ver "Trabajo pendiente" arriba), todo laboratorio que ya siga este patrón empezará a beneficiarse automáticamente sin cambios adicionales.
+4. No asumir que `setActiveTab()`/`setFullscreen()` ya se están llamando desde algún lado — verificar (`grep -n "setActiveTab\|setFullscreen" app_v2.js`) antes de dar por sentado que el laboratorio animará en producción.
+
+> **Nota de actualización (2026-09-04):** la afirmación de la subsección "⚠️ Estado actual (verificado 2026-09-03)" de arriba —que `switchTab()` no invoca `setActiveTab()`— **ya no es cierta**. Verificado con `grep -n "setActiveTab(" app_v2.js`: `switchTab()` (línea ~2354) sí llama a `window.LabAnimationManager.setActiveTab(tabId)`, con un comentario en el propio código ("nunca invocaba setActiveTab(), así que...") que confirma que la conexión se hizo en algún momento posterior al 2026-09-03. Confirmado también end-to-end con Playwright (ver subsección "⚡ Estándar Definitivo de Rendimiento Gráfico a 60 FPS" más abajo): al hacer clic en la pestaña `watt-sim`, `window.LabAnimationManager.isLabVisible('watt-sim')` devuelve `true` y el bucle `requestAnimationFrame` del laboratorio arranca solo, sin llamadas manuales adicionales. **No se ha verificado en esta misma pasada si los controladores de pantalla completa (`setFullscreen()`) ya están conectados también** — la sección "Trabajo pendiente" de arriba puede seguir aplicando sólo a esa mitad. Antes de asumir cualquiera de los dos estados, volver a correr el `grep` — esta es la segunda vez en el historial de este proyecto que la documentación queda desactualizada respecto al código real (ver también la Sección "Errores y fixes" de LOTE 1/LOTE 4 sobre `frameScale` en NatConv).
+
+---
+
+### ⚡ Estándar Definitivo de Rendimiento Gráfico a 60 FPS
+
+> **LOTE 4 (2026-09-04)** — auditoría y verificación de rendimiento + esta documentación. Este estándar consolida y cierra el trabajo de los LOTEs 1 y 3 de la misma fecha (paso de tiempo controlado y promoción a capas GPU) y el trabajo, antes inconcluso, de eliminar lecturas de layout dentro de los bucles de dibujo a 60 fps. Todo lo documentado aquí fue verificado contra el código fuente real de `app_v2.js`/`style.css` en esta misma sesión, no asumido a partir de LOTEs anteriores — ver metodología de verificación al final de esta subsección.
+
+Toda animación continua de un laboratorio (física, partículas, indicadores en tiempo real) debe cumplir las cuatro reglas siguientes. Un laboratorio nuevo que no las cumpla reintroduce exactamente los tirones/saltos que este LOTE eliminó.
+
+#### 1. Prohibido `setInterval`/`setTimeout` recurrente — sólo `requestAnimationFrame`
+
+Ningún bucle de física o dibujo debe programarse con `setInterval`/`setTimeout`: ambos corren desacoplados del ciclo de refresco del monitor (V-Sync), lo que produce des-sincronización acumulada y tirones perceptibles frente a un `requestAnimationFrame`, que el navegador sincroniza con el siguiente repintado real. Auditoría (`grep -n "setInterval\|setTimeout" app_v2.js`, LOTE 1, 2026-09-04) confirmó que ningún laboratorio activo usaba temporizadores recurrentes para física/movimiento — el problema real no era `setInterval`, sino el paso de tiempo sin acotar (punto 2). Regla para el futuro: cualquier `initXxxSimulation()` nuevo debe terminar su bucle de frame con `requestAnimationFrame(nombreDeLaFuncion)`, nunca con un temporizador.
+
+#### 2. Paso de tiempo delimitado (`dt` acotado a 33.33 ms)
+
+Fuente única de verdad: `getClampedDelta(currentTimestamp, lastTimestamp, maxDeltaMs)`, definida una sola vez cerca de `window.LabAnimationManager` y expuesta como `window.getClampedDelta`:
+
+```javascript
+function getClampedDelta(currentTimestamp, lastTimestamp, maxDeltaMs) {
+    if (!lastTimestamp) return 16.67; // fallback inicial (~60 FPS)
+    var dt = currentTimestamp - lastTimestamp;
+    var maxCap = maxDeltaMs || 33.33; // nunca avanzar más de 2 frames (~30 FPS mínimos)
+    if (dt < 0 || isNaN(dt)) return 16.67;
+    return Math.min(dt, maxCap);
+}
+window.getClampedDelta = getClampedDelta;
+```
+
+Patrón de uso obligatorio en cualquier bucle `rAF` nuevo:
+
+```javascript
+let lastTs = null;
+function draw(ts) {
+    if (typeof ts !== 'number' || ts < 1e6) ts = performance.now(); // guarda: syncSliderAndNumberInput puede invocar draw() con el valor numérico de un slider, no un timestamp
+    const dtMs = getClampedDelta(ts, lastTs, 33.33);
+    lastTs = ts;
+    const frameScale = dtMs / 16.67; // 1.0 a 60 fps; escala cualquier incremento de posición/tiempo simulado
+    // multiplicar por frameScale cualquier avance que antes asumía 60 fps fijos
+    requestAnimationFrame(draw);
+}
+```
+
+Sin este acotamiento, un frame demorado (pestaña reactivada tras estar en segundo plano, pausa del recolector de basura, hilo principal bloqueado) provoca un salto temporal gigante en la física/posición — el "tirón" que este LOTE elimina. Aplicado y verificado (LOTE 1, 2026-09-04) en: Newcomen/Watt, Eunice Foote, Convección Natural (`NatConv`), Capa Límite (`Prandtl`/`PlumeParticle`), Capa Límite Interna (`InternalBL`), Navier-Stokes, y Resistencia Térmica por Contacto (`ContactRes`). Los clamps oscilan entre 33.33 ms (2 frames a 60 fps) y 100 ms según la tolerancia física de cada simulación — ver el valor exacto pasado como tercer argumento en cada `initXxxSimulation()` si se necesita ese detalle.
+
+#### 3. Prohibidas las lecturas de layout DOM dentro de la rutina de dibujado de cada frame
+
+Leer una propiedad que depende del layout (`clientWidth`, `clientHeight`, `offsetWidth`, `offsetHeight`, `getBoundingClientRect()`) fuerza al navegador a vaciar (`flush`) cualquier cambio de layout pendiente de **toda la página**, no sólo del elemento leído — caro si ocurre 60 veces por segundo. `canvas.width`/`canvas.height` (las propiedades IDL, no las de CSS) son simples números y no disparan layout; son las únicas lecturas de tamaño seguras dentro de un bucle de dibujo.
+
+**Regla:** el tamaño del canvas se recalcula únicamente en:
+- el evento `resize` de `window`,
+- el callback `isIntersecting`/`resume` de un `IntersectionObserver` o de `window.LabAnimationManager`,
+- la inicialización (`initXxxSimulation()`),
+
+nunca dentro del propio `draw()`/`render()`/`renderLoop()`/`animate()`. Patrón de extracción usado en este LOTE:
+
+```javascript
+function resizeXCanvas() {
+    const w = canvas.clientWidth, h = canvas.clientHeight; // o canvas.parentElement / getBoundingClientRect() según el caso
+    if (w === 0 || h === 0) return; // evita clavar el canvas en 0×0 durante un frame de transición
+    if (canvas.width !== w || canvas.height !== h) { // comparar ANTES de escribir: escribir canvas.width siempre —
+        canvas.width = w;                            // aunque el valor no cambie— resetea el buffer y limpia el
+        canvas.height = h;                            // canvas, así que la comparación evita trabajo innecesario cada frame
+    }
+}
+window.addEventListener('resize', resizeXCanvas);
+// + llamada en el resume del IntersectionObserver/LabAnimationManager + una vez al final del init
+
+function draw() {
+    const w = canvas.width, h = canvas.height; // lectura barata, no dispara layout
+    // ... dibujo ...
+    requestAnimationFrame(draw);
+}
+```
+
+**Auditoría de este LOTE — extracción completa aplicada** (la lectura de layout se movió por completo fuera del bucle de dibujo) en: Fourier (`resizeFourierAnimCanvas`), Nusselt (`resizeNusseltAnimCanvas`), Reynolds (`resizeReynoldsCanvas`), Herschel (`resizeHerschelCanvas`), Microchannel (`resizeMicrochannelCanvas`), CpCv (`resizeCpCvCanvas`), DoublePipe (`resizeDoublePipeCanvas`) y Capa Límite Interna/`InternalBL` (`resizeInternalBLCanvas`). En estos ocho laboratorios `draw()`/`render()`/`renderLoop()` ya sólo lee `canvas.width`/`canvas.height`.
+
+**Corrección parcial (escritura protegida, lectura aún presente por diseño)** en Eunice Foote, Émilie du Châtelet, Pennington y Telkes (`drawCanvas()`, los cuatro casi idénticos): estos cuatro laboratorios escribían `canvas.width`/`canvas.height` de forma incondicional en cada frame — el bug más caro (resetea el buffer del canvas 60 veces/segundo aunque el tamaño no haya cambiado) — y ya quedó corregido con la comparación de arriba. La lectura de `clientWidth`/`clientHeight` **se mantuvo deliberadamente** dentro de `drawCanvas()` porque, en estos cuatro laboratorios, el controlador de pantalla completa (`resizeAssets()`, ver sección de controladores fullscreen más abajo en el archivo) no tiene un gancho propio de redimensionado de canvas — depende de que `drawCanvas()` se vuelva a invocar (por el listener de `resize`, por un evento `input` de un slider, o por el hook global `window.FooteDrawCanvas` en el caso de Foote) para resincronizar la resolución al abrir/cerrar fullscreen. Extraer la lectura habría exigido tocar los cuatro controladores de fullscreen (`resizeAssets()`) sin poder verificarlo en un navegador real — se dejó así, quirúrgicamente, para no arriesgar una regresión de resolución en fullscreen sin poder probarla. Además, a diferencia de Foote (bucle `loop()` continuo mientras la pestaña está visible), Chatelet/Pennington/Telkes sólo llaman `drawCanvas()` en cada frame **mientras hay una animación activa** (`fallLoop`/`loop`, sólo durante la caída de la esfera o el experimento en marcha, no indefinidamente), por lo que el costo real de la lectura restante es acotado en el tiempo.
+
+**Excepciones deliberadas, documentadas y NO modificadas** (verificado que son diseño intencional, no descuido, a partir de comentarios ya existentes en el propio código — no se tocaron por el riesgo de regresión sin poder verificar en navegador real):
+- **Newton** (`initNewtonSimulation` → `draw(timestamp)`): lee `canvas.closest('.newton-canvas-shell').getBoundingClientRect()` en cada frame. El propio código documenta esto como la "Ruta 1" de un sistema de 4 rutas de redimensionado deliberadamente redundante, con una advertencia explícita de que consolidarlo de otra forma causó antes un "triple-disparo de `initParticles()`" (parpadeo visible). El propio comentario del código también argumenta que esta lectura específica no añade reflow adicional al ya producido por el resto del frame.
+- **Pared Multicapa Personalizada** (`initMulticapaCustomSimulation` → `render()` y `renderCircuit()`): ambas escriben `canvas.width = canvas.clientWidth` sin guarda en cada frame de `animLoop()`. El propio código documenta que el toggle de clases CSS (`cm-canvas-tall`/`cm-canvas-planar-xl`, según geometría y estado fullscreen) se hace deliberadamente **antes** de leer `clientWidth/clientHeight` en el mismo frame, para que el reflow forzado por esa lectura ya refleje el alto nuevo. Es el laboratorio con más iteraciones de ajuste de layout/fullscreen del historial de este proyecto (ver los más de 15 LOTEs de `multicapa` en el historial de sesión); tocar este patrón sin verificación en navegador real es el mayor riesgo de regresión de todo el sitio. **Pendiente para un LOTE futuro con acceso a navegador real:** extraer el resize a una función dedicada disparada sólo en cambio de geometría/fullscreen/resize, igual que se hizo con los ocho laboratorios de la lista de arriba.
+- **Resistencia Térmica por Contacto — `syncGap()`** (controlador de sincronización de paneles en fullscreen, no parte de ningún `initXxxSimulation()`): usa dos `getBoundingClientRect()`, pero **no** es un bucle de dibujo — se dispara únicamente vía `scheduleSync()`, que debounça con un único `requestAnimationFrame` pendiente (`rafPending`) por evento real (`ResizeObserver`/mutación), nunca de forma continua a 60 fps. Auditado y confirmado que no aplica esta regla — no requiere corrección.
+
+#### 4. Promoción a capas GPU y contención estricta en pestañas inactivas
+
+`style.css` promueve a una capa de composición dedicada (GPU) los `<canvas>` de simulación continua, evitando el costo de "paint" en el hilo principal en cada frame:
+
+```css
+.canvas-container canvas,
+.simulation-workspace canvas,
+.newton-canvas-shell canvas,
+#newcomen-canvas, #watt-canvas, /* ...lista completa en style.css, LOTE 3, 2026-09-04... */ {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform;
+}
+```
+
+**Regla crítica de seguridad al extender esta lista:** cualquier valor de `transform` distinto de `none` crea un nuevo *containing block* para descendientes `position: fixed` — por eso esta regla se aplica **únicamente a elementos `<canvas>` hoja** (sin hijos DOM), nunca a contenedores/modales. Ver la regla ya existente `#newton-lab-modal { transform: none !important; }` (línea ~1774 de `style.css`) que documenta el mismo riesgo para el modal de pantalla completa de Newton — no eliminar ni debilitar esa regla al tocar esta sección.
+
+La contención en pestañas inactivas la resuelven dos mecanismos complementarios (ver sección "⏱️ Política de Suspensión de Animaciones..." arriba, con su nota de actualización 2026-09-04): `window.LabAnimationManager` (cancela el `rAF` del laboratorio que no es la pestaña activa/pantalla completa) y, como red de seguridad universal, el `IntersectionObserver` global que marca `data-canvas-paused="true"` en cualquier `<canvas>` fuera del viewport.
+
+#### Metodología y resultado de la verificación de rendimiento (LOTE 4, 2026-09-04)
+
+El pedido original ("abrir DevTools → pestaña Performance, grabar 5 s de interacción") no es reproducible literalmente en el entorno donde se ejecutó este LOTE (sandbox en la nube, sin navegador de escritorio ni pantalla real). Se construyó un equivalente automatizado con Playwright + Chromium headless sirviendo una copia local de `index.html`/`app_v2.js`/`style.css`, y se instrumentaron directamente las APIs estándar del navegador que DevTools usa internamente para esas mismas tres comprobaciones, sobre los laboratorios `watt-sim` y `foote-sim` (≥5 s cada uno, con la animación realmente en marcha — para Foote fue necesario simular el clic en "Encender Sol" para arrancar su bucle):
+
+- **(a) Long Tasks > 50 ms:** `PerformanceObserver({entryTypes:['longtask']})`, activo durante toda la prueba. **Resultado: 0 long tasks detectadas** en ambos laboratorios.
+- **(b) Forced reflow / layout thrashing:** Chrome emite internamente un mensaje de consola `[Violation] Forced reflow while executing JavaScript...` cuando detecta este patrón, con o sin DevTools abierto. Se capturaron todos los mensajes de consola durante 10 s combinados de animación activa. **Resultado: 0 mensajes de "Violation" de ningún tipo.**
+- **(c) Tasa sostenida de 55-60 fps:** se instrumentó `window.getClampedDelta` (llamado una vez por frame por cada bucle activo) para medir el intervalo real entre invocaciones. **Resultado no concluyente y no se reporta como aprobado:** este sandbox headless, sin GPU y con acceso de red bloqueado a los CDNs de terceros del sitio (Chart.js, MathJax, Google Fonts, Firebase — confirmado con `net::ERR_TUNNEL_CONNECTION_FAILED`/403 al intentar alcanzarlos directamente), no reproduce el *compositing* acelerado por GPU ni el V-Sync de un monitor real; el muestreo osciló entre ~22 y ~46 fps de forma consistente con una limitación conocida de Chromium *headless* (paso de `rAF` no sincronizado a un refresco real de 60 Hz), no con un costo de ejecución de JavaScript — coherente con el hallazgo de 0 *long tasks* del punto (a). **Se recomienda que el punto (c) se verifique con la pestaña Performance real de Chrome, en un navegador de escritorio con GPU, antes de darlo por confirmado**; los puntos (a) y (b), al depender de instrumentación de V8/Blink independiente de GPU/V-Sync, sí se consideran verificados con esta metodología.
+
+Los scripts de verificación (`perf_audit.py`/`perf_audit3.py`/`perf_audit5.py`, Playwright + `PerformanceObserver` + stub mínimo de `Chart.js`) no se conservan en el repositorio del sitio — vivieron sólo en el entorno de la sesión que hizo esta verificación; se documentan aquí la metodología y el resultado, no el código de la herramienta.
+
+---
 
 Además del patrón genérico de fullscreen (apertura/cierre/teleport DOM), algunos
 laboratorios reciben un **refinamiento de layout interno en modo fullscreen**
@@ -874,6 +1087,65 @@ especificidad ≥ ID), no sólo al `<label>` — la regla global
 `.control-group label span { color: var(--accent-orange) }` (línea ~832)
 siempre ganará sobre un color puesto sólo en el `<label>` padre, porque
 `color` no se hereda "a través" de una regla ya explícita en el hijo.
+
+### ✅ Newcomen vs. Watt (`watt-sim`) — Corrección de aspect-ratio y soporte HiDPI en Fullscreen
+
+Refinamiento exclusivo de `#watt-sim.fullscreen` (no afecta el modo normal
+`#watt-sim:not(.fullscreen)` ni ningún otro laboratorio). Corrige dos
+problemas visuales distintos y complementarios en los canvas de animación
+(`#newcomen-canvas`, `#watt-canvas`):
+
+- **Problema resuelto**: al teletransportar el laboratorio a pantalla
+  completa, los cilindros/émbolos de ambos motores se veían
+  estirados/deformados, y las etiquetas de texto (temperaturas, leyendas)
+  se veían pixeladas/borrosas, especialmente en pantallas HiDPI/retina.
+
+- **`style.css`** (bloque nuevo, exclusivo de `#watt-sim.fullscreen`, al
+  final de la sección "LOTE 8 — FULLSCREEN STYLES"): la fila de motores
+  (`.canvas-card:has(#newcomen-canvas)` / `:has(#watt-canvas)`) pasa a
+  `flex:1 1 0; min-width:0` para reforzar las 2 columnas equilibradas ya
+  definidas inline (`display:grid; grid-template-columns:1fr 1fr`). El
+  wrapper directo de cada canvas (que trae `height:380px` inline pensado
+  para modo ventana) se reemplaza por `aspect-ratio:4/3; max-height:55vh;
+  margin:0 auto; width:100%; display:flex; align-items:center;
+  justify-content:center` (con `height:auto !important` para pisar el
+  inline). El propio `<canvas>` fuerza `width:100% !important;
+  height:100% !important; object-fit:contain; max-height:100%` para que el
+  bitmap nunca se deforme, sin importar la resolución interna que le asigne
+  el JS de dibujo.
+
+- **`app_v2.js`** (dentro de `initWattLab()` y su controlador de fullscreen
+  `LOTE 8: WATT LAB — FULLSCREEN CONTROLLER`): `resizeCanvases()` ahora lee
+  `dpr = window.devicePixelRatio || 1` y ajusta el buffer nativo del canvas
+  a `canvas.width/height = Math.round(cssW/cssH * dpr)` (resolución física
+  mayor que la caja CSS), guardando el tamaño lógico CSS en
+  `canvas._cssW/_cssH`. El contexto 2D se resetea con `resetTransform()` /
+  `setTransform(1,0,0,1,0,0)` y se reescala con `ctx.scale(dpr, dpr)` para
+  que las coordenadas de dibujo sigan expresadas en el mismo espacio lógico
+  de siempre — sin este reseteo, `drawNewcomen()`/`drawWattEngine()`
+  habrían duplicado las proporciones del motor en pantallas dpr>1. Ambas
+  funciones de dibujo pasan a leer `canvas._cssW || canvas.width` /
+  `canvas._cssH || canvas.height` en vez del buffer físico crudo. Se expone
+  `window.WattLabEngines = { resize: resizeCanvases }` para que el
+  controlador de fullscreen pueda forzar el recálculo tanto al **abrir**
+  como al **cerrar** pantalla completa (mismo `resizeAssets()` /
+  `forceDelayedResize()` ya usado por el patrón genérico de Lote 8), y
+  también en cada `window resize` — sin duplicar lógica ni afectar el modo
+  normal (que ya llamaba a `resizeCanvases()` en la carga inicial y sigue
+  funcionando igual, ahora con DPR también aplicado ahí como mejora
+  incidental).
+
+- **`watt-temp-chart` (Chart.js)**: el `resizeAssets()` del controlador ya
+  llamaba a `chart.resize(); chart.update('none');` — mismo patrón usado en
+  contact-res/multicapa/Newton/Prandtl — confirmado que se redimensiona sin
+  desfase junto con los dos canvas de animación, sin requerir cambios.
+
+**Verificado**: `node --check app_v2.js` sin errores; balance de llaves de
+`style.css` y `app_v2.js` verificado (nesting-aware, ignorando comentarios);
+`diff` línea por línea contra los archivos originales confirmó que ambos
+cambios son puramente aditivos y quedan contenidos en el alcance de
+`watt-sim` (nada de otros laboratorios ni de Chart.js/librerías externas
+fue tocado).
 
 ---
 

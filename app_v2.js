@@ -1069,264 +1069,6 @@ function fetchRealUserCount() {
     if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length > 0) {
         try {
             const db = firebase.database();
-            db.ref("users").on("value", (snapshot) => {
-                const count = snapshot.numChildren();
-                const displayCount = Math.max(1, count);
-                if (userCountText) {
-                    userCountText.textContent = displayCount.toLocaleString();
-                }
-                localStorage.setItem("gatekeeper_registered_count_real", displayCount);
-            });
-        } catch (e) {
-            console.error("Error al obtener recuento de usuarios reales de Firebase:", e);
-        }
-    } else {
-        setTimeout(fetchRealUserCount, 1000);
-    }
-
-    // Iniciar rastreo de presencia en línea
-    initOnlinePresence();
-}
-
-function initOnlinePresence() {
-    const onlineCountText = document.getElementById("online-count-text");
-    const btnOnline = document.getElementById("online-count-btn");
-
-    const setDisplay = (n, tooltip) => {
-        if (onlineCountText) onlineCountText.textContent = `${Math.max(1, n)} en línea`;
-        if (btnOnline) btnOnline.title = tooltip || `${Math.max(1, n)} usuario(s) conectado(s)`;
-    };
-
-    // --- Estrategia 1: Firebase Realtime Database con nodo público "presence" ---
-    if (typeof firebase !== 'undefined') {
-        try {
-            if (!firebase.apps.length) {
-                firebase.initializeApp({
-                    apiKey: "AIzaSyCVeHphav65sj851u72ikIcDXY1e2BN3Qk",
-                    authDomain: "thermal-science-history.firebaseapp.com",
-                    projectId: "thermal-science-history",
-                    storageBucket: "thermal-science-history.firebasestorage.app",
-                    messagingSenderId: "820331402760",
-                    appId: "1:820331402760:web:706f1ea98599a474ce23bd",
-                    measurementId: "G-X3KWMMZE1J",
-                    databaseURL: "https://thermal-science-history-default-rtdb.firebaseio.com"
-                });
-            }
-
-            const db = firebase.database();
-
-            // Clave única por pestaña/dispositivo (no por usuario)
-            const sessionKey = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            const myRef = db.ref('online_sessions/' + sessionKey);
-
-            // Escribir presencia sin autenticación (nodo público en reglas Firebase)
-            myRef.set({ t: firebase.database.ServerValue.TIMESTAMP })
-                .then(() => {
-                    myRef.onDisconnect().remove();
-                    if (btnOnline) btnOnline.title = `Conectado (Sesión: ${sessionKey})`;
-                })
-                .catch(err => {
-                    // Si permission denied: el nodo "online_sessions" no es público
-                    // Usar método alternativo: contador REST/Cloud Function
-                    if (btnOnline) btnOnline.title = `Error: ${err.code} - ${err.message}`;
-                    useCounterFallback(setDisplay);
-                });
-
-            // Escuchar el total de sesiones activas
-            let listening = false;
-            db.ref('online_sessions').on('value', snap => {
-                listening = true;
-                setDisplay(snap.numChildren(), `Conectados ahora: ${snap.numChildren()}`);
-            }, err => {
-                if (btnOnline) btnOnline.title = `Error lectura: ${err.message}`;
-                setDisplay(1);
-            });
-
-            // Fallback si Firebase no responde en 5s
-            setTimeout(() => {
-                if (!listening) {
-                    if (btnOnline) btnOnline.title = "Firebase sin respuesta (5s)";
-                    setDisplay(1);
-                }
-            }, 5000);
-
-        } catch (e) {
-            if (btnOnline) btnOnline.title = `Excepción JS: ${e.message}`;
-            setDisplay(1);
-        }
-    } else {
-        // Firebase no cargó (adblocker, red lenta, etc.)
-        if (btnOnline) btnOnline.title = "Firebase no disponible";
-        setDisplay(1);
-    }
-}
-
-// Contador alternativo vía Cloud Function o variable de sesión temporal
-function useCounterFallback(setDisplay) {
-    // Si Firebase RTDB está bloqueado, intentar con Firestore REST API (sin SDK, sin autenticación)
-    const projectId = "thermal-science-history";
-    const collection = "online_sessions";
-    const docId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-    const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${collection}/${docId}`;
-
-    // Escribir documento de presencia via REST (no requiere auth si reglas lo permiten)
-    fetch(url, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            fields: { t: { integerValue: Date.now() } }
-        })
-    }).then(r => r.json())
-        .then(data => {
-            if (data.name) {
-                // Leer el conteo total
-                const listUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${collection}`;
-                return fetch(listUrl).then(r => r.json());
-            }
-        })
-        .then(data => {
-            const count = (data && data.documents) ? data.documents.length : 1;
-            setDisplay(count, `Conectados: ${count} (vía Firestore)`);
-        })
-        .catch(() => {
-            setDisplay(1, "Sin conteo disponible");
-        });
-}
-
-function fetchRealUserCount() {
-    const userCountText = document.getElementById("user-count-text");
-    if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length > 0) {
-        try {
-            const db = firebase.database();
-            db.ref("users").on("value", (snapshot) => {
-                const count = snapshot.numChildren();
-                const displayCount = Math.max(1, count);
-                if (userCountText) {
-                    userCountText.textContent = displayCount.toLocaleString();
-                }
-                localStorage.setItem("gatekeeper_registered_count_real", displayCount);
-            });
-        } catch (e) {
-            console.error("Error al obtener recuento de usuarios reales de Firebase:", e);
-        }
-    } else {
-        setTimeout(fetchRealUserCount, 1000);
-    }
-
-    // Iniciar rastreo de presencia en línea
-    initOnlinePresence();
-}
-
-function initOnlinePresence() {
-    const onlineCountText = document.getElementById("online-count-text");
-    const btnOnline = document.getElementById("online-count-btn");
-
-    if (typeof firebase !== 'undefined') {
-        try {
-            if (!firebase.apps.length) {
-                firebase.initializeApp({
-                    apiKey: "AIzaSyCVeHphav65sj851u72ikIcDXY1e2BN3Qk",
-                    authDomain: "thermal-science-history.firebaseapp.com",
-                    projectId: "thermal-science-history",
-                    storageBucket: "thermal-science-history.firebasestorage.app",
-                    messagingSenderId: "820331402760",
-                    appId: "1:820331402760:web:706f1ea98599a474ce23bd",
-                    measurementId: "G-X3KWMMZE1J",
-                    databaseURL: "https://thermal-science-history-default-rtdb.firebaseio.com"
-                });
-            }
-            const db = firebase.database();
-            const sessionKey = Math.random().toString(36).substring(2, 15);
-            const onlineUsersRef = db.ref("presence");
-
-            let myPresenceRef = null;
-
-            // Escuchar cambios reactivos en las conexiones activas totales
-            let firebaseConnected = false;
-            onlineUsersRef.on("value", (snapshot) => {
-                firebaseConnected = true;
-                const activeConnections = snapshot.numChildren();
-                const displayOnline = Math.max(1, activeConnections);
-                if (onlineCountText) {
-                    onlineCountText.textContent = `${displayOnline} en línea`;
-                }
-                if (btnOnline) {
-                    btnOnline.title = `Usuarios en línea - Activos: ${activeConnections} (Sesión: ${sessionKey})`;
-                }
-            }, (error) => {
-                console.error("Firebase presence listener error:", error);
-                if (btnOnline) {
-                    btnOnline.title = `Error lectura presencia: ${error.message}`;
-                }
-                if (onlineCountText) onlineCountText.textContent = "1 en línea";
-            });
-
-            // Función para escribir/actualizar presencia
-            const updatePresence = (user) => {
-                if (myPresenceRef) {
-                    myPresenceRef.remove().catch(() => { });
-                }
-
-                // Generar una clave que combine UID y sessionKey para evitar colisión si es el mismo usuario en 2 dispositivos
-                const uid = user ? user.uid : "anon";
-                const pathKey = `${uid}_${sessionKey}`;
-                myPresenceRef = db.ref("presence/" + pathKey);
-
-                myPresenceRef.set({
-                    timestamp: firebase.database.ServerValue.TIMESTAMP,
-                    userAgent: navigator.userAgent,
-                    uid: uid,
-                    session: sessionKey
-                }).then(() => {
-                    myPresenceRef.onDisconnect().remove();
-                    if (btnOnline) {
-                        btnOnline.title = `Conectado como ${uid}. Total activos: ${firebaseConnected ? 'leído' : 'cargando'}`;
-                    }
-                }).catch(err => {
-                    console.warn("Presence set failed (retrying anonymously if possible):", err);
-                    if (btnOnline) {
-                        btnOnline.title = `Error escritura: ${err.message}`;
-                    }
-                    if (!user && firebase.auth) {
-                        firebase.auth().signInAnonymously().catch(anonErr => {
-                            console.error("Anonymous authentication failed:", anonErr);
-                        });
-                    }
-                });
-            };
-
-            // Escuchar cambios en la autenticación para re-escribir presencia con credenciales correctas
-            if (firebase.auth) {
-                firebase.auth().onAuthStateChanged((user) => {
-                    updatePresence(user);
-                });
-            } else {
-                updatePresence(null);
-            }
-
-            // Fallback si no responde en 4 segundos
-            setTimeout(() => {
-                if (!firebaseConnected && onlineCountText && onlineCountText.innerHTML.includes("fa-spinner")) {
-                    onlineCountText.textContent = "1 en línea";
-                }
-            }, 4000);
-
-        } catch (e) {
-            console.error("Error en initOnlinePresence:", e);
-            if (onlineCountText) onlineCountText.textContent = "1 en línea";
-            if (btnOnline) btnOnline.title = `Excepción JS: ${e.message}`;
-        }
-    } else {
-        if (onlineCountText) onlineCountText.textContent = "1 en línea";
-        if (btnOnline) btnOnline.title = "Firebase no disponible (Adblocker o conexión lenta)";
-    }
-}
-
-function fetchRealUserCount() {
-    const userCountText = document.getElementById("user-count-text");
-    if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length > 0) {
-        try {
-            const db = firebase.database();
             // 2026-08-15 (seguridad): antes esta función leía el nodo "/users"
             // completo para contar usuarios, lo cual requería que "/users"
             // fuera legible públicamente y por eso exponía el email y la
@@ -2018,6 +1760,137 @@ const connectionsStories = [
   }
 ];
 
+// ============================================================================
+// LabAnimationManager — despachador global de visibilidad de laboratorios
+// (LOTE 1, 2026-09-03). Fuente única de verdad sobre qué laboratorio debe
+// tener su bucle requestAnimationFrame corriendo en un momento dado: la
+// pestaña activa (`activeTabId`), o -si hay un laboratorio en pantalla
+// completa- ese laboratorio exclusivamente (`fullscreenLabId` manda sobre
+// `activeTabId` mientras esté activo). Cada laboratorio con animación
+// continua se registra una vez vía `register(labId, resume, pause)`; el
+// propio manager decide cuándo invocar resume/pause según cambie el estado
+// de pestaña/fullscreen (ver setActiveTab/setFullscreen). No sustituye la
+// lógica física/matemática de cada laboratorio — sólo gobierna si su rAF
+// corre o no.
+// ============================================================================
+window.LabAnimationManager = {
+  activeTabId: null,
+  fullscreenLabId: null,
+  registeredLoops: {}, // mapa: { labId: { pause: fn, resume: fn, isRunning: bool } }
+  register: function (labId, startOrResumeFn, pauseOrStopFn) {
+    this.registeredLoops[labId] = {
+      resume: startOrResumeFn,
+      pause: pauseOrStopFn,
+      isRunning: false
+    };
+  },
+  isLabVisible: function (labId) {
+    if (this.fullscreenLabId) {
+      return this.fullscreenLabId === labId;
+    }
+    return this.activeTabId === labId;
+  },
+  setActiveTab: function (tabId) {
+    this.activeTabId = tabId;
+    this.syncAll();
+  },
+  setFullscreen: function (labIdOrNull) {
+    this.fullscreenLabId = labIdOrNull;
+    this.syncAll();
+  },
+  syncAll: function () {
+    var self = this;
+    Object.keys(this.registeredLoops).forEach(function (labId) {
+      var item = self.registeredLoops[labId];
+      var shouldRun = self.isLabVisible(labId);
+      if (shouldRun && !item.isRunning) {
+        if (typeof item.resume === 'function') item.resume();
+        item.isRunning = true;
+      } else if (!shouldRun && item.isRunning) {
+        if (typeof item.pause === 'function') item.pause();
+        item.isRunning = false;
+      }
+    });
+  }
+};
+
+// ============================================================================
+// getClampedDelta — paso de tiempo controlado (clamped delta-time) global
+// (LOTE rendimiento 60 FPS, 2026-09-04). Fuente única de verdad para calcular
+// cuántos milisegundos "reales" avanzó una animación entre dos frames de
+// requestAnimationFrame. Evita que un frame demorado (pestaña reactivada
+// tras estar en segundo plano, pausa del recolector de basura, hilo
+// principal bloqueado por otra tarea) provoque un salto temporal gigante en
+// la física/posición de una animación — el síntoma que se percibe como un
+// "tirón" o "salto brusco" en vez de un movimiento continuo.
+//
+// Patrón estándar de uso en cualquier bucle rAF de un laboratorio:
+//
+//   let lastTs = null;
+//   function draw(ts) {
+//       if (typeof ts !== 'number' || ts < 1e6) ts = performance.now(); // guarda
+//       const dtMs = getClampedDelta(ts, lastTs, 33.33);
+//       lastTs = ts;
+//       const frameScale = dtMs / 16.67; // 1.0 a 60 fps; escala proporcional a otros refresh rates
+//       // ... multiplicar por frameScale cualquier incremento de posición/
+//       // tiempo simulado que antes asumía 60 fps fijos ...
+//       requestAnimationFrame(draw);
+//   }
+//
+// La guarda `ts < 1e6` cubre las rutas de este archivo que invocan la misma
+// función de frame directamente (no vía rAF) pasándole por accidente el
+// valor numérico de un slider (ver `syncSliderAndNumberInput`) en vez de un
+// timestamp de `performance.now()` — un valor así siempre es varios órdenes
+// de magnitud menor que un timestamp real, así que se descarta y se sustituye
+// por la hora actual real.
+function getClampedDelta(currentTimestamp, lastTimestamp, maxDeltaMs) {
+    if (!lastTimestamp) return 16.67; // fallback inicial (~60 FPS)
+    var dt = currentTimestamp - lastTimestamp;
+    var maxCap = maxDeltaMs || 33.33; // nunca avanzar más de 2 frames (~30 FPS mínimos)
+    if (dt < 0 || isNaN(dt)) return 16.67;
+    return Math.min(dt, maxCap);
+}
+window.getClampedDelta = getClampedDelta;
+
+// ============================================================================
+// FAIL-SAFE GLOBAL — IntersectionObserver genérico sobre TODOS los <canvas>
+// dentro de un .tab-pane, más aislamiento de renderizado en CSS (ver
+// style.css, regla `.tab-pane:not(.active):not(.fullscreen)`).
+//
+// Esto es una SEGUNDA capa de protección, independiente de
+// window.LabAnimationManager (arriba): marca cada canvas con el atributo
+// data-canvas-paused="true" cuando deja de intersecar el viewport (pestaña
+// inactiva -> ancestro .tab-pane en display:none -> intersección 0; o canvas
+// desplazado fuera de vista por scroll) y lo retira cuando vuelve a ser
+// visible. No sustituye ni reemplaza el registro explícito en
+// LabAnimationManager de los laboratorios ya conectados (esos 9 laboratorios
+// gobiernan su rAF con isLabVisible()/register(), más preciso porque conoce
+// el estado de pestaña activa/fullscreen sin depender del viewport) — es un
+// respaldo genérico para cualquier laboratorio que aún no esté conectado
+// explícitamente al manager. Las rutinas de renderizado de esos laboratorios
+// pueden usarlo como salida rápida al inicio de su bucle:
+//   if (canvas.hasAttribute('data-canvas-paused')) return;
+// (o, si el bucle necesita poder reanudarse solo, reprogramar el próximo
+// frame sin hacer el trabajo pesado — ver los 6 laboratorios ya adaptados
+// más abajo en este archivo: Kelvin, Joule, Herschel, Microchannel, CpCv y
+// Radiación Pura en Placa Plana, más el animLoop() de Multicapa Custom).
+// ============================================================================
+if ('IntersectionObserver' in window) {
+  var canvasObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      var canvas = entry.target;
+      if (!entry.isIntersecting) {
+        canvas.setAttribute('data-canvas-paused', 'true');
+      } else {
+        canvas.removeAttribute('data-canvas-paused');
+      }
+    });
+  }, { threshold: 0.01 });
+  document.querySelectorAll('.tab-pane canvas').forEach(function (c) {
+    canvasObserver.observe(c);
+  });
+}
+
 window.abrirHistoria = function (storyId) {
     const modal = document.getElementById("story-modal-" + storyId);
     if (modal) {
@@ -2466,6 +2339,21 @@ window.activatePillFilter = function(pillBtn) {
 };
 
 function switchTab(tabId, disableTimelineSync = false) {
+    // FIX watt-sim (y demás labs registrados en LabAnimationManager): switchTab
+    // nunca invocaba setActiveTab(), así que window.LabAnimationManager.activeTabId
+    // se quedaba en null para siempre y su syncAll() -que es quien realmente llama
+    // a resume()/pause() de cada laboratorio registrado- jamás se ejecutaba. Sin
+    // esto, initWattLab() registraba resumeWatt()/pauseWatt() correctamente pero
+    // resumeWatt() nunca se disparaba: el bucle animate() no arrancaba ni una sola
+    // vez y por eso los canvas #newcomen-canvas/#watt-canvas quedaban en blanco al
+    // hacer clic en la pestaña "Newcomen vs. Watt". Guard defensivo por si el
+    // manager aún no existiera en algún punto de carga. Afecta únicamente a los
+    // laboratorios que se auto-registran vía LabAnimationManager.register(); el
+    // resto de pestañas (no registradas) no cambian de comportamiento.
+    if (window.LabAnimationManager && typeof window.LabAnimationManager.setActiveTab === 'function') {
+        window.LabAnimationManager.setActiveTab(tabId);
+    }
+
     // Update buttons active status
     document.querySelectorAll(".tab-btn").forEach(btn => {
         if (btn.getAttribute("data-target") === tabId) {
@@ -3140,13 +3028,22 @@ function initFourierSimulation() {
         fourierChart.update('none');
     }
 
-    function draw() {
+    // LOTE anti-layout-thrashing: el tamaño del canvas se recalcula SOLO en
+    // resize/init/reanudación (ver llamadas más abajo), nunca dentro de
+    // draw() — leer `clientWidth`/`clientHeight` en cada frame de rAF fuerza
+    // un reflow síncrono si cualquier otro elemento de la página invalidó el
+    // layout ese mismo tick. `canvas.width`/`canvas.height` (usados dentro de
+    // draw) son simples propiedades numéricas, no disparan layout.
+    function resizeFourierAnimCanvas() {
         const parent = canvas.parentElement;
-        if (canvas.width !== parent.clientWidth || canvas.height !== parent.clientHeight) {
-            canvas.width = parent.clientWidth;
-            canvas.height = parent.clientHeight;
+        const w = parent.clientWidth, h = parent.clientHeight;
+        if (canvas.width !== w || canvas.height !== h) {
+            canvas.width = w;
+            canvas.height = h;
         }
+    }
 
+    function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const w = canvas.width;
         const h = canvas.height;
@@ -3387,597 +3284,31 @@ function initFourierSimulation() {
     window.addEventListener('resize', () => {
         if (document.getElementById('fourier-sim').classList.contains('active')) {
             if (fourierChart) fourierChart.resize();
+            resizeFourierAnimCanvas();
         }
     });
 
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
+            resizeFourierAnimCanvas();
             updateSimulation();
             if (fourierChart) fourierChart.resize();
+            fourierAnimationId = requestAnimationFrame(draw);
+        } else {
+            if (fourierAnimationId) cancelAnimationFrame(fourierAnimationId);
         }
     });
     observer.observe(canvas);
 
+    resizeFourierAnimCanvas();
     updateGeometryUI();
     updateSimulation();
-    draw();
 }
 
-// ==========================================
-// Newton's Cooling Simulation
-// ==========================================
-function initNewtonSimulation_OLD_UNUSED() {
-    const canvas = document.getElementById('newtonCanvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-
-    const sliderTi = document.getElementById('newton-ti');
-    const sliderTinf = document.getElementById('newton-tinf');
-    const selectMedium = document.getElementById('newton-medium');
-    const sliderD = document.getElementById('newton-d');
-
-    const valTi = document.getElementById('newton-ti-val');
-    const valTinf = document.getElementById('newton-tinf-val');
-    const valD = document.getElementById('newton-d-val');
-    const resBi = document.getElementById('newton-bi-res');
-    const resTau = document.getElementById('newton-tau-res');
-    const resTime = document.getElementById('newton-time');
-
-    const graphCanvas = document.getElementById('newtonGraph');
-    const graphCtx = graphCanvas.getContext('2d');
-
-    // Propiedades del hierro puro
-    const rho = 7870; // kg/m^3
-    const cp = 450; // J/kg.K
-    const k_hierro = 80.2; // W/m.K
-    const L_cylinder = 0.1; // m (Longitud del cilindro)
-
-    let chartInstance = new Chart(graphCtx, {
-        type: 'line',
-        data: {
-            datasets: [{
-                label: 'T(t) Cilindro de Hierro',
-                data: [],
-                borderColor: '#ef4444',
-                backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                borderWidth: 2,
-                pointRadius: 0,
-                fill: true,
-                tension: 0.1
-            }]
-        },
-        options: {
-            legend: { display: false },
-            plugins: { legend: { display: false } },
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: false,
-            scales: {
-                x: {
-                    type: 'linear',
-                    title: { display: true, text: 'Tiempo (s)', color: '#94a3b8' },
-                    ticks: { color: '#cbd5e1' },
-                    grid: { color: 'rgba(255,255,255,0.1)' }
-                },
-                y: {
-                    title: { display: true, text: 'Temperatura (°C)', color: '#94a3b8' },
-                    ticks: { color: '#cbd5e1' },
-                    grid: { color: 'rgba(255,255,255,0.1)' }
-                }
-            },
-            plugins: {
-                legend: { labels: { color: '#e2e8f0' } }
-            }
-        }
-    });
-
-    let animationId;
-    let simTime = 0;
-    let particles = [];
-    const timeScale = 50; // Acelerador de tiempo
-    let lastTimestamp = 0;
-
-    // Parámetros actuales
-    let currentTi, currentTinf, currentH, currentD;
-    let currentTau, currentBi;
-
-    function initParticles() {
-        particles = [];
-        const numParticles = 100;
-        for (let i = 0; i < numParticles; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 2,
-                vy: (Math.random() - 0.5) * 2 - 1
-            });
-        }
-    }
-
-    function updateSimulationParams() {
-        currentTi = parseFloat(sliderTi.value);
-        currentTinf = parseFloat(sliderTinf.value);
-        currentH = parseFloat(selectMedium.value);
-        currentD = parseFloat(sliderD.value);
-
-        valTi.textContent = currentTi;
-        valTinf.textContent = currentTinf;
-        valD.textContent = currentD.toFixed(2);
-
-        // Área superficial y Volumen
-        const r = currentD / 2;
-        const As = 2 * Math.PI * r * L_cylinder + 2 * Math.PI * r * r;
-        const V = Math.PI * r * r * L_cylinder;
-        const Lc = V / As;
-
-        currentBi = (currentH * Lc) / k_hierro;
-        currentTau = (rho * V * cp) / (currentH * As);
-
-        resBi.innerHTML = currentBi.toFixed(4) + (currentBi < 0.1 ? " <span style='color:#10b981;'>(Válido)</span>" : " <span style='color:#ef4444;'>(Inválido)</span>");
-        resTau.innerHTML = currentTau.toFixed(1) + " s";
-
-        simTime = 0; // Reiniciar simulación
-        lastTimestamp = performance.now();
-        initParticles();
-
-        // Pre-calcular la gráfica teórica (hasta 5 Tau)
-        const tMax = currentTau * 5;
-        const graphData = [];
-        for (let t = 0; t <= tMax; t += tMax / 50) {
-            const T = currentTinf + (currentTi - currentTinf) * Math.exp(-t / currentTau);
-            graphData.push({ x: t, y: T });
-        }
-        chartInstance.data.datasets[0].data = graphData;
-
-        const maxTemp = Math.max(currentTi, currentTinf);
-        const minTemp = Math.min(currentTi, currentTinf);
-        const yMax = maxTemp > 500 ? Math.ceil(maxTemp / 100) * 100 : (Math.ceil(maxTemp / 10) * 10 + 10);
-        const yMin = minTemp < 0 ? Math.floor(minTemp / 10) * 10 : (minTemp > 20 ? 0 : Math.floor(minTemp / 10) * 10 - 10);
-        chartInstance.options.scales.y.max = yMax;
-        chartInstance.options.scales.y.min = yMin;
-        currentChartMax = tMax;
-        chartInstance.options.scales.x.max = tMax;
-        chartInstance.options.scales.x.ticks.stepSize = tMax <= 200 ? 10 : 100;
-
-        // Update markers
-        chartInstance.data.datasets[4].data = [
-            { x: simTime, y: yMin },
-            { x: simTime, y: yMax }
-        ];
-        chartInstance.data.datasets[5].data = simData.map((d) => {
-            const T = currentTinf + (currentTi - currentTinf) * Math.exp(-simTime / d.tau);
-            return { x: simTime, y: T };
-        });
-
-        chartInstance.update();
-    }
-
-    function getColorForTemp(T) {
-        const minT = 0;
-        const maxT = 500;
-        const normalized = Math.max(0, Math.min(1, (T - minT) / (maxT - minT)));
-        const r = Math.round(normalized * 255);
-        const b = Math.round((1 - normalized) * 255);
-        return `rgb(${r}, 50, ${b})`;
-    }
-
-    function draw(timestamp) {
-        if (!lastTimestamp) lastTimestamp = timestamp;
-        const dt = (timestamp - lastTimestamp) / 1000; // segundos reales
-        lastTimestamp = timestamp;
-
-        simTime += dt * timeScale;
-        resTime.innerHTML = simTime.toFixed(1) + " s";
-
-        // Temperatura actual del cilindro
-        const currentT = currentTinf + (currentTi - currentTinf) * Math.exp(-simTime / currentTau);
-
-        // Make canvas responsive
-        const parent = canvas.parentElement;
-        if (canvas.width !== parent.clientWidth || canvas.height !== parent.clientHeight) {
-            canvas.width = parent.clientWidth;
-            canvas.height = parent.clientHeight;
-            initParticles();
-        }
-
-        // Efecto de desvanecimiento para estelas
-        ctx.fillStyle = 'rgba(15, 23, 42, 0.3)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        const cx = canvas.width / 2;
-        const cy = canvas.height / 2;
-
-        // Escala visual del cilindro basada en el diámetro (0.01 a 0.2 m -> 20 a 100 px radio)
-        const minR = 20;
-        const maxR = 100;
-        const visualR = minR + ((currentD - 0.01) / (0.2 - 0.01)) * (maxR - minR);
-
-        // Actualizar y dibujar partículas de convección (fluido)
-        ctx.fillStyle = getColorForTemp(currentTinf);
-        particles.forEach(p => {
-            // Acelerar partículas según la diferencia de temperatura
-            const deltaT = currentT - currentTinf;
-            // Si el cilindro está más caliente, las partículas suben más rápido cerca del cilindro
-            const dist = Math.hypot(p.x - cx, p.y - cy);
-
-            let speedFactor = 1;
-            if (dist < visualR * 3) {
-                speedFactor = 1 + (deltaT / 100) * (1 - dist / (visualR * 3));
-            }
-
-            p.x += p.vx * speedFactor;
-            p.y += p.vy * speedFactor;
-
-            // Reaparecer partículas que salen de la pantalla
-            if (p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height) {
-                if (Math.random() > 0.5) {
-                    p.x = Math.random() * canvas.width;
-                    p.y = canvas.height;
-                } else {
-                    p.x = Math.random() > 0.5 ? 0 : canvas.width;
-                    p.y = Math.random() * canvas.height;
-                }
-                // Si la distancia al centro es muy grande, forzar a que reaparezca más cerca a veces
-                if (Math.random() > 0.7) {
-                    p.x = cx + (Math.random() - 0.5) * visualR * 4;
-                    p.y = cy + (Math.random() - 0.5) * visualR * 4;
-                }
-            }
-
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-            ctx.fill();
-        });
-
-        // Dibujar el cilindro
-        ctx.beginPath();
-        ctx.arc(cx, cy, visualR, 0, Math.PI * 2);
-        ctx.fillStyle = getColorForTemp(currentT);
-        ctx.fill();
-        ctx.strokeStyle = '#ffffff';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // Texto de temperatura
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 16px Outfit';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(`${currentT.toFixed(1)} °C`, cx, cy);
-
-        animationId = requestAnimationFrame(draw);
-    }
-
-    [sliderTi, sliderTinf, selectMedium, sliderD].forEach(el => {
-        el.addEventListener('input', updateSimulationParams);
-    });
-
-    // Intersection Observer para detener/iniciar animación
-    const observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-            updateSimulationParams();
-            lastTimestamp = performance.now();
-            animationId = requestAnimationFrame(draw);
-        } else {
-            if (animationId) cancelAnimationFrame(animationId);
-        }
-    });
-
-    observer.observe(canvas);
-}
 
 // ==========================================
 // Conduction + Convection Simulation
 // ==========================================
-// ==========================================
-// 12. NUSSELT SIMULATION
-// ==========================================
-function initNusseltSimulation_OLD_UNUSED() {
-    const uSlider = document.getElementById("nu-u");
-    const kSlider = document.getElementById("nu-k");
-    const lcSlider = document.getElementById("nu-lc");
-    const tsSlider = document.getElementById("nu-ts");
-    const tinfSlider = document.getElementById("nu-tinf");
-
-    const uVal = document.getElementById("nu-u-val");
-    const kVal = document.getElementById("nu-k-val");
-    const lcVal = document.getElementById("nu-lc-val");
-    const tsVal = document.getElementById("nu-ts-val");
-    const tinfVal = document.getElementById("nu-tinf-val");
-
-    const resQCond = document.getElementById("nu-qcond-res");
-    const resQConv = document.getElementById("nu-qconv-res");
-    const resNu = document.getElementById("nu-res");
-
-    const canvas = document.getElementById("nusseltChart");
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-
-    let chartInstance = new Chart(ctx, {
-        type: "line",
-        data: {
-            datasets: [
-                {
-                    label: "Conducción Pura (Fluido estático)",
-                    data: [],
-                    borderColor: "#94a3b8",
-                    backgroundColor: "rgba(148, 163, 184, 0.1)",
-                    borderWidth: 2,
-                    borderDash: [5, 5],
-                    fill: false,
-                    tension: 0
-                },
-                {
-                    label: "Convección (Fluido en movimiento)",
-                    data: [],
-                    borderColor: "#38bdf8",
-                    backgroundColor: "rgba(56, 189, 248, 0.2)",
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4
-                }
-            ]
-        },
-        options: {
-            legend: { display: false },
-            plugins: { legend: { display: false } },
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: false,
-            scales: {
-                x: {
-                    type: "linear",
-                    min: 0,
-                    max: 0.2, // max Lc is 0.2
-                    title: { display: true, text: "Distancia desde la pared (y)", color: "#94a3b8" },
-                    ticks: { color: "#cbd5e1" },
-                    grid: { color: "rgba(255,255,255,0.1)" }
-                },
-                y: {
-                    min: 20,
-                    max: 100,
-                    title: { display: true, text: "Temperatura (°C)", color: "#94a3b8" },
-                    ticks: { color: "#cbd5e1" },
-                    grid: { color: "rgba(255,255,255,0.1)" }
-                }
-            },
-            plugins: {
-                legend: { labels: { color: "#e2e8f0" } }
-            }
-        }
-    });
-
-    function updateSimulation() {
-        const u = parseFloat(uSlider.value);
-        const k = parseFloat(kSlider.value);
-        const Lc = parseFloat(lcSlider.value);
-
-        uVal.textContent = u.toFixed(1);
-        kVal.textContent = k.toFixed(2);
-        lcVal.textContent = Lc.toFixed(2);
-
-        // Temperatures
-        const Ts = 100; // Wall temp
-        const Tinf = 20; // Fluid free stream temp
-
-        // If u = 0, it's pure conduction. Nu = 1.
-        // As u increases, h increases. Let's assume h = (k/Lc) * (1 + C * u^0.8)
-        // So Nu = 1 + C * u^0.8
-        const C = 2.5; // Arbitrary constant for visual effect
-        let Nu = 1.0;
-        if (u > 0) {
-            Nu = 1.0 + C * Math.pow(u, 0.8);
-        }
-
-        const h = (k / Lc) * Nu;
-
-        const q_cond = k * (Ts - Tinf) / Lc;
-        const q_conv = h * (Ts - Tinf);
-
-        resQCond.textContent = q_cond.toFixed(1) + " W/m²";
-        resQConv.textContent = q_conv.toFixed(1) + " W/m²";
-        resNu.textContent = Nu.toFixed(2);
-
-        // Update Chart
-        chartInstance.options.scales.x.max = Math.max(0.2, Lc);
-
-        const condData = [];
-        const convData = [];
-
-        const numPoints = 50;
-        for (let i = 0; i <= numPoints; i++) {
-            const y = (i / numPoints) * Lc;
-
-            // Conduction Profile (Linear from Ts at y=0 to Tinf at y=Lc)
-            const T_cond = Ts - (Ts - Tinf) * (y / Lc);
-            condData.push({ x: y, y: T_cond });
-
-            // Convection Profile
-            // Must have gradient at wall equal to -h(Ts-Tinf)/k = -Nu*(Ts-Tinf)/Lc
-            // A simple profile that matches Ts at y=0, Tinf at y=Lc, and has the correct initial slope:
-            // T(y) = Tinf + (Ts - Tinf) * (1 - y/Lc)^Nu
-            const T_conv = Tinf + (Ts - Tinf) * Math.pow(1 - y / Lc, Nu);
-            convData.push({ x: y, y: T_conv });
-        }
-
-        chartInstance.data.datasets[0].data = condData;
-        chartInstance.data.datasets[1].data = convData;
-        chartInstance.update();
-    }
-
-    uSlider.addEventListener("input", updateSimulation);
-    kSlider.addEventListener("input", updateSimulation);
-    lcSlider.addEventListener("input", updateSimulation);
-    if (tsSlider) tsSlider.addEventListener("input", updateSimulation);
-    if (tinfSlider) tinfSlider.addEventListener("input", updateSimulation);
-
-    // Initial call
-    updateSimulation();
-}
-
-/* =========================================================================
-   BOUNDARY LAYER & ANALOGY SIMULATOR
-   ========================================================================= */
-function initBoundaryLayerSimulation_OLD_UNUSED() {
-    const prSlider = document.getElementById("bl-pr");
-    const scSlider = document.getElementById("bl-sc");
-
-    const prVal = document.getElementById("bl-pr-val");
-    const scVal = document.getElementById("bl-sc-val");
-
-    const resDeltaT = document.getElementById("bl-deltat-res");
-    const resDeltaC = document.getElementById("bl-deltac-res");
-
-    const canvas = document.getElementById("blChart");
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-
-    let chartInstance = new Chart(ctx, {
-        type: "line",
-        data: {
-            datasets: [
-                {
-                    label: "Velocidad (u/Uinfinity)",
-                    data: [],
-                    borderColor: "#3b82f6",
-                    backgroundColor: "rgba(59, 130, 246, 0.1)",
-                    borderWidth: 2,
-                    fill: true,
-                    tension: 0.4
-                },
-                {
-                    label: "Temperatura ((T-Ts)/(Tinf-Ts))",
-                    data: [],
-                    borderColor: "#ef4444",
-                    backgroundColor: "rgba(239, 68, 68, 0.1)",
-                    borderWidth: 2,
-                    borderDash: [5, 5],
-                    fill: false,
-                    tension: 0.4
-                },
-                {
-                    label: "Concentración ((C-Cs)/(Cinf-Cs))",
-                    data: [],
-                    borderColor: "#10b981",
-                    backgroundColor: "rgba(16, 185, 129, 0.1)",
-                    borderWidth: 2,
-                    borderDash: [2, 2],
-                    fill: false,
-                    tension: 0.4
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    type: "linear",
-                    position: "bottom",
-                    title: {
-                        display: true,
-                        text: "Distancia desde la pared (y/δ)",
-                        color: "#94a3b8"
-                    },
-                    min: 0,
-                    max: 1.5,
-                    grid: { color: "#334155" },
-                    ticks: {
-                        color: "#94a3b8",
-                        callback: function (value) {
-                            if (value === 0) return '0 (Pared)';
-                            if (value === 1) return '1 (Borde de Capa)';
-                            return value;
-                        }
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: "Perfil Adimensional (Velocidad, Temperatura, Masa)",
-                        color: "#94a3b8"
-                    },
-                    min: 0,
-                    max: 1.05,
-                    grid: { color: "#334155" },
-                    ticks: {
-                        color: "#94a3b8",
-                        callback: function (value) {
-                            if (value === 0) return '0 (Superficie)';
-                            if (value === 1) return '1 (Infinito)';
-                            return value;
-                        }
-                    }
-                }
-            },
-            plugins: {
-                legend: { labels: { color: "#cbd5e1" } }
-            }
-        }
-    });
-
-    function updateSimulation() {
-        const Pr = parseFloat(prSlider.value);
-        const Sc = parseFloat(scSlider.value);
-
-        prVal.textContent = Pr.toFixed(1);
-        scVal.textContent = Sc.toFixed(1);
-
-        // Relaciones empíricas de espesor de capa límite
-        const delta_t_ratio = Math.pow(Pr, -1 / 3);
-        const delta_c_ratio = Math.pow(Sc, -1 / 3);
-
-        resDeltaT.textContent = delta_t_ratio.toFixed(2) + " δ";
-        resDeltaC.textContent = delta_c_ratio.toFixed(2) + " δ";
-
-        const velData = [];
-        const tempData = [];
-        const concData = [];
-
-        // Eje y va de 0 a 1.5 (donde 1.0 es el borde de la capa límite hidrodinámica)
-        const numPoints = 50;
-        for (let i = 0; i <= numPoints; i++) {
-            const y = (i / numPoints) * 1.5;
-
-            // Perfil de velocidad (Polinomio de orden 2, aproximación de Von Kármán)
-            // u/Uinfinity = 2(y/δ) - (y/δ)^2 for y/δ <= 1, else 1
-            let u_ratio = 1.0;
-            if (y <= 1.0) {
-                u_ratio = 2 * y - Math.pow(y, 2);
-            }
-            velData.push({ x: y, y: u_ratio });
-
-            // Perfil de Temperatura
-            // y_t = y / (δ_t) = y / (δ * delta_t_ratio)
-            let y_t = y / delta_t_ratio;
-            let t_ratio = 1.0;
-            if (y_t <= 1.0) {
-                t_ratio = 2 * y_t - Math.pow(y_t, 2);
-            }
-            tempData.push({ x: y, y: t_ratio });
-
-            // Perfil de Concentración
-            let y_c = y / delta_c_ratio;
-            let c_ratio = 1.0;
-            if (y_c <= 1.0) {
-                c_ratio = 2 * y_c - Math.pow(y_c, 2);
-            }
-            concData.push({ x: y, y: c_ratio });
-        }
-
-        chartInstance.data.datasets[0].data = velData;
-        chartInstance.data.datasets[1].data = tempData;
-        chartInstance.data.datasets[2].data = concData;
-
-        chartInstance.update();
-    }
-
-    prSlider.addEventListener('input', updateSimulation);
-    scSlider.addEventListener('input', updateSimulation);
-
-    updateSimulation();
-}
-
 // Planck's Law and Wavelength to Color Helper Functions
 function calculatePlanck(lambda, T) {
     // Planck's Law: E_lambda = (C1) / (lambda^5 * (exp(C2 / (lambda * T)) - 1))
@@ -4967,7 +4298,8 @@ function initPrandtlSimulation() {
             this.x = 0;
             this.y = Math.random() * (canvas.height - 15);
         }
-        update(U, nu) {
+        update(U, nu, frameScale) {
+            if (typeof frameScale !== 'number' || isNaN(frameScale)) frameScale = 1; // 1.0 a 60 fps
             const physicalX = (this.x / canvas.width) * 2.0;
             const currentPr = parseFloat(sliderPr.value) || 0.7;
             const currentSc = parseFloat(sliderSc.value) || 0.7;
@@ -4988,7 +4320,7 @@ function initPrandtlSimulation() {
                 if (u_ratio < 0.05) u_ratio = 0.05;
             }
 
-            this.x += 2.5 * u_ratio;
+            this.x += 2.5 * u_ratio * frameScale;
             if (this.x > canvas.width) {
                 this.reset();
             }
@@ -5017,8 +4349,15 @@ function initPrandtlSimulation() {
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    function animateParticles() {
+    let prandtlBlAnimId = null;
+    let prandtlBlLastTs = null; // para getClampedDelta() — paso de tiempo real acotado del loop
+
+    function animateParticles(ts) {
         if (!canvas || !animCtx) return;
+        if (typeof ts !== 'number' || ts < 1e6) ts = performance.now();
+        const prandtlDtMs = getClampedDelta(ts, prandtlBlLastTs, 33.33);
+        prandtlBlLastTs = ts;
+        const prandtlFrameScale = prandtlDtMs / 16.67; // 1.0 a 60 fps
         animCtx.clearRect(0, 0, canvas.width, canvas.height);
 
         // Draw flat plate at the bottom (solid line)
@@ -5186,13 +4525,21 @@ function initPrandtlSimulation() {
 
         // Update and draw particles
         particles.forEach(p => {
-            p.update(currentU, currentNu);
+            p.update(currentU, currentNu, prandtlFrameScale);
             p.draw();
         });
 
-        requestAnimationFrame(animateParticles);
+        prandtlBlAnimId = requestAnimationFrame(animateParticles);
     }
-    animateParticles();
+
+    const prandtlBlObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            prandtlBlAnimId = requestAnimationFrame(animateParticles);
+        } else {
+            if (prandtlBlAnimId) cancelAnimationFrame(prandtlBlAnimId);
+        }
+    });
+    prandtlBlObserver.observe(canvas);
 }
 
 /* =========================================================================
@@ -7092,17 +6439,22 @@ function initNusseltSimulation() {
         chartInstance.update();
     }
 
-    function draw(timestamp) {
-        if (!lastTimestamp) lastTimestamp = timestamp;
-        const dt = (timestamp - lastTimestamp) / 1000;
-        lastTimestamp = timestamp;
-
-        const parent = animCanvas.parentElement;
-        if (animCanvas.width !== parent.clientWidth || animCanvas.height !== parent.clientHeight) {
-            animCanvas.width = parent.clientWidth;
-            animCanvas.height = parent.clientHeight;
+    // LOTE anti-layout-thrashing: el resize del canvas se dispara solo desde
+    // resize/init/reanudación (ver llamadas más abajo), nunca dentro de
+    // draw() — mismo criterio aplicado en Fourier/Reynolds/etc.
+    function resizeNusseltAnimCanvas() {
+        const w = animParent.clientWidth, h = animParent.clientHeight;
+        if (w === 0 || h === 0) return;
+        if (animCanvas.width !== w || animCanvas.height !== h) {
+            animCanvas.width = w;
+            animCanvas.height = h;
             initParticles();
         }
+    }
+
+    function draw(timestamp) {
+        if (!lastTimestamp) lastTimestamp = timestamp;
+        lastTimestamp = timestamp;
 
         actx.clearRect(0, 0, animCanvas.width, animCanvas.height);
 
@@ -7184,6 +6536,7 @@ function initNusseltSimulation() {
 
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
+            resizeNusseltAnimCanvas();
             updateSimulation();
             lastTimestamp = performance.now();
             animationId = requestAnimationFrame(draw);
@@ -7191,6 +6544,8 @@ function initNusseltSimulation() {
             if (animationId) cancelAnimationFrame(animationId);
         }
     });
+
+    window.addEventListener('resize', resizeNusseltAnimCanvas);
 
     // Como ya pasamos la guarda "Lazy Init" de arriba, el canvas tiene
     // dimensiones reales en este punto: forzamos el primer sizing +
@@ -7605,12 +6960,18 @@ function initReynoldsSimulation() {
         });
     }
 
-    function draw() {
-        if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
-            canvas.width = canvas.clientWidth;
-            canvas.height = canvas.clientHeight;
+    // LOTE anti-layout-thrashing: resize disparado solo desde
+    // resize/init/reanudación, nunca dentro de draw().
+    function resizeReynoldsCanvas() {
+        const w = canvas.clientWidth, h = canvas.clientHeight;
+        if (w === 0 || h === 0) return;
+        if (canvas.width !== w || canvas.height !== h) {
+            canvas.width = w;
+            canvas.height = h;
         }
+    }
 
+    function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         const w = canvas.width;
@@ -7857,14 +7218,23 @@ function initReynoldsSimulation() {
         reynoldsAnimationId = requestAnimationFrame(draw);
     }
 
-    // Animation loop runs continuously, reading sliders on each frame
+    // Animation loop: solo corre mientras el laboratorio está visible (ver IntersectionObserver abajo)
 
     syncSliderAndNumberInput(sliderV, document.getElementById('reynolds-v-num'), draw);
     syncSliderAndNumberInput(sliderDh, document.getElementById('reynolds-dh-num'), draw);
     syncSliderAndNumberInput(sliderNu, document.getElementById('reynolds-nu-num'), draw);
 
-    // Start loop
-    draw();
+    const reynoldsObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            resizeReynoldsCanvas();
+            reynoldsAnimationId = requestAnimationFrame(draw);
+        } else {
+            if (reynoldsAnimationId) cancelAnimationFrame(reynoldsAnimationId);
+        }
+    });
+    reynoldsObserver.observe(canvas);
+    window.addEventListener('resize', resizeReynoldsCanvas);
+    resizeReynoldsCanvas();
 }
 
 function initNatConvSimulation() {
@@ -7920,8 +7290,9 @@ function initNatConvSimulation() {
             this.decay = 0.0012 + Math.random() * 0.002; // Slower decay, lives longer
         }
 
-        update(cx, cy, baseR, isHot, dT, w, h) {
-            this.life -= this.decay;
+        update(cx, cy, baseR, isHot, dT, w, h, frameScale) {
+            if (typeof frameScale !== 'number' || isNaN(frameScale)) frameScale = 1; // 1.0 a 60 fps
+            this.life -= this.decay * frameScale;
             if (this.life <= 0) {
                 this.reset(cx, cy, baseR, isHot);
                 return;
@@ -7930,19 +7301,20 @@ function initNatConvSimulation() {
             // Buoyancy acceleration (extremely slow and gentle)
             const buoyancyForce = Math.min(0.5, Math.abs(dT) * 0.003);
             if (isHot) {
-                this.vy -= buoyancyForce * 0.008;
+                this.vy -= buoyancyForce * 0.008 * frameScale;
             } else {
-                this.vy += buoyancyForce * 0.008;
+                this.vy += buoyancyForce * 0.008 * frameScale;
             }
 
             // Limit velocities to a very gentle "floating" speed
+            // (tope instantáneo — no se escala por frameScale, no es una fuerza continua)
             const maxVy = 0.25 + Math.min(0.45, Math.abs(dT) * 0.002);
             const maxVx = 0.18;
             this.vx = Math.max(-maxVx, Math.min(maxVx, this.vx));
             this.vy = Math.max(-maxVy, Math.min(maxVy, this.vy));
 
-            this.x += this.vx;
-            this.y += this.vy;
+            this.x += this.vx * frameScale;
+            this.y += this.vy * frameScale;
 
             // Cylinder Boundary Collision & Hugging Flow
             const dx = this.x - cx;
@@ -7974,8 +7346,8 @@ function initNatConvSimulation() {
 
                     // Apply centripetal pull to make particles hug the cylinder surface
                     const pullForce = 0.03 * (huggingDist - dist);
-                    this.vx -= nx * pullForce;
-                    this.vy -= ny * pullForce;
+                    this.vx -= nx * pullForce * frameScale;
+                    this.vy -= ny * pullForce * frameScale;
 
                     // Tangential sweep vector
                     const tx = -ny;
@@ -7984,14 +7356,14 @@ function initNatConvSimulation() {
                     const sweepDirection = isHot ? -Math.sign(ty) : Math.sign(ty);
                     const sweepForce = (0.1 + Math.random() * 0.15) * (0.3 + buoyancyForce);
 
-                    this.vx += tx * sweepDirection * sweepForce * 0.2;
-                    this.vy += ty * sweepDirection * sweepForce * 0.2;
+                    this.vx += tx * sweepDirection * sweepForce * 0.2 * frameScale;
+                    this.vy += ty * sweepDirection * sweepForce * 0.2 * frameScale;
                 } else {
                     // In separation zone: encourage detachment upwards (for hot) or downwards (for cold)
                     if (isHot) {
-                        this.vy -= 0.04;
+                        this.vy -= 0.04 * frameScale;
                     } else {
-                        this.vy += 0.04;
+                        this.vy += 0.04 * frameScale;
                     }
                 }
             }
@@ -8002,7 +7374,7 @@ function initNatConvSimulation() {
 
             if (yDist > baseR) {
                 // Gently converge plume towards the centerline without crossing it
-                this.vx -= Math.sign(distFromCenterLine) * 0.005 * (yDist / h);
+                this.vx -= Math.sign(distFromCenterLine) * 0.005 * (yDist / h) * frameScale;
 
                 // Prevent particles from crossing the center line to keep flow laminarly parallel
                 if (this.side === -1) {
@@ -8046,13 +7418,21 @@ function initNatConvSimulation() {
 
     let time = 0;
     let natConvAnimationId = null;
+    let lastTimestamp = null; // para getClampedDelta() — paso de tiempo real acotado del loop
 
-    function draw() {
-        if (!canvas.offsetParent) {
-            // Tab not visible, pause loop
-            natConvAnimationId = requestAnimationFrame(draw);
+    function draw(ts) {
+        if (!window.LabAnimationManager.isLabVisible('nat-conv-sim')) {
+            // Laboratorio inactivo/oculto: se detiene por completo (sin
+            // reprogramar un nuevo requestAnimationFrame); LabAnimationManager
+            // lo reanuda vía resumeNatConv() cuando vuelva a ser visible.
+            cancelAnimationFrame(natConvAnimationId);
             return;
         }
+
+        if (typeof ts !== 'number' || ts < 1e6) ts = performance.now();
+        const dtMs = getClampedDelta(ts, lastTimestamp, 33.33);
+        lastTimestamp = ts;
+        const frameScale = dtMs / 16.67; // 1.0 a 60 fps; escala proporcional a otros refresh rates
 
         const w = canvas.width;
         const h = canvas.height;
@@ -8213,7 +7593,7 @@ function initNatConvSimulation() {
             }
 
             particles.forEach(p => {
-                p.update(cx, cy, baseR, isHot, dT, w, h);
+                p.update(cx, cy, baseR, isHot, dT, w, h, frameScale);
                 p.draw(ctx, isHot, cx, cy, baseR, dT, time);
             });
         } else {
@@ -8221,7 +7601,7 @@ function initNatConvSimulation() {
             particles.length = 0;
         }
 
-        time += 1;
+        time += frameScale;
         natConvAnimationId = requestAnimationFrame(draw);
     }
 
@@ -8229,7 +7609,13 @@ function initNatConvSimulation() {
     syncSliderAndNumberInput(sliderTinf, document.getElementById('natconv-tinf-num'), draw);
     syncSliderAndNumberInput(sliderD, document.getElementById('natconv-d-num'), draw);
 
-    draw();
+    window.LabAnimationManager.register('nat-conv-sim', function resumeNatConv() {
+        cancelAnimationFrame(natConvAnimationId);
+        natConvAnimationId = requestAnimationFrame(draw);
+    }, function pauseNatConv() {
+        cancelAnimationFrame(natConvAnimationId);
+        natConvAnimationId = null;
+    });
 }
 
 function initKelvinSimulation() {
@@ -8499,7 +7885,7 @@ function initKelvinSimulation() {
     let currentPistonY = canvas.height / 2;
 
     function renderLoop() {
-        if (!canvas.offsetParent) {
+        if (!canvas.offsetParent || canvas.hasAttribute('data-canvas-paused')) {
             // Tab is not visible
             animationId = requestAnimationFrame(renderLoop);
             return;
@@ -8792,7 +8178,7 @@ function initJouleSimulation() {
     btnReset.disabled = true;
 
     function renderLoop() {
-        if (!canvas.offsetParent) {
+        if (!canvas.offsetParent || canvas.hasAttribute('data-canvas-paused')) {
             animationId = requestAnimationFrame(renderLoop);
             return;
         }
@@ -9244,8 +8630,18 @@ function initHerschelSimulation() {
         // ─────────────────────────────────────────────────────────────────
     }
 
+    function resizeHerschelCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) return;
+        if (canvas.width !== rect.width || canvas.height !== rect.height) {
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+    }
+    window.addEventListener('resize', resizeHerschelCanvas);
+
     function renderLoop() {
-        if (!canvas.offsetParent) {
+        if (!canvas.offsetParent || canvas.hasAttribute('data-canvas-paused')) {
             animationId = requestAnimationFrame(renderLoop);
             return;
         }
@@ -9257,13 +8653,6 @@ function initHerschelSimulation() {
         const pct = parseFloat(sliderPos.value);
         const Tamb = parseFloat(sliderTemp.value);
         const reg = getRegionInfo(pct);
-
-        // Resize if needed
-        const rect = canvas.getBoundingClientRect();
-        if (canvas.width !== rect.width || canvas.height !== rect.height) {
-            canvas.width = rect.width;
-            canvas.height = rect.height;
-        }
 
         // DRAW HERSCHEL APPARATUS
         const cx = canvas.width;
@@ -9602,6 +8991,7 @@ function initHerschelSimulation() {
     syncSliderAndNumberInput(sliderTemp, document.getElementById('herschel-temp-num'), updateSimulation);
 
     // Initial run
+    resizeHerschelCanvas();
     updateSimulation();
     renderLoop();
 }
@@ -9834,16 +9224,20 @@ function initMicrochannelSimulation() {
         mcChart.update('none');
     }
 
-    function renderLoop() {
-        if (!canvas.offsetParent) {
-            animationId = requestAnimationFrame(renderLoop);
-            return;
-        }
-
+    function resizeMicrochannelCanvas() {
         const rect = canvas.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) return;
         if (canvas.width !== rect.width || canvas.height !== rect.height) {
             canvas.width = rect.width;
             canvas.height = rect.height;
+        }
+    }
+    window.addEventListener('resize', resizeMicrochannelCanvas);
+
+    function renderLoop() {
+        if (!canvas.offsetParent || canvas.hasAttribute('data-canvas-paused')) {
+            animationId = requestAnimationFrame(renderLoop);
+            return;
         }
 
         const w = canvas.width;
@@ -9989,6 +9383,7 @@ function initMicrochannelSimulation() {
     syncSliderAndNumberInput(sWidth, document.getElementById('mc-width-num'), calculateThermals);
     syncSliderAndNumberInput(sFlow, document.getElementById('mc-flow-num'), calculateThermals);
 
+    resizeMicrochannelCanvas();
     calculateThermals();
     renderLoop();
 }
@@ -10202,16 +9597,20 @@ function initCpCvSimulation() {
         }
     });
 
-    function renderLoop() {
-        if (!canvas.offsetParent) {
-            animationId = requestAnimationFrame(renderLoop);
-            return;
-        }
-
+    function resizeCpCvCanvas() {
         const rect = canvas.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) return;
         if (canvas.width !== rect.width || canvas.height !== rect.height) {
             canvas.width = rect.width;
             canvas.height = rect.height;
+        }
+    }
+    window.addEventListener('resize', resizeCpCvCanvas);
+
+    function renderLoop() {
+        if (!canvas.offsetParent || canvas.hasAttribute('data-canvas-paused')) {
+            animationId = requestAnimationFrame(renderLoop);
+            return;
         }
 
         const w = canvas.width;
@@ -10366,6 +9765,7 @@ function initCpCvSimulation() {
     }
 
     // Start simulation loops
+    resizeCpCvCanvas();
     calculatePhysics();
     renderLoop();
 }
@@ -10929,11 +10329,21 @@ function initDoublePipeSimulation() {
         dpChart.update();
     }
 
+    function resizeDoublePipeCanvas() {
+        const w = canvas.clientWidth, h = canvas.clientHeight;
+        if (w === 0 || h === 0) return;
+        if (canvas.width !== w || canvas.height !== h) {
+            canvas.width = w;
+            canvas.height = h;
+        }
+    }
+    window.addEventListener('resize', resizeDoublePipeCanvas);
+
     function render() {
         if (canvas.offsetParent === null) return; // not visible
 
-        const w = canvas.width = canvas.clientWidth;
-        const h = canvas.height = canvas.clientHeight;
+        const w = canvas.width;
+        const h = canvas.height;
         ctx.clearRect(0, 0, w, h);
 
         const marginX = 90;
@@ -11176,9 +10586,19 @@ function initDoublePipeSimulation() {
 
     let animId;
     function animLoop() {
+        // Fail-safe (segunda capa, ver IntersectionObserver global): este
+        // laboratorio no está conectado a LabAnimationManager y no tenía
+        // ninguna protección de visibilidad — se salta el render pero se
+        // sigue reprogramando el frame para poder reanudar solo al volver
+        // a ser visible.
+        if (canvas.hasAttribute('data-canvas-paused')) {
+            animId = requestAnimationFrame(animLoop);
+            return;
+        }
         render();
         animId = requestAnimationFrame(animLoop);
     }
+    resizeDoublePipeCanvas();
     animLoop();
 }
 
@@ -11586,14 +11006,21 @@ function initVortexSimulation() {
 
     let activeAnimId;
     function loop() {
-        // Only run if tab is active
-        const tab = document.getElementById('vortex-sim');
-        if (tab && tab.classList.contains('active')) {
-            updateAndRender();
+        if (!window.LabAnimationManager.isLabVisible('vortex-sim')) {
+            cancelAnimationFrame(activeAnimId);
+            return;
         }
+        updateAndRender();
         activeAnimId = requestAnimationFrame(loop);
     }
-    loop();
+
+    window.LabAnimationManager.register('vortex-sim', function resumeVortex() {
+        cancelAnimationFrame(activeAnimId);
+        activeAnimId = requestAnimationFrame(loop);
+    }, function pauseVortex() {
+        cancelAnimationFrame(activeAnimId);
+        activeAnimId = null;
+    });
 
     // Clean up animation loop if switching tabs
     return () => {
@@ -12483,7 +11910,15 @@ function initBoilingSimulation() {
         }
         animId = requestAnimationFrame(loop);
     }
-    loop();
+
+    const boilingVisObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            animId = requestAnimationFrame(loop);
+        } else {
+            if (animId) cancelAnimationFrame(animId);
+        }
+    });
+    boilingVisObserver.observe(canvas);
 
     return () => {
         cancelAnimationFrame(animId);
@@ -13185,7 +12620,15 @@ function initTransientSimulation() {
         }
         transientAnimationId = requestAnimationFrame(loop);
     }
-    loop();
+
+    const transientVisObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            transientAnimationId = requestAnimationFrame(loop);
+        } else {
+            if (transientAnimationId) cancelAnimationFrame(transientAnimationId);
+        }
+    });
+    transientVisObserver.observe(canvas);
 
     return () => {
         cancelAnimationFrame(transientAnimationId);
@@ -13446,12 +12889,53 @@ function initMulticapaCustomSimulation() {
         if (!bc) return;
         if (lblVal) {
             lblVal.innerText = bc.R === null ? t('Fuente (sin R)') : formatEngineeringNumber(bc.R) + ' K/W';
+            // LOTE — Resaltado de la Resistencia Más Alta del Circuito: bc.R
+            // sólo es un candidato "elemental" (comparable con maxCircuitR)
+            // cuando esta frontera NO tiene desglose de dos ramas — con
+            // desglose (fin, o comb/comb-flux/irr_comb), bc.R es el valor
+            // COMBINADO (nunca es él mismo uno de los elementos de
+            // collectDisplayedCircuitResistances(), ver esa función) y el
+            // resaltado, si aplica, va en las filas del desglose más abajo,
+            // no aquí. Estilos aplicados directamente sobre el elemento (no
+            // vía innerHTML) porque cm-rbcl-val/cm-rbcr-val conservan
+            // .innerText como texto plano por diseño (ver comentario en
+            // index.html junto a cm-rbcl-breakdown) — deben limpiarse
+            // explícitamente en el `else` porque esta función corre en cada
+            // resolución y el máximo puede migrar de frontera con cada
+            // cambio de slider.
+            const isMaxSingle = !bc.fin && !(bc.hConv > 0 && bc.hRad > 0) &&
+                bc.R !== null && bc.R !== undefined && isFinite(bc.R) && bc.R === maxCircuitR;
+            if (isMaxSingle) {
+                lblVal.innerText = '🔥 ' + lblVal.innerText;
+                lblVal.style.background = 'rgba(239,68,68,0.16)';
+                lblVal.style.border = '1px solid #ef4444';
+                lblVal.style.borderRadius = '4px';
+                lblVal.style.padding = '0 4px';
+                lblVal.title = t('Resistencia más alta del circuito (cuello de botella térmico)');
+            } else {
+                lblVal.style.background = '';
+                lblVal.style.border = '';
+                lblVal.style.borderRadius = '';
+                lblVal.style.padding = '';
+                lblVal.title = '';
+            }
         }
 
         const sideEsWord = sideLetter === 'L' ? 'Izq.' : 'Der.';
         const sideEnWord = sideLetter === 'L' ? 'Left' : 'Right';
         let labelEs, labelEn;
         const breakdownRows = [];
+        // LOTE — Flujos de Calor por Rama en Paralelo: mismas dos ramas que
+        // breakdownRows (R en K/W) de arriba, pero con el flujo de calor real
+        // (W) que pasa por cada una — sólo se llena cuando esa frontera
+        // efectivamente tiene dos ramas resistivas activas en paralelo
+        // ('fin' -> unfin/fins, 'comb'/'comb-flux'/'irr_comb' -> conv/rad).
+        // Reutiliza bc.fin.qUnfinTotal/qFinsTotal (ya calculados por
+        // computeFinBoundaryInfo(), sin recalcular nada) y bc.qConv/bc.qRad
+        // (nuevos en boundaryResistanceInfo(), mismas fórmulas que
+        // getFluxLeft()/getFluxRight() ya usaban internamente, sólo
+        // expuestas por separado en vez de sumadas).
+        const qBreakdownRows = [];
 
         if (bc.fin) {
             labelEs = `Resistencia Equivalente Frontera Aletada ${sideEsWord} (R<sub>bc,${sideLetter}</sub>):`;
@@ -13462,11 +12946,23 @@ function initMulticapaCustomSimulation() {
             if (isFinite(bc.fin.Rfins) && bc.fin.Rfins > 0) {
                 breakdownRows.push({ label: `R<sub>fins,${sideSuffix}</sub>`, val: bc.fin.Rfins });
             }
+            if (isFinite(bc.fin.qUnfinTotal)) {
+                qBreakdownRows.push({ label: `q<sub>unfin,${sideSuffix}</sub>`, val: bc.fin.qUnfinTotal });
+            }
+            if (isFinite(bc.fin.qFinsTotal)) {
+                qBreakdownRows.push({ label: `q<sub>fins,${sideSuffix}</sub>`, val: bc.fin.qFinsTotal });
+            }
         } else if (bc.hConv > 0 && bc.hRad > 0) {
             labelEs = `Resistencia Equivalente Frontera ${sideEsWord} (R<sub>bc,${sideLetter}</sub>):`;
             labelEn = `${sideEnWord} Boundary Equivalent Resistance (R<sub>bc,${sideLetter}</sub>):`;
             breakdownRows.push({ label: `R<sub>conv,${sideSuffix}</sub>`, val: 1 / bc.hConv });
             breakdownRows.push({ label: `R<sub>rad,${sideSuffix}</sub>`, val: 1 / bc.hRad });
+            if (bc.qConv !== null && bc.qConv !== undefined && isFinite(bc.qConv)) {
+                qBreakdownRows.push({ label: `q<sub>conv,${sideSuffix}</sub>`, val: bc.qConv });
+            }
+            if (bc.qRad !== null && bc.qRad !== undefined && isFinite(bc.qRad)) {
+                qBreakdownRows.push({ label: `q<sub>rad,${sideSuffix}</sub>`, val: bc.qRad });
+            }
         } else if (bc.hConv > 0) {
             labelEs = `Resistencia Convectiva Frontera ${sideEsWord} (R<sub>conv,${sideSuffix}</sub>):`;
             labelEn = `${sideEnWord} Convective Boundary Resistance (R<sub>conv,${sideSuffix}</sub>):`;
@@ -13486,12 +12982,38 @@ function initMulticapaCustomSimulation() {
                 `<span class="lang-en" style="display:none;">${labelEn}</span>`;
         }
         if (breakdownEl) {
-            breakdownEl.innerHTML = breakdownRows.map(row =>
+            let html = breakdownRows.map(row =>
                 `<div style="display:flex; justify-content:space-between; gap:8px; color: var(--text-secondary);">` +
                     `<span>${row.label}:</span>` +
-                    `<span style="color: var(--accent-blue); font-weight:600;">${formatEngineeringNumber(row.val)} K/W</span>` +
+                    `<span>${highlightIfMaxR(row.val, `<span style="color: var(--accent-blue); font-weight:600;">${formatEngineeringNumber(row.val)} K/W</span>`)}</span>` +
                 `</div>`
             ).join('');
+            // LOTE — Flujos de Calor por Rama en Paralelo: bloque separado
+            // (mismo breakdownEl, sin nuevo nodo HTML) con un pequeño
+            // encabezado bilingüe sólo cuando hay ramas en paralelo que
+            // reportar — no aparece para fronteras de una sola rama ('conv'
+            // puro, 'rad' puro, 'temp', 'flux').
+            if (qBreakdownRows.length > 0) {
+                // LOTE — misma convención de unidad que ya usa cm-q-val
+                // (lblQ) más abajo en solveSimulation(): "W/m²" sólo cuando
+                // geometría plana SIN ninguna frontera 'fin' activa en toda
+                // la pared (planarAreaBase sigue en 1.0, convención de área
+                // unitaria); "W" en cualquier otro caso (curva, o plana con
+                // fin activo en la OTRA frontera, donde A1/AN1 ya son áreas
+                // reales — ver comentario junto a boundaryResistanceInfo()).
+                const qUnitLabel = (geometry === 'planar' && planarAreaBase === 1.0) ? 'W/m²' : 'W';
+                html += `<div style="margin-top:4px; padding-top:4px; border-top:1px dashed rgba(255,255,255,0.08); color: var(--text-secondary); font-style:italic;">` +
+                    `<span class="lang-es">Flujo de calor por rama:</span>` +
+                    `<span class="lang-en" style="display:none;">Heat flow per branch:</span>` +
+                `</div>`;
+                html += qBreakdownRows.map(row =>
+                    `<div style="display:flex; justify-content:space-between; gap:8px; color: var(--text-secondary);">` +
+                        `<span>${row.label}:</span>` +
+                        `<span style="color: var(--accent-orange); font-weight:600;">${formatEngineeringNumber(row.val, 2)} ${qUnitLabel}</span>` +
+                    `</div>`
+                ).join('');
+            }
+            breakdownEl.innerHTML = html;
         }
     }
 
@@ -13532,6 +13054,18 @@ function initMulticapaCustomSimulation() {
                   // (LOTE — Registro Dinámico de Interfases/Resistencias): se persiste aquí (antes sólo vivía
                   // como `let` local dentro de solveSimulation) para que "Registrar Punto Actual" pueda leer el
                   // R_tot ya correcto (multigeometría + radiación + Dirichlet exacto) sin recalcularlo desde cero.
+    // LOTE — Resaltado de la Resistencia Más Alta del Circuito: máximo de
+    // collectCircuitResistanceValues() (capas + ramas de frontera, incluidas
+    // las ramas en paralelo — misma lista que ya usa el diagrama de circuito
+    // para su escala proporcional), recalculado al final de cada
+    // solveSimulation() ANTES de construir la tabla de interfases y de
+    // llamar a updateBoundaryResistanceLabel() — ambos lo consultan (por
+    // igualdad exacta de punto flotante: mismos valores, misma pasada de
+    // cálculo, sin transformación intermedia) para saber si el valor que
+    // están a punto de imprimir es el cuello de botella térmico del
+    // circuito actual. `null` cuando el circuito no tiene ninguna
+    // resistencia (todas las fronteras son 'temp'/'flux' puros, caso raro).
+    let maxCircuitR = null;
     let customChart;
 
     // ── LOTE — Consistencia de Profundidad (W) y Ancho/Alto de Placa (H) en
@@ -13572,6 +13106,14 @@ function initMulticapaCustomSimulation() {
     //                                  pero con una sola rama resistiva).
     //   • 'irr_rad'                 -> R = 1/h_rad (rama resistiva única, igual que
     //                                  'rad') MÁS la misma fuente α·G (isSource = true).
+    //   • 'irr_comb' (LOTE — Irradiación + Convección + Radiación) -> misma
+    //                                  R_eq que 'comb' (rama resistiva conv‖rad, AMBAS
+    //                                  ramas activas simultáneamente) MÁS la misma
+    //                                  fuente α·G que 'irr_conv'/'irr_rad' superpuesta
+    //                                  en el nodo de superficie (isSource = true) —
+    //                                  arquitectónicamente idéntico a 'comb-flux' pero
+    //                                  con una fuente de irradiación solar/ambiental en
+    //                                  vez de un flujo externo impuesto por el usuario.
     //
     // LOTE — Solver Multigeometría: recibe además `areaVal` (A1 o A_{N+1},
     // el área superficial real de esa frontera). En geometría plana A=1 m²
@@ -13580,21 +13122,41 @@ function initMulticapaCustomSimulation() {
     // W/H), caso en el que A=planarAreaBase=H·W (misma pared, misma área en
     // ambas caras) y R = 1/(hTotal·A) ya es la resistencia real; en geometría
     // curva R = 1/(hTotal·A) — resistencia física real en K/W, sin cambios.
-    function boundaryResistanceInfo(type, hVal, epsVal, tsurVal, TsVal, areaVal) {
+    // LOTE — Flujos de Calor por Rama en Paralelo: `tinfVal` es un parámetro
+    // NUEVO y opcional (llamadas preexistentes que no lo pasan siguen
+    // funcionando exactamente igual — qConv/qRad simplemente quedan en
+    // null). Convención de signo: POSITIVO = calor SALIENDO del sólido hacia
+    // el entorno por esa rama (q=h·A·(Ts-T∞) para convección, forma
+    // estándar de libro de texto) — misma convención, sin importar si la
+    // frontera es la izquierda o la derecha de la pared, y la MISMA que ya
+    // usa (sin tocarla) computeFinBoundaryInfo() para bc.fin.qUnfinTotal/
+    // qFinsTotal (thetaB=Ts-T∞, positivo=saliendo) — así ambas familias de
+    // desglose (conv∥rad y unfin∥fins) se leen con el mismo criterio de
+    // signo. qConv/qRad son EXACTAMENTE los dos sumandos en los que
+    // getFluxLeft()/getFluxRight() ya descomponen su cálculo para
+    // 'conv'+'rad' (mismas fórmulas hConv·Δ/hRad·Δ que esas funciones ya
+    // usaban, sólo reexpuestas por separado en vez de sumadas) — por
+    // construcción, cuando ambas ramas están activas, |qConv|+|qRad| con
+    // signos coherentes reconstruye el flujo resistivo real de esa
+    // frontera (sin incluir fuentes superpuestas como 'comb-flux'/irr, que
+    // son un término adicional aparte, no parte de las ramas conv/rad).
+    function boundaryResistanceInfo(type, hVal, epsVal, tsurVal, TsVal, areaVal, tinfVal) {
         const A = (areaVal === undefined || areaVal === null || !isFinite(areaVal) || areaVal <= 0) ? 1.0 : areaVal;
-        if (type === 'temp') return { R: 0, hConv: 0, hRad: 0, isSource: false };
+        if (type === 'temp') return { R: 0, hConv: 0, hRad: 0, isSource: false, qConv: null, qRad: null };
         let hConv = 0, hRad = 0;
-        if (type === 'conv' || type === 'comb' || type === 'comb-flux' || type === 'irr_conv') {
+        if (type === 'conv' || type === 'comb' || type === 'comb-flux' || type === 'irr_conv' || type === 'irr_comb') {
             hConv = hVal;
         }
-        if (type === 'rad' || type === 'comb' || type === 'comb-flux' || type === 'irr_rad') {
+        if (type === 'rad' || type === 'comb' || type === 'comb-flux' || type === 'irr_rad' || type === 'irr_comb') {
             const TsK = TsVal + 273.15;
             const TsurK = tsurVal + 273.15;
             hRad = epsVal * sigma * (TsK + TsurK) * (TsK * TsK + TsurK * TsurK);
         }
-        if (type === 'flux') return { R: null, hConv: 0, hRad: 0, isSource: true };
+        if (type === 'flux') return { R: null, hConv: 0, hRad: 0, isSource: true, qConv: null, qRad: null };
         const hTotal = hConv + hRad;
-        return { R: hTotal > 0 ? 1 / (hTotal * A) : null, hConv, hRad, isSource: (type === 'comb-flux' || type === 'irr_conv' || type === 'irr_rad') };
+        const qConv = (hConv > 0 && tinfVal !== undefined && tinfVal !== null) ? hConv * (TsVal - tinfVal) * A : null;
+        const qRad = hRad > 0 ? hRad * (TsVal - tsurVal) * A : null;
+        return { R: hTotal > 0 ? 1 / (hTotal * A) : null, hConv, hRad, isSource: (type === 'comb-flux' || type === 'irr_conv' || type === 'irr_comb' || type === 'irr_rad'), qConv, qRad };
     }
 
     // ── LOTE — Superficie Aletada (Convección + Aletas Rectangulares) ──────
@@ -13837,6 +13399,56 @@ function initMulticapaCustomSimulation() {
             }
         });
         return vals;
+    }
+
+    // LOTE — Resaltado de la Resistencia Más Alta del Circuito:
+    // collectCircuitResistanceValues() (arriba) existe para la escala visual
+    // del diagrama y usa 1/hConv, 1/hRad SIN el factor de área A — que
+    // coincide con bc.R sólo cuando A=1 (convención de área unitaria, el
+    // caso más común en geometría plana sin aletas). Para resaltar
+    // correctamente el valor que el usuario ve IMPRESO en el panel de
+    // resultados (que en geometría curva o con aletas en la OTRA frontera sí
+    // lleva el factor de área real, ver boundaryResistanceInfo()), esta
+    // función espeja EXACTAMENTE la misma lógica de bifurcación que ya usa
+    // updateBoundaryResistanceLabel() para decidir qué imprime cada
+    // frontera: dos ramas (fin -> Runfin/Rfins; comb/comb-flux/irr_comb ->
+    // 1/hConv, 1/hRad, igual que el diagrama) o una sola cifra combinada
+    // (bc.R, CON área) para 'conv'/'rad' puros o cualquier otro caso con una
+    // sola resistencia. Así el máximo calculado aquí es exactamente
+    // comparable (misma unidad, mismo valor exacto) con lo que
+    // updateBoundaryResistanceLabel()/la tabla de interfases van a imprimir.
+    function collectDisplayedCircuitResistances() {
+        const vals = [];
+        const radii = computeRadii();
+        for (let i = 0; i < layers.length; i++) {
+            const r = layerRcondAt(i, radii);
+            if (isFinite(r) && r > 0) vals.push(r);
+        }
+        [bcResL, bcResR].forEach(bc => {
+            if (!bc) return;
+            if (bc.fin) {
+                if (isFinite(bc.fin.Runfin) && bc.fin.Runfin > 0) vals.push(bc.fin.Runfin);
+                if (isFinite(bc.fin.Rfins) && bc.fin.Rfins > 0) vals.push(bc.fin.Rfins);
+            } else if (bc.hConv > 0 && bc.hRad > 0) {
+                vals.push(1 / bc.hConv);
+                vals.push(1 / bc.hRad);
+            } else if (bc.R !== null && bc.R !== undefined && isFinite(bc.R) && bc.R > 0) {
+                vals.push(bc.R);
+            }
+        });
+        return vals;
+    }
+
+    // Envuelve `innerHtml` con el resaltado visual de "resistencia más alta
+    // del circuito" cuando `val` coincide (igualdad exacta de punto
+    // flotante — mismo valor, misma pasada de cálculo, ver maxCircuitR más
+    // arriba) con el máximo actual. Devuelve `innerHtml` sin cambios en
+    // cualquier otro caso (incluido maxCircuitR === null).
+    function highlightIfMaxR(val, innerHtml) {
+        if (maxCircuitR === null || val === null || val === undefined || !isFinite(val) || val !== maxCircuitR) {
+            return innerHtml;
+        }
+        return `<span style="background: rgba(239,68,68,0.16); border:1px solid #ef4444; border-radius:4px; padding:0 4px; white-space:nowrap;" title="${t('Resistencia más alta del circuito (cuello de botella térmico)')}">🔥 ${innerHtml}</span>`;
     }
 
     // computeResistorVisualScale(rValue, allValues, opts): normaliza
@@ -14273,10 +13885,10 @@ function initMulticapaCustomSimulation() {
         if (!selectBcLType || !selectBcRType) return;
         const typeL = selectBcLType.value;
         const elLTemp = document.getElementById('cm-l-temp-group'); if (elLTemp) elLTemp.style.display = typeL === 'temp' ? 'block' : 'none';
-        const elLConv = document.getElementById('cm-l-conv-group'); if (elLConv) elLConv.style.display = (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv') ? 'block' : 'none';
-        const elLRad = document.getElementById('cm-l-rad-group'); if (elLRad) elLRad.style.display = (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad') ? 'block' : 'none';
+        const elLConv = document.getElementById('cm-l-conv-group'); if (elLConv) elLConv.style.display = (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv' || typeL === 'irr_comb') ? 'block' : 'none';
+        const elLRad = document.getElementById('cm-l-rad-group'); if (elLRad) elLRad.style.display = (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad' || typeL === 'irr_comb') ? 'block' : 'none';
         const elLFlux = document.getElementById('cm-l-flux-group'); if (elLFlux) elLFlux.style.display = (typeL === 'flux' || typeL === 'comb-flux') ? 'block' : 'none';
-        const elLIrr = document.getElementById('cm-l-irr-group'); if (elLIrr) elLIrr.style.display = (typeL === 'irr_conv' || typeL === 'irr_rad') ? 'block' : 'none';
+        const elLIrr = document.getElementById('cm-l-irr-group'); if (elLIrr) elLIrr.style.display = (typeL === 'irr_conv' || typeL === 'irr_comb' || typeL === 'irr_rad') ? 'block' : 'none';
         // LOTE — Superficie Aletada: grupo completo visible sólo con
         // typeL==='fin'; dentro de él, el sub-grupo T_L sólo se muestra si
         // la punta seleccionada es "Temperatura Prescrita".
@@ -14286,10 +13898,10 @@ function initMulticapaCustomSimulation() {
 
         const typeR = selectBcRType.value;
         const elRTemp = document.getElementById('cm-r-temp-group'); if (elRTemp) elRTemp.style.display = typeR === 'temp' ? 'block' : 'none';
-        const elRConv = document.getElementById('cm-r-conv-group'); if (elRConv) elRConv.style.display = (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv') ? 'block' : 'none';
-        const elRRad = document.getElementById('cm-r-rad-group'); if (elRRad) elRRad.style.display = (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad') ? 'block' : 'none';
+        const elRConv = document.getElementById('cm-r-conv-group'); if (elRConv) elRConv.style.display = (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv' || typeR === 'irr_comb') ? 'block' : 'none';
+        const elRRad = document.getElementById('cm-r-rad-group'); if (elRRad) elRRad.style.display = (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad' || typeR === 'irr_comb') ? 'block' : 'none';
         const elRFlux = document.getElementById('cm-r-flux-group'); if (elRFlux) elRFlux.style.display = (typeR === 'flux' || typeR === 'comb-flux') ? 'block' : 'none';
-        const elRIrr = document.getElementById('cm-r-irr-group'); if (elRIrr) elRIrr.style.display = (typeR === 'irr_conv' || typeR === 'irr_rad') ? 'block' : 'none';
+        const elRIrr = document.getElementById('cm-r-irr-group'); if (elRIrr) elRIrr.style.display = (typeR === 'irr_conv' || typeR === 'irr_comb' || typeR === 'irr_rad') ? 'block' : 'none';
         // LOTE — Superficie Aletada: espejo derecho (ver comentario análogo arriba).
         const elRFin = document.getElementById('cm-r-fin-group'); if (elRFin) elRFin.style.display = (typeR === 'fin') ? 'block' : 'none';
         const elRFinTL = document.getElementById('cm-r-fin-tl-group');
@@ -14630,12 +14242,12 @@ function initMulticapaCustomSimulation() {
                 return ((inputLTemp ? parseFloat(inputLTemp.value) : 100) - T0) / 1e-4; // large virtual h
             }
             let qpp = 0.0; // densidad de flujo q'' (W/m²) entrando a la pared en r=r1
-            if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv') {
+            if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv' || typeL === 'irr_comb') {
                 const hL = inputLH ? parseFloat(inputLH.value) : 20;
                 const tinfL = inputLTinf ? parseFloat(inputLTinf.value) : 150;
                 qpp += hL * (tinfL - T0);
             }
-            if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad') {
+            if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad' || typeL === 'irr_comb') {
                 const epsL = inputLEps ? parseFloat(inputLEps.value) : 0.85;
                 const tsurL = inputLTsur ? parseFloat(inputLTsur.value) : 150;
                 qpp += sigma * epsL * (Math.pow(tsurL + 273.15, 4) - Math.pow(T0 + 273.15, 4));
@@ -14643,7 +14255,7 @@ function initMulticapaCustomSimulation() {
             if (typeL === 'flux' || typeL === 'comb-flux') {
                 qpp += inputLFlux ? parseFloat(inputLFlux.value) : 500;
             }
-            if (typeL === 'irr_conv' || typeL === 'irr_rad') {
+            if (typeL === 'irr_conv' || typeL === 'irr_comb' || typeL === 'irr_rad') {
                 // Irradiación neta absorbida (α·G): fuente de flujo constante
                 // (no depende de T0) inyectada en el nodo de superficie —
                 // ver getDFluxLeftDT: su derivada respecto a T0 es nula.
@@ -14669,12 +14281,12 @@ function initMulticapaCustomSimulation() {
                 return (TN - (inputRTemp ? parseFloat(inputRTemp.value) : 20)) / 1e-4;
             }
             let qpp = 0.0; // densidad de flujo q'' (W/m²) saliendo de la pared en r=r_{N+1}
-            if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv') {
+            if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv' || typeR === 'irr_comb') {
                 const hR = inputRH ? parseFloat(inputRH.value) : 20;
                 const tinfR = inputRTinf ? parseFloat(inputRTinf.value) : 10;
                 qpp += hR * (TN - tinfR);
             }
-            if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad') {
+            if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad' || typeR === 'irr_comb') {
                 const epsR = inputREps ? parseFloat(inputREps.value) : 0.85;
                 const tsurR = inputRTsur ? parseFloat(inputRTsur.value) : 10;
                 qpp += sigma * epsR * (Math.pow(TN + 273.15, 4) - Math.pow(tsurR + 273.15, 4));
@@ -14682,7 +14294,7 @@ function initMulticapaCustomSimulation() {
             if (typeR === 'flux' || typeR === 'comb-flux') {
                 qpp += inputRFlux ? parseFloat(inputRFlux.value) : 500;
             }
-            if (typeR === 'irr_conv' || typeR === 'irr_rad') {
+            if (typeR === 'irr_conv' || typeR === 'irr_comb' || typeR === 'irr_rad') {
                 // Irradiación absorbida (α·G) saliendo de la frontera derecha:
                 // en getFluxRight, q representa flujo SALIENDO de la pared, así
                 // que una fuente de irradiación entrante (hacia la pared) resta
@@ -14708,11 +14320,11 @@ function initMulticapaCustomSimulation() {
         function getDFluxLeftDT(T0) {
             if (typeL === 'temp') return -1e4;
             let dqpp = 0.0;
-            if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv') {
+            if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv' || typeL === 'irr_comb') {
                 const hL = inputLH ? parseFloat(inputLH.value) : 20;
                 dqpp += -hL;
             }
-            if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad') {
+            if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad' || typeL === 'irr_comb') {
                 const epsL = inputLEps ? parseFloat(inputLEps.value) : 0.85;
                 dqpp += -4 * sigma * epsL * Math.pow(T0 + 273.15, 3);
             }
@@ -14731,11 +14343,11 @@ function initMulticapaCustomSimulation() {
         function getDFluxRightDT(TN) {
             if (typeR === 'temp') return 1e4;
             let dqpp = 0.0;
-            if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv') {
+            if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv' || typeR === 'irr_comb') {
                 const hR = inputRH ? parseFloat(inputRH.value) : 20;
                 dqpp += hR;
             }
-            if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad') {
+            if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad' || typeR === 'irr_comb') {
                 const epsR = inputREps ? parseFloat(inputREps.value) : 0.85;
                 dqpp += 4 * sigma * epsR * Math.pow(TN + 273.15, 3);
             }
@@ -14872,7 +14484,8 @@ function initMulticapaCustomSimulation() {
                 inputLEps ? parseFloat(inputLEps.value) : 0.85,
                 inputLTsur ? parseFloat(inputLTsur.value) : 150,
                 T[0],
-                A1
+                A1,
+                inputLTinf ? parseFloat(inputLTinf.value) : 150
             );
         bcResR = (typeR === 'fin')
             ? computeFinBoundaryInfo(finParamsR, T[N])
@@ -14882,12 +14495,23 @@ function initMulticapaCustomSimulation() {
                 inputREps ? parseFloat(inputREps.value) : 0.85,
                 inputRTsur ? parseFloat(inputRTsur.value) : 10,
                 T[N],
-                AN1
+                AN1,
+                inputRTinf ? parseFloat(inputRTinf.value) : 10
             );
 
         // Calculate total resistance including boundary resistances (0 para
         // 'temp' -exacto-, null/sin sumar para 'flux' -fuente pura-)
         Rtot = Rcond + (bcResL.R || 0) + (bcResR.R || 0);
+
+        // LOTE — Resaltado de la Resistencia Más Alta del Circuito: se
+        // recalcula aquí (bcResL/bcResR ya están actualizados arriba) para
+        // que tanto updateBoundaryResistanceLabel() como la tabla de
+        // interfases de más abajo puedan resaltar el valor máximo real de
+        // esta resolución.
+        {
+            const _allR = collectDisplayedCircuitResistances();
+            maxCircuitR = _allR.length > 0 ? Math.max(..._allR) : null;
+        }
 
         // Update UI metrics
         if (lblRcond) lblRcond.innerText = formatEngineeringNumber(Rcond) + ' K/W';
@@ -14941,9 +14565,14 @@ function initMulticapaCustomSimulation() {
             // no tiene capa "entrante" que mostrar aquí — esa resistencia ya
             // se reporta por separado en Rbc,L / el desglose de la
             // frontera, arriba.
-            const rCellHtml = idx > 0
-                ? `${rPrefixTable}${subLabel(idx)} = ${formatEngineeringNumber(layerRcondAt(idx - 1, radii))} K/W`
-                : '—';
+            let rCellHtml = '—';
+            if (idx > 0) {
+                const rLayerVal = layerRcondAt(idx - 1, radii);
+                const rLayerText = `${rPrefixTable}${subLabel(idx)} = ${formatEngineeringNumber(rLayerVal)} K/W`;
+                // LOTE — Resaltado de la Resistencia Más Alta del Circuito:
+                // mismo criterio de igualdad exacta que collectDisplayedCircuitResistances().
+                rCellHtml = highlightIfMaxR(rLayerVal, rLayerText);
+            }
             tableHtml += `
                 <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
                     <td style="padding: 6px;">T${subLabel(idx)}</td>
@@ -15104,8 +14733,8 @@ function initMulticapaCustomSimulation() {
             // solver acoplado (getFluxLeft/Right suman h_conv Y h_rad simultáneamente),
             // así que el perfil de capa límite dibujado aquí refleja automáticamente la
             // temperatura de superficie real resultante de ambos mecanismos combinados.
-            const hasConvL = (typeL === 'conv' || typeL === 'irr_conv' || typeL === 'comb' || typeL === 'comb-flux');
-            const hasConvR = (typeR === 'conv' || typeR === 'irr_conv' || typeR === 'comb' || typeR === 'comb-flux');
+            const hasConvL = (typeL === 'conv' || typeL === 'irr_conv' || typeL === 'irr_comb' || typeL === 'comb' || typeL === 'comb-flux');
+            const hasConvR = (typeR === 'conv' || typeR === 'irr_conv' || typeR === 'irr_comb' || typeR === 'comb' || typeR === 'comb-flux');
 
             let xMin = domainStart;
             if (customChart.data.datasets[1]) {
@@ -15797,7 +15426,7 @@ function initMulticapaCustomSimulation() {
             const bandDir = isInterior ? -1 : 1;
             const wallR   = isInterior ? rPx[0] : rPx[N];
 
-            const hasConvBL = (type === 'conv' || type === 'irr_conv' || type === 'comb' || type === 'comb-flux');
+            const hasConvBL = (type === 'conv' || type === 'irr_conv' || type === 'irr_comb' || type === 'comb' || type === 'comb-flux');
 
             // Capa límite convectiva: anillo gradiente dentro/fuera del arco
             if (hasConvBL) {
@@ -15881,7 +15510,7 @@ function initMulticapaCustomSimulation() {
             // Flechas de radiación: tres ángulos dentro del sector
             const animAngles = [angStart * 0.75, bisect, angEnd * 0.75];
 
-            if (type === 'rad' || type === 'comb' || type === 'comb-flux' || type === 'irr_rad') {
+            if (type === 'rad' || type === 'comb' || type === 'comb-flux' || type === 'irr_rad' || type === 'irr_comb') {
                 const tsurV = parseFloat(tsurInput.value);
                 const isIncoming = tsurV > TsVal;
                 ctx.strokeStyle = isIncoming ? clrRad : clrSur;
@@ -15938,7 +15567,7 @@ function initMulticapaCustomSimulation() {
                 }
             }
 
-            if (type === 'irr_conv' || type === 'irr_rad') {
+            if (type === 'irr_conv' || type === 'irr_comb' || type === 'irr_rad') {
                 ctx.strokeStyle = clrSolar; ctx.fillStyle = clrSolar;
                 ctx.lineWidth = 2; ctx.globalAlpha = 0.85;
                 animAngles.forEach(ang => {
@@ -16552,8 +16181,8 @@ function initMulticapaCustomSimulation() {
             ctx.fillText(text, cx, y);
         }
 
-        const hasConvBL_L = (typeL === 'conv' || typeL === 'irr_conv' || typeL === 'comb' || typeL === 'comb-flux');
-        const hasConvBL_R = (typeR === 'conv' || typeR === 'irr_conv' || typeR === 'comb' || typeR === 'comb-flux');
+        const hasConvBL_L = (typeL === 'conv' || typeL === 'irr_conv' || typeL === 'irr_comb' || typeL === 'comb' || typeL === 'comb-flux');
+        const hasConvBL_R = (typeR === 'conv' || typeR === 'irr_conv' || typeR === 'irr_comb' || typeR === 'comb' || typeR === 'comb-flux');
 
         if (hasConvBL_L) {
             const zoneL0Full = blMargin;
@@ -16668,7 +16297,7 @@ function initMulticapaCustomSimulation() {
             ctx.fillStyle = gradL;
             ctx.fillRect(startX - 20, centerY - heightPlate / 2, 20, heightPlate);
         }
-        if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv') {
+        if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv' || typeL === 'irr_comb') {
             ctx.strokeStyle = parseFloat(inputLTinf.value) > T[0] ? clrHot : clrCool;
             ctx.lineWidth = 2.5;
             ctx.globalAlpha = 0.5;
@@ -16683,7 +16312,7 @@ function initMulticapaCustomSimulation() {
             }
             ctx.globalAlpha = 1.0;
         }
-        if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad') {
+        if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad' || typeL === 'irr_comb') {
             const isLIncoming = parseFloat(inputLTsur.value) > T[0];
             ctx.strokeStyle = isLIncoming ? clrRad : clrSur;
             ctx.lineWidth = 1.8;
@@ -16741,7 +16370,7 @@ function initMulticapaCustomSimulation() {
                 }
             }
         }
-        if (typeL === 'irr_conv' || typeL === 'irr_rad') {
+        if (typeL === 'irr_conv' || typeL === 'irr_comb' || typeL === 'irr_rad') {
             // LOTE — Irradiación Externa: rayos de irradiación incidente (G, α)
             // en una franja más externa que la de convección/radiación
             // reutilizadas arriba (esas franjas ya representan el mecanismo
@@ -16789,7 +16418,7 @@ function initMulticapaCustomSimulation() {
             ctx.fillStyle = gradR;
             ctx.fillRect(endX, centerY - heightPlate / 2, 20, heightPlate);
         }
-        if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv') {
+        if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv' || typeR === 'irr_comb') {
             ctx.strokeStyle = T[N] > parseFloat(inputRTinf.value) ? clrHot : clrCool;
             ctx.lineWidth = 2.5;
             ctx.globalAlpha = 0.5;
@@ -16804,7 +16433,7 @@ function initMulticapaCustomSimulation() {
             }
             ctx.globalAlpha = 1.0;
         }
-        if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad') {
+        if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad' || typeR === 'irr_comb') {
             const isRIncoming = parseFloat(inputRTsur.value) > T[N];
             ctx.strokeStyle = isRIncoming ? clrRad : clrSur;
             ctx.lineWidth = 1.8;
@@ -16862,7 +16491,7 @@ function initMulticapaCustomSimulation() {
                 }
             }
         }
-        if (typeR === 'irr_conv' || typeR === 'irr_rad') {
+        if (typeR === 'irr_conv' || typeR === 'irr_comb' || typeR === 'irr_rad') {
             // LOTE — Irradiación Externa (ver comentario análogo en el bloque
             // izquierdo, arriba): rayos incidentes espejados hacia la pared
             // derecha, en la franja externa a convección/radiación.
@@ -17100,13 +16729,16 @@ function initMulticapaCustomSimulation() {
         // Left Side (Planar: "Frontera Izq." / Curved: ver bloque else)
         if (!isCurved) {
         // LOTE — "Frontera Izq." vive por ENCIMA de la pared (diseño
-        // preexistente). El offset vertical (antes -26) se amplió para que,
-        // incluso en el caso de 3 líneas ('comb-flux'), el bloque de texto
-        // completo quede por encima del borde superior de la pared (y por
-        // tanto también por encima de la primera fila de rayos de
-        // radiación, que arranca un poco más abajo) y no se solape con ellos.
+        // preexistente). El offset vertical (antes -26, luego -52 para el
+        // caso de 3 líneas de 'comb-flux') se amplió de nuevo a -69 (LOTE —
+        // Irradiación + Convección + Radiación) para el nuevo caso de 4
+        // líneas de 'irr_comb' (T∞, T_sur, G, α — una línea más que
+        // 'comb-flux'), de forma que el bloque de texto completo quede por
+        // encima del borde superior de la pared (y por tanto también por
+        // encima de la primera fila de rayos de radiación, que arranca un
+        // poco más abajo) y no se solape con ellos.
         ctx.textAlign = 'left';
-        let yOffsetL = Math.max(16, centerY - heightPlate / 2 - 52);
+        let yOffsetL = Math.max(16, centerY - heightPlate / 2 - 69);
         ctx.font = 'bold 15px Inter, sans-serif';
         ctx.fillStyle = clrTitle;
         ctx.fillText("Frontera Izq.", 10, yOffsetL);
@@ -17116,12 +16748,12 @@ function initMulticapaCustomSimulation() {
             ctx.fillStyle = clrCool;
             drawSubscriptText("T", "L", formatNumCompact(parseFloat(inputLTemp.value), 0), "°C", 10, yOffsetL, 'left');
         }
-        if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv') {
+        if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv' || typeL === 'irr_comb') {
             ctx.fillStyle = clrHot;
             drawSubscriptText("T", "∞,L", formatNumCompact(parseFloat(inputLTinf.value), 0), "°C", 10, yOffsetL, 'left');
             yOffsetL += 17;
         }
-        if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad') {
+        if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad' || typeL === 'irr_comb') {
             ctx.fillStyle = clrSur;
             drawSubscriptText("T", "sur,L", formatNumCompact(parseFloat(inputLTsur.value), 0), "°C", 10, yOffsetL, 'left');
             yOffsetL += 17;
@@ -17130,7 +16762,7 @@ function initMulticapaCustomSimulation() {
             ctx.fillStyle = clrRad;
             drawSubscriptText("q\"", "L", formatNumCompact(parseFloat(inputLFlux.value), 0), "W/m²", 10, yOffsetL, 'left');
         }
-        if (typeL === 'irr_conv' || typeL === 'irr_rad') {
+        if (typeL === 'irr_conv' || typeL === 'irr_comb' || typeL === 'irr_rad') {
             // LOTE — Irradiación Externa: etiqueta G/α, mismo mecanismo
             // drawSubscriptText() que el resto de fronteras (ver arriba).
             ctx.fillStyle = clrSolar;
@@ -17148,11 +16780,13 @@ function initMulticapaCustomSimulation() {
         // (rayos de radiación, flechas de flujo, líneas onduladas de
         // convección), que ocupan casi toda la altura de la pared.
         ctx.textAlign = 'right';
-        // El clamp usa h-60 (en vez de un margen fijo más chico) porque en el
-        // peor caso ('comb-flux', 3 líneas) el bloque completo mide ~50px de
-        // alto por debajo de este punto de anclaje — h-60 deja ese espacio
-        // libre incluso en canvases bajos (ej. contenedores muy compactos).
-        let yOffsetR = Math.min(h - 60, centerY + heightPlate / 2 + 18);
+        // El clamp usa h-77 (en vez de un margen fijo más chico) porque en el
+        // peor caso ahora ('irr_comb', 4 líneas — LOTE — Irradiación +
+        // Convección + Radiación, antes 'comb-flux' con 3 y h-60) el bloque
+        // completo mide ~67px de alto por debajo de este punto de anclaje —
+        // h-77 deja ese espacio libre incluso en canvases bajos (ej.
+        // contenedores muy compactos).
+        let yOffsetR = Math.min(h - 77, centerY + heightPlate / 2 + 18);
         ctx.font = 'bold 15px Inter, sans-serif';
         ctx.fillStyle = clrTitle;
         ctx.fillText("Frontera Der.", w - 10, yOffsetR);
@@ -17162,12 +16796,12 @@ function initMulticapaCustomSimulation() {
             ctx.fillStyle = clrCool;
             drawSubscriptText("T", "R", formatNumCompact(parseFloat(inputRTemp.value), 0), "°C", w - 10, yOffsetR, 'right');
         }
-        if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv') {
+        if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv' || typeR === 'irr_comb') {
             ctx.fillStyle = clrHot;
             drawSubscriptText("T", "∞,R", formatNumCompact(parseFloat(inputRTinf.value), 0), "°C", w - 10, yOffsetR, 'right');
             yOffsetR += 17;
         }
-        if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad') {
+        if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad' || typeR === 'irr_comb') {
             ctx.fillStyle = clrSur;
             drawSubscriptText("T", "sur,R", formatNumCompact(parseFloat(inputRTsur.value), 0), "°C", w - 10, yOffsetR, 'right');
             yOffsetR += 17;
@@ -17176,7 +16810,7 @@ function initMulticapaCustomSimulation() {
             ctx.fillStyle = clrRad;
             drawSubscriptText("q\"", "R", formatNumCompact(parseFloat(inputRFlux.value), 0), "W/m²", w - 10, yOffsetR, 'right');
         }
-        if (typeR === 'irr_conv' || typeR === 'irr_rad') {
+        if (typeR === 'irr_conv' || typeR === 'irr_comb' || typeR === 'irr_rad') {
             ctx.fillStyle = clrSolar;
             drawSubscriptText("G", "R", formatNumCompact(parseFloat(inputRG.value), 0), "W/m²", w - 10, yOffsetR, 'right');
             yOffsetR += 17;
@@ -17207,7 +16841,7 @@ function initMulticapaCustomSimulation() {
             ctx.fillStyle = clrCool;
             drawSubscriptText("T", "s,in", formatNumCompact(parseFloat(inputLTemp.value), 0), "°C", 8, yIn, 'left');
         }
-        if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv') {
+        if (typeL === 'conv' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_conv' || typeL === 'irr_comb') {
             ctx.fillStyle = clrHot;
             drawSubscriptText("T", "∞,in", formatNumCompact(parseFloat(inputLTinf.value), 0), "°C", 8, yIn, 'left');
             yIn += 17;
@@ -17215,7 +16849,7 @@ function initMulticapaCustomSimulation() {
             drawSubscriptText("h", "in", formatNumCompact(parseFloat(inputLH ? inputLH.value : '20'), 1), "W/m²K", 8, yIn, 'left');
             yIn += 17;
         }
-        if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad') {
+        if (typeL === 'rad' || typeL === 'comb' || typeL === 'comb-flux' || typeL === 'irr_rad' || typeL === 'irr_comb') {
             ctx.fillStyle = clrSur;
             drawSubscriptText("T", "sur,in", formatNumCompact(parseFloat(inputLTsur.value), 0), "°C", 8, yIn, 'left');
             yIn += 17;
@@ -17225,7 +16859,7 @@ function initMulticapaCustomSimulation() {
             drawSubscriptText("q\"", "in", formatNumCompact(parseFloat(inputLFlux.value), 0), "W/m²", 8, yIn, 'left');
             yIn += 17;
         }
-        if (typeL === 'irr_conv' || typeL === 'irr_rad') {
+        if (typeL === 'irr_conv' || typeL === 'irr_comb' || typeL === 'irr_rad') {
             ctx.fillStyle = clrSolar;
             drawSubscriptText("G", "in", formatNumCompact(parseFloat(inputLG.value), 0), "W/m²", 8, yIn, 'left');
             yIn += 17;
@@ -17236,7 +16870,11 @@ function initMulticapaCustomSimulation() {
         const lblOut = lang === 'en' ? 'Outer Surf.' : 'Sup. Externa';
         const subNp1 = layers.length + 1;
         ctx.textAlign = 'right';
-        let yOut = Math.min(h - 80, h * 0.55); // esquina inferior-derecha, lejos del hueco
+        // LOTE — Irradiación + Convección + Radiación: 'irr_comb' en geometría
+        // curva dibuja hasta 5 líneas (T∞, h, T_sur, G, α — una más que el
+        // máximo previo de 4 de 'comb-flux'), así que el clamp bajó de h-80 a
+        // h-97 para dejarle espacio de sobra por debajo del ancla.
+        let yOut = Math.min(h - 97, h * 0.55); // esquina inferior-derecha, lejos del hueco
         ctx.font = 'bold 13px Inter, sans-serif';
         ctx.fillStyle = clrTitle;
         ctx.fillText(lblOut, w - 8, yOut);
@@ -17249,7 +16887,7 @@ function initMulticapaCustomSimulation() {
             ctx.fillStyle = clrCool;
             drawSubscriptText("T", "s,out", formatNumCompact(parseFloat(inputRTemp.value), 0), "°C", w - 8, yOut, 'right');
         }
-        if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv') {
+        if (typeR === 'conv' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_conv' || typeR === 'irr_comb') {
             ctx.fillStyle = clrHot;
             drawSubscriptText("T", "∞,out", formatNumCompact(parseFloat(inputRTinf.value), 0), "°C", w - 8, yOut, 'right');
             yOut += 17;
@@ -17257,7 +16895,7 @@ function initMulticapaCustomSimulation() {
             drawSubscriptText("h", "out", formatNumCompact(parseFloat(inputRH ? inputRH.value : '20'), 1), "W/m²K", w - 8, yOut, 'right');
             yOut += 17;
         }
-        if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad') {
+        if (typeR === 'rad' || typeR === 'comb' || typeR === 'comb-flux' || typeR === 'irr_rad' || typeR === 'irr_comb') {
             ctx.fillStyle = clrSur;
             drawSubscriptText("T", "sur,out", formatNumCompact(parseFloat(inputRTsur.value), 0), "°C", w - 8, yOut, 'right');
             yOut += 17;
@@ -17267,7 +16905,7 @@ function initMulticapaCustomSimulation() {
             drawSubscriptText("q\"", "out", formatNumCompact(parseFloat(inputRFlux.value), 0), "W/m²", w - 8, yOut, 'right');
             yOut += 17;
         }
-        if (typeR === 'irr_conv' || typeR === 'irr_rad') {
+        if (typeR === 'irr_conv' || typeR === 'irr_comb' || typeR === 'irr_rad') {
             ctx.fillStyle = clrSolar;
             drawSubscriptText("G", "out", formatNumCompact(parseFloat(inputRG.value), 0), "W/m²", w - 8, yOut, 'right');
             yOut += 17;
@@ -17868,7 +17506,7 @@ function initMulticapaCustomSimulation() {
         // ABAJO (+1) — sin colisión posible con su propio texto T∞=/T_sur=,
         // que vive en xOuter, no en xNode.
         function dirForBoundaryNode(type) {
-            return (type === 'irr_conv' || type === 'irr_rad' || type === 'comb-flux' || type === 'fin') ? -1 : 1;
+            return (type === 'irr_conv' || type === 'irr_comb' || type === 'irr_rad' || type === 'comb-flux' || type === 'fin') ? -1 : 1;
         }
 
         // `leadIn` (ver drawNodeTempLabelV) para el nodo de superficie
@@ -17885,7 +17523,11 @@ function initMulticapaCustomSimulation() {
         // wireY+34 — el badge de T0/T_N se montaba directamente sobre
         // "Rrad=…"/"T_sur=…".
         function leadInForBoundaryNode(type) {
-            return (type === 'fin' || type === 'comb-flux' || type === 'comb') ? 42 : 34;
+            // LOTE — Irradiación + Convección + Radiación (irr_comb): dibuja
+            // las mismas dos ramas en paralelo que 'comb'/'comb-flux' (R_conv
+            // arriba en wireY-28, R_rad abajo en wireY+34), así que necesita
+            // el mismo margen ampliado de 42 (ver comentario arriba).
+            return (type === 'fin' || type === 'comb-flux' || type === 'comb' || type === 'irr_comb') ? 42 : 34;
         }
 
         // ==================== FRONTERA (izquierda o derecha, espejadas) ====================
@@ -17968,6 +17610,51 @@ function initMulticapaCustomSimulation() {
                     drawFluxSource(xNode, ySrc, parseFloat(fluxInput.value), sourceColor);
                     label(`q''=${formatNumCompact(parseFloat(fluxInput.value), 0)} (${t('Fuente')})`, xNode, ySrc + 16, sourceColor, CIRCUIT_FONT.boundary);
                 }
+                return;
+            }
+
+            if (type === 'irr_comb') {
+                // LOTE — Irradiación + Convección + Radiación (irr_comb):
+                // MISMA topología resistiva que 'comb' (R_conv ∥ R_rad, dos
+                // nodos exteriores INDEPENDIENTES T∞/T_sur — ver bloque
+                // 'comb'/'comb-flux' justo arriba, del que este bloque es
+                // una copia estructural) MÁS una fuente de irradiación
+                // absorbida α·G tapeada al nodo de superficie — mismo patrón
+                // de fuente que usa 'comb-flux' (flujo externo impuesto) e
+                // 'irr_conv'/'irr_rad' (misma α·G, pero con una sola rama
+                // resistiva) — aquí con AMBAS ramas activas simultáneamente.
+                const yTop = wireY - 16, yBot = wireY + 16;
+                const branchLo = Math.min(xOuter, xNode), branchHi = Math.max(xOuter, xNode);
+                const rConvValIC = bcInfo.hConv > 0 ? 1 / bcInfo.hConv : 0;
+                const rRadValIC = bcInfo.hRad > 0 ? 1 / bcInfo.hRad : 0;
+                drawNode(xOuter, yTop, tempColor);
+                drawNode(xOuter, yBot, radColor);
+                drawZigzag(branchLo, branchHi, yTop, resColor, computeResistorVisualScale(rConvValIC, allCircuitRValues));
+                drawZigzag(branchLo, branchHi, yBot, radColor, computeResistorVisualScale(rRadValIC, allCircuitRValues));
+                drawWireV(xNode, yTop, wireY);
+                drawWireV(xNode, yBot, wireY);
+                drawNode(xNode, wireY, tempColor);
+
+                drawNodeTempLabelV(xOuter, yTop, `T∞=${formatNumCompact(parseFloat(tinfInput.value), 0)}°`, BOUNDARY_TEMP_BORDER, NODE_TEMP_FONT_PX, -1, 18, BOUNDARY_TEMP_BG, BOUNDARY_TEMP_BORDER);
+                drawNodeTempLabelV(xOuter, yBot, `T_sur=${formatNumCompact(parseFloat(tsurInput.value), 0)}°`, BOUNDARY_TEMP_BORDER, NODE_TEMP_FONT_PX, 1, 18, BOUNDARY_TEMP_BG, BOUNDARY_TEMP_BORDER);
+                if (!compact) {
+                    drawResistorBadgeSub('R', 'conv', formatEngineeringNumber(rConvValIC, 3), xMid, yTop - 12, resColor, bcZoneW * 0.98);
+                    drawResistorBadgeSub('R', 'rad', formatEngineeringNumber(rRadValIC, 3), xMid, yBot + 18, radColor, bcZoneW * 0.98);
+                }
+
+                // Fuente de irradiación absorbida α·G, tapeada al nodo de
+                // superficie, desplazada por debajo de ambas ramas R_conv/
+                // R_rad (mismo offset vertical que usa 'comb-flux' para su
+                // fuente de flujo, ver bloque de arriba).
+                const gInputSideIC = isLeft ? inputLG : inputRG;
+                const alphaInputSideIC = isLeft ? inputLAlpha : inputRAlpha;
+                const gValIC = gInputSideIC ? parseFloat(gInputSideIC.value) : 0;
+                const alphaValIC = alphaInputSideIC ? parseFloat(alphaInputSideIC.value) : 0;
+                const absorbedQIC = alphaValIC * gValIC;
+                const ySrcIC = wireY + 58;
+                drawWireV(xNode, wireY, ySrcIC - 8);
+                drawFluxSource(xNode, ySrcIC, absorbedQIC, sourceColor);
+                label(`αG=${formatNumCompact(absorbedQIC, 0)}`, xNode, ySrcIC + 16, sourceColor, CIRCUIT_FONT.boundary);
                 return;
             }
 
@@ -18222,6 +17909,47 @@ function initMulticapaCustomSimulation() {
     const customGraphCanvas = document.getElementById('customMultiGraphCanvas');
     let customParamChart = null;
 
+    // LOTE — Motor de Barrido Paramétrico (Eje X = variables de frontera):
+    // controles del rango de barrido (Mín./Máx./Paso) y botón de disparo.
+    // Ver index.html, panel #cm-panel-custom-graph, div#cm-sweep-controls.
+    const inputSweepXMin = document.getElementById('cm-graph-x-min');
+    const inputSweepXMax = document.getElementById('cm-graph-x-max');
+    const inputSweepXStep = document.getElementById('cm-graph-x-step');
+    const btnRunSweep = document.getElementById('cm-run-sweep-btn');
+
+    // LOTE — Motor de Barrido Paramétrico: mapa side/key -> input DOM real de
+    // cada variable de frontera (mismos elementos que ya usa solveSimulation()
+    // más abajo — inputLTemp..inputRAlpha, declarados arriba en este mismo
+    // closure). Permite sobrescribir temporalmente UN input a la vez durante
+    // el barrido, sin duplicar lógica de solver.
+    const BC_SWEEP_INPUT_MAP = {
+        L: { temp: inputLTemp, h: inputLH, tinf: inputLTinf, eps: inputLEps, tsur: inputLTsur, flux: inputLFlux, G: inputLG, alpha: inputLAlpha },
+        R: { temp: inputRTemp, h: inputRH, tinf: inputRTinf, eps: inputREps, tsur: inputRTsur, flux: inputRFlux, G: inputRG, alpha: inputRAlpha }
+    };
+
+    // LOTE — Motor de Barrido Paramétrico: rangos por defecto (mín/máx/paso)
+    // de cada variable de frontera ofrecida por #cm-graph-x (ver optgroups
+    // "Frontera Izquierda"/"Frontera Derecha" en index.html). Unidades ya
+    // incluidas en la etiqueta de cada <option> (no se repiten aquí).
+    const PARAM_X_META = {
+        bc_l_temp: { side: 'L', key: 'temp', min: 0, max: 500, step: 5 },
+        bc_l_h: { side: 'L', key: 'h', min: 5, max: 1000, step: 5 },
+        bc_l_tinf: { side: 'L', key: 'tinf', min: 0, max: 500, step: 5 },
+        bc_l_eps: { side: 'L', key: 'eps', min: 0.05, max: 1.0, step: 0.05 },
+        bc_l_tsur: { side: 'L', key: 'tsur', min: 0, max: 500, step: 5 },
+        bc_l_flux: { side: 'L', key: 'flux', min: 0, max: 5000, step: 50 },
+        bc_l_G: { side: 'L', key: 'G', min: 0, max: 1500, step: 20 },
+        bc_l_alpha: { side: 'L', key: 'alpha', min: 0.05, max: 1.0, step: 0.05 },
+        bc_r_temp: { side: 'R', key: 'temp', min: 0, max: 500, step: 5 },
+        bc_r_h: { side: 'R', key: 'h', min: 5, max: 1000, step: 5 },
+        bc_r_tinf: { side: 'R', key: 'tinf', min: 0, max: 500, step: 5 },
+        bc_r_eps: { side: 'R', key: 'eps', min: 0.05, max: 1.0, step: 0.05 },
+        bc_r_tsur: { side: 'R', key: 'tsur', min: 0, max: 500, step: 5 },
+        bc_r_flux: { side: 'R', key: 'flux', min: 0, max: 5000, step: 50 },
+        bc_r_G: { side: 'R', key: 'G', min: 0, max: 1500, step: 20 },
+        bc_r_alpha: { side: 'R', key: 'alpha', min: 0.05, max: 1.0, step: 0.05 }
+    };
+
     if (customGraphCanvas) {
         const pCtx = customGraphCanvas.getContext('2d');
         const bodyStyles = getComputedStyle(document.body);
@@ -18238,6 +17966,20 @@ function initMulticapaCustomSimulation() {
                     borderColor: '#60a5fa',
                     pointRadius: 6,
                     pointHoverRadius: 8
+                }, {
+                    // LOTE — Motor de Barrido Paramétrico (Eje X = variables de frontera):
+                    // 2do dataset, poblado por runParametricSweep() más abajo. Serie
+                    // conectada (showLine) para distinguirla visualmente de los puntos
+                    // manuales de "Registrar Punto Actual" (dataset[0], sin tocar).
+                    label: 'Barrido Paramétrico',
+                    data: [],
+                    backgroundColor: '#f97316',
+                    borderColor: '#fb923c',
+                    showLine: true,
+                    fill: false,
+                    tension: 0.15,
+                    pointRadius: 3,
+                    pointHoverRadius: 5
                 }]
             },
             options: {
@@ -18257,11 +17999,15 @@ function initMulticapaCustomSimulation() {
                     }
                 },
                 plugins: {
-                    legend: { display: false },
+                    // LOTE — Motor de Barrido Paramétrico: con 2 series visibles ahora
+                    // (puntos manuales + barrido) la leyenda ayuda a distinguirlas.
+                    legend: { display: true, labels: { color: textColor, boxWidth: 12, font: { size: 10 } } },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
-                                return `(${context.parsed.x.toFixed(3)}, ${context.parsed.y.toFixed(3)}) [Punto ${context.raw.id}]`;
+                                const raw = context.raw || {};
+                                const ptTag = (raw.id !== undefined) ? ` [Punto ${raw.id}]` : '';
+                                return `(${context.parsed.x.toFixed(3)}, ${context.parsed.y.toFixed(3)})${ptTag}`;
                             }
                         }
                     }
@@ -18318,6 +18064,132 @@ function initMulticapaCustomSimulation() {
         }));
 
         customParamChart.data.datasets[0].data = dataPoints;
+        customParamChart.update('none');
+    }
+
+    // ── LOTE — Motor de Barrido Paramétrico (Eje X = variables de frontera) ──
+    // Integra las 16 variables bc_l_*/bc_r_* al eje X de la Gráfica
+    // Paramétrica: dado un rango [X Mín, X Máx] y un Paso, sobrescribe
+    // temporalmente el input real de esa variable de frontera, invoca
+    // solveSimulation() (SIN tocar su física — se usa como caja negra, igual
+    // que ya hacen los sliders/inputs del laboratorio) y lee del closure el
+    // valor de salida elegido en el eje Y. Al terminar, restaura el input a
+    // su valor original y vuelve a resolver — el barrido no deja ningún
+    // estado temporal persistente en el laboratorio.
+
+    function getSweepInputEl(meta) {
+        return (meta && BC_SWEEP_INPUT_MAP[meta.side]) ? BC_SWEEP_INPUT_MAP[meta.side][meta.key] : null;
+    }
+
+    // Mismas claves que genera updateCustomGraphVarSelectors() para #cm-graph-y
+    // y que ya usa btnAddPoint al construir `pt` (q / R_tot / R_bc_L / R_bc_R /
+    // R_cond_i / T_i) — leídas aquí directamente del closure (T, Rtot, qFlux,
+    // bcResL, bcResR, layers, layerRcondAt, computeRadii), sin duplicar el
+    // solver.
+    function computeCurrentYValue(yKey) {
+        const N = layers.length;
+        if (yKey === 'q') return qFlux;
+        if (yKey === 'R_tot') return Rtot;
+        if (yKey === 'R_bc_L') return bcResL.R || 0;
+        if (yKey === 'R_bc_R') return bcResR.R || 0;
+        if (/^R_cond_\d+$/.test(yKey)) {
+            const idx = parseInt(yKey.slice('R_cond_'.length), 10) - 1;
+            return (idx >= 0 && idx < N) ? layerRcondAt(idx, computeRadii()) : undefined;
+        }
+        if (/^T_\d+$/.test(yKey)) {
+            const idx = parseInt(yKey.slice('T_'.length), 10);
+            return T[idx];
+        }
+        return undefined;
+    }
+
+    // Puebla X Mín/X Máx/Paso con los valores por defecto de PARAM_X_META
+    // cuando la variable seleccionada en el eje X es una variable de
+    // frontera; si no lo es (id, L_tot, k1, q, T_L, T_R — variables clásicas
+    // sin mapeo a un input de frontera), no toca los campos.
+    function populateSweepRangeDefaults() {
+        const meta = PARAM_X_META[selGraphX.value];
+        if (!meta || !inputSweepXMin || !inputSweepXMax || !inputSweepXStep) return;
+        inputSweepXMin.value = meta.min;
+        inputSweepXMax.value = meta.max;
+        inputSweepXStep.value = meta.step;
+    }
+
+    // El barrido automático sólo aplica a las 16 variables de frontera (única
+    // petición de este LOTE) — para las variables clásicas preexistentes
+    // (id/L_tot/k1/q/T_L/T_R) el flujo sigue siendo "Registrar Punto Actual"
+    // manual, sin cambios. Aquí se refleja deshabilitando el botón/campos.
+    function updateSweepControlsAvailability() {
+        const meta = PARAM_X_META[selGraphX.value];
+        const enabled = !!meta;
+        [inputSweepXMin, inputSweepXMax, inputSweepXStep].forEach(el => {
+            if (!el) return;
+            el.disabled = !enabled;
+            el.style.opacity = enabled ? '1' : '0.45';
+            el.style.cursor = enabled ? 'text' : 'not-allowed';
+        });
+        if (btnRunSweep) {
+            btnRunSweep.disabled = !enabled;
+            btnRunSweep.style.opacity = enabled ? '1' : '0.45';
+            btnRunSweep.style.cursor = enabled ? 'pointer' : 'not-allowed';
+        }
+        if (btnRunSweep) {
+            btnRunSweep.title = enabled
+                ? t('El barrido sólo se refleja en el resultado si el tipo de frontera activo usa esta variable.')
+                : t('Barrido automático disponible sólo para variables de frontera (Izq./Der.).');
+        }
+    }
+
+    function clearSweepDataset() {
+        if (customParamChart && customParamChart.data.datasets[1]) {
+            customParamChart.data.datasets[1].data = [];
+            customParamChart.update('none');
+        }
+    }
+
+    function runParametricSweep() {
+        const meta = PARAM_X_META[selGraphX.value];
+        if (!meta || !customParamChart) return; // botón deshabilitado en este caso
+        const inputEl = getSweepInputEl(meta);
+        if (!inputEl || !inputSweepXMin || !inputSweepXMax || !inputSweepXStep) return;
+
+        const xMinV = parseFloat(inputSweepXMin.value);
+        const xMaxV = parseFloat(inputSweepXMax.value);
+        const xStepV = parseFloat(inputSweepXStep.value);
+        if (!isFinite(xMinV) || !isFinite(xMaxV) || !isFinite(xStepV) || xStepV <= 0 || xMaxV <= xMinV) {
+            alert(getLang() === 'en'
+                ? 'Invalid sweep range: check X Min, X Max and Step.'
+                : 'Rango de barrido inválido: revisa X Mín, X Máx y Paso.');
+            return;
+        }
+
+        // Resguardo ante un Paso demasiado pequeño frente al rango (evita
+        // congelar la pestaña con decenas de miles de resoluciones).
+        const MAX_SWEEP_POINTS = 500;
+        let nPoints = Math.floor((xMaxV - xMinV) / xStepV + 1e-9) + 1;
+        if (nPoints > MAX_SWEEP_POINTS) nPoints = MAX_SWEEP_POINTS;
+
+        const yKey = selGraphY.value;
+        const originalValue = inputEl.value; // clonado: se restaura al terminar el barrido
+        const sweepData = [];
+
+        for (let i = 0; i < nPoints; i++) {
+            const xi = xMinV + i * xStepV;
+            inputEl.value = xi;
+            solveSimulation(); // caja negra: sin tocar su física
+            const yi = computeCurrentYValue(yKey);
+            if (yi !== undefined && isFinite(yi)) sweepData.push({ x: xi, y: yi });
+        }
+
+        // Deja el laboratorio exactamente como estaba antes del barrido.
+        inputEl.value = originalValue;
+        solveSimulation();
+
+        customParamChart.data.datasets[1].data = sweepData;
+        const xLabel = selGraphX.options[selGraphX.selectedIndex].text;
+        const yLabel = selGraphY.options[selGraphY.selectedIndex].text;
+        customParamChart.options.scales.x.title.text = xLabel;
+        customParamChart.options.scales.y.title.text = yLabel;
         customParamChart.update('none');
     }
 
@@ -18407,6 +18279,33 @@ function initMulticapaCustomSimulation() {
             for (let i = 0; i <= N; i++) pt['T_' + i] = T[i];
             for (let i = 0; i < N; i++) pt['R_cond_' + (i + 1)] = layerRcondAt(i, radiiSnap);
 
+            // LOTE — Ampliación Eje X (Gráfica Paramétrica): variables de frontera
+            // Izq./Der. tal como están fijadas en ESTA corrida (independientemente
+            // de qué tipo de frontera esté activo — cada input conserva su valor
+            // aunque su grupo esté oculto, ver updateBcVisibility()). Mismas claves
+            // que las nuevas <option value="bc_l_*"/"bc_r_*"> de #cm-graph-x.
+            const bcNum = (el, fallback) => {
+                if (!el) return fallback;
+                const v = parseFloat(el.value);
+                return isNaN(v) ? fallback : v;
+            };
+            pt.bc_l_temp = bcNum(inputLTemp, 0);
+            pt.bc_l_h = bcNum(inputLH, 0);
+            pt.bc_l_tinf = bcNum(inputLTinf, 0);
+            pt.bc_l_eps = bcNum(inputLEps, 0);
+            pt.bc_l_tsur = bcNum(inputLTsur, 0);
+            pt.bc_l_flux = bcNum(inputLFlux, 0);
+            pt.bc_l_G = bcNum(inputLG, 0);
+            pt.bc_l_alpha = bcNum(inputLAlpha, 0);
+            pt.bc_r_temp = bcNum(inputRTemp, 0);
+            pt.bc_r_h = bcNum(inputRH, 0);
+            pt.bc_r_tinf = bcNum(inputRTinf, 0);
+            pt.bc_r_eps = bcNum(inputREps, 0);
+            pt.bc_r_tsur = bcNum(inputRTsur, 0);
+            pt.bc_r_flux = bcNum(inputRFlux, 0);
+            pt.bc_r_G = bcNum(inputRG, 0);
+            pt.bc_r_alpha = bcNum(inputRAlpha, 0);
+
             customTabulatedData.push(pt);
             renderTabulationTable();
             updateParametricGraph();
@@ -18441,6 +18340,11 @@ function initMulticapaCustomSimulation() {
             let header = "ID,L_tot,k1,k2,q,R_tot,T_L,T_R,R_bc_L,R_bc_R,A_base";
             for (let i = 1; i <= maxN; i++) header += `,R_cond_${i}`;
             for (let i = 0; i <= maxN; i++) header += `,T_${i}`;
+            // LOTE — Ampliación Eje X (Gráfica Paramétrica): columnas de variables de
+            // frontera Izq./Der. (mismas claves bc_l_*/bc_r_* que btnAddPoint registra
+            // en pt y que ahora ofrece #cm-graph-x como eje horizontal).
+            header += ",BC_L_Temp,BC_L_h,BC_L_Tinf,BC_L_eps,BC_L_Tsur,BC_L_flux,BC_L_G,BC_L_alpha";
+            header += ",BC_R_Temp,BC_R_h,BC_R_Tinf,BC_R_eps,BC_R_Tsur,BC_R_flux,BC_R_G,BC_R_alpha";
             header += "\n";
 
             let csv = header;
@@ -18454,6 +18358,12 @@ function initMulticapaCustomSimulation() {
                     const val = pt['T_' + i];
                     row += ',' + (val !== undefined ? val.toFixed(2) : '');
                 }
+                const bcCols = ['bc_l_temp', 'bc_l_h', 'bc_l_tinf', 'bc_l_eps', 'bc_l_tsur', 'bc_l_flux', 'bc_l_G', 'bc_l_alpha',
+                    'bc_r_temp', 'bc_r_h', 'bc_r_tinf', 'bc_r_eps', 'bc_r_tsur', 'bc_r_flux', 'bc_r_G', 'bc_r_alpha'];
+                bcCols.forEach(key => {
+                    const val = pt[key];
+                    row += ',' + (val !== undefined ? val.toFixed(4) : '');
+                });
                 csv += row + "\n";
             });
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -18468,8 +18378,32 @@ function initMulticapaCustomSimulation() {
         });
     }
 
-    if (selGraphX) selGraphX.addEventListener('change', updateParametricGraph);
-    if (selGraphY) selGraphY.addEventListener('change', updateParametricGraph);
+    if (selGraphX) {
+        selGraphX.addEventListener('change', () => {
+            // LOTE — Motor de Barrido Paramétrico: al cambiar la variable del eje X,
+            // repuebla Mín./Máx./Paso con sus valores por defecto (si aplica),
+            // habilita/deshabilita el barrido según corresponda, y descarta
+            // cualquier serie de barrido previa (quedó calculada para la variable
+            // anterior, ya no es válida).
+            populateSweepRangeDefaults();
+            updateSweepControlsAvailability();
+            clearSweepDataset();
+            updateParametricGraph();
+        });
+    }
+    if (selGraphY) {
+        selGraphY.addEventListener('change', () => {
+            // Cambiar la variable del eje Y también invalida el barrido previo
+            // (fue calculado leyendo la variable Y anterior en cada paso).
+            clearSweepDataset();
+            updateParametricGraph();
+        });
+    }
+    if (btnRunSweep) btnRunSweep.addEventListener('click', runParametricSweep);
+
+    // Estado inicial de los controles de barrido acorde a la opción por
+    // defecto de #cm-graph-x al cargar la página (normalmente 'id' → deshabilitado).
+    updateSweepControlsAvailability();
 
     // Initial populate (debe ejecutarse ANTES de animLoop: puebla `T` vía solveSimulation()
     // para que el primer frame de render() no lea temperaturas indefinidas)
@@ -18511,6 +18445,15 @@ function initMulticapaCustomSimulation() {
 
     // Loop
     function animLoop() {
+        // Fail-safe (segunda capa, ver IntersectionObserver global): este
+        // laboratorio no está conectado a LabAnimationManager y no tenía
+        // ninguna protección de visibilidad — se salta render()/renderCircuit()
+        // pero se sigue reprogramando el frame para poder reanudar solo al
+        // volver a ser visible (pestaña activa de nuevo o fullscreen).
+        if (canvas.hasAttribute('data-canvas-paused')) {
+            animId = requestAnimationFrame(animLoop);
+            return;
+        }
         animTime += 0.05;
         render();
         renderCircuit(); // LOTE — Circuito de Resistencias Térmicas Equivalentes
@@ -20674,7 +20617,11 @@ function initWattLab() {
 
     // Draw Newcomen engine
     function drawNewcomen(ctx, canvas, ph, cylT, sT, cT) {
-        const W = canvas.width, H = canvas.height;
+        // W/H en espacio lógico CSS (no el buffer físico canvas.width/height,
+        // que ahora puede venir multiplicado por devicePixelRatio — ver
+        // resizeCanvases()); así las proporciones del dibujo no cambian con
+        // pantallas retina/HiDPI, sólo la nitidez.
+        const W = canvas._cssW || canvas.width, H = canvas._cssH || canvas.height;
         ctx.clearRect(0, 0, W, H);
         ctx.fillStyle = '#0a0f1e'; ctx.fillRect(0, 0, W, H);
 
@@ -20754,7 +20701,9 @@ function initWattLab() {
     // Phase 0→0.5 : Steam ABOVE piston → piston moves DOWN  (power stroke 1)
     // Phase 0.5→1 : Steam BELOW piston → piston moves UP    (power stroke 2)
     function drawWattEngine(ctx, canvas, ph, cylT, sT, cT) {
-        const W = canvas.width, H = canvas.height;
+        // Ver comentario equivalente en drawNewcomen(): W/H lógicos CSS,
+        // no el buffer físico (que puede venir × devicePixelRatio).
+        const W = canvas._cssW || canvas.width, H = canvas._cssH || canvas.height;
         ctx.clearRect(0, 0, W, H);
 
         // ── Background ──────────────────────────────────────────
@@ -21211,14 +21160,39 @@ function initWattLab() {
         ctx.fillRect(10, H - 22, barW * phHalf, 3);
     }
 
+    // Ajusta el buffer nativo del canvas a devicePixelRatio para evitar
+    // pixelación/pérdida de nitidez de etiquetas y trazos en pantallas
+    // HiDPI/retina — crítico al entrar en fullscreen, donde el contenedor
+    // (rect) crece mucho respecto al tamaño en modo normal. El tamaño
+    // lógico CSS (cssW/cssH) queda guardado en el propio canvas
+    // (_cssW/_cssH) para que drawNewcomen()/drawWattEngine() sigan
+    // dibujando en ese mismo espacio de coordenadas de siempre — sólo la
+    // resolución del buffer cambia, nunca las proporciones del dibujo.
     function resizeCanvases() {
+        const dpr = window.devicePixelRatio || 1;
         [newcomenCanvas, wattCanvas].forEach(c => {
             const rect = c.parentElement.getBoundingClientRect();
-            c.width = Math.max(rect.width || 300, 200);
-            c.height = Math.max(rect.height || 380, 200);
+            const cssW = Math.max(rect.width || 300, 200);
+            const cssH = Math.max(rect.height || 380, 200);
+            c.width = Math.round(cssW * dpr);
+            c.height = Math.round(cssH * dpr);
+            c._cssW = cssW;
+            c._cssH = cssH;
+            // Asignar canvas.width/height ya resetea la matriz de
+            // transformación a la identidad; resetTransform()/setTransform()
+            // aquí es defensivo (por si en el futuro se llama resize sin
+            // reasignar width/height) antes de aplicar el escalado DPR.
+            const cx = c.getContext('2d');
+            if (cx.resetTransform) cx.resetTransform(); else cx.setTransform(1, 0, 0, 1, 0, 0);
+            cx.scale(dpr, dpr);
         });
     }
     resizeCanvases();
+
+    // Expuesto para que el controlador de fullscreen de watt-sim (más abajo
+    // en este mismo archivo) pueda forzar el recálculo de resolución al
+    // entrar/salir de pantalla completa, sin duplicar esta lógica.
+    window.WattLabEngines = { resize: resizeCanvases };
 
     function updateMetrics() {
         const effN = newcomenEff(state.steamT, state.coldT);
@@ -21245,8 +21219,13 @@ function initWattLab() {
     const CHART_MAX_POINTS = 250;  // rolling window size
 
     function animate(ts) {
-        if (!lastTimestamp) lastTimestamp = ts;
-        const dtReal = ts - lastTimestamp;          // ms of real wall-clock time
+        if (!window.LabAnimationManager.isLabVisible('watt-sim')) {
+            cancelAnimationFrame(state.animId);
+            state.animId = null;
+            return;
+        }
+        if (typeof ts !== 'number' || ts < 1e6) ts = performance.now();
+        const dtReal = getClampedDelta(ts, lastTimestamp, 33.33); // ms reales acotados (evita salto de fase tras un frame demorado)
         const dtSim = dtReal / 1000;               // seconds of real time
         lastTimestamp = ts;
 
@@ -21305,14 +21284,12 @@ function initWattLab() {
     syncSliderAndNumberInput(slSpeed, document.getElementById('watt-speed-num'), refresh);
     refresh();
 
-    const simPane = document.getElementById('watt-sim');
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) { resizeCanvases(); startAnimation(); }
-            else if (state.animId) { cancelAnimationFrame(state.animId); state.animId = null; }
-        });
-    }, { threshold: 0.05, rootMargin: '100px' });
-    if (simPane) observer.observe(simPane);
+    window.LabAnimationManager.register('watt-sim', function resumeWatt() {
+        resizeCanvases();
+        startAnimation();
+    }, function pauseWatt() {
+        if (state.animId) { cancelAnimationFrame(state.animId); state.animId = null; }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => { initWattLab(); });
@@ -21349,7 +21326,6 @@ function initBernoulliSimulation() {
     let particles = [];
     const NUM_PARTICLES = 150;
     let animId = null;
-    let isVisible = false;
 
     // Initialize particles
     for (let i = 0; i < NUM_PARTICLES; i++) {
@@ -21367,7 +21343,7 @@ function initBernoulliSimulation() {
         canvas.height = rect.height * (window.devicePixelRatio || 1);
         ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
     }
-    window.addEventListener('resize', () => { if (isVisible) resize(); });
+    window.addEventListener('resize', () => { if (window.LabAnimationManager.isLabVisible('bernoulli-sim')) resize(); });
 
     function getParams() {
         const v1 = parseFloat(ui.v1.value);
@@ -21486,7 +21462,7 @@ function initBernoulliSimulation() {
     }
 
     function draw() {
-        if (!isVisible) return;
+        if (!window.LabAnimationManager.isLabVisible('bernoulli-sim')) { cancelAnimationFrame(animId); return; }
         const width = canvas.width / (window.devicePixelRatio || 1);
         const height = canvas.height / (window.devicePixelRatio || 1);
         const cy = height * 0.55; // base center Y of the tube
@@ -21626,20 +21602,14 @@ function initBernoulliSimulation() {
         animId = requestAnimationFrame(draw);
     }
 
-    const pane = document.getElementById('bernoulli-sim');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(ent => {
-            if (ent.isIntersecting) {
-                isVisible = true;
-                resize();
-                if (!animId) draw();
-            } else {
-                isVisible = false;
-                if (animId) { cancelAnimationFrame(animId); animId = null; }
-            }
-        });
-    }, { threshold: 0.1 });
-    if (pane) observer.observe(pane);
+    window.LabAnimationManager.register('bernoulli-sim', function resumeBernoulli() {
+        resize();
+        cancelAnimationFrame(animId);
+        animId = requestAnimationFrame(draw);
+    }, function pauseBernoulli() {
+        cancelAnimationFrame(animId);
+        animId = null;
+    });
 
     setTimeout(resize, 100);
 }
@@ -22033,10 +22003,10 @@ function initNavierStokesSimulation() {
     const cellRegime = document.getElementById('ns-regime');
 
     let animId = null;
-    let isVisible = false;
     let isPaused = false;
     let particles = [];
     let currentResidual = 0.0;
+    let nsLastTimestamp = null; // para getClampedDelta() — paso de tiempo real acotado del loop
     function formatRe(Re) {
         let reStr = Re.toExponential(1).replace('e+', '×10^').replace('^0', '^').replace('^', '');
         const exponentMap = { '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' };
@@ -22542,10 +22512,18 @@ function initNavierStokesSimulation() {
         canvas.height = rect.height * (window.devicePixelRatio || 1);
         ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
     }
-    window.addEventListener('resize', () => { if (isVisible) resize(); });
+    window.addEventListener('resize', () => { if (window.LabAnimationManager.isLabVisible('ns-sim')) resize(); });
 
-    function draw() {
-        if (!isVisible) return;
+    function draw(ts) {
+        if (!window.LabAnimationManager.isLabVisible('ns-sim')) { cancelAnimationFrame(animId); return; }
+
+        if (typeof ts !== 'number' || ts < 1e6) ts = performance.now();
+        const nsDtMs = getClampedDelta(ts, nsLastTimestamp, 33.33);
+        nsLastTimestamp = ts;
+        const nsFrameScale = nsDtMs / 16.67; // 1.0 a 60 fps — sólo escala la velocidad VISUAL de las
+        // partículas trazadoras (abajo); el número de sub-pasos del solver LBM (`steps`, justo debajo)
+        // es un parámetro de estabilidad numérica/CFL calibrado por resolución, no una velocidad de
+        // animación, y se deja intacto a propósito (mismo criterio documentado en LOTEs anteriores).
 
         if (!isPaused) {
             // Perform different LBM steps per frame depending on resolution to balance speed and CPU load
@@ -22795,8 +22773,8 @@ function initNavierStokesSimulation() {
                     const speedKmh = parseInt(sliderRe.value);
                     // Scale particle velocity with speed (base multiplier 85 at 100 km/h)
                     const particleSpeedMult = 85 * (speedKmh / 100);
-                    p.x += vx * particleSpeedMult;
-                    p.y += vy * particleSpeedMult;
+                    p.x += vx * particleSpeedMult * nsFrameScale;
+                    p.y += vy * particleSpeedMult * nsFrameScale;
                 }
 
                 const speed = Math.sqrt(vx * vx + vy * vy);
@@ -22908,24 +22886,18 @@ function initNavierStokesSimulation() {
         btnToggle.style.background = isPaused ? '#f59e0b' : '#3b82f6';
     });
 
-    const pane = document.getElementById('ns-sim');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(ent => {
-            if (ent.isIntersecting) {
-                isVisible = true;
-                requestAnimationFrame(() => {
-                    resize();
-                    initSim();
-                    updateCoefficients(parseInt(sliderAlpha.value), parseInt(sliderRe.value));
-                    if (!animId) draw();
-                });
-            } else {
-                isVisible = false;
-                if (animId) { cancelAnimationFrame(animId); animId = null; }
-            }
+    window.LabAnimationManager.register('ns-sim', function resumeNavierStokes() {
+        requestAnimationFrame(() => {
+            resize();
+            initSim();
+            updateCoefficients(parseInt(sliderAlpha.value), parseInt(sliderRe.value));
+            cancelAnimationFrame(animId);
+            animId = requestAnimationFrame(draw);
         });
-    }, { threshold: 0.1 });
-    if (pane) observer.observe(pane);
+    }, function pauseNavierStokes() {
+        cancelAnimationFrame(animId);
+        animId = null;
+    });
 
     setTimeout(() => {
         resize();
@@ -22975,7 +22947,6 @@ function initPeltonSimulation() {
     };
 
     let animId = null;
-    let isVisible = false;
     let wheelAngle = 0;
     let particles = [];
 
@@ -23000,11 +22971,11 @@ function initPeltonSimulation() {
         canvas.height = rect.height * (window.devicePixelRatio || 1);
         ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
     }
-    window.addEventListener('resize', () => { if (isVisible) resize(); });
+    window.addEventListener('resize', () => { if (window.LabAnimationManager.isLabVisible('pelton-sim')) resize(); });
 
     function render() {
-        if (!isVisible) {
-            animId = requestAnimationFrame(render);
+        if (!window.LabAnimationManager.isLabVisible('pelton-sim')) {
+            cancelAnimationFrame(animId);
             return;
         }
 
@@ -23410,15 +23381,14 @@ function initPeltonSimulation() {
         animId = requestAnimationFrame(render);
     }
 
-    const pane = document.getElementById('pelton-sim');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            isVisible = entry.isIntersecting;
-            if (isVisible) { resize(); if (!animId) render(); }
-            else { if (animId) { cancelAnimationFrame(animId); animId = null; } }
-        });
-    }, { threshold: 0.1 });
-    if (pane) observer.observe(pane);
+    window.LabAnimationManager.register('pelton-sim', function resumePelton() {
+        resize();
+        cancelAnimationFrame(animId);
+        animId = requestAnimationFrame(render);
+    }, function pausePelton() {
+        cancelAnimationFrame(animId);
+        animId = null;
+    });
 
     syncSliderAndNumberInput(ui.h, document.getElementById('pelton-h-num'), render);
     syncSliderAndNumberInput(ui.d1, document.getElementById('pelton-d1-num'), render);
@@ -23707,6 +23677,19 @@ window.translateDOM = function (lang) {
                     }
                 }
 
+                // LOTE — Ampliación Eje X (Gráfica Paramétrica, #multicapa-custom-sim):
+                // <optgroup label="..."> no expone su texto como nodo hijo (es un
+                // atributo), así que el walker de texto de arriba nunca lo alcanza.
+                // Mismo patrón que placeholder/title, aplicado a OPTGROUP.label.
+                if (node.tagName === 'OPTGROUP' && node.label) {
+                    const gl = node.label;
+                    if (lang === 'en' && window.uiTranslations && window.uiTranslations[gl]) {
+                        node.label = window.uiTranslations[gl];
+                    } else if (lang === 'es' && reverseTranslations[gl]) {
+                        node.label = reverseTranslations[gl];
+                    }
+                }
+
                 for (let child of node.childNodes) {
                     walk(child);
                 }
@@ -23744,6 +23727,16 @@ function initInternalBLSimulation() {
     if (!canvas) return;
     var ctx = canvas.getContext('2d');
 
+    function resizeInternalBLCanvas() {
+        var w = canvas.clientWidth || 760;
+        var h = canvas.clientHeight || 380;
+        if (canvas.width !== w || canvas.height !== h) {
+            canvas.width = w;
+            canvas.height = h;
+        }
+    }
+    window.addEventListener('resize', resizeInternalBLCanvas);
+
     var sliderUavg = document.getElementById('ibl-uavg');
     var sliderDiam = document.getElementById('ibl-diam');
     var sliderLength = document.getElementById('ibl-length');
@@ -23768,6 +23761,7 @@ function initInternalBLSimulation() {
 
     var animId = null;
     var particles = [];
+    var iblLastTimestamp = null; // para getClampedDelta() — paso de tiempo real acotado del loop
 
     function getLayout(diam) {
         var d = diam || 500.0;
@@ -23859,7 +23853,12 @@ function initInternalBLSimulation() {
         }
     }
 
-    function draw() {
+    function draw(ts) {
+        if (!window.LabAnimationManager.isLabVisible('internal-bl-sim')) { cancelAnimationFrame(animId); return; }
+        if (typeof ts !== 'number' || ts < 1e6) ts = performance.now();
+        var iblDtMs = getClampedDelta(ts, iblLastTimestamp, 33.33);
+        iblLastTimestamp = ts;
+        var iblFrameScale = iblDtMs / 16.67; // 1.0 a 60 fps
         var Uavg = sliderUavg ? parseFloat(sliderUavg.value) : 0.05;
         var Diam = sliderDiam ? parseFloat(sliderDiam.value) : 500.0;
 
@@ -23883,8 +23882,6 @@ function initInternalBLSimulation() {
         var lblPr = document.getElementById('ibl-prandtl-val');
         if (lblPr) lblPr.textContent = Pr.toFixed(1);
 
-        canvas.width = canvas.clientWidth || 760;
-        canvas.height = canvas.clientHeight || 380;
         var L = getLayout(Diam);
 
         // Physics entry-length fraction (0..1) — used for profile shapes & BL physics
@@ -24182,9 +24179,9 @@ function initInternalBLSimulation() {
             // Adjust particle count dynamically if slider decreased
             if (particles.length > maxPCount) particles.length = maxPCount;
 
-            var dt = 0.0025 * speed * velScale;
+            var dt = 0.0025 * speed * velScale * iblFrameScale;
             if (typeof canvas.particleTimer === 'undefined') canvas.particleTimer = 0;
-            canvas.particleTimer += velScale;
+            canvas.particleTimer += velScale * iblFrameScale;
 
             if (canvas.particleTimer > 60) {
                 canvas.particleTimer = 0;
@@ -24214,7 +24211,7 @@ function initInternalBLSimulation() {
 
                 if (Re >= 2300) {
                     var turbulenceIntensity = Re > 4000 ? 0.05 : 0.05 * ((Re - 2300) / 1700);
-                    p.yn += (Math.random() - 0.5) * turbulenceIntensity;
+                    p.yn += (Math.random() - 0.5) * turbulenceIntensity * iblFrameScale;
                     if (p.yn > 0.95) p.yn = 0.95;
                     if (p.yn < -0.95) p.yn = -0.95;
                 }
@@ -24278,15 +24275,16 @@ function initInternalBLSimulation() {
     var sliderParticlesCount = document.getElementById('ibl-particles-count');
     syncSliderAndNumberInput(sliderParticlesCount, document.getElementById('ibl-particles-count-num'), draw);
 
-    var pane = document.getElementById('internal-bl-sim');
-    if (pane) {
-        new IntersectionObserver(function (entries) {
-            if (!entries[0].isIntersecting) { if (animId) { cancelAnimationFrame(animId); animId = null; } }
-            else { if (!animId) draw(); }
-        }, { threshold: 0.1 }).observe(pane);
-    } else {
-        draw();
-    }
+    window.LabAnimationManager.register('internal-bl-sim', function resumeInternalBL() {
+        resizeInternalBLCanvas();
+        cancelAnimationFrame(animId);
+        animId = requestAnimationFrame(draw);
+    }, function pauseInternalBL() {
+        cancelAnimationFrame(animId);
+        animId = null;
+    });
+
+    resizeInternalBLCanvas();
 }
 
 // =========================================================================
@@ -25582,6 +25580,7 @@ function initInternalBLSimulation() {
         let time = 0;
         let animationId = null;
         let hasReachedEquilibriumFlag = false;
+        let lastTimestamp = null; // para getClampedDelta() — paso de tiempo real acotado del loop
 
         // Current state for each gas
         let state = {};
@@ -25806,8 +25805,10 @@ function initInternalBLSimulation() {
                 requestAnimationFrame(drawCanvas);
                 return;
             }
-            canvas.width = w;
-            canvas.height = h;
+            if (canvas.width !== w || canvas.height !== h) {
+                canvas.width = w;
+                canvas.height = h;
+            }
             ctx.clearRect(0, 0, w, h);
 
             const I_sol = parseFloat(solarSlider.value);
@@ -25898,9 +25899,18 @@ function initInternalBLSimulation() {
             });
         }
 
-        function loop() {
+        function loop(ts) {
+            if (!window.LabAnimationManager.isLabVisible('foote-sim')) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+                return;
+            }
+            if (typeof ts !== 'number' || ts < 1e6) ts = performance.now();
+            const dtMs = getClampedDelta(ts, lastTimestamp, 33.33);
+            lastTimestamp = ts;
+            const frameScale = dtMs / 16.67; // 1.0 a 60 fps; mantiene el ritmo original de "fast-forward" a cualquier refresh rate
             if (isRunning) {
-                time += 0.5;
+                time += 0.5 * frameScale;
                 const I_sol = parseFloat(solarSlider.value);
                 const T_amb = parseFloat(tambInput.value);
                 const activeKeys = getActiveGasKeys();
@@ -25917,7 +25927,7 @@ function initInternalBLSimulation() {
 
                     // Thermal time constant tau = (m * Cv) / (h * A_conv) in seconds
                     const tau_sec = Math.max(1.0, (C_total * 1000) / (h * geom.A_conv));
-                    const dt_step = 0.5; // simulation time step (seconds per frame)
+                    const dt_step = 0.5 * frameScale; // simulation time step (segundos por frame, escalado a tiempo real)
 
                     const dT = ((Teq - state[key].T) / tau_sec) * dt_step;
                     state[key].T += dT;
@@ -26049,7 +26059,20 @@ function initInternalBLSimulation() {
         // al abrir/cerrar fullscreen, garantizando resolución correcta en el nuevo tamaño.
         window.FooteDrawCanvas = drawCanvas;
         resetSim();
-        loop();
+
+        // Pausa/reanuda el loop de animación según visibilidad del laboratorio.
+        // loop() se reprograma a sí mismo (drawCanvas + requestAnimationFrame) en
+        // cada frame incluso con isRunning=false (solo redibuja el canvas
+        // estático), así que sin esta guardia seguiría corriendo en segundo
+        // plano indefinidamente al cambiar de pestaña.
+        window.LabAnimationManager.register('foote-sim', function resumeFoote() {
+            if (animationId === null) loop();
+        }, function pauseFoote() {
+            if (animationId !== null) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+        });
     }
 
     window.initFooteSimulation = initFooteSimulation;
@@ -26157,8 +26180,10 @@ function initInternalBLSimulation() {
                 requestAnimationFrame(drawCanvas);
                 return;
             }
-            canvas.width = w;
-            canvas.height = h;
+            if (canvas.width !== w || canvas.height !== h) {
+                canvas.width = w;
+                canvas.height = h;
+            }
             ctx.clearRect(0, 0, w, h);
 
             const groundY = h - 65;
@@ -26340,6 +26365,20 @@ function initInternalBLSimulation() {
             window.addEventListener("resize", () => { if (canvas.offsetParent) drawCanvas(); });
             canvas.dataset.resizeAttached = "true";
         }
+
+        // Si el laboratorio se oculta mientras la esfera está cayendo, se cancela
+        // el loop (evita seguir animando en segundo plano). fallLoop() vive dentro
+        // de dropSphere() y no es re-invocable desde aquí, así que en vez de
+        // intentar retomar la caída a mitad de camino se resetea isFalling: al
+        // volver, el botón "Soltar" queda listo para una nueva caída limpia.
+        const chateletVisObserver = new IntersectionObserver((entries) => {
+            if (!entries[0].isIntersecting) {
+                if (animationId) cancelAnimationFrame(animationId);
+                isFalling = false;
+            }
+        });
+        chateletVisObserver.observe(canvas);
+
         updateDisplays();
         initChart();
         drawCanvas();
@@ -26437,8 +26476,10 @@ function initInternalBLSimulation() {
                 requestAnimationFrame(drawCanvas);
                 return;
             }
-            canvas.width = w;
-            canvas.height = h;
+            if (canvas.width !== w || canvas.height !== h) {
+                canvas.width = w;
+                canvas.height = h;
+            }
             ctx.clearRect(0, 0, w, h);
 
             // Refrigerator car outer wall
@@ -26532,6 +26573,17 @@ function initInternalBLSimulation() {
             window.addEventListener("resize", () => { if (canvas.offsetParent) drawCanvas(); });
             canvas.dataset.resizeAttached = "true";
         }
+
+        // Pausa/reanuda el loop de animación según visibilidad del laboratorio
+        // (sin tocar isRunning: si estaba corriendo al salir, retoma solo al volver)
+        const penningtonVisObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                if (isRunning) animationId = requestAnimationFrame(loop);
+            } else {
+                if (animationId) cancelAnimationFrame(animationId);
+            }
+        });
+        penningtonVisObserver.observe(canvas);
 
         // LOTE 3 — entrada numérica directa: estos 2 sliders no tenían
         // listener 'input' propio (updateDisplays() sólo corría dentro del
@@ -26659,8 +26711,10 @@ function initInternalBLSimulation() {
                 requestAnimationFrame(drawCanvas);
                 return;
             }
-            canvas.width = w;
-            canvas.height = h;
+            if (canvas.width !== w || canvas.height !== h) {
+                canvas.width = w;
+                canvas.height = h;
+            }
             ctx.clearRect(0, 0, w, h);
 
             // Solar receiver panel
@@ -26791,6 +26845,17 @@ function initInternalBLSimulation() {
             window.addEventListener("resize", () => { if (canvas.offsetParent) drawCanvas(); });
             canvas.dataset.resizeAttached = "true";
         }
+
+        // Pausa/reanuda el loop de animación según visibilidad del laboratorio
+        // (sin tocar isRunning: si estaba corriendo al salir, retoma solo al volver)
+        const telkesVisObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                if (isRunning) animationId = requestAnimationFrame(loop);
+            } else {
+                if (animationId) cancelAnimationFrame(animationId);
+            }
+        });
+        telkesVisObserver.observe(canvas);
 
         // LOTE 3 — entrada numérica directa: mismo caso que Pennington
         // (ver comentario arriba en initPenningtonSimulation) — estos 2
@@ -26969,7 +27034,7 @@ function initInternalBLSimulation() {
         }
 
         function draw() {
-            if (!canvas.offsetParent) {
+            if (!canvas.offsetParent || canvas.hasAttribute('data-canvas-paused')) {
                 animationFrameId = requestAnimationFrame(draw);
                 return;
             }
@@ -30181,6 +30246,12 @@ document.addEventListener('DOMContentLoaded', () => {
     'use strict';
     var CFG = { modalId: 'watt-sim', openBtnId: 'watt-lab-open-btn', closeBtnId: 'watt-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'watt-lab-open', transitionMs: 300 };
     function resizeAssets() {
+        // Recalcula buffer DPR + escala de los canvas de animación (Newcomen/
+        // Watt) cada vez que este mismo resizeAssets() ya se llama: al abrir
+        // fullscreen, al cerrarlo (cleanup) y en window 'resize' — ver
+        // attachListeners() más abajo. Sin esto el fix de nitidez de
+        // initWattLab() sólo se aplicaba en la carga inicial de la página.
+        if (window.WattLabEngines && typeof window.WattLabEngines.resize === 'function') { try { window.WattLabEngines.resize(); } catch (e) { } }
         var sl = document.getElementById('watt-speed'); if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); }
         var canvas = document.getElementById('watt-temp-chart');
         if (canvas && window.Chart) {
@@ -30200,6 +30271,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'hidden'; document.body.classList.add(CFG.bodyLockClass);
         var cb = document.getElementById(CFG.closeBtnId); if (cb) cb.classList.add('visible');
         var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab opened in full screen. Press Escape to exit.' : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+        // FIX watt-sim: sin esto, LabAnimationManager.activeTabId seguía apuntando
+        // a 'watt-sim' (o lo que fuera) y su rAF no quedaba correctamente marcado
+        // como "el laboratorio en pantalla completa" -isLabVisible() ignora
+        // fullscreenLabId si nunca se setea-, así que la animación podía quedar
+        // pausada al entrar a pantalla completa. Exclusivo de este controlador de
+        // Watt, no toca los demás labs con fullscreen.
+        if (window.LabAnimationManager && typeof window.LabAnimationManager.setFullscreen === 'function') {
+            window.LabAnimationManager.setFullscreen('watt-sim');
+        }
         resizeAssets(); forceDelayedResize();
     }
     function closeFullscreen() {
@@ -30213,6 +30293,14 @@ document.addEventListener('DOMContentLoaded', () => {
             modal._originalParent = null; modal._placeholder = null; forceDelayedResize();
             if (modal._returnFocus && modal._returnFocus.focus) { modal._returnFocus.focus(); modal._returnFocus = null; }
             var live = document.getElementById(CFG.modalId.replace('-sim', '-lab-aria-live')); if (live) live.textContent = getLang() === 'en' ? 'Lab closed. Returning to main view.' : 'Laboratorio cerrado. Volviendo a la vista principal.';
+            // FIX watt-sim: al cerrar pantalla completa, devolver el control de
+            // visibilidad del lab a activeTabId (la pestaña normal, si watt-sim
+            // sigue siendo la activa) en vez de dejar fullscreenLabId="watt-sim"
+            // colgado para siempre -lo que habría bloqueado a cualquier otro lab
+            // registrado de entrar en fullscreen después-.
+            if (window.LabAnimationManager && typeof window.LabAnimationManager.setFullscreen === 'function') {
+                window.LabAnimationManager.setFullscreen(null);
+            }
         }
         modal.addEventListener('transitionend', function handler(e) { if (e.target !== modal) return; modal.removeEventListener('transitionend', handler); cleanup(); }); setTimeout(cleanup, CFG.transitionMs + 60);
     }
@@ -31341,15 +31429,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function draw(timestamp) {
+        if (!window.LabAnimationManager.isLabVisible('contact-res-sim')) { cancelAnimationFrame(_rafId); _rafId = null; return; }
         if (_paused) { _rafId = null; return; }
         if (!el.canvas || !el.ctx) { _rafId = null; return; }
 
         resizeContactResCanvas();
 
-        if (!_lastFrameTime) _lastFrameTime = timestamp || 0;
-        var dt = ((timestamp || 0) - _lastFrameTime) / 1000;
+        var dtMs = getClampedDelta(timestamp, _lastFrameTime, 100); // cap de 100 ms (mismo criterio ya usado aquí)
         _lastFrameTime = timestamp || 0;
-        _animT += Math.min(dt, 0.1);
+        _animT += dtMs / 1000;
 
         var ctx = el.ctx;
         var w = el.canvas.width, h = el.canvas.height;
@@ -31465,8 +31553,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // fijar canvas.width/height o construir el Chart.js aquí produciría
         // un canvas corrupto. Se aborta y se reintenta más tarde (ver hooks
         // de reintento al final de este archivo: click en la pestaña, evento
-        // 'resize' global que switchTab ya dispara tras cada cambio de tab,
-        // e IntersectionObserver una vez el canvas exista en el DOM).
+        // 'resize' global que switchTab ya dispara tras cada cambio de tab).
+        // La pausa/reanudación del bucle de animación una vez inicializado
+        // corre por LabAnimationManager (ver register() más abajo).
         if (!canvas || !(canvas.offsetWidth > 0 && canvas.offsetHeight > 0)) {
             return;
         }
@@ -31482,19 +31571,12 @@ document.addEventListener('DOMContentLoaded', () => {
         updateAll();
         startLoop();
 
-        // Pausa/reanuda el bucle de animación cuando el canvas sale/entra del
-        // viewport (mismo patrón de optimización usado por el resto del sitio).
-        if ('IntersectionObserver' in window) {
-            var observer = new IntersectionObserver(function (entries) {
-                if (entries[0].isIntersecting) {
-                    startLoop();
-                    resizeContactResAssets();
-                } else {
-                    stopLoop();
-                }
-            });
-            observer.observe(el.canvas);
-        }
+        // Pausa/reanuda el bucle de animación según la pestaña activa o el
+        // laboratorio en pantalla completa (LabAnimationManager).
+        window.LabAnimationManager.register('contact-res-sim', function resumeContactRes() {
+            startLoop();
+            resizeContactResAssets();
+        }, stopLoop);
     }
     window.initContactResSimulation = initContactResSimulation;
 

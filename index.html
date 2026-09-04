@@ -43,7 +43,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-    <link rel="stylesheet" href="style.css?v=v3fix16">
+    <link rel="stylesheet" href="style.css?v=v3fix17">
 
 </head>
 
@@ -387,42 +387,37 @@
                         <div class="tab-category-title"><span class="lang-es">Principios Físicos y Experimentos
                                 Base</span><span class="lang-en" style="display:none;">Physical Principles and Base
                                 Experiments</span></div>
+                        <button class="tab-btn" data-target="newton-sim" data-category="transferencia-calor" data-tags="transferencia-calor conveccion">Enfriamiento de Newton
+                            (1701)</button>
+                        <button class="tab-btn" data-target="invsq-sim" data-category="transferencia-calor">Ley de la Inversa del
+                            Cuadrado</button>
+                        <button class="tab-btn" data-target="herschel-sim" data-category="transferencia-calor" data-tags="transferencia-calor radiacion">Experimento de
+                            Herschel (1800)</button>
+                        <button class="tab-btn active" data-target="fourier-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Ley de Fourier
+                            (Conducción, 1822)</button>
                         <button class="tab-btn" data-target="foote-sim"
                             onclick="setTimeout(function(){ if(window.initFooteSimulation) window.initFooteSimulation(); }, 50);"><i
                                 class="fas fa-sun" style="color:#ec4899; margin-right:4px;"></i> <span
                                 class="lang-es">Efecto Invernadero (Eunice Foote, 1856)</span><span class="lang-en"
                                 style="display:none;">Greenhouse Effect (Eunice Foote, 1856)</span></button>
-
-                        <button class="tab-btn" data-target="herschel-sim" data-category="transferencia-calor" data-tags="transferencia-calor radiacion">Experimento de
-                            Herschel (1800)</button>
-                        <button class="tab-btn" data-target="invsq-sim" data-category="transferencia-calor">Ley de la Inversa del
-                            Cuadrado</button>
-
-                        <button class="tab-btn" data-target="newton-sim" data-category="transferencia-calor" data-tags="transferencia-calor conveccion">Enfriamiento de Newton
-                            (1701)</button>
-                        <button class="tab-btn active" data-target="fourier-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Ley de Fourier
-                            (Conducción, 1822)</button>
-
-                        <button class="tab-btn" data-target="planck-sim" data-category="transferencia-calor" data-tags="transferencia-calor radiacion">Ley de Planck
-                            (Radiación, 1900)</button>
-
-                        <button class="tab-btn" data-target="nusselt-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion conveccion">Convección Forzada
-                            (Nusselt, 1915)</button>
-                        <button class="tab-btn" data-target="nat-conv-sim" data-category="transferencia-calor" data-tags="transferencia-calor conveccion">Convección Natural
-                            (Cilindro)</button>
-                        <button class="tab-btn" data-target="boiling-sim" data-category="transferencia-calor" data-tags="transferencia-calor conveccion">Curva de Nukiyama
-                            (Ebullición, 1934)</button>
-                        <button class="tab-btn" data-target="transient-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Conducción
-                            Transitoria (Heisler, 1947)</button>
                         <button class="tab-btn" data-target="lab-radiacion-placa-plana"
                             onclick="setTimeout(function(){ if(window.initRadiacionPlacaPlanaSimulation) window.initRadiacionPlacaPlanaSimulation(); }, 50);" data-category="transferencia-calor" data-tags="transferencia-calor radiacion">
                             <span class="lang-es">Laboratorio de Radiación en Placa Plana</span><span class="lang-en"
                                 style="display:none;">Flat Plate Radiation Lab</span></button>
+                        <button class="tab-btn" data-target="planck-sim" data-category="transferencia-calor" data-tags="transferencia-calor radiacion">Ley de Planck
+                            (Radiación, 1900)</button>
+                        <button class="tab-btn" data-target="nusselt-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion conveccion">Convección Forzada
+                            (Nusselt, 1915)</button>
+                        <button class="tab-btn" data-target="boiling-sim" data-category="transferencia-calor" data-tags="transferencia-calor conveccion">Curva de Nukiyama
+                            (Ebullición, 1934)</button>
+                        <button class="tab-btn" data-target="transient-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Conducción
+                            Transitoria (Heisler, 1947)</button>
                         <button class="tab-btn" data-target="contact-res-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion"><i class="fas fa-compress-arrows-alt"
                                 style="color:#f59e0b; margin-right:4px;"></i> <span class="lang-es">Resistencia
                                 Térmica de Contacto</span><span class="lang-en" style="display:none;">Thermal Contact
                                 Resistance</span></button>
-
+                        <button class="tab-btn" data-target="nat-conv-sim" data-category="transferencia-calor" data-tags="transferencia-calor conveccion">Convección Natural
+                            (Cilindro)</button>
                         <div class="tab-category-title"><span class="lang-es">Laboratorios de Mecánica de
                                 Fluidos</span><span class="lang-en" style="display:none;">Fluid Mechanics
                                 Laboratories</span></div>
@@ -432,25 +427,18 @@
                             Reynolds (1883)</button>
                         <button class="tab-btn" data-target="prandtl-sim" data-category="transferencia-calor" data-tags="transferencia-calor conveccion">Teoría de la Capa
                             Límite (Prandtl, 1904)</button>
+                        <button class="tab-btn" data-target="vortex-sim">Vórtices de Von Kármán (1911)</button>
                         <button class="tab-btn" data-target="internal-bl-sim" data-category="transferencia-calor" data-tags="transferencia-calor conveccion">Capa Límite en
                             Flujo Interno</button>
-                        <button class="tab-btn" data-target="vortex-sim">Vórtices de Von Kármán (1911)</button>
-
                         <div class="tab-category-title"><span class="lang-es">Laboratorios de Termodinámica</span><span
                                 class="lang-en" style="display:none;">Thermodynamics Laboratories</span></div>
-                        <button class="tab-btn" data-target="celsius-sim">Calibración de Celsius (1742)</button>
                         <button class="tab-btn" data-target="chatelet-sim"
                             onclick="setTimeout(function(){ if(window.initChateletSimulation) window.initChateletSimulation(); }, 50);"><i
                                 class="fas fa-fire" style="color:#f59e0b; margin-right:4px;"></i> <span
                                 class="lang-es">Émilie du Châtelet: Conservación de la Energía (1738)</span><span
                                 class="lang-en" style="display:none;">Émilie du Châtelet: Energy Conservation
                                 (1738)</span></button>
-                        <button class="tab-btn" data-target="pennington-sim"
-                            onclick="setTimeout(function(){ if(window.initPenningtonSimulation) window.initPenningtonSimulation(); }, 50);" data-category="transferencia-calor" data-tags="transferencia-calor conduccion"><i
-                                class="fas fa-snowflake" style="color:#38bdf8; margin-right:4px;"></i> <span
-                                class="lang-es">Cadena de Frío & Aislamiento (Mary Pennington, 1910)</span><span
-                                class="lang-en" style="display:none;">Cold Chain & Insulation (Mary Pennington,
-                                1910)</span></button>
+                        <button class="tab-btn" data-target="celsius-sim">Calibración de Celsius (1742)</button>
                         <button class="tab-btn" data-target="cpcv-sim">Capacidades Caloríficas Cp y Cv (1842)</button>
                         <button class="tab-btn" data-target="joule-sim">Experimento de Joule (1843)</button>
                         <button class="tab-btn" data-target="kelvin-sim">Escala Kelvin (Cero Absoluto, 1848)</button>
@@ -458,46 +446,47 @@
                             1850)</button>
                         <button class="tab-btn lab-otros" data-target="maxwell-sim">Teoría Cinética (Maxwell-Boltzmann,
                             1860)</button>
-                        <button class="tab-btn" data-target="water-substance-sim"><span class="lang-es">Sustancias
-                                Puras: Diagramas del Agua (IAPWS-IF97)</span><span class="lang-en"
-                                style="display:none;">Pure Substances: Water Diagrams
-                                (IAPWS-IF97)</span></button>
+                        <button class="tab-btn" data-target="pennington-sim"
+                            onclick="setTimeout(function(){ if(window.initPenningtonSimulation) window.initPenningtonSimulation(); }, 50);" data-category="transferencia-calor" data-tags="transferencia-calor conduccion"><i
+                                class="fas fa-snowflake" style="color:#38bdf8; margin-right:4px;"></i> <span
+                                class="lang-es">Cadena de Frío & Aislamiento (Mary Pennington, 1910)</span><span
+                                class="lang-en" style="display:none;">Cold Chain & Insulation (Mary Pennington,
+                                1910)</span></button>
                         <button class="tab-btn" data-target="psychrometry-lab-sim"
                             onclick="setTimeout(function(){ if(window.initPsychrometryLab) window.initPsychrometryLab(); }, 50);">
                             <span class="lang-es">Laboratorio de Psicrometría</span><span class="lang-en"
                                 style="display:none;">Psychrometrics Lab</span></button>
-
+                        <button class="tab-btn" data-target="water-substance-sim"><span class="lang-es">Sustancias
+                                Puras: Diagramas del Agua (IAPWS-IF97)</span><span class="lang-en"
+                                style="display:none;">Pure Substances: Water Diagrams
+                                (IAPWS-IF97)</span></button>
                         <div class="tab-category-title"><span class="lang-es">Motores de Calor</span><span
                                 class="lang-en" style="display:none;">Heat Engines</span></div>
                         <button class="tab-btn" data-target="watt-sim">Newcomen vs. Watt (1712-1769)</button>
                         <button class="tab-btn" data-target="carnot-sim">Motor de Carnot (1824)</button>
                         <button class="tab-btn" data-target="ottodiesel-sim">Ciclos Otto vs. Diesel (1876-1892)</button>
-
                         <div class="tab-category-title"><span class="lang-es">Circuitos Térmicos</span><span
                                 class="lang-en" style="display:none;">Thermal Circuits</span></div>
                         <button class="tab-btn" data-target="multicapa-custom-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Pared
                             Multicapa Personalizada</button>
-
                         <div class="tab-category-title"><span class="lang-es">Aplicaciones</span><span class="lang-en"
                                 style="display:none;">Applications</span></div>
                         <button class="tab-btn" data-target="gen-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion">Generación
                             Interna</button>
+                        <button class="tab-btn lab-otros" data-target="pelton-sim">Tanque + Venturi + Pelton</button>
+                        <button class="tab-btn" data-target="fin-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion conveccion">Aletas (Superficies
+                            Extendidas)</button>
+                        <button class="tab-btn" data-target="doublepipe-sim" data-category="transferencia-calor" data-tags="transferencia-calor conveccion">Intercambiador de
+                            Doble Tubo</button>
                         <button class="tab-btn" data-target="telkes-sim"
                             onclick="setTimeout(function(){ if(window.initTelkesSimulation) window.initTelkesSimulation(); }, 50);" data-category="transferencia-calor" data-tags="transferencia-calor conduccion"><i
                                 class="fas fa-cube" style="color:#a855f7; margin-right:4px;"></i> <span
                                 class="lang-es">Almacenamiento PCM & Calor Latente (Maria Telkes, 1948)</span><span
                                 class="lang-en" style="display:none;">PCM Thermal Storage & Latent Heat (Maria Telkes,
                                 1948)</span></button>
-
-                        <button class="tab-btn lab-otros" data-target="pelton-sim">Tanque + Venturi + Pelton</button>
-                        <button class="tab-btn" data-target="fin-sim" data-category="transferencia-calor" data-tags="transferencia-calor conduccion conveccion">Aletas (Superficies
-                            Extendidas)</button>
                         <button class="tab-btn" data-target="vf-sim" data-category="transferencia-calor" data-tags="transferencia-calor radiacion">Factor de Forma</button>
-                        <button class="tab-btn" data-target="doublepipe-sim" data-category="transferencia-calor" data-tags="transferencia-calor conveccion">Intercambiador de
-                            Doble Tubo</button>
                         <button class="tab-btn lab-otros" data-target="microchannel-sim" data-category="transferencia-calor">Disipador de
                             Microcanales (1981)</button>
-
                         <div class="tab-category-title"><span class="lang-es">Comunidad</span><span class="lang-en"
                                 style="display:none;">Community</span></div>
                         <button class="tab-btn"
@@ -7937,20 +7926,22 @@
 
                             <p>
                                 <span class="lang-es">En cada extremo puede imponerse de forma independiente
-                                    cualquiera de <strong>9 condiciones de frontera</strong> — Temperatura Específica,
+                                    cualquiera de <strong>10 condiciones de frontera</strong> — Temperatura Específica,
                                     Flujo de Calor Específico, Convección, Radiación, Combinada
                                     (Convección+Radiación), Combinada Triple (Convección+Radiación+Flujo
-                                    Externo), Irradiación + Convección, Irradiación + Radiación, o Superficie
+                                    Externo), Irradiación + Convección, Irradiación + Radiación, Irradiación +
+                                    Convección + Radiación, o Superficie
                                     Aletada (Convección + Aletas Rectangulares) — formalizadas
-                                    matemáticamente en el acordeón "Formalización de las 9 Condiciones de
+                                    matemáticamente en el acordeón "Formalización de las 10 Condiciones de
                                     Frontera" más abajo.</span>
                                 <span class="lang-en" style="display:none;">Either endpoint can independently impose
-                                    any of <strong>9 boundary conditions</strong> — Specified Temperature, Specified
+                                    any of <strong>10 boundary conditions</strong> — Specified Temperature, Specified
                                     Heat Flux, Convection, Radiation, Combined (Convection+Radiation), Triple
                                     Combined (Convection+Radiation+External Flux), Irradiation + Convection,
-                                    Irradiation + Radiation, or Finned Surface (Convection + Rectangular Fins) —
+                                    Irradiation + Radiation, Irradiation + Convection + Radiation, or Finned
+                                    Surface (Convection + Rectangular Fins) —
                                     formalized mathematically in the "Formalization of
-                                    the 9 Boundary Conditions" accordion below.</span>
+                                    the 10 Boundary Conditions" accordion below.</span>
                             </p>
 
                             <p class="sim-instruction"
@@ -8140,14 +8131,14 @@
                                          </div>
 
 
-                                         <!-- Acordeón: Formalización de las 8 Condiciones de Frontera -->
+                                         <!-- Acordeón: Formalización de las 10 Condiciones de Frontera -->
                                          <details id="cm-panel-boundary-conditions" open
                                              style="margin-top: 14px; background: rgba(255,255,255,0.02); padding: 10px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); width: 100%;">
                                              <summary
                                                  style="cursor: pointer; font-weight: bold; color: var(--accent-cyan); outline: none; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
                                                  <i class="fas fa-arrows-left-right-to-line"></i>
-                                                 <span class="lang-es">Formalización de las 9 Condiciones de Frontera ($s = $ izq, der)</span>
-                                                 <span class="lang-en" style="display:none;">Formalization of the 9 Boundary Conditions ($s = $ left, right)</span>
+                                                 <span class="lang-es">Formalización de las 10 Condiciones de Frontera ($s = $ izq, der)</span>
+                                                 <span class="lang-en" style="display:none;">Formalization of the 10 Boundary Conditions ($s = $ left, right)</span>
                                              </summary>
 
                                              <ol style="margin: 10px 0 0.5rem 20px; font-size: 0.84rem; color: var(--text-muted); line-height: 1.6; padding-left: 10px;">
@@ -8207,7 +8198,7 @@
                                                          where $G$ is the incident irradiation [W/m²] and $\alpha$ the
                                                          surface absorptivity.</span>
                                                  </li>
-                                                 <li style="margin-bottom: 2px;">
+                                                 <li style="margin-bottom: 8px;">
                                                      <span class="lang-es"><strong>Irradiación + Radiación:</strong> resistencia
                                                          de sólo radiación, $R_{\text{rad}} = \dfrac{1}{h_r A}$ (con
                                                          $h_r$ definido como en la condición de Radiación), más la misma
@@ -8218,6 +8209,34 @@
                                                          (with $h_r$ as defined in the Radiation condition), plus the
                                                          same absorbed-irradiation source $\alpha G$:
                                                          $$q = \epsilon \sigma A (T_{\text{surr}}^4 - T_s^4) + \alpha G A = h_r A (T_{\text{surr}} - T_s) + \alpha G A$$</span>
+                                                 </li>
+                                                 <li style="margin-bottom: 8px;">
+                                                     <!-- LOTE — Irradiación + Convección + Radiación (irr_comb):
+                                                          las DOS ramas resistivas de 'comb' (convección + radiación,
+                                                          simultáneas e independientes) MÁS la misma fuente de
+                                                          irradiación absorbida α·G que 'irr_conv'/'irr_rad' — ver
+                                                          boundaryResistanceInfo()/getFluxLeft()/getFluxRight() en
+                                                          app_v2.js para la implementación exacta. -->
+                                                     <span class="lang-es"><strong>Irradiación + Convección + Radiación:</strong>
+                                                         balance simultáneo de irradiación solar/ambiental de onda corta
+                                                         ($\alpha G$, fuente constante que no depende de $T_s$),
+                                                         convección ($R_{\text{conv}} = \dfrac{1}{h A}$) e intercambio
+                                                         radiativo de onda larga con los alrededores
+                                                         ($R_{\text{rad}} = \dfrac{1}{h_r A}$, mismo $h_r$ linealizado
+                                                         que la condición de Radiación) — las dos ramas resistivas en
+                                                         paralelo térmico, igual que en Combinado (Convección+Radiación),
+                                                         más la fuente $\alpha G$ superpuesta en el nodo de superficie:
+                                                         $$q = h A (T_{\infty} - T_s) + \epsilon \sigma A (T_{\text{alred}}^4 - T_s^4) + \alpha G A$$</span>
+                                                     <span class="lang-en" style="display:none;"><strong>Irradiation + Convection + Radiation:</strong>
+                                                         simultaneous balance of short-wave solar/ambient irradiation
+                                                         ($\alpha G$, a constant source independent of $T_s$), convection
+                                                         ($R_{\text{conv}} = \dfrac{1}{h A}$), and long-wave radiative
+                                                         exchange with the surroundings ($R_{\text{rad}} = \dfrac{1}{h_r A}$,
+                                                         same linearized $h_r$ as the Radiation condition) — both
+                                                         resistive branches in thermal parallel, just as in Combined
+                                                         (Convection+Radiation), plus the $\alpha G$ source superimposed
+                                                         at the surface node:
+                                                         $$q = h A (T_{\infty} - T_s) + \epsilon \sigma A (T_{\text{surr}}^4 - T_s^4) + \alpha G A$$</span>
                                                  </li>
                                                  <li style="margin-bottom: 2px;">
                                                      <!-- LOTE — Superficie Aletada (Convección + Aletas Rectangulares):
@@ -8389,6 +8408,7 @@
                                                     <option value="comb-flux">Combinado (Conv + Rad + Flujo)</option>
                                                     <option value="irr_conv">Irradiación + Convección</option>
                                                     <option value="irr_rad">Irradiación + Radiación</option>
+                                                    <option value="irr_comb">Irradiación + Convección + Radiación</option>
                                                     <option value="fin">Superficie Aletada (Conv. + Aletas)</option>
                                                 </select>
                                             </div>
@@ -8702,6 +8722,7 @@
                                                     <option value="comb-flux">Combinado (Conv + Rad + Flujo)</option>
                                                     <option value="irr_conv">Irradiación + Convección</option>
                                                     <option value="irr_rad">Irradiación + Radiación</option>
+                                                    <option value="irr_comb">Irradiación + Convección + Radiación</option>
                                                     <option value="fin">Superficie Aletada (Conv. + Aletas)</option>
                                                 </select>
                                             </div>
@@ -9128,6 +9149,29 @@
                                                     <option value="q">$q''$</option>
                                                     <option value="T_L">$T_{L}$</option>
                                                     <option value="T_R">$T_{R}$</option>
+                                                    <!-- LOTE — Ampliación Eje X (Gráfica Paramétrica): variables de
+                                                         frontera Izq./Der. registradas por "Registrar Punto Actual"
+                                                         (ver pt.bc_l_*/bc_r_* en app_v2.js, btnAddPoint). -->
+                                                    <optgroup label="Frontera Izquierda" class="optgroup-left-bc">
+                                                        <option value="bc_l_temp">Temperatura Superficial Izq. (Ts,L) [°C]</option>
+                                                        <option value="bc_l_h">Coef. Convección Izq. (h,L) [W/m²K]</option>
+                                                        <option value="bc_l_tinf">Temp. Fluido Izq. (T∞,L) [°C]</option>
+                                                        <option value="bc_l_eps">Emisividad Izq. (ε,L)</option>
+                                                        <option value="bc_l_tsur">Temp. Alrededores Izq. (Tsurr,L) [°C]</option>
+                                                        <option value="bc_l_flux">Flujo de Calor Izq. (q''_L) [W/m²]</option>
+                                                        <option value="bc_l_G">Irradiación Izq. (G_L) [W/m²]</option>
+                                                        <option value="bc_l_alpha">Absortividad Izq. (α,L)</option>
+                                                    </optgroup>
+                                                    <optgroup label="Frontera Derecha" class="optgroup-right-bc">
+                                                        <option value="bc_r_temp">Temperatura Superficial Der. (Ts,R) [°C]</option>
+                                                        <option value="bc_r_h">Coef. Convección Der. (h,R) [W/m²K]</option>
+                                                        <option value="bc_r_tinf">Temp. Fluido Der. (T∞,R) [°C]</option>
+                                                        <option value="bc_r_eps">Emisividad Der. (ε,R)</option>
+                                                        <option value="bc_r_tsur">Temp. Alrededores Der. (Tsurr,R) [°C]</option>
+                                                        <option value="bc_r_flux">Flujo de Calor Der. (q''_R) [W/m²]</option>
+                                                        <option value="bc_r_G">Irradiación Der. (G_R) [W/m²]</option>
+                                                        <option value="bc_r_alpha">Absortividad Der. (α,R)</option>
+                                                    </optgroup>
                                                 </select>
                                             </div>
                                             <div style="flex: 1; display: flex; align-items: center; gap: 6px;">
@@ -9142,6 +9186,46 @@
                                                     <option value="T_int1">$T_{int,1}$</option>
                                                 </select>
                                             </div>
+                                        </div>
+                                        <!-- LOTE — Motor de Barrido Paramétrico (Eje X = variables de frontera):
+                                             Mín./Máx./Paso se pueblan automáticamente al elegir una variable
+                                             bc_l_*/bc_r_* en el eje X (ver app_v2.js, populateSweepRangeDefaults()
+                                             y PARAM_X_META). "Generar Barrido" está deshabilitado para las
+                                             variables clásicas (id/L_tot/k1/q/T_L/T_R) — para esas se sigue
+                                             usando "Registrar Punto Actual" manualmente, sin cambios. -->
+                                        <div id="cm-sweep-controls"
+                                            style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px;">
+                                            <div style="display: flex; flex-direction: column; gap: 2px;">
+                                                <label for="cm-graph-x-min"
+                                                    style="font-size: 0.7rem; color: var(--text-secondary);"><span
+                                                        class="lang-es">X Mín.</span><span class="lang-en"
+                                                        style="display:none;">X Min.</span></label>
+                                                <input type="number" id="cm-graph-x-min" class="filter-select"
+                                                    style="width: 80px; background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-primary); border-radius: 6px; padding: 4px; font-size: 0.75rem; cursor: text;">
+                                            </div>
+                                            <div style="display: flex; flex-direction: column; gap: 2px;">
+                                                <label for="cm-graph-x-max"
+                                                    style="font-size: 0.7rem; color: var(--text-secondary);"><span
+                                                        class="lang-es">X Máx.</span><span class="lang-en"
+                                                        style="display:none;">X Max.</span></label>
+                                                <input type="number" id="cm-graph-x-max" class="filter-select"
+                                                    style="width: 80px; background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-primary); border-radius: 6px; padding: 4px; font-size: 0.75rem; cursor: text;">
+                                            </div>
+                                            <div style="display: flex; flex-direction: column; gap: 2px;">
+                                                <label for="cm-graph-x-step"
+                                                    style="font-size: 0.7rem; color: var(--text-secondary);"><span
+                                                        class="lang-es">Paso</span><span class="lang-en"
+                                                        style="display:none;">Step</span></label>
+                                                <input type="number" id="cm-graph-x-step" class="filter-select"
+                                                    min="0.0001"
+                                                    style="width: 70px; background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-primary); border-radius: 6px; padding: 4px; font-size: 0.75rem; cursor: text;">
+                                            </div>
+                                            <button id="cm-run-sweep-btn" type="button"
+                                                style="padding: 6px 10px; background: rgba(249, 115, 22, 0.15); border: 1px solid rgba(249, 115, 22, 0.35); color: #fb923c; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: bold; white-space: nowrap;">
+                                                <i class="fas fa-play"></i> <span class="lang-es">Generar
+                                                    Barrido</span><span class="lang-en"
+                                                    style="display:none;">Run Sweep</span>
+                                            </button>
                                         </div>
                                         <div
                                             style="flex-grow: 1; position: relative; background: var(--bg-dark); border-radius: 8px; border: 1px solid var(--panel-border); padding: 10px; width: 100%; min-height: 220px; display: flex; align-items: center; justify-content: center;">
@@ -11411,25 +11495,21 @@
                     style="color: var(--accent-orange); text-decoration: none;">felipe.colorado@udea.edu.co</a>
             </p>
             <p style="font-size: 0.75rem; margin-top: 8px; color: var(--text-secondary); opacity: 0.8;"><i
-                    class="far fa-clock"></i> <span class="lang-es">Versión 4.6 (Compilación 2026.08.28) - Última actualización: <span
-                        id="last-updated-time">28 de agosto de 2026, 19:40 (COT)</span> -
-                    Sistema de cuentas de usuario: el contador público de usuarios registrados ahora se actualiza
-                    de forma automática con cada registro nuevo (antes había que resembrarlo a mano); se corrigió
-                    una condición de carrera en el registro que podía dejar cuentas creadas en Firebase sin su
-                    perfil correspondiente guardado, y se migraron las cuentas ya afectadas por este problema; y
-                    se agregó un selector de avatar propio en el panel de perfil, disponible tanto para quienes
-                    inician sesión con Google como por correo/contraseña, independiente de las restricciones de
-                    privacidad de fotos de perfil de las cuentas institucionales de Google
-                    Workspace.</span><span class="lang-en" style="display:none;">Version 4.6 (Build 2026.08.28) - Last
-                    update: August 28,
-                    2026, 19:40 (COT) -
-                    User account system: the public registered-users counter now updates automatically with each
-                    new registration (previously required manual reseeding); fixed a race condition in the
-                    registration flow that could leave accounts created in Firebase without a corresponding saved
-                    profile, and migrated the accounts already affected by this issue; and added a self-service
-                    avatar picker in the profile panel, available for both Google and email/password sign-in,
-                    independent of the profile-photo privacy restrictions on institutional Google Workspace
-                    accounts.</span>
+                    class="far fa-clock"></i> <span class="lang-es">Versión 4.8 (Compilación 2026.09.03) - Última actualización: <span
+                        id="last-updated-time">3 de septiembre de 2026, 22:20 (COT)</span> -
+                    Optimización de rendimiento gráfico: se eliminó la lectura de dimensiones del DOM (causa de
+                    "layout thrashing") dentro del bucle de dibujo de varios laboratorios (Fourier, Nusselt,
+                    Reynolds, Herschel, Microcanales, Cp y Cv, Tubos Concéntricos, Capa Límite Interna), que antes
+                    forzaba un recálculo de diseño de toda la página en cada fotograma. Verificado sin tareas largas
+                    de CPU ni advertencias de "forced reflow" durante la
+                    animación.</span><span class="lang-en" style="display:none;">Version 4.8 (Build 2026.09.03) - Last
+                    update: September 3,
+                    2026, 22:20 (COT) -
+                    Graphics performance optimization: removed DOM dimension reads (a cause of "layout thrashing")
+                    from the per-frame draw loop of several labs (Fourier, Nusselt, Reynolds, Herschel,
+                    Microchannels, Cp and Cv, Concentric Tubes, Internal Boundary Layer), which previously forced a
+                    full-page layout recalculation every frame. Verified with zero long CPU tasks and zero "forced
+                    reflow" warnings during animation.</span>
             </p>
             <div style="margin-top: 15px; text-align: center;">
                 <span class="lang-es"><img
@@ -11776,7 +11856,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
     <script src="translations.js"></script>
-    <script src="app_v2.js?v=v41-avatar-en-comentarios"></script>
+    <script src="app_v2.js?v=v43-layout-thrashing-fix-60fps"></script>
     <script src="water-lab.js?v=v1"></script>
 
     <!-- PsychrometryLab (orden de dependencia: formulas -> state -> processes -> chart -> view) -->

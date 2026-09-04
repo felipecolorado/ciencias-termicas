@@ -738,6 +738,24 @@ body {
   display: block;
 }
 
+/* Fail-safe de renderizado (segunda capa, ver IntersectionObserver global en
+   app_v2.js): instruye al motor del navegador a saltar por completo pintado,
+   layout y estilo de cualquier .tab-pane que no esté activa ni en pantalla
+   completa. Hoy .tab-pane ya usa display:none para ese mismo caso (arriba),
+   así que esta regla es redundante en el estado actual del sitio — se deja
+   como red de seguridad explícita por si algún .tab-pane llegara a mostrarse
+   por otro mecanismo (p. ej. display distinto vía JS) sin pasar por
+   display:none. :not(.fullscreen) es obligatorio: fin-sim, transient-sim y
+   multicapa-custom-sim fuerzan display:block!important/position:fixed
+   mediante su propia regla `#id.fullscreen` (más abajo en este archivo) para
+   quedar en pantalla completa incluso si en ese momento no llevan .active —
+   sin esta excepción, content-visibility:hidden les ganaría a esos
+   laboratorios en pantalla completa y los dejaría en blanco. */
+.tab-pane:not(.active):not(.fullscreen) {
+  content-visibility: hidden;
+  pointer-events: none;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -974,6 +992,63 @@ input[type="range"]::-webkit-slider-thumb:hover {
   width: 100%;
   height: 100%;
   display: block;
+}
+
+/* ============================================================================
+   OPTIMIZACIÓN GPU — Promoción a capa de composición dedicada (LOTE
+   rendimiento 60 FPS, 2026-09-04). Cambio puramente de composición: no
+   modifica geometría/tamaño/layout de ningún canvas ni de sus contenedores
+   (ver reglas de `width`/`height`/`object-fit` ya existentes, intactas).
+   `transform`/`will-change`/`perspective` se aplican EXCLUSIVAMENTE a los
+   elementos <canvas> en sí (nodos hoja, sin descendientes) — nunca a sus
+   contenedores ni a los paneles `.fullscreen` — para no crear un containing
+   block nuevo que "atrape" ningún elemento `position:fixed` (el mismo riesgo
+   ya documentado arriba en este archivo para `#newton-lab-modal`/botón de
+   cierre: cualquier `transform` distinto de `none` en un ANCESTRO de un
+   elemento fixed rompe su posicionamiento respecto al viewport; un <canvas>
+   no tiene hijos DOM, así que promoverlo a su propia capa no corre ese
+   riesgo). Con solo un laboratorio visible a la vez (el resto en
+   `display:none`/`content-visibility:hidden`, ver el fail-safe global más
+   abajo), el costo real de memoria de `will-change` queda acotado a 1-2
+   capas activas en todo momento, nunca a los ~70 canvases del sitio a la vez.
+   Selectores: los contenedores genéricos (`.canvas-container`,
+   `.simulation-workspace`) cubren la mayoría de los laboratorios; los IDs
+   explícitos cubren los laboratorios cuyo canvas vive fuera de esos
+   contenedores (wrapper `<div>` con solo estilo inline, patrón usado en
+   Newcomen/Watt, Carnot, Otto/Diesel, Bernoulli, Pelton, Chatelet,
+   Pennington, Telkes, Vortex, Boiling — verificado con un recorrido real del
+   DOM, no solo por inspección visual). */
+.canvas-container canvas,
+.simulation-workspace canvas,
+.newton-canvas-shell canvas,
+#newcomen-canvas,
+#watt-canvas,
+#watt-temp-chart,
+#bernoulli-canvas,
+#pelton-canvas,
+#chatelet-canvas,
+#chatelet-chart,
+#pennington-canvas,
+#pennington-chart,
+#telkes-canvas,
+#telkes-chart,
+#vortexCanvas,
+#boilingCanvas,
+#boilingCurveChart,
+#nukiyamaChart,
+#carnot-pv-canvas,
+#carnot-ts-canvas,
+#carnot-engine-canvas,
+#ottodiesel-pv-canvas,
+#ottodiesel-ts-canvas,
+#otto-engine-canvas,
+#diesel-engine-canvas,
+#maxwellChart {
+  /* Promoción a capa dedicada en la GPU sin alterar geometría */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform;
 }
 
 .border-top-row {
@@ -5381,6 +5456,55 @@ body.telkes-lab-open {
   #telkes-sim.fullscreen {
     padding: 56px 10px 24px;
   }
+}
+
+/* ============================================================
+   WATT-SIM — Fix deformación/estiramiento de canvases en fullscreen
+   Alcance exclusivo: #watt-sim.fullscreen. No toca el modo normal
+   (#watt-sim:not(.fullscreen)) ni ninguna regla global previa de
+   esta hoja. Los wrappers de #newcomen-canvas y #watt-canvas traen
+   `height:380px` inline en index.html (pensado para el modo normal
+   en ventana con scroll); en fullscreen ese alto fijo ya no guarda
+   relación con el ancho real disponible en pantalla completa, así
+   que el navegador termina estirando el bitmap del canvas para
+   llenar la caja resultante — de ahí la deformación. Se corrige sin
+   tocar JS: cada wrapper pasa a una relación de aspecto fija (4:3)
+   con techo en vh, y el propio <canvas> fuerza `object-fit:contain`
+   para que su bitmap interno nunca se deforme, sea cual sea la
+   resolución que el JS de dibujo le haya asignado. ── */
+
+/* 1. Fila de motores (Newcomen/Watt): 2 columnas equilibradas —
+   min-width:0 evita que el contenido intrínseco del canvas fuerce
+   el desbordamiento de una columna sobre la otra. */
+#watt-sim.fullscreen .canvas-card:has(#newcomen-canvas),
+#watt-sim.fullscreen .canvas-card:has(#watt-canvas) {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* 2. Wrapper directo de cada canvas: reemplaza el height:380px
+   inline por una relación de aspecto fija, con techo en vh y
+   centrado — la caja ya no depende de un alto arbitrario en px. */
+#watt-sim.fullscreen .canvas-card > div:has(> #newcomen-canvas),
+#watt-sim.fullscreen .canvas-card > div:has(> #watt-canvas) {
+  height: auto !important;
+  max-height: 55vh;
+  aspect-ratio: 4 / 3;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 3. El propio canvas: nunca se estira, siempre contenido dentro
+   de su caja (equivalente a preserveAspectRatio="xMidYMid meet"). */
+#watt-sim.fullscreen #newcomen-canvas,
+#watt-sim.fullscreen #watt-canvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 /* ============================================================
