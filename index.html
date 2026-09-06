@@ -2048,6 +2048,113 @@
                                             Internal Generation</span></h4>
 
                                     <div class="geq-block">
+                                        <p class="geq-label">
+                                            <strong>
+                                                <span class="lang-es">Ecuación Diferencial y Solución General:</span>
+                                                <span class="lang-en" style="display:none;">Differential Equation and General Solution:</span>
+                                            </strong>
+                                        </p>
+                                        <!-- geom-compare-grid--stacked: modificador SOLO para este bloque
+                                             (Ecuación Diferencial y Solución General). Fuerza 1 columna / 3
+                                             filas en la vista NORMAL (no fullscreen) — ver
+                                             #gen-sim:not(.fullscreen) ... .geom-compare-grid--stacked en
+                                             style.css — porque el LaTeX de estas 3 fórmulas es más ancho que
+                                             el de Volumen/Ts/ΔTmax y se solapa en 3 columnas. La vista
+                                             fullscreen ignora este modificador (queda en 3 columnas, sin
+                                             cambios). -->
+                                        <div class="geom-compare-grid geom-compare-grid--stacked">
+                                            <div class="geom-cell active-geom-row" data-geom="plate">
+                                                <span class="geom-cell-title">
+                                                    <span class="lang-es">Pared Plana</span>
+                                                    <span class="lang-en" style="display:none;">Flat Wall</span>
+                                                </span>
+                                                <p>$$ \frac{d^2T}{dx^2} + \frac{\dot{q}}{k} = 0 $$</p>
+                                                <p>$$ T(x) = -\frac{\dot{q}x^2}{2k} + C_1 x + C_2 $$</p>
+                                            </div>
+                                            <!-- Consolidado: la EDO y la solución general son IDÉNTICAS para el
+                                                 cilindro sólido y el cilindro hueco (sólo cambian las condiciones de
+                                                 frontera que fijan C_1/C_2 — ver nota debajo). data-geom="cylinder"
+                                                 conserva el clic legado apuntando a la variante sólida;
+                                                 data-geom-pair nombra la geometría hueca hermana por si se quiere
+                                                 resaltar esta celda también cuando esa geometría esté activa. -->
+                                            <div class="geom-cell" data-geom="cylinder" data-geom-pair="hollow-cylinder">
+                                                <span class="geom-cell-title">
+                                                    <span class="lang-es">Cilindro Sólido y Cilindro Hueco</span>
+                                                    <span class="lang-en" style="display:none;">Solid Cylinder and Hollow Cylinder</span>
+                                                </span>
+                                                <p>$$ \frac{1}{r}\frac{d}{dr}\!\left(r\frac{dT}{dr}\right) + \frac{\dot{q}}{k} = 0 $$</p>
+                                                <p>$$ T(r) = -\frac{\dot{q}r^2}{4k} + C_1\ln(r) + C_2 $$</p>
+                                                <!-- Nuevo: ΔT_max analítico — SÓLO aplica a la variante hueca
+                                                     (Cilindro Hueco). La variante maciza (Cilindro Sólido) usa la
+                                                     fórmula simple del bloque "Caída Máxima de Temperatura" más
+                                                     abajo (simetría en r=0, no requiere r_s/r_max). -->
+                                                <p class="geq-note" style="margin-top: 0.4rem;">
+                                                    <span class="lang-es"><em>Cilindro Hueco — Caída Máxima de Temperatura:</em></span>
+                                                    <span class="lang-en" style="display:none;"><em>Hollow Cylinder — Maximum Temperature Drop:</em></span>
+                                                </p>
+                                                <p>$$ \Delta T_{\max} = \frac{\dot{q}}{4k}\left(r_s^2 - r_{\max}^2\right) + C_1 \ln\!\left(\frac{r_{\max}}{r_s}\right) $$</p>
+                                            </div>
+                                            <!-- Consolidado: misma EDO/solución general para esfera sólida y
+                                                 casquete esférico. -->
+                                            <div class="geom-cell" data-geom="sphere" data-geom-pair="hollow-sphere">
+                                                <span class="geom-cell-title">
+                                                    <span class="lang-es">Esfera Sólida y Casquete Esférico</span>
+                                                    <span class="lang-en" style="display:none;">Solid Sphere and Spherical Shell</span>
+                                                </span>
+                                                <p>$$ \frac{1}{r^2}\frac{d}{dr}\!\left(r^2\frac{dT}{dr}\right) + \frac{\dot{q}}{k} = 0 $$</p>
+                                                <p>$$ T(r) = -\frac{\dot{q}r^2}{6k} - \frac{C_1}{r} + C_2 $$</p>
+                                                <!-- Nuevo: ΔT_max analítico — SÓLO aplica a la variante hueca
+                                                     (Casquete Esférico). -->
+                                                <p class="geq-note" style="margin-top: 0.4rem;">
+                                                    <span class="lang-es"><em>Casquete Esférico — Caída Máxima de Temperatura:</em></span>
+                                                    <span class="lang-en" style="display:none;"><em>Spherical Shell — Maximum Temperature Drop:</em></span>
+                                                </p>
+                                                <p>$$ \Delta T_{\max} = \frac{\dot{q}}{6k}\left(r_s^2 - r_{\max}^2\right) + C_1 \left(\frac{1}{r_s} - \frac{1}{r_{\max}}\right) $$</p>
+                                            </div>
+                                        </div>
+                                        <p class="geq-note">
+                                            <span class="lang-es">
+                                                <strong>Nota — determinación de $C_1$ y $C_2$:</strong> en las geometrías
+                                                <strong>sólidas (macizas)</strong>, la condición de simetría en el
+                                                centro ($r=0$) obliga a $C_1 = 0$ para evitar que $\ln(r)$ o $1/r$
+                                                diverjan en el eje/centro; $C_2$ se obtiene de la única condición de
+                                                frontera en $r_0$. En las geometrías <strong>huecas</strong>, el
+                                                origen no forma parte del dominio (la conducción empieza en
+                                                $r_i > 0$), así que esa restricción no aplica: $C_1$ sí tiene un valor
+                                                físico válido, y tanto $C_1$ como $C_2$ se determinan resolviendo el
+                                                balance de energía en ambas fronteras, $r_i$ y $r_o$.
+                                            </span>
+                                            <span class="lang-en" style="display:none;">
+                                                <strong>Note — determining $C_1$ and $C_2$:</strong> for
+                                                <strong>solid</strong> geometries, the symmetry condition at the
+                                                center ($r=0$) forces $C_1 = 0$ to keep $\ln(r)$ or $1/r$ from
+                                                diverging at the axis/center; $C_2$ follows from the single boundary
+                                                condition at $r_0$. For <strong>hollow</strong> geometries, the origin
+                                                is not part of the domain (conduction starts at $r_i > 0$), so that
+                                                restriction doesn't apply: $C_1$ does have a valid physical value, and
+                                                both $C_1$ and $C_2$ are determined by solving the energy balance at
+                                                both boundaries, $r_i$ and $r_o$.
+                                            </span>
+                                        </p>
+                                        <p class="geq-note">
+                                            <span class="lang-es">
+                                                <strong>Nota — $r_s$ en $\Delta T_{\max}$ (geometrías huecas):</strong>
+                                                $r_s$ es la frontera <strong>más fría</strong> de las dos ($r_i$ o
+                                                $r_o$, la que tenga menor temperatura superficial) — hacia allí fluye
+                                                el calor desde el punto de temperatura máxima $r_{\max}$, así que
+                                                $\Delta T_{\max} = T(r_{\max}) - T(r_s)$ siempre resulta positivo.
+                                            </span>
+                                            <span class="lang-en" style="display:none;">
+                                                <strong>Note — $r_s$ in $\Delta T_{\max}$ (hollow geometries):</strong>
+                                                $r_s$ is whichever of the two boundaries ($r_i$ or $r_o$) is
+                                                <strong>colder</strong> — heat flows there from the maximum
+                                                temperature point $r_{\max}$, so
+                                                $\Delta T_{\max} = T(r_{\max}) - T(r_s)$ always comes out positive.
+                                            </span>
+                                        </p>
+                                    </div>
+
+                                    <div class="geq-block">
                                         <p class="geq-label"><strong><span class="lang-es">Balance Global de
                                                     Energía:</span><span class="lang-en" style="display:none;">Global
                                                     Energy Balance:</span></strong></p>
@@ -2070,19 +2177,50 @@
                                                 <span class="geom-cell-title"><span class="lang-es">Pared
                                                         Plana</span><span class="lang-en" style="display:none;">Flat
                                                         Wall</span></span>
-                                                <p>$$ V = 2AL $$</p>
+                                                <p>$$ V = A(2L) $$</p>
                                             </div>
+                                            <!-- Renombrado de "Cilindro"/"Esfera" a "...Sólido/Sólida" al agregar
+                                                 las 2 celdas huecas hermanas, para que no queden ambiguos junto a
+                                                 "Cilindro Hueco"/"Casquete Esférico" (mismo criterio ya usado en
+                                                 el bloque de Ecuación Diferencial). -->
                                             <div class="geom-cell" data-geom="cylinder">
-                                                <span class="geom-cell-title"><span class="lang-es">Cilindro</span><span
-                                                        class="lang-en" style="display:none;">Cylinder</span></span>
+                                                <span class="geom-cell-title"><span class="lang-es">Cilindro Sólido</span><span
+                                                        class="lang-en" style="display:none;">Solid Cylinder</span></span>
                                                 <p>$$ V = \pi r_0^2 H $$</p>
                                             </div>
                                             <div class="geom-cell" data-geom="sphere">
-                                                <span class="geom-cell-title"><span class="lang-es">Esfera</span><span
-                                                        class="lang-en" style="display:none;">Sphere</span></span>
+                                                <span class="geom-cell-title"><span class="lang-es">Esfera Sólida</span><span
+                                                        class="lang-en" style="display:none;">Solid Sphere</span></span>
                                                 <p>$$ V = \frac{4}{3}\pi r_0^3 $$</p>
                                             </div>
+                                            <!-- Nuevo: Cilindro Hueco. r_0 = radio externo (mismo que la variante
+                                                 sólida de esta fila); r_i = radio interno del hueco. -->
+                                            <div class="geom-cell" data-geom="hollow-cylinder" data-geom-pair="cylinder">
+                                                <span class="geom-cell-title"><span class="lang-es">Cilindro Hueco</span><span
+                                                        class="lang-en" style="display:none;">Hollow Cylinder</span></span>
+                                                <p>$$ V = \pi\left(r_0^2 - r_i^2\right) H $$</p>
+                                            </div>
+                                            <!-- Nuevo: Casquete Esférico. -->
+                                            <div class="geom-cell" data-geom="hollow-sphere" data-geom-pair="sphere">
+                                                <span class="geom-cell-title"><span class="lang-es">Casquete Esférico</span><span
+                                                        class="lang-en" style="display:none;">Spherical Shell</span></span>
+                                                <p>$$ V = \frac{4}{3}\pi\left(r_0^3 - r_i^3\right) $$</p>
+                                            </div>
                                         </div>
+                                        <p class="geq-note">
+                                            <span class="lang-es">
+                                                Se asume Área transversal unitaria ($A = 1$ m²) para la Pared Plana, y
+                                                Longitud unitaria ($H = 1$ m) para ambos cilindros (sólido y hueco) —
+                                                los mismos valores de referencia ya usados en el Balance Global de
+                                                Energía y en la Tabla de Resultados Comparativa.
+                                            </span>
+                                            <span class="lang-en" style="display:none;">
+                                                A unit cross-sectional Area ($A = 1$ m²) is assumed for the Flat Wall,
+                                                and a unit Length ($H = 1$ m) for both cylinders (solid and hollow) —
+                                                the same reference values already used in the Global Energy Balance
+                                                and in the Comparative Results Table.
+                                            </span>
+                                        </p>
                                     </div>
 
                                     <div class="geq-block">
@@ -2162,6 +2300,19 @@
                                 </div>
                                 <div class="controls-container">
                                     <div class="sliders-grid">
+                                        <div class="control-group" style="grid-column: span 2;">
+                                            <label for="gen-geom-select">
+                                                <span class="lang-es">Geometría del Sólido:</span>
+                                                <span class="lang-en" style="display:none;">Solid Geometry:</span>
+                                            </label>
+                                            <select id="gen-geom-select" class="filter-select" style="width: 100%; margin-top: 4px;">
+                                                <option value="plate">Pared Plana</option>
+                                                <option value="cylinder">Cilindro Sólido</option>
+                                                <option value="sphere">Esfera Sólida</option>
+                                                <option value="hollow-cylinder">Cilindro Hueco</option>
+                                                <option value="hollow-sphere">Casquete Esférico</option>
+                                            </select>
+                                        </div>
                                         <div class="control-group">
                                             <label for="gen-qdot"><span class="lang-es">Generación
                                                     $(\dot{q})$:</span><span class="lang-en"
@@ -2196,8 +2347,47 @@
                                             <input type="range" id="gen-w" min="0.01" max="0.5" step="0.01"
                                                 value="0.10">
                                         </div>
+                                        <div class="control-group" id="gen-ri-group" style="grid-column: span 2; display: none;">
+                                            <label for="gen-ri">
+                                                <span class="lang-es">Radio Interno $(r_i)$:</span>
+                                                <span class="lang-en" style="display:none;">Inner Radius $(r_i)$:</span>
+                                                <input type="number" id="gen-ri-num" class="sim-number-input" min="0.001" max="0.049" step="0.001" value="0.02"> m
+                                            </label>
+                                            <input type="range" id="gen-ri" min="0.001" max="0.049" step="0.001" value="0.02">
+
+                                            <div style="margin-top: 0.6rem;">
+                                                <label for="gen-ri-bc-select">
+                                                    <span class="lang-es">Condición de Frontera en $r_i$:</span>
+                                                    <span class="lang-en" style="display:none;">Inner Boundary Condition:</span>
+                                                </label>
+                                                <select id="gen-ri-bc-select" class="filter-select" style="width: 100%; margin-top: 4px;">
+                                                    <option value="temperature">Temperatura Especificada</option>
+                                                    <option value="adiabatic">Adiabática (sin flujo)</option>
+                                                    <option value="convection">Convección Interna</option>
+                                                </select>
+                                            </div>
+
+                                            <div id="gen-ri-temp-group" style="margin-top: 0.6rem; display: none;">
+                                                <label for="gen-ti-num">
+                                                    <span class="lang-es">Temp. Interna $(T_i)$:</span>
+                                                    <input type="number" id="gen-ti-num" class="sim-number-input" min="-50" max="500" step="1" value="80"> &deg;C
+                                                </label>
+                                            </div>
+
+                                            <div id="gen-ri-conv-group" style="margin-top: 0.6rem; display: none;">
+                                                <label for="gen-hi-num">
+                                                    <span class="lang-es">Coef. Convección Interna $(h_i)$:</span>
+                                                    <input type="number" id="gen-hi-num" class="sim-number-input" min="1" max="1000" step="1" value="50"> W/m&sup2;K
+                                                </label>
+                                                <label for="gen-tinfi-num" style="margin-top: 0.4rem; display: block;">
+                                                    <span class="lang-es">Temp. Ambiente Interna $(T_{\infty,i})$:</span>
+                                                    <input type="number" id="gen-tinfi-num" class="sim-number-input" min="-50" max="200" step="1" value="20"> &deg;C
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="control-group result-card">
+                                        <div id="gen-solid-results">
                                         <h4
                                             style="margin-bottom: 0.5rem; color: var(--accent-orange); font-size: 0.9rem; font-weight: 600;">
                                             Pared Plana (Espesor = $2L$)</h4>
@@ -2263,6 +2453,82 @@
                                                     ($T_{0,\text{esf}}$):</span></span>
                                             <span id="gen-tmax-sph" class="highlight-val" style="color: #10b981;">--
                                                 &deg;C</span>
+                                        </div>
+                                        </div>
+
+                                        <div id="gen-hollow-results" style="display:none;">
+                                            <h4 id="gen-hollow-results-title"
+                                                style="margin-bottom: 0.5rem; color: var(--accent-cyan); font-size: 0.9rem; font-weight: 600;">
+                                                <span class="lang-es">Cilindro Hueco</span>
+                                                <span class="lang-en" style="display:none;">Hollow Cylinder</span>
+                                            </h4>
+                                            <div class="result-row">
+                                                <span><span class="lang-es">Temp. Superficie Interna ($T_{s,i}$):</span>
+                                                    <span class="lang-en" style="display:none;">Inner Surface Temp. ($T_{s,i}$):</span></span>
+                                                <span id="gen-tsi-val" class="highlight-val">-- &deg;C</span>
+                                            </div>
+                                            <div class="result-row">
+                                                <span><span class="lang-es">Temp. Superficie Externa ($T_{s,o}$):</span>
+                                                    <span class="lang-en" style="display:none;">Outer Surface Temp. ($T_{s,o}$):</span></span>
+                                                <span id="gen-tso-val" class="highlight-val">-- &deg;C</span>
+                                            </div>
+                                            <div class="result-row">
+                                                <span><span class="lang-es">Flujo en $r_i$ ($q''_i$):</span>
+                                                    <span class="lang-en" style="display:none;">Flux at $r_i$ ($q''_i$):</span></span>
+                                                <span id="gen-qi-val" class="highlight-val">-- kW/m&sup2;</span>
+                                            </div>
+                                            <div class="result-row">
+                                                <span><span class="lang-es">Flujo en $r_o$ ($q''_o$):</span>
+                                                    <span class="lang-en" style="display:none;">Flux at $r_o$ ($q''_o$):</span></span>
+                                                <span id="gen-qo-val" class="highlight-val">-- kW/m&sup2;</span>
+                                            </div>
+                                            <div class="result-row" style="margin-bottom: 0.5rem;">
+                                                <span><span class="lang-es">Temp. Máxima ($T_{max}$):</span>
+                                                    <span class="lang-en" style="display:none;">Max Temp. ($T_{max}$):</span></span>
+                                                <span id="gen-tmax-hollow-val" class="highlight-val" style="color: #ef4444;">-- &deg;C</span>
+                                            </div>
+                                            <div class="result-row">
+                                                <span><span class="lang-es">Ubicación de $T_{max}$ ($r_{max}$):</span>
+                                                    <span class="lang-en" style="display:none;">Location of $T_{max}$ ($r_{max}$):</span></span>
+                                                <span id="gen-rmax-val" class="highlight-val">-- m</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Tabla de Resultados Comparativa: SIEMPRE visible (no depende de
+                                             #gen-geom-select), muestra las 5 geometrías lado a lado — mismo
+                                             espíritu que la gráfica comparativa (generarDatosComparativos()).
+                                             Reutiliza .fin-results-table (ya global, sin CSS nuevo); envuelta
+                                             en un contenedor con scroll horizontal por si 6 columnas no caben
+                                             en pantallas angostas. -->
+                                        <div id="gen-comparative-results-table" style="margin-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.6rem;">
+                                            <h4 style="margin-bottom: 0.5rem; color: var(--text-primary); font-size: 0.9rem; font-weight: 600;">
+                                                <span class="lang-es">Tabla de Resultados Comparativa</span>
+                                                <span class="lang-en" style="display:none;">Comparative Results Table</span>
+                                            </h4>
+                                            <div style="overflow-x: auto;">
+                                                <table class="fin-results-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><span class="lang-es">Magnitud</span><span class="lang-en" style="display:none;">Quantity</span></th>
+                                                            <th><span class="lang-es">Pared Plana</span><span class="lang-en" style="display:none;">Flat Wall</span></th>
+                                                            <th><span class="lang-es">Cilindro Sólido</span><span class="lang-en" style="display:none;">Solid Cylinder</span></th>
+                                                            <th><span class="lang-es">Esfera Sólida</span><span class="lang-en" style="display:none;">Solid Sphere</span></th>
+                                                            <th><span class="lang-es">Cilindro Hueco</span><span class="lang-en" style="display:none;">Hollow Cylinder</span></th>
+                                                            <th><span class="lang-es">Casquete Esférico</span><span class="lang-en" style="display:none;">Spherical Shell</span></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><span class="lang-es">Volumen [m&sup3;]</span><span class="lang-en" style="display:none;">Volume [m&sup3;]</span></td>
+                                                            <td id="gen-vol-placa-val">-- m&sup3;</td>
+                                                            <td id="gen-vol-cil-mac-val">-- m&sup3;</td>
+                                                            <td id="gen-vol-esf-mac-val">-- m&sup3;</td>
+                                                            <td id="gen-vol-cil-hue-val">-- m&sup3;</td>
+                                                            <td id="gen-vol-esf-hue-val">-- m&sup3;</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="info-card">

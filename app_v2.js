@@ -5048,49 +5048,108 @@ function initGenerationSimulation() {
     const valEqTmax = document.getElementById('gen-eq-tmax-val');
     const geomCells = document.querySelectorAll('#gen-equations-summary-panel .geom-cell[data-geom]');
 
+    // --- LOTE Geometrías Huecas: referencias DOM nuevas ---
+    const selectGeom = document.getElementById('gen-geom-select');
+    const riGroup = document.getElementById('gen-ri-group');
+    const sliderRi = document.getElementById('gen-ri');
+    const valRiNum = document.getElementById('gen-ri-num');
+    const selectRiBc = document.getElementById('gen-ri-bc-select');
+    const riTempGroup = document.getElementById('gen-ri-temp-group');
+    const riConvGroup = document.getElementById('gen-ri-conv-group');
+    const inputTi = document.getElementById('gen-ti-num');
+    const inputHi = document.getElementById('gen-hi-num');
+    const inputTinfI = document.getElementById('gen-tinfi-num');
+
+    const solidResultsEl = document.getElementById('gen-solid-results');
+    const hollowResultsEl = document.getElementById('gen-hollow-results');
+    const hollowResultsTitleEl = document.getElementById('gen-hollow-results-title');
+    const valTsi = document.getElementById('gen-tsi-val');
+    const valTso = document.getElementById('gen-tso-val');
+    const valQi = document.getElementById('gen-qi-val');
+    const valQo = document.getElementById('gen-qo-val');
+    const valTmaxHollow = document.getElementById('gen-tmax-hollow-val');
+    const valRmax = document.getElementById('gen-rmax-val');
+
+    // --- Tabla de Resultados Comparativa (las 5 geometrías a la vez) ---
+    const valVolPlaca = document.getElementById('gen-vol-placa-val');
+    const valVolCilMac = document.getElementById('gen-vol-cil-mac-val');
+    const valVolEsfMac = document.getElementById('gen-vol-esf-mac-val');
+    const valVolCilHue = document.getElementById('gen-vol-cil-hue-val');
+    const valVolEsfHue = document.getElementById('gen-vol-esf-hue-val');
+
+    // Formatea un volumen en m³ para la Tabla de Resultados Comparativa:
+    // notación científica (3 decimales) cuando el valor es muy pequeño o
+    // muy grande (habitual en las 2 geometrías huecas con r_i cercano a
+    // r_o, o en esferas con L pequeño), y decimales fijos en el resto —
+    // así ninguna columna cambia de ancho de forma brusca entre geometrías.
+    function formatVolumenComparativo(v) {
+        if (!Number.isFinite(v)) return '--';
+        const absV = Math.abs(v);
+        if (absV !== 0 && (absV < 1e-3 || absV >= 1e5)) {
+            return v.toExponential(3);
+        }
+        return v.toFixed(6);
+    }
+
     // Geometría activa del panel de ecuaciones (Pared Plana por defecto,
-    // seleccionable al hacer clic/Enter sobre cualquier celda de geometría).
+    // seleccionable al hacer clic/Enter sobre cualquier celda de geometría,
+    // o desde el nuevo <select id="gen-geom-select">).
     let activeGenGeometry = 'plate';
-    const GEN_GEOMETRY_N = { plate: 1, cylinder: 2, sphere: 3 }; // factor de forma n
+    const GEN_GEOMETRY_N = { plate: 1, cylinder: 2, sphere: 3 }; // factor de forma n (sólo geometrías macizas)
+    const GEN_HOLLOW_GEOMETRIES = new Set(['hollow-cylinder', 'hollow-sphere']);
+    function isHollowGeometry(geometry) {
+        return GEN_HOLLOW_GEOMETRIES.has(geometry);
+    }
+
+    // Gráfica COMPARATIVA: las 5 geometrías se dibujan SIEMPRE de forma
+    // simultánea (ver generarDatosComparativos() más abajo). Este registro
+    // centraliza label/color/llave-de-dato por geometría; `yKey` es la
+    // propiedad del punto { x, T_placa, T_cil_mac, ... } que cada dataset
+    // lee vía `parsing.yAxisKey`, y `hollow` marca las 2 curvas que pueden
+    // traer `null` en el centro (hueco) y por tanto no deben unir el gap.
+    const GEN_GEOMETRY_PROFILES = {
+        'plate':           { label: 'Pared Plana',       borderColor: '#f97316', backgroundColor: 'rgba(249, 115, 22, 0.05)', yKey: 'T_placa',   hollow: false },
+        'cylinder':        { label: 'Cilindro Sólido',   borderColor: '#06b6d4', backgroundColor: 'rgba(6, 182, 212, 0.05)', yKey: 'T_cil_mac', hollow: false },
+        'sphere':          { label: 'Esfera Sólida',     borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.05)', yKey: 'T_esf_mac', hollow: false },
+        'hollow-cylinder': { label: 'Cilindro Hueco',    borderColor: '#a855f7', backgroundColor: 'rgba(168, 85, 247, 0.05)', yKey: 'T_cil_hue', hollow: true },
+        'hollow-sphere':   { label: 'Casquete Esférico', borderColor: '#ec4899', backgroundColor: 'rgba(236, 72, 153, 0.05)', yKey: 'T_esf_hue', hollow: true },
+    };
+    // Orden fijo de datasets (índice en genChartInstance.data.datasets).
+    const GEN_GEOMETRY_ORDER = ['plate', 'cylinder', 'sphere', 'hollow-cylinder', 'hollow-sphere'];
+    const GEN_BORDER_WIDTH_ACTIVE = 5;
+    const GEN_BORDER_WIDTH_INACTIVE = 2;
 
     const ctx = document.getElementById('genChart').getContext('2d');
 
     genChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: [],
-            datasets: [
-                {
-                    label: 'Pared Plana',
+            // Los 5 datasets comparten el MISMO arreglo de puntos (asignado
+            // en cada updateSimulation() vía generarDatosComparativos()).
+            // Cada dataset extrae su propia temperatura con
+            // parsing.yAxisKey, así que no hace falta duplicar el arreglo
+            // de datos 5 veces.
+            datasets: GEN_GEOMETRY_ORDER.map((geomKey) => {
+                const profile = GEN_GEOMETRY_PROFILES[geomKey];
+                return {
+                    geomKey, // usado en updateSimulation() para resaltar la geometría activa
+                    label: profile.label,
                     data: [],
-                    borderColor: '#f97316',
-                    backgroundColor: 'rgba(249, 115, 22, 0.05)',
-                    borderWidth: 3,
+                    parsing: { xAxisKey: 'x', yAxisKey: profile.yKey },
+                    borderColor: profile.borderColor,
+                    backgroundColor: profile.backgroundColor,
+                    borderWidth: (geomKey === 'plate') ? GEN_BORDER_WIDTH_ACTIVE : GEN_BORDER_WIDTH_INACTIVE,
                     pointRadius: 0,
                     fill: false,
-                    tension: 0.4
-                },
-                {
-                    label: 'Cilindro Infinito',
-                    data: [],
-                    borderColor: '#06b6d4',
-                    backgroundColor: 'rgba(6, 182, 212, 0.05)',
-                    borderWidth: 3,
-                    pointRadius: 0,
-                    fill: false,
-                    tension: 0.4
-                },
-                {
-                    label: 'Esfera',
-                    data: [],
-                    borderColor: '#10b981',
-                    backgroundColor: 'rgba(16, 185, 129, 0.05)',
-                    borderWidth: 3,
-                    pointRadius: 0,
-                    fill: false,
-                    tension: 0.4
-                }
-            ]
+                    tension: 0.4,
+                    // Las 2 líneas huecas traen `null` en |x| < r_i: spanGaps
+                    // en false hace que Chart.js CORTE la línea ahí en vez de
+                    // unir los extremos con un segmento recto. Las 3 macizas
+                    // no tienen null, así que el valor es indiferente para
+                    // ellas (se deja en true por claridad).
+                    spanGaps: !profile.hollow,
+                };
+            }),
         },
         options: {
             responsive: true,
@@ -5139,6 +5198,36 @@ function initGenerationSimulation() {
                                 position: 'end',
                                 backgroundColor: 'rgba(56, 189, 248, 0.8)'
                             }
+                        },
+                        innerLeftWall: {
+                            type: 'line',
+                            xMin: 0,
+                            xMax: 0,
+                            display: false,
+                            borderColor: '#f472b6',
+                            borderWidth: 2,
+                            borderDash: [3, 3],
+                            label: {
+                                display: true,
+                                content: 'Hueco',
+                                position: 'start',
+                                backgroundColor: 'rgba(244, 114, 182, 0.8)'
+                            }
+                        },
+                        innerRightWall: {
+                            type: 'line',
+                            xMin: 0,
+                            xMax: 0,
+                            display: false,
+                            borderColor: '#f472b6',
+                            borderWidth: 2,
+                            borderDash: [3, 3],
+                            label: {
+                                display: true,
+                                content: 'Hueco',
+                                position: 'start',
+                                backgroundColor: 'rgba(244, 114, 182, 0.8)'
+                            }
                         }
                     }
                 }
@@ -5170,14 +5259,18 @@ function initGenerationSimulation() {
     const GEN_UNIT_LENGTH = 1; // H: longitud unitaria del cilindro [m]
 
     // Tarea 2: Volumen geométrico V según el tipo de cuerpo.
-    //   Pared plana : V = 2AL
-    //   Cilindro    : V = π r0² H
-    //   Esfera      : V = (4/3) π r0³
-    function calcGenVolume(geometry, L, r0, A, H) {
+    //   Pared plana      : V = 2AL
+    //   Cilindro sólido  : V = π r0² H
+    //   Esfera sólida    : V = (4/3) π r0³
+    //   Cilindro hueco   : V = π (r0² - ri²) H       (r_i sólo aplica a las 2 huecas)
+    //   Casquete esférico: V = (4/3) π (r0³ - ri³)
+    function calcGenVolume(geometry, L, r0, A, H, r_i) {
         switch (geometry) {
             case 'plate': return 2 * A * L;
             case 'cylinder': return Math.PI * r0 * r0 * H;
             case 'sphere': return (4 / 3) * Math.PI * Math.pow(r0, 3);
+            case 'hollow-cylinder': return Math.PI * (r0 * r0 - r_i * r_i) * H;
+            case 'hollow-sphere': return (4 / 3) * Math.PI * (Math.pow(r0, 3) - Math.pow(r_i, 3));
             default: return NaN;
         }
     }
@@ -5192,6 +5285,340 @@ function initGenerationSimulation() {
             case 'cylinder': return 2 * Math.PI * r0 * H;
             case 'sphere': return 4 * Math.PI * r0 * r0;
             default: return NaN;
+        }
+    }
+
+    // =================================================================
+    // LOTE — Geometrías Huecas (Cilindro Hueco / Casquete Esférico) con
+    // frontera interna dinámica en r_i y convección externa fija en r_o.
+    // =================================================================
+
+    /**
+     * Coeficientes de la solución particular/homogénea según geometría.
+     * T(r) = f(r) + C1*g(r) + C2   ;   dT/dr = f'(r) + C1*g'(r)
+     */
+    function getGeometryFunctions(geometry, q_dot, k) {
+        if (geometry === 'hollow-cylinder') {
+            return {
+                f: (r) => -(q_dot * r * r) / (4 * k),
+                fp: (r) => -(q_dot * r) / (2 * k),
+                g: (r) => Math.log(r),
+                gp: (r) => 1 / r,
+            };
+        }
+        if (geometry === 'hollow-sphere') {
+            return {
+                f: (r) => -(q_dot * r * r) / (6 * k),
+                fp: (r) => -(q_dot * r) / (3 * k),
+                g: (r) => -1 / r,
+                gp: (r) => 1 / (r * r),
+            };
+        }
+        throw new Error(`Geometría no soportada: ${geometry}`);
+    }
+
+    /**
+     * Arma y resuelve el sistema 2x2 para C1, C2.
+     *
+     * Frontera externa (r_o) — SIEMPRE convección:
+     *   -k * T'(r_o) = h_o * (T(r_o) - Tinf_o)
+     *
+     * Frontera interna (r_i) — según innerBC.type:
+     *   'temperature' → T(r_i) = T_i
+     *   'adiabatic'   → T'(r_i) = 0
+     *   'convection'  → +k * T'(r_i) = h_i * (T(r_i) - Tinf_i)
+     */
+    function calcularConstantesFronteraInterna({ geometry, q_dot, k, r_i, r_o, h_o, Tinf_o, innerBC }) {
+        const { f, fp, g, gp } = getGeometryFunctions(geometry, q_dot, k);
+
+        // --- Ecuación en r_o: convección externa (fija, sin importar innerBC) ---
+        const A_o = -(k * gp(r_o) + h_o * g(r_o));
+        const B_o = -h_o;
+        const RHS_o = h_o * (f(r_o) - Tinf_o) + k * fp(r_o);
+
+        // --- Ecuación en r_i: depende de la CF interna seleccionada ---
+        let A_i, B_i, RHS_i;
+
+        switch (innerBC.type) {
+            case 'temperature': {
+                const { T_i } = innerBC;
+                A_i = g(r_i);
+                B_i = 1;
+                RHS_i = T_i - f(r_i);
+                break;
+            }
+            case 'adiabatic': {
+                A_i = gp(r_i);
+                B_i = 0;
+                RHS_i = -fp(r_i);
+                break;
+            }
+            case 'convection': {
+                const { h_i, Tinf_i } = innerBC;
+                A_i = k * gp(r_i) - h_i * g(r_i);
+                B_i = -h_i;
+                RHS_i = h_i * (f(r_i) - Tinf_i) - k * fp(r_i);
+                break;
+            }
+            default:
+                throw new Error(`Tipo de frontera interna no soportado: ${innerBC.type}`);
+        }
+
+        const det = A_o * B_i - A_i * B_o;
+        if (Math.abs(det) < 1e-10) {
+            throw new Error('Sistema 2x2 singular: revisa la combinación de condiciones de frontera.');
+        }
+
+        const C1 = (RHS_o * B_i - RHS_i * B_o) / det;
+        const C2 = (A_o * RHS_i - A_i * RHS_o) / det;
+
+        return { C1, C2 };
+    }
+
+    /** T(r) para geometría hueca, usando C1/C2 ya resueltos. */
+    function evaluarTemperatura(geometry, r, q_dot, k, C1, C2) {
+        if (geometry === 'hollow-cylinder') {
+            return -(q_dot * r * r) / (4 * k) + C1 * Math.log(r) + C2;
+        }
+        if (geometry === 'hollow-sphere') {
+            return -(q_dot * r * r) / (6 * k) - C1 / r + C2;
+        }
+        throw new Error(`Geometría no soportada: ${geometry}`);
+    }
+
+    /** Flujo de calor por Ley de Fourier: q''(r) = -k * dT/dr. */
+    function evaluarFlujoFourier(geometry, r, q_dot, k, C1) {
+        let dTdr;
+        if (geometry === 'hollow-cylinder') {
+            dTdr = -(q_dot * r) / (2 * k) + C1 / r;
+        } else if (geometry === 'hollow-sphere') {
+            dTdr = -(q_dot * r) / (3 * k) + C1 / (r * r);
+        } else {
+            throw new Error(`Geometría no soportada: ${geometry}`);
+        }
+        return -k * dTdr;
+    }
+
+    /**
+     * Ubica el extremo interior (dT/dr = 0) y decide si es un máximo físico
+     * válido dentro de [r_i, r_o], o si el máximo real está en una superficie.
+     */
+    function calcularRadioYTemperaturaMaxima({ geometry, q_dot, k, C1, C2, r_i, r_o, T_si, T_so }) {
+        let r_max = null;
+
+        if (q_dot !== 0) {
+            if (geometry === 'hollow-cylinder') {
+                const rSquared = (2 * k * C1) / q_dot;
+                if (rSquared > 0) r_max = Math.sqrt(rSquared);
+            } else if (geometry === 'hollow-sphere') {
+                const rCubed = (3 * k * C1) / q_dot;
+                if (rCubed > 0) r_max = Math.cbrt(rCubed);
+            } else {
+                throw new Error(`Geometría no soportada: ${geometry}`);
+            }
+        }
+
+        const dentroDelDominio = r_max !== null && r_max >= r_i && r_max <= r_o;
+
+        if (dentroDelDominio) {
+            const T_max = evaluarTemperatura(geometry, r_max, q_dot, k, C1, C2);
+            return { r_max, T_max, ubicacion: 'interior' };
+        }
+
+        return T_si >= T_so
+            ? { r_max: r_i, T_max: T_si, ubicacion: 'r_i' }
+            : { r_max: r_o, T_max: T_so, ubicacion: 'r_o' };
+    }
+
+    /** Orquesta todo: resuelve C1/C2 y calcula los 6 resultados del panel hueco. */
+    function calcularResultadosGeometriaHueca({ geometry, q_dot, k, r_i, r_o, h_o, Tinf_o, innerBC }) {
+        const { C1, C2 } = calcularConstantesFronteraInterna({ geometry, q_dot, k, r_i, r_o, h_o, Tinf_o, innerBC });
+
+        const T_si = evaluarTemperatura(geometry, r_i, q_dot, k, C1, C2);
+        const T_so = evaluarTemperatura(geometry, r_o, q_dot, k, C1, C2);
+
+        const q_i = evaluarFlujoFourier(geometry, r_i, q_dot, k, C1);
+        const q_o = evaluarFlujoFourier(geometry, r_o, q_dot, k, C1);
+
+        const { r_max, T_max, ubicacion } = calcularRadioYTemperaturaMaxima({
+            geometry, q_dot, k, C1, C2, r_i, r_o, T_si, T_so,
+        });
+
+        return { C1, C2, T_si, T_so, q_i, q_o, r_max, T_max, ubicacion };
+    }
+
+    // =================================================================
+    // Gráfica COMPARATIVA: una única función genera, para cada x del
+    // dominio espacial universal x ∈ [-L, +L] (centrado en 0, r_o = L
+    // siempre), la temperatura de las 5 geometrías EN SIMULTÁNEO. El
+    // selector de geometría ya no decide qué se dibuja: sólo decide qué
+    // panel de resultados se llena y qué línea se resalta (ver
+    // updateSimulation()).
+    // =================================================================
+    /**
+     * @param {object} p
+     * @param {number} p.L        Longitud característica = radio/semi-espesor externo (m); r_o = L
+     * @param {number} p.qdot     Generación interna volumétrica (W/m³)
+     * @param {number} p.k        Conductividad térmica (W/m·K)
+     * @param {number} p.Ts       T_s de la Pared Plana (n=1, vía calcGenTemps)
+     * @param {number} p.TsCyl    T_s del Cilindro Sólido (n=2)
+     * @param {number} p.TsSph    T_s de la Esfera Sólida (n=3)
+     * @param {number} p.r_i      Radio interno del hueco (común a Cilindro Hueco y Casquete Esférico)
+     * @param {number} p.h_o      Coeficiente de convección externo, en r_o (mismo slider `h` del laboratorio)
+     * @param {number} p.Tinf_o   Temperatura de fluido externo, en r_o (mismo slider `T∞`)
+     * @param {object} p.innerBC  Condición de frontera interna activa ({type:'temperature'|'adiabatic'|'convection', ...})
+     * @param {number} [numPuntos=60] Número de segmentos (numPuntos+1 puntos)
+     * @returns {{x:number, T_placa:number, T_cil_mac:number, T_esf_mac:number, T_cil_hue:(number|null), T_esf_hue:(number|null)}[]}
+     */
+    function generarDatosComparativos({ L, qdot, k, Ts, TsCyl, TsSph, r_i, h_o, Tinf_o, innerBC }, numPuntos = 60) {
+        const r_o = L;
+
+        // C1/C2 de cada geometría hueca se resuelven UNA sola vez fuera del
+        // loop (mismos r_i/r_o/h_o/Tinf_o/innerBC para ambas — el laboratorio
+        // no tiene sliders independientes por geometría hueca). Si el
+        // sistema 2x2 resulta singular para alguna, esa curva se dibuja
+        // completa en null en vez de romper toda la gráfica comparativa.
+        let hueco_cil = null;
+        try {
+            hueco_cil = calcularConstantesFronteraInterna({
+                geometry: 'hollow-cylinder', q_dot: qdot, k, r_i, r_o, h_o, Tinf_o, innerBC,
+            });
+        } catch (err) {
+            console.warn('[gen-sim] Cilindro Hueco: sistema no resoluble para r_i/CF actuales:', err);
+        }
+        let hueco_esf = null;
+        try {
+            hueco_esf = calcularConstantesFronteraInterna({
+                geometry: 'hollow-sphere', q_dot: qdot, k, r_i, r_o, h_o, Tinf_o, innerBC,
+            });
+        } catch (err) {
+            console.warn('[gen-sim] Casquete Esférico: sistema no resoluble para r_i/CF actuales:', err);
+        }
+
+        const data = [];
+        const dx = (2 * L) / numPuntos; // dominio universal: -L → +L, centrado en 0
+
+        for (let i = 0; i <= numPuntos; i++) {
+            const x = -L + i * dx;
+            const r = Math.abs(x); // coordenada radial real para cilíndricas/esféricas
+
+            // ---- Geometrías MACIZAS: continuas en todo [-L, +L] ----
+            const T_placa = Ts + (qdot / (2 * k)) * (L * L - x * x);
+            const T_cil_mac = TsCyl + (qdot / (4 * k)) * (L * L - r * r);
+            const T_esf_mac = TsSph + (qdot / (6 * k)) * (L * L - r * r);
+
+            // ---- Geometrías HUECAS: r_o = L, hueco en |x| < r_i → null ----
+            // (mantiene el hueco visual en el centro de la gráfica y permite
+            // que spanGaps:false corte la línea en vez de unir los bordes).
+            let T_cil_hue = null;
+            let T_esf_hue = null;
+            if (Math.abs(x) >= r_i) {
+                if (hueco_cil) {
+                    T_cil_hue = evaluarTemperatura('hollow-cylinder', r, qdot, k, hueco_cil.C1, hueco_cil.C2);
+                }
+                if (hueco_esf) {
+                    T_esf_hue = evaluarTemperatura('hollow-sphere', r, qdot, k, hueco_esf.C1, hueco_esf.C2);
+                }
+            }
+
+            data.push({ x, T_placa, T_cil_mac, T_esf_mac, T_cil_hue, T_esf_hue });
+        }
+
+        // Volúmenes de las 5 geometrías (magnitud ESCALAR, no depende de x:
+        // se calcula UNA sola vez, no dentro del loop de arriba). Área
+        // transversal unitaria (A=1 m²) para la pared y longitud unitaria
+        // (H=1 m) para los cilindros — mismas GEN_UNIT_AREA/GEN_UNIT_LENGTH
+        // que ya usa el Balance Global de Energía; r_o = L siempre. Se
+        // adjunta como propiedad extra del arreglo (los arrays son objetos
+        // en JS) para no romper la compatibilidad con
+        // `dataset.data = chartData` (Chart.js necesita que `data` siga
+        // siendo un arreglo puro de puntos {x, ...}).
+        data.volumenes = {
+            V_placa: calcGenVolume('plate', L, r_o, GEN_UNIT_AREA, GEN_UNIT_LENGTH),
+            V_cil_mac: calcGenVolume('cylinder', L, r_o, GEN_UNIT_AREA, GEN_UNIT_LENGTH),
+            V_esf_mac: calcGenVolume('sphere', L, r_o, GEN_UNIT_AREA, GEN_UNIT_LENGTH),
+            V_cil_hue: calcGenVolume('hollow-cylinder', L, r_o, GEN_UNIT_AREA, GEN_UNIT_LENGTH, r_i),
+            V_esf_hue: calcGenVolume('hollow-sphere', L, r_o, GEN_UNIT_AREA, GEN_UNIT_LENGTH, r_i),
+        };
+
+        return data;
+    }
+
+    // --- Controles condicionales de la UI (r_i, CF interna, panel de resultados) ---
+
+    // Muestra/oculta el bloque #gen-ri-group según si la geometría activa es hueca.
+    function updateRiVisibility() {
+        if (!riGroup) return;
+        riGroup.style.display = isHollowGeometry(activeGenGeometry) ? 'flex' : 'none';
+    }
+
+    // r_i SIEMPRE debe cumplir 0 < r_i < r_o (= w/2). Se llama cada vez que
+    // cambia w o la geometría activa. Deja un 2% de margen para que r_i
+    // nunca colapse exactamente sobre r_o (evitaría ln(r_o/r_i)=0 o
+    // división por cero en las fórmulas de C1/C2).
+    function clampRi() {
+        if (!sliderRi) return;
+        const w = parseFloat(sliderW.value);
+        const r_o = w / 2;
+        const maxRi = r_o * 0.98;
+
+        sliderRi.max = maxRi.toFixed(4);
+        if (valRiNum) valRiNum.max = sliderRi.max;
+
+        let currentRi = parseFloat(sliderRi.value);
+        if (!(currentRi > 0) || currentRi > maxRi) {
+            currentRi = maxRi * 0.5;
+            sliderRi.value = currentRi.toFixed(4);
+            if (valRiNum) valRiNum.value = currentRi.toFixed(4);
+            if (typeof updateSliderFill === 'function') updateSliderFill(sliderRi);
+        }
+    }
+
+    // Renderizado condicional: sólo un grupo de inputs de la CF interna
+    // visible a la vez (ninguno en el caso adiabático).
+    function updateInnerBcVisibility() {
+        if (!selectRiBc) return;
+        const bc = selectRiBc.value;
+        if (riTempGroup) riTempGroup.style.display = (bc === 'temperature') ? 'block' : 'none';
+        if (riConvGroup) riConvGroup.style.display = (bc === 'convection') ? 'block' : 'none';
+    }
+
+    // Traduce el estado actual de la UI al objeto innerBC que espera
+    // calcularConstantesFronteraInterna()/calcularResultadosGeometriaHueca().
+    function getInnerBcConfig() {
+        const bc = selectRiBc ? selectRiBc.value : 'adiabatic';
+        if (bc === 'temperature') {
+            return { type: 'temperature', T_i: parseFloat(inputTi ? inputTi.value : 0) };
+        }
+        if (bc === 'convection') {
+            return {
+                type: 'convection',
+                h_i: parseFloat(inputHi ? inputHi.value : 0),
+                Tinf_i: parseFloat(inputTinfI ? inputTinfI.value : 0),
+            };
+        }
+        return { type: 'adiabatic' };
+    }
+
+    // Alterna entre el panel de resultados de sólido macizo y el de
+    // geometría hueca según activeGenGeometry.
+    function updateResultsPanelVisibility() {
+        const hollow = isHollowGeometry(activeGenGeometry);
+        if (solidResultsEl) solidResultsEl.style.display = hollow ? 'none' : 'block';
+        if (hollowResultsEl) hollowResultsEl.style.display = hollow ? 'block' : 'none';
+    }
+
+    // El h4 del panel hueco cambia de "Cilindro Hueco" a "Casquete Esférico".
+    function updateHollowResultsTitle() {
+        if (!hollowResultsTitleEl) return;
+        const esSpan = hollowResultsTitleEl.querySelector('.lang-es');
+        const enSpan = hollowResultsTitleEl.querySelector('.lang-en');
+        if (activeGenGeometry === 'hollow-cylinder') {
+            if (esSpan) esSpan.textContent = 'Cilindro Hueco';
+            if (enSpan) enSpan.textContent = 'Hollow Cylinder';
+        } else if (activeGenGeometry === 'hollow-sphere') {
+            if (esSpan) esSpan.textContent = 'Casquete Esférico';
+            if (enSpan) enSpan.textContent = 'Spherical Shell';
         }
     }
 
@@ -5221,10 +5648,17 @@ function initGenerationSimulation() {
     }
 
     // Cambia la geometría activa (llamado al hacer clic/Enter sobre una
-    // celda) y fuerza el recálculo + resaltado + tipografiado del panel.
+    // celda, o al elegir una opción en #gen-geom-select) y fuerza el
+    // recálculo + resaltado + tipografiado del panel.
+    const GEN_ALL_GEOMETRIES = new Set(['plate', 'cylinder', 'sphere', 'hollow-cylinder', 'hollow-sphere']);
     function setActiveGenGeometry(geometry) {
-        if (!GEN_GEOMETRY_N[geometry] || geometry === activeGenGeometry) return;
+        if (!GEN_ALL_GEOMETRIES.has(geometry) || geometry === activeGenGeometry) return;
         activeGenGeometry = geometry;
+        if (selectGeom) selectGeom.value = geometry;
+        updateRiVisibility();
+        clampRi();
+        updateResultsPanelVisibility();
+        updateHollowResultsTitle();
         updateSimulation();
     }
 
@@ -5239,6 +5673,19 @@ function initGenerationSimulation() {
                 setActiveGenGeometry(cell.dataset.geom);
             }
         });
+    });
+
+    if (selectGeom) {
+        selectGeom.addEventListener('change', (e) => setActiveGenGeometry(e.target.value));
+    }
+    if (selectRiBc) {
+        selectRiBc.addEventListener('change', () => {
+            updateInnerBcVisibility();
+            updateSimulation();
+        });
+    }
+    [inputTi, inputHi, inputTinfI].forEach((el) => {
+        if (el) el.addEventListener('input', updateSimulation);
     });
 
     function updateSimulation() {
@@ -5265,86 +5712,180 @@ function initGenerationSimulation() {
         if (valTsSph) valTsSph.textContent = TsSph.toFixed(1) + " °C";
         if (valTmaxSph) valTmaxSph.textContent = TmaxSph.toFixed(1) + " °C";
 
+        const hollowActive = isHollowGeometry(activeGenGeometry);
+
         // -------------------------------------------------------------
         // Panel de Ecuaciones (#gen-equations-summary-panel): V, Ė_gen,
-        // T_s, ΔT_max y T_max según la GEOMETRÍA ACTIVA seleccionada
-        // (Pared: n=1 → 2k; Cilindro: n=2 → 4k; Esfera: n=3 → 6k),
-        // reutilizando calcGenTemps() con el factor de forma n correcto.
+        // T_s, ΔT_max y T_max según la GEOMETRÍA ACTIVA seleccionada.
+        // Sólo aplica a geometrías MACIZAS (Pared/Cilindro/Esfera): las
+        // fórmulas usan simetría en r=0 y una única h/T∞, que no existen
+        // en las geometrías HUECAS (ver panel #gen-hollow-results en su
+        // lugar, alimentado por calcularResultadosGeometriaHueca()).
         // -------------------------------------------------------------
-        const activeN = GEN_GEOMETRY_N[activeGenGeometry] || 1;
-        const activeR0 = L; // radio de cilindro/esfera == semi-espesor de la pared
-        const { Ts: activeTs, deltaT: activeDeltaT, Tmax: activeTmax } =
-            calcGenTemps(qdot, L, h, k, Tinf, activeN);
+        if (!hollowActive) {
+            const activeN = GEN_GEOMETRY_N[activeGenGeometry] || 1;
+            const activeR0 = L; // radio de cilindro/esfera == semi-espesor de la pared
+            const { Ts: activeTs, deltaT: activeDeltaT, Tmax: activeTmax } =
+                calcGenTemps(qdot, L, h, k, Tinf, activeN);
 
-        // Tarea 1: Volumen (V) y Tasa Total de Generación Ė_gen = q̇·V [W]
-        const activeVolume = calcGenVolume(activeGenGeometry, L, activeR0, GEN_UNIT_AREA, GEN_UNIT_LENGTH);
-        const activeEgen = qdot * activeVolume;
+            // Tarea 1: Volumen (V) y Tasa Total de Generación Ė_gen = q̇·V [W]
+            const activeVolume = calcGenVolume(activeGenGeometry, L, activeR0, GEN_UNIT_AREA, GEN_UNIT_LENGTH);
+            const activeEgen = qdot * activeVolume;
 
-        // Validación numérica del balance estacionario Ė_gen = Q̇_conv
-        // (Q̇_conv = h·As·(Ts-T∞)) para la geometría activa.
-        const activeAs = calcGenSurfaceArea(activeGenGeometry, activeR0, GEN_UNIT_AREA, GEN_UNIT_LENGTH);
-        const activeQconv = h * activeAs * (activeTs - Tinf);
-        const activeBalanceError = Math.abs(activeEgen - activeQconv);
-        if (activeBalanceError >= Math.max(1e-6, Math.abs(activeEgen) * 1e-3)) {
-            console.warn('[gen-sim] Balance de energía Ė_gen ≠ Q̇_conv (' + activeGenGeometry + '):',
-                { activeEgen, activeQconv, activeBalanceError });
+            // Validación numérica del balance estacionario Ė_gen = Q̇_conv
+            // (Q̇_conv = h·As·(Ts-T∞)) para la geometría activa.
+            const activeAs = calcGenSurfaceArea(activeGenGeometry, activeR0, GEN_UNIT_AREA, GEN_UNIT_LENGTH);
+            const activeQconv = h * activeAs * (activeTs - Tinf);
+            const activeBalanceError = Math.abs(activeEgen - activeQconv);
+            if (activeBalanceError >= Math.max(1e-6, Math.abs(activeEgen) * 1e-3)) {
+                console.warn('[gen-sim] Balance de energía Ė_gen ≠ Q̇_conv (' + activeGenGeometry + '):',
+                    { activeEgen, activeQconv, activeBalanceError });
+            }
+
+            // Tarea 2: inyección de los valores formateados ante cualquier evento
+            // de cambio en los controles (sliders) o en la geometría activa.
+            if (valEqEgot) {
+                valEqEgot.textContent = Math.abs(activeEgen) >= 1000
+                    ? (activeEgen / 1000).toFixed(2) + " kW"
+                    : activeEgen.toFixed(1) + " W";
+            }
+            if (valEqTs) valEqTs.textContent = activeTs.toFixed(1) + " °C";
+            if (valEqDtmax) valEqDtmax.textContent = activeDeltaT.toFixed(1) + " °C";
+            if (valEqTmax) valEqTmax.textContent = activeTmax.toFixed(1) + " °C";
+        } else {
+            // Geometría hueca activa: el balance de energía "simple" con n
+            // fijo no aplica (la frontera interna no es simétrica). Se deja
+            // constancia explícita en el panel en vez de mostrar un número
+            // incorrecto calculado con la fórmula de sólido macizo.
+            const naEs = 'Ver panel de resultados detallado ↓';
+            [valEqEgot, valEqTs, valEqDtmax, valEqTmax].forEach((el) => {
+                if (el) el.textContent = naEs;
+            });
         }
 
-        // Tarea 2: inyección de los valores formateados ante cualquier evento
-        // de cambio en los controles (sliders) o en la geometría activa.
-        if (valEqEgot) {
-            valEqEgot.textContent = Math.abs(activeEgen) >= 1000
-                ? (activeEgen / 1000).toFixed(2) + " kW"
-                : activeEgen.toFixed(1) + " W";
-        }
-        if (valEqTs) valEqTs.textContent = activeTs.toFixed(1) + " °C";
-        if (valEqDtmax) valEqDtmax.textContent = activeDeltaT.toFixed(1) + " °C";
-        if (valEqTmax) valEqTmax.textContent = activeTmax.toFixed(1) + " °C";
-
-        // Tarea 3: resalta la geometría activa y tipografía MathJax de forma segura.
+        // Resalta la geometría activa y tipografía MathJax de forma segura.
         updateActiveGeomHighlight();
         typesetGenEnergyBalance();
+        updateResultsPanelVisibility();
 
-        const points = 50;
-        const dataPlate = [];
-        const dataCyl = [];
-        const dataSph = [];
-        const dx = w / points;
+        // -----------------------------------------------------------
+        // Gráfica COMPARATIVA: las 5 geometrías se dibujan SIEMPRE en
+        // simultáneo (generarDatosComparativos()). El selector de
+        // geometría ya NO decide qué curva se traza: sólo decide qué
+        // panel de resultados se llena (sólido vs. hueco) y qué línea se
+        // resalta con mayor grosor.
+        // -----------------------------------------------------------
+        const r_i = parseFloat(sliderRi.value);
+        const r_o = L; // r_o = w/2, igual que el resto del laboratorio
+        const innerBC = getInnerBcConfig();
 
-        for (let i = 0; i <= points; i++) {
-            const x = -L + i * dx;
-            const r = Math.abs(x);
+        genChartInstance.options.scales.x.title.text = hollowActive ? 'Radio r (m)' : 'Posición x (m)';
 
-            // Plate
-            const T_plate = Ts + (qdot / (2 * k)) * (L * L - x * x);
-            dataPlate.push({ x: x, y: T_plate });
-
-            // Cylinder
-            const T_cyl = TsCyl + (qdot / (4 * k)) * (L * L - r * r);
-            dataCyl.push({ x: x, y: T_cyl });
-
-            // Sphere
-            const T_sph = TsSph + (qdot / (6 * k)) * (L * L - r * r);
-            dataSph.push({ x: x, y: T_sph });
-        }
-
-        genChartInstance.data.datasets[0].data = dataPlate;
-        genChartInstance.data.datasets[1].data = dataCyl;
-        genChartInstance.data.datasets[2].data = dataSph;
-
+        // Paredes (superficie externa ±L): comunes a las 5 geometrías, ya
+        // que r_o = L también en las huecas.
         genChartInstance.options.plugins.annotation.annotations.leftWall.xMin = -L;
         genChartInstance.options.plugins.annotation.annotations.leftWall.xMax = -L;
         genChartInstance.options.plugins.annotation.annotations.rightWall.xMin = L;
         genChartInstance.options.plugins.annotation.annotations.rightWall.xMax = L;
 
-        const margin = Math.max(10, (Tmax - Tinf) * 0.2);
-        genChartInstance.options.scales.y.min = Math.floor(Tinf - margin);
-        genChartInstance.options.scales.y.max = Math.ceil(Tmax + margin);
+        // Borde del hueco (±r_i): visible siempre, ya que Cilindro Hueco y
+        // Casquete Esférico ahora se dibujan de forma permanente.
+        genChartInstance.options.plugins.annotation.annotations.innerLeftWall.display = true;
+        genChartInstance.options.plugins.annotation.annotations.innerLeftWall.xMin = -r_i;
+        genChartInstance.options.plugins.annotation.annotations.innerLeftWall.xMax = -r_i;
+        genChartInstance.options.plugins.annotation.annotations.innerRightWall.display = true;
+        genChartInstance.options.plugins.annotation.annotations.innerRightWall.xMin = r_i;
+        genChartInstance.options.plugins.annotation.annotations.innerRightWall.xMax = r_i;
+
+        // Panel de resultados: sólo se recalcula el detalle (T_si, T_so,
+        // q_i, q_o, T_max, r_max) de la geometría hueca ACTIVA — el panel
+        // sólido de Pared/Cilindro/Esfera ya se llenó arriba con
+        // calcGenTemps(). Un sistema 2x2 singular aquí sólo vacía el panel
+        // de resultados; ya NO interrumpe el dibujo de la gráfica (las 5
+        // curvas se generan por separado en generarDatosComparativos()).
+        if (hollowActive) {
+            updateHollowResultsTitle();
+            try {
+                const resultado = calcularResultadosGeometriaHueca({
+                    geometry: activeGenGeometry,
+                    q_dot: qdot,
+                    k,
+                    r_i,
+                    r_o,
+                    h_o: h,
+                    Tinf_o: Tinf,
+                    innerBC,
+                });
+                if (valTsi) valTsi.textContent = resultado.T_si.toFixed(1) + ' °C';
+                if (valTso) valTso.textContent = resultado.T_so.toFixed(1) + ' °C';
+                if (valQi) valQi.textContent = (resultado.q_i / 1000).toFixed(2) + ' kW/m²';
+                if (valQo) valQo.textContent = (resultado.q_o / 1000).toFixed(2) + ' kW/m²';
+                if (valTmaxHollow) valTmaxHollow.textContent = resultado.T_max.toFixed(1) + ' °C';
+                if (valRmax) {
+                    if (resultado.ubicacion === 'interior') {
+                        valRmax.textContent = resultado.r_max.toFixed(4) + ' m (interior)';
+                    } else if (resultado.ubicacion === 'r_i') {
+                        valRmax.textContent = 'r_i = ' + r_i.toFixed(4) + ' m';
+                    } else {
+                        valRmax.textContent = 'r_o = ' + r_o.toFixed(4) + ' m';
+                    }
+                }
+            } catch (err) {
+                console.warn('[gen-sim] No se pudo resolver la frontera hueca activa:', err);
+            }
+        }
+
+        // Genera el arreglo comparativo (una sola vez) y lo asigna a los 5
+        // datasets; cada uno ya sabe qué llave leer vía `parsing.yAxisKey`
+        // (configurado al crear el chart). Se resalta con mayor grosor la
+        // línea de la geometría activa en el estado de la aplicación.
+        const chartData = generarDatosComparativos({
+            L, qdot, k, Ts, TsCyl, TsSph, r_i, h_o: h, Tinf_o: Tinf, innerBC,
+        });
+
+        // Tabla de Resultados Comparativa: los 5 volúmenes ya vienen
+        // calculados una sola vez dentro de generarDatosComparativos()
+        // (chartData.volumenes), no hay que recalcularlos aquí.
+        const vol = chartData.volumenes;
+        if (valVolPlaca) valVolPlaca.textContent = formatVolumenComparativo(vol.V_placa) + ' m³';
+        if (valVolCilMac) valVolCilMac.textContent = formatVolumenComparativo(vol.V_cil_mac) + ' m³';
+        if (valVolEsfMac) valVolEsfMac.textContent = formatVolumenComparativo(vol.V_esf_mac) + ' m³';
+        if (valVolCilHue) valVolCilHue.textContent = formatVolumenComparativo(vol.V_cil_hue) + ' m³';
+        if (valVolEsfHue) valVolEsfHue.textContent = formatVolumenComparativo(vol.V_esf_hue) + ' m³';
+
+        genChartInstance.data.datasets.forEach((dataset) => {
+            dataset.data = chartData;
+            dataset.borderWidth = (dataset.geomKey === activeGenGeometry)
+                ? GEN_BORDER_WIDTH_ACTIVE
+                : GEN_BORDER_WIDTH_INACTIVE;
+        });
+
+        // Rango Y: envuelve las 5 curvas a la vez (ignora los null del
+        // hueco central de Cilindro Hueco / Casquete Esférico).
+        const allYValues = [];
+        chartData.forEach((p) => {
+            [p.T_placa, p.T_cil_mac, p.T_esf_mac, p.T_cil_hue, p.T_esf_hue].forEach((v) => {
+                if (v !== null && v !== undefined && !Number.isNaN(v)) allYValues.push(v);
+            });
+        });
+        const yMin = Math.min.apply(null, allYValues);
+        const yMax = Math.max.apply(null, allYValues);
+        const marginY = Math.max(5, (yMax - yMin) * 0.2);
+        genChartInstance.options.scales.y.min = Math.floor(yMin - marginY);
+        genChartInstance.options.scales.y.max = Math.ceil(yMax + marginY);
+
+        // Dominio X SIEMPRE universal: -L a +L (con margen visual del 20%,
+        // igual que el comportamiento original de las geometrías macizas).
         genChartInstance.options.scales.x.min = -L * 1.2;
         genChartInstance.options.scales.x.max = L * 1.2;
 
         genChartInstance.update();
     }
+
+    // El cambio de espesor total (w) redefine r_o = w/2: r_i debe
+    // re-validarse ANTES de que el listener genérico de abajo dispare
+    // updateSimulation(), por eso se registra primero.
+    sliderW.addEventListener('input', clampRi);
 
     [sliderQdot, sliderK, sliderH, sliderTinf, sliderW].forEach(slider => {
         slider.addEventListener('input', updateSimulation);
@@ -5355,6 +5896,16 @@ function initGenerationSimulation() {
     syncSliderAndNumberInput(sliderH, document.getElementById('gen-h-num'), updateSimulation);
     syncSliderAndNumberInput(sliderTinf, document.getElementById('gen-tinf-num'), updateSimulation);
     syncSliderAndNumberInput(sliderW, document.getElementById('gen-w-num'), updateSimulation);
+    if (sliderRi && valRiNum) {
+        syncSliderAndNumberInput(sliderRi, valRiNum, updateSimulation);
+    }
+
+    // Estado inicial de los controles dependientes de geometría (oculto por
+    // defecto: la geometría de arranque es 'plate').
+    updateRiVisibility();
+    clampRi();
+    updateInnerBcVisibility();
+    updateResultsPanelVisibility();
 
     window.addEventListener('resize', () => {
         if (document.getElementById('gen-sim').classList.contains('active')) {
@@ -8573,10 +9124,12 @@ function initHerschelSimulation() {
     // 0% is Violet (380nm), 70% is Red (700nm), 75% is near IR peak, 100% is far IR.
     function getRegionInfo(pct) {
         if (pct < 15) return { name: "Violeta", wavelength: 380 + pct * 2, color: "#8b5cf6", heatFactor: 0.15 };
-        if (pct < 30) return { name: "Azul", wavelength: 410 + (pct - 15) * 4.6, color: "#3b82f6", heatFactor: 0.22 };
-        if (pct < 45) return { name: "Verde", wavelength: 480 + (pct - 30) * 4.6, color: "#10b981", heatFactor: 0.30 };
-        if (pct < 58) return { name: "Amarillo", wavelength: 550 + (pct - 45) * 3.8, color: "#eab308", heatFactor: 0.42 };
-        if (pct < 70) return { name: "Naranja", wavelength: 600 + (pct - 58) * 3.3, color: "#f97316", heatFactor: 0.58 };
+        if (pct < 25) return { name: "Azul", wavelength: 410 + (pct - 15) * 4.0, color: "#3b82f6", heatFactor: 0.22 };
+        if (pct < 32) return { name: "Cian", wavelength: 450 + (pct - 25) * 4.3, color: "#06b6d4", heatFactor: 0.26 };
+        if (pct < 45) return { name: "Verde", wavelength: 480 + (pct - 32) * 3.85, color: "#10b981", heatFactor: 0.30 };
+        if (pct < 52) return { name: "Amarillo Limón", wavelength: 530 + (pct - 45) * 7.14, color: "#d9f13c", heatFactor: 0.36 };
+        if (pct < 58) return { name: "Amarillo", wavelength: 580 + (pct - 52) * 3.33, color: "#eab308", heatFactor: 0.42 };
+        if (pct < 70) return { name: "Naranja", wavelength: 600 + (pct - 58) * 3.33, color: "#f97316", heatFactor: 0.58 };
         if (pct < 82) return { name: "Rojo", wavelength: 640 + (pct - 70) * 5.0, color: "#ef4444", heatFactor: 0.85 };
         if (pct < 92) return { name: "Infrarrojo Cercano (Invisible)", wavelength: 700 + (pct - 82) * 15.0, color: "#3f1a1a", heatFactor: 1.25 }; // Peak!
         return { name: "Infrarrojo Lejano (Invisible)", wavelength: 850 + (pct - 92) * 30.0, color: "#1c0d0d", heatFactor: 0.65 }; // Decay
@@ -8626,7 +9179,19 @@ function initHerschelSimulation() {
             scales: {
                 x: {
                     grid: { color: 'rgba(255, 255, 255, 0.05)' },
-                    ticks: { color: '#cbd5e1', font: { size: 9 } }
+                    ticks: {
+                        font: { size: 9 },
+                        color: function(tickCtx) {
+                            const idx = tickCtx.index;
+                            const pctAtIdx = (idx / numPoints) * 100;
+                            return getRegionInfo(pctAtIdx).color;
+                        },
+                        callback: function(value, index) {
+                            const pctAtIdx = (index / numPoints) * 100;
+                            const reg = getRegionInfo(pctAtIdx);
+                            return (reg.wavelength / 1000).toFixed(2) + ' µm';
+                        }
+                    }
                 },
                 y: {
                     title: { display: true, text: 'Temperatura (°C)', color: '#94a3b8' },
@@ -8687,7 +9252,11 @@ function initHerschelSimulation() {
         // Active thermometer marker on chart
         const markerIdx = Math.round((pct / 100) * numPoints);
         const markerData = Array(numPoints + 1).fill(null);
-        markerData[markerIdx] = currentTact;
+        // Fix: leer el valor Y del mismo arreglo tempCurve que alimenta el
+        // dataset de la línea (dataset[0]), no de currentTact (que trae
+        // inercia térmica suavizada) — así el punto queda siempre sobre
+        // la curva, nunca desfasado de ella.
+        markerData[markerIdx] = tempCurve[markerIdx];
 
         herschelChart.data.datasets[0].data = tempCurve;
         herschelChart.data.datasets[1].data = markerData;
@@ -8718,13 +9287,35 @@ function initHerschelSimulation() {
         // ─────────────────────────────────────────────────────────────────
     }
 
+    // Ajusta el buffer nativo del canvas a devicePixelRatio para evitar
+    // pixelación/pérdida de nitidez del dibujo en pantallas HiDPI/retina —
+    // crítico al entrar en fullscreen, donde el contenedor (rect) crece
+    // mucho respecto al tamaño en modo normal. El tamaño lógico CSS
+    // (cssW/cssH) queda guardado en el propio canvas (_cssW/_cssH) para
+    // que renderLoop() siga dibujando en ese mismo espacio de coordenadas
+    // de siempre — sólo la resolución del buffer cambia, nunca las
+    // proporciones del dibujo. Mismo patrón que resizeCanvases() en
+    // initCarnotSimulation() (Newcomen/Watt).
     function resizeHerschelCanvas() {
+        const dpr = window.devicePixelRatio || 1;
         const rect = canvas.getBoundingClientRect();
         if (rect.width === 0 || rect.height === 0) return;
-        if (canvas.width !== rect.width || canvas.height !== rect.height) {
-            canvas.width = rect.width;
-            canvas.height = rect.height;
+        const cssW = rect.width;
+        const cssH = rect.height;
+        const targetW = Math.round(cssW * dpr);
+        const targetH = Math.round(cssH * dpr);
+        if (canvas.width !== targetW || canvas.height !== targetH) {
+            canvas.width = targetW;
+            canvas.height = targetH;
         }
+        canvas._cssW = cssW;
+        canvas._cssH = cssH;
+        // Asignar canvas.width/height ya resetea la matriz de
+        // transformación a la identidad; resetTransform()/setTransform()
+        // aquí es defensivo (por si en el futuro se llama resize sin
+        // reasignar width/height) antes de aplicar el escalado DPR.
+        if (ctx.resetTransform) ctx.resetTransform(); else ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
     }
     window.addEventListener('resize', resizeHerschelCanvas);
 
@@ -8738,17 +9329,22 @@ function initHerschelSimulation() {
             return;
         }
 
-        const w = canvas.width;
-        const h = canvas.height;
+        // Dimensiones lógicas CSS (no el buffer físico canvas.width/height,
+        // que ahora puede venir multiplicado por devicePixelRatio — ver
+        // resizeHerschelCanvas()); así el dibujo conserva sus proporciones
+        // y posiciones de siempre, sea cual sea la resolución del buffer.
+        const w = canvas._cssW || canvas.width;
+        const h = canvas._cssH || canvas.height;
         ctx.clearRect(0, 0, w, h);
 
         const pct = parseFloat(sliderPos.value);
         const Tamb = parseFloat(sliderTemp.value);
+        const I = parseFloat(sliderInt.value);
         const reg = getRegionInfo(pct);
 
         // DRAW HERSCHEL APPARATUS
-        const cx = canvas.width;
-        const cy = canvas.height;
+        const cx = w;
+        const cy = h;
 
         // ── 1. PARED CON CANAL COLIMADOR INCLINADO ──────────────────────────────────
         // El haz solar incide en θ = arctan(3/4) ≈ 36.87° bajo la horizontal.
@@ -8840,6 +9436,15 @@ function initHerschelSimulation() {
         ctx.stroke();
         // ────────────────────────────────────────────────────────────────────────
 
+        // Intensidad Solar dinámica (W/m²), leída del slider en cada frame
+        ctx.save();
+        ctx.fillStyle = '#fde68a';
+        ctx.font = 'bold 11px Inter, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+        ctx.fillText(`Intensidad Solar: ${I.toFixed(0)} W/m²`, wallW + 10, 8);
+        ctx.restore();
+
         // 2. Draw Prism (Triangle)
         ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
         ctx.fillStyle = "rgba(147, 197, 253, 0.3)"; // light blue glass
@@ -8868,33 +9473,34 @@ function initHerschelSimulation() {
             ctx.restore();
         }
 
-        // 3. Draw Dispersed Ray Gradient Spectrum on the table
+        // 3. Draw Unified Dispersed Ray (single continuous polygon, prism → projection surface)
         const tableY = cy - 130;
         const spectrumStartX = prismX + 50;
         const spectrumEndX = cx - 50;
         const spectrumW = spectrumEndX - spectrumStartX;
 
-        // Dispersed light paths from prism to spectrum
-        // We draw individual colors to show a nice dispersion fan
-        const colors = [
-            { c: "rgba(139, 92, 246, 0.2)", xRatio: 0.05 }, // Violet
-            { c: "rgba(59, 130, 246, 0.2)", xRatio: 0.18 }, // Blue
-            { c: "rgba(16, 185, 129, 0.2)", xRatio: 0.33 }, // Green
-            { c: "rgba(234, 179, 8, 0.2)", xRatio: 0.50 }, // Yellow
-            { c: "rgba(249, 115, 22, 0.2)", xRatio: 0.65 }, // Orange
-            { c: "rgba(239, 68, 68, 0.25)", xRatio: 0.78 }, // Red
-            { c: "rgba(239, 68, 68, 0.03)", xRatio: 0.95 }  // Infrared
-        ];
+        // Polígono único y continuo del haz disperso (antes: 7 triángulos
+        // discontinuos vía colors.forEach). Un solo beginPath/moveTo/lineTo/
+        // closePath/fill desde el vértice del prisma hasta la mesa (superficie
+        // de proyección), relleno con un degradado continuo del espectro.
+        const fanLeftX = spectrumStartX + 0.05 * spectrumW - 18;
+        const fanRightX = spectrumStartX + 0.95 * spectrumW + 18;
+        const fanGrad = ctx.createLinearGradient(fanLeftX, tableY, fanRightX, tableY);
+        fanGrad.addColorStop(0.00, "rgba(139, 92, 246, 0.20)"); // Violeta
+        fanGrad.addColorStop(0.14, "rgba(59, 130, 246, 0.20)"); // Azul
+        fanGrad.addColorStop(0.31, "rgba(16, 185, 129, 0.20)"); // Verde
+        fanGrad.addColorStop(0.50, "rgba(234, 179, 8, 0.20)");  // Amarillo
+        fanGrad.addColorStop(0.67, "rgba(249, 115, 22, 0.20)"); // Naranja
+        fanGrad.addColorStop(0.81, "rgba(239, 68, 68, 0.25)");  // Rojo
+        fanGrad.addColorStop(1.00, "rgba(239, 68, 68, 0.03)");  // Infrarrojo
 
-        colors.forEach(col => {
-            ctx.fillStyle = col.c;
-            ctx.beginPath();
-            ctx.moveTo(prismX, prismY);
-            ctx.lineTo(spectrumStartX + col.xRatio * spectrumW - 18, tableY);
-            ctx.lineTo(spectrumStartX + col.xRatio * spectrumW + 18, tableY);
-            ctx.closePath();
-            ctx.fill();
-        });
+        ctx.beginPath();
+        ctx.moveTo(prismX, prismY);
+        ctx.lineTo(fanLeftX, tableY);
+        ctx.lineTo(fanRightX, tableY);
+        ctx.closePath();
+        ctx.fillStyle = fanGrad;
+        ctx.fill();
 
         // Draw Table Surface
         ctx.strokeStyle = "#475569";
