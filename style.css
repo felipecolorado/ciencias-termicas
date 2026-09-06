@@ -5508,6 +5508,41 @@ body.telkes-lab-open {
 }
 
 /* ============================================================
+   HERSCHEL-SIM — Fix deformación/estiramiento del canvas en fullscreen
+   Alcance exclusivo: #herschel-sim.fullscreen. Mismo problema que el ya
+   corregido en WATT-SIM: el wrapper de #herschelCanvas (.canvas-container)
+   trae `height:350px` inline en index.html, pensado para el modo normal
+   en ventana con scroll; en fullscreen ese alto fijo ya no guarda relación
+   con el ancho real disponible en pantalla completa, así que el navegador
+   termina estirando el bitmap del canvas para llenar la caja resultante.
+   Se corrige sin tocar el HTML: el wrapper pasa a flexbox centrado con
+   una relación de aspecto fija (4:3), y el propio <canvas> fuerza
+   `object-fit:contain` con ancho 100% y alto automático para que su
+   bitmap interno nunca se deforme. ── */
+
+/* 1. Wrapper directo del canvas: reemplaza el height:350px inline por
+   una caja flexible centrada con relación de aspecto fija. */
+#herschel-sim.fullscreen .canvas-container:has(> #herschelCanvas) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto !important;
+  max-height: 55vh;
+  aspect-ratio: 4 / 3;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* 2. El propio canvas: nunca se estira, siempre contenido dentro de su
+   caja (equivalente a preserveAspectRatio="xMidYMid meet"). */
+#herschel-sim.fullscreen #herschelCanvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* ============================================================
    GEN-SIM — Resultados analíticos y fórmulas (Ts, ΔT_max, T_max)
    Alcance exclusivo: #gen-sim. Sólo reorganiza visualmente las
    tarjetas de resultados (.result-card/.result-row) y los
@@ -5690,6 +5725,18 @@ body.light-theme #gen-equations-summary-panel strong {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.5rem;
   margin: 0.35rem 0;
+}
+
+/* Vista NORMAL (compacta, no fullscreen) del bloque "Ecuación Diferencial
+   y Solución General": el LaTeX de sus 3 fórmulas (EDO + solución general)
+   es más ancho que el de Volumen/Ts/ΔTmax y se solapa en 3 columnas
+   angostas. Se apila en 1 columna / 3 filas SOLO aquí y SOLO fuera de
+   fullscreen — #gen-sim:not(.fullscreen) excluye por completo la vista de
+   pantalla completa, que sigue en 3 columnas sin ningún cambio. La mayor
+   especificidad (2 IDs + 2 clases) gana sobre la regla de 3 columnas de
+   arriba sin necesitar !important. */
+#gen-sim:not(.fullscreen) #gen-equations-summary-panel .geom-compare-grid--stacked {
+  grid-template-columns: 1fr;
 }
 
 #gen-equations-summary-panel .geom-cell {
