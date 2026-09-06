@@ -1,4 +1,37 @@
 window.uiTranslations = {
+  // LOTE — Émilie du Châtelet (#chatelet-sim): etiquetas de ejes/serie de
+  // la nueva gráfica Chart.js #chateletChart (Área de Indentación vs.
+  // Velocidad al Cuadrado v²), apilada debajo de #chatelet-canvas. Mismo
+  // patrón que Nusselt/Newton/ContactRes: al generar el chart en JS se
+  // debe leer el texto vía t("...") (window.uiTranslations) en vez de
+  // hardcodear el inglés, ya que Chart.js no usa los spans lang-es/lang-en.
+  "Velocidad al Cuadrado ($v^2$)": "Squared Velocity ($v^2$)",
+  "Área de Indentación": "Indentation Area",
+  // LOTE — Motor de Barrido Paramétrico (Eje X = variables de frontera,
+  // #multicapa-custom-sim): título del botón "Generar Barrido" según esté
+  // habilitado o no (ver updateSweepControlsAvailability() en app_v2.js).
+  "El barrido sólo se refleja en el resultado si el tipo de frontera activo usa esta variable.": "The sweep only affects the result if the active boundary type uses this variable.",
+  "Barrido automático disponible sólo para variables de frontera (Izq./Der.).": "Automatic sweep is only available for boundary variables (Left/Right).",
+  // LOTE — Ampliación Eje X (Gráfica Paramétrica, #multicapa-custom-sim):
+  // optgroups y opciones bc_l_*/bc_r_* de #cm-graph-x (ver index.html).
+  "Frontera Izquierda": "Left Boundary",
+  "Frontera Derecha": "Right Boundary",
+  "Temperatura Superficial Izq. (Ts,L) [°C]": "Left Surface Temperature (Ts,L) [°C]",
+  "Coef. Convección Izq. (h,L) [W/m²K]": "Left Conv. Coeff. (h,L) [W/m²K]",
+  "Temp. Fluido Izq. (T∞,L) [°C]": "Left Fluid Temp. (T∞,L) [°C]",
+  "Emisividad Izq. (ε,L)": "Left Emissivity (ε,L)",
+  "Temp. Alrededores Izq. (Tsurr,L) [°C]": "Left Surroundings Temp. (Tsurr,L) [°C]",
+  "Flujo de Calor Izq. (q''_L) [W/m²]": "Left Heat Flux (q''_L) [W/m²]",
+  "Irradiación Izq. (G_L) [W/m²]": "Left Irradiation (G_L) [W/m²]",
+  "Absortividad Izq. (α,L)": "Left Absorptivity (α,L)",
+  "Temperatura Superficial Der. (Ts,R) [°C]": "Right Surface Temperature (Ts,R) [°C]",
+  "Coef. Convección Der. (h,R) [W/m²K]": "Right Conv. Coeff. (h,R) [W/m²K]",
+  "Temp. Fluido Der. (T∞,R) [°C]": "Right Fluid Temp. (T∞,R) [°C]",
+  "Emisividad Der. (ε,R)": "Right Emissivity (ε,R)",
+  "Temp. Alrededores Der. (Tsurr,R) [°C]": "Right Surroundings Temp. (Tsurr,R) [°C]",
+  "Flujo de Calor Der. (q''_R) [W/m²]": "Right Heat Flux (q''_R) [W/m²]",
+  "Irradiación Der. (G_R) [W/m²]": "Right Irradiation (G_R) [W/m²]",
+  "Absortividad Der. (α,R)": "Right Absorptivity (α,R)",
   "Alrededores": "Surroundings",
   "T impuesta": "T imposed",
   "Fuente": "Source",
@@ -1687,6 +1720,11 @@ window.uiTranslations = {
   "Posición x (m)": "Position x (m)",
   "Radio r (m)": "Radius r (m)",
 
+  // LOTE — Nusselt (nusselt-sim): inversión de ejes del Chart.js del perfil
+  // T(y) — título del eje Y (distancia a la pared, ahora eje vertical) usado
+  // como clave de t() en initNusseltSimulation() (ver app_v2.js).
+  "Distancia desde la pared y (m)": "Distance from the wall y (m)",
+
   // LOTE 4 — Multicapa Custom: Solver Multigeometría — nombres de geometría
   // y parámetros radiales (r1, Δr) para uso bilingüe fuera de las <option>
   // combinadas ES/EN ya existentes en #cm-geometry-select — ver LOTE 2).
@@ -1703,6 +1741,9 @@ window.uiTranslations = {
   // de <option> — buscando coincidencia exacta en este diccionario).
   "Irradiación + Convección": "Irradiation + Convection",
   "Irradiación + Radiación": "Irradiation + Radiation",
+  // LOTE — Irradiación + Convección + Radiación (irr_comb): misma mecánica
+  // de traducción de <option> que las dos entradas de arriba.
+  "Irradiación + Convección + Radiación": "Irradiation + Convection + Radiation",
   "Irradiación (G)": "Irradiation (G)",
   "Absortividad (α)": "Absorptivity (α)",
 
@@ -1723,5 +1764,8 @@ window.uiTranslations = {
   "Supuestos Físicos del Modelo": "Physical Model Assumptions",
   "Supuestos Físicos del Modelo (8 Puntos)": "Physical Model Assumptions (8 Points)",
   "Resistencias Térmicas por Geometría": "Thermal Resistances by Geometry",
+
+  // LOTE — Multicapa Custom: Flujos de Calor por Rama en Paralelo + Resaltado de Resistencia Máxima
+  "Resistencia más alta del circuito (cuello de botella térmico)": "Highest resistance in the circuit (thermal bottleneck)",
 };
 

@@ -4068,6 +4068,16 @@
                                         <canvas id="chatelet-canvas"
                                             style="width:100%; height:100%; display:block;"></canvas>
                                     </div>
+
+                                    <!-- LOTE — Nueva gráfica Chart.js (Área de Indentación vs. Velocidad al
+                                         Cuadrado v²) apilada debajo de la animación de caída, dentro de la MISMA
+                                         tarjeta "Experimento de Impacto y Deformación Térmica". La tarjeta padre
+                                         ya usa display:flex; flex-direction:column (ver estilo inline arriba), así
+                                         que este contenedor simplemente cae debajo del canvas sin romper el grid
+                                         de 2 columnas (.sim-grid-responsive) ni el layout en modo .fullscreen. -->
+                                    <div class="chart-container-cm" style="width: 100%; min-height: 250px; margin-top: 15px;">
+                                        <canvas id="chateletChart"></canvas>
+                                    </div>
                                 </div>
 
                                 <div
@@ -11771,22 +11781,10 @@
                     href="mailto:felipe.colorado@udea.edu.co"
                     style="color: var(--accent-orange); text-decoration: none;">felipe.colorado@udea.edu.co</a>
             </p>
-            <p style="font-size: 0.75rem; margin-top: 8px; color: var(--text-secondary); opacity: 0.8;"><i
-                    class="far fa-clock"></i> <span class="lang-es">Versión 4.8 (Compilación 2026.09.03) - Última actualización: <span
-                        id="last-updated-time">3 de septiembre de 2026, 22:20 (COT)</span> -
-                    Optimización de rendimiento gráfico: se eliminó la lectura de dimensiones del DOM (causa de
-                    "layout thrashing") dentro del bucle de dibujo de varios laboratorios (Fourier, Nusselt,
-                    Reynolds, Herschel, Microcanales, Cp y Cv, Tubos Concéntricos, Capa Límite Interna), que antes
-                    forzaba un recálculo de diseño de toda la página en cada fotograma. Verificado sin tareas largas
-                    de CPU ni advertencias de "forced reflow" durante la
-                    animación.</span><span class="lang-en" style="display:none;">Version 4.8 (Build 2026.09.03) - Last
-                    update: September 3,
-                    2026, 22:20 (COT) -
-                    Graphics performance optimization: removed DOM dimension reads (a cause of "layout thrashing")
-                    from the per-frame draw loop of several labs (Fourier, Nusselt, Reynolds, Herschel,
-                    Microchannels, Cp and Cv, Concentric Tubes, Internal Boundary Layer), which previously forced a
-                    full-page layout recalculation every frame. Verified with zero long CPU tasks and zero "forced
-                    reflow" warnings during animation.</span>
+            <p class="update-note" style="font-size: 0.75rem; margin-top: 8px; color: var(--text-secondary); opacity: 0.8;">
+                <i class="far fa-clock"></i>
+                <span class="lang-es"><strong>Última actualización:</strong> 6 de septiembre de 2026, 15:25 (Hora de Colombia).<br><strong>Detalles:</strong> Corrección del cálculo dinámico del área de indentación y gráfica de dispersión sin límites en el laboratorio de Émilie du Châtelet.</span>
+                <span class="lang-en" style="display:none;"><strong>Last update:</strong> September 6, 2026, 15:25 (Colombia Time).<br><strong>Details:</strong> Dynamic indentation area calculation fix and unbounded scatter chart in the Émilie du Châtelet lab.</span>
             </p>
             <div style="margin-top: 15px; text-align: center;">
                 <span class="lang-es"><img

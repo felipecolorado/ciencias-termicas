@@ -6835,6 +6835,22 @@ function initNewtonSimulation() {
 // ==========================================
 function initNusseltSimulation() {
     if (window._nusseltInited) return; // Evitar doble init (ya inicializado con dimensiones válidas)
+
+    // ── Utilidades de traducción (mismo patrón ya usado por Multicapa Custom,
+    // Newton y ContactRes): window.uiTranslations es un diccionario plano
+    // ES→EN (ver translations.js); en 'es' se devuelve la clave tal cual, en
+    // 'en' se busca la traducción y, si faltara, se hace fallback seguro al
+    // texto en español.
+    function getLang() {
+        return window.currentLang || window.currentLanguage || 'es';
+    }
+    function t(key) {
+        var lang = getLang();
+        var tr = window.uiTranslations || {};
+        if (lang === 'en' && tr[key]) return tr[key];
+        return key;
+    }
+
     const uSlider = document.getElementById("nu-u");
     const kSlider = document.getElementById("nu-k");
     const lcSlider = document.getElementById("nu-lc");
@@ -6897,6 +6913,10 @@ function initNusseltSimulation() {
             ]
         },
         options: {
+            // Ejes invertidos: "Distancia desde la pared" en Y, "Temperatura"
+            // en X. indexAxis: 'y' hace que Chart.js trace la línea de arriba
+            // a abajo (siguiendo el eje Y) en vez de izquierda a derecha.
+            indexAxis: 'y',
             legend: { display: false },
             plugins: { legend: { display: false } },
             responsive: true,
@@ -6905,16 +6925,17 @@ function initNusseltSimulation() {
             scales: {
                 x: {
                     type: "linear",
-                    min: 0,
-                    max: 0.2,
-                    title: { display: true, text: "Distancia desde la pared y (m)", color: "#94a3b8" },
+                    min: 20,
+                    max: 100,
+                    title: { display: true, text: t("Temperatura (°C)"), color: "#94a3b8" },
                     ticks: { color: "#cbd5e1" },
                     grid: { color: "rgba(255,255,255,0.1)" }
                 },
                 y: {
-                    min: 20,
-                    max: 100,
-                    title: { display: true, text: "Temperatura (°C)", color: "#94a3b8" },
+                    type: "linear",
+                    min: 0,
+                    max: 0.2,
+                    title: { display: true, text: t("Distancia desde la pared y (m)"), color: "#94a3b8" },
                     ticks: { color: "#cbd5e1" },
                     grid: { color: "rgba(255,255,255,0.1)" }
                 }
@@ -6926,12 +6947,26 @@ function initNusseltSimulation() {
     let particles = [];
     const numParticles = 80;
 
+    // Perfil de velocidad de capa límite laminar — aproximación parabólica (Pohlhausen):
+    // u(y) = U * (2*eta - eta^2), con eta = y/delta acotado a [0, 1].
+    // Cumple exactamente las dos condiciones de frontera de la capa límite:
+    //   - No deslizamiento: eta = 0 (partícula en la pared)      -> u = 0
+    //   - Corriente libre:  eta >= 1 (borde de la capa límite y más allá) -> u = U (constante)
+    // `y` de cada partícula es la distancia relativa a la pared inferior (0..1),
+    // no un valor absoluto en píxeles, para que el perfil no dependa del tamaño del canvas.
+    function velocityProfile(yRel) {
+        const eta = Math.max(0, Math.min(1, yRel));
+        return currentU * (2 * eta - eta * eta);
+    }
+
     function initParticles() {
         particles = [];
         for (let i = 0; i < numParticles; i++) {
+            const yRel = Math.random();
             particles.push({
-                y: Math.random() * animCanvas.height,
-                xRel: Math.random(),
+                x: Math.random() * animCanvas.width,
+                y: yRel, // distancia relativa a la pared inferior: 0 = pared (no deslizamiento), 1 = borde de capa límite / corriente libre
+                velocidad: velocityProfile(yRel), // m/s, según el perfil parabólico definido arriba
                 size: 1.5 + Math.random() * 2
             });
         }
@@ -6987,9 +7022,13 @@ function initNusseltSimulation() {
         resQConv.textContent = q_conv.toFixed(1) + " W/m²";
         resNu.textContent = currentNu.toFixed(2);
 
-        chartInstance.options.scales.x.max = Math.max(0.2, currentLc);
-        chartInstance.options.scales.y.max = currentTs;
-        chartInstance.options.scales.y.min = currentTinf;
+        // Ejes invertidos: el eje Y (antes Temperatura) ahora es Distancia
+        // desde la pared (0..Lc); el eje X (antes Distancia) ahora es
+        // Temperatura (Tinf..Ts). La lógica de cálculo de T_cond/T_conv no
+        // cambia, solo qué coordenada recibe cada valor.
+        chartInstance.options.scales.y.max = Math.max(0.2, currentLc);
+        chartInstance.options.scales.x.max = currentTs;
+        chartInstance.options.scales.x.min = currentTinf;
 
         const condData = [];
         const convData = [];
@@ -6997,10 +7036,10 @@ function initNusseltSimulation() {
         for (let i = 0; i <= numPoints; i++) {
             const y = (i / numPoints) * currentLc;
             const T_cond = currentTs - (currentTs - currentTinf) * (y / currentLc);
-            condData.push({ x: y, y: T_cond });
+            condData.push({ x: T_cond, y: y });
 
             const T_conv = currentTinf + (currentTs - currentTinf) * Math.pow(1 - y / currentLc, currentNu);
-            convData.push({ x: y, y: T_conv });
+            convData.push({ x: T_conv, y: y });
         }
 
         chartInstance.data.datasets[0].data = condData;
@@ -7022,56 +7061,78 @@ function initNusseltSimulation() {
     }
 
     function draw(timestamp) {
-        if (!lastTimestamp) lastTimestamp = timestamp;
+        // Guardia primaria (Regla #9 / Política de Suspensión de Animaciones,
+        // ver project_context.md): si este laboratorio no es el que debería
+        // estar animando ahora mismo (pestaña activa o, si aplica, el que está
+        // en pantalla completa), se cancela el propio rAF y se sale — el
+        // bucle se DETIENE de verdad en vez de seguir despachando frames
+        // vacíos en segundo plano. Es la defensa que garantiza el corte
+        // aunque falle la sincronización externa de pause()/resume().
+        if (!window.LabAnimationManager.isLabVisible('nusselt-sim')) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+            return;
+        }
+
+        if (typeof timestamp !== 'number' || timestamp < 1e6) timestamp = performance.now(); // guarda: syncSliderAndNumberInput puede invocar draw()/updateSimulation() sin un timestamp real de rAF
+        const dtMs = window.getClampedDelta(timestamp, lastTimestamp, 33.33);
         lastTimestamp = timestamp;
+        const frameScale = dtMs / 16.67; // 1.0 a 60 fps; escala cualquier incremento de posición que asuma 60 fps fijos
 
         actx.clearRect(0, 0, animCanvas.width, animCanvas.height);
 
-        // 1. Dibujar Pared Sólida (izquierda, caliente)
-        const wallWidth = 60;
+        // 1. Dibujar Pared Sólida (abajo, caliente) — orientación horizontal
+        const wallHeight = 60;
+        const wallTop = animCanvas.height - wallHeight;
         actx.fillStyle = "#ef4444";
-        actx.fillRect(0, 0, wallWidth, animCanvas.height);
+        actx.fillRect(0, wallTop, animCanvas.width, wallHeight);
 
         actx.fillStyle = "#ffffff";
         actx.font = "bold 12px Outfit";
         actx.textAlign = "center";
-        actx.fillText("PARED", wallWidth / 2, animCanvas.height / 2 - 10);
-        actx.fillText(currentTs.toFixed(0) + "°C", wallWidth / 2, animCanvas.height / 2 + 10);
+        actx.fillText("PARED", animCanvas.width / 2, wallTop + wallHeight / 2 - 6);
+        actx.fillText(currentTs.toFixed(0) + "°C", animCanvas.width / 2, wallTop + wallHeight / 2 + 10);
 
-        // 2. Dibujar Capa de Fluido con gradiente de temperatura
-        const maxFluidPxWidth = animCanvas.width - wallWidth - 45;
-        const fluidPxWidth = (currentLc / 0.2) * maxFluidPxWidth;
-        const fluidEnd = wallWidth + fluidPxWidth;
+        // 2. Dibujar Capa de Fluido con gradiente de temperatura (crece hacia arriba desde la pared)
+        const maxFluidPxHeight = wallTop - 45;
+        const fluidPxHeight = (currentLc / 0.2) * maxFluidPxHeight;
+        const fluidTop = wallTop - fluidPxHeight;
 
-        for (let px = 0; px < fluidPxWidth; px++) {
-            const yRel = px / fluidPxWidth;
+        for (let px = 0; px < fluidPxHeight; px++) {
+            const yRel = px / fluidPxHeight;
             const T = currentTinf + (currentTs - currentTinf) * Math.pow(1 - yRel, currentNu);
             actx.fillStyle = getColorForTemp(T, currentTinf, currentTs);
-            actx.fillRect(wallWidth + px, 0, 1.5, animCanvas.height);
+            actx.fillRect(0, wallTop - px - 1.5, animCanvas.width, 1.5);
         }
 
-        // 3. Dibujar Medio Exterior
+        // 3. Dibujar Medio Exterior (arriba de la capa de fluido)
         actx.fillStyle = "#1e293b";
-        actx.fillRect(fluidEnd, 0, animCanvas.width - fluidEnd, animCanvas.height);
+        actx.fillRect(0, 0, animCanvas.width, fluidTop);
 
         actx.fillStyle = "#38bdf8";
         actx.font = "bold 11px Outfit";
         actx.textAlign = "left";
-        actx.fillText("T∞ = " + currentTinf.toFixed(0) + "°C", fluidEnd + 10, animCanvas.height / 2);
+        actx.fillText("T∞ = " + currentTinf.toFixed(0) + "°C", 10, fluidTop - 10);
 
-        // 4. Partículas
-        actx.fillStyle = "rgba(255, 255, 255, 0.4)";
+        // 4. Partículas — perfil de velocidad de capa límite (parabólico, ver
+        // velocityProfile()). Se dibujan como puntos (círculos), no como
+        // trazos/rectángulos: la lógica de cálculo de posiciones (perfil de
+        // velocidad parabólico y avance dependiente de dtMs vía frameScale)
+        // permanece intacta, solo cambia el dibujado.
+        actx.fillStyle = "rgba(255, 255, 255, 0.85)";
         particles.forEach(p => {
-            const speed = currentU * 50 * p.xRel;
-            p.y -= speed * dt;
-            if (p.y < 0) {
-                p.y = animCanvas.height;
-                p.xRel = Math.random();
+            p.velocidad = velocityProfile(p.y); // m/s: 0 en la pared (y=0), currentU en la corriente libre (y>=1)
+            const pxPerFrameAt60fps = (p.velocidad * 50) / 60; // avance de referencia a 60 fps (50 px de canvas por cada 1 m/s)
+            p.x += pxPerFrameAt60fps * frameScale; // escalado por frameScale: evita tirones a fps variables
+            if (p.x > animCanvas.width) {
+                p.x = 0;
+                p.y = Math.random();
             }
 
-            const xPx = wallWidth + p.xRel * fluidPxWidth;
+            const yPx = wallTop - p.y * fluidPxHeight;
+            const radius = 1.8; // radio fijo y pequeño para que las partículas se vean como puntos definidos
             actx.beginPath();
-            actx.arc(xPx, p.y, p.size, 0, Math.PI * 2);
+            actx.arc(p.x, yPx, radius, 0, Math.PI * 2);
             actx.fill();
         });
 
@@ -7079,14 +7140,14 @@ function initNusseltSimulation() {
         actx.strokeStyle = "rgba(255,255,255,0.2)";
         actx.lineWidth = 1;
         actx.beginPath();
-        actx.moveTo(fluidEnd, 0);
-        actx.lineTo(fluidEnd, animCanvas.height);
+        actx.moveTo(0, fluidTop);
+        actx.lineTo(animCanvas.width, fluidTop);
         actx.stroke();
 
         actx.fillStyle = "#ffffff";
         actx.font = "bold 10px Outfit";
         actx.textAlign = "center";
-        actx.fillText(`Espesor Lc = ${currentLc.toFixed(2)}m`, wallWidth + fluidPxWidth / 2, 20);
+        actx.fillText(`Espesor Lc = ${currentLc.toFixed(2)}m`, animCanvas.width / 2, fluidTop + fluidPxHeight / 2);
 
         animationId = requestAnimationFrame(draw);
     }
@@ -7103,33 +7164,45 @@ function initNusseltSimulation() {
     if (tsSlider) syncSliderAndNumberInput(tsSlider, document.getElementById('nu-ts-num'), updateSimulation);
     if (tinfSlider) syncSliderAndNumberInput(tinfSlider, document.getElementById('nu-tinf-num'), updateSimulation);
 
-    const observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-            resizeNusseltAnimCanvas();
-            updateSimulation();
-            lastTimestamp = performance.now();
-            animationId = requestAnimationFrame(draw);
-        } else {
-            if (animationId) cancelAnimationFrame(animationId);
-        }
-    });
-
+    // Regla #9 (project_context.md, "Política de Suspensión de Animaciones en
+    // Segundo Plano y Pantalla Completa"): no se usa un IntersectionObserver
+    // ad-hoc para pausar/reanudar este laboratorio — se conecta al despachador
+    // centralizado window.LabAnimationManager, igual que los demás laboratorios
+    // ya migrados (Kelvin, Joule, Herschel, Resistencia de Contacto, etc.).
     window.addEventListener('resize', resizeNusseltAnimCanvas);
 
     // Como ya pasamos la guarda "Lazy Init" de arriba, el canvas tiene
     // dimensiones reales en este punto: forzamos el primer sizing +
-    // instanciación de partículas aquí mismo, sin depender de la primera
-    // notificación asíncrona del IntersectionObserver (evita la carrera
-    // entre este cálculo y resizeNusseltAssets() del controlador de
-    // pantalla completa, que antes dejaba `particles` vacío).
+    // instanciación de partículas aquí mismo, sin depender de una notificación
+    // asíncrona externa (evita la carrera con resizeNusseltAssets() del
+    // controlador de pantalla completa, que antes dejaba `particles` vacío).
     animCanvas.width = animParent.clientWidth || animCanvas.offsetWidth;
     animCanvas.height = animParent.clientHeight || animCanvas.offsetHeight;
     initParticles();
+    updateSimulation();
 
     window._nusseltInited = true;
     window.resetNusseltParticles = initParticles;
 
-    observer.observe(animCanvas);
+    // Primer arranque del bucle: se llama de forma incondicional, sin esperar
+    // a un evento externo. switchTab() ya invocó setActiveTab('nusselt-sim')
+    // antes de llegar a este init perezoso (ver bloque 'nusselt-sim' en
+    // switchTab), así que isLabVisible('nusselt-sim') ya es true en este punto
+    // real de apertura de pestaña; si no lo fuera (p. ej. una re-ejecución en
+    // otro contexto), la guardia primaria al inicio de draw() lo cancela solo
+    // en el siguiente frame sin efectos secundarios.
+    lastTimestamp = performance.now();
+    animationId = requestAnimationFrame(draw);
+
+    window.LabAnimationManager.register('nusselt-sim', function resumeNusselt() {
+        resizeNusseltAnimCanvas();
+        if (animationId == null) {
+            lastTimestamp = performance.now();
+            animationId = requestAnimationFrame(draw);
+        }
+    }, function pauseNusselt() {
+        if (animationId) { cancelAnimationFrame(animationId); animationId = null; }
+    });
 }
 
 /* =========================================================================
@@ -26897,6 +26970,14 @@ function initInternalBLSimulation() {
         const canvas = document.getElementById("chatelet-canvas");
         const chartCanvas = document.getElementById("chatelet-chart");
         if (!canvas || !chartCanvas) return;
+        // LOTE — Gráfica acumulada de impactos (Objetivo 3): canvas nuevo,
+        // añadido debajo de #chatelet-canvas (ver index.html/style.css).
+        // Se busca aparte y con guarda propia (no se añade al `return`
+        // temprano de arriba) para que, si por cualquier motivo el HTML
+        // aún no trae este canvas, el resto del laboratorio (animación,
+        // gráfica teórica, métricas) siga funcionando exactamente igual
+        // que antes.
+        const chateletChartCanvas = document.getElementById("chateletChart");
 
         const ctx = canvas.getContext("2d");
         const massVal = document.getElementById("chatelet-mass-val");
@@ -26908,31 +26989,93 @@ function initInternalBLSimulation() {
         const fresVal = document.getElementById("chatelet-fres-val");
         const workEqVal = document.getElementById("chatelet-work-eq-val");
 
+        // Mismo patrón de traducción ya usado por Nusselt/Newton/ContactRes
+        // (ver window.uiTranslations en translations.js): Chart.js no lee
+        // los spans lang-es/lang-en del DOM, así que sus textos (títulos de
+        // eje, leyenda, tooltip) se resuelven con este helper local.
+        function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
+        function t(key) {
+            const lang = getLang();
+            const tr = window.uiTranslations || {};
+            if (lang === 'en' && tr[key]) return tr[key];
+            return key;
+        }
+
         let isFalling = false;
         let sphereY = 0; // Starts from top (0) to bottom (100)
         let chartInstance = null;
+        // LOTE — Objetivo 3: instancia persistente de la gráfica de
+        // dispersión (x = v² de impacto, y = Área de Indentación). A
+        // diferencia de `chartInstance` (la curva teórica Ek(h) de arriba,
+        // que se destruye y recrea en cada cambio de slider), esta NO se
+        // recrea nunca tras el primer init: acumula un punto por cada
+        // caída real, así que debe sobrevivir a los cambios de masa/altura.
+        let chateletScatterChart = null;
         let animationId = null;
         let craterDepth = 0; // Persistent crater depth until reset
         let craterWidth = 0;
 
         function updateDisplays() {
+            // FIX (Área de Indentación no se actualizaba con la masa):
+            // `m` se relee del slider en CADA llamada a updateDisplays(),
+            // así que basta con garantizar que updateDisplays() se invoque
+            // en cada cambio de masa (ver los listeners de massSlider más
+            // abajo, consolidados en chateletFullUpdate) para que A quede
+            // recalculada con el valor de masa vigente.
             const m = parseFloat(massSlider.value);
             const h = parseFloat(heightSlider.value);
 
             const v = Math.sqrt(2 * 9.81 * h);
+            // Ek = 1/2 * m * v^2 — la masa multiplica explícitamente aquí.
+            // Nota: Ek = 0.5*m*v^2 = m*g*h (idénticas, v^2 = 2*g*h), se deja
+            // en su forma 0.5*m*v^2 porque `v` ya se muestra en pantalla.
             const Ek = 0.5 * m * v * v;
 
-            const calculated_def = Ek / 1.5;
+            // La profundidad de huella escala 1:1 con Ek (y por tanto con m).
+            // FIX (bug matemático: Área de Indentación en 0.0/NaN con masa o
+            // altura altas — ver AUDITORIA solicitada): antes `calculated_def`
+            // NO tenía techo, así que con m/h grandes (p.ej. m=5kg, h=10m,
+            // ambos dentro del rango normal de los sliders) `calculated_def`
+            // superaba el diámetro 2*R_mm de la propia esfera, el término
+            // `(2*R_mm - calculated_def)` de la fórmula geométrica antigua se
+            // volvía negativo y el `Math.max(0, ...)` que lo protegía contra
+            // NaN colapsaba el Área a 0.0 cm² en vez de seguir creciendo. Se
+            // clampa `calculated_def` a un máximo físico razonable (300 mm)
+            // para que nunca se desborde ni produzca valores inválidos.
+            const MAX_DEF_MM = 300;
+            const calculated_def = Math.min(Ek / 1.5, MAX_DEF_MM);
             const F_res = 150; // Average constant resistance force of 150 N
 
-            // Calculate sphere radius in mm (approx. 50mm for 1kg, scales with cubic root of mass)
-            const R_mm = 50 * Math.pow(m, 1 / 3);
-            // Crater surface area A = pi * d * (2R - d) in mm², then convert to cm²
-            const calculated_area = Math.PI * calculated_def * Math.max(0, 2 * R_mm - calculated_def) / 100;
+            // FIX: se reemplaza la fórmula geométrica A = pi*d*(2R-d) (no
+            // monótona: crece y luego decrece a 0 cuando d supera el radio
+            // de la esfera, que era exactamente la causa del bug) por una
+            // dependencia directa y estrictamente creciente
+            // A = k * m * v_impacto^2 (equivalente a k' * Ek, ya que
+            // Ek = 0.5*m*v^2), tal como pide la física del experimento: a
+            // mayor masa y mayor velocidad de impacto, mayor área de
+            // indentación, sin excepciones ni retrocesos. AREA_K se calibra
+            // para reproducir el valor de referencia original (m=1kg,
+            // h=2m -> ~35.7 cm²).
+            // FIX (2026-09-06): se elimina el techo artificial MAX_AREA_CM2
+            // (antes clampaba el área a 500 cm², "estancando" el resultado
+            // para masas/alturas grandes). A partir de ahora el área crece
+            // libre y estrictamente según A ∝ m·v² (Ek), sin ningún límite
+            // superior. Se conserva únicamente la guarda de Number.isFinite
+            // (protección contra NaN/negativos por entradas inválidas), que
+            // no es un tope físico sino una validación de datos.
+            const AREA_K = 0.91; // cm² por (kg · (m/s)²) — calibrado contra el caso base
+            let calculated_area = AREA_K * m * v * v;
+            if (!Number.isFinite(calculated_area) || calculated_area < 0) calculated_area = 0;
 
             vVal.textContent = `${v.toFixed(1)} m/s`;
             ekVal.textContent = `${Ek.toFixed(1)} J`;
             defVal.textContent = `${calculated_def.toFixed(1)} mm`;
+            // Se inyecta directamente por ID (getElementById ya resuelto en
+            // areaVal al inicializar el laboratorio): el mismo nodo del DOM
+            // se reutiliza en vista normal y en `.fullscreen` (el controlador
+            // de pantalla completa MUEVE el modal existente con
+            // appendChild, no lo clona), así que esta escritura es válida
+            // en ambos modos sin lógica adicional.
             if (areaVal) areaVal.textContent = `${calculated_area.toFixed(1)} cm²`;
             if (fresVal) fresVal.textContent = `${F_res.toFixed(0)} N (Constante)`;
 
@@ -26945,6 +27088,16 @@ function initInternalBLSimulation() {
                 craterDepth = 0;
                 craterWidth = 0;
             }
+
+            // LOTE — Objetivo 3: se expone el área ya calculada (y v, por
+            // conveniencia) para que quien llama a updateDisplays() —en
+            // particular, el momento de impacto dentro de fallLoop()— pueda
+            // alimentar la gráfica de dispersión con EXACTAMENTE el mismo
+            // valor que se acaba de pintar en #chatelet-area-val, sin
+            // duplicar la fórmula ni arriesgarse a que ambos se desincronicen.
+            // Los llamadores existentes (listeners de slider, etc.) ignoran
+            // este valor de retorno sin ningún efecto secundario.
+            return { v, area: calculated_area };
         }
 
         function initChart() {
@@ -26977,6 +27130,93 @@ function initInternalBLSimulation() {
                         y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
                     },
                     plugins: { legend: { labels: { color: '#e2e8f0', font: { size: 10 } } } }
+                }
+            });
+        }
+
+        // ============================================================
+        // LOTE — Objetivo 3: gráfica de dispersión acumulada de impactos
+        // reales (x = v² de impacto, y = Área de Indentación calculada).
+        // Se inicializa UNA sola vez (ver llamada al final de
+        // initChateletSimulation) y NO se destruye/recrea en cada cambio
+        // de slider como `initChart()` de arriba — sólo se le hace
+        // `.push()` de un punto nuevo + `.update()` cada vez que una caída
+        // real termina en impacto (dentro de fallLoop(), ver dropSphere()
+        // más abajo), y se limpia explícitamente al reiniciar el
+        // experimento (ver resetBtn más abajo).
+        // ============================================================
+        function initChateletScatterChart() {
+            if (!chateletChartCanvas) return; // guarda: el canvas es nuevo, puede no existir en HTML desactualizado
+            if (chateletScatterChart) chateletScatterChart.destroy();
+            const ctxScatter = chateletChartCanvas.getContext('2d');
+
+            chateletScatterChart = new Chart(ctxScatter, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: t('Área de Indentación'),
+                        data: [], // se va llenando con {x: v², y: area} en cada impacto real
+                        showLine: true, // conecta los puntos para evidenciar visualmente la proporcionalidad A ∝ v²
+                        borderColor: '#a855f7',
+                        backgroundColor: 'rgba(168, 85, 247, 0.7)',
+                        pointBackgroundColor: '#a855f7',
+                        pointBorderColor: '#e9d5ff',
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        borderWidth: 2,
+                        tension: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    // Sin animación: cada punto se añade en el instante exacto
+                    // del impacto (posible que el usuario deje caer varias
+                    // esferas seguidas); animar cada .update() añadiría trabajo
+                    // de rendering innecesario sin valor pedagógico.
+                    animation: false,
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            title: { display: true, text: `${t('Velocidad al Cuadrado ($v^2$)')} (m²/s²)`, color: '#94a3b8' },
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: '#94a3b8' },
+                            // FIX (2026-09-06): `suggestedMax` (NO `max`) fija una
+                            // escala inicial razonable — v² = 2·g·h con h=10m
+                            // (tope actual del slider de altura) ≈ 196 m²/s² —
+                            // pero, a diferencia de `max`, Chart.js la IGNORA y
+                            // reescala el eje automáticamente hacia arriba en
+                            // cuanto un dato real la supera. Así el eje X
+                            // acompaña sin techo cualquier v² futuro (p.ej. si
+                            // el rango del slider de altura se ampliara).
+                            suggestedMax: 200
+                        },
+                        y: {
+                            title: { display: true, text: `${t('Área de Indentación')} (cm²)`, color: '#94a3b8' },
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: '#94a3b8' },
+                            beginAtZero: true,
+                            // FIX (2026-09-06): antes el eje Y quedaba topado
+                            // visualmente en ~500 cm² porque el DATO mismo venía
+                            // clampado (ver MAX_AREA_CM2, ya eliminado en
+                            // updateDisplays()). Ahora que el área puede superar
+                            // 500 cm² libremente, se usa `suggestedMax: 500`
+                            // (NUNCA `max: 500`) para conservar una buena escala
+                            // inicial en el rango típico del experimento, sin
+                            // impedir que Chart.js reescale el eje hacia arriba
+                            // en cuanto entre un punto con área > 500 cm².
+                            suggestedMax: 500
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#e2e8f0', font: { size: 10 } } },
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) => `v² = ${ctx.parsed.x.toFixed(1)} m²/s²  ·  A = ${ctx.parsed.y.toFixed(1)} cm²`
+                            }
+                        }
+                    }
                 }
             });
         }
@@ -27140,38 +27380,118 @@ function initInternalBLSimulation() {
             sphereY = 0;
             craterDepth = 0;
             craterWidth = 0;
-            const h_m = parseFloat(heightSlider.value);
-            const m_kg = parseFloat(massSlider.value);
+            let h_m = parseFloat(heightSlider.value);
+            let m_kg = parseFloat(massSlider.value);
+            // FIX (bug matemático: Área de Indentación fallando/NaN con masa
+            // o altura altas): guarda defensiva contra división por cero o
+            // valores inválidos de h_m/m_kg (p.ej. si el slider llegara a
+            // reportar NaN o 0 por alguna edición manual del DOM) — sin
+            // esto, `t*t/h_m` de más abajo produciría Infinity/NaN y
+            // contaminaría sphereY, craterDepth y craterWidth.
+            if (!Number.isFinite(h_m) || h_m <= 0) h_m = 0.5; // mínimo válido del slider
+            if (!Number.isFinite(m_kg) || m_kg <= 0) m_kg = 0.2; // mínimo válido del slider
 
             let t = 0;
             function fallLoop() {
                 t += 0.035;
                 // Galileo equation for falling: s = 0.5 * g * t^2
-                sphereY = Math.min(100, (0.5 * 9.81 * t * t / h_m) * 100);
+                const sRaw = (0.5 * 9.81 * t * t / h_m) * 100;
+
+                // FIX: detección de impacto explícita. Con dt/velocidades
+                // grandes, `sRaw` puede sobrepasar el 100% (el piso/arcilla)
+                // en un solo frame; antes esto ya se recortaba con
+                // Math.min(100, sRaw) pero el impacto quedaba implícito. Se
+                // deja explícito: en cuanto la esfera alcanza o sobrepasa el
+                // piso (sRaw >= 100, equivalente a y + radio >= y_piso en
+                // coordenadas de canvas), se fuerza sphereY EXACTAMENTE a
+                // 100 (posición de impacto) y el cálculo de profundidad deja
+                // de integrarse frame a frame — se calcula una única vez a
+                // partir de la energía cinética TOTAL de caída.
+                const hasImpacted = sRaw >= 100;
+                sphereY = hasImpacted ? 100 : sRaw;
                 drawCanvas();
 
-                if (sphereY < 100) {
+                if (!hasImpacted) {
                     animationId = requestAnimationFrame(fallLoop);
                 } else {
                     isFalling = false;
-                    const v = Math.sqrt(2 * 9.81 * h_m);
-                    const Ek = 0.5 * m_kg * v * v;
 
-                    // Indentation depth directly proportional to Kinetic Energy (scaling with v^2)
+                    // Energía cinética total al momento del choque:
+                    // Ek = m * g * h (equivalente a 1/2 * m * v^2, ya que
+                    // v^2 = 2*g*h en caída libre sin fricción).
+                    const g = 9.81;
+                    const Ek = m_kg * g * h_m;
+
+                    // Profundidad de huella: proporcional a Ek, clampada a
+                    // un máximo físico/visual (40px del canvas) para que
+                    // nunca desborde el cráter dibujado, sin importar cuán
+                    // grandes sean m_kg/h_m.
                     craterDepth = Math.min(40, Ek / 1.5);
                     craterWidth = Math.min(50, 10 + m_kg * 4 + (craterDepth * 0.5));
 
-                    updateDisplays();
+                    // Red de seguridad final: si por cualquier motivo Ek
+                    // resultara no-finito (NaN/Infinity), no se propaga a
+                    // las variables de estado visual del cráter.
+                    if (!Number.isFinite(craterDepth)) craterDepth = 0;
+                    if (!Number.isFinite(craterWidth)) craterWidth = 0;
+
+                    // updateDisplays() ya recalculó y pintó el Área de
+                    // Indentación (#chatelet-area-val) con la masa/altura
+                    // vigentes; se reutiliza su valor de retorno para no
+                    // duplicar la fórmula del área aquí.
+                    const impactResult = updateDisplays();
                     drawCanvas(true);
+
+                    // LOTE — Objetivo 3: éste es el momento EXACTO del
+                    // impacto (la esfera ya tocó la arcilla: hasImpacted ===
+                    // true, un solo frame más arriba). v² de impacto = 2*g*h
+                    // (idéntico a Math.pow(Math.sqrt(2*g*h_m), 2), pero sin
+                    // el redondeo de ida y vuelta por sqrt/pow). Se agrega
+                    // el punto {x: v², y: área} a la gráfica de dispersión
+                    // acumulada y se refresca con .update() — sólo aquí, una
+                    // vez por caída real, nunca en cada frame de la animación.
+                    if (chateletScatterChart && impactResult && Number.isFinite(impactResult.area)) {
+                        const v2_impacto = 2 * g * h_m;
+                        chateletScatterChart.data.datasets[0].data.push({ x: v2_impacto, y: impactResult.area });
+                        chateletScatterChart.update();
+                    }
                 }
             }
             fallLoop();
         }
 
-        massSlider.addEventListener("input", () => { updateDisplays(); initChart(); drawCanvas(true); });
-        heightSlider.addEventListener("input", () => { updateDisplays(); initChart(); drawCanvas(true); });
+        // FIX (Área de Indentación no se actualizaba con la masa):
+        // ANTES había DOS listeners "input" registrados sobre massSlider/
+        // heightSlider — uno aquí mismo y otro que syncSliderAndNumberInput()
+        // vuelve a añadir un poco más abajo — lo que disparaba
+        // updateDisplays()/initChart()/drawCanvas() dos veces por cada
+        // movimiento del slider (doble Chart.destroy()+new Chart() en cada
+        // frame de arrastre). Se declara una única función de actualización
+        // (chateletFullUpdate) ANTES de usarla y se deja como el único punto
+        // de entrada para recalcular m, v, Ek, deformación y el Área de
+        // Indentación (A ∝ m·v²).
+        function chateletFullUpdate() {
+            updateDisplays();
+            initChart();
+            drawCanvas(true);
+        }
 
-        function chateletFullUpdate() { updateDisplays(); initChart(); drawCanvas(true); }
+        // "change" no tenía NINGÚN listener propio sobre massSlider/
+        // heightSlider (syncSliderAndNumberInput sólo ata 'change'/'blur' al
+        // <input type="number"> pareja, no al slider). Esto importaba porque
+        // ChateletLab.resize() — invocado al abrir/cerrar pantalla completa y
+        // en cada resize de ventana — dispara manualmente tanto
+        // `new Event('input')` como `new Event('change')` sobre
+        // #chatelet-mass; el 'change' quedaba sin efecto. Con este listener,
+        // cualquier evento 'input' o 'change' sobre la masa (real o
+        // sintético, en vista normal o en fullscreen) fuerza el recálculo.
+        massSlider.addEventListener("change", chateletFullUpdate);
+        heightSlider.addEventListener("change", chateletFullUpdate);
+
+        // syncSliderAndNumberInput() ya cubre el evento 'input' del slider
+        // (sincroniza el <input type="number"> pareja y llama a onUpdate),
+        // así como 'input'/'change'/'blur' del campo numérico — por eso ya
+        // no se duplica aquí un segundo listener "input" sobre el slider.
         syncSliderAndNumberInput(massSlider, document.getElementById('chatelet-mass-num'), chateletFullUpdate);
         syncSliderAndNumberInput(heightSlider, document.getElementById('chatelet-height-num'), chateletFullUpdate);
 
@@ -27184,6 +27504,17 @@ function initInternalBLSimulation() {
             if (animationId) cancelAnimationFrame(animationId);
             updateDisplays();
             drawCanvas(true);
+
+            // LOTE — Objetivo 3: #chatelet-reset-btn es el único botón de
+            // "reiniciar" de este laboratorio, así que también limpia el
+            // historial acumulado de la gráfica de dispersión (vacía el
+            // array de datos y refresca) cuando el usuario reinicia el
+            // experimento — evita mezclar puntos de una sesión de pruebas
+            // anterior con la siguiente.
+            if (chateletScatterChart) {
+                chateletScatterChart.data.datasets[0].data = [];
+                chateletScatterChart.update();
+            }
         });
 
         if (!canvas.dataset.resizeAttached) {
@@ -27212,6 +27543,26 @@ function initInternalBLSimulation() {
         updateDisplays();
         initChart();
         drawCanvas(true);
+        // LOTE — Objetivo 3: init único de la gráfica de dispersión
+        // acumulada (fuera de chateletFullUpdate/initChart a propósito —
+        // ver comentario en initChateletScatterChart()).
+        initChateletScatterChart();
+
+        // LOTE — Objetivo 3 (regla de rendimiento, resize sin layout
+        // thrashing): se expone un resize puntual para que el controlador
+        // de pantalla completa (IIFE "CHATELET LAB — FULLSCREEN
+        // CONTROLLER" más abajo en este archivo) pueda llamarlo dentro de
+        // su propio resizeAssets() ya existente y debounced (80ms en
+        // window.resize, y una vez al abrir/cerrar fullscreen) — no se
+        // añade NINGÚN listener de resize nuevo, sólo se engancha a ese
+        // punto de entrada único que ya existía. `chart.resize()` de
+        // Chart.js ya internamente lee una sola vez el tamaño de su
+        // contenedor (necesario para redimensionar el <canvas>), así que
+        // esto no agrega lecturas de layout adicionales a las que ese
+        // resize ya hacía.
+        window.chateletResizeScatterChart = function () {
+            if (chateletScatterChart) chateletScatterChart.resize();
+        };
     }
     window.initChateletSimulation = initChateletSimulation;
 
@@ -30943,7 +31294,21 @@ document.addEventListener('DOMContentLoaded', () => {
 (function () {
     'use strict';
     var CFG = { modalId: 'chatelet-sim', openBtnId: 'chatelet-lab-open-btn', closeBtnId: 'chatelet-lab-close-btn', fullscreenClass: 'fullscreen', closingClass: 'is-closing', bodyLockClass: 'chatelet-lab-open', transitionMs: 300 };
-    function resizeAssets() { var sl = document.getElementById('chatelet-mass'); if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); } }
+    // LOTE — Objetivo 3: además de re-disparar input/change sobre la masa
+    // (ya existente, refresca animación/gráfica teórica/métricas), se
+    // llama al resize puntual de la gráfica de dispersión acumulada
+    // (window.chateletResizeScatterChart, expuesto por
+    // initChateletSimulation) para que Chart.js recalcule el tamaño del
+    // <canvas id="chateletChart"> con las nuevas dimensiones del
+    // contenedor tras entrar/salir de pantalla completa. Se reutiliza este
+    // mismo punto de entrada (ya debounced por quien llama a
+    // resizeAssets(), ver attachListeners() más abajo) en vez de añadir un
+    // listener de resize adicional, para no duplicar lecturas de layout.
+    function resizeAssets() {
+        var sl = document.getElementById('chatelet-mass');
+        if (sl) { sl.dispatchEvent(new Event('input')); sl.dispatchEvent(new Event('change')); }
+        if (typeof window.chateletResizeScatterChart === 'function') window.chateletResizeScatterChart();
+    }
     function forceDelayedResize() { setTimeout(resizeAssets, 80); }
     function getLang() { return window.currentLang || window.currentLanguage || 'es'; }
     function openFullscreen() {

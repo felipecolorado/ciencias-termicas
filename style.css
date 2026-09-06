@@ -988,6 +988,32 @@ input[type="range"]::-webkit-slider-thumb:hover {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* LOTE — Émilie du Châtelet: contenedor de la gráfica Chart.js (Área de
+   Indentación vs. Velocidad al Cuadrado v²) apilada debajo del canvas de
+   animación de caída (#chatelet-canvas), dentro de la misma tarjeta
+   "Experimento de Impacto y Deformación Térmica".
+   OJO: la clase `.chart-container-cm` YA EXISTE y está en uso por el
+   laboratorio de Material Compuesto/Multicapa Custom (#multicapa-custom-sim
+   #cm-panel-chart .chart-container-cm, ver más abajo en este archivo), así
+   que esta regla se deja explícitamente scoped bajo `#chatelet-sim` para
+   no alterar en absoluto ese otro laboratorio — sólo se reutiliza el
+   nombre de clase que pidió la instrucción original, sin tocar su regla
+   existente. `position: relative` es necesario para que Chart.js con
+   maintainAspectRatio:false calcule bien el tamaño del <canvas> hijo
+   (mismo patrón que `.canvas-container` arriba y que el wrapper inline de
+   #chatelet-chart); width/min-height/margin-top ya vienen fijados inline
+   en index.html junto al elemento, así que aquí sólo se añade lo que la
+   regla inline no cubre. */
+#chatelet-sim .chart-container-cm {
+  position: relative;
+}
+
+#chatelet-sim .chart-container-cm canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 #boundaryLayerCanvas {
   width: 100%;
   height: 100%;
@@ -1028,6 +1054,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 #pelton-canvas,
 #chatelet-canvas,
 #chatelet-chart,
+#chateletChart,
 #pennington-canvas,
 #pennington-chart,
 #telkes-canvas,

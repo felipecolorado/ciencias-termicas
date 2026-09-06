@@ -18,7 +18,7 @@ El entorno de trabajo local actual está ubicado en:
 D:\OneDrive - Universidad de Antioquia\Heat transfer history\v4
 ```
 
-> **IMPORTANTE**: La carpeta `v4` es el entorno de trabajo actual. La carpeta `v3` sirve EXCLUSIVAMENTE como archivo de restauración. NO debes tocar ni usar la carpeta `v3` para reescribir información a menos que se te indique de manera estricta.
+> **IMPORTANTE (corregido 2026-09-06):** `v4` es la **única** carpeta de trabajo del proyecto. No existe ninguna carpeta `v3` en el equipo del usuario (confirmado por listado directo del directorio padre `Heat transfer history\`, que solo contiene `v4\`) — cualquier mención anterior de una carpeta `v3` de restauración era incorrecta y debe ignorarse. Si algún documento antiguo de `claude/` menciona "v3", se refiere a una etiqueta de versión dentro de un comentario de código CSS/JS (iteraciones de diseño de un laboratorio, ej. "FULLSCREEN LAYOUT v3"), **no** a una carpeta del sistema de archivos.
 
 
 Archivos principales:
@@ -145,7 +145,7 @@ para producción):
 
 ---
 
-## 📁 Estructura de Archivos Principal (versión `v3/`)
+## 📁 Estructura de Archivos Principal (versión `v4/`)
 
 - `index.html`: Archivo principal. Carga de scripts (MathJax, Chart.js, Analytics), barra de controles flotante y todos los modales/simuladores.
 - `app_v2.js`: Núcleo lógico. Base de datos `timelineEvents`, funciones de renderizado y lógica de todos los laboratorios (animaciones Canvas, gráficas, fullscreen controllers).
