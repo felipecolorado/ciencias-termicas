@@ -26447,6 +26447,11 @@ function initInternalBLSimulation() {
         let animationId = null;
         let hasReachedEquilibriumFlag = false;
         let lastTimestamp = null; // para getClampedDelta() — paso de tiempo real acotado del loop
+        // FIX (gráfica fluctuante/zig-zag en vez de curva suave — ver loop()
+        // más abajo): registra el último minuto entero de `time` ya
+        // muestreado en la gráfica, para garantizar exactamente un punto por
+        // unidad de tiempo sin importar el framerate real.
+        let lastSampledTime = 0;
 
         // Current state for each gas
         let state = {};
@@ -26646,6 +26651,7 @@ function initInternalBLSimulation() {
         function resetSim() {
             isRunning = false;
             time = 0;
+            lastSampledTime = 0;
             hasReachedEquilibriumFlag = false;
             initState();
             timeData = [0];
@@ -26852,12 +26858,34 @@ function initInternalBLSimulation() {
                     return; // detiene el bucle: sin nuevo requestAnimationFrame
                 }
 
-                if (Math.abs(time % 1) < 0.5) {
-                    timeData.push(time.toFixed(0));
+                // FIX (gráfica fluctuante/zig-zag en vez de curva suave):
+                // la condición anterior `Math.abs(time % 1) < 0.5` asumía
+                // que `time` avanzaba en incrementos de EXACTAMENTE 0.5 por
+                // frame, pero `frameScale` varía con el framerate real
+                // (getClampedDelta), así que la parte fraccionaria de
+                // `time` iba derivando: unas veces la condición se cumplía
+                // en varios frames seguidos (varios puntos casi
+                // superpuestos en el mismo instante) y otras se saltaba
+                // durante varios frames (un hueco), lo que producía el
+                // efecto de fluctuación/zig-zag en la curva en vez de un
+                // muestreo uniforme y monótono. Se reemplaza por un
+                // contador explícito del último minuto entero muestreado
+                // (`lastSampledTime`): exactamente un punto por cada unidad
+                // entera de `time` cruzada, sin importar el framerate. Se
+                // usa `while` (no `if`) para no perder ningún punto si un
+                // frame excepcionalmente lento llegara a cruzar más de una
+                // unidad de golpe.
+                let pushedNewPoint = false;
+                while (Math.floor(time) > lastSampledTime) {
+                    lastSampledTime += 1;
+                    timeData.push(lastSampledTime.toFixed(0));
                     activeKeys.forEach(key => {
                         state[key].history.push(parseFloat(state[key].T.toFixed(1)));
                     });
+                    pushedNewPoint = true;
+                }
 
+                if (pushedNewPoint) {
                     if (chartInstance) {
                         chartInstance.data.labels = timeData;
                         chartInstance.data.datasets.forEach((dataset, idx) => {
