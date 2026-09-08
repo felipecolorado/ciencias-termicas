@@ -1,0 +1,189 @@
+/* =============================================================================
+   solar-fins-visualizer.css
+   -----------------------------------------------------------------------------
+   Estilos del visualizador paramétrico 2D (SVG) del disipador de aletas
+   (LOTE 4). Todo escopado bajo #solar-fins-visualizer — no depende de
+   #solar-fins-panel (LOTE 2) ni de #solar-fins-status (LOTE 3), aunque
+   reutiliza la MISMA paleta cian/ámbar/rojo ya introducida en esos lotes
+   (cian = remanente/convección, ámbar = advertencia, rojo = bloqueo) para
+   que los 3 bloques lean como un único sistema visual coherente.
+
+   Responsivo SIN JavaScript: el contenedor fija su relación de aspecto
+   (viewBox 560x320 del SVG, ver solar-fins-visualizer.js) y el propio SVG
+   escala con `width:100%` — no hay devicePixelRatio ni recálculo de canvas
+   que gestionar (ver cabecera de solar-fins-visualizer.js).
+   ============================================================================= */
+
+#solar-fins-visualizer {
+    width: 100%;
+    aspect-ratio: 560 / 320;
+    min-height: 180px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Fallback para navegadores sin soporte de aspect-ratio (poco probable en
+   2026, pero barato de cubrir): altura mínima ya fijada arriba evita que el
+   contenedor colapse a 0px antes de que el <svg> se inserte. */
+
+#solar-fins-visualizer .fh-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* ── Base (celda solar / sustrato) ───────────────────────────────────────── */
+
+#solar-fins-visualizer .fh-base {
+    fill: #334155;
+    stroke: #475569;
+    stroke-width: 1;
+}
+
+body.light-theme #solar-fins-visualizer .fh-base {
+    fill: #cbd5e1;
+    stroke: #94a3b8;
+}
+
+/* ── Aletas ───────────────────────────────────────────────────────────────
+   El color "normal" (material real: acero/aluminio/cobre) se fija por JS
+   (style.fill inline, interpolado por k — ver materialColorForK) porque es
+   un color CONTINUO calculado en tiempo de render, no un valor fijo que CSS
+   pueda expresar con variables. Esta hoja sólo define los DOS estados que sí
+   son binarios: bloqueado (rojo, gana siempre) y advertencia (contorno
+   ámbar, sin tocar el relleno de material). ────────────────────────────── */
+
+#solar-fins-visualizer .fh-fin {
+    stroke-width: 1;
+    transition: fill 0.15s ease-out, stroke 0.15s ease-out;
+}
+
+#solar-fins-visualizer .fh-fin.is-blocked {
+    fill: #ef4444 !important;
+    stroke: #7f1d1d;
+    stroke-width: 1.2;
+}
+
+#solar-fins-visualizer .fh-fin.is-warning {
+    stroke: #fbbf24;
+    stroke-width: 1.6;
+}
+
+/* ── Guías sutiles de huecos intermedios (sin cota completa) ─────────────── */
+
+#solar-fins-visualizer .fh-gap-guide {
+    stroke: rgba(148, 163, 184, 0.35);
+    stroke-width: 1;
+    stroke-dasharray: 2 2;
+}
+
+/* ── Cotas (dimensión de espacio remanente / solape) ──────────────────────── */
+
+#solar-fins-visualizer .fh-cota-line {
+    stroke: #22d3ee;
+    stroke-width: 1.2;
+    fill: none;
+}
+
+#solar-fins-visualizer .fh-cota-line.is-warning {
+    stroke: #fbbf24;
+}
+
+#solar-fins-visualizer .fh-cota-line.is-blocked {
+    stroke: #ef4444;
+    stroke-width: 1.4;
+}
+
+#solar-fins-visualizer .fh-arrow-head {
+    fill: #22d3ee;
+}
+
+#solar-fins-visualizer .fh-cota-text {
+    fill: #22d3ee;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', 'Courier New', ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+}
+
+#solar-fins-visualizer .fh-cota-text.is-warning {
+    fill: #fbbf24;
+}
+
+#solar-fins-visualizer .fh-cota-text.is-blocked {
+    fill: #f87171;
+    font-weight: 700;
+}
+
+/* ── Flujo de aire esquemático (sólo cuando el espaciado es óptimo) ────────
+   Animación puramente decorativa vía transform/opacity (compositor-friendly,
+   mismo criterio de rendimiento documentado en
+   LOTE_gpu_compositing_canvas_interactivos.md para el resto del sitio) y
+   deshabilitada bajo prefers-reduced-motion. ─────────────────────────────── */
+
+#solar-fins-visualizer .fh-flow-arrow {
+    stroke: #22d3ee;
+    fill: none;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.6;
+    animation: fh-flow-pulse 1.7s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+@keyframes fh-flow-pulse {
+    0%   { opacity: 0.15; transform: translateY(5px); }
+    50%  { opacity: 0.85; transform: translateY(-4px); }
+    100% { opacity: 0.15; transform: translateY(5px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #solar-fins-visualizer .fh-flow-arrow {
+        animation: none;
+        opacity: 0.55;
+    }
+}
+
+/* ── Etiquetas de texto ───────────────────────────────────────────────────── */
+
+#solar-fins-visualizer .fh-label-material,
+#solar-fins-visualizer .fh-label-dims {
+    font-size: 11px;
+    font-weight: 600;
+    fill: var(--text-secondary, #94a3b8);
+    font-family: 'JetBrains Mono', 'Courier New', ui-monospace, monospace;
+}
+
+#solar-fins-visualizer .fh-label-blocked {
+    font-size: 12px;
+    font-weight: 700;
+    fill: #f87171;
+}
+
+#solar-fins-visualizer .fh-label-warning {
+    font-size: 11px;
+    font-weight: 700;
+    fill: #fbbf24;
+}
+
+#solar-fins-visualizer .fh-empty-msg {
+    font-size: 12px;
+    fill: var(--text-secondary, #94a3b8);
+}
+
+@media (max-width: 560px) {
+    #solar-fins-visualizer .fh-label-material,
+    #solar-fins-visualizer .fh-label-dims {
+        font-size: 9px;
+    }
+    #solar-fins-visualizer .fh-label-blocked,
+    #solar-fins-visualizer .fh-label-warning {
+        font-size: 10px;
+    }
+}

@@ -1767,5 +1767,20 @@ window.uiTranslations = {
 
   // LOTE — Multicapa Custom: Flujos de Calor por Rama en Paralelo + Resaltado de Resistencia Máxima
   "Resistencia más alta del circuito (cuello de botella térmico)": "Highest resistance in the circuit (thermal bottleneck)",
+
+  // LOTE — Celda Solar Fotovoltaica (#solar-cell-sim): subgrupo "Condiciones
+  // Ambientales (Frontera Superior)" (h_ext/T∞/T_surr) y nuevos campos del
+  // panel de Resultados (T_glass/calor absorbido por el vidrio/pérdidas
+  // totales). Los textos de index.html ya van bilingües vía spans
+  // .lang-es/.lang-en (no dependen de este diccionario); estas entradas
+  // quedan disponibles para cuando app_v2.js dibuje estas mismas etiquetas
+  // en Canvas/Chart.js (que no interpretan spans, sólo texto plano vía
+  // t('...'), igual que el resto del sitio).
+  "Coeficiente de Convección Externa": "External Convection Coefficient",
+  "Temperatura Ambiente": "Ambient Temperature",
+  "Temperatura de Alrededores": "Surroundings Temperature",
+  "Temperatura del Vidrio": "Glass Temperature",
+  "Calor Absorbido por el Vidrio": "Heat Absorbed by Glass",
+  "Pérdidas de Calor Totales": "Total Heat Losses",
 };
 

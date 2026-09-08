@@ -1,0 +1,199 @@
+/* =============================================================================
+   solar-fins-status.css
+   -----------------------------------------------------------------------------
+   Estilos para el indicador de "Espacio Remanente" (barra de ocupación) y
+   los banners de advertencia/error del disipador de aletas (LOTE 3). Todo
+   escopado bajo #solar-fins-status — no depende de #solar-fins-panel
+   (LOTE 2) ni de #contact-res-sim-modal, aunque reutiliza deliberadamente
+   la MISMA paleta rojo/ámbar ya introducida en solar-fins-controls.css
+   (.fin-validation-error/.fin-validation-warning del LOTE 2) para que
+   ambos lotes se vean como un único sistema visual coherente.
+   ============================================================================= */
+
+#solar-fins-status {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ── Indicador de espacio remanente ──────────────────────────────────────── */
+
+#solar-fins-status .fin-space-indicator {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    padding: 8px 10px;
+}
+
+#solar-fins-status .fin-space-indicator-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+    gap: 8px;
+}
+
+#solar-fins-status .fin-space-indicator-value {
+    font-family: 'JetBrains Mono', 'Courier New', ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    font-size: 0.82rem;
+    color: var(--accent-orange);
+    white-space: nowrap;
+}
+
+/* Valor negativo (interferencia geométrica real: las aletas se superponen)
+   se resalta en rojo en vez del naranja habitual — señal visual inmediata
+   de que el número ya no es "espacio disponible" sino "solapamiento". */
+#solar-fins-status .fin-space-indicator-value.is-negative {
+    color: #f87171;
+}
+
+/* Barra de ocupación: dos segmentos flex que suman 100% del ancho. El
+   ancho de cada segmento lo fija JS (style.width) por frame — la
+   transición CSS es lo único responsable de que el cambio se vea animado
+   en vez de saltar de golpe. */
+#solar-fins-status .fin-occupation-bar {
+    display: flex;
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+#solar-fins-status .fin-occupation-bar-occupied,
+#solar-fins-status .fin-occupation-bar-remaining {
+    height: 100%;
+    transition: width 0.18s ease-out;
+}
+
+#solar-fins-status .fin-occupation-bar-occupied {
+    background: var(--accent-orange);
+}
+
+#solar-fins-status .fin-occupation-bar-remaining {
+    background: #22d3ee; /* mismo cian usado por .info-card sitewide, para "convección/flujo libre" */
+}
+
+/* Cuando hay interferencia (ocupado >= 100%), el segmento remanente queda
+   en 0 de ancho pero la barra completa se tiñe de rojo para reforzar la
+   señal de "estado bloqueante" incluso antes de leer el banner. */
+#solar-fins-status .fin-occupation-bar.is-critical .fin-occupation-bar-occupied {
+    background: #ef4444;
+}
+
+#solar-fins-status .fin-occupation-bar-legend {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 0.68rem;
+    color: var(--text-secondary, #94a3b8);
+    flex-wrap: wrap;
+    gap: 4px 10px;
+}
+
+#solar-fins-status .fin-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+#solar-fins-status .fin-legend-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+#solar-fins-status .fin-legend-occupied .fin-legend-dot {
+    background: var(--accent-orange);
+}
+
+#solar-fins-status .fin-legend-remaining .fin-legend-dot {
+    background: #22d3ee;
+}
+
+/* ── Banners de advertencia / error ──────────────────────────────────────── */
+
+#solar-fins-status .fin-banners {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+#solar-fins-status .fin-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.74rem;
+    line-height: 1.35;
+    animation: fin-banner-in 0.15s ease-out;
+}
+
+@keyframes fin-banner-in {
+    from { opacity: 0; transform: translateY(-2px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+#solar-fins-status .fin-banner-icon {
+    flex-shrink: 0;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+#solar-fins-status .fin-banner-text {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+#solar-fins-status .fin-banner-detail {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.66rem;
+    opacity: 0.8;
+}
+
+/* Nivel crítico (rojo — físicamente imposible / bloqueante). Misma paleta
+   que .fin-validation-error del LOTE 2 (solar-fins-controls.css). */
+#solar-fins-status .fin-banner-critical {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: #f87171;
+}
+
+/* Nivel warning (ámbar — precaución/subóptimo, no bloqueante). Misma
+   paleta que .fin-validation-warning del LOTE 2. */
+#solar-fins-status .fin-banner-warning {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    color: #fbbf24;
+}
+
+body.light-theme #solar-fins-status .fin-banner-critical {
+    background: rgba(220, 38, 38, 0.08);
+    border-color: rgba(220, 38, 38, 0.28);
+    color: #b91c1c;
+}
+
+body.light-theme #solar-fins-status .fin-banner-warning {
+    background: rgba(217, 119, 6, 0.08);
+    border-color: rgba(217, 119, 6, 0.28);
+    color: #b45309;
+}
+
+@media (max-width: 560px) {
+    #solar-fins-status .fin-occupation-bar-legend {
+        flex-direction: column;
+        gap: 2px;
+    }
+}

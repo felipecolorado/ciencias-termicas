@@ -1,0 +1,67 @@
+/* =============================================================================
+   solar-fins-panel.css
+   -----------------------------------------------------------------------------
+   Layout de composición del módulo ensamblado (LOTE 4 — integración final):
+   #solar-fins-heatsink-module envuelve al visualizador (LOTE 4), los
+   controles (LOTE 2, #solar-fins-panel) y el bloque de estado/warnings
+   (LOTE 3, #solar-fins-status).
+
+   Deliberadamente SIN chrome propio de tarjeta (fondo/borde/padding de
+   "card"): este módulo se inserta dentro de #solar-controls, que ya aporta
+   ese contenedor — añadir otro aquí duplicaría el marco visualmente. Sólo el
+   visualizador (elemento nuevo, sin equivalente previo) tiene su propio
+   marco — ver solar-fins-visualizer.css.
+
+   SIEMPRE 1 SOLA COLUMNA (hallazgo de la integración real en v4/index.html,
+   2026-09-07): #solar-controls es una de 3 tarjetas hermanas en una misma
+   fila (controles | animación | resultados) dentro de #solar-cell-sim — en
+   el layout de escritorio real mide apenas ~360px de ancho, AUNQUE el
+   viewport tenga 1400px+ (el ancho disponible depende del layout del padre,
+   no del viewport, así que ni siquiera una media query lo resolvería bien:
+   activaría un layout de 2 columnas justo en desktop, donde la tarjeta es
+   más angosta, e ilógicamente lo apilaría en móvil, donde puede ensancharse
+   más al apilarse las 3 tarjetas hermanas). Se intentó primero un layout de
+   2 columnas con @container sobre #solar-controls, pero container-type
+   altera cómo ese elemento COMPARTIDO participa en el layout de sus 3
+   tarjetas hermanas (contain:inline-size le quita su aportación de tamaño
+   intrínseco al cálculo del padre) — verificado con Chromium headless que
+   esto desbordaba el contenido. Se optó por lo más simple y seguro: este
+   módulo siempre se apila en 1 columna (visualizador arriba, controles,
+   estado abajo) y no toca #solar-controls en absoluto.
+
+   ACTUALIZACIÓN 2026-09-07 (reestructuración 33%/67%, ver style.css
+   #solar-cell-layout-wrapper): #solar-controls ya no mide ~360px fijos —
+   ahora es 1fr de un grid 1fr/2fr (≈33% del ancho total del laboratorio),
+   bastante más ancho en la mayoría de resoluciones de escritorio. Aun así
+   se MANTIENE deliberadamente 1 sola columna aquí: el usuario pidió
+   explícitamente que TODOS los sliders de #solar-controls (celda + aletas)
+   queden en una única columna vertical y secuencial, sin depender del
+   ancho disponible — no es ya una limitación técnica sino un requisito de
+   diseño. Si en el futuro se pide lo contrario, este es el único bloque a
+   cambiar (junto con solar-fins-controls.css). */
+
+#solar-fins-heatsink-module {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+}
+
+#solar-fins-heatsink-module .fin-module-visual-col,
+#solar-fins-heatsink-module .fin-module-controls-col,
+#solar-fins-heatsink-module .fin-module-status-col {
+    min-width: 0;
+}
+
+#solar-fins-heatsink-module .fin-module-visual-col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+#solar-fins-heatsink-module .fin-module-visual-caption {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-secondary, #94a3b8);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}

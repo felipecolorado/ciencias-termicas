@@ -1,0 +1,260 @@
+/* =============================================================================
+   solar-fins-controls.css
+   -----------------------------------------------------------------------------
+   Estilos para el subgrupo "Disipador de Aletas" de #solar-controls
+   (solar-cell-sim). Todo queda escopado bajo .fin-controls-scope: no toca
+   .control-group / .sliders-grid globales ni las reglas ya scoped de
+   #contact-res-sim-modal.
+
+   POR QUÉ ESTE ARCHIVO ES NECESARIO (y no basta con reutilizar las clases
+   .control-group-compact/.control-group-row/.value-badge tal cual):
+   se verificó en style.css que esas 3 clases sólo tienen reglas de
+   apariencia (padding compacto, layout de una sola línea, el "pill" naranja
+   del badge) bajo el selector `#contact-res-sim-modal ...` (sección 6,
+   ~línea 8123) y bajo `#multicapa-custom-sim .layer-card` — el bloque de
+   #solar-ambient-controls insertado en el LOTE de UI de Frontera Superior
+   reutiliza esos NOMBRES de clase por consistencia visual con el resto del
+   sitio, pero al no vivir dentro de #contact-res-sim-modal hoy NO recibe esa
+   apariencia (hereda sólo .control-group/.sliders-grid genéricos, sin el
+   badge-píldora). Esta hoja repite el mismo patrón visual pero scoped a
+   .fin-controls-scope, para que el componente se vea correcto tanto si se
+   integra aquí como si en un LOTE futuro se decide generalizar esas 3
+   clases a nivel de #solar-cell-sim completo (momento en el que este
+   archivo podría reducirse a sólo las reglas específicas de aletas: badge
+   de sólo lectura y chips de preset).
+   ============================================================================= */
+
+/* ── Contención de ancho (hallazgo de la integración real en v4/index.html,
+   2026-09-07): #solar-controls es una de 3 tarjetas hermanas en una misma
+   fila dentro de #solar-cell-sim y en el layout de escritorio real mide
+   apenas ~360px — mucho más angosto que #contact-res-sim-modal, de donde se
+   heredó este patrón visual. `.sliders-grid` (sitewide, style.css) usa
+   `grid-template-columns: repeat(2, 1fr)`, y `1fr` es taquigrafía de
+   `minmax(auto, 1fr)`: el mínimo `auto` impide que la columna se angoste
+   más allá del contenido "min-content" de sus hijos. Como nuestras filas
+   usan `white-space:nowrap` (para que el badge numérico nunca se parta), su
+   min-content es su ancho COMPLETO — eso forzaba el grid entero a ~784px de
+   ancho, desbordando la tarjeta real (verificado con Chromium headless:
+   #solar-fins-controls medía 784px de ancho dentro de una tarjeta de sólo
+   326px disponibles). `min-width:0` en cada nivel rompe esa cadena y deja
+   que `.control-label > span:first-child` (más abajo, ya con
+   overflow:hidden + text-overflow:ellipsis) trunque el texto en vez de
+   forzar el layout. Además, `#solar-fins-controls` pasa a 1 sola columna
+   por debajo de 300px REALES (container query sobre .fin-controls-scope, no
+   sobre el viewport — ver la nota equivalente en solar-fins-panel.css sobre
+   por qué una @media aquí sería incorrecta: el ancho disponible depende del
+   layout del padre, no del viewport). */
+/* ACTUALIZACIÓN 2026-09-07 (reestructuración 33%/67% del layout de
+   #solar-cell-sim, ver style.css): el usuario pidió explícitamente TODOS
+   los sliders de #solar-controls en una única columna vertical siempre,
+   sin importar el ancho disponible — ya no "2 columnas hasta 300px reales,
+   1 columna por debajo" (lo que sí tenía sentido cuando la tarjeta medía
+   ~360px fijos), sino 1 sola columna incondicionalmente. El
+   `container-type: inline-size` que habilitaba el `@container` de abajo ya
+   no es necesario y se retira junto con él. */
+.fin-controls-scope #solar-fins-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.fin-controls-scope #solar-fins-controls > * {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+/* ── Grupo compacto de 2 columnas + fila de una sola línea (mismo criterio
+   que #contact-res-sim-modal .control-group-compact/.control-group-row) ── */
+.fin-controls-scope .control-group.control-group-compact {
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 0.85rem;
+    min-width: 0;
+}
+
+.fin-controls-scope .control-group-row {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.fin-controls-scope .control-group.control-group-compact label,
+.fin-controls-scope .control-label {
+    min-width: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    white-space: nowrap;
+    width: 100%;
+    flex-wrap: nowrap;
+    gap: 8px;
+    margin-bottom: 0;
+    font-size: 0.80rem;
+}
+
+.fin-controls-scope .control-group.control-group-compact label > span:first-child {
+    min-width: 0;
+    line-height: 1.15;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Riel compacto (3px) + thumb 11px, igual que contact-res, para que el
+   nuevo subgrupo no se vea "más grueso" que el resto de #solar-controls. */
+.fin-controls-scope input[type="range"] {
+    height: 3px;
+}
+
+.fin-controls-scope input[type="range"]::-webkit-slider-thumb {
+    width: 11px;
+    height: 11px;
+}
+
+.fin-controls-scope input[type="range"]::-moz-range-track {
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+.fin-controls-scope input[type="range"]::-moz-range-thumb {
+    width: 11px;
+    height: 11px;
+    border: none;
+    border-radius: 50%;
+    background: var(--accent-orange);
+    cursor: pointer;
+}
+
+/* Badge naranja (píldora) — mismo look que #contact-res-sim-modal .value-badge
+   y #multicapa-custom-sim .layer-card .value-badge, para consistencia
+   visual sitewide de "valor actual de un slider". */
+.fin-controls-scope .value-badge {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-weight: 700;
+    font-size: 0.78rem;
+    color: var(--accent-orange);
+    background: rgba(249, 115, 22, 0.12);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+    padding: 1px 8px;
+    border-radius: 10px;
+    white-space: nowrap;
+}
+
+body.light-theme .fin-controls-scope .value-badge {
+    background: rgba(194, 65, 12, 0.08);
+    border-color: rgba(194, 65, 12, 0.24);
+    color: #c2410c;
+}
+
+/* input[type=number].sim-number-input ya trae estilo genérico sitewide
+   (ancho, alineado a la derecha, flechas ocultas — ver LOTE 3 de "Inputs
+   Numéricos Genéricos" en style.css) y .value-badge input[type=number]
+   ya lo funde en la píldora sin caja anidada. Nada que agregar aquí. */
+
+/* ── Fila derivada (L_base) — misma altura de línea que las demás filas,
+   pero sin <input type=range> debajo: el badge de sólo lectura ocupa el
+   espacio donde iría el slider en las demás filas mediante el spacer. ── */
+.fin-controls-scope .fin-derived-row {
+    opacity: 0.92;
+}
+
+.fin-controls-scope .fin-readonly-badge {
+    font-family: 'JetBrains Mono', 'Courier New', ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    cursor: default;
+}
+
+/* ── Chips de preset de material (k) ──────────────────────────────────── */
+.fin-controls-scope .fin-preset-row {
+    display: flex;
+    gap: 4px;
+    margin-top: 2px;
+    flex-wrap: wrap;
+}
+
+.fin-controls-scope .fin-preset-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--text-secondary, #94a3b8);
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 2px 4px;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: var(--transition-smooth, background 0.15s, border-color 0.15s, color 0.15s);
+}
+
+.fin-controls-scope .fin-preset-btn:hover,
+.fin-controls-scope .fin-preset-btn:focus-visible {
+    color: var(--accent-orange);
+    border-color: var(--accent-orange);
+    background: rgba(249, 115, 22, 0.1);
+    outline: none;
+}
+
+/* Preset actualmente activo (k coincide exactamente con ese valor) —
+   togglead por solar-fins-controls.js vía la clase .is-active. */
+.fin-controls-scope .fin-preset-btn.is-active {
+    color: var(--accent-orange);
+    border-color: var(--accent-orange);
+    background: rgba(249, 115, 22, 0.16);
+}
+
+/* ── Mensaje de validación (errores/warnings de validateFinState) ───────── */
+.fin-controls-scope .fin-validation-msg {
+    grid-column: span 2;
+    margin-top: 6px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.74rem;
+    line-height: 1.35;
+}
+
+.fin-controls-scope .fin-validation-msg[hidden] {
+    display: none;
+}
+
+/* Nivel error (bloqueante: p.ej. las aletas no caben en L_base) — rojo. */
+.fin-controls-scope .fin-validation-msg.fin-validation-error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: #f87171;
+}
+
+/* Nivel warning (informativo, no bloqueante: p.ej. N=1 => pitch indefinido;
+   no aplica con el rango 2-50 de este componente, pero se deja implementado
+   por si un LOTE futuro reabre N=1). Ámbar. */
+.fin-controls-scope .fin-validation-msg.fin-validation-warning {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    color: #fbbf24;
+}
+
+body.light-theme .fin-controls-scope .fin-validation-msg.fin-validation-error {
+    background: rgba(220, 38, 38, 0.08);
+    border-color: rgba(220, 38, 38, 0.28);
+    color: #b91c1c;
+}
+
+body.light-theme .fin-controls-scope .fin-validation-msg.fin-validation-warning {
+    background: rgba(217, 119, 6, 0.08);
+    border-color: rgba(217, 119, 6, 0.28);
+    color: #b45309;
+}
+
+@media (max-width: 560px) {
+    .fin-controls-scope .fin-preset-btn {
+        font-size: 0.64rem;
+    }
+}
