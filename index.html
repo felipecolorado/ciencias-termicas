@@ -45,6 +45,12 @@
 
     <link rel="stylesheet" href="style.css?v=v3fix17">
 
+    <!-- Disipador de Aletas (Heat Sink) — solar-cell-sim, ver claude/LOTE_solar_cell_sim_aletas_disipador_*_2026-09-07.md -->
+    <link rel="stylesheet" href="solar-fins-controls.css?v=v1">
+    <link rel="stylesheet" href="solar-fins-status.css?v=v1">
+    <link rel="stylesheet" href="solar-fins-visualizer.css?v=v1">
+    <link rel="stylesheet" href="solar-fins-panel.css?v=v1">
+
 </head>
 
 <body>
@@ -498,6 +504,10 @@
                         <button class="tab-btn" data-target="microchannel-sim" data-category="transferencia-calor" data-tags="transferencia-calor conveccion microcanales">
                             <span class="lang-es">Disipador de Microcanales (1981)</span><span class="lang-en"
                                 style="display:none;">Microchannel Heatsink (1981)</span></button>
+                        <button class="tab-btn" data-target="solar-cell-sim" data-category="transferencia-calor" data-tags="transferencia-calor radiacion aplicaciones">
+                            <i class="fas fa-solar-panel" style="margin-right:4px;"></i>
+                            <span class="lang-es">Celda Solar Fotovoltaica</span><span class="lang-en" style="display:none;">Photovoltaic Solar Cell</span>
+                        </button>
                         <div class="tab-category-title"><span class="lang-es">Comunidad</span><span class="lang-en"
                                 style="display:none;">Community</span></div>
                         <button class="tab-btn"
@@ -11443,6 +11453,545 @@
                         </div><!-- /#contact-res-sim-modal -->
                     </div><!-- /#contact-res-sim -->
 
+                    <!-- ═══════════════════════════════════════════════════════════
+                             TAB: Celda Solar Fotovoltaica
+                             Estructura: tab-pane > [fullscreen open/close + aria-live] +
+                             [sim-intro] + [#solar-cell-layout-wrapper.simulation-workspace:
+                             #solar-controls + #solar-canvas-container + #solar-chart-container
+                             + #solar-results]
+                             LOTES 1-4 (2026-09-06): estructura HTML/CSS, controlador de
+                             pantalla completa (SolarCellLab), solver físico/Chart.js
+                             (solveSolarCell) y bucle de renderizado (drawSolarCanvas)
+                             conectado a window.LabAnimationManager — ver app_v2.js.
+                        ═══════════════════════════════════════════════════════════ -->
+                    <div class="tab-pane" id="solar-cell-sim">
+
+                        <!-- ⬛ Fullscreen wrapper -->
+                        <button id="solar-cell-lab-close-btn" aria-label="Cerrar pantalla completa"
+                            title="Cerrar pantalla completa">&#x2715;</button>
+                        <div id="solar-cell-lab-fullscreen-anchor"
+                            style="display:flex;justify-content:flex-end;margin-bottom:8px;">
+                            <button id="solar-cell-lab-open-btn" title="Abrir laboratorio en pantalla completa"
+                                aria-label="Abrir laboratorio en pantalla completa">
+                                <i class="fas fa-expand"></i>
+                                <span class="lang-es">Pantalla Completa</span>
+                                <span class="lang-en" style="display:none;">Full Screen</span>
+                            </button>
+                        </div>
+                        <div id="solar-cell-lab-aria-live" class="sr-only" role="status" aria-live="polite"></div>
+
+                        <div class="sim-intro">
+                            <h3>
+                                <span class="lang-es">Celda Solar Fotovoltaica</span>
+                                <span class="lang-en" style="display:none;">Photovoltaic Solar Cell</span>
+                            </h3>
+                            <p>
+                                <span class="lang-es">Balance de energía radiativo-convectivo sobre una celda de silicio expuesta a
+                                    irradiación solar $G$. Parte de la energía incidente se refleja ($\rho$) y se transmite ($\tau$) a
+                                    través de la cubierta protectora; el resto se absorbe ($\alpha$) y calienta la celda, que a su vez
+                                    pierde calor por convección hacia el aire (o gas) circundante y por radiación propia ($\varepsilon$)
+                                    hacia el ambiente.</span>
+                                <span class="lang-en" style="display:none;">Radiative-convective energy balance on a silicon cell
+                                    exposed to solar irradiance $G$. Part of the incident energy is reflected ($\rho$) and transmitted
+                                    ($\tau$) through the protective cover; the rest is absorbed ($\alpha$) and heats the cell, which in
+                                    turn loses heat by convection to the surrounding air (or gas) and by its own radiation
+                                    ($\varepsilon$) to the environment.</span>
+                            </p>
+                            <div style="text-align: center; margin: 12px 0; font-size: 1.05rem; background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                                $$ \alpha \, G \, A = h \, A \, (T_s - T_\infty) + \varepsilon \, \sigma \, A \, (T_s^4 - T_{\text{alr}}^4) + P_{\text{elec}} $$
+                            </div>
+                            <p>
+                                <span class="lang-es">La <strong>eficiencia de conversión</strong> ($\eta$) relaciona la potencia
+                                    eléctrica generada con la energía solar incidente sobre el área $A$ de la celda:</span>
+                                <span class="lang-en" style="display:none;">The <strong>conversion efficiency</strong> ($\eta$) relates
+                                    the generated electrical power to the solar energy incident on the cell's area $A$:</span>
+                            </p>
+                            <p>$$ \eta = \frac{P_{\text{elec}}}{G \cdot A} $$</p>
+                        </div><!-- /.sim-intro -->
+
+                        <div id="solar-cell-layout-wrapper" class="simulation-workspace">
+
+                            <!-- Tarjeta 1 — Controles -->
+                            <div class="sim-card" id="solar-controls">
+                                <h4 class="sim-subheading">
+                                    <span class="lang-es">Controles</span>
+                                    <span class="lang-en" style="display:none;">Controls</span>
+                                </h4>
+                                <div class="sliders-grid" id="solar-basic-controls">
+                                    <!-- Irradiación (G) RELOCALIZADA (LOTE 2026-09-08) al sub-panel
+                                         ambiental bajo la Gráfica (#solar-env-inline-panel) — mismo id
+                                         #solar-irradiance[-num], sin cambios en app_v2.js. -->
+                                    <div class="control-group">
+                                        <label for="solar-tau">
+                                            <span class="lang-es">Transmisividad $(\tau)$:</span>
+                                            <span class="lang-en" style="display:none;">Transmissivity $(\tau)$:</span>
+                                            <input type="number" id="solar-tau-num" class="sim-number-input" min="0" max="1" step="0.01" value="0.90">
+                                        </label>
+                                        <input type="range" id="solar-tau" min="0" max="1" step="0.01" value="0.90">
+                                    </div>
+                                    <div class="control-group">
+                                        <label for="solar-rho">
+                                            <span class="lang-es">Reflectividad $(\rho)$:</span>
+                                            <span class="lang-en" style="display:none;">Reflectivity $(\rho)$:</span>
+                                            <input type="number" id="solar-rho-num" class="sim-number-input" min="0" max="1" step="0.01" value="0.08">
+                                        </label>
+                                        <input type="range" id="solar-rho" min="0" max="1" step="0.01" value="0.08">
+                                    </div>
+                                    <div class="control-group">
+                                        <label for="solar-alpha">
+                                            <span class="lang-es">Absortividad $(\alpha)$:</span>
+                                            <span class="lang-en" style="display:none;">Absorptivity $(\alpha)$:</span>
+                                            <input type="number" id="solar-alpha-num" class="sim-number-input" min="0" max="1" step="0.01" value="0.85">
+                                        </label>
+                                        <input type="range" id="solar-alpha" min="0" max="1" step="0.01" value="0.85">
+                                    </div>
+                                    <div class="control-group">
+                                        <label for="solar-epsilon">
+                                            <span class="lang-es">Emisividad $(\varepsilon)$:</span>
+                                            <span class="lang-en" style="display:none;">Emissivity $(\varepsilon)$:</span>
+                                            <input type="number" id="solar-epsilon-num" class="sim-number-input" min="0" max="1" step="0.01" value="0.90">
+                                        </label>
+                                        <input type="range" id="solar-epsilon" min="0" max="1" step="0.01" value="0.90">
+                                    </div>
+                                    <div class="control-group" style="grid-column: span 2;">
+                                        <label for="solar-int-material">
+                                            <span class="lang-es">Material de la Capa Intermedia:</span>
+                                            <span class="lang-en" style="display:none;">Intermediate Layer Material:</span>
+                                        </label>
+                                        <select id="solar-int-material" class="filter-select" style="width:100%; margin-top:4px;">
+                                            <option value="eva" selected>
+                                                <span class="lang-es">EVA (Etil-Vinil-Acetato)</span><span class="lang-en" style="display:none;">EVA (Ethylene-Vinyl Acetate)</span>
+                                            </option>
+                                            <option value="pvb">
+                                                <span class="lang-es">PVB (Butiral de Polivinilo)</span><span class="lang-en" style="display:none;">PVB (Polyvinyl Butyral)</span>
+                                            </option>
+                                            <option value="silicona">
+                                                <span class="lang-es">Silicona</span><span class="lang-en" style="display:none;">Silicone</span>
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="control-group" style="grid-column: span 2;">
+                                        <label for="solar-boundary-select">
+                                            <span class="lang-es">Frontera Inferior:</span>
+                                            <span class="lang-en" style="display:none;">Bottom Boundary:</span>
+                                        </label>
+                                        <select id="solar-boundary-select" class="filter-select" style="width:100%; margin-top:4px;">
+                                            <option value="adiabatica" selected>
+                                                <span class="lang-es">Adiabática</span><span class="lang-en" style="display:none;">Adiabatic</span>
+                                            </option>
+                                            <option value="aletas">
+                                                <span class="lang-es">Aletas (Disipador)</span><span class="lang-en" style="display:none;">Fins (Heat Sink)</span>
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Subgrupo — Capa Intermedia (Sólida): reemplaza la antigua
+                                     "cámara de aire" (LOTES 1-4) por una capa sólida encapsulante
+                                     (EVA/PVB/Silicona, ver selector de material arriba) con espesor
+                                     L_int y reflectividad de interfaz ρ_int configurables. Mismo
+                                     patrón compacto .control-group-compact/.control-group-row +
+                                     .value-badge que "Condiciones Ambientales". -->
+                                <h5 style="grid-column: span 2; margin: 12px 0 4px 0; padding-top: 10px; border-top: 1px solid var(--panel-border); font-size: 0.82rem; font-weight: 600; color: var(--text-secondary);">
+                                    <span class="lang-es">Capa Intermedia (Sólida)</span>
+                                    <span class="lang-en" style="display:none;">Solid Intermediate Layer</span>
+                                </h5>
+                                <div class="sliders-grid" id="solar-int-controls">
+                                    <div class="control-group control-group-compact control-group-row">
+                                        <label class="control-label" for="solar-l-int">
+                                            <span>
+                                                <span class="lang-es">Espesor de la Capa $(L_{\text{int}})$:</span>
+                                                <span class="lang-en" style="display:none;">Layer Thickness $(L_{\text{int}})$:</span>
+                                            </span>
+                                            <span class="value-badge"><input type="number" id="solar-l-int-num" class="sim-number-input" min="0.1" max="2.0" step="0.1" value="0.5">
+                                                mm</span>
+                                        </label>
+                                        <input type="range" id="solar-l-int" min="0.1" max="2.0" step="0.1" value="0.5">
+                                    </div>
+
+                                    <div class="control-group control-group-compact control-group-row">
+                                        <label class="control-label" for="solar-rho-int">
+                                            <span>
+                                                <span class="lang-es">Reflectividad de Interfaz $(\rho_{\text{int}})$:</span>
+                                                <span class="lang-en" style="display:none;">Interface Reflectivity $(\rho_{\text{int}})$:</span>
+                                            </span>
+                                            <span class="value-badge"><input type="number" id="solar-rho-int-num" class="sim-number-input" min="0" max="0.3" step="0.01" value="0.02"></span>
+                                        </label>
+                                        <input type="range" id="solar-rho-int" min="0" max="0.3" step="0.01" value="0.02">
+                                    </div>
+                                </div>
+
+                                <!-- Subgrupo — Condiciones Ambientales (Frontera Superior): mismo
+                                     patrón compacto de .control-group-compact/.control-group-row +
+                                     .value-badge ya usado en #contact-res-sim (LOTE 7). -->
+                                <h5 style="grid-column: span 2; margin: 12px 0 4px 0; padding-top: 10px; border-top: 1px solid var(--panel-border); font-size: 0.82rem; font-weight: 600; color: var(--text-secondary);">
+                                    <span class="lang-es">Condiciones Ambientales (Frontera Superior)</span>
+                                    <span class="lang-en" style="display:none;">Ambient Conditions (Top Boundary)</span>
+                                </h5>
+                                <div class="sliders-grid" id="solar-ambient-controls">
+                                    <!-- h_ext y T∞ RELOCALIZADOS (LOTE 2026-09-08) al sub-panel
+                                         ambiental bajo la Gráfica (#solar-env-inline-panel) — mismos ids
+                                         #solar-h-ext[-num]/#solar-tinf[-num], sin cambios en app_v2.js.
+                                         T_surr permanece aquí (no se pidió mover). -->
+                                    <div class="control-group control-group-compact control-group-row">
+                                        <label class="control-label" for="solar-tsurr">
+                                            <span>
+                                                <span class="lang-es">Temperatura de Alrededores $(T_{\text{surr}})$:</span>
+                                                <span class="lang-en" style="display:none;">Surroundings Temperature $(T_{\text{surr}})$:</span>
+                                            </span>
+                                            <span class="value-badge"><input type="number" id="solar-tsurr-num" class="sim-number-input" min="-50" max="60" step="1" value="25">
+                                                &deg;C</span>
+                                        </label>
+                                        <input type="range" id="solar-tsurr" min="-50" max="60" step="1" value="25">
+                                    </div>
+                                </div>
+                                <!-- Subgrupo — Disipador de Aletas (Heat Sink): módulo ensamblado (estado +
+                                     sliders + validación/espacio remanente + visualizador SVG a escala).
+                                     Ver claude/LOTE_solar_cell_sim_aletas_disipador_*_2026-09-07.md para el
+                                     detalle de diseño de cada pieza. Dependencias cargadas al final del
+                                     documento (junto a app_v2.js) y activado por safeInit('SolarFinsHeatsink', ...)
+                                     en startApp(). -->
+                                <div id="solar-fins-heatsink-module">
+
+                                    <!-- LOTE unificación gráfica (2026-09-08): el visualizador SVG
+                                         independiente del corte transversal (#solar-fins-visualizer,
+                                         antes aquí en .fin-module-visual-col) se ELIMINÓ como tarjeta
+                                         separada — su misma geometría (computeFinVisualizerLayout,
+                                         solar-fins-visualizer.js, que sigue cargado y en uso) ahora se
+                                         dibuja fusionada dentro de la animación principal de la celda
+                                         (#solarCanvas / drawSolarCanvas en app_v2.js), como la banda de
+                                         aletas proyectándose bajo la base. Ver
+                                         claude/LOTE_solar_cell_sim_unificacion_grafica_titulos_fullscreen_2026-09-08.md. -->
+
+                                    <div class="fin-module-controls-col">
+                                        <div id="solar-fins-panel" class="fin-controls-scope">
+
+                                            <h5 style="grid-column: span 2; margin: 12px 0 4px 0; padding-top: 10px; border-top: 1px solid var(--panel-border); font-size: 0.82rem; font-weight: 600; color: var(--text-secondary);">
+                                                <span class="lang-es">Disipador de Aletas (Heat Sink)</span>
+                                                <span class="lang-en" style="display:none;">Fin Heat Sink</span>
+                                            </h5>
+
+                                            <div class="sliders-grid" id="solar-fins-controls">
+
+                                                <div class="control-group control-group-compact control-group-row">
+                                                    <label class="control-label" for="solar-fin-acelda">
+                                                        <span>
+                                                            <span class="lang-es">Área de la Celda $(A_{\text{celda}})$:</span>
+                                                            <span class="lang-en" style="display:none;">Cell Area $(A_{\text{cell}})$:</span>
+                                                        </span>
+                                                        <span class="value-badge"><input type="number" id="solar-fin-acelda-num" class="sim-number-input" min="0.01" max="0.25" step="0.01" value="0.16">
+                                                            m&sup2;</span>
+                                                    </label>
+                                                    <input type="range" id="solar-fin-acelda" min="0.01" max="0.25" step="0.01" value="0.16">
+                                                </div>
+
+                                                <div class="control-group control-group-compact control-group-row">
+                                                    <label class="control-label" for="solar-fin-w">
+                                                        <span>
+                                                            <span class="lang-es">Ancho de la Celda $(W)$:</span>
+                                                            <span class="lang-en" style="display:none;">Cell Width $(W)$:</span>
+                                                        </span>
+                                                        <span class="value-badge"><input type="number" id="solar-fin-w-num" class="sim-number-input" min="0.05" max="1.0" step="0.01" value="0.40">
+                                                            m</span>
+                                                    </label>
+                                                    <input type="range" id="solar-fin-w" min="0.05" max="1.0" step="0.01" value="0.40">
+                                                </div>
+
+                                                <div class="control-group control-group-compact control-group-row fin-derived-row">
+                                                    <label class="control-label">
+                                                        <span>
+                                                            <span class="lang-es">Long. de Base $(L_{\text{base}} = A_{\text{celda}}/W)$:</span>
+                                                            <span class="lang-en" style="display:none;">Base Length $(L_{\text{base}} = A_{\text{cell}}/W)$:</span>
+                                                        </span>
+                                                        <span class="value-badge fin-readonly-badge" id="solar-fin-lbase-display" aria-live="polite">0.400 m</span>
+                                                    </label>
+                                                </div>
+
+                                                <!-- LOTE reorganización espacial (2026-09-08): N/L_aleta/t/k
+                                                     (antes aquí) se RELOCALIZARON como sub-panel horizontal
+                                                     compacto justo debajo de la animación (#solar-canvas-container
+                                                     > #solar-fins-inline-panel), para descongestionar esta
+                                                     columna lateral. Los inputs conservan sus MISMOS ids
+                                                     (solar-fin-n/-k/-laleta/-t[-num]) — ningún JS
+                                                     (solar-fins-controls.js/app_v2.js, ambos por getElementById)
+                                                     necesitó cambios. A_celda/W/L_base permanecen aquí porque
+                                                     no se pidieron mover. -->
+
+                                            </div><!-- /#solar-fins-controls -->
+
+                                            <div id="solar-fins-validation" class="fin-validation-msg" role="alert" aria-live="polite" hidden></div>
+
+                                        </div><!-- /#solar-fins-panel -->
+                                    </div>
+
+                                    <div class="fin-module-status-col">
+                                        <div id="solar-fins-status" class="fin-status-panel">
+
+                                            <div class="fin-space-indicator">
+                                                <div class="fin-space-indicator-label">
+                                                    <span>
+                                                        <span class="lang-es">Espacio Remanente entre Aletas</span>
+                                                        <span class="lang-en" style="display:none;">Remaining Space Between Fins</span>
+                                                    </span>
+                                                    <span class="fin-space-indicator-value" id="solar-fin-remaining-value">-- mm</span>
+                                                </div>
+
+                                                <div class="fin-occupation-bar" id="solar-fin-occupation-bar"
+                                                     role="img" aria-label="Porcentaje de la base ocupado por las aletas frente al espacio remanente para convección">
+                                                    <div class="fin-occupation-bar-occupied" id="solar-fin-bar-occupied" style="width:0%"></div>
+                                                    <div class="fin-occupation-bar-remaining" id="solar-fin-bar-remaining" style="width:100%"></div>
+                                                </div>
+
+                                                <div class="fin-occupation-bar-legend">
+                                                    <span class="fin-legend-item fin-legend-occupied">
+                                                        <span class="fin-legend-dot"></span>
+                                                        <span class="lang-es">Ocupado por aletas</span><span class="lang-en" style="display:none;">Occupied by fins</span>
+                                                        (<span id="solar-fin-occupied-pct">0</span>%)
+                                                    </span>
+                                                    <span class="fin-legend-item fin-legend-remaining">
+                                                        <span class="fin-legend-dot"></span>
+                                                        <span class="lang-es">Remanente (convección)</span><span class="lang-en" style="display:none;">Remaining (convection)</span>
+                                                        (<span id="solar-fin-remaining-pct">100</span>%)
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div id="solar-fins-banners" class="fin-banners" aria-live="polite"></div>
+
+                                        </div><!-- /#solar-fins-status -->
+                                    </div>
+
+                                </div><!-- /#solar-fins-heatsink-module -->
+                            </div><!-- /#solar-controls -->
+
+                            <!-- ═══ Mosaico Tetris (columna derecha, 67%) — LOTE Tetris 2026-09-07:
+                                 envuelve Animación + Gráfica + Resultados (convertidos en tarjetas
+                                 KPI individuales) en un único grid denso (grid-auto-flow:dense) para
+                                 que las tarjetas KPI 1x1 rellenen automáticamente el espacio que
+                                 dejan libre los bloques grandes de Animación/Gráfica. Ver
+                                 style.css / #solar-cell-sim.fullscreen #solar-viz-grid. -->
+                            <div id="solar-viz-grid">
+
+                            <!-- Tarjeta 2 — Animación -->
+                            <div class="sim-card" id="solar-canvas-container">
+                                <h4 class="sim-subheading">
+                                    <span class="lang-es">Animación</span>
+                                    <span class="lang-en" style="display:none;">Animation</span>
+                                </h4>
+                                <div class="canvas-container" style="height: 100%; min-height: 220px;">
+                                    <canvas id="solarCanvas"></canvas>
+                                </div>
+
+                                <!-- ═══ Sub-panel de Aletas/Geometría (LOTE reorganización espacial
+                                     2026-09-08): compacto, horizontal, justo debajo de la animación.
+                                     Reutiliza los mismos ids (solar-fin-n/-laleta/-t/-k[-num]) que
+                                     antes vivían en #solar-controls — ver comentario de relocalización
+                                     en #solar-fins-controls, arriba. La clase .fin-controls-scope
+                                     reutiliza el look "badge píldora naranja" de solar-fins-controls.css
+                                     (antes escopado sólo a #solar-fins-panel). El badge inline de
+                                     espacio remanente (#solar-fin-remaining-inline) es un ELEMENTO
+                                     ADICIONAL con id propio — no un duplicado de
+                                     #solar-fin-remaining-value (que sigue en #solar-fins-status, en la
+                                     columna lateral) — solar-fins-status-ui.js actualiza ambos si
+                                     existen (ver DOM_IDS.remainingValueInline). -->
+                                <div class="sub-controls-panel fin-controls-scope" id="solar-fins-inline-panel">
+                                    <div class="sub-controls-header">
+                                        <h5 class="sub-controls-title">
+                                            <span class="lang-es">Disipador de Aletas — Geometría</span>
+                                            <span class="lang-en" style="display:none;">Fin Heat Sink — Geometry</span>
+                                        </h5>
+                                        <span class="inline-status-badge" id="solar-fin-remaining-inline"
+                                              title="Espacio remanente entre aletas / Remaining space between fins">-- mm</span>
+                                    </div>
+                                    <div class="sub-controls-grid">
+
+                                        <div class="control-group control-group-compact control-group-row">
+                                            <label class="control-label" for="solar-fin-n">
+                                                <span>
+                                                    <span class="lang-es">Número de Aletas $(N)$:</span>
+                                                    <span class="lang-en" style="display:none;">Number of Fins $(N)$:</span>
+                                                </span>
+                                                <span class="value-badge"><input type="number" id="solar-fin-n-num" class="sim-number-input" min="2" max="50" step="1" value="10"></span>
+                                            </label>
+                                            <input type="range" id="solar-fin-n" min="2" max="50" step="1" value="10">
+                                        </div>
+
+                                        <div class="control-group control-group-compact control-group-row">
+                                            <label class="control-label" for="solar-fin-laleta">
+                                                <span>
+                                                    <span class="lang-es">Longitud de la Aleta $(L_{\text{aleta}})$:</span>
+                                                    <span class="lang-en" style="display:none;">Fin Length $(L_{\text{fin}})$:</span>
+                                                </span>
+                                                <span class="value-badge"><input type="number" id="solar-fin-laleta-num" class="sim-number-input" min="0.01" max="0.15" step="0.005" value="0.03">
+                                                    m</span>
+                                            </label>
+                                            <input type="range" id="solar-fin-laleta" min="0.01" max="0.15" step="0.005" value="0.03">
+                                        </div>
+
+                                        <div class="control-group control-group-compact control-group-row">
+                                            <label class="control-label" for="solar-fin-t">
+                                                <span>
+                                                    <span class="lang-es">Espesor de la Aleta $(t)$:</span>
+                                                    <span class="lang-en" style="display:none;">Fin Thickness $(t)$:</span>
+                                                </span>
+                                                <span class="value-badge"><input type="number" id="solar-fin-t-num" class="sim-number-input" min="0.0005" max="0.008" step="0.0005" value="0.002">
+                                                    m</span>
+                                            </label>
+                                            <input type="range" id="solar-fin-t" min="0.0005" max="0.008" step="0.0005" value="0.002">
+                                        </div>
+
+                                        <div class="control-group control-group-compact control-group-row">
+                                            <label class="control-label" for="solar-fin-k">
+                                                <span>
+                                                    <span class="lang-es">Conductividad Térmica $(k)$:</span>
+                                                    <span class="lang-en" style="display:none;">Thermal Conductivity $(k)$:</span>
+                                                </span>
+                                                <span class="value-badge"><input type="number" id="solar-fin-k-num" class="sim-number-input" min="15" max="400" step="1" value="205">
+                                                    W/m&middot;K</span>
+                                            </label>
+                                            <input type="range" id="solar-fin-k" min="15" max="400" step="1" value="205">
+                                            <div class="fin-preset-row" id="solar-fin-k-presets" role="group" aria-label="Presets de material">
+                                                <button type="button" class="fin-preset-btn" data-k-preset="15">
+                                                    <span class="lang-es">Acero</span><span class="lang-en" style="display:none;">Steel</span> (15)
+                                                </button>
+                                                <button type="button" class="fin-preset-btn" data-k-preset="205">
+                                                    <span class="lang-es">Aluminio</span><span class="lang-en" style="display:none;">Aluminum</span> (205)
+                                                </button>
+                                                <button type="button" class="fin-preset-btn" data-k-preset="398">
+                                                    <span class="lang-es">Cobre</span><span class="lang-en" style="display:none;">Copper</span> (398)
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div><!-- /.sub-controls-grid -->
+                                </div><!-- /#solar-fins-inline-panel -->
+                            </div><!-- /#solar-canvas-container -->
+
+                            <!-- Tarjeta 3 — Gráfica -->
+                            <div class="sim-card" id="solar-chart-container">
+                                <h4 class="sim-subheading">
+                                    <span class="lang-es">Gráfica</span>
+                                    <span class="lang-en" style="display:none;">Chart</span>
+                                </h4>
+                                <div class="chart-container">
+                                    <canvas id="solarChart"></canvas>
+                                </div>
+
+                                <!-- ═══ Sub-panel Ambiental/Operación (LOTE reorganización espacial
+                                     2026-09-08): Irradiación (G), Temperatura Ambiente (T∞) y
+                                     Coeficiente de Convección Externa (h_ext, ligado a la velocidad
+                                     del viento sobre la celda) — antes repartidos entre
+                                     #solar-basic-controls y #solar-ambient-controls en la columna
+                                     lateral. Mismos ids (solar-irradiance/-tinf/-h-ext[-num]): cero
+                                     cambios en app_v2.js (updateSolarSim/drawSolarCanvas, ambos por
+                                     getElementById). -->
+                                <div class="sub-controls-panel" id="solar-env-inline-panel">
+                                    <h5 class="sub-controls-title">
+                                        <span class="lang-es">Condiciones Ambientales y de Operación</span>
+                                        <span class="lang-en" style="display:none;">Ambient and Operating Conditions</span>
+                                    </h5>
+                                    <div class="sub-controls-grid">
+
+                                        <div class="control-group">
+                                            <label for="solar-irradiance">
+                                                <span class="lang-es">Irradiación $(G)$:</span>
+                                                <span class="lang-en" style="display:none;">Irradiance $(G)$:</span>
+                                                <input type="number" id="solar-irradiance-num" class="sim-number-input" min="0" max="1500" step="10" value="1000"> W/m&sup2;
+                                            </label>
+                                            <input type="range" id="solar-irradiance" min="0" max="1500" step="10" value="1000">
+                                        </div>
+
+                                        <div class="control-group control-group-compact control-group-row">
+                                            <label class="control-label" for="solar-tinf">
+                                                <span>
+                                                    <span class="lang-es">Temperatura Ambiente $(T_{\infty})$:</span>
+                                                    <span class="lang-en" style="display:none;">Ambient Temperature $(T_{\infty})$:</span>
+                                                </span>
+                                                <span class="value-badge"><input type="number" id="solar-tinf-num" class="sim-number-input" min="-20" max="60" step="1" value="25">
+                                                    &deg;C</span>
+                                            </label>
+                                            <input type="range" id="solar-tinf" min="-20" max="60" step="1" value="25">
+                                        </div>
+
+                                        <div class="control-group control-group-compact control-group-row">
+                                            <label class="control-label" for="solar-h-ext">
+                                                <span>
+                                                    <span class="lang-es">Convección Externa / Viento $(h_{\text{ext}})$:</span>
+                                                    <span class="lang-en" style="display:none;">External Convection / Wind $(h_{\text{ext}})$:</span>
+                                                </span>
+                                                <span class="value-badge"><input type="number" id="solar-h-ext-num" class="sim-number-input" min="0" max="100" step="1" value="10">
+                                                    W/m&sup2;K</span>
+                                            </label>
+                                            <input type="range" id="solar-h-ext" min="0" max="100" step="1" value="10">
+                                        </div>
+
+                                    </div><!-- /.sub-controls-grid -->
+                                </div><!-- /#solar-env-inline-panel -->
+                            </div><!-- /#solar-chart-container -->
+
+                            <!-- Tarjeta 4 — Resultados -->
+                            <div class="sim-card result-card" id="solar-results">
+                                <h4 class="sim-subheading">
+                                    <span class="lang-es">Resultados</span>
+                                    <span class="lang-en" style="display:none;">Results</span>
+                                </h4>
+                                <div class="result-row kpi-card">
+                                    <span>
+                                        <span class="lang-es">Temperatura del Silicio $(T_s)$:</span>
+                                        <span class="lang-en" style="display:none;">Silicon Temperature $(T_s)$:</span>
+                                    </span>
+                                    <span id="solar-result-temp" class="highlight-val">-- &deg;C</span>
+                                </div>
+                                <div class="result-row kpi-card">
+                                    <span>
+                                        <span class="lang-es">Eficiencia $(\eta)$:</span>
+                                        <span class="lang-en" style="display:none;">Efficiency $(\eta)$:</span>
+                                    </span>
+                                    <span id="solar-result-eff" class="highlight-val">-- %</span>
+                                </div>
+                                <div class="result-row kpi-card">
+                                    <span>
+                                        <span class="lang-es">Potencia Generada $(P_{\text{elec}})$:</span>
+                                        <span class="lang-en" style="display:none;">Generated Power $(P_{\text{elec}})$:</span>
+                                    </span>
+                                    <span id="solar-result-power" class="highlight-val">-- W</span>
+                                </div>
+                                <div class="result-row kpi-card">
+                                    <span>
+                                        <span class="lang-es">Temperatura del Vidrio $(T_{\text{glass}})$:</span>
+                                        <span class="lang-en" style="display:none;">Glass Temperature $(T_{\text{glass}})$:</span>
+                                    </span>
+                                    <span id="solar-result-tglass" class="highlight-val">-- &deg;C</span>
+                                </div>
+                                <div class="result-row kpi-card">
+                                    <span>
+                                        <span class="lang-es">Temperatura de la Capa Intermedia $(T_{\text{int}})$:</span>
+                                        <span class="lang-en" style="display:none;">Intermediate Layer Temperature $(T_{\text{int}})$:</span>
+                                    </span>
+                                    <span id="solar-result-tint" class="highlight-val">-- &deg;C</span>
+                                </div>
+                                <div class="result-row kpi-card">
+                                    <span>
+                                        <span class="lang-es">Calor Absorbido por el Vidrio:</span>
+                                        <span class="lang-en" style="display:none;">Heat Absorbed by Glass:</span>
+                                    </span>
+                                    <span id="solar-result-qglass" class="highlight-val">-- W/m&sup2;</span>
+                                </div>
+                                <div class="result-row kpi-card">
+                                    <span>
+                                        <span class="lang-es">Pérdidas de Calor Totales (Top + Bottom):</span>
+                                        <span class="lang-en" style="display:none;">Total Heat Losses (Top + Bottom):</span>
+                                    </span>
+                                    <span id="solar-result-qlosses" class="highlight-val">-- W/m&sup2;</span>
+                                </div>
+                            </div><!-- /#solar-results -->
+
+                            </div><!-- /#solar-viz-grid -->
+
+                        </div><!-- /#solar-cell-layout-wrapper.simulation-workspace -->
+
+                    </div><!-- /#solar-cell-sim -->
+
                 </div>
             </div>
         </section>
@@ -12133,6 +12682,16 @@
     <script src="translations.js"></script>
     <script src="app_v2.js?v=v43-layout-thrashing-fix-60fps"></script>
     <script src="water-lab.js?v=v1"></script>
+
+    <!-- Disipador de Aletas (Heat Sink) — solar-cell-sim (orden de dependencia:
+         state -> controls -> validation -> status-ui -> visualizer -> panel).
+         Ver claude/LOTE_solar_cell_sim_aletas_disipador_*_2026-09-07.md -->
+    <script src="solar-fin-heatsink-state.js?v=v1"></script>
+    <script src="solar-fins-controls.js?v=v1"></script>
+    <script src="solar-fins-validation.js?v=v1"></script>
+    <script src="solar-fins-status-ui.js?v=v1"></script>
+    <script src="solar-fins-visualizer.js?v=v1"></script>
+    <script src="solar-fins-panel.js?v=v1"></script>
 
     <!-- PsychrometryLab (orden de dependencia: formulas -> state -> processes -> chart -> view) -->
     <script src="PsychrometryLab/psychrometry-formulas.js?v=v1"></script>

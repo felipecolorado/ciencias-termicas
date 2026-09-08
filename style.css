@@ -8542,3 +8542,1060 @@ input[type="number"].sim-number-input::-webkit-outer-spin-button {
     min-width: 0;
 }
 
+/* ============================================================================
+   SOLAR CELL LAB — #solar-cell-sim
+   LOTE 1 (2026-09-06): estructura de layout. Sigue el patrón estándar ya
+   consolidado en el proyecto (ver #fourier-sim, #gen-sim, #foote-sim):
+   - `.sim-intro` hermana de `.simulation-workspace`, boilerplate de
+     pantalla completa (`-lab-open-btn`/`-lab-close-btn`/`.visible`).
+   - Regla #8 (grid-template-areas, no reordenamiento por DOM): las 4
+     tarjetas (#solar-controls / #solar-canvas-container /
+     #solar-chart-container / #solar-results) son ya HIJAS DIRECTAS de
+     `#solar-cell-layout-wrapper.simulation-workspace` — no hay una capa
+     intermedia de contenedores que aplanar, así que el patrón
+     `display:contents` de la Regla #8 NO aplica aquí (se deja documentado
+     por si un LOTE futuro añade un contenedor envolvente adicional).
+     El reordenamiento visual, si se pide más adelante, se resuelve
+     reescribiendo sólo `grid-template-areas` de ambos bloques de abajo.
+   ============================================================================ */
+
+/* ── Look compartido de las 4 tarjetas (mismo "chrome" que .animation-card) ── */
+#solar-cell-sim .sim-card {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 1rem;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* ── 1. Layout en modo NORMAL: grid de 2 columnas × 3 filas.
+   Controles a la izquierda / Animación+Gráfica a la derecha / Resultados a
+   ancho completo debajo.
+   REESTRUCTURACIÓN 33%/67% (2026-09-07, pedido explícito del usuario): la
+   columna de Controles pasa de un ancho fijo (minmax(280px,360px), causa
+   raíz del desborde documentado en solar-fins-controls.css/panel.css que
+   forzó ese módulo a 1 sola columna) a `1fr` — exactamente 1/3 del ancho
+   disponible frente a `2fr` (2/3) de la columna de Visualización/Resultados,
+   sin importar el ancho real de la tarjeta. ── */
+/* FIX 2026-09-07 (corrección de estructura, modo normal): `#solar-viz-grid`
+   (nuevo wrapper en index.html del LOTE "Tetris" que envuelve Animación +
+   Gráfica + Resultados, ver más abajo la sección de pantalla completa) es
+   HIJO DIRECTO de este wrapper — Animación/Gráfica/Resultados ya NO lo son.
+   La versión anterior de esta regla (`grid-template-areas` de 3 filas
+   "controls canvas"/"controls chart"/"results results") asumía que esos 3
+   bloques seguían siendo hijos directos del grid, así que sus
+   `grid-area:canvas/chart/results` (abajo) habían quedado sin efecto en
+   modo normal: `#solar-viz-grid`, sin área asignada, se auto-posicionaba en
+   la primera celda libre ("canvas") y los 3 bloques quedaban apilados/
+   solapados dentro de esa única celda — la causa raíz del bug reportado de
+   paneles truncados/empujados fuera de la ventana en pantalla normal. Se
+   corrige reduciendo a 1 sola fila con 2 áreas ("controls"/"viz") y
+   asignando `#solar-viz-grid` a "viz" (ver regla siguiente), que en modo
+   normal simplemente apila Animación → Gráfica → Resultados en flujo
+   vertical natural (sin recortes, sin necesidad del mosaico denso que sólo
+   tiene sentido a pantalla completa). */
+#solar-cell-sim #solar-cell-layout-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* 33.33% controles / 66.67% visualización */
+  grid-template-rows: 1fr;
+  grid-template-areas: "controls viz";
+  gap: 1.25rem;
+  align-items: start;
+}
+
+#solar-cell-sim #solar-controls { grid-area: controls; }
+
+/* Columna derecha (67%) en modo normal: Animación/Gráfica/Resultados en
+   flujo vertical simple — el mosaico denso (`grid-auto-flow:dense`) sólo
+   se activa en `#solar-cell-sim.fullscreen #solar-viz-grid` más abajo. */
+#solar-cell-sim #solar-viz-grid {
+  grid-area: viz;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+/* ── Columna ÚNICA de sliders dentro de Controles (2026-09-07, pedido
+   explícito del usuario). ACTUALIZADO (fix de superposición en pantalla
+   completa, 2026-09-07): en vez de simular 1 columna vía CSS Grid
+   (`grid-template-columns: 1fr`), cada `.sliders-grid` de esta tarjeta
+   pasa a ser un `display:flex; flex-direction:column` real, con `gap`
+   explícito entre filas — pedido explícito del usuario para blindar el
+   apilado vertical de sliders/etiquetas frente a cualquier interacción
+   rara de grid (auto-placement, columnas implícitas, `grid-column` inline
+   de código legado) sin importar el zoom o la resolución. Cubre de una
+   sola vez los 3 `.sliders-grid` de esta tarjeta (controles
+   ópticos+irradiancia, Capa Intermedia, Condiciones Ambientales) más el
+   subgrupo de Disipador de Aletas (su propio `#solar-fins-controls`, ver
+   solar-fins-controls.css). Con flexbox, `grid-column` en línea (código
+   legado de cuando esto era un grid de 2 columnas) ya no tiene ningún
+   efecto — se deja sin tocar en el HTML porque es inofensivo, pero ya no
+   es necesaria la regla `> [style*="grid-column"]{grid-column:span 1}`
+   que existía para neutralizarlo. ── */
+#solar-cell-sim #solar-controls .sliders-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#solar-cell-sim #solar-controls .sliders-grid > * {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* ── Panel de Controles: tipografía/padding compactos (pedido explícito,
+   2026-09-07) — reemplaza el padding genérico de `.sim-card` (1rem) sólo
+   para esta tarjeta, en ambos modos. ── */
+#solar-cell-sim #solar-controls {
+  padding: 8px 12px;
+  font-size: 0.85rem;
+}
+
+/* ── Grupos compactos de línea única (Capa Intermedia / Condiciones
+   Ambientales): index.html ya usa en estas 2 subsecciones las clases
+   .control-group-compact/.control-group-row/.control-label/.value-badge —
+   mismo patrón "nombre a la izquierda + badge de valor a la derecha + barra
+   debajo" ya validado en #contact-res-sim-modal y en el subgrupo Disipador
+   de Aletas (#solar-fins-panel, ver solar-fins-controls.css) — pero esas 3
+   clases sólo tenían reglas de apariencia bajo esos 2 scopes. Capa
+   Intermedia/Condiciones Ambientales (hijas directas de #solar-controls,
+   fuera de #solar-fins-panel) heredaban sólo `.control-group` genérico —
+   sin línea única ni badge-píldora, con más alto vertical del necesario.
+   Se generaliza aquí a nivel de #solar-controls completo (cubre también
+   #solar-fins-panel de forma redundante pero inofensiva: mismos valores). ── */
+#solar-cell-sim #solar-controls .control-group.control-group-compact {
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 0.85rem;
+  min-width: 0;
+}
+
+#solar-cell-sim #solar-controls .control-group-row {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* FIX títulos recortados (LOTE reorganización espacial, 2026-09-08): la
+   versión anterior de esta regla forzaba `white-space:nowrap` + ellipsis en
+   `label > span:first-child`, lo que truncaba con "…" cualquier título de
+   slider más largo que el ancho disponible — visible sobre todo en pantalla
+   NORMAL/inicial, donde #solar-controls es sólo 1fr (≈33%) del ancho del
+   laboratorio. Pedido explícito del usuario: nunca truncar — el título
+   completo y el valor con unidades se apilan verticalmente
+   (`flex-direction:column`) en vez de compartir una sola línea horizontal.
+   Selector ampliado para cubrir también los 2 sub-panels nuevos bajo
+   Animación/Gráfica (`.sub-controls-panel`/`.sub-controls-grid`, ver más
+   abajo), que vieron esta misma regla al no vivir dentro de #solar-controls. */
+#solar-cell-sim #solar-controls .control-group.control-group-compact label,
+#solar-cell-sim #solar-controls .control-label,
+#solar-cell-sim .sub-controls-panel .control-group.control-group-compact label,
+#solar-cell-sim .sub-controls-panel .control-label {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  width: 100%;
+  gap: 2px;
+  margin-bottom: 0;
+  font-size: 0.80rem;
+  line-height: 1.2;
+}
+
+#solar-cell-sim #solar-controls .control-group.control-group-compact label > span:first-child,
+#solar-cell-sim .sub-controls-panel .control-group.control-group-compact label > span:first-child {
+  min-width: 0;
+  line-height: 1.2;
+  overflow: visible;
+  text-overflow: unset;
+  white-space: normal;
+}
+
+#solar-cell-sim #solar-controls .value-badge,
+#solar-cell-sim .sub-controls-panel .value-badge {
+  flex-shrink: 0;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: var(--accent-orange);
+  background: rgba(249, 115, 22, 0.12);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  padding: 1px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+body.light-theme #solar-cell-sim #solar-controls .value-badge,
+body.light-theme #solar-cell-sim .sub-controls-panel .value-badge {
+  background: rgba(194, 65, 12, 0.08);
+  border-color: rgba(194, 65, 12, 0.24);
+  color: #c2410c;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   SUB-PANELES DE CONTROLES BAJO ANIMACIÓN/GRÁFICA (LOTE reorganización
+   espacial, 2026-09-08, pedido explícito del usuario):
+   - #solar-fins-inline-panel (bajo #solar-canvas-container): N/L_aleta/t/k
+     + badge inline de espacio remanente.
+   - #solar-env-inline-panel (bajo #solar-chart-container): G/T∞/h_ext.
+   Formato pedido: grid horizontal compacto
+   `repeat(auto-fit, minmax(180px,1fr))`, altura reducida (no compiten por
+   el espacio vertical que necesitan Animación/Gráfica — ver `flex:4` más
+   abajo). `.sim-card` ya aporta el "chrome" de tarjeta a
+   #solar-canvas-container/#solar-chart-container, así que estos sub-paneles
+   son deliberadamente "planos" (sin fondo/borde propio), sólo separados por
+   un borde superior sutil. ── */
+#solar-cell-sim .sub-controls-panel {
+  flex: 0 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+#solar-cell-sim .sub-controls-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+#solar-cell-sim .sub-controls-title {
+  margin: 0 0 6px 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary, #94a3b8);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+}
+
+#solar-cell-sim .sub-controls-header .sub-controls-title {
+  margin-bottom: 0;
+}
+
+#solar-cell-sim .sub-controls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#solar-cell-sim .sub-controls-grid > * {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* Badge inline de espacio remanente/advertencia (junto al título del
+   sub-panel de Aletas) — versión compacta de #solar-fin-remaining-value
+   (que sigue existiendo, sin cambios, dentro de #solar-fins-status en la
+   columna lateral); solar-fins-status-ui.js actualiza ambos elementos si
+   están presentes. */
+#solar-cell-sim .inline-status-badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 0.75rem;
+  font-family: 'JetBrains Mono', 'Courier New', ui-monospace, monospace;
+  color: var(--accent-cyan, #22d3ee);
+  background: rgba(34, 211, 238, 0.1);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+#solar-cell-sim .inline-status-badge.is-negative {
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+body.light-theme #solar-cell-sim .inline-status-badge {
+  background: rgba(8, 145, 178, 0.08);
+  border-color: rgba(8, 145, 178, 0.28);
+  color: #0e7490;
+}
+
+body.light-theme #solar-cell-sim .inline-status-badge.is-negative {
+  background: rgba(220, 38, 38, 0.08);
+  border-color: rgba(220, 38, 38, 0.28);
+  color: #b91c1c;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   ESCALA VERTICAL (+400% aprox.) DE ANIMACIÓN/GRÁFICA EN PANTALLA NORMAL
+   (LOTE reorganización espacial, 2026-09-08, pedido explícito del usuario):
+   "aplastadas verticalmente" → ambas tarjetas pasan a flex-column (título /
+   visual / sub-panel de controles, ver .sub-controls-panel arriba) para que
+   el nuevo sub-panel de controles NO le quite espacio al visual — éste
+   recibe `flex:4` (4x el peso del sub-panel, que es `flex:0 0 auto`, ver
+   arriba) más un `min-height` muy superior al anterior (220px de
+   #solar-canvas-container / 320px base de .chart-container) para que domine
+   la tarjeta incluso en viewports grandes. `height:auto` en .chart-container
+   reemplaza su `height:320px` fijo (que impedía crecer con flex-grow) —
+   Chart.js con maintainAspectRatio:false sigue leyendo el tamaño real del
+   contenedor en cada resize(), así que no requiere tocar app_v2.js. ── */
+#solar-cell-sim #solar-canvas-container,
+#solar-cell-sim #solar-chart-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#solar-cell-sim:not(.fullscreen) #solar-canvas-container .canvas-container {
+  flex: 4 1 auto;
+  min-height: 500px;
+}
+
+#solar-cell-sim:not(.fullscreen) #solar-chart-container .chart-container {
+  flex: 4 1 auto;
+  height: auto;
+  min-height: 500px;
+}
+
+/* ── Ventanas estándar de baja altura (<800px): las visualizaciones de
+   Animación/Gráfica reducen su alto mínimo (sigue muy por encima del
+   original 180px/260px — pedido explícito de escalar 4x — pero acotado para
+   que quepan sin recortar leyendas/cotas, sin depender de scroll de página).
+   Sólo modo normal — a pantalla completa el alto ya es 100% elástico (ver
+   sección de fullscreen más abajo). ── */
+@media (max-height: 800px) {
+  #solar-cell-sim:not(.fullscreen) #solar-canvas-container .canvas-container {
+    min-height: 300px;
+  }
+
+  #solar-cell-sim:not(.fullscreen) #solar-chart-container .chart-container {
+    min-height: 340px;
+  }
+}
+
+@media (max-width: 900px) {
+  #solar-cell-sim #solar-cell-layout-wrapper {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "controls"
+      "viz";
+  }
+}
+
+/* ── 2. Pantalla completa: overlay fijo a viewport (mismo patrón que
+   #fourier-sim.fullscreen / #foote-sim.fullscreen).
+   FIX DE SUPERPOSICIÓN (2026-09-07): bug reportado — al abrir pantalla
+   completa, los sliders de #solar-controls terminaban visualmente encima
+   del bloque de texto de #solar-results. Causa raíz encontrada: la regla
+   de layout NORMAL (`#solar-cell-sim #solar-cell-layout-wrapper`, arriba)
+   define `align-items: start;` sobre el grid. Esa propiedad NO estaba
+   siendo sobreescrita por esta regla de pantalla completa (que tiene
+   mayor especificidad como selector, pero al no declarar `align-items`
+   la cascada seguía tomando el valor de la regla normal, que sí aplica).
+   Con `align-items: start`, #solar-controls NUNCA se estiraba a la altura
+   de su celda de grid (`minmax(220px,40vh)+minmax(200px,32vh)`): en vez
+   de eso tomaba su altura de contenido real (~1742px, medido con los 7+
+   controles del disipador expandidos) y ese exceso se renderizaba fuera
+   de su celda — sin que `overflow-y:auto` (que ya estaba puesto en
+   #solar-controls) tuviera nada que recortar, porque un elemento con
+   altura `auto`/basada en contenido no tiene desbordamiento que recortar
+   contra sí mismo. El resultado visual: la columna de controles se
+   extendía hacia abajo y quedaba por encima (superpuesta) del área
+   "results" del grid. Con `align-items: stretch` explícito aquí,
+   #solar-controls SÍ se estira a la altura real de su celda y
+   `overflow-y:auto` empieza a funcionar como estaba previsto. ── */
+#solar-cell-sim.fullscreen {
+  display: flex !important;
+  flex-direction: column;
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999 !important;
+  background-color: var(--bg-dark, #0f172a);
+  color: var(--text-primary, #e2e8f0);
+  /* Antes: overflow-y:auto como "red de seguridad" a nivel de página
+     completa. Ahora que la causa raíz (align-items) está corregida, ya
+     no hace falta que TODA la pantalla (incluido el encabezado teórico)
+     scrollee como parche — cada panel gestiona su propio overflow (ver
+     #solar-cell-layout-wrapper y #solar-controls más abajo), así que el
+     contenedor raíz se recorta estrictamente: encabezado siempre fijo,
+     nada se desliza por detrás de otra tarjeta. */
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 10px 14px 32px;
+  gap: 8px;
+  opacity: 1 !important;
+  pointer-events: all !important;
+  transform: none !important;
+}
+
+/* El botón "Abrir Pantalla Completa" no tiene sentido ya estando dentro
+   de pantalla completa. */
+#solar-cell-sim.fullscreen #solar-cell-lab-fullscreen-anchor {
+  display: none !important;
+}
+
+/* Encabezado teórico: se conserva pero se comprime, para dejar el máximo
+   espacio vertical a controles/animación/gráfica/resultados. */
+#solar-cell-sim.fullscreen .sim-intro {
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 12px;
+  margin: 0 0 8px 0;
+  font-size: 0.82rem;
+}
+
+/* Padding compacto de las 4 tarjetas (`.sim-card`, look genérico
+   compartido definido arriba en 1rem) — sólo a pantalla completa, donde
+   cada pixel vertical/horizontal cuenta para que todo quepa sin scroll de
+   página (pedido explícito: "padding reducido, gaps compactos de 6px a
+   8px"). En modo normal se deja el 1rem genérico (hay espacio de sobra al
+   fluir la página). */
+#solar-cell-sim.fullscreen .sim-card {
+  padding: 8px 10px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   LAYOUT "TETRIS" (2026-09-07, pedido explícito del usuario) — reemplaza
+   el grid de 3 filas con grid-template-areas por una arquitectura de 2
+   niveles: (1) el wrapper general sigue siendo 33%/67% pero ahora en una
+   ÚNICA fila a toda la altura disponible — cada columna gestiona su
+   propio contenido/scroll internamente; (2) la columna derecha
+   (#solar-viz-grid, nuevo wrapper en index.html que envuelve Animación +
+   Gráfica + Resultados) es un grid DENSO (`grid-auto-flow:dense`) real:
+   Animación y Gráfica son los bloques grandes, y las 7 tarjetas KPI de
+   Resultados (antes un único bloque de texto, ahora 7 `.kpi-card`
+   individuales vía `display:contents` en #solar-results) son los bloques
+   1x1 que el algoritmo de empaquetado denso acomoda automáticamente en
+   el hueco que Animación/Gráfica dejan libre — sin huecos muertos con el
+   conteo actual de 7 KPIs (ver aritmética exacta en el comentario de
+   #solar-viz-grid). Compatibilidad con el fix de superposición del LOTE
+   anterior: `align-items:stretch` + `min-height:0`/`min-width:0` en cada
+   nivel se mantienen sin cambios — son la base que hace posible este
+   layout sin repetir el bug de #solar-controls desbordando su celda. ── */
+#solar-cell-sim.fullscreen #solar-cell-layout-wrapper {
+  display: grid !important;
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  box-sizing: border-box;
+  align-items: stretch;
+  overflow: hidden; /* ya no scrollea el wrapper completo: cada columna (controles / viz) tiene su propio overflow-y:auto */
+  gap: 8px !important; /* compactado de 12px a 8px (pedido explícito: gaps de 6-8px a pantalla completa) */
+  grid-template-columns: 1fr 2fr; /* 33.33% controles / 66.67% visualización — sin cambios respecto al LOTE anterior */
+  grid-template-rows: 1fr;        /* una sola fila a toda la altura: ya no hay "filas" separadas para canvas/chart/resultados */
+  grid-template-areas: "controls viz";
+}
+
+/* Panel de controles ("sidebar"): stacking context propio y controlado
+   (position:relative + z-index) — sin cambios respecto al fix de
+   superposición anterior. Ahora además es el contenedor de la sub-grilla
+   densa de sliders (ver más abajo, #solar-basic-controls). */
+#solar-cell-sim.fullscreen #solar-controls {
+  grid-area: controls;
+  position: relative;
+  z-index: 2;
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* Barra de scroll oculta visualmente (pedido explícito) — el scroll
+     interno SIGUE funcionando (red de seguridad para el caso documentado
+     en LOTE_solar_cell_sim_acoplamiento_termico_real_y_layout_33_67, donde
+     el subgrupo "Disipador de Aletas" expandido excede la altura de su
+     celda de grid incluso con el diseño más compacto); sólo se retira el
+     "chrome" visual de la barra para que no reste espacio horizontal ni
+     rompa el layout elástico. */
+  scrollbar-width: none;
+}
+
+#solar-cell-sim.fullscreen #solar-controls::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Sub-grilla densa de Controles (columna izquierda, 33%) ──────────────
+   Sólo el grupo de sliders BÁSICOS (irradiancia/óptica: 5 controles sin
+   badge de una sola línea) pasa a un grid denso de 2 columnas — "pares de
+   sliders compactos" pedido explícitamente. Los selects (Material/
+   Frontera) conservan su span completo vía el mismo atributo
+   style="grid-column:span 2" que ya traían en el HTML (hoy interpretado
+   por un grid real en vez de ser ignorado). Los grupos
+   .control-group-compact (Condiciones Ambientales, Disipador de Aletas)
+   NO se tocan aquí — deliberadamente se mantienen en 1 columna a ancho
+   completo: usan `white-space:nowrap` en su badge numérico y un LOTE
+   anterior (`solar-fins-controls.css`) documentó que esa combinación
+   desborda su celda en 2 columnas incluso con la tarjeta más ancha que
+   hoy (33% del viewport ≈ 450-620px reales, la mitad por columna ronda
+   los mismos ~225-310px que ya habían causado un desborde de 784px vs
+   326px disponibles). Mantenerlos en 1 columna es una decisión deliberada,
+   no un olvido — ver el mismo archivo para el detalle del bug original. */
+#solar-cell-sim.fullscreen #solar-controls #solar-basic-controls {
+  display: grid;
+  grid-auto-flow: dense;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+#solar-cell-sim.fullscreen #solar-controls #solar-basic-controls > .control-group {
+  grid-column: span 1;
+  min-width: 0;
+}
+
+#solar-cell-sim.fullscreen #solar-controls #solar-basic-controls > .control-group[style*="grid-column"] {
+  grid-column: span 2 !important; /* selects de Material/Frontera Inferior: ancho completo */
+}
+
+/* ── Mosaico denso de Visualización (columna derecha, 67%) ───────────────
+   #solar-viz-grid es un nuevo wrapper en index.html que envuelve
+   #solar-canvas-container + #solar-chart-container + #solar-results (los
+   mismos 3 elementos que antes vivían sueltos en el wrapper general).
+   `grid-auto-flow:dense` + un grid de 4 columnas x 7 filas es la pieza
+   central del pedido "Tetris": Animación ocupa 3 columnas x 4 filas,
+   Gráfica 3 columnas x 3 filas (4+3=7 filas exactas) y cada una de las 7
+   tarjetas KPI de Resultados (1 columna x 1 fila) se acomoda en la 4ª
+   columna, fila por fila — el algoritmo de empaquetado denso las coloca
+   automáticamente en cuanto encuentra una celda libre, sin necesidad de
+   asignarles una posición manual. Con el conteo ACTUAL de 7 KPIs
+   (T_s/η/P_elec/T_glass/T_int/Q_glass/Q_losses) esto llena exactamente
+   las 7 filas de la 4ª columna — cero huecos muertos, verificado con
+   Chromium headless (ver LOTE). Si en el futuro se agrega o quita un
+   campo de resultados, este conteo deja de calzar exacto (dense seguirá
+   sin dejar huecos DENTRO de la 4ª columna, pero la ÚLTIMA fila podría
+   quedar con 1-3 columnas libres si sobran/faltan KPIs) — en ese caso,
+   ajustar `grid-row: span N` de Animación/Gráfica para que su suma vuelva
+   a igualar el número de tarjetas KPI. */
+#solar-cell-sim.fullscreen #solar-viz-grid {
+  grid-area: viz;
+  display: grid;
+  grid-auto-flow: dense;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(7, minmax(0, 1fr));
+  gap: 8px; /* compactado de 10px a 8px (pedido explícito: gaps de 6-8px a pantalla completa) */
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  scrollbar-width: none; /* barra oculta visualmente, scroll interno intacto como red de seguridad */
+  position: relative;
+  z-index: 1;
+}
+
+#solar-cell-sim.fullscreen #solar-viz-grid::-webkit-scrollbar {
+  display: none;
+}
+
+#solar-cell-sim.fullscreen #solar-canvas-container {
+  grid-column: span 3;
+  grid-row: span 4;
+  position: relative;
+  z-index: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  /* Antes: overflow:hidden. Con el nuevo sub-panel de controles
+     (#solar-fins-inline-panel) compitiendo por el alto fijo de esta celda
+     del grid Tetris (grid-row:span 4 de 7), overflow:hidden podía recortar
+     el sub-panel si el contenido no cabe exacto (p.ej. zoom del navegador,
+     ventanas muy bajas). overflow-y:auto (misma red de seguridad ya usada
+     en #solar-controls/#solar-viz-grid) evita el recorte sin gastar espacio
+     visual de la barra. */
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+#solar-cell-sim.fullscreen #solar-canvas-container::-webkit-scrollbar {
+  display: none;
+}
+
+#solar-cell-sim.fullscreen #solar-chart-container {
+  grid-column: span 3;
+  grid-row: span 3;
+  position: relative;
+  z-index: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+#solar-cell-sim.fullscreen #solar-chart-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* ESCALA VERTICAL (+400%, pedido explícito) del visual dentro de su propia
+   tarjeta: `flex:4` le da 4x el peso de crecimiento de
+   `.sub-controls-panel` (que es `flex:0 0 auto`, ver arriba) — el visual se
+   queda con prácticamente todo el alto de la celda Tetris (span 4/7 o 3/7
+   filas) una vez descontado el título (flex-shrink:0) y el sub-panel
+   compacto de controles. min-height:260px es un piso razonable dentro de
+   una celda cuyo alto real depende del viewport (grid-template-rows:
+   minmax(0,1fr) × 7). */
+#solar-cell-sim.fullscreen #solar-canvas-container .canvas-container,
+#solar-cell-sim.fullscreen #solar-chart-container .chart-container {
+  flex: 4 1 auto;
+  min-height: 260px;
+}
+
+/* Título compacto de Animación/Gráfica en modo Tetris — el bloque es más
+   bajo que en el layout anterior (comparte fila con las tarjetas KPI de
+   su lado), así que el título no puede seguir tomando el mismo espacio
+   vertical que en modo normal. */
+#solar-cell-sim.fullscreen #solar-canvas-container > .sim-subheading,
+#solar-cell-sim.fullscreen #solar-chart-container > .sim-subheading {
+  flex-shrink: 0;
+  margin-bottom: 0.35rem;
+  font-size: 0.82rem;
+}
+
+/* #solar-results se "disuelve" (display:contents): dejar de ser una caja
+   propia hace que sus hijos directos (las 7 `.kpi-card`, más su título)
+   pasen a ser ítems directos de #solar-viz-grid — condición necesaria
+   para que participen del auto-empaquetado denso descrito arriba. Esto
+   es el mismo patrón "Regla #8" ya documentado en este archivo para
+   otros laboratorios (flatten de un wrapper para que sus hijos entren al
+   grid del ancestro), aplicado aquí por primera vez a un caso donde el
+   wrapper vive var varios niveles del DOM más abajo que el grid que lo
+   termina gobernando. */
+#solar-cell-sim.fullscreen #solar-results {
+  display: contents;
+}
+
+/* El título "Resultados" ya no tiene sentido como bloque propio (cada
+   KPI ahora lleva su propia etiqueta) — se oculta sólo en modo Tetris. */
+#solar-cell-sim.fullscreen #solar-results > .sim-subheading {
+  display: none;
+}
+
+/* Tarjeta KPI 1x1: título arriba (compacto, con elipsis si no cabe) +
+   valor grande abajo — mismo par label/highlight-val que ya traía cada
+   `.result-row`, sólo se cambia la dirección de flex (de fila a columna)
+   y se le da chrome propio de "tile" porque, al disolver #solar-results,
+   ya no hereda el fondo/borde de `.result-card`. */
+#solar-cell-sim.fullscreen .kpi-card {
+  grid-column: span 1;
+  grid-row: span 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 6px 8px;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+#solar-cell-sim.fullscreen .kpi-card > span:first-child {
+  font-size: 0.62rem;
+  line-height: 1.15;
+  color: var(--text-secondary, #94a3b8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+#solar-cell-sim.fullscreen .kpi-card .highlight-val {
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  #solar-cell-sim.fullscreen #solar-cell-layout-wrapper {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "controls"
+      "viz";
+    overflow-y: auto;
+  }
+
+  #solar-cell-sim.fullscreen #solar-viz-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: none;
+    grid-auto-rows: minmax(90px, auto);
+  }
+
+  #solar-cell-sim.fullscreen #solar-canvas-container,
+  #solar-cell-sim.fullscreen #solar-chart-container {
+    grid-column: span 2;
+    grid-row: auto;
+  }
+
+  #solar-cell-sim.fullscreen .kpi-card {
+    grid-column: span 1;
+  }
+
+  #solar-cell-sim.fullscreen #solar-controls #solar-basic-controls {
+    grid-template-columns: 1fr;
+  }
+
+  #solar-cell-sim.fullscreen #solar-controls #solar-basic-controls > .control-group[style*="grid-column"] {
+    grid-column: span 1 !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   FIX — Títulos recortados en pantalla completa (2026-09-08, pedido
+   explícito del usuario) — h4.sim-subheading (Controles/Animación/
+   Gráfica/Resultados), el h3 de .sim-intro y la etiqueta de cada
+   .kpi-card se comprimen agresivamente en modo Tetris (font-size hasta
+   0.62rem) sin ensanchar su line-height/padding en la misma proporción:
+   a ciertos zooms/DPI el ascendente de superíndices/paréntesis ($T_s$,
+   $(G)$…) o el descendente de alguna letra quedaba recortado contra el
+   borde de su propia caja de línea. Ninguno de estos títulos tenía en
+   realidad `height` fija ni un `overflow:hidden` DIRECTO sobre sí mismo
+   (el `flex-shrink:0` que evita que el flex-parent los comprima ya
+   estaba puesto) — el recorte es de MÉTRICA DE FUENTE, no de layout, así
+   que el fix no toca ningún `grid-area`/tamaño de tarjeta: sólo ensancha
+   la caja de texto de cada título (line-height 1.2–1.3 + padding mínimo)
+   y fuerza `overflow:visible`/`height:auto` por si un LOTE futuro le
+   agrega alguno. NO se toca font-size (ya ajustado a propósito para el
+   modo Tetris) ni la posición/tamaño de ninguna tarjeta. ── */
+#solar-cell-sim .sim-intro h3,
+#solar-cell-sim .sim-card .sim-subheading,
+#solar-cell-sim #solar-fins-heatsink-module h5,
+#solar-cell-sim .sub-controls-title {
+  height: auto;
+  min-height: fit-content;
+  overflow: visible;
+  line-height: 1.3;
+  padding: 2px 4px;
+  white-space: normal;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+/* ── Compactación de los sub-paneles en modo Tetris (fullscreen): mismo
+   contenido que en modo normal, pero con menos margen/padding y sliders más
+   angostos (minmax 140px en vez de 180px) para que quepan más cómodos en el
+   ancho de 3/4 columnas de #solar-viz-grid sin que el título quede
+   truncado — ver `.sub-controls-title` arriba, ya cubierto por el fix. ── */
+#solar-cell-sim.fullscreen .sub-controls-panel {
+  margin-top: 4px;
+  padding-top: 4px;
+}
+
+#solar-cell-sim.fullscreen .sub-controls-title {
+  font-size: 0.7rem;
+}
+
+#solar-cell-sim.fullscreen .sub-controls-grid {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 6px;
+}
+
+/* Títulos de Animación/Gráfica en modo Tetris (fullscreen): mismo fix,
+   con el line-height/padding ligeramente más compacto para no repetir el
+   problema de superposición de sliders ya corregido (ver sección 2 más
+   arriba) — el objetivo es SÓLO eliminar el recorte de fuente, no
+   recuperar el alto que el modo Tetris le quitó a propósito al título. */
+#solar-cell-sim.fullscreen #solar-canvas-container > .sim-subheading,
+#solar-cell-sim.fullscreen #solar-chart-container > .sim-subheading {
+  height: auto;
+  min-height: fit-content;
+  overflow: visible;
+  line-height: 1.25;
+  padding: 2px 4px;
+  white-space: normal;
+}
+
+/* Etiqueta superior de cada tarjeta KPI: la combinación previa de
+   font-size:0.62rem + line-height:1.15 + `overflow:hidden` (heredado de
+   `.kpi-card`, necesario para que el VALOR grande de abajo no desborde
+   la tarjeta 1x1) dejaba la etiqueta sin ningún margen vertical propio.
+   Se le da su PROPIA caja (line-height holgado + padding + su propio
+   overflow controlado) en vez de depender del `overflow:hidden` del
+   contenedor padre — el recorte LATERAL sigue siendo un ellipsis
+   controlado a propósito (texto largo en una tarjeta angosta), nunca un
+   recorte VERTICAL de la fuente. */
+#solar-cell-sim.fullscreen .kpi-card > span:first-child {
+  line-height: 1.3;
+  padding: 1px 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+/* Red de seguridad genérica (por si un LOTE futuro reutiliza dentro de
+   este laboratorio las clases estándar de título del resto del sitio,
+   `.card-title` / `.panel-header h2`, ya usadas en Hitos Históricos/Labs
+   Virtuales): mismo criterio de arriba, para que nunca hereden un
+   recorte por line-height apretado dentro de #solar-cell-sim.fullscreen. */
+#solar-cell-sim.fullscreen .card-title,
+#solar-cell-sim.fullscreen .panel-header h2 {
+  min-height: fit-content;
+  overflow: visible;
+  line-height: 1.25;
+  padding: 2px 4px;
+  white-space: normal;
+  flex-shrink: 0;
+}
+
+/* ── 2.5 FIX CRÍTICO (2026-09-07, hallazgo de esta verificación): el
+   ancestro `.panel.glass` (envuelve `.tabs-container` → #solar-cell-sim,
+   ver ancestros reales del DOM en index.html) usa `backdrop-filter:
+   blur(20px)`. En navegadores actuales (Chromium/Firefox/Safari),
+   `backdrop-filter` — igual que `filter`/`transform`/`perspective` —
+   establece un NUEVO containing block para descendientes
+   `position:fixed`. Esto rompía por completo el modo pantalla completa:
+   `#solar-cell-sim.fullscreen` calculaba el tamaño correcto (100vw×100vh)
+   pero su POSICIÓN quedaba anclada a la caja de `.panel` en vez de al
+   viewport real — verificado con Chromium headless real: sin este fix,
+   el rect medía x=717,y=1027,w=1400,h=900 (viewport 1400×900) en vez de
+   x=0,y=0 — es decir, el overlay de pantalla completa se renderizaba
+   várias secciones más abajo en la página y aún así con overflow:hidden
+   propio, dejándolo prácticamente invisible/inaccesible en vez de ocupar
+   el 100% de la pantalla como pide el requisito #1. Se neutraliza el
+   backdrop-filter del panel ancestro SÓLO mientras este laboratorio está
+   en pantalla completa (selector :has, soportado en navegadores
+   modernos), sin afectar su apariencia en ningún otro momento ni a
+   ningún otro laboratorio. NOTA: este mismo bug de containing block
+   probablemente afecta a los demás laboratorios ".fullscreen" del sitio
+   que comparten la misma estructura `.panel.glass` — queda fuera del
+   alcance de este LOTE (específico a Celda Solar) generalizar el fix,
+   pero se deja documentado aquí como hallazgo para un LOTE futuro. ── */
+.panel.glass:has(#solar-cell-sim.fullscreen) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* ── 3. Botones de pantalla completa (mismo patrón que #fourier-lab-open-btn
+   / #fourier-lab-close-btn). ── */
+#solar-cell-lab-close-btn {
+  position: fixed;
+  top: 20px;
+  right: 25px;
+  z-index: 1000000;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+  background-color: rgba(255, 255, 255, 0.10);
+  border: 1.5px solid rgba(255, 255, 255, 0.20);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.18s ease;
+}
+
+#solar-cell-lab-close-btn.visible {
+  display: flex;
+}
+
+#solar-cell-lab-close-btn:hover,
+#solar-cell-lab-close-btn:focus-visible {
+  background-color: rgba(239, 68, 68, 0.18);
+  border-color: #ef4444;
+  color: #ef4444;
+  transform: scale(1.1) rotate(90deg);
+  outline: none;
+}
+
+#solar-cell-lab-open-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+#solar-cell-lab-open-btn:hover {
+  background: rgba(59, 130, 246, 0.28);
+  border-color: #60a5fa;
+  transform: translateY(-1px);
+}
+
+/* ── 4. Promoción a capa GPU dedicada — mismo patrón que la lista global
+   de canvases interactivos (ver más arriba en style.css, LOTE 3,
+   2026-09-04). Ya está cubierto por el selector genérico
+   `.simulation-workspace canvas`, pero se añade explícito por id, igual
+   que el resto de laboratorios, para que quede autodocumentado en esta
+   sección y sea robusto a cualquier cambio futuro de estructura. ── */
+#solarCanvas,
+#solarChart {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform;
+}
+
+
+/* ════════════════════════════════════════════════════════════════════════
+   PARCHE UX — Celda Solar Fotovoltaica: fullscreen sin scrolls internos,
+   scroll único de página (vertical, natural) y escala ampliada.
+   (2026-09-08, pedido explícito del usuario)
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Contenedor raíz en fullscreen: deja de recortarse a 100vh fijo.
+   El root sigue fijo al viewport por los 4 lados (top/left/right:0) pero
+   se le quita `bottom:0` y `height:100vh` para que crezca con su
+   contenido; el propio contenedor scrollea como si fuera "la página". */
+#solar-cell-sim.fullscreen,
+#solar-cell-sim:fullscreen,
+#solar-cell-sim.fullscreen::backdrop,
+#solar-cell-sim.is-fullscreen {
+  height: auto !important;
+  min-height: 100vh !important;
+  bottom: auto !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* Antes la barra de scroll se ocultaba a nivel de sub-paneles (patrón
+   `scrollbar-width:none`); aquí SÍ queremos que el usuario vea que puede
+   bajar, así que se muestra explícitamente en el contenedor raíz. */
+#solar-cell-sim.fullscreen {
+  scrollbar-width: auto !important;
+}
+#solar-cell-sim.fullscreen::-webkit-scrollbar {
+  display: block !important;
+  width: 10px;
+}
+
+/* ── 2. Wrapper de layout (Controles 33% | Visualización 67%): deja de
+   estar acotado a `height:100%` + `overflow:hidden` — crece libremente. */
+#solar-cell-sim.fullscreen #solar-cell-layout-wrapper {
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  align-items: start !important;
+  grid-template-rows: auto !important;
+}
+
+/* ── 3. Elimina TODO scroll interno propio de tarjetas/paneles/recuadros
+   (controles, mosaico de visualización, animación, gráfica, resultados,
+   sub-paneles y tarjetas KPI). Ningún bloque recorta su contenido. */
+#solar-cell-sim.fullscreen #solar-controls,
+#solar-cell-sim.fullscreen #solar-viz-grid,
+#solar-cell-sim.fullscreen #solar-canvas-container,
+#solar-cell-sim.fullscreen #solar-chart-container,
+#solar-cell-sim.fullscreen #solar-results,
+#solar-cell-sim.fullscreen .sim-card,
+#solar-cell-sim.fullscreen .kpi-card,
+#solar-cell-sim.fullscreen .sub-controls-panel {
+  overflow: visible !important;
+  overflow-y: visible !important;
+  overflow-x: visible !important;
+  max-height: none !important;
+  height: auto !important;
+}
+
+/* ── 4. Mosaico "Tetris" → columna vertical simple. El grid denso de 7
+   filas fijas es incompatible con "altura libre + sin scroll": se
+   convierte #solar-viz-grid en flex-column (Animación → Gráfica →
+   Resultados, en ese orden natural de arriba hacia abajo). */
+#solar-cell-sim.fullscreen #solar-viz-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  grid-template-columns: none !important;
+  grid-template-rows: none !important;
+}
+
+#solar-cell-sim.fullscreen #solar-canvas-container,
+#solar-cell-sim.fullscreen #solar-chart-container {
+  grid-column: auto !important;
+  grid-row: auto !important;
+  width: 100%;
+  min-height: 0 !important;
+}
+
+/* Resultados vuelve a ser una grilla normal de tarjetas KPI (se revierte
+   el `display:contents` que las disolvía dentro del mosaico denso). */
+#solar-cell-sim.fullscreen #solar-results {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  gap: 16px !important;
+}
+
+#solar-cell-sim.fullscreen #solar-results > .sim-subheading {
+  display: block !important;
+}
+
+#solar-cell-sim.fullscreen .kpi-card {
+  grid-column: auto !important;
+  grid-row: auto !important;
+  min-height: 100px;
+}
+
+/* ── 5. Escala ampliada y proporcional (tipografía + espaciados). */
+#solar-cell-sim.fullscreen {
+  font-size: 1.1rem !important;
+}
+
+#solar-cell-sim.fullscreen #solar-cell-layout-wrapper,
+#solar-cell-sim.fullscreen #solar-viz-grid {
+  gap: 24px !important;
+}
+
+#solar-cell-sim.fullscreen .sub-controls-grid {
+  gap: 16px !important;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+}
+
+#solar-cell-sim.fullscreen .sim-card {
+  padding: 22px 24px !important;
+}
+
+#solar-cell-sim.fullscreen .kpi-card > span:first-child {
+  font-size: 0.95rem !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+}
+
+#solar-cell-sim.fullscreen .kpi-card .highlight-val {
+  font-size: 1.3rem !important;
+  white-space: normal !important;
+}
+
+/* ── 6. Lienzos grandes: Animación y Gráfica con alto amplio y cómodo,
+   sin restricciones forzadas por el viewport (antes `flex:4`/260px,
+   pensado para encajar en una celda fija del mosaico Tetris). */
+#solar-cell-sim.fullscreen #solar-canvas-container .canvas-container,
+#solar-cell-sim.fullscreen #solar-chart-container .chart-container {
+  flex: none !important;
+  height: auto !important;
+  min-height: 600px !important;
+}

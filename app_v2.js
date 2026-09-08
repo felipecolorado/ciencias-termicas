@@ -845,6 +845,31 @@ function startApp() {
     safeInit('Telkes', () => initTelkesSimulation());
     safeInit('RadiacionPlacaPlana', () => initRadiacionPlacaPlanaSimulation());
     safeInit('ContactResistance', () => { if (window.initContactResSimulation) window.initContactResSimulation(); });
+    safeInit('SolarCell', () => initSolarCellSimulation());
+    // Disipador de Aletas (Heat Sink) -- modulo ensamblado (Lote 1-4), ver
+    // claude/LOTE_solar_cell_sim_aletas_disipador_*_2026-09-07.md. AHORA
+    // acoplado en cascada al solver real de solar-cell-sim (ver
+    // solveSolarCell() -> computeFinThermalResistance): cada cambio de
+    // N/k/L_aleta/t/W dispara onEvaluate (LOTE de ensamblaje, ya coalescido
+    // a max. 1x/frame por rAF dentro de solar-fins-controls.js), que aqui
+    // simplemente reinvoca window.updateSolarSim() -- el mismo refresco que
+    // ya disparan el resto de sliders de #solar-controls -- para que
+    // T_si/T_glass/eta_PV/P_out se recalculen con la nueva geometria del
+    // disipador. initialState.A_celda se sincroniza explicitamente con
+    // SOLAR_AREA_M2 (la misma area que usa solveSolarCell) para que A_b/A_total
+    // del disipador siempre correspondan a la celda real, incluso si
+    // SOLAR_AREA_M2 cambia en una sesion futura.
+    safeInit('SolarFinsHeatsink', () => {
+        window.solarFinsHeatsinkPanel = initSolarFinsHeatsinkPanel({
+            root: document,
+            initialState: { A_celda: SOLAR_AREA_M2 },
+            onEvaluate: () => {
+                if (typeof window.updateSolarSim === 'function') {
+                    window.updateSolarSim();
+                }
+            }
+        });
+    });
 
     // Modal close logic
     const modal = document.getElementById('image-modal');
@@ -2546,6 +2571,24 @@ function switchTab(tabId, disableTimelineSync = false) {
             // Redimensionar la gráfica Chart.js del perfil de temperatura
             if (window.NusseltLab && typeof window.NusseltLab.resize === 'function') {
                 window.NusseltLab.resize();
+            }
+        }, 80);
+    }
+
+    // FIX solar-cell-sim: reintento de inicialización diferida (Lazy Init).
+    if (tabId === 'solar-cell-sim') {
+        setTimeout(() => {
+            const activePane = document.getElementById(tabId);
+            if (activePane && activePane.classList.contains('fullscreen')) return;
+            if (!window._solarCellInited) {
+                try {
+                    initSolarCellSimulation();
+                } catch (e) {
+                    console.error('Error al inicializar Celda Solar:', e);
+                }
+            }
+            if (window.SolarCellLab && typeof window.SolarCellLab.resize === 'function') {
+                window.SolarCellLab.resize();
             }
         }, 80);
     }
@@ -33176,6 +33219,1270 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 })();
+
+/* =========================================================================
+   SOLAR CELL — Celda Solar Fotovoltaica (LOTES 1-4, 2026-09-06)
+   Estructura: tab-pane #solar-cell-sim > #solar-cell-layout-wrapper
+   (.simulation-workspace) > #solar-controls / #solar-canvas-container
+   (#solarCanvas) / #solar-chart-container (#solarChart) / #solar-results
+   (ver index.html/style.css). Tres piezas, en este orden:
+     1. Modelo físico puro: solveSolarCell(state) — sin tocar el DOM.
+     2. initSolarCellSimulation() — Lazy Init, Chart.js, bucle de canvas,
+        listeners de UI y registro en window.LabAnimationManager.
+     3. IIFE SolarCellLab — controlador de pantalla completa (mismo
+        patrón que NewtonLab/ContactResLab).
+   ========================================================================= */
+
+// ── 1. Modelo físico puro (balance de energía en estado estacionario) ──────
+const SOLAR_SIGMA = 5.67e-8;        // Stefan-Boltzmann, W/(m²K⁴) — mismo valor usado en multicapa-custom-sim/boiling-sim
+const SOLAR_AREA_M2 = 1.0;          // Área unitaria de la celda (mismo supuesto que gen-sim: A = 1 m²; sin slider propio en el HTML)
+const SOLAR_H_AMBIENT_TOP = 10;     // W/(m²K), convección natural vidrio→ambiente (aire quieto; sin slider propio)
+const SOLAR_H_BOTTOM_FINNED = 80;   // W/(m²K) -- FALLBACK defensivo unicamente: h_eff_bottom real ahora se
+                                     // calcula en solveSolarCell() a partir de la geometria/material real del
+                                     // disipador (ver computeFinThermalResistance en solar-fin-heatsink-state.js);
+                                     // este valor solo se usa si window.solarFinsHeatsinkPanel no inicializo.
+const SOLAR_T_AMBIENT_C = 25;       // °C, temperatura ambiente/de los alrededores asumida (sin slider propio en el HTML)
+
+// LOTE — Transición de cámara de gas a CAPA SÓLIDA INTERMEDIA (encapsulante):
+// L_int (espesor, slider #solar-l-int en mm -> m) y ρ_int (reflectividad de
+// la interfaz óptica vidrio/capa, slider #solar-rho-int) ya NO son
+// constantes: llegan en `state` (ver readSolarState()). Lo que sigue siendo
+// una constante estática es la conductividad térmica de cada material de
+// encapsulante disponible en el selector #solar-int-material.
+// Conductividades térmicas estáticas simples, W/(m·K) — valores típicos de
+// encapsulantes fotovoltaicos reales (EVA/PVB/Silicona), en vez de gases.
+const SOLAR_INT_K = {
+    eva: 0.35,
+    pvb: 0.25,
+    silicona: 0.20
+};
+
+function solarCellEfficiency(T_kelvin) {
+    return Math.max(0, 0.553 - 0.001 * T_kelvin); // ecuación EXACTA, tope inferior en 0
+}
+
+/**
+ * Resuelve el balance térmico estacionario de la celda y devuelve
+ * temperatura/eficiencia/potencia. Función PURA (no toca el DOM ni el
+ * chart) para poder reutilizarla tanto en el "punto actual" como en el
+ * barrido de irradiación que alimenta la gráfica.
+ * state = { G, tau, rho, alpha, epsilon, L_int, rho_int, intMaterial, boundaryType }
+ */
+/**
+ * Solver de TRES NODOS acoplados (Vidrio T_g / Capa Intermedia SÓLIDA T_int /
+ * Silicio T_s), balance de energía en estado estacionario. Sustituye la
+ * cámara de gas (aire/argón/CO2, LOTES 1-4) por una capa sólida encapsulante
+ * real (EVA/PVB/Silicona, selector #solar-int-material) de espesor L_int
+ * (slider #solar-l-int, mm) — el vidrio y el silicio siguen siendo nodos
+ * térmicos reales con su propia absorción óptica / pérdidas al ambiente,
+ * exactamente igual que en el solver de 2 nodos anterior; lo que cambia es
+ * el ACOPLAMIENTO entre ellos.
+ *
+ * Física del acoplamiento (capa sólida, sin gas):
+ *  - Ya no hay radiación interna entre dos superficies enfrentadas (eso sólo
+ *    tiene sentido con un hueco de gas/vacío) — un sólido opaco transmite
+ *    calor de un lado a otro EXCLUSIVAMENTE por conducción.
+ *  - Se modela la capa como dos resistencias de conducción en serie, cada
+ *    una de medio espesor (L_int/2), con un nodo T_int en el punto medio:
+ *    R_mitad = (L_int/2)/k_int  ⇒  conductancia g_mitad = 2·k_int/L_int
+ *    (misma conductancia a ambos lados por simetría de espesor).
+ *  - Al no haber generación ni absorción óptica DENTRO de la capa (toda la
+ *    interacción óptica ocurre en sus dos superficies — ver abajo), el
+ *    balance de energía del nodo intermedio en estado estacionario exige
+ *    flujo de entrada = flujo de salida:
+ *      g_mitad·(Tg−T_int) = g_mitad·(T_int−Ts)  ⇒  T_int = (Tg+Ts)/2
+ *    Es decir, las dos resistencias en serie de igual valor colapsan
+ *    exactamente a una única resistencia de capa completa R_int=L_int/k_int
+ *    entre Tg y Ts (R_mitad+R_mitad = L_int/k_int) — el sistema se resuelve
+ *    con el MISMO Newton-Raphson 2D (Tg,Ts) que el solver anterior, y T_int
+ *    se obtiene después como el promedio aritmético exacto de Tg y Ts. Esta
+ *    simplificación es exacta (no aproximada) bajo los supuestos de arriba,
+ *    y evita un Newton-Raphson 3D innecesario.
+ *
+ * Óptica de la nueva interfaz vidrio→capa intermedia (ρ_int, slider
+ * #solar-rho-int): el índice de refracción del encapsulante no coincide
+ * exactamente con el del vidrio, así que una fracción ρ_int de los fotones
+ * que ya atravesaron el vidrio (G·τ) se reflejan en esa interfaz y salen de
+ * vuelta hacia arriba (ver drawSolarCanvas — 2ª etapa de rebote); el resto,
+ * (1−ρ_int), continúa a través de la capa (que se asume ópticamente
+ * transparente en su interior — no hay una fracción "absorbida dentro de la
+ * capa": sólo se refleja en la interfaz o llega al silicio) y es absorbido
+ * por completo al llegar al silicio, igual que antes.
+ *
+ * Supuesto físico (no existe slider propio para el silicio en el HTML): el
+ * silicio se modela como un absorbedor/emisor NEGRO (α_s = ε_s = 1),
+ * consistente con drawSolarCanvas() (todo fotón que llega al silicio se
+ * absorbe siempre, sin prueba de reflexión adicional ahí).
+ *
+ * NOTA de rendimiento: esta función además actualiza el DOM de
+ * #solar-results directamente (pedido explícito del usuario, LOTE
+ * anterior). Como también se reutiliza en el barrido que alimenta la
+ * gráfica (updateSolarChartData(), ~30 llamadas con G variable por
+ * refresco), el DOM recibe temporalmente esos valores de barrido — pero
+ * como todo ocurre de forma síncrona y la ÚLTIMA llamada de cada refresco
+ * siempre es la del punto real ("current", con el G actual), el navegador
+ * nunca llega a pintar los valores intermedios: el resultado visible final
+ * es siempre el correcto. Se documenta aquí para que no se lea como un bug.
+ */
+function solveSolarCell(state) {
+    const G = state.G;
+    const tau = state.tau;
+    const alpha = state.alpha; // α_g — absortividad del VIDRIO (Nodo 1)
+    const epsilon = state.epsilon; // ε_g — emisividad del vidrio (pérdidas top)
+    // state.rho se recibe por completitud del estado óptico pero no entra
+    // directamente en el balance: la fracción reflejada nunca interactúa
+    // térmicamente con el sistema (rebota antes de entrar).
+    const rhoInt = state.rho_int; // ρ_int — reflectividad de la interfaz vidrio/capa intermedia
+    const kInt = SOLAR_INT_K[state.intMaterial] || SOLAR_INT_K.eva;
+    const Lint = state.L_int; // metros (ya convertido en readSolarState())
+    // ── 1b. Frontera posterior (Backside) — INTEGRACIÓN TÉRMICA REAL del
+    // disipador de aletas (reemplaza la constante estática
+    // SOLAR_H_BOTTOM_FINNED, que sólo sobrevive como fallback defensivo si
+    // el módulo de aletas no llegó a inicializarse). h_eff_bottom sale de
+    // la resistencia térmica equivalente real del arreglo de aletas
+    // (m, L_c, η_f, A_f, A_b, A_total, η_o, R_fins — ver
+    // solar-fin-heatsink-state.js -> computeFinThermalResistance), evaluada
+    // con el estado ACTUAL de N/k/L_aleta/t/W/A_celda (window.solarFinsHeatsinkPanel,
+    // LOTE de ensamblaje anterior) y h_ext como coeficiente de convección
+    // que baña tanto las aletas como la base expuesta (no existe un slider
+    // propio de h_conv para la cara posterior; se reutiliza el único
+    // coeficiente de convección que el usuario ya controla). Se calcula MAS
+    // ABAJO, después de leer h_ext del DOM (ver bloque siguiente) porque
+    // h_eff_bottom depende de él. Si N·t>=L_base (interferencia geométrica),
+    // computeFinThermalResistance() reporta `blocked:true` y penaliza
+    // h_eff_bottom a una convección natural deficiente
+    // (NATURAL_CONVECTION_FALLBACK_H_W_M2K) — el bloqueo ya se reporta
+    // visualmente al usuario mediante el banner crítico de
+    // #solar-fins-status (solar-fins-validation.js/status-ui.js, disparado
+    // de forma independiente por el propio slider que causó la interferencia).
+
+    // ── 1. Lectura de condiciones de frontera externas desde el DOM ────
+    // (h_ext, T∞, T_surr — LOTE de UI anterior). Fallback defensivo a las
+    // constantes preexistentes si por algún motivo los controles no
+    // existieran todavía en el DOM (no debería ocurrir: son estáticos).
+    const hExtEl = document.getElementById('solar-h-ext');
+    const tinfEl = document.getElementById('solar-tinf');
+    const tsurrEl = document.getElementById('solar-tsurr');
+    const hExt = hExtEl ? parseFloat(hExtEl.value) : SOLAR_H_AMBIENT_TOP;
+    const Tinf_K = (tinfEl ? parseFloat(tinfEl.value) : SOLAR_T_AMBIENT_C) + 273.15; // °C -> K
+    const Tsurr_K = (tsurrEl ? parseFloat(tsurrEl.value) : SOLAR_T_AMBIENT_C) + 273.15; // °C -> K
+
+    // Ahora sí, con h_ext ya leído: resuelve h_eff_bottom real de la
+    // frontera posterior (ver comentario de cabecera arriba).
+    let hBottom = 0;
+    if (state.boundaryType === 'aletas') {
+        const finsPanel = window.solarFinsHeatsinkPanel;
+        const FinModel = window.SolarFinHeatsinkModel;
+        if (finsPanel && FinModel && typeof FinModel.computeFinThermalResistance === 'function') {
+            const finState = finsPanel.getState();
+            const finThermal = FinModel.computeFinThermalResistance(finState, hExt);
+            hBottom = finThermal.h_eff_bottom;
+        } else {
+            // Fallback defensivo: el módulo de aletas todavía no
+            // inicializó (no debería ocurrir en producción — ambos
+            // safeInit() corren dentro del mismo startApp()).
+            hBottom = SOLAR_H_BOTTOM_FINNED;
+        }
+    }
+
+    // FIX ÓPTICO (LOTE anterior) — restricción τ+α+ρ=1 del vidrio: la
+    // irradiación que atraviesa el vidrio es G·τ. De ésa, una fracción
+    // ρ_int se refleja en la interfaz superior de la capa intermedia (nueva
+    // pérdida óptica de este LOTE) y el resto, G_si, llega al silicio y es
+    // la que realmente participa en el balance térmico/eléctrico del Nodo 3.
+    // Si el vidrio es totalmente reflectivo (ρ=1 ⇒ τ=0 por el
+    // auto-balanceo) o la interfaz es totalmente reflectiva (ρ_int=1),
+    // G_si queda en 0 y la eficiencia/potencia se fuerzan explícitamente a
+    // 0 más abajo.
+    const G_si = G * tau * (1 - rhoInt); // W/m² — irradiación neta que llega al silicio (α_s=1)
+
+    // Conductancia de la capa sólida completa (dos medias resistencias
+    // iguales en serie ⇒ colapsan a L_int/k_int — ver comentario de
+    // cabecera). Pura conducción: sin término radiativo (sólido opaco).
+    const hIntCond = kInt / Lint; // W/(m²K)
+
+    // ── 2. Balances de energía de los 2 nodos resueltos (Tg, Ts en Kelvin);
+    // T_int se deriva después como (Tg+Ts)/2. ───────────────────────────
+    // Q_int: calor que fluye del silicio hacia el vidrio A TRAVÉS de la
+    // capa sólida (conducción pura, lineal en T — ya no hay T^4 aquí,
+    // a diferencia de la vieja Q_gap con radiación interna de gas); puede
+    // ser negativo si el vidrio queda más caliente que el silicio.
+    function Q_int(Tg, Ts) {
+        return hIntCond * (Ts - Tg);
+    }
+    function Q_top_loss(Tg) {
+        return hExt * (Tg - Tinf_K) + epsilon * SOLAR_SIGMA * (Math.pow(Tg, 4) - Math.pow(Tsurr_K, 4));
+    }
+    function Q_bottom_loss(Ts) {
+        return hBottom * (Ts - Tinf_K);
+    }
+    function P_elec(Ts) {
+        return G_si === 0 ? 0 : G_si * solarCellEfficiency(Ts); // FIX óptico: sin G_si no hay efecto fotovoltaico
+    }
+    function dP_elec_dTs(Ts) {
+        return (G_si === 0 || solarCellEfficiency(Ts) <= 0) ? 0 : -0.001 * G_si;
+    }
+
+    // Nodo 1 (Vidrio): Q_in,g + Q_int − Q_top_loss = 0
+    function R1(Tg, Ts) { return alpha * G + Q_int(Tg, Ts) - Q_top_loss(Tg); }
+    // Nodo 3 (Silicio): G_si − P_elec − Q_int − Q_bottom_loss = 0
+    function R2(Tg, Ts) { return G_si - P_elec(Ts) - Q_int(Tg, Ts) - Q_bottom_loss(Ts); }
+
+    // ── 3. Newton-Raphson 2D (Jacobiano analítico, sistema 2×2 resuelto
+    // por Cramer en cada iteración — mismo patrón ya usado en el solver
+    // de geometrías huecas de gen-sim). Q_int ahora es LINEAL en Tg/Ts (la
+    // no linealidad T^4 sólo sobrevive en Q_top_loss, radiación externa del
+    // vidrio hacia los alrededores). ─────────────────────────────────────
+    let Tg = Tinf_K + 15; // estimación inicial: vidrio tibio
+    let Ts = Tinf_K + 35; // estimación inicial: silicio más caliente que el vidrio
+
+    for (let iter = 0; iter < 100; iter++) {
+        const r1 = R1(Tg, Ts);
+        const r2 = R2(Tg, Ts);
+        if (Math.abs(r1) < 1e-4 && Math.abs(r2) < 1e-4) break;
+
+        // dQ_int/dTg = -hIntCond ; dQ_int/dTs = hIntCond (lineal, constante)
+        const dQint_dTg = -hIntCond;
+        const dQint_dTs = hIntCond;
+        const dQtop_dTg = hExt + 4 * epsilon * SOLAR_SIGMA * Math.pow(Tg, 3);
+
+        const J11 = dQint_dTg - dQtop_dTg;        // dR1/dTg
+        const J12 = dQint_dTs;                     // dR1/dTs
+        const J21 = -dQint_dTg;                    // dR2/dTg
+        const J22 = -dP_elec_dTs(Ts) - dQint_dTs - hBottom; // dR2/dTs
+
+        const det = J11 * J22 - J12 * J21;
+        if (Math.abs(det) < 1e-12) break; // Jacobiano singular: se detiene con la mejor estimación disponible
+
+        const dTg = (-r1 * J22 + J12 * r2) / det;
+        const dTs = (-J11 * r2 + J21 * r1) / det;
+
+        Tg += dTg;
+        Ts += dTs;
+        if (Tg < 1) Tg = 1; // piso físico: Kelvin no puede ser <= 0
+        if (Ts < 1) Ts = 1;
+    }
+
+    // T_int = punto medio exacto de la capa sólida (ver comentario de
+    // cabecera: dos medias-resistencias iguales, sin generación interna).
+    const Tint = (Tg + Ts) / 2;
+
+    // ── 4. Cantidades derivadas para el panel de resultados ─────────────
+    const etaCelda = G_si === 0 ? 0 : solarCellEfficiency(Ts); // FIX óptico: η=0 explícito sin fotones activos
+    const power = P_elec(Ts);
+    const qTop = Q_top_loss(Tg);
+    const qBottom = Q_bottom_loss(Ts);
+    const qGlassAbsorbed = alpha * G; // "Calor Absorbido por el Vidrio" = α_g·G (independiente de G_si)
+    const qLossesTotal = qTop + qBottom;
+
+    // ── 5. Actualización del DOM (K -> °C para la UI) ───────────────────
+    const elTemp = document.getElementById('solar-result-temp');
+    const elEff = document.getElementById('solar-result-eff');
+    const elPower = document.getElementById('solar-result-power');
+    const elTglass = document.getElementById('solar-result-tglass');
+    const elTint = document.getElementById('solar-result-tint');
+    const elQglass = document.getElementById('solar-result-qglass');
+    const elQlosses = document.getElementById('solar-result-qlosses');
+    if (elTemp) elTemp.textContent = (Ts - 273.15).toFixed(1) + ' °C';
+    if (elEff) elEff.textContent = (etaCelda * 100).toFixed(1) + ' %';
+    if (elPower) elPower.textContent = power.toFixed(1) + ' W';
+    if (elTglass) elTglass.textContent = (Tg - 273.15).toFixed(1) + ' °C';
+    if (elTint) elTint.textContent = (Tint - 273.15).toFixed(1) + ' °C';
+    if (elQglass) elQglass.textContent = qGlassAbsorbed.toFixed(1) + ' W/m²';
+    if (elQlosses) elQlosses.textContent = qLossesTotal.toFixed(1) + ' W/m²';
+
+    return {
+        T_kelvin: Ts,
+        T_celsius: Ts - 273.15,
+        eta: etaCelda,
+        power: power,
+        T_glass_kelvin: Tg,
+        T_glass_celsius: Tg - 273.15,
+        T_int_kelvin: Tint,
+        T_int_celsius: Tint - 273.15,
+        Q_glass_absorbed: qGlassAbsorbed,
+        Q_top_loss: qTop,
+        Q_bottom_loss: qBottom,
+        Q_losses_total: qLossesTotal
+    };
+}
+
+// ── 2. Inicialización: Lazy Init + Chart.js + bucle de canvas + listeners ──
+function initSolarCellSimulation() {
+    if (window._solarCellInited) return; // Evitar doble init
+
+    const canvas = document.getElementById('solarCanvas');
+    if (!canvas) return;
+
+    // GUARD "Lazy Init": si el canvas o su contenedor padre todavía miden
+    // 0x0 (pestaña 'solar-cell-sim' oculta con display:none al cargar la
+    // página), abortamos aquí. switchTab reintenta esta misma función una
+    // vez la pestaña esté realmente visible (ver bloque 'solar-cell-sim'
+    // en switchTab).
+    const canvasParent = canvas.parentElement; // .canvas-container dentro de #solar-canvas-container
+    const hasNoSize = (canvas.offsetWidth === 0 && canvas.offsetHeight === 0) ||
+        (canvasParent && canvasParent.offsetWidth === 0 && canvasParent.offsetHeight === 0);
+    if (hasNoSize) return;
+
+    const chartCanvasEl = document.getElementById('solarChart');
+    if (!chartCanvasEl) return;
+
+    const ctx = canvas.getContext('2d');
+    const chartCtx = chartCanvasEl.getContext('2d');
+
+    // ── Referencias a controles del DOM (LOTE 1) ────────────────────────
+    const sliderIrradiance = document.getElementById('solar-irradiance');
+    const sliderTau = document.getElementById('solar-tau');
+    const sliderRho = document.getElementById('solar-rho');
+    const sliderAlpha = document.getElementById('solar-alpha');
+    const sliderEpsilon = document.getElementById('solar-epsilon');
+    const materialSelect = document.getElementById('solar-int-material');
+    const boundarySelect = document.getElementById('solar-boundary-select');
+    // LOTE — Capa Intermedia Sólida: reemplaza la cámara de gas por un
+    // encapsulante sólido (EVA/PVB/Silicona) de espesor L_int y reflectividad
+    // de interfaz ρ_int configurables.
+    const sliderLInt = document.getElementById('solar-l-int');
+    const sliderRhoInt = document.getElementById('solar-rho-int');
+    // LOTE — Condiciones Ambientales (Frontera Superior): h_ext/T∞/T_surr,
+    // ya leídos dentro de solveSolarCell() (vía DOM); aquí se referencian
+    // también para animar la convección/radiación en drawSolarCanvas().
+    const sliderHExt = document.getElementById('solar-h-ext');
+    const sliderTinf = document.getElementById('solar-tinf');
+    const sliderTsurr = document.getElementById('solar-tsurr');
+
+    // ── Estado del bucle de animación / cache de resultados ─────────────
+    let animId = null;
+    let lastTimestamp = null;
+    let latestSolarResult = null; // cache: lo actualiza updateSolarSim() en cada cambio de control
+    let solarPhotons = [];
+    let solarSpawnAccumMs = 0;
+    const SOLAR_PHOTON_SPAWN_MS = 220; // ritmo de aparición de fotones, en ms reales (no depende de fps)
+
+    // Rango del slider #solar-l-int (mm) — usado para mapear L_int a la
+    // altura visual de la capa intermedia en drawSolarCanvas().
+    const SOLAR_L_INT_MIN_MM = 0.1;
+    const SOLAR_L_INT_MAX_MM = 2.0;
+
+    // Colores/etiquetas de la capa sólida por material (reemplaza los
+    // antiguos SOLAR_GAS_COLORS/SOLAR_GAS_LABELS de la cámara de aire).
+    const SOLAR_INT_COLORS = {
+        eva: 'rgba(250,204,21,0.22)',
+        pvb: 'rgba(148,197,255,0.22)',
+        silicona: 'rgba(226,232,240,0.22)'
+    };
+    const SOLAR_INT_LABELS = { eva: 'EVA', pvb: 'PVB', silicona: 'Silicona' };
+
+    // ── Chart.js: Temperatura (Y izq.) + Eficiencia (Y der., %) vs
+    // Irradiación (X) ────────────────────────────────────────────────────
+    const SOLAR_CHART_G_MAX = 1500; // W/m², coincide con el máximo de #solar-irradiance
+    const SOLAR_CHART_STEPS = 30;
+
+    const chartInstance = new Chart(chartCtx, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    label: 'Temperatura del Silicio (°C)',
+                    data: [],
+                    borderColor: '#f97316',
+                    backgroundColor: 'rgba(249,115,22,0.1)',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    fill: false,
+                    tension: 0.3,
+                    yAxisID: 'y',
+                    parsing: { xAxisKey: 'x', yAxisKey: 'y' }
+                },
+                {
+                    label: 'Eficiencia η (%)',
+                    data: [],
+                    borderColor: '#4ade80',
+                    backgroundColor: 'rgba(74,222,128,0.1)',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    fill: false,
+                    tension: 0.3,
+                    yAxisID: 'y1',
+                    parsing: { xAxisKey: 'x', yAxisKey: 'y' }
+                },
+                {
+                    label: 'T Actual',
+                    data: [],
+                    borderColor: '#f97316',
+                    backgroundColor: '#ffffff',
+                    borderWidth: 2,
+                    pointRadius: 6,
+                    showLine: false,
+                    yAxisID: 'y',
+                    parsing: { xAxisKey: 'x', yAxisKey: 'y' }
+                },
+                {
+                    label: 'η Actual',
+                    data: [],
+                    borderColor: '#4ade80',
+                    backgroundColor: '#ffffff',
+                    borderWidth: 2,
+                    pointRadius: 6,
+                    showLine: false,
+                    yAxisID: 'y1',
+                    parsing: { xAxisKey: 'x', yAxisKey: 'y' }
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: false,
+            scales: {
+                x: {
+                    type: 'linear',
+                    min: 0,
+                    max: SOLAR_CHART_G_MAX,
+                    title: { display: true, text: 'Irradiación G (W/m²)', color: '#94a3b8', font: { size: 9 } },
+                    grid: { color: 'rgba(255,255,255,0.05)' },
+                    ticks: { color: '#cbd5e1', font: { size: 8 } }
+                },
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title: { display: true, text: '← Temperatura del Silicio (°C)', color: '#f97316', font: { size: 9 } },
+                    grid: { color: 'rgba(255,255,255,0.05)' },
+                    ticks: { color: '#cbd5e1', font: { size: 8 } }
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    min: 0,
+                    max: 60,
+                    title: { display: true, text: 'Eficiencia η (%) →', color: '#4ade80', font: { size: 9 } },
+                    grid: { drawOnChartArea: false },
+                    ticks: { color: '#cbd5e1', font: { size: 8 } }
+                }
+            },
+            plugins: { legend: { display: true, labels: { color: '#94a3b8', font: { size: 8 } } } }
+        }
+    });
+
+    // ── Resize seguro del chart (mismo fix ya documentado para
+    // contact-res-sim en project_context.md): se lee UNA sola vez
+    // clientWidth/clientHeight del contenedor real -nunca offsetWidth
+    // dentro de un bucle- y se llama chart.resize(w,h) con ambos
+    // argumentos explícitos. Deliberadamente NO se asigna canvas.width a
+    // mano: Chart.js ya gestiona esos px (multiplicados por
+    // devicePixelRatio) dentro de su propio resize(). ──
+    function resizeSolarChartSafe() {
+        const container = chartInstance.canvas.parentElement;
+        if (!container) return;
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        if (w > 0 && h > 0) {
+            chartInstance.resize(w, h);
+        }
+    }
+
+    let solarChartResizeTimer;
+    window.addEventListener('resize', function () {
+        clearTimeout(solarChartResizeTimer);
+        solarChartResizeTimer = setTimeout(resizeSolarChartSafe, 80);
+    });
+
+    // ── Resize del canvas de animación (listener separado — NUNCA dentro
+    // de drawSolarCanvas, mismo criterio que resizeNusseltAnimCanvas) ────
+    function resizeSolarCanvas() {
+        const w = canvasParent.clientWidth;
+        const h = canvasParent.clientHeight;
+        if (w === 0 || h === 0) return;
+        if (canvas.width !== w || canvas.height !== h) {
+            canvas.width = w;
+            canvas.height = h;
+        }
+    }
+    window.addEventListener('resize', resizeSolarCanvas);
+
+    // ── Barrido de Irradiación (G) a τ/ρ/α/ε/L_int/ρ_int/material/frontera
+    // FIJOS (los del estado actual de los controles) para trazar T(G) y
+    // η(G); reutiliza la misma solveSolarCell() pura, sin duplicar la
+    // física. ─────────────────────────────────────────────────────────────
+    function updateSolarChartData(state) {
+        const tempCurve = [];
+        const effCurve = [];
+        for (let i = 0; i <= SOLAR_CHART_STEPS; i++) {
+            const Gi = (SOLAR_CHART_G_MAX / SOLAR_CHART_STEPS) * i;
+            const sweepState = {
+                G: Gi, tau: state.tau, rho: state.rho, alpha: state.alpha,
+                epsilon: state.epsilon, L_int: state.L_int, rho_int: state.rho_int,
+                intMaterial: state.intMaterial, boundaryType: state.boundaryType
+            };
+            const res = solveSolarCell(sweepState);
+            tempCurve.push({ x: Gi, y: res.T_celsius });
+            effCurve.push({ x: Gi, y: res.eta * 100 });
+        }
+
+        const current = solveSolarCell(state);
+
+        chartInstance.data.datasets[0].data = tempCurve;
+        chartInstance.data.datasets[1].data = effCurve;
+        chartInstance.data.datasets[2].data = [{ x: state.G, y: current.T_celsius }];
+        chartInstance.data.datasets[3].data = [{ x: state.G, y: current.eta * 100 }];
+        chartInstance.update('none'); // sin animación -> evita flicker (mismo patrón que el resto del sitio)
+    }
+
+    function readSolarState() {
+        return {
+            G: parseFloat(sliderIrradiance.value),
+            tau: parseFloat(sliderTau.value),
+            rho: parseFloat(sliderRho.value),
+            alpha: parseFloat(sliderAlpha.value),
+            epsilon: parseFloat(sliderEpsilon.value),
+            L_int: parseFloat(sliderLInt.value) / 1000, // mm -> m
+            rho_int: parseFloat(sliderRhoInt.value),
+            intMaterial: materialSelect ? materialSelect.value : 'eva',
+            boundaryType: boundarySelect ? boundarySelect.value : 'adiabatica'
+        };
+    }
+
+    // ── Auto-balanceo óptico del vidrio: τ + α + ρ = 1 ───────────────────
+    // Restricción física de balance de energía radiativa (todo fotón que
+    // llega al vidrio se transmite, se refleja o se absorbe: no hay una
+    // cuarta opción). Al mover CUALQUIERA de los 3 controles ópticos, los
+    // otros dos deben repartirse proporcionalmente el remanente para que
+    // la suma quede SIEMPRE en exactamente 1.0 — nunca se deja que el
+    // usuario deje la terna en un estado físicamente inconsistente.
+    const SOLAR_OPTICAL_INPUTS = {
+        tau: { slider: sliderTau, num: document.getElementById('solar-tau-num') },
+        rho: { slider: sliderRho, num: document.getElementById('solar-rho-num') },
+        alpha: { slider: sliderAlpha, num: document.getElementById('solar-alpha-num') }
+    };
+
+    function balanceSolarOpticalInputs(changedKey) {
+        const keys = Object.keys(SOLAR_OPTICAL_INPUTS);
+        const changed = SOLAR_OPTICAL_INPUTS[changedKey];
+        const others = keys.filter(k => k !== changedKey).map(k => SOLAR_OPTICAL_INPUTS[k]);
+
+        const changedVal = Math.min(1, Math.max(0, parseFloat(changed.slider.value) || 0));
+        const remaining = 1 - changedVal; // presupuesto a repartir entre los otros dos
+
+        const oldA = Math.min(1, Math.max(0, parseFloat(others[0].slider.value) || 0));
+        const oldB = Math.min(1, Math.max(0, parseFloat(others[1].slider.value) || 0));
+        const oldSum = oldA + oldB;
+
+        // Reparto proporcional a su peso relativo previo (conserva la
+        // "forma" de la terna); si ambos estaban en 0 (o casi), se reparte
+        // el remanente en partes iguales para no dividir por cero.
+        const newA = oldSum > 1e-9 ? remaining * (oldA / oldSum) : remaining / 2;
+        // El segundo valor SIEMPRE se obtiene por resta exacta (no por la
+        // misma regla de tres) para garantizar que
+        // changedVal + newA + newB === 1.0 exactamente, sin arrastre de
+        // error de punto flotante ni de redondeo a 2 decimales.
+        const newB = remaining - newA;
+
+        changed.slider.value = changedVal;
+        changed.num.value = changedVal.toFixed(2);
+        others[0].slider.value = newA;
+        others[0].num.value = newA.toFixed(2);
+        others[1].slider.value = newB;
+        others[1].num.value = newB.toFixed(2);
+    }
+
+    // Refresco de la simulación: resuelve el balance, escribe T_s/eta/P en
+    // las 3 tarjetas de resultados, cachea el resultado para el canvas y
+    // refresca la gráfica con el barrido de G.
+    function updateSolarSim() {
+        const state = readSolarState();
+        const result = solveSolarCell(state);
+        latestSolarResult = result;
+
+        const elTemp = document.getElementById('solar-result-temp');
+        const elEff = document.getElementById('solar-result-eff');
+        const elPower = document.getElementById('solar-result-power');
+        if (elTemp) elTemp.textContent = result.T_celsius.toFixed(1) + ' °C';
+        if (elEff) elEff.textContent = (result.eta * 100).toFixed(1) + ' %';
+        if (elPower) elPower.textContent = result.power.toFixed(1) + ' W';
+
+        updateSolarChartData(state);
+    }
+
+    // ── Bucle de renderizado del esquema (Vidrio/Gas/Silicio/Base) +
+    // fotones cayendo, con reflejo (ρ) / absorción (α) en el silicio ────
+    function drawSolarCanvas(ts) {
+        // OBLIGATORIO — Guardia de rendimiento (Regla #9 / project_context.md):
+        // detiene el rAF de verdad si este laboratorio no debería animar
+        // ahora. animId se pone en null para que resume() sepa que debe
+        // volver a arrancar el bucle con requestAnimationFrame.
+        if (!window.LabAnimationManager.isLabVisible('solar-cell-sim')) {
+            cancelAnimationFrame(animId);
+            animId = null;
+            return;
+        }
+
+        if (typeof ts !== 'number' || ts < 1e6) ts = performance.now();
+        const dtMs = window.getClampedDelta(ts, lastTimestamp, 33.33);
+        lastTimestamp = ts;
+        const frameScale = dtMs / 16.67; // 1.0 a 60 fps
+
+        // NO se lee clientWidth/offsetHeight aquí: canvas.width/height ya
+        // son los atributos de píxel reales, fijados por resizeSolarCanvas().
+        const w = canvas.width, h = canvas.height;
+        if (w === 0 || h === 0) { animId = requestAnimationFrame(drawSolarCanvas); return; }
+
+        ctx.clearRect(0, 0, w, h);
+
+        // Estado óptico/frontera actual — valores de control, no layout
+        const tau = parseFloat(sliderTau.value);
+        const rho = parseFloat(sliderRho.value);
+        const alpha = parseFloat(sliderAlpha.value);
+        const epsilon = parseFloat(sliderEpsilon.value); // ε_g — LOTE: intensidad de las flechas de radiación (1b)
+        const isFinned = boundarySelect && boundarySelect.value === 'aletas';
+
+        // LOTE — Capa Intermedia Sólida: reemplaza la cámara de gas. ρ_int
+        // gobierna el rebote óptico en la interfaz superior de la capa
+        // (2ª etapa de la trayectoria de los rayos, ver bloque 5 abajo);
+        // L_int (mm, del slider) mapea el espesor visual de la capa.
+        const rhoInt = parseFloat(sliderRhoInt.value);
+        const LintMm = parseFloat(sliderLInt.value);
+        const intMaterial = materialSelect ? materialSelect.value : 'eva';
+
+        // LOTE — Condiciones Ambientales (Frontera Superior): valores de
+        // control para animar convección/radiación externas del vidrio.
+        // T_glass viene del solver (cacheado por updateSolarSim() en
+        // latestSolarResult); antes del primer cálculo se usa T∞ como
+        // fallback razonable (ΔT≈0 -> sin flechas visibles todavía).
+        const hExt = parseFloat(sliderHExt.value);
+        const TinfC = parseFloat(sliderTinf.value);
+        const TsurrC = parseFloat(sliderTsurr.value);
+        const TglassC = latestSolarResult ? latestSolarResult.T_glass_celsius : TinfC;
+        // T_int (centro de la capa sólida) — mismo fallback que T_glass
+        // antes del primer cálculo del solver.
+        const TintC = latestSolarResult ? latestSolarResult.T_int_celsius : TinfC;
+        const deltaTop = TglassC - TinfC;   // >0: vidrio pierde calor por convección hacia el ambiente
+        const deltaRad = TglassC - TsurrC;  // >0: vidrio irradia netamente hacia los alrededores
+        const animT = ts / 1000;
+
+        // Proporciones de las 4 capas esquemáticas. La capa intermedia ya
+        // NO es una fracción fija de h: su altura visual escala con L_int
+        // (mapeo lineal entre el mínimo/máximo del slider #solar-l-int y
+        // una banda razonable de la altura del canvas), en vez de la vieja
+        // gasH = h*0.40 fija de la cámara de aire.
+        const INT_H_MIN_FRAC = 0.10, INT_H_MAX_FRAC = 0.40;
+        const lNorm = Math.min(1, Math.max(0,
+            (LintMm - SOLAR_L_INT_MIN_MM) / (SOLAR_L_INT_MAX_MM - SOLAR_L_INT_MIN_MM)));
+        const glassH = h * 0.12, intH = h * (INT_H_MIN_FRAC + lNorm * (INT_H_MAX_FRAC - INT_H_MIN_FRAC)),
+            siliconH = h * 0.14, baseH = h * 0.18;
+        const glassTop = 0, intTop = glassH, siliconTop = intTop + intH, baseTop = siliconTop + siliconH;
+
+        // Helper — flecha vertical (ondulada u opcionalmente punteada) que
+        // representa un mecanismo de intercambio de calor en la superficie
+        // superior del vidrio. yFrom/yTo definen dirección (yTo = punta,
+        // con la cabeza de flecha); waveAmp=0 -> línea recta (radiación).
+        function drawBoundaryArrow(x, yFrom, yTo, waveAmp, dashed, color, lineW) {
+            ctx.save();
+            ctx.strokeStyle = color;
+            ctx.fillStyle = color;
+            ctx.lineWidth = lineW;
+            if (dashed) ctx.setLineDash([3, 3]);
+            ctx.beginPath();
+            const steps = 8;
+            for (let s = 0; s <= steps; s++) {
+                const t = s / steps;
+                const y = yFrom + (yTo - yFrom) * t;
+                const x2 = waveAmp ? x + Math.sin(t * Math.PI * 2 + animT * 4 + x) * waveAmp : x;
+                if (s === 0) ctx.moveTo(x2, y); else ctx.lineTo(x2, y);
+            }
+            ctx.stroke();
+            if (dashed) ctx.setLineDash([]);
+            const dirY = yTo > yFrom ? 1 : -1; // cabeza de flecha apuntando en el sentido del recorrido
+            ctx.beginPath();
+            ctx.moveTo(x, yTo);
+            ctx.lineTo(x - 4, yTo - dirY * 6);
+            ctx.lineTo(x + 4, yTo - dirY * 6);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // 1. Vidrio
+        ctx.fillStyle = 'rgba(226,232,240,0.12)';
+        ctx.fillRect(0, glassTop, w, glassH);
+        ctx.strokeStyle = 'rgba(226,232,240,0.35)';
+        ctx.strokeRect(0, glassTop, w, glassH);
+
+        // 1a. Convección externa (h_ext): flechas onduladas saliendo (vidrio
+        // más caliente que T∞, pierde calor) o entrando (T∞ más caliente,
+        // gana calor) por la superficie superior. Intensidad/opacidad ∝
+        // h_ext y |T_g-T∞|; se dibuja ANTES de la etiqueta de texto para
+        // que ésta quede siempre legible por encima.
+        if (hExt > 0) {
+            const hExtNorm = Math.min(1, hExt / 100);       // 100 = máximo de #solar-h-ext
+            const dtNorm = Math.min(1, Math.abs(deltaTop) / 40); // 40°C ~ diferencia "grande" para escalar la opacidad
+            const convAlpha = 0.65 * hExtNorm * dtNorm;
+            if (convAlpha > 0.03) {
+                const outward = deltaTop >= 0; // true: sale (pierde calor); false: entra (gana calor)
+                const yLow = glassH * 0.85, yHigh = glassH * 0.08; // banda vertical dentro del propio vidrio
+                const waveAmp = 2 + 3 * hExtNorm; // más ondulada cuanto mayor h_ext (más turbulenta)
+                const color = outward ? `rgba(251,146,60,${convAlpha.toFixed(3)})` : `rgba(96,165,250,${convAlpha.toFixed(3)})`;
+                [0.14, 0.32, 0.68, 0.86].forEach((fx, idx) => {
+                    const x = w * fx;
+                    const yFrom = outward ? yLow : yHigh;
+                    const yTo = outward ? yHigh : yLow;
+                    drawBoundaryArrow(x + idx, yFrom, yTo, waveAmp, false, color, 1.6);
+                });
+            }
+        }
+
+        // 1b. Radiación hacia los alrededores (gobernada por ε_g y por
+        // ΔT_rad = T_g-T_surr): flechas rectas PUNTEADAS, independientes de
+        // h_ext (la radiación no depende de la convección).
+        {
+            const radNorm = Math.min(1, Math.abs(deltaRad) / 60); // 60°C ~ diferencia "grande"
+            const radAlpha = 0.55 * epsilon * radNorm;
+            if (radAlpha > 0.03) {
+                const outwardRad = deltaRad >= 0;
+                const yLowR = glassH * 0.8, yHighR = glassH * 0.05;
+                const colorRad = `rgba(250,204,21,${radAlpha.toFixed(3)})`;
+                [0.22, 0.5, 0.78].forEach(fx => {
+                    const x = w * fx;
+                    const yFrom = outwardRad ? yLowR : yHighR;
+                    const yTo = outwardRad ? yHighR : yLowR;
+                    drawBoundaryArrow(x, yFrom, yTo, 0, true, colorRad, 1.4);
+                });
+            }
+        }
+
+        // 1c. Etiqueta del vidrio — τ y T_glass (2 nodos), dibujada AL
+        // FINAL para quedar siempre legible por encima de las flechas.
+        ctx.fillStyle = '#e2e8f0';
+        ctx.font = 'bold 11px Outfit';
+        ctx.textAlign = 'center';
+        const tglassLabel = latestSolarResult ? TglassC.toFixed(1) + ' °C' : '-- °C';
+        ctx.fillText('Vidrio (τ = ' + tau.toFixed(2) + ') — T_g = ' + tglassLabel, w / 2, glassTop + glassH / 2 + 4);
+
+        // 2. Capa Intermedia SÓLIDA (encapsulante EVA/PVB/Silicona) — LOTE:
+        // reemplaza la cámara de gas. Bloque sólido opaco (fillRect), con
+        // espesor visual proporcional a L_int (ver intH arriba) y la
+        // temperatura T_int escrita en su centro geométrico.
+        ctx.fillStyle = SOLAR_INT_COLORS[intMaterial] || SOLAR_INT_COLORS.eva;
+        ctx.fillRect(0, intTop, w, intH);
+        ctx.strokeStyle = 'rgba(226,232,240,0.30)';
+        ctx.strokeRect(0, intTop, w, intH);
+        ctx.fillStyle = '#e2e8f0';
+        ctx.font = 'bold 11px Outfit';
+        const tintLabel = latestSolarResult ? TintC.toFixed(1) + ' °C' : '-- °C';
+        ctx.fillText((SOLAR_INT_LABELS[intMaterial] || 'EVA') + ' (L = ' + LintMm.toFixed(1) + ' mm) — T_int = ' + tintLabel,
+            w / 2, intTop + intH / 2 + 4);
+
+        // 3. Silicio
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(0, siliconTop, w, siliconH);
+        ctx.strokeStyle = 'rgba(59,130,246,0.5)';
+        for (let gx = w / 8; gx < w; gx += w / 8) { // rejilla simple imitando celdas
+            ctx.beginPath();
+            ctx.moveTo(gx, siliconTop);
+            ctx.lineTo(gx, siliconTop + siliconH);
+            ctx.stroke();
+        }
+        ctx.fillStyle = '#93c5fd';
+        ctx.font = 'bold 11px Outfit';
+        const tsLabel = latestSolarResult ? latestSolarResult.T_celsius.toFixed(0) + ' °C' : '-- °C';
+        ctx.fillText('Silicio — T_s = ' + tsLabel, w / 2, siliconTop + siliconH / 2 + 4);
+
+        // 4. Base posterior de soporte/contacto (SIEMPRE, ambos casos) +
+        // arreglo REAL de aletas proyectándose hacia afuera (LOTE unificación
+        // gráfica, 2026-09-08): antes este bloque dibujaba, cuando
+        // boundaryType==='aletas', 6 aletas GENÉRICAS sin relación con el
+        // estado real del disipador, mientras que la geometría verdadera
+        // (N/t/L_aleta/s, material por k, warnings de interferencia) sólo se
+        // veía en un SVG aparte (#solar-fins-visualizer, tarjeta secundaria
+        // dentro de #solar-controls, ver solar-fins-visualizer.js) —
+        // desconectado de esta animación. Se elimina esa tarjeta separada
+        // (ver index.html) y se funde su MISMA función de layout pura
+        // (Visualizer.computeFinVisualizerLayout — cero lógica geométrica
+        // duplicada) directamente aquí, como una capa más del mismo lienzo.
+        // La franja `baseTop..baseTop+baseH` representa siempre el sustrato/
+        // contacto posterior; el arreglo de aletas (cuando corresponde) se
+        // dibuja en una banda NUEVA justo debajo, con su propio alto ligado
+        // al slider L_aleta (mismo criterio ya usado arriba para L_int:
+        // mapeo lineal min/max del slider a una fracción acotada de `h`,
+        // dentro del remanente de entre 16% y 46% de `h` que las 4 capas de
+        // arriba siempre dejan libre — ver INT_H_MIN_FRAC/MAX_FRAC).
+        ctx.fillStyle = 'rgba(148,163,184,0.25)';
+        ctx.fillRect(0, baseTop, w, baseH);
+        ctx.strokeStyle = 'rgba(226,232,240,0.30)';
+        ctx.strokeRect(0, baseTop, w, baseH);
+
+        if (isFinned) {
+            const Visualizer = window.SolarFinVisualizer;
+            const finsPanel = window.solarFinsHeatsinkPanel;
+            const finState = finsPanel ? finsPanel.getState() : null;
+            const finEvaluation = finsPanel ? finsPanel.getLastEvaluation() : null;
+            const finLayout = (Visualizer && finState) ? Visualizer.computeFinVisualizerLayout(finState, finEvaluation) : null;
+
+            if (finLayout) {
+                const FIN_L_MIN_M = 0.01, FIN_L_MAX_M = 0.15; // rango real de #solar-fin-laleta
+                const finNorm = Math.min(1, Math.max(0,
+                    (finState.L_aleta - FIN_L_MIN_M) / (FIN_L_MAX_M - FIN_L_MIN_M)));
+                const FIN_H_MIN_FRAC = 0.07, FIN_H_MAX_FRAC = 0.16;
+                const finsBandH = h * (FIN_H_MIN_FRAC + finNorm * (FIN_H_MAX_FRAC - FIN_H_MIN_FRAC));
+                const finsBandTop = baseTop + baseH;
+
+                const blocked = finLayout.blocked;
+                const hasWarning = !!(finEvaluation && finEvaluation.hasWarning);
+                const material = Visualizer.materialColorForK(finState.k);
+                const finFill = blocked ? 'rgba(248,113,113,0.55)' : (hasWarning ? 'rgba(250,204,21,0.6)' : material.hex);
+
+                // Cada aleta: posición/ancho REALES (xM, t), expresados como
+                // fracción de L_base -> px de ESTE canvas (mismo ancho `w`
+                // que el resto de capas — "acoplado a la misma escala del
+                // conjunto de la celda", pedido explícito del usuario).
+                finLayout.fins.forEach(function (fin) {
+                    const xFrac = fin.xM / finState.L_base;
+                    const wFrac = finState.t / finState.L_base;
+                    const fx = xFrac * w;
+                    const fw = Math.max(1.2, wFrac * w);
+                    ctx.fillStyle = finFill;
+                    ctx.fillRect(fx, finsBandTop, fw, finsBandH);
+                });
+
+                // Flujo de aire convectivo entre aletas (chevrones) + 1 cota
+                // anotada — mismo hueco/criterio que ya elegía el SVG
+                // independiente (finLayout.annotatedGapIndex/tickStride),
+                // ahora sobre el MISMO lienzo que los fotones/flechas de
+                // convección-radiación del vidrio, en vez de un SVG aparte.
+                if (!blocked && finLayout.N > 1) {
+                    ctx.strokeStyle = 'rgba(94,234,212,0.55)';
+                    ctx.lineWidth = 1;
+                    for (let gi = 0; gi < finLayout.N - 1; gi++) {
+                        if (gi % finLayout.tickStride !== 0) continue;
+                        const finA = finLayout.fins[gi], finB = finLayout.fins[gi + 1];
+                        const midX = ((finA.xM + finState.t + finB.xM) / 2 / finState.L_base) * w;
+                        const chevronY = finsBandTop + finsBandH * 0.4;
+                        ctx.beginPath();
+                        ctx.moveTo(midX - 4, chevronY + 6);
+                        ctx.lineTo(midX, chevronY);
+                        ctx.lineTo(midX + 4, chevronY + 6);
+                        ctx.stroke();
+                    }
+                    if (finLayout.annotatedGapIndex !== null) {
+                        const gFin = finLayout.fins[finLayout.annotatedGapIndex];
+                        const gFinNext = finLayout.fins[finLayout.annotatedGapIndex + 1];
+                        const x1 = ((gFin.xM + finState.t) / finState.L_base) * w;
+                        const x2 = (gFinNext.xM / finState.L_base) * w;
+                        if (x2 > x1) {
+                            ctx.strokeStyle = hasWarning ? 'rgba(250,204,21,0.8)' : 'rgba(148,163,184,0.6)';
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(x1, finsBandTop - 3); ctx.lineTo(x1, finsBandTop + finsBandH + 3);
+                            ctx.moveTo(x2, finsBandTop - 3); ctx.lineTo(x2, finsBandTop + finsBandH + 3);
+                            ctx.moveTo(x1, finsBandTop + finsBandH + 3); ctx.lineTo(x2, finsBandTop + finsBandH + 3);
+                            ctx.stroke();
+                            ctx.fillStyle = hasWarning ? '#facc15' : '#94a3b8';
+                            ctx.font = '9px Outfit';
+                            ctx.fillText('s = ' + finLayout.gapMm.toFixed(1) + ' mm', (x1 + x2) / 2, finsBandTop + finsBandH + 14);
+                        }
+                    }
+                }
+
+                ctx.fillStyle = blocked ? '#f87171' : '#94a3b8';
+                ctx.font = 'bold 10px Outfit';
+                const matName = material.isExactPreset ? material.nearestName.es : ('≈' + material.nearestName.es);
+                const finsLabel = blocked
+                    ? '⛔ Interferencia: N·t ≥ L_base'
+                    : ('Aletas N=' + finLayout.N + ' · ' + matName + ' (k=' + Math.round(finState.k) + ')');
+                ctx.fillText(finsLabel, w / 2, finsBandTop + finsBandH + (finLayout.N > 1 && !blocked ? 26 : 12));
+            } else {
+                // Fallback defensivo: módulo de aletas aún no inicializado
+                // (no debería ocurrir en producción, ambos safeInit corren
+                // dentro del mismo startApp()) o estado numéricamente
+                // inválido — mismo texto genérico que existía antes de este
+                // LOTE, para no dejar la base sin ninguna etiqueta.
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '10px Outfit';
+                ctx.fillText('Aletas (h alto)', w / 2, baseTop + baseH + 12);
+            }
+        } else {
+            ctx.strokeStyle = 'rgba(248,113,113,0.4)';
+            ctx.lineWidth = 2;
+            for (let hx = -baseH; hx < w; hx += 14) { // patrón rayado tipo "aislamiento"
+                ctx.beginPath();
+                ctx.moveTo(hx, baseTop);
+                ctx.lineTo(hx + baseH, baseTop + baseH);
+                ctx.stroke();
+            }
+            ctx.fillStyle = '#f87171';
+            ctx.font = '10px Outfit';
+            ctx.fillText('Adiabática (Q = 0)', w / 2, baseTop + baseH + 12);
+        }
+
+        // 5. Fotones cayendo — trayectoria en DOS ETAPAS (LOTE — Capa
+        // Intermedia Sólida): 1ª etapa en la superficie superior del vidrio
+        // (ρ_g/α_g/τ_g); 2ª etapa en la interfaz superior de la capa
+        // intermedia (ρ_int) — sólo se alcanza si el fotón sobrevivió la
+        // primera. Si pasa ambas, el silicio lo absorbe siempre (opaco,
+        // α_s=1). La capa intermedia en sí es ópticamente transparente en
+        // su interior (sin una 3ª prueba de rebote/absorción dentro de
+        // ella) — ver comentario de cabecera de solveSolarCell().
+        solarSpawnAccumMs += dtMs; // acumulador en ms reales -> independiente de fps
+        while (solarSpawnAccumMs > SOLAR_PHOTON_SPAWN_MS) {
+            solarSpawnAccumMs -= SOLAR_PHOTON_SPAWN_MS;
+            solarPhotons.push({ x: Math.random() * w, y: -4, vy: 1, state: 'falling', life: 1, glassTested: false, intTested: false, reflectedAt: null });
+        }
+
+        const pxPerFrameAt60fps = h / 90; // recorre el alto útil en ~1.5 s a 60 fps
+        for (let i = solarPhotons.length - 1; i >= 0; i--) {
+            const p = solarPhotons[i];
+
+            if (p.state === 'falling') {
+                p.y += pxPerFrameAt60fps * p.vy * frameScale; // escalado por frameScale: sin tirones a fps variables
+
+                // ── ETAPA 1 — superficie superior del vidrio (y=glassTop):
+                // el destino óptico (reflejado/absorbido/transmitido) se
+                // decide UNA sola vez con τ/ρ/α del vidrio. Si ρ_g=1 (⇒
+                // τ_g=0 por el auto-balanceo), TODOS los fotones rebotan
+                // aquí y ninguno alcanza la 2ª etapa.
+                if (!p.glassTested && p.y >= glassTop) {
+                    p.glassTested = true;
+                    const r = Math.random();
+                    if (r < rho) {
+                        p.state = 'reflected'; p.vy = -1; p.y = glassTop; p.reflectedAt = 'glass'; // rebota EN la superficie superior del vidrio, nunca penetra
+                    } else if (r < rho + alpha) {
+                        p.state = 'absorbed'; p.life = 1; p.y = glassTop + glassH * 0.5; // absorbido DENTRO del vidrio (destello a media altura)
+                    }
+                    // si no fue reflejado ni absorbido por el vidrio (la
+                    // fracción τ restante), sigue 'falling' hacia la
+                    // interfaz superior de la capa intermedia (ETAPA 2).
+                } else if (p.glassTested && !p.intTested && p.y >= intTop) {
+                    // ── ETAPA 2 — interfaz superior de la capa intermedia
+                    // (y=intTop): ρ_int decide si el fotón rebota hacia
+                    // arriba DESDE ESTA INTERFAZ (nunca penetra la capa) o
+                    // continúa hacia el silicio. La capa no tiene una
+                    // fracción "absorbida en su interior" (ver cabecera).
+                    p.intTested = true;
+                    if (Math.random() < rhoInt) {
+                        p.state = 'reflected'; p.vy = -1; p.y = intTop; p.reflectedAt = 'interface';
+                    }
+                    // si no rebota, sigue 'falling' a través de la capa
+                    // (ópticamente transparente) hacia el silicio.
+                } else if (p.glassTested && p.intTested && p.y >= siliconTop) {
+                    // Fotón que superó ambas etapas: el silicio es opaco y
+                    // lo absorbe siempre al llegar — destello de absorción
+                    // fotovoltaica.
+                    p.y = siliconTop;
+                    p.state = 'absorbed'; p.life = 1;
+                }
+            } else if (p.state === 'reflected') {
+                p.y += pxPerFrameAt60fps * p.vy * frameScale;
+                if (p.y <= -4) { solarPhotons.splice(i, 1); continue; }
+            } else { // 'absorbed' — destello que se apaga
+                p.life -= 0.05 * frameScale;
+                if (p.life <= 0) { solarPhotons.splice(i, 1); continue; }
+            }
+
+            if (p.state === 'absorbed') {
+                // El destello se dibuja en p.y (ya fijado arriba en
+                // glassTop+glassH/2 para absorción en el vidrio, o en
+                // siliconTop para absorción fotovoltaica).
+                ctx.fillStyle = 'rgba(248,113,113,' + Math.max(0, p.life) + ')';
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 4 * (1 + (1 - p.life)), 0, Math.PI * 2);
+                ctx.fill();
+            } else if (p.state === 'reflected') {
+                // Color distinto según DÓNDE rebotó (superficie del vidrio
+                // vs interfaz vidrio/capa intermedia) para que ambas etapas
+                // de rebote sean visualmente distinguibles.
+                ctx.strokeStyle = p.reflectedAt === 'interface' ? 'rgba(45,212,191,0.85)' : 'rgba(74,222,128,0.8)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p.x, p.y - (p.vy > 0 ? 10 : -10));
+                ctx.stroke();
+            } else {
+                ctx.strokeStyle = 'rgba(250,204,21,0.9)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p.x, p.y - (p.vy > 0 ? 10 : -10));
+                ctx.stroke();
+            }
+        }
+        if (solarPhotons.length > 400) solarPhotons.length = 400; // cota defensiva (pestaña minimizada mucho tiempo)
+
+        animId = requestAnimationFrame(drawSolarCanvas);
+    }
+
+    // ── Vinculación bidireccional slider <-> número (helper global ya
+    // usado por multicapa-custom-sim/gen-sim/nusselt-sim/etc.) ──────────
+    syncSliderAndNumberInput(sliderIrradiance, document.getElementById('solar-irradiance-num'), updateSolarSim);
+    // FIX ÓPTICO — τ/ρ/α del vidrio pasan primero por balanceSolarOpticalInputs()
+    // (fuerza la restricción τ+α+ρ=1 en los otros dos controles) y sólo
+    // después se refresca la simulación.
+    syncSliderAndNumberInput(sliderTau, document.getElementById('solar-tau-num'), () => { balanceSolarOpticalInputs('tau'); updateSolarSim(); });
+    syncSliderAndNumberInput(sliderRho, document.getElementById('solar-rho-num'), () => { balanceSolarOpticalInputs('rho'); updateSolarSim(); });
+    syncSliderAndNumberInput(sliderAlpha, document.getElementById('solar-alpha-num'), () => { balanceSolarOpticalInputs('alpha'); updateSolarSim(); });
+    syncSliderAndNumberInput(sliderEpsilon, document.getElementById('solar-epsilon-num'), updateSolarSim);
+    // LOTE — Capa Intermedia Sólida: mismo helper, sin auto-balanceo (L_int
+    // y ρ_int son independientes entre sí y del resto de controles).
+    syncSliderAndNumberInput(sliderLInt, document.getElementById('solar-l-int-num'), updateSolarSim);
+    syncSliderAndNumberInput(sliderRhoInt, document.getElementById('solar-rho-int-num'), updateSolarSim);
+    // LOTE — Condiciones Ambientales (Frontera Superior): mismo helper de
+    // vinculación bidireccional (slider <-> número, eventos 'input'/
+    // 'change'/'blur' ya cubiertos por syncSliderAndNumberInput), sin
+    // auto-balanceo (h_ext/T∞/T_surr son independientes entre sí).
+    syncSliderAndNumberInput(sliderHExt, document.getElementById('solar-h-ext-num'), updateSolarSim);
+    syncSliderAndNumberInput(sliderTinf, document.getElementById('solar-tinf-num'), updateSolarSim);
+    syncSliderAndNumberInput(sliderTsurr, document.getElementById('solar-tsurr-num'), updateSolarSim);
+
+    // Selectores (sin par numérico): 'change' dispara el refresco
+    if (materialSelect) materialSelect.addEventListener('change', updateSolarSim);
+    if (boundarySelect) boundarySelect.addEventListener('change', updateSolarSim);
+
+    // Expuesto globalmente para que el módulo del disipador de aletas
+    // (safeInit('SolarFinsHeatsink', ...) en startApp(), ver más arriba)
+    // pueda disparar un recalculo completo del balance termico/electrico
+    // (T_si, T_glass, eta_PV, P_out) cada vez que N/k/L_aleta/t cambian --
+    // integracion en cascada pedida explicitamente (TAREA 1).
+    window.updateSolarSim = updateSolarSim;
+
+    window._solarCellInited = true;
+
+    // Normaliza los valores por defecto declarados en index.html (τ=0.90,
+    // ρ=0.08, α=0.85 → suman 1.83, físicamente inválido) SIN tocar el HTML:
+    // se ancla en τ y se reparte el remanente entre ρ/α respetando su
+    // proporción original, igual que en cualquier interacción del usuario.
+    balanceSolarOpticalInputs('tau');
+
+    resizeSolarCanvas();      // primer sizing real — ya pasamos la guardia "Lazy Init" de arriba
+    resizeSolarChartSafe();
+    updateSolarSim();         // primer refresco: escribe resultados, cachea latestSolarResult y arma la gráfica
+
+    lastTimestamp = performance.now();
+    animId = requestAnimationFrame(drawSolarCanvas);
+
+    window.LabAnimationManager.register('solar-cell-sim', function resumeSolarCell() {
+        resizeSolarCanvas();
+        if (animId == null) {
+            lastTimestamp = performance.now();
+            animId = requestAnimationFrame(drawSolarCanvas);
+        }
+    }, function pauseSolarCell() {
+        if (animId) { cancelAnimationFrame(animId); animId = null; }
+    });
+}
+
+// ── 3. Controlador de pantalla completa (mismo patrón exacto que
+// NewtonLab/ContactResLab: teleport a document.body + placeholder +
+// clases fullscreen/is-closing). El modal es el propio tab-pane
+// #solar-cell-sim (sin wrapper "-modal-" intermedio, mismo patrón que
+// #foote-sim/#gen-sim). ──────────────────────────────────────────────────
+(function () {
+    'use strict';
+
+    var CFG = {
+        modalId: 'solar-cell-sim',
+        openBtnId: 'solar-cell-lab-open-btn',
+        closeBtnId: 'solar-cell-lab-close-btn',
+        fullscreenClass: 'fullscreen',
+        closingClass: 'is-closing',
+        bodyLockClass: 'solar-cell-lab-open',
+        transitionMs: 350,
+    };
+
+    function getLang() {
+        return window.currentLang || window.currentLanguage || 'es';
+    }
+
+    function getSolarChart() {
+        var canvas = document.getElementById('solarChart');
+        if (!canvas || !window.Chart) return null;
+        if (typeof Chart.getChart === 'function') return Chart.getChart(canvas);
+        if (Chart.instances) {
+            return Object.values(Chart.instances).find(function (c) { return c.canvas === canvas; }) || null;
+        }
+        return null;
+    }
+
+    function getSolarCanvas() {
+        return document.getElementById('solarCanvas');
+    }
+
+    function resizeSolarCellAssets() {
+        var chart = getSolarChart();
+        if (chart) {
+            try {
+                chart.resize();
+                chart.update('none');
+            } catch (e) { }
+        }
+
+        var c = getSolarCanvas();
+        if (c) {
+            var shell = c.closest ? c.closest('.canvas-container') : null;
+            var rect = shell ? shell.getBoundingClientRect() : null;
+            var w = rect && rect.width > 0 ? Math.floor(rect.width) : (c.clientWidth || c.offsetWidth || 0);
+            var h = rect && rect.height > 0 ? Math.floor(rect.height) : 0;
+            if (w > 0 && h > 0 && (c.width !== w || c.height !== h)) {
+                c.width = w;
+                c.height = h;
+                window.dispatchEvent(new CustomEvent('solarcell:resize', { detail: { w: w, h: h } }));
+            }
+        }
+    }
+
+    function retypesetMathJax() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal) return;
+        if (window.MathJax) {
+            if (typeof MathJax.typesetPromise === 'function') {
+                MathJax.typesetPromise([modal]).catch(function () { });
+            } else if (MathJax.Hub) {
+                MathJax.Hub.Queue(['Typeset', MathJax.Hub, modal]);
+            }
+        }
+    }
+
+    /* ---- OPEN ---- */
+    function openSolarCellLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal) return;
+        if (modal.classList.contains(CFG.fullscreenClass)) return;
+
+        var originalParent = modal.parentNode;
+        var placeholder = document.createComment('solar-cell-lab-placeholder');
+        originalParent.insertBefore(placeholder, modal);
+        modal._originalParent = originalParent;
+        modal._placeholder = placeholder;
+        modal._returnFocus = document.activeElement;
+        modal._cleanupDone = false;
+
+        document.body.appendChild(modal);
+
+        modal.classList.remove(CFG.closingClass);
+        modal.classList.add(CFG.fullscreenClass);
+        document.body.style.overflow = 'hidden';
+        document.body.classList.add(CFG.bodyLockClass);
+
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.add('visible');
+
+        var live = document.getElementById('solar-cell-lab-aria-live');
+        if (live) live.textContent = getLang() === 'en'
+            ? 'Lab opened in full screen. Press Escape to exit.'
+            : 'Laboratorio abierto en pantalla completa. Presiona Escape para salir.';
+
+        setTimeout(function () { resizeSolarCellAssets(); }, 0);
+
+        setTimeout(function () {
+            resizeSolarCellAssets();
+            retypesetMathJax();
+            window.dispatchEvent(new CustomEvent('solarcell:resume'));
+            var first = modal.querySelector('button, input, select, [tabindex]:not([tabindex="-1"])');
+            if (first) first.focus();
+        }, CFG.transitionMs + 50);
+    }
+
+    /* ---- CLOSE ---- */
+    function closeSolarCellLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (!modal || !modal.classList.contains(CFG.fullscreenClass)) return;
+
+        modal.classList.add(CFG.closingClass);
+
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+        if (closeBtn) closeBtn.classList.remove('visible');
+
+        function cleanup() {
+            if (modal._cleanupDone) return;
+            modal._cleanupDone = true;
+
+            modal.classList.remove(CFG.fullscreenClass, CFG.closingClass);
+            document.body.classList.remove(CFG.bodyLockClass);
+            document.body.style.overflow = '';
+
+            var parent = modal._originalParent;
+            var placeholder = modal._placeholder;
+            if (parent && placeholder && placeholder.parentNode === parent) {
+                parent.insertBefore(modal, placeholder);
+                parent.removeChild(placeholder);
+            } else if (parent) {
+                parent.appendChild(modal);
+            }
+            modal._originalParent = null;
+            modal._placeholder = null;
+
+            resizeSolarCellAssets();
+            window.dispatchEvent(new CustomEvent('solarcell:resume'));
+
+            if (modal._returnFocus && modal._returnFocus.focus) {
+                modal._returnFocus.focus();
+                modal._returnFocus = null;
+            }
+
+            var live = document.getElementById('solar-cell-lab-aria-live');
+            if (live) live.textContent = getLang() === 'en'
+                ? 'Lab closed. Returning to main view.'
+                : 'Laboratorio cerrado. Volviendo a la vista principal.';
+        }
+
+        modal.addEventListener('transitionend', function handler(e) {
+            if (e.target !== modal) return;
+            modal.removeEventListener('transitionend', handler);
+            cleanup();
+        });
+        setTimeout(cleanup, CFG.transitionMs + 60);
+    }
+
+    /* ---- TOGGLE ---- */
+    function toggleSolarCellLabFullscreen() {
+        var modal = document.getElementById(CFG.modalId);
+        if (modal && modal.classList.contains(CFG.fullscreenClass)) {
+            closeSolarCellLabFullscreen();
+        } else {
+            openSolarCellLabFullscreen();
+        }
+    }
+
+    /* ---- DEBOUNCE ---- */
+    function debounce(fn, ms) {
+        var t; return function () { clearTimeout(t); t = setTimeout(fn, ms); };
+    }
+
+    /* ---- LISTENERS ---- */
+    function attachListeners() {
+        var openBtn = document.getElementById(CFG.openBtnId);
+        var closeBtn = document.getElementById(CFG.closeBtnId);
+
+        if (openBtn) openBtn.addEventListener('click', openSolarCellLabFullscreen);
+        if (closeBtn) closeBtn.addEventListener('click', closeSolarCellLabFullscreen);
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' || e.keyCode === 27) closeSolarCellLabFullscreen();
+        });
+
+        window.addEventListener('resize', debounce(function () {
+            resizeSolarCellAssets();
+        }, 200));
+    }
+
+    /* ---- INIT ---- */
+    function init() {
+        attachListeners();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+    /* ---- PUBLIC API ---- */
+    window.SolarCellLab = {
+        open: openSolarCellLabFullscreen,
+        close: closeSolarCellLabFullscreen,
+        toggle: toggleSolarCellLabFullscreen,
+        resize: resizeSolarCellAssets
+    };
+
+}());
 
 /* ============================================================
    MULTICAPA CUSTOM — SINCRONIZACIÓN DINÁMICA DEL HUECO
