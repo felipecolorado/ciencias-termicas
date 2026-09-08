@@ -33396,10 +33396,15 @@ function solveSolarCell(state) {
     // 0 más abajo.
     const G_si = G * tau * (1 - rhoInt); // W/m² — irradiación neta que llega al silicio (α_s=1)
 
-    // Conductancia de la capa sólida completa (dos medias resistencias
-    // iguales en serie ⇒ colapsan a L_int/k_int — ver comentario de
-    // cabecera). Pura conducción: sin término radiativo (sólido opaco).
-    const hIntCond = kInt / Lint; // W/(m²K)
+    // Resistencia térmica equivalente del vidrio y la capa intermedia (en serie).
+    // R_glass = t_glass / k_glass; R_int = L_int / k_int.
+    // hIntCond es el coeficiente global U de ambas capas.
+    const kGlass = state.k_glass;
+    const tGlass = state.t_glass;
+    const R_glass = (kGlass > 0) ? (tGlass / kGlass) : 0;
+    const R_int = (kInt > 0) ? (Lint / kInt) : 0;
+    const R_total = R_glass + R_int;
+    const hIntCond = (R_total > 0) ? (1.0 / R_total) : 0; // W/(m²K)
 
     // ── 2. Balances de energía de los 2 nodos resueltos (Tg, Ts en Kelvin);
     // T_int se deriva después como (Tg+Ts)/2. ───────────────────────────
@@ -33549,6 +33554,8 @@ function initSolarCellSimulation() {
     const sliderHExt = document.getElementById('solar-h-ext');
     const sliderTinf = document.getElementById('solar-tinf');
     const sliderTsurr = document.getElementById('solar-tsurr');
+    const sliderTGlass = document.getElementById('solar-t-glass');
+    const sliderKGlass = document.getElementById('solar-k-glass');
 
     // ── Estado del bucle de animación / cache de resultados ─────────────
     let animId = null;
@@ -33739,7 +33746,9 @@ function initSolarCellSimulation() {
             L_int: parseFloat(sliderLInt.value) / 1000, // mm -> m
             rho_int: parseFloat(sliderRhoInt.value),
             intMaterial: materialSelect ? materialSelect.value : 'eva',
-            boundaryType: boundarySelect ? boundarySelect.value : 'adiabatica'
+            boundaryType: boundarySelect ? boundarySelect.value : 'adiabatica',
+            t_glass: parseFloat(sliderTGlass.value) / 1000, // mm -> m
+            k_glass: parseFloat(sliderKGlass.value)
         };
     }
 
@@ -34233,8 +34242,26 @@ function initSolarCellSimulation() {
     syncSliderAndNumberInput(sliderTsurr, document.getElementById('solar-tsurr-num'), updateSolarSim);
 
     // Selectores (sin par numérico): 'change' dispara el refresco
-    if (materialSelect) materialSelect.addEventListener('change', updateSolarSim);
+    if (materialSelect) {
+        materialSelect.addEventListener('change', () => {
+            const mat = materialSelect.value;
+            const k = SOLAR_INT_K[mat] || SOLAR_INT_K.eva;
+            const displayEl = document.getElementById('solar-k-int-display');
+            if (displayEl) {
+                displayEl.textContent = 'k = ' + k.toFixed(2) + ' W/m·K';
+            }
+            updateSolarSim();
+        });
+        // Initial setup for the display
+        const initialMat = materialSelect.value;
+        const initialK = SOLAR_INT_K[initialMat] || SOLAR_INT_K.eva;
+        const displayEl = document.getElementById('solar-k-int-display');
+        if (displayEl) displayEl.textContent = 'k = ' + initialK.toFixed(2) + ' W/m·K';
+    }
     if (boundarySelect) boundarySelect.addEventListener('change', updateSolarSim);
+
+    syncSliderAndNumberInput(sliderTGlass, document.getElementById('solar-t-glass-num'), updateSolarSim);
+    syncSliderAndNumberInput(sliderKGlass, document.getElementById('solar-k-glass-num'), updateSolarSim);
 
     // Expuesto globalmente para que el módulo del disipador de aletas
     // (safeInit('SolarFinsHeatsink', ...) en startApp(), ver más arriba)

@@ -11486,27 +11486,76 @@
                                 <span class="lang-en" style="display:none;">Photovoltaic Solar Cell</span>
                             </h3>
                             <p>
-                                <span class="lang-es">Balance de energía radiativo-convectivo sobre una celda de silicio expuesta a
-                                    irradiación solar $G$. Parte de la energía incidente se refleja ($\rho$) y se transmite ($\tau$) a
-                                    través de la cubierta protectora; el resto se absorbe ($\alpha$) y calienta la celda, que a su vez
-                                    pierde calor por convección hacia el aire (o gas) circundante y por radiación propia ($\varepsilon$)
-                                    hacia el ambiente.</span>
-                                <span class="lang-en" style="display:none;">Radiative-convective energy balance on a silicon cell
-                                    exposed to solar irradiance $G$. Part of the incident energy is reflected ($\rho$) and transmitted
-                                    ($\tau$) through the protective cover; the rest is absorbed ($\alpha$) and heats the cell, which in
-                                    turn loses heat by convection to the surrounding air (or gas) and by its own radiation
-                                    ($\varepsilon$) to the environment.</span>
+                                <span class="lang-es">
+                                    En estado estacionario, el <strong>balance global de energía</strong> de la celda relaciona la energía solar incidente con las pérdidas térmicas y la potencia eléctrica útil generada:
+                                </span>
+                                <span class="lang-en" style="display:none;">
+                                    In steady state, the <strong>global energy balance</strong> of the cell relates the incident solar energy to the thermal losses and the useful electrical power generated:
+                                </span>
                             </p>
-                            <div style="text-align: center; margin: 12px 0; font-size: 1.05rem; background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
-                                $$ \alpha \, G \, A = h \, A \, (T_s - T_\infty) + \varepsilon \, \sigma \, A \, (T_s^4 - T_{\text{alr}}^4) + P_{\text{elec}} $$
+                            <div style="text-align: center; margin: 12px 0; font-size: 1.05rem; background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); overflow-x: auto; overflow-y: hidden;">
+                                $$ G \cdot \alpha \cdot \tau = \dot{q}_{loss} + P_{elec} $$
                             </div>
-                            <p>
-                                <span class="lang-es">La <strong>eficiencia de conversión</strong> ($\eta$) relaciona la potencia
-                                    eléctrica generada con la energía solar incidente sobre el área $A$ de la celda:</span>
-                                <span class="lang-en" style="display:none;">The <strong>conversion efficiency</strong> ($\eta$) relates
-                                    the generated electrical power to the solar energy incident on the cell's area $A$:</span>
+                            <p style="font-size: 0.9em; color: var(--text-secondary);">
+                                <span class="lang-es">
+                                    Donde $G$ es la irradiación $[\text{W/m}^2]$, $\alpha$ la absortividad del silicio, $\tau$ la transmisividad de la cubierta, $\dot{q}_{loss}$ el flujo de pérdidas de calor $[\text{W/m}^2]$ y $P_{elec}$ la densidad de potencia eléctrica $[\text{W/m}^2]$.
+                                </span>
+                                <span class="lang-en" style="display:none;">
+                                    Where $G$ is the irradiance $[\text{W/m}^2]$, $\alpha$ the silicon absorptivity, $\tau$ the cover transmissivity, $\dot{q}_{loss}$ the heat loss flux $[\text{W/m}^2]$ and $P_{elec}$ the electrical power density $[\text{W/m}^2]$.
+                                </span>
                             </p>
-                            <p>$$ \eta = \frac{P_{\text{elec}}}{G \cdot A} $$</p>
+
+                            <p>
+                                <span class="lang-es">
+                                    El flujo de calor se modela mediante un <strong>circuito térmico equivalente</strong>. Para la conducción unidimensional en las capas sólidas, la resistencia térmica $R_{cond}$ dependiente del espesor $t_i$ y la conductividad $k_i$ es:
+                                </span>
+                                <span class="lang-en" style="display:none;">
+                                    The heat flow is modeled using an <strong>equivalent thermal circuit</strong>. For 1D conduction in solid layers, the thermal resistance $R_{cond}$ dependent on thickness $t_i$ and conductivity $k_i$ is:
+                                </span>
+                            </p>
+                            <div style="text-align: center; margin: 12px 0; font-size: 1.05rem; background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); overflow-x: auto; overflow-y: hidden;">
+                                $$ R_{cond, i} = \frac{t_i}{k_i \cdot A} \quad \implies \quad R_{cond, glass} = \frac{t_{glass}}{k_{glass} \cdot A}, \quad R_{cond, encap} = \frac{t_{encap}}{k_{encap} \cdot A} $$
+                            </div>
+
+                            <p>
+                                <span class="lang-es">
+                                    Las pérdidas convectivas y radiativas hacia el ambiente desde las superficies frontal y posterior se representan como resistencias en paralelo dependientes de los coeficientes $h$:
+                                </span>
+                                <span class="lang-en" style="display:none;">
+                                    Convective and radiative losses to the environment from the front and back surfaces are represented as parallel resistances dependent on the coefficients $h$:
+                                </span>
+                            </p>
+                            <div style="text-align: center; margin: 12px 0; font-size: 1.05rem; background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); overflow-x: auto; overflow-y: hidden;">
+                                $$ R_{conv} = \frac{1}{h_{conv} \cdot A}, \quad R_{rad} = \frac{1}{h_{rad} \cdot A} $$
+                            </div>
+
+                            <p>
+                                <span class="lang-es">
+                                    La <strong>temperatura de la celda</strong> ($T_{cell}$) se resuelve acoplando la temperatura ambiente ($T_{amb}$) con esta red térmica global en serie/paralelo. A su vez, la temperatura determina la <strong>eficiencia eléctrica</strong> $\eta(T_{cell})$ del panel:
+                                </span>
+                                <span class="lang-en" style="display:none;">
+                                    The <strong>cell temperature</strong> ($T_{cell}$) is solved by coupling the ambient temperature ($T_{amb}$) with this global series/parallel thermal network. In turn, the temperature determines the <strong>electrical efficiency</strong> $\eta(T_{cell})$ of the panel:
+                                </span>
+                            </p>
+                            <div style="text-align: center; margin: 12px 0; font-size: 1.05rem; background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); overflow-x: auto; overflow-y: hidden;">
+                                $$ \eta(T_{cell}) = \eta_{ref} \left[ 1 - \beta_{ref} (T_{cell} - T_{ref}) \right] $$
+                            </div>
+                            <p style="font-size: 0.9em; color: var(--text-secondary);">
+                                <span class="lang-es">
+                                    Donde $\eta_{ref}$ es la eficiencia en condiciones estándar (STC: $T_{ref} = 25^\circ\text{C}$, $G = 1000\,\text{W/m}^2$) y $\beta_{ref}$ es el coeficiente de temperatura de potencia (típicamente entre $0.003$ y $0.005\,\text{K}^{-1}$).
+                                </span>
+                                <span class="lang-en" style="display:none;">
+                                    Where $\eta_{ref}$ is the efficiency at standard conditions (STC: $T_{ref} = 25^\circ\text{C}$, $G = 1000\,\text{W/m}^2$) and $\beta_{ref}$ is the power temperature coefficient (typically between $0.003$ and $0.005\,\text{K}^{-1}$).
+                                </span>
+                            </p>
+
+                            <p>
+                                <span class="lang-es">Finalmente, la <strong>potencia eléctrica total generada</strong> es el producto de la eficiencia termodependiente, el área y la radiación incidente:</span>
+                                <span class="lang-en" style="display:none;">Finally, the <strong>total generated electrical power</strong> is the product of the temperature-dependent efficiency, area, and incident radiation:</span>
+                            </p>
+                            <div style="text-align: center; margin: 12px 0; font-size: 1.05rem; background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); overflow-x: auto; overflow-y: hidden;">
+                                $$ P_{elec} = G \cdot A \cdot \eta(T_{cell}) $$
+                            </div>
                         </div><!-- /.sim-intro -->
 
                         <div id="solar-cell-layout-wrapper" class="simulation-workspace">
@@ -11554,9 +11603,12 @@
                                         <input type="range" id="solar-epsilon" min="0" max="1" step="0.01" value="0.90">
                                     </div>
                                     <div class="control-group" style="grid-column: span 2;">
-                                        <label for="solar-int-material">
-                                            <span class="lang-es">Material de la Capa Intermedia:</span>
-                                            <span class="lang-en" style="display:none;">Intermediate Layer Material:</span>
+                                        <label for="solar-int-material" style="display: flex; justify-content: space-between; align-items: baseline;">
+                                            <span>
+                                                <span class="lang-es">Material de la Capa Intermedia:</span>
+                                                <span class="lang-en" style="display:none;">Intermediate Layer Material:</span>
+                                            </span>
+                                            <span id="solar-k-int-display" class="value-badge" style="font-weight: normal; font-size: 0.75rem;">k = 0.35 W/m·K</span>
                                         </label>
                                         <select id="solar-int-material" class="filter-select" style="width:100%; margin-top:4px;">
                                             <option value="eva" selected>
@@ -11583,6 +11635,35 @@
                                                 <span class="lang-es">Aletas (Disipador)</span><span class="lang-en" style="display:none;">Fins (Heat Sink)</span>
                                             </option>
                                         </select>
+                                    </div>
+                                </div>
+
+                                <h5 style="grid-column: span 2; margin: 12px 0 4px 0; padding-top: 10px; border-top: 1px solid var(--panel-border); font-size: 0.82rem; font-weight: 600; color: var(--text-secondary);">
+                                    <span class="lang-es">Cubierta de Vidrio</span>
+                                    <span class="lang-en" style="display:none;">Glass Cover</span>
+                                </h5>
+                                <div class="sliders-grid" id="solar-glass-controls">
+                                    <div class="control-group control-group-compact control-group-row">
+                                        <label class="control-label" for="solar-t-glass">
+                                            <span>
+                                                <span class="lang-es">Espesor del Vidrio $(t_{\text{glass}})$:</span>
+                                                <span class="lang-en" style="display:none;">Glass Thickness $(t_{\text{glass}})$:</span>
+                                            </span>
+                                            <span class="value-badge"><input type="number" id="solar-t-glass-num" class="sim-number-input" min="2.0" max="6.0" step="0.1" value="3.0">
+                                                mm</span>
+                                        </label>
+                                        <input type="range" id="solar-t-glass" min="2.0" max="6.0" step="0.1" value="3.0">
+                                    </div>
+
+                                    <div class="control-group control-group-compact control-group-row">
+                                        <label class="control-label" for="solar-k-glass">
+                                            <span>
+                                                <span class="lang-es">Conductividad $(k_{\text{glass}})$:</span>
+                                                <span class="lang-en" style="display:none;">Conductivity $(k_{\text{glass}})$:</span>
+                                            </span>
+                                            <span class="value-badge"><input type="number" id="solar-k-glass-num" class="sim-number-input" min="0.8" max="1.4" step="0.01" value="1.0"></span>
+                                        </label>
+                                        <input type="range" id="solar-k-glass" min="0.8" max="1.4" step="0.01" value="1.0">
                                     </div>
                                 </div>
 
